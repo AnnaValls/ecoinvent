@@ -2,39 +2,50 @@
 	<meta charset=utf-8>
 	<title>Ecoinvent</title>
 	<style>
+		/*general*/
 		body{
 			font-family:sans-serif;
-			margin-top:0;
 		}
 		h1{
 			margin-top:5px;
+			font-weight:normal;
 		}
-		ol{	
-			counter-reset:item
-		}
-		li{
-			display:block;
-		}
-		li:before{
-			content:counters(item,".") ". "; 
-			counter-increment:item;
+		h2{
+			font-weight:normal;
 		}
 
-		#root li {
-			padding-top:0.5em;
+		/*lists*/
+		ol{	
+			counter-reset:item;
+		}
+		ol li{
+			display:block;
+		}
+		ol li:before{
+			content:counters(item,".") ". "; 
+			counter-increment:item;
+			font-family:monospace;
+		}
+		#root > li {
+			margin-top:0.5em;
+		}
+		#root > li > b{
+			font-size:17px;
 		}
 
 		.description {
 			display:inline-block;
 			width:350px;
-			font-size:13px;
+			font-size:12px;
 		}
 
-		.foldable.folded ol {
+		/*folds*/
+		.foldable.folded > ol {
 			display:none;
 		}
 		.foldable b {
 			cursor:pointer;
+			font-size:14px;
 		}
 		.foldable b:hover {
 			text-decoration:underline;
@@ -47,53 +58,63 @@
 	</script>
 </head><body onload=init()>
 
-<h1>Ecoinvent web tool &mdash; User interface (draft)</h1>
-<h2>All Inputs from the user (and default values)</h2>
-<p>
-	This is a draft for the <b>content</b> of the inputs of the web tool. 
-	Click the categories to expand/contract.
+<h1>Ecoinvent tool (user interface draft)</h1>
+<p style=max-width:50em>
+	This is a first draft for the interface 
+	that will request the user's inputs
+	(not yet a draft for the design).
+	The goal is to have a very clear structure for the inputs 
+	before moving forward to create the backend (models).
+	The inputs should include: all numeric fields, default values and all possible options for dropdown menus.
+	<div>
+		Please send suggestions, modifications requests or any other feedback to:
+		<ul style=list-style-type:auto>
+			<li><a target=_blank href=mailto:lbosch@icra.cat>lbosch@icra.cat</a> (Lluís Bosch)
+			<li><a target=_blank href=mailto:lcorominas@icra.cat>lcorominas@icra.cat</a> (Lluís Corominas)
+		</ul>
+	</div>
 </p>
 
-<!--space--><hr>
+<!--options-->
 <div>
+	<hr><!--space-->
 	<div>
-		Load from file
+		<span> Load inputs from file &mdash;</span>
+		<span> <input type=file> </span>
 	</div>
+	<hr><!--space-->
 	<div>
-		<input type=file>
+		<span>Categories &mdash;</span>
+		<button onclick=conAll()>Contract all</button>
+		<button onclick=expAll()>Expand all</button>
+		<script>
+			//expand all categories
+			function expAll() {
+				var elements=document.querySelectorAll('li.foldable');
+				for(var i=0;i<elements.length;i++) {
+					elements[i].classList.remove('folded');
+				}
+			}
+			//contract all categories
+			function conAll() {
+				var elements=document.querySelectorAll('li.foldable');
+				for(var i=0;i<elements.length;i++) {
+					elements[i].classList.add('folded');
+				}
+			}
+		</script>
 	</div>
+	<hr><!--space-->
 </div>
-<!--space--><hr>
-<div>
-	<button onclick=expAll()>Expand all</button>
-	<button onclick=conAll()>Contract all</button>
-	<script>
-		function expAll() {
-			var elements=document.querySelectorAll('li.foldable');
-			for(var i=0;i<elements.length;i++) {
-				elements[i].classList.remove('folded');
-			}
-		}
-		function conAll() {
-			var elements=document.querySelectorAll('li.foldable');
-			for(var i=0;i<elements.length;i++) {
-				elements[i].classList.add('folded');
-			}
-		}
-	</script>
-</div>
-<!--space--><hr>
 
-<!--input tree-->
+<!--inputs tree-->
 <ol id=root>
-	<li class="foldable folded">
+	<li class="foldable">
 		<b onclick=this.parentNode.classList.toggle('folded')>
-			City characteristics
+			Geography characteristics
 		</b>
 
 		<ol>
-			<li><span class=description>Population</span> <input value=1000>
-			<li><span class=description>Equivalent inhabitants</span> <input value=1000>
 			<li><span class=description>Country</span> 
 				<select>
 					<option>Country A
@@ -101,13 +122,38 @@
 					<option>[...]
 				</select>
 			</li>
+			<li><span class=description>Population equivalents in terms of BOD<sub>5</sub> loading</span> <input value=1000>
+			<li>
+				<span class=description>Temperature</span>
+				<select> <option>range 1 <option>range 2 <option>[...] </select>
+			</li>
+			<li>
+				<span class=description>Rainfall</span>
+				<select> <option>range 1 <option>range 2 <option>[...] </select>
+			</li>
+			<li>
+				<span class=description>Unit per capita domestic pollution loading </span>
+				<input value=0>
+			</li>
+			<li>
+				<span class=description>Unit pollution loading from industrial sources</span>
+				<input value=0>
+			</li>
+			<li>
+				<span class=description>Water dilution from rainfall, snowmelt</span>
+				<input value=0>
+			</li>
 		</ol>
 	</li>
-	<li class="foldable folded">
+	<li class="foldable">
 		<b onclick=this.parentNode.classList.toggle('folded')>
 			Wastewater characteristics [kg/m<sup>3</sup>]
 		</b>
 		<ol>
+			<li>
+				<span class=description>Flow (m<sup>3</sup>)</span>
+				<input value=0>
+			</li>
 			<li class=foldable>
 				<b onclick=this.parentNode.classList.toggle('folded')> Oxygen (O) </b>
 				<ol>
@@ -155,41 +201,41 @@
 					<li><span class=description> Total P-tot. as P</span><input value=0> </li>
 				</ol>
 			</li>
-			<li><span class=description> Boron B</span><input value=0> </li>
-			<li><span class=description> Chlorine Cl</span><input value=0> </li>
-			<li><span class=description> Bromium Br</span><input value=0> </li>
-			<li><span class=description> Fluorine F</span><input value=0> </li>
-			<li><span class=description> Iodine I</span><input value=0> </li>
-			<li><span class=description> Silver Ag</span><input value=0> </li>
-			<li><span class=description> Arsenic As</span><input value=0> </li>
-			<li><span class=description> Barium Ba</span><input value=0> </li>
-			<li><span class=description> Cadmium Cd</span><input value=0> </li>
-			<li><span class=description> Cobalt Co</span><input value=0> </li>
-			<li><span class=description> Chromium Cr</span><input value=0> </li>
-			<li><span class=description> Copper Cu</span><input value=0> </li>
-			<li><span class=description> Mercury Hg</span><input value=0> </li>
-			<li><span class=description> Manganese Mn</span><input value=0> </li>
-			<li><span class=description> Molybdenum Mo</span><input value=0> </li>
-			<li><span class=description> Nickel Ni</span><input value=0> </li>
-			<li><span class=description> Lead Pb</span><input value=0> </li>
-			<li><span class=description> Antimony Sb</span><input value=0> </li>
-			<li><span class=description> Selenium Se</span><input value=0> </li>
-			<li><span class=description> Tin Sn</span><input value=0> </li>
-			<li><span class=description> Vanadium V</span><input value=0> </li>
-			<li><span class=description> Zinc Zn</span><input value=0> </li>
-			<li><span class=description> Beryllium Be</span><input value=0> </li>
-			<li><span class=description> Scandium Sc</span><input value=0> </li>
-			<li><span class=description> Strontium Sr</span><input value=0> </li>
-			<li><span class=description> Titanium Ti</span><input value=0> </li>
-			<li><span class=description> Thallium Tl</span><input value=0> </li>
-			<li><span class=description> Tungsten W</span><input value=0> </li>
-			<li><span class=description> Silicon Si</span><input value=0> </li>
-			<li><span class=description> Iron Fe </span><input value=0> </li>
-			<li><span class=description> Calcium Ca</span><input value=0> </li>
-			<li><span class=description> Aluminium Al</span><input value=0> </li>
-			<li><span class=description> Potassium K</span><input value=0> </li>
-			<li><span class=description> Magnesium Mg</span><input value=0> </li>
-			<li><span class=description> Sodium Na</span><input value=0> </li>
+			<li><span class=description> Boron (B)</span><input value=0> </li>
+			<li><span class=description> Chlorine (Cl)</span><input value=0> </li>
+			<li><span class=description> Bromium (Br)</span><input value=0> </li>
+			<li><span class=description> Fluorine (F)</span><input value=0> </li>
+			<li><span class=description> Iodine (I)</span><input value=0> </li>
+			<li><span class=description> Silver (Ag)</span><input value=0> </li>
+			<li><span class=description> Arsenic (As)</span><input value=0> </li>
+			<li><span class=description> Barium (Ba)</span><input value=0> </li>
+			<li><span class=description> Cadmium (Cd)</span><input value=0> </li>
+			<li><span class=description> Cobalt (Co)</span><input value=0> </li>
+			<li><span class=description> Chromium (Cr)</span><input value=0> </li>
+			<li><span class=description> Copper (Cu)</span><input value=0> </li>
+			<li><span class=description> Mercury (Hg)</span><input value=0> </li>
+			<li><span class=description> Manganese (Mn)</span><input value=0> </li>
+			<li><span class=description> Molybdenum (Mo)</span><input value=0> </li>
+			<li><span class=description> Nickel (Ni)</span><input value=0> </li>
+			<li><span class=description> Lead (Pb)</span><input value=0> </li>
+			<li><span class=description> Antimony (Sb)</span><input value=0> </li>
+			<li><span class=description> Selenium (Se)</span><input value=0> </li>
+			<li><span class=description> Tin (Sn)</span><input value=0> </li>
+			<li><span class=description> Vanadium (V)</span><input value=0> </li>
+			<li><span class=description> Zinc (Zn)</span><input value=0> </li>
+			<li><span class=description> Beryllium (Be)</span><input value=0> </li>
+			<li><span class=description> Scandium (Sc)</span><input value=0> </li>
+			<li><span class=description> Strontium (Sr)</span><input value=0> </li>
+			<li><span class=description> Titanium (Ti)</span><input value=0> </li>
+			<li><span class=description> Thallium (Tl)</span><input value=0> </li>
+			<li><span class=description> Tungsten (W)</span><input value=0> </li>
+			<li><span class=description> Silicon (Si)</span><input value=0> </li>
+			<li><span class=description> Iron (Fe) </span><input value=0> </li>
+			<li><span class=description> Calcium (Ca)</span><input value=0> </li>
+			<li><span class=description> Aluminium (Al)</span><input value=0> </li>
+			<li><span class=description> Potassium (K)</span><input value=0> </li>
+			<li><span class=description> Magnesium (Mg)</span><input value=0> </li>
+			<li><span class=description> Sodium (Na)</span><input value=0> </li>
 		</ol>
 	</li>
 	<li class="foldable">
@@ -197,13 +243,13 @@
 			Treatment plant characteristics
 		</b>
 		<ol>
-			<li class="foldable folded">
+			<li class="foldable">
 				<b onclick=this.parentNode.classList.toggle('folded')>
 					Liquid treatment line unit processes
 				</b>
 				<ol>
 					<li>
-						<span class=description>Pumping </span>
+						<span class=description>Pumping</span>
 						<select> <option>None <option>option 1 <option>option 2 <option>[...] </select>
 					</li>
 					<li class=foldable>
@@ -426,3 +472,8 @@
 		</ol>
 	</li>
 </ol>
+
+<hr><!--space-->
+
+<!--next button-->
+<button>button for going to the next page, like outputs, or export to ecoSpold</button>
