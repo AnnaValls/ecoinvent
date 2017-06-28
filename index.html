@@ -60,18 +60,25 @@
 
 <h1>Ecoinvent tool (user interface draft)</h1>
 <p style=max-width:50em>
-	This is a first draft for the interface 
+	This is a first draft to start discussing the interface 
 	that will request the user's inputs
 	(not yet a draft for the design).
-	The goal is to have a very clear structure for the inputs 
+	The goal is to have a very clear menu structure for the inputs 
 	before moving forward to create the backend (models).
-	The inputs should include: all numeric fields, default values and all possible options for dropdown menus.
+	The inputs should include: 
+	<ul>
+		<li>all numeric fields
+		<li>all units 
+		<li>all default values 
+		<li>all possible options for dropdown menus.
+	</ul>
 	<div>
-		Please send suggestions, modifications requests or any other feedback to:
+		Please send comments, requests or any other feedback to:
 		<ul style=list-style-type:auto>
 			<li><a target=_blank href=mailto:lbosch@icra.cat>lbosch@icra.cat</a> (Lluís Bosch)
 			<li><a target=_blank href=mailto:lcorominas@icra.cat>lcorominas@icra.cat</a> (Lluís Corominas)
 		</ul>
+		Optionally, a word document with the same tree structure as this web page could be useful as a reference to code this page. 
 	</div>
 </p>
 
@@ -79,7 +86,7 @@
 <div>
 	<hr><!--space-->
 	<div>
-		<span> Load inputs from file &mdash;</span>
+		<span> Load inputs from file (to be discussed) &mdash;</span>
 		<span> <input type=file> </span>
 	</div>
 	<hr><!--space-->
@@ -103,6 +110,9 @@
 				}
 			}
 		</script>
+		<p>
+			(Click on the categories below to contract/expand the inner fields)
+		</p>
 	</div>
 	<hr><!--space-->
 </div>
@@ -147,7 +157,7 @@
 	</li>
 	<li class="foldable">
 		<b onclick=this.parentNode.classList.toggle('folded')>
-			Wastewater characteristics [kg/m<sup>3</sup>]
+			Wastewater characteristics
 		</b>
 		<ol>
 			<li>
@@ -157,38 +167,41 @@
 			<li class=foldable>
 				<b onclick=this.parentNode.classList.toggle('folded')> Oxygen (O) </b>
 				<ol>
-					<li><span class=description> Total Chemical Oxygen Demand tCOD as O<sub>2</sub> </span><input value=0> </li>
-					<li><span class=description> Soluble Chemical Oxygen Demand sCOD as O<sub>2</sub> </span><input value=0> </li>
-					<li><span class=description> Biological Oxygen Demand BOD5 as O<sub>2</sub> </span><input value=0> </li>
+					<li>
+						<span class=description> Total Chemical Oxygen Demand tCOD as O<sub>2</sub> (kg/m<sup>3</sup>) </span>
+						<input value=0> 
+					</li>
+					<li><span class=description> Soluble Chemical Oxygen Demand sCOD as O<sub>2</sub> (kg/m<sup>3</sup>)  </span><input value=0> </li>
+					<li><span class=description> Biological Oxygen Demand BOD5 as O<sub>2</sub> (kg/m<sup>3</sup>)  </span><input value=0> </li>
 				</ol>
 			</li>
 			<li class=foldable>
 				<b onclick=this.parentNode.classList.toggle('folded')> Carbon (C) </b>
 				<ol>
-					<li><span class=description> Dissolved organic carbon DOC as C</span><input value=0> </li>
-					<li><span class=description> Total organic carbon TOC as C</span><input value=0> </li>
+					<li><span class=description> Dissolved organic carbon DOC as C (kg/m<sup>3</sup>) </span><input value=0> </li>
+					<li><span class=description> Total organic carbon TOC as C (kg/m<sup>3</sup>) </span><input value=0> </li>
 				</ol>
 			</li>
 			<li class=foldable>
 				<b onclick=this.parentNode.classList.toggle('folded')> Sulfur (S) </b>
 				<ol>
-					<li><span class=description> Sulfate SO<sub>4</sub> as S </span><input value=0> </li>
-					<li><span class=description> Sulfide HS as S </span><input value=0> </li>
-					<li><span class=description> Particulate S part as S </span><input value=0> </li>
-					<li><span class=description> Total S tot. as S</span><input value=0> </li>
+					<li><span class=description> Sulfate SO<sub>4</sub> as S  (kg/m<sup>3</sup>) </span><input value=0> </li>
+					<li><span class=description> Sulfide HS as S  (kg/m<sup>3</sup>) </span><input value=0> </li>
+					<li><span class=description> Particulate S part as S  (kg/m<sup>3</sup>) </span><input value=0> </li>
+					<li><span class=description> Total S tot. as S (kg/m<sup>3</sup>) </span><input value=0> </li>
 				</ol>
 			</li>
 			<li class=foldable>
 				<b onclick=this.parentNode.classList.toggle('folded')> Nitrogen (N) </b>
 				<ol>
-					<li><span class=description> Ammonia NH<sub>4</sub> as N</span><input value=0> </li>
-					<li><span class=description> Nitrate NO<sub>3</sub> as N</span><input value=0> </li>
-					<li><span class=description> Nitrite NO<sub>2</sub> as N</span><input value=0> </li>
-					<li><span class=description> Particulate N part. as N </span><input value=0> </li>
-					<li><span class=description> Organic soluble N org. sol. as N </span><input value=0> </li>
-					<li><span class=description> Soluble Kjeldahl SKN as N</span><input value=0> </li>
-					<li><span class=description> Total Kjeldahl TKN as N </span><input value=0> </li>
-					<li><span class=description> Total Nitrogen N-tot. as N</span><input value=0> </li>
+					<li><span class=description> Ammonia NH<sub>4</sub> as N (kg/m<sup>3</sup>) </span><input value=0> </li>
+					<li><span class=description> Nitrate NO<sub>3</sub> as N (kg/m<sup>3</sup>) </span><input value=0> </li>
+					<li><span class=description> Nitrite NO<sub>2</sub> as N (kg/m<sup>3</sup>) </span><input value=0> </li>
+					<li><span class=description> Particulate N part. as N  (kg/m<sup>3</sup>) </span><input value=0> </li>
+					<li><span class=description> Organic soluble N org. sol. as N  (kg/m<sup>3</sup>) </span><input value=0> </li>
+					<li><span class=description> Soluble Kjeldahl SKN as N (kg/m<sup>3</sup>) </span><input value=0> </li>
+					<li><span class=description> Total Kjeldahl TKN as N  (kg/m<sup>3</sup>) </span><input value=0> </li>
+					<li><span class=description> Total Nitrogen N-tot. as N (kg/m<sup>3</sup>) </span><input value=0> </li>
 				</ol>
 			</li>
 			<li class=foldable>
@@ -196,46 +209,46 @@
 					Phosphorus (P)
 				</b>
 				<ol>
-					<li><span class=description> Phosphate PO<sub>4</sub> as P </span><input value=0> </li>
-					<li><span class=description> Particulate P-part. as P </span><input value=0> </li>
-					<li><span class=description> Total P-tot. as P</span><input value=0> </li>
+					<li><span class=description> Phosphate PO<sub>4</sub> as P  (kg/m<sup>3</sup>) </span><input value=0> </li>
+					<li><span class=description> Particulate P-part. as P  (kg/m<sup>3</sup>) </span><input value=0> </li>
+					<li><span class=description> Total P-tot. as P (kg/m<sup>3</sup>) </span><input value=0> </li>
 				</ol>
 			</li>
-			<li><span class=description> Boron (B)</span><input value=0> </li>
-			<li><span class=description> Chlorine (Cl)</span><input value=0> </li>
-			<li><span class=description> Bromium (Br)</span><input value=0> </li>
-			<li><span class=description> Fluorine (F)</span><input value=0> </li>
-			<li><span class=description> Iodine (I)</span><input value=0> </li>
-			<li><span class=description> Silver (Ag)</span><input value=0> </li>
-			<li><span class=description> Arsenic (As)</span><input value=0> </li>
-			<li><span class=description> Barium (Ba)</span><input value=0> </li>
-			<li><span class=description> Cadmium (Cd)</span><input value=0> </li>
-			<li><span class=description> Cobalt (Co)</span><input value=0> </li>
-			<li><span class=description> Chromium (Cr)</span><input value=0> </li>
-			<li><span class=description> Copper (Cu)</span><input value=0> </li>
-			<li><span class=description> Mercury (Hg)</span><input value=0> </li>
-			<li><span class=description> Manganese (Mn)</span><input value=0> </li>
-			<li><span class=description> Molybdenum (Mo)</span><input value=0> </li>
-			<li><span class=description> Nickel (Ni)</span><input value=0> </li>
-			<li><span class=description> Lead (Pb)</span><input value=0> </li>
-			<li><span class=description> Antimony (Sb)</span><input value=0> </li>
-			<li><span class=description> Selenium (Se)</span><input value=0> </li>
-			<li><span class=description> Tin (Sn)</span><input value=0> </li>
-			<li><span class=description> Vanadium (V)</span><input value=0> </li>
-			<li><span class=description> Zinc (Zn)</span><input value=0> </li>
-			<li><span class=description> Beryllium (Be)</span><input value=0> </li>
-			<li><span class=description> Scandium (Sc)</span><input value=0> </li>
-			<li><span class=description> Strontium (Sr)</span><input value=0> </li>
-			<li><span class=description> Titanium (Ti)</span><input value=0> </li>
-			<li><span class=description> Thallium (Tl)</span><input value=0> </li>
-			<li><span class=description> Tungsten (W)</span><input value=0> </li>
-			<li><span class=description> Silicon (Si)</span><input value=0> </li>
-			<li><span class=description> Iron (Fe) </span><input value=0> </li>
-			<li><span class=description> Calcium (Ca)</span><input value=0> </li>
-			<li><span class=description> Aluminium (Al)</span><input value=0> </li>
-			<li><span class=description> Potassium (K)</span><input value=0> </li>
-			<li><span class=description> Magnesium (Mg)</span><input value=0> </li>
-			<li><span class=description> Sodium (Na)</span><input value=0> </li>
+			<li><span class=description> Boron (B) (kg/m<sup>3</sup>) </span><input value=0> </li>
+			<li><span class=description> Chlorine (Cl) (kg/m<sup>3</sup>) </span><input value=0> </li>
+			<li><span class=description> Bromium (Br) (kg/m<sup>3</sup>) </span><input value=0> </li>
+			<li><span class=description> Fluorine (F) (kg/m<sup>3</sup>) </span><input value=0> </li>
+			<li><span class=description> Iodine (I) (kg/m<sup>3</sup>) </span><input value=0> </li>
+			<li><span class=description> Silver (Ag) (kg/m<sup>3</sup>) </span><input value=0> </li>
+			<li><span class=description> Arsenic (As) (kg/m<sup>3</sup>) </span><input value=0> </li>
+			<li><span class=description> Barium (Ba) (kg/m<sup>3</sup>) </span><input value=0> </li>
+			<li><span class=description> Cadmium (Cd) (kg/m<sup>3</sup>) </span><input value=0> </li>
+			<li><span class=description> Cobalt (Co) (kg/m<sup>3</sup>) </span><input value=0> </li>
+			<li><span class=description> Chromium (Cr) (kg/m<sup>3</sup>) </span><input value=0> </li>
+			<li><span class=description> Copper (Cu) (kg/m<sup>3</sup>) </span><input value=0> </li>
+			<li><span class=description> Mercury (Hg) (kg/m<sup>3</sup>) </span><input value=0> </li>
+			<li><span class=description> Manganese (Mn) (kg/m<sup>3</sup>) </span><input value=0> </li>
+			<li><span class=description> Molybdenum (Mo) (kg/m<sup>3</sup>) </span><input value=0> </li>
+			<li><span class=description> Nickel (Ni) (kg/m<sup>3</sup>) </span><input value=0> </li>
+			<li><span class=description> Lead (Pb) (kg/m<sup>3</sup>) </span><input value=0> </li>
+			<li><span class=description> Antimony (Sb) (kg/m<sup>3</sup>) </span><input value=0> </li>
+			<li><span class=description> Selenium (Se) (kg/m<sup>3</sup>) </span><input value=0> </li>
+			<li><span class=description> Tin (Sn) (kg/m<sup>3</sup>) </span><input value=0> </li>
+			<li><span class=description> Vanadium (V) (kg/m<sup>3</sup>) </span><input value=0> </li>
+			<li><span class=description> Zinc (Zn) (kg/m<sup>3</sup>) </span><input value=0> </li>
+			<li><span class=description> Beryllium (Be) (kg/m<sup>3</sup>) </span><input value=0> </li>
+			<li><span class=description> Scandium (Sc) (kg/m<sup>3</sup>) </span><input value=0> </li>
+			<li><span class=description> Strontium (Sr) (kg/m<sup>3</sup>) </span><input value=0> </li>
+			<li><span class=description> Titanium (Ti) (kg/m<sup>3</sup>) </span><input value=0> </li>
+			<li><span class=description> Thallium (Tl) (kg/m<sup>3</sup>) </span><input value=0> </li>
+			<li><span class=description> Tungsten (W) (kg/m<sup>3</sup>) </span><input value=0> </li>
+			<li><span class=description> Silicon (Si) (kg/m<sup>3</sup>) </span><input value=0> </li>
+			<li><span class=description> Iron (Fe)  (kg/m<sup>3</sup>) </span><input value=0> </li>
+			<li><span class=description> Calcium (Ca) (kg/m<sup>3</sup>) </span><input value=0> </li>
+			<li><span class=description> Aluminium (Al) (kg/m<sup>3</sup>) </span><input value=0> </li>
+			<li><span class=description> Potassium (K) (kg/m<sup>3</sup>) </span><input value=0> </li>
+			<li><span class=description> Magnesium (Mg) (kg/m<sup>3</sup>) </span><input value=0> </li>
+			<li><span class=description> Sodium (Na) (kg/m<sup>3</sup>) </span><input value=0> </li>
 		</ol>
 	</li>
 	<li class="foldable">
