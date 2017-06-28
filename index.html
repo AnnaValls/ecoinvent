@@ -3,6 +3,16 @@
 	<meta name="viewport" content="width=device-width">
 	<meta name="description" content="ecoinvent">
 	<title>Ecoinvent</title>
+
+	<!--imports-->
+	<script src="geographies.js"></script>
+	<script>
+		function init(){
+			//init
+		}
+	</script>
+
+	<!--styles-->
 	<style>
 		/*general*/
 		body{
@@ -53,11 +63,6 @@
 			text-decoration:underline;
 		}
 	</style>
-	<script>
-		function init(){
-			//init
-		}
-	</script>
 </head><body onload=init()>
 
 <h1>Ecoinvent tool (user interface draft)</h1>
@@ -76,7 +81,7 @@
 	</ul>
 	<div>
 		Please send comments, requests or any other feedback to:
-		<ul style=list-style-type:auto>
+		<ul>
 			<li><a target=_blank href=mailto:lbosch@icra.cat>lbosch@icra.cat</a> (Lluís Bosch)
 			<li><a target=_blank href=mailto:lcorominas@icra.cat>lcorominas@icra.cat</a> (Lluís Corominas)
 		</ul>
@@ -132,9 +137,12 @@
 		<ol>
 			<li><span class=description>Country</span> 
 				<select>
-					<option>Country A
-					<option>Country B
-					<option>[...]
+					<script>
+						//write file 'geographies.js'
+						Geographies.forEach(g=>{
+							document.write("<option value='"+g.shortcut+"'>"+g.name)
+						});
+					</script>
 				</select>
 			</li>
 			<li><span class=description>Population equivalents in terms of BOD<sub>5</sub> loading</span> <input value=1000>
