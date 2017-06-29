@@ -88,7 +88,10 @@
 		Optionally, a word document with the same tree structure as this web page could be useful as a reference to code this page. 
 	</div>
 	<p>
-		Source code: <a href=//github.com/holalluis/ecoinvent>github.com/holalluis/ecoinvent</a>
+		<ul>
+			<li>Source code: <a href=//github.com/holalluis/ecoinvent>github.com/holalluis/ecoinvent</a>
+			<li>Documents: <a href=docs>docs</a>
+		</ul>
 	</p>
 </p>
 
@@ -174,8 +177,16 @@
 		</b>
 		<ol>
 			<li>
-				<span class=description>Flow (m<sup>3</sup>)</span>
+				<span class=description>Volume (m<sup>3</sup>)</span>
 				<input value=0>
+			</li>
+			<li>
+				<span class=description>Origin</span>
+				<select>
+					<option>Unknown
+					<option>From an industrial process
+					<option>Municipal wastewater
+				</select>
 			</li>
 			<li class=foldable>
 				<b onclick=this.parentNode.classList.toggle('folded')> Oxygen (O) </b>
