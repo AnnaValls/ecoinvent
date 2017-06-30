@@ -17,6 +17,7 @@
 		/*general*/
 		body{
 			font-family:sans-serif;
+			margin:0;
 		}
 		h1{
 			margin-top:5px;
@@ -37,6 +38,9 @@
 			content:counters(item,".") ". "; 
 			counter-increment:item;
 			font-family:monospace;
+		}
+		#root {
+			margin:5px;
 		}
 		#root > li {
 			margin-top:0.5em;
@@ -65,7 +69,19 @@
 	</style>
 </head><body onload=init()>
 
-<h1>Ecoinvent tool (user interface draft)</h1>
+<div id=navbar>
+	Ecoinvent tool (user interface draft)
+	<style>
+		#navbar {
+			background:linear-gradient(to top, #e01a1a, #eb6666);
+			padding:0.5em;
+			font-size:22px;
+		}
+	</style>
+</div>
+
+<div id=root>
+
 <p style=max-width:50em>
 	This is a first draft to start discussing the interface 
 	that will request the user's inputs
