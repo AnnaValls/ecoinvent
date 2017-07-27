@@ -49,6 +49,7 @@
 		<tr><td><input name=sec_conf type=radio><td>BOD<sub>5</sub> removal &amp; Nitrification
 		<tr><td><input name=sec_conf type=radio><td>BOD<sub>5</sub> removal &amp; Nitrification &amp; N removal
 		<tr><td><input name=sec_conf type=radio><td>BOD<sub>5</sub> removal &amp; Nitrification &amp; N removal &amp; P removal
+		<tr><td><input name=sec_conf type=radio><td>BOD<sub>5</sub> removal &amp; P removal
 	</table>
 </div>
 
