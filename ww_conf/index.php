@@ -71,41 +71,41 @@
 			<li><span class=description> Total P-tot. as P (kg/m<sup>3</sup>) </span><input value=0> </li>
 		</ul>
 	</li>
-	<li><span class=description> Boron     (B)  (kg/m<sup>3</sup>) </span><input value=0> </li>
-	<li><span class=description> Chlorine  (Cl) (kg/m<sup>3</sup>) </span><input value=0> </li>
-	<li><span class=description> Bromium   (Br) (kg/m<sup>3</sup>) </span><input value=0> </li>
-	<li><span class=description> Fluorine  (F)  (kg/m<sup>3</sup>) </span><input value=0> </li>
-	<li><span class=description> Iodine    (I)  (kg/m<sup>3</sup>) </span><input value=0> </li>
-	<li><span class=description> Silver    (Ag) (kg/m<sup>3</sup>) </span><input value=0> </li>
-	<li><span class=description> Arsenic   (As) (kg/m<sup>3</sup>) </span><input value=0> </li>
-	<li><span class=description> Barium    (Ba) (kg/m<sup>3</sup>) </span><input value=0> </li>
-	<li><span class=description> Cadmium   (Cd) (kg/m<sup>3</sup>) </span><input value=0> </li>
-	<li><span class=description> Cobalt    (Co) (kg/m<sup>3</sup>) </span><input value=0> </li>
-	<li><span class=description> Chromium  (Cr) (kg/m<sup>3</sup>) </span><input value=0> </li>
-	<li><span class=description> Copper    (Cu) (kg/m<sup>3</sup>) </span><input value=0> </li>
-	<li><span class=description> Mercury   (Hg) (kg/m<sup>3</sup>) </span><input value=0> </li>
-	<li><span class=description> Manganese (Mn) (kg/m<sup>3</sup>) </span><input value=0> </li>
-	<li><span class=description> Molybdenu (Mo) (kg/m<sup>3</sup>) </span><input value=0> </li>
-	<li><span class=description> Nickel    (Ni) (kg/m<sup>3</sup>) </span><input value=0> </li>
-	<li><span class=description> Lead      (Pb) (kg/m<sup>3</sup>) </span><input value=0> </li>
-	<li><span class=description> Antimony  (Sb) (kg/m<sup>3</sup>) </span><input value=0> </li>
-	<li><span class=description> Selenium  (Se) (kg/m<sup>3</sup>) </span><input value=0> </li>
-	<li><span class=description> Tin       (Sn) (kg/m<sup>3</sup>) </span><input value=0> </li>
-	<li><span class=description> Vanadium  (V)  (kg/m<sup>3</sup>) </span><input value=0> </li>
-	<li><span class=description> Zinc      (Zn) (kg/m<sup>3</sup>) </span><input value=0> </li>
-	<li><span class=description> Beryllium (Be) (kg/m<sup>3</sup>) </span><input value=0> </li>
-	<li><span class=description> Scandium  (Sc) (kg/m<sup>3</sup>) </span><input value=0> </li>
-	<li><span class=description> Strontium (Sr) (kg/m<sup>3</sup>) </span><input value=0> </li>
-	<li><span class=description> Titanium  (Ti) (kg/m<sup>3</sup>) </span><input value=0> </li>
-	<li><span class=description> Thallium  (Tl) (kg/m<sup>3</sup>) </span><input value=0> </li>
-	<li><span class=description> Tungsten  (W)  (kg/m<sup>3</sup>) </span><input value=0> </li>
-	<li><span class=description> Silicon   (Si) (kg/m<sup>3</sup>) </span><input value=0> </li>
-	<li><span class=description> Iron      (Fe) (kg/m<sup>3</sup>) </span><input value=0> </li>
-	<li><span class=description> Calcium   (Ca) (kg/m<sup>3</sup>) </span><input value=0> </li>
-	<li><span class=description> Aluminium (Al) (kg/m<sup>3</sup>) </span><input value=0> </li>
-	<li><span class=description> Potassium (K)  (kg/m<sup>3</sup>) </span><input value=0> </li>
-	<li><span class=description> Magnesium (Mg) (kg/m<sup>3</sup>) </span><input value=0> </li>
-	<li><span class=description> Sodium    (Na) (kg/m<sup>3</sup>) </span><input value=0> </li>
+	<li><span class=description> Boron      (B)  (kg/m<sup>3</sup>) </span><input value=0> </li>
+	<li><span class=description> Chlorine   (Cl) (kg/m<sup>3</sup>) </span><input value=0> </li>
+	<li><span class=description> Bromium    (Br) (kg/m<sup>3</sup>) </span><input value=0> </li>
+	<li><span class=description> Fluorine   (F)  (kg/m<sup>3</sup>) </span><input value=0> </li>
+	<li><span class=description> Iodine     (I)  (kg/m<sup>3</sup>) </span><input value=0> </li>
+	<li><span class=description> Silver     (Ag) (kg/m<sup>3</sup>) </span><input value=0> </li>
+	<li><span class=description> Arsenic    (As) (kg/m<sup>3</sup>) </span><input value=0> </li>
+	<li><span class=description> Barium     (Ba) (kg/m<sup>3</sup>) </span><input value=0> </li>
+	<li><span class=description> Cadmium    (Cd) (kg/m<sup>3</sup>) </span><input value=0> </li>
+	<li><span class=description> Cobalt     (Co) (kg/m<sup>3</sup>) </span><input value=0> </li>
+	<li><span class=description> Chromium   (Cr) (kg/m<sup>3</sup>) </span><input value=0> </li>
+	<li><span class=description> Copper     (Cu) (kg/m<sup>3</sup>) </span><input value=0> </li>
+	<li><span class=description> Mercury    (Hg) (kg/m<sup>3</sup>) </span><input value=0> </li>
+	<li><span class=description> Manganese  (Mn) (kg/m<sup>3</sup>) </span><input value=0> </li>
+	<li><span class=description> Molybdenum (Mo) (kg/m<sup>3</sup>) </span><input value=0> </li>
+	<li><span class=description> Nickel     (Ni) (kg/m<sup>3</sup>) </span><input value=0> </li>
+	<li><span class=description> Lead       (Pb) (kg/m<sup>3</sup>) </span><input value=0> </li>
+	<li><span class=description> Antimony   (Sb) (kg/m<sup>3</sup>) </span><input value=0> </li>
+	<li><span class=description> Selenium   (Se) (kg/m<sup>3</sup>) </span><input value=0> </li>
+	<li><span class=description> Tin        (Sn) (kg/m<sup>3</sup>) </span><input value=0> </li>
+	<li><span class=description> Vanadium   (V)  (kg/m<sup>3</sup>) </span><input value=0> </li>
+	<li><span class=description> Zinc       (Zn) (kg/m<sup>3</sup>) </span><input value=0> </li>
+	<li><span class=description> Beryllium  (Be) (kg/m<sup>3</sup>) </span><input value=0> </li>
+	<li><span class=description> Scandium   (Sc) (kg/m<sup>3</sup>) </span><input value=0> </li>
+	<li><span class=description> Strontium  (Sr) (kg/m<sup>3</sup>) </span><input value=0> </li>
+	<li><span class=description> Titanium   (Ti) (kg/m<sup>3</sup>) </span><input value=0> </li>
+	<li><span class=description> Thallium   (Tl) (kg/m<sup>3</sup>) </span><input value=0> </li>
+	<li><span class=description> Tungsten   (W)  (kg/m<sup>3</sup>) </span><input value=0> </li>
+	<li><span class=description> Silicon    (Si) (kg/m<sup>3</sup>) </span><input value=0> </li>
+	<li><span class=description> Iron       (Fe) (kg/m<sup>3</sup>) </span><input value=0> </li>
+	<li><span class=description> Calcium    (Ca) (kg/m<sup>3</sup>) </span><input value=0> </li>
+	<li><span class=description> Aluminium  (Al) (kg/m<sup>3</sup>) </span><input value=0> </li>
+	<li><span class=description> Potassium  (K)  (kg/m<sup>3</sup>) </span><input value=0> </li>
+	<li><span class=description> Magnesium  (Mg) (kg/m<sup>3</sup>) </span><input value=0> </li>
+	<li><span class=description> Sodium     (Na) (kg/m<sup>3</sup>) </span><input value=0> </li>
 </ul>
 
 <button>Save</button>
