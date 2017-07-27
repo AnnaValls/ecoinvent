@@ -6,6 +6,7 @@
 	Edited by:	       Lucia Valsasina, valsasina@ecoinvent.org	 
 	Date:	             20151130	 	 	 
 	Database version:	 eiv3.2	 
+
 	File description:	 
 		This file contains list of geographies (names, coordinates, shortcuts and geographies overlaps) as they are present in the ecoinvent v3.2 database. 	 
 		The number and type of geographies are being constantly updated. This data have been extracted from the ecoeditor master data on 30th November 2015.	 
