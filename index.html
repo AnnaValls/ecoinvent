@@ -4,8 +4,6 @@
 	<meta name="description" content="ecoinvent">
 	<title>Ecoinvent</title>
 
-	<!--imports-->
-	<script src="geographies.js"></script>
 	<script>
 		function init(){
 			//init
@@ -70,7 +68,7 @@
 </head><body onload=init()>
 
 <div id=navbar>
-	Ecoinvent tool (user interface draft)
+	Ecoinvent web tool
 	<style>
 		#navbar {
 			background:linear-gradient(to top, #e01a1a, #eb6666);
@@ -83,451 +81,43 @@
 <div id=root>
 
 <p style=max-width:50em>
-	This is a first draft to start discussing the interface 
+	This is a first placeholder to start drafting the interface 
 	that will request the user's inputs
-	(not yet a draft for the design).
+	(not yet a draft for the design, this goes last).
 	The goal is to have a very clear menu structure for the inputs 
 	before moving forward to create the backend (models).
-	The inputs should include: 
+	The inputs are: 
 	<ul>
-		<li>all numeric fields
-		<li>all units 
-		<li>all default values 
-		<li>all possible options for dropdown menus.
+		<li>all numeric fields to be requested from the user
+		<li>all units from the numeric fields
+		<li>all yes/no questions
+		<li>all dropdown menus
 	</ul>
 	<div>
-		Please send comments, requests or any other feedback to:
+		ICRA people:
 		<ul>
-			<li><a target=_blank href=mailto:lbosch@icra.cat>lbosch@icra.cat</a> (Lluís Bosch)
-			<li><a target=_blank href=mailto:lcorominas@icra.cat>lcorominas@icra.cat</a> (Lluís Corominas)
+			<li><a target=_blank href=mailto:lbosch@icra.cat>lbosch@icra.cat</a> (Lluís Bosch, ICRA software developer)
+			<li><a target=_blank href=mailto:lcorominas@icra.cat>lcorominas@icra.cat</a> (Lluís Corominas, ICRA coordinator)
 		</ul>
-		Optionally, a word document with the same tree structure as this web page could be useful as a reference to code this page. 
 	</div>
 	<p>
+		<p>
+			Important things:
+		</p>
 		<ul>
 			<li>Source code: <a href=//github.com/holalluis/ecoinvent>github.com/holalluis/ecoinvent</a>
 			<li>Documents: <a href=docs>docs</a>
-			<li>Exercise implementation example <a href="exercise_metcalf.php">here</a>
+			<li><a href="exercise_metcalf.php">Metcalf exercise as simple numeric implementation example</a>
+		</ul>
+
+		<p>
+			Web parts:
+		</p>
+		<ul>
+			<li><a href=general_conf>1. General configuration proposal</a>
+			<li><a href=tp_conf>2. WWTP configuration proposal</a>
+			<li><a href=ww_conf>3. Wastewater configuration proposal</a>
+			<li>Numeric models are still not discussed &amp; implemented
 		</ul>
 	</p>
 </p>
-
-<!--options-->
-<div>
-	<hr><!--space-->
-	<div>
-		<span> Load inputs from file (to be discussed) &mdash;</span>
-		<span> <input type=file> </span>
-	</div>
-	<hr><!--space-->
-	<div>
-		<span>Categories &mdash;</span>
-		<button onclick=conAll()>Contract all</button>
-		<button onclick=expAll()>Expand all</button>
-		<script>
-			//expand all categories
-			function expAll() {
-				var elements=document.querySelectorAll('li.foldable');
-				for(var i=0;i<elements.length;i++) {
-					elements[i].classList.remove('folded');
-				}
-			}
-			//contract all categories
-			function conAll() {
-				var elements=document.querySelectorAll('li.foldable');
-				for(var i=0;i<elements.length;i++) {
-					elements[i].classList.add('folded');
-				}
-			}
-		</script>
-		<p>
-			(Click on the categories below to contract/expand the inner fields)
-		</p>
-	</div>
-	<hr><!--space-->
-</div>
-
-<!--inputs tree-->
-<ol id=root>
-	<li class="foldable">
-		<b onclick=this.parentNode.classList.toggle('folded')>
-			Geography characteristics
-		</b>
-
-		<ol>
-			<li><span class=description>Country</span> 
-				<select>
-					<script>
-						//write file 'geographies.js'
-						Geographies.forEach(g=>{
-							document.write("<option value='"+g.shortcut+"'>"+g.name)
-						});
-					</script>
-				</select>
-			</li>
-			<li><span class=description>Population equivalents in terms of BOD<sub>5</sub> loading</span> <input value=1000>
-			<li>
-				<span class=description>Temperature</span>
-				<select> <option>range 1 <option>range 2 <option>[...] </select>
-			</li>
-			<li>
-				<span class=description>Rainfall</span>
-				<select> <option>range 1 <option>range 2 <option>[...] </select>
-			</li>
-			<li>
-				<span class=description>Unit per capita domestic pollution loading </span>
-				<input value=0>
-			</li>
-			<li>
-				<span class=description>Unit pollution loading from industrial sources</span>
-				<input value=0>
-			</li>
-			<li>
-				<span class=description>Water dilution from rainfall, snowmelt</span>
-				<input value=0>
-			</li>
-		</ol>
-	</li>
-	<li class="foldable">
-		<b onclick=this.parentNode.classList.toggle('folded')>
-			Wastewater characteristics
-		</b>
-		<ol>
-			<li>
-				<span class=description>Volume (m<sup>3</sup>)</span>
-				<input value=0>
-			</li>
-			<li>
-				<span class=description>Origin</span>
-				<select>
-					<option>Unknown
-					<option>From an industrial process
-					<option>Municipal wastewater
-				</select>
-			</li>
-			<li class=foldable>
-				<b onclick=this.parentNode.classList.toggle('folded')> Oxygen (O) </b>
-				<ol>
-					<li>
-						<span class=description> Total Chemical Oxygen Demand tCOD as O<sub>2</sub> (kg/m<sup>3</sup>) </span>
-						<input value=0> 
-					</li>
-					<li><span class=description> Soluble Chemical Oxygen Demand sCOD as O<sub>2</sub> (kg/m<sup>3</sup>)  </span><input value=0> </li>
-					<li><span class=description> Biological Oxygen Demand BOD5 as O<sub>2</sub> (kg/m<sup>3</sup>)  </span><input value=0> </li>
-				</ol>
-			</li>
-			<li class=foldable>
-				<b onclick=this.parentNode.classList.toggle('folded')> Carbon (C) </b>
-				<ol>
-					<li><span class=description> Dissolved organic carbon DOC as C (kg/m<sup>3</sup>) </span><input value=0> </li>
-					<li><span class=description> Total organic carbon TOC as C (kg/m<sup>3</sup>) </span><input value=0> </li>
-				</ol>
-			</li>
-			<li class=foldable>
-				<b onclick=this.parentNode.classList.toggle('folded')> Sulfur (S) </b>
-				<ol>
-					<li><span class=description> Sulfate SO<sub>4</sub> as S  (kg/m<sup>3</sup>) </span><input value=0> </li>
-					<li><span class=description> Sulfide HS as S  (kg/m<sup>3</sup>) </span><input value=0> </li>
-					<li><span class=description> Particulate S part as S  (kg/m<sup>3</sup>) </span><input value=0> </li>
-					<li><span class=description> Total S tot. as S (kg/m<sup>3</sup>) </span><input value=0> </li>
-				</ol>
-			</li>
-			<li class=foldable>
-				<b onclick=this.parentNode.classList.toggle('folded')> Nitrogen (N) </b>
-				<ol>
-					<li><span class=description> Ammonia NH<sub>4</sub> as N (kg/m<sup>3</sup>) </span><input value=0> </li>
-					<li><span class=description> Nitrate NO<sub>3</sub> as N (kg/m<sup>3</sup>) </span><input value=0> </li>
-					<li><span class=description> Nitrite NO<sub>2</sub> as N (kg/m<sup>3</sup>) </span><input value=0> </li>
-					<li><span class=description> Particulate N part. as N  (kg/m<sup>3</sup>) </span><input value=0> </li>
-					<li><span class=description> Organic soluble N org. sol. as N  (kg/m<sup>3</sup>) </span><input value=0> </li>
-					<li><span class=description> Soluble Kjeldahl SKN as N (kg/m<sup>3</sup>) </span><input value=0> </li>
-					<li><span class=description> Total Kjeldahl TKN as N  (kg/m<sup>3</sup>) </span><input value=0> </li>
-					<li><span class=description> Total Nitrogen N-tot. as N (kg/m<sup>3</sup>) </span><input value=0> </li>
-				</ol>
-			</li>
-			<li class=foldable>
-				<b onclick=this.parentNode.classList.toggle('folded')>
-					Phosphorus (P)
-				</b>
-				<ol>
-					<li><span class=description> Phosphate PO<sub>4</sub> as P  (kg/m<sup>3</sup>) </span><input value=0> </li>
-					<li><span class=description> Particulate P-part. as P  (kg/m<sup>3</sup>) </span><input value=0> </li>
-					<li><span class=description> Total P-tot. as P (kg/m<sup>3</sup>) </span><input value=0> </li>
-				</ol>
-			</li>
-			<li><span class=description> Boron (B) (kg/m<sup>3</sup>) </span><input value=0> </li>
-			<li><span class=description> Chlorine (Cl) (kg/m<sup>3</sup>) </span><input value=0> </li>
-			<li><span class=description> Bromium (Br) (kg/m<sup>3</sup>) </span><input value=0> </li>
-			<li><span class=description> Fluorine (F) (kg/m<sup>3</sup>) </span><input value=0> </li>
-			<li><span class=description> Iodine (I) (kg/m<sup>3</sup>) </span><input value=0> </li>
-			<li><span class=description> Silver (Ag) (kg/m<sup>3</sup>) </span><input value=0> </li>
-			<li><span class=description> Arsenic (As) (kg/m<sup>3</sup>) </span><input value=0> </li>
-			<li><span class=description> Barium (Ba) (kg/m<sup>3</sup>) </span><input value=0> </li>
-			<li><span class=description> Cadmium (Cd) (kg/m<sup>3</sup>) </span><input value=0> </li>
-			<li><span class=description> Cobalt (Co) (kg/m<sup>3</sup>) </span><input value=0> </li>
-			<li><span class=description> Chromium (Cr) (kg/m<sup>3</sup>) </span><input value=0> </li>
-			<li><span class=description> Copper (Cu) (kg/m<sup>3</sup>) </span><input value=0> </li>
-			<li><span class=description> Mercury (Hg) (kg/m<sup>3</sup>) </span><input value=0> </li>
-			<li><span class=description> Manganese (Mn) (kg/m<sup>3</sup>) </span><input value=0> </li>
-			<li><span class=description> Molybdenum (Mo) (kg/m<sup>3</sup>) </span><input value=0> </li>
-			<li><span class=description> Nickel (Ni) (kg/m<sup>3</sup>) </span><input value=0> </li>
-			<li><span class=description> Lead (Pb) (kg/m<sup>3</sup>) </span><input value=0> </li>
-			<li><span class=description> Antimony (Sb) (kg/m<sup>3</sup>) </span><input value=0> </li>
-			<li><span class=description> Selenium (Se) (kg/m<sup>3</sup>) </span><input value=0> </li>
-			<li><span class=description> Tin (Sn) (kg/m<sup>3</sup>) </span><input value=0> </li>
-			<li><span class=description> Vanadium (V) (kg/m<sup>3</sup>) </span><input value=0> </li>
-			<li><span class=description> Zinc (Zn) (kg/m<sup>3</sup>) </span><input value=0> </li>
-			<li><span class=description> Beryllium (Be) (kg/m<sup>3</sup>) </span><input value=0> </li>
-			<li><span class=description> Scandium (Sc) (kg/m<sup>3</sup>) </span><input value=0> </li>
-			<li><span class=description> Strontium (Sr) (kg/m<sup>3</sup>) </span><input value=0> </li>
-			<li><span class=description> Titanium (Ti) (kg/m<sup>3</sup>) </span><input value=0> </li>
-			<li><span class=description> Thallium (Tl) (kg/m<sup>3</sup>) </span><input value=0> </li>
-			<li><span class=description> Tungsten (W) (kg/m<sup>3</sup>) </span><input value=0> </li>
-			<li><span class=description> Silicon (Si) (kg/m<sup>3</sup>) </span><input value=0> </li>
-			<li><span class=description> Iron (Fe)  (kg/m<sup>3</sup>) </span><input value=0> </li>
-			<li><span class=description> Calcium (Ca) (kg/m<sup>3</sup>) </span><input value=0> </li>
-			<li><span class=description> Aluminium (Al) (kg/m<sup>3</sup>) </span><input value=0> </li>
-			<li><span class=description> Potassium (K) (kg/m<sup>3</sup>) </span><input value=0> </li>
-			<li><span class=description> Magnesium (Mg) (kg/m<sup>3</sup>) </span><input value=0> </li>
-			<li><span class=description> Sodium (Na) (kg/m<sup>3</sup>) </span><input value=0> </li>
-		</ol>
-	</li>
-	<li class="foldable">
-		<b onclick=this.parentNode.classList.toggle('folded')>
-			Treatment plant characteristics
-		</b>
-		<ol>
-			<li class="foldable">
-				<b onclick=this.parentNode.classList.toggle('folded')>
-					Liquid treatment line unit processes
-				</b>
-				<ol>
-					<li>
-						<span class=description>Pumping</span>
-						<select> <option>None <option>option 1 <option>option 2 <option>[...] </select>
-					</li>
-					<li class=foldable>
-						<b onclick=this.parentNode.classList.toggle('folded')>
-							Preliminary: to remove trash and grit
-						</b>
-						<ol>
-							<li>
-								<span class=description>Screening</span>
-								<select> <option>None <option>option 1 <option>option 2 <option>[...] </select>
-							</li>
-							<li>
-								<span class=description>Degritting</span>
-								<select> <option>None <option>option 1 <option>option 2 <option>[...] </select>
-							</li>
-							<li>
-								<span class=description>Neutralization</span>
-								<select> <option>None <option>option 1 <option>option 2 <option>[...] </select>
-							</li>
-							<li>
-								<span class=description>Equalization</span>
-								<select> <option>None <option>option 1 <option>option 2 <option>[...] </select>
-							</li>
-						</ol>
-					</li>
-					<li class=foldable>
-						<b onclick=this.parentNode.classList.toggle('folded')>
-							Primary: to remove settleable matter
-						</b>
-						<ol>
-							<li>
-								<span class=description>Primary clarification</span>
-								<select> <option>None <option>option 1 <option>option 2 <option>[...] </select>
-							</li>
-							<li>
-								<span class=description>Chemical addition</span>
-								<select> <option>None <option>option 1 <option>option 2 <option>[...] </select>
-							</li>
-						</ol>
-					</li>
-					<li class=foldable>
-						<b onclick=this.parentNode.classList.toggle('folded')>
-							Secondary: to remove organic matter (BOD<sub>5</sub>, TSS)
-						</b>
-						<ol>
-							<li>
-								<span class=description>Activated sludge</span>
-								<select> <option>None <option>option 1 <option>option 2 <option>[...] </select>
-							</li>
-							<li>
-								<span class=description>Lagoon (anaerobic, facultative, aerobic)</span>
-								<select> <option>None <option>option 1 <option>option 2 <option>[...] </select>
-							</li>
-							<li>
-								<span class=description>Constructed wetlands</span>
-								<select> <option>None <option>option 1 <option>option 2 <option>[...] </select>
-							</li>
-						</ol>
-					</li>
-					<li class=foldable>
-						<b onclick=this.parentNode.classList.toggle('folded')>
-							Tertiary: to remove ammonia, total nitrogen, total phosphorus, metals
-						</b>
-						<ol>
-							<li>
-								<span class=description>Multistage activated sludge</span>
-								<select> <option>None <option>option 1 <option>option 2 <option>[...] </select>
-							</li>
-							<li>
-								<span class=description>Multistage biofilm processes</span>
-								<select> <option>None <option>option 1 <option>option 2 <option>[...] </select>
-							</li>
-							<li>
-								<span class=description>Chemical addition</span>
-								<select> <option>None <option>option 1 <option>option 2 <option>[...] </select>
-							</li>
-						</ol>
-					</li>
-					<li class=foldable>
-						<b onclick=this.parentNode.classList.toggle('folded')>
-							Advanced: to reach low levels of TSS, BOD5, total nitrogen, total phosphorus, pathogens
-						</b>
-						<ol>
-							<li>
-								<span class=description>Filtration</span>
-								<select> <option>None <option>option 1 <option>option 2 <option>[...] </select>
-							</li>
-							<li>
-								<span class=description>Ultrafiltration</span>
-								<select> <option>None <option>option 1 <option>option 2 <option>[...] </select>
-							</li>
-							<li>
-								<span class=description>Disinfection(e.g.Cl2,UV,O3)</span>
-								<select> <option>None <option>option 1 <option>option 2 <option>[...] </select>
-							</li>
-							<li>
-								<span class=description>Activated carbon</span>
-								<select> <option>None <option>option 1 <option>option 2 <option>[...] </select>
-							</li>
-						</ol>
-					</li>
-				</ol>
-			</li>
-			<li class=foldable>
-				<b onclick=this.parentNode.classList.toggle('folded')>
-					Solids treatment line unit processes
-				</b>
-				<ol>
-					<li class=foldable>
-						<b onclick=this.parentNode.classList.toggle('folded')>
-							Thickening: to increase the solids content 
-						</b>
-						<ol>
-							<li>
-								<span class=description>Gravity thickening</span>
-								<select> <option>None <option>option 1 <option>option 2 <option>[...] </select>
-							</li>
-						</ol>
-					</li>
-					<li class=foldable>
-						<b onclick=this.parentNode.classList.toggle('folded')>
-							Digestion: to stabilize organic matter 
-						</b>
-						<ol>
-							<li>
-								<span class=description>Anaerobic digestion</span>
-								<select> <option>None <option>option 1 <option>option 2 <option>[...] </select>
-							</li>
-							<li>
-								<span class=description>Aerobic digestion</span>
-								<select> <option>None <option>option 1 <option>option 2 <option>[...] </select>
-							</li>
-						</ol>
-					</li>
-					<li class=foldable>
-						<b onclick=this.parentNode.classList.toggle('folded')>
-							Conditioning: to improve dewatering
-						</b>
-						<ol>
-							<li>
-								<span class=description>Coagulant and polymer addition</span>
-								<select> <option>None <option>option 1 <option>option 2 <option>[...] </select>
-							</li>
-						</ol>
-					</li>
-					<li class=foldable>
-						<b onclick=this.parentNode.classList.toggle('folded')>
-							Dewatering: to increase the solids content
-						</b>
-						<ol>
-							<li>
-								<span class=description>Centrifugation</span>
-								<select> <option>None <option>option 1 <option>option 2 <option>[...] </select>
-							</li>
-							<li>
-								<span class=description>Filter pressing</span>
-								<select> <option>None <option>option 1 <option>option 2 <option>[...] </select>
-							</li>
-							<li>
-								<span class=description>Vacuuming</span>
-								<select> <option>None <option>option 1 <option>option 2 <option>[...] </select>
-							</li>
-						</ol>
-					</li>
-					<li class=foldable>
-						<b onclick=this.parentNode.classList.toggle('folded')>
-							Nutrient treatment and recovery
-						</b>
-						<ol>
-							<li>
-								<span class=description>Struvite formation</span>
-								<select> <option>None <option>option 1 <option>option 2 <option>[...] </select>
-							</li>
-							<li>
-								<span class=description>Anammox</span>
-								<select> <option>None <option>option 1 <option>option 2 <option>[...] </select>
-							</li>
-						</ol>
-					</li>
-					<li class=foldable>
-						<b onclick=this.parentNode.classList.toggle('folded')>
-							Drying: to increase the solids content
-						</b>
-						<ol>
-							<li>
-								<span class=description>Sludge beds</span>
-								<select> <option>None <option>option 1 <option>option 2 <option>[...] </select>
-							</li>
-							<li>
-								<span class=description>Heat drying</span>
-								<select> <option>None <option>option 1 <option>option 2 <option>[...] </select>
-							</li>
-						</ol>
-					</li>
-					<li class=foldable>
-						<b onclick=this.parentNode.classList.toggle('folded')>
-							Sludge or biosolids disposal
-						</b>
-						<ol>
-							<li>
-								<span class=description>Composting</span>
-								<select> <option>None <option>option 1 <option>option 2 <option>[...] </select>
-							</li>
-							<li>
-								<span class=description>Land application</span>
-								<select> <option>None <option>option 1 <option>option 2 <option>[...] </select>
-							</li>
-							<li>
-								<span class=description>Landfilling</span>
-								<select> <option>None <option>option 1 <option>option 2 <option>[...] </select>
-							</li>
-							<li>
-								<span class=description>Incineration</span>
-								<select> <option>None <option>option 1 <option>option 2 <option>[...] </select>
-							</li>
-						</ol>
-					</li>
-				</ol>
-			</li>
-		</ol>
-	</li>
-</ol>
-
-<hr><!--space-->
-
-<!--next button-->
-<button>button for going to the next page, like outputs, or export to ecoSpold</button>
