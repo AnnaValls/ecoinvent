@@ -59,6 +59,7 @@
 	<style>
 		table {
 			border-collapse:collapse;
+			width:100%;
 		}
 		td:hover{
 			background:linear-gradient(to top, #e01a1a, #eb6666);
@@ -94,8 +95,9 @@
 <!--input capacity of the plant-->
 <div>
 	Capacity of the plant 
-	<input id=capacity value="10" onchange="updateTable()" type=number>
+	<input id=capacity value="1500" min=1500 max=21000 onchange="updateTable()" type=number>
 	(m<sup>3</sup>/d) 
+	(min:1500, max:21000)
 </div><hr>
 
 <!--table-->
