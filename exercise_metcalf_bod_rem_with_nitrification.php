@@ -87,7 +87,8 @@
 		Prepare a process design for a complete-mix activated sludge (CMAS) 
 		system to treat 22,700 m<sup>3</sup>/d
 		of primary effluent (including recycle flows) to (a) meet a BOD<sub>e</sub> concentration less than
-		30 g/m<sup>3</sup> and (b) accomplish BOD removal and nitrification with an effluent NH4-N concentration of 0.50 g/m<sup>3</sup> and BOD<sub>e</sub>
+		30 g/m<sup>3</sup> and (b) accomplish BOD removal and nitrification with an effluent 
+		NH<sub>4</sub>-N concentration of 0.50 g/m<sup>3</sup> and BOD<sub>e</sub>
 		and TSS<sub>e</sub> &le; 15 g/m<sup>3</sup>. Compare the two design conditions in a summary table. The aeration
 		basin mixed liquor temperature is 12ºC.
 
@@ -95,23 +96,23 @@
 		<p>Wastewater characteristics:</p>
 
 		<table>
-			<tr><th>Constituent<th>Concentration (g/m<sup>3</sup> = mg/L)
-			<tr><td>BOD            <td class=number> 140
-			<tr><td>sBOD           <td class=number> 70
-			<tr><td>COD            <td class=number> 300
-			<tr><td>sCOD           <td class=number> 132
-			<tr><td>rbCOD          <td class=number> 80
-			<tr><td>TSS            <td class=number> 70
-			<tr><td>VSS            <td class=number> 60
-			<tr><td>TKN            <td class=number> 35
-			<tr><td>NH4-N          <td class=number> 25
-			<tr><td>TP             <td class=number> 6
-			<tr><td>Alkalinity     <td class=number> 140 as CaCO3
-			<tr><td>bCOD/BOD ratio <td class=number> 1.6
+			<tr><th>Constituent<th>Concentration (g/m<sup>3</sup>)
+			<tr><td>BOD              <td class=number> 140
+			<tr><td>sBOD             <td class=number> 70
+			<tr><td>COD              <td class=number> 300
+			<tr><td>sCOD             <td class=number> 132
+			<tr><td>rbCOD            <td class=number> 80
+			<tr><td>TSS              <td class=number> 70
+			<tr><td>VSS              <td class=number> 60
+			<tr><td>TKN              <td class=number> 35
+			<tr><td>NH<sub>4</sub>-N <td class=number> 25
+			<tr><td>TP               <td class=number> 6
+			<tr><td>Alkalinity       <td class=number> 140 as CaCO3
+			<tr><td>bCOD/BOD ratio   <td class=number> 1.6
 		</table>
-		<p>
-			<b>Note:</b> g/m<sup>3</sup> = mg/L
-		</p>
+
+		<p> <b>Note:</b> g/m<sup>3</sup> = mg/L </p>
+
 		Design conditions and assumptions:
 		<ol>
 			<li>Fine bubble ceramic diffusers with an aeration clean water O<sub>2</sub> transfer efficiency = 35%
@@ -120,7 +121,7 @@
 			<li>DO in aeration basin = 2.0 g/m<sup>3</sup>
 			<li>Site elevation is 500 m (pressure = 95.6 kPa)
 			<li>Aeration &alpha; factor = 0.50 for BOD removal only and 0.65 for nitrification; &beta; = 0.95 for both conditions,
-			and diffuser fouling factor <i>F</i> = 0.90
+				and diffuser fouling factor <i>F</i> = 0.90
 			<li>Use kinetic coefficients given in Tables 8-14
 			<li>SRT for BOD removal = 5 d
 			<li>Design MLSS-X<sub>TSS</sub> concentration = 3000 g/m<sup>3</sup>; values of 2000 to 3000 g/m<sup>3</sup> can be considered
@@ -178,7 +179,8 @@
 				<li>
 					Determine biomass production using Eq (8-20) in Table 8-10.
 					<code>
-						P<sub>X,Bio</sub> = Q·Y<sub>H</sub>(S0-S)/(1+(b<sub>H</sub>·SRT)) + (f<sub>d</sub>·b<sub>H</sub>·Q·Y<sub>H</sub>·(S0-S)·SRT)/(1+b<sub>H</sub>·SRT)
+						P<sub>X,Bio</sub> = Q·Y<sub>H</sub>(S0-S)/(1+(b<sub>H</sub>·SRT)) + 
+						(f<sub>d</sub>·b<sub>H</sub>·Q·Y<sub>H</sub>·(S0-S)·SRT)/(1+b<sub>H</sub>·SRT)
 					</code>
 					Define input data for above equation.
 					<code>
