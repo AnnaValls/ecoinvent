@@ -296,8 +296,8 @@
 			<tr><td>D<sub>f</sub>                  <td class=number>4.4<td>m
 			<tr><td>C<sub>L</sub>                  <td class=number>2.0<td>mg/L
 			<tr><td>SF                             <td class=number>1.5<td>
-			<tr><td>&mu;<sub>max,AOB</sub>         <td class=number>0.90<td>d-1
-			<tr><td>b<sub>AOB</sub>                <td class=number>0.17<td>d-1
+			<tr><td>&mu;<sub>max,AOB</sub>         <td class=number>0.90<td>d<sup>-1</sup>
+			<tr><td>b<sub>AOB</sub>                <td class=number>0.17<td>d<sup>-1</sup>
 			<tr><td>K<sub>NH<sub>4</sub></sub>     <td class=number>0.50<td>?
 			<tr><td>K<sub>o,AOB</sub>              <td class=number>0.50<td>?
 			<tr><td>S<sub>NH<sub>4</sub></sub>     <td class=number>0.50<td>?
