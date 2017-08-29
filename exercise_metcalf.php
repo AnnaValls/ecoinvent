@@ -304,5 +304,3 @@
 		show_var('P_XVSS_kg',P_XVSS_kg);
 	};
 </script>
-
-<slide></slide>
