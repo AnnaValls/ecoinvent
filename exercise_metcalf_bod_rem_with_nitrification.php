@@ -1,6 +1,12 @@
 <!doctype html><html><head>
 	<meta charset=utf-8>
-	<title>Example 8-3 (p. 756)</title>
+	<title>BOD removal &amp; nitrification</title>
+	<script src="utils.js"></script>
+	<script>
+		function init(){
+			//compute_exercise();
+		}
+	</script>
 	<style>
 		body{
 			max-width:70em;
@@ -57,11 +63,6 @@
 			color:blue;
 		}
 	</style>
-	<script>
-		function init(){
-			//compute_exercise();
-		}
-	</script>
 </head><body onload="init()">
 
 <!--title-->
@@ -121,8 +122,8 @@
 			<li>The point of air release for the ceramic diffusers is 0.5 m above the tank bottom 
 			<li>DO in aeration basin = 2.0 g/m<sup>3</sup>
 			<li>Site elevation is 500 m (pressure = 95.6 kPa)
-			<li>Aeration &alpha; factor = 0.50 for BOD removal only and 0.65 for nitrification; &beta; = 0.95 for both conditions,
-				and diffuser fouling factor <i>F</i> = 0.90
+			<li>Aeration &alpha; factor = 0.50 for BOD removal only and 0.65 for nitrification;<br>
+			&beta; = 0.95 for both conditions, and diffuser fouling factor <i>F</i> = 0.90
 			<li>Use kinetic coefficients given in Tables 8-14
 			<li>SRT for BOD removal = 5 d
 			<li>Design MLSS-X<sub>TSS</sub> concentration = 3000 g/m<sup>3</sup>; values of 2000 to 3000 g/m<sup>3</sup> can be considered
@@ -282,6 +283,7 @@
 				<tr><td>f<sub>d</sub>                  <td class=number>0.15<td>g/g
 				<tr><td>MLSS<sub>X,TSS</sub>           <td class=number>3000<td>g/m<sup>3</sup>
 				<tr><td>z<sub>b</sub> (elevation)      <td class=number>500<td>m 
+				<tr><td>Pressure (at z<sub>b</sub>)    <td class=number>95600<td>Pa
 				<tr><td>Pa                             <td class=number>10.33<td>m
 				<tr><td>R                              <td class=number>8314<td>J/K·kmol
 				<tr><td>g                              <td class=number>9.81<td>m/s<sup>2</sup>
@@ -384,6 +386,7 @@
 			var fd = 0.15;
 			var MLSS_X_TSS = 3000;
 			var zb=500;
+			var Pressure=95600; //pressure at 500 m (Pascals)
 			var Pa = 10.33; //m standard pressure at sea level
 			var R = 8314; //kg*m2/s2*kmol*K (ideal gases constant)
 			var g = 9.81;//m/s2 (gravity)
@@ -438,9 +441,8 @@
 			var C_inf_20 = C_s_20 * (1+de*Df/Pa);
 			var OTRf = R0;
 			var SOTR = (OTRf/alpha/F)*(C_inf_20/(beta*C_12/C_s_20*Pb/Pa*C_inf_20-C_L))*(Math.pow(1.024,20-T));
-			var air_flowrate = SOTR/(E*60*0.270);
-			//0.35 is transfer efficiency TODO
-			//0.270 is kgO2/m3 air at 12ºC TODO
+			var kg_O2_per_m3_air = density_of_air(T,Pressure)*0.2318 //oxygen in air by weight is 23.18%, by volume is 20.99%
+			var air_flowrate = SOTR/(E*60*kg_O2_per_m3_air);
 		//end part A
 
 		//show results for part A
@@ -519,8 +521,10 @@
 			//18
 			var OTRf = R0;
 			var SOTR = (OTRf/alpha/F)*(C_inf_20/(beta*C_12/C_s_20*Pb/Pa*C_inf_20-C_L))*(Math.pow(1.024,20-T));
-			var air_flowrate = SOTR/(E*60*0.270);
-			//19 alkalinity TODO (not clear in the book how it is calculated)
+			var kg_O2_per_m3_air = density_of_air(T,Pressure)*0.2318 //oxygen in air by weight is 23.18%, by volume is 20.99%
+			var air_flowrate = SOTR/(E*60*kg_O2_per_m3_air);
+			//19 alkalinity 
+			//TODO (not clear in the book how alkalinity is calculated)
 			//20 estimate effluent BOD
 			var BOD_eff = sBODe + 0.85*0.85*TSSe;
 		//end part B (nitrification)
@@ -558,10 +562,9 @@
 <div>
 	Falta (TO DO) (discuss):
 	<ul>
-		<li>Implementar taules per concentració de saturació COD en funció de la T (ex. paràmetre C<sub>T=12</sub>)
+		<li>Implementar taules per concentració de saturació O2 (mg/L) en funció de la T i P (ex. paràmetre C<sub>T=12</sub>)
 		<li>Implementar loop per calcular NOx (nitrat oxidat)
 		<li>Alkalinity (no entenc les fórmules del llibre)
-		<li>Appendix B for kg O2 per m3 air depending on T (at 12ºC is 0.270 kgO2/m3air)
 		<li>Separar paràmetres obtinguts des de taules i de disseny
 	</ul>
 </div>
