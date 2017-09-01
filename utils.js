@@ -20,11 +20,14 @@ function density_of_air(temperature,pressure) {
 
 function air_solubility_of_oxygen(temperature,elevation){
 	/*
-		Metcalf & Eddy, 5th edition,
-		Appendix E, Table E-1 implementation
-		The air solubility of O2 in mg/L as functions of temperature (ºC) and elevation (m) for 0-1800 m
-		Perform linear interpolation
+		Appendix E, Table E-1, page 1923
+		The air solubility of oxygen in mg/L as functions of temperature (ºC) and elevation (m) for 0-1800 m
+		Perform linear interpolation or bilinear interpolation
 	*/
+	//input checks
+	console.log('Calculating air solubility of oxygen (mg/L) from Table E-1 (Appendix E)');
+	temperature=temperature||0;
+	elevation=elevation||0;
 	if(temperature<0) temperature=0;
 	if(temperature>40)temperature=40;
 	if(elevation<0)   elevation=0;
@@ -78,9 +81,86 @@ function air_solubility_of_oxygen(temperature,elevation){
 		{0: 6.412,  200: 6.25,   400: 6.092,  600: 5.937,  800: 5.787,  1000: 5.639,  1200: 5.495,  1400: 5.355,  1600: 5.218,  1800: 5.084},
 	];
 
-	//find temperature above and below
-	var t_below = Math.floor(temperature);
-	var t_above = Math.ceil(temperature);
-	//TODO continue here
-	//find temperature above and below
+	//case 1: temp and elevation defined
+	if(Table[temperature] && Table[temperature][elevation]){
+		console.log('temperature and elevation defined, no interpolation needed');
+		return Table[temperature][elevation];
+	}
+
+	//case 2: temp defined and elevation undefined
+	if(Table[temperature] && !Table[temperature][elevation]) {
+		console.log('temperature defined and elevation undefined => performing linear interpolation (axis x)');
+		//find elevation above and below
+		var Elevations=[0,200,400,600,800,1000,1200,1400,1600,1800];
+		for(var i=1;i<Elevations.length;i++){
+			if ((Elevations[i-1]<elevation) && (elevation<Elevations[i])){
+				var e_below = Elevations[i-1];
+				var e_above = Elevations[i];
+				break;
+			}
+		}
+		var percentage = (elevation-e_below)/(e_above-e_below);
+		var s_below = Table[temperature][e_below];
+		var s_above = Table[temperature][e_above];
+		console.log('value between '+s_below+' and '+s_above);
+		var s_range = s_above - s_below;
+		var s_added = s_range*percentage;
+		var s_inter = s_below + s_added;
+		return s_inter;
+	}
+
+	//case 3: temp undefined and elevation defined
+	if(!Table[temperature] && Table[0][elevation]) {
+		console.log('temperature undefined and elevation defined => performing linear interpolation (axis y)');
+		//find temperature above and below
+		var t_below = Math.floor(temperature);
+		var t_above = Math.ceil(temperature);
+		var percentage = (temperature-t_below)/(t_above-t_below);
+		var s_below = Table[t_below][elevation];
+		var s_above = Table[t_above][elevation];
+		console.log('value between '+s_below+' and '+s_above);
+		var s_range = s_above - s_below;
+		var s_added = s_range*percentage;
+		var s_inter = s_below + s_added;
+		return s_inter;
+	}
+	else{
+		//case 4: bilinear interpolation
+		console.log('temperature undefined and elevation undefined => performing bilinear interpolation (axis x,y)');
+		//find temperature above and below (x1,x2)
+		var x1 = Math.floor(temperature);
+		var x2 = Math.ceil(temperature);
+		//find elevation above and below (y1,y2)
+		var Elevations=[0,200,400,600,800,1000,1200,1400,1600,1800];
+		for(var i=1;i<Elevations.length;i++){
+			if ((Elevations[i-1]<elevation) && (elevation<Elevations[i])){
+				var y1 = Elevations[i-1];
+				var y2 = Elevations[i];
+				break;
+			}
+		}
+
+		//change names to inputs for formula convenience
+		var x=temperature;
+		var y=elevation;
+
+		//now we need 4 values of solubility from the table: top-left, top-right, bottom-left, bottom-right
+		var f_x1_y1 = Table[x1][y1];
+		var f_x1_y2 = Table[x1][y2];
+		var f_x2_y1 = Table[x2][y1];
+		var f_x2_y2 = Table[x2][y2];
+
+		console.log("Bilinear interpolation f(x,y), x="+x+", y="+y+", between: ");
+		console.log("f(x1,y1): "+f_x1_y1);
+		console.log("f(x1,y2): "+f_x1_y2);
+		console.log("f(x2,y1): "+f_x2_y1);
+		console.log("f(x2,y2): "+f_x2_y2);
+
+		//apply linear interpolation in the x direction
+		var f_x_y1 = (x2-x)/(x2-x1)*f_x1_y1 + (x-x1)/(x2-x1)*f_x2_y1;
+		var f_x_y2 = (x2-x)/(x2-x1)*f_x1_y2 + (x-x1)/(x2-x1)*f_x2_y2;
+		//proceed to interpolate the y direction to obtain f(x,y) estimate
+		var f_x_y = (y2-y)/(y2-y1)*f_x_y1 + (y-y1)/(y2-y1)*f_x_y2;
+		return f_x_y;
+	}
 }

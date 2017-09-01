@@ -293,7 +293,6 @@
 				<tr><td>&beta;                         <td class=number>0.95<td>&empty;
 				<tr><td>F                              <td class=number>0.9<td>&empty;
 				<tr><td>C<sup>*</sup><sub>s,20</sub>   <td class=number>9.09<td>mg/L
-				<tr><td>C<sub>T=12</sub>               <td class=number>10.777<td>mg/L
 				<tr><td>d<sub>e</sub>                  <td class=number>0.40<td>&empty;
 				<tr><td>D<sub>f</sub>                  <td class=number>4.4<td>m
 				<tr><td>C<sub>L</sub>                  <td class=number>2.0<td>mg/L
@@ -330,6 +329,7 @@
 				<tr><td>bCOD removed        <td class=number><span id=part_A_bCOD_removed>?</span><td>kg/d
 				<tr><td>O<sub>2</sub> demand<td class=number><span id=part_A_R0>?  </span><td>kgO<sub>2</sub>/h
 				<tr><td>P<sub>b</sub>       <td class=number><span id=part_A_Pb>?  </span><td>m
+				<tr><td>C<sub>T</sub>       <td class=number><span id=part_C_T>?  </span><td>mg/L
 				<tr><td>SOTR                <td class=number><span id=part_A_SOTR>?</span><td>kg/h
 				<tr><td>Air flowrate        <td class=number><span id=part_A_air_flowrate>?</span><td>m<sup>3</sup>/min
 				<tr><th colspan=3>
@@ -385,7 +385,7 @@
 			var bH = 0.12;
 			var fd = 0.15;
 			var MLSS_X_TSS = 3000;
-			var zb=500;
+			var zb=500; //elevation
 			var Pressure=95600; //pressure at 500 m (Pascals)
 			var Pa = 10.33; //m standard pressure at sea level
 			var R = 8314; //kg*m2/s2*kmol*K (ideal gases constant)
@@ -395,7 +395,7 @@
 			var beta=0.95;//8.b
 			var F=0.9;//8.b
 			var C_s_20 = 9.09;//8.b sat DO at sea level at 20ºC
-			var C_12 = 10.777; //tabulated value (implement table will be needed) TODO
+			var C_T = air_solubility_of_oxygen(T,0);//elevation=0 //Table E-1, Appendix E, implemented in "utils.js"
 			var de=0.40;//8.b mid-depth correction factor (range: 0.25-0.45)
 			var Df=4.4;// 4.9m-0.5m, from design conditions and assumptions (depth of diffusers in basin)
 			var C_L=2.0;//DO in aeration basin (mg/L)
@@ -440,7 +440,7 @@
 			var Pb = Pa*Math.exp(-g*M*(zb-0)/(R*(273.15+T)));
 			var C_inf_20 = C_s_20 * (1+de*Df/Pa);
 			var OTRf = R0;
-			var SOTR = (OTRf/alpha/F)*(C_inf_20/(beta*C_12/C_s_20*Pb/Pa*C_inf_20-C_L))*(Math.pow(1.024,20-T));
+			var SOTR = (OTRf/alpha/F)*(C_inf_20/(beta*C_T/C_s_20*Pb/Pa*C_inf_20-C_L))*(Math.pow(1.024,20-T));
 			var kg_O2_per_m3_air = density_of_air(T,Pressure)*0.2318 //oxygen in air by weight is 23.18%, by volume is 20.99%
 			var air_flowrate = SOTR/(E*60*kg_O2_per_m3_air);
 		//end part A
@@ -463,6 +463,7 @@
 			show_var('part_A_bCOD_removed',bCOD_removed);
 			show_var('part_A_R0',R0);
 			show_var('part_A_Pb',Pb);
+			show_var('part_C_T',C_T);
 			show_var('part_A_SOTR',SOTR);
 			show_var('part_A_air_flowrate',air_flowrate);
 		//end show results part A
@@ -520,7 +521,7 @@
 			R0 /= 24;
 			//18
 			var OTRf = R0;
-			var SOTR = (OTRf/alpha/F)*(C_inf_20/(beta*C_12/C_s_20*Pb/Pa*C_inf_20-C_L))*(Math.pow(1.024,20-T));
+			var SOTR = (OTRf/alpha/F)*(C_inf_20/(beta*C_T/C_s_20*Pb/Pa*C_inf_20-C_L))*(Math.pow(1.024,20-T));
 			var kg_O2_per_m3_air = density_of_air(T,Pressure)*0.2318 //oxygen in air by weight is 23.18%, by volume is 20.99%
 			var air_flowrate = SOTR/(E*60*kg_O2_per_m3_air);
 			//19 alkalinity 
@@ -562,7 +563,6 @@
 <div>
 	Falta (TO DO) (discuss):
 	<ul>
-		<li>Implementar taules per concentració de saturació O2 (mg/L) en funció de la T i P (ex. paràmetre C<sub>T=12</sub>)
 		<li>Implementar loop per calcular NOx (nitrat oxidat)
 		<li>Alkalinity (no entenc les fórmules del llibre)
 		<li>Separar paràmetres obtinguts des de taules i de disseny
