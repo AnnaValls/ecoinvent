@@ -9,7 +9,7 @@
 	</script>
 	<style>
 		body{
-			max-width:70em;
+			max-width:75em;
 			margin:auto;
 			margin-bottom:100px;
 		}
@@ -334,24 +334,25 @@
 				<tr><td>Air flowrate        <td class=number><span id=part_A_air_flowrate>?</span><td>m<sup>3</sup>/min
 				<tr><th colspan=3>
 				<tr><th colspan=3>BOD removal and nitrification
-				<tr><td>&mu;<sub>AOB</sub>    <td class=number><span id=part_B_mu_AOB>?</span><td>d<sup>-1</sup>
-				<tr><td>SRT theoretical       <td class=number><span id=part_B_SRT_theoretical>?</span><td>d
-				<tr><td>SRT design            <td class=number><span id=part_B_SRT_design>?</span><td>d
-				<tr><td>NO<sub>x</sub>        <td class=number><span id=part_B_NOx>?</span><td>g/m<sup>3</sup>
-				<tr><td>P<sub>X,Bio,VSS</sub> <td class=number><span id=part_B_P_X_bio_VSS>?</span><td>kgVSS/d
-				<tr><td>P<sub>X,VSS</sub>     <td class=number><span id=part_B_P_X_VSS>?</span><td>kg/d
-				<tr><td>P<sub>X,TSS</sub>     <td class=number><span id=part_B_P_X_TSS>?</span><td>kg/d
-				<tr><td>X<sub>VSS</sub>V      <td class=number><span id=part_B_X_VSS_V>?</span><td>kg
-				<tr><td>X<sub>TSS</sub>V      <td class=number><span id=part_B_X_TSS_V>?</span><td>kg
-				<tr><td>V                     <td class=number><span id=part_B_V>?</span><td>m<sup>3</sup>
-				<tr><td>&tau;                 <td class=number><span id=part_B_tau>?</span><td>h
-				<tr><td>MLVSS                 <td class=number><span id=part_B_MLVSS>?</span><td>g/m<sup>3</sup>
-				<tr><td>BOD loading           <td class=number><span id=part_B_BOD_loading>?</span><td>kg/m<sup>3</sup>·d
-				<tr><td>bCOD removed          <td class=number><span id=part_B_bCOD_removed>?</span><td>kg/d
-				<tr><td>O<sub>2</sub> demand  <td class=number><span id=part_B_R0>?  </span><td>kgO<sub>2</sub>/h
-				<tr><td>SOTR                  <td class=number><span id=part_B_SOTR>?</span><td>kg/h
-				<tr><td>Air flowrate          <td class=number><span id=part_B_air_flowrate>?</span><td>m<sup>3</sup>/min
-				<tr><td>BOD effluent          <td class=number><span id=part_B_BOD_eff>?</span><td>g/m<sup>3</sup>
+				<tr><td>&mu;<sub>AOB</sub>      <td class=number><span id=part_B_mu_AOB>?</span><td>d<sup>-1</sup>
+				<tr><td>SRT theoretical         <td class=number><span id=part_B_SRT_theoretical>?</span><td>d
+				<tr><td>SRT design              <td class=number><span id=part_B_SRT_design>?</span><td>d
+				<tr><td>NO<sub>x</sub>          <td class=number><span id=part_B_NOx>?</span><td>g/m<sup>3</sup>
+				<tr><td>P<sub>X,Bio,VSS</sub>   <td class=number><span id=part_B_P_X_bio_VSS>?</span><td>kgVSS/d
+				<tr><td>P<sub>X,VSS</sub>       <td class=number><span id=part_B_P_X_VSS>?</span><td>kg/d
+				<tr><td>P<sub>X,TSS</sub>       <td class=number><span id=part_B_P_X_TSS>?</span><td>kg/d
+				<tr><td>X<sub>VSS</sub>V        <td class=number><span id=part_B_X_VSS_V>?</span><td>kg
+				<tr><td>X<sub>TSS</sub>V        <td class=number><span id=part_B_X_TSS_V>?</span><td>kg
+				<tr><td>V                       <td class=number><span id=part_B_V>?</span><td>m<sup>3</sup>
+				<tr><td>&tau;                   <td class=number><span id=part_B_tau>?</span><td>h
+				<tr><td>MLVSS                   <td class=number><span id=part_B_MLVSS>?</span><td>g/m<sup>3</sup>
+				<tr><td>BOD loading             <td class=number><span id=part_B_BOD_loading>?</span><td>kg/m<sup>3</sup>·d
+				<tr><td>bCOD removed            <td class=number><span id=part_B_bCOD_removed>?</span><td>kg/d
+				<tr><td>O<sub>2</sub> demand    <td class=number><span id=part_B_R0>?  </span><td>kgO<sub>2</sub>/h
+				<tr><td>SOTR                    <td class=number><span id=part_B_SOTR>?</span><td>kg/h
+				<tr><td>Air flowrate            <td class=number><span id=part_B_air_flowrate>?</span><td>m<sup>3</sup>/min
+				<tr><td>NaHCO<sub>3</sub> added <td class=number><span id=part_B_alkalinity_to_be_added>?</span><td>kg/d as NaHCO<sub>3</sub>
+				<tr><td>BOD effluent            <td class=number><span id=part_B_BOD_eff>?</span><td>g/m<sup>3</sup>
 			</table>
 		</li>
 	</ol>
@@ -469,6 +470,7 @@
 		//end show results part A
 
 		//9: part B NITRIFICATION
+			//parameters
 			var mu_max_AOB = 0.90 //table 8-14 at 20ºC
 			var b_AOB = 0.17 // table 8-14 at 20ºC
 			var K_NH4 = 0.50 //table 8-14 at 20ºC
@@ -476,11 +478,12 @@
 			var S_NH4 = 0.50 //g/m3 at effluent?
 			var Yn = 0.15; //Table 8-14
 			var Ne = 0.50; //N at effluent?
-			var alpha=0.65;
-			var beta=0.95;
+			var alpha = 0.65;
+			var beta = 0.95;
 			var sBODe = 3 //assume 3 g/m3
-			var TSSe  = 10 //assume 10 g/m3
+			var TSSe = 10 //assume 10 g/m3
 
+			//9 start nitrification
 			var mu_max_AOB_T = mu_max_AOB * Math.pow(1.072,T-20);
 			var b_AOB_T = b_AOB* Math.pow(1.029,T-20);
 			var mu_AOB = mu_max_AOB_T * (S_NH4/(S_NH4+K_NH4)) * (C_L/(C_L+K_o_AOB)) - b_AOB_T;
@@ -495,9 +498,45 @@
 			P_X_bio_VSS/=1000;
 			//12 iteration for finding more accurate value of NOx (nitrogen oxidized to nitrate)
 			var NOx = TKN - Ne - 0.12*P_X_bio_VSS/Q*1000;
-			//recalc PXbioVSS with accurate NOx TODO iteration
+			//recalc PXbioVSS with accurate NOx (one iteration)
 			var P_X_bio_VSS = Q*Y*(S0-S)/(1+bHT*SRT_design) + fd*bHT*Q*Y*(S0-S)*SRT_design/(1+bHT*SRT_design) + Q*Yn*NOx/(1+b_AOB_T*SRT_design);
 			P_X_bio_VSS/=1000;
+
+			//loop for NOx and PXBioVSS calculation
+			(function(){
+				console.log("=======================================")
+				console.log("LOOP FOR NOx and PXbioVSS approximation")
+				console.log("=======================================")
+				//max difference
+				var tolerance = 0.0001;
+
+				//arrays for approximations
+				var NOx_array = [NOx];
+				var P_X_bio_VSS_array = [P_X_bio_VSS];
+
+				//loop until difference < tolerance
+				while(true){
+					console.log("- new iteration")
+					//increase accuracy of NOx from P_X_bio_VSS
+					var last_NOx = TKN - Ne - 0.12*P_X_bio_VSS_array[P_X_bio_VSS_array.length-1]/Q*1000;
+					NOx_array.push(last_NOx);
+					//recalculate P_X_bio_VSS with NOx approximation
+					var last_PX=(Q*Y*(S0-S)/(1+bHT*SRT_design)+fd*bHT*Q*Y*(S0-S)*SRT_design/(1+bHT*SRT_design)+Q*Yn*(last_NOx)/(1+b_AOB_T*SRT_design))/1000
+					P_X_bio_VSS_array.push(last_PX);
+					console.log("  NOx approximations: "+NOx_array);
+					console.log("  PXbioVSS approximations: "+P_X_bio_VSS_array);
+					//length of NOx approximations
+					var l = NOx_array.length;
+					var difference = Math.abs(NOx_array[l-1]-NOx_array[l-2]);
+					if(difference<tolerance){
+						NOx         = last_NOx;
+						P_X_bio_VSS = last_PX;
+						console.log('loop finished: difference is small enough ('+difference+')');
+						break;
+					}
+				}
+			})();
+
 			//13
 			var P_X_VSS = P_X_bio_VSS + Q*nbVSS/1000;
 			var P_X_TSS = P_X_bio_VSS/0.85 + Q*nbVSS/1000 + Q*(TSS-VSS)/1000;
@@ -515,9 +554,9 @@
 			var Y_obs_TSS = P_X_TSS/bCOD_removed*bCOD_BOD_ratio;
 			var Y_obs_VSS = P_X_TSS/bCOD_removed*(X_VSS_V/X_TSS_V)*bCOD_BOD_ratio;
 			//17
-			var P_X_bio_VSS = Q*Y*(S0-S)/(1+bHT*SRT_design) + fd*bHT*Q*Y*(S0-S)*SRT_design/(1+bHT*SRT_design);
-			P_X_bio_VSS /= 1000;
-			var R0 = Q*(S0-S)/1000 -1.42*P_X_bio_VSS + 4.57*Q*NOx/1000;
+			var P_X_bio_VSS_without_nitrifying = Q*Y*(S0-S)/(1+bHT*SRT_design) + fd*bHT*Q*Y*(S0-S)*SRT_design/(1+bHT*SRT_design);
+			P_X_bio_VSS_without_nitrifying /= 1000;
+			var R0 = Q*(S0-S)/1000 -1.42*P_X_bio_VSS_without_nitrifying + 4.57*Q*NOx/1000;
 			R0 /= 24;
 			//18
 			var OTRf = R0;
@@ -525,7 +564,13 @@
 			var kg_O2_per_m3_air = density_of_air(T,Pressure)*0.2318 //oxygen in air by weight is 23.18%, by volume is 20.99%
 			var air_flowrate = SOTR/(E*60*kg_O2_per_m3_air);
 			//19 alkalinity 
-			//TODO (not clear in the book how alkalinity is calculated)
+			var alkalinity_to_be_added = 0;
+			(function(){
+				var alkalinity_used_for_nitrification = 7.14*NOx //g/m3 used as CaCO3
+				alkalinity_to_be_added = 70-Alkalinity+alkalinity_used_for_nitrification; //g/m3 as CaCO3
+				alkalinity_to_be_added*=Q/1000; // kg/d as CaCO3
+				alkalinity_to_be_added*=(84/50); // kg/d as NaHCO3
+			})();
 			//20 estimate effluent BOD
 			var BOD_eff = sBODe + 0.85*0.85*TSSe;
 		//end part B (nitrification)
@@ -548,12 +593,12 @@
 			show_var('part_B_R0',R0);
 			show_var('part_B_SOTR',SOTR);
 			show_var('part_B_air_flowrate',air_flowrate);
+			show_var('part_B_alkalinity_to_be_added',alkalinity_to_be_added);
 			show_var('part_B_BOD_eff',BOD_eff);
 		//end show results part B
-
 	};
 
-	//utils: show results inner function
+	//util: show a result in the gui
 	function show_var(id,value){
 		document.querySelector("#"+id).innerHTML=value.toString().substring(0,7);
 	}
@@ -563,8 +608,7 @@
 <div>
 	Falta (TO DO) (discuss):
 	<ul>
-		<li>Implementar loop per calcular NOx (nitrat oxidat)
-		<li>Alkalinity (no entenc les fórmules del llibre)
-		<li>Separar paràmetres obtinguts des de taules i de disseny
+		<li>Separar paràmetres obtinguts des de taules i de disseny: els tabulats no canvien mai, en canvi els de disseny poden variar
 	</ul>
 </div>
+

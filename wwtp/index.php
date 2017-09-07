@@ -4,7 +4,7 @@
 	<meta name="description" content="ecoinvent">
 	<title>WWTP configuration</title>
 	<style>
-		div[id]{
+		body div{
 			border-bottom:1px solid #ccc;
 			padding-bottom:5px;
 			margin-bottom:5px;
@@ -12,88 +12,73 @@
 	</style>
 </head><body>
 
-<h1>WWTP Configuration</h1>
-
-<!--
-<div class=tab_buttons>
-	<style>
-		/*tab buttons*/
-			div.tab_buttons               { padding:0.5em 0;display:flex;justify-content:center}
-			div.tab_buttons button        { display:block;padding:6px 10px;border:1px solid #ccc;background:#f5f5f5;outline:none;}
-			div.tab_buttons button:hover  { background:#e6e6e6}
-			div.tab_buttons button.left   { border-radius:0.5em 0.0em 0.0em 0.5em; border-right-style:none}
-			div.tab_buttons button.right  { border-radius:0.0em 0.5em 0.5em 0.0em; }
-			div.tab_buttons button.middle { border-right-style:none}
-			div.tab_buttons button.single { border-radius:0.5em}
-			div.tab_buttons button[disabled] { background-color:#ccc;box-shadow:inset 0 2px 4px rgba(0,0,0,.15),0 1px 2px rgba(0,0,0,.05);}
-		/*tab buttons*/
-	</style>
-	<button class=left>Primary</button>
-	<button class=middle>Secondary</button>
-	<button class=right>Tertiary</button>
+<!--title-->
+<div>
+	<h1>
+		WWTP Configuration
+	</h1> 
 </div>
--->
 
-<div id=primary class=tab>
+<div>
 	<h3>1. Primary treatment</h3>
-	<ul>
-		<li><input type=checkbox> Primary clarification
-		<li><input type=checkbox> Chemical addition
-	</ul>
-</div>
-
-<div id=secondary class=tab>
-	<h3>2. Secondary treatment</h3>
 	<table>
-		<tr><td><input name=sec_conf type=radio><td>BOD<sub>5</sub> removal
-		<tr><td><input name=sec_conf type=radio><td>BOD<sub>5</sub> removal &amp; Nitrification
-		<tr><td><input name=sec_conf type=radio><td>BOD<sub>5</sub> removal &amp; Nitrification &amp; N removal
-		<tr><td><input name=sec_conf type=radio><td>BOD<sub>5</sub> removal &amp; Nitrification &amp; N removal &amp; P removal
-		<tr><td><input name=sec_conf type=radio><td>BOD<sub>5</sub> removal &amp; P removal
+		<tr><td><label> <input type=checkbox> Primary clarification </label>
+		<tr><td><label> <input type=checkbox> Chemical addition </label>
 	</table>
 </div>
 
-<div id=sludge class=tab>
+<div>
+	<h3>2. Secondary treatment</h3>
+	<table>
+		<tr><td> <label><input name=sec_conf type=radio> BOD<sub>5</sub> removal</label>
+		<tr><td> <label><input name=sec_conf type=radio> BOD<sub>5</sub> removal &amp; Nitrification</label>
+		<tr><td> <label><input name=sec_conf type=radio> BOD<sub>5</sub> removal &amp; Nitrification &amp; N removal</label>
+		<tr><td> <label><input name=sec_conf type=radio> BOD<sub>5</sub> removal &amp; Nitrification &amp; N removal &amp; P removal</label>
+		<tr><td> <label><input name=sec_conf type=radio> BOD<sub>5</sub> removal &amp; P removal</label>
+	</table>
+</div>
+
+<div>
 	<h3>3. Sludge treatment unit processes</h3>
 	<ul>
-		<li><input type=checkbox> Gravity thickening
-		<li><input type=checkbox> Conditioning: coagulant and polymer addition
+		<li><label><input type=checkbox> Gravity thickening</label>
+		<li><label><input type=checkbox> Conditioning: coagulant and polymer addition</label>
 		<li>
 			<b>Digestion</b>
 			<ul>
-				<li><input type=checkbox> Anaerobic digestion
-				<li><input type=checkbox> Aerobic digestion
+				<li><label><input type=checkbox> Anaerobic digestion</label>
+				<li><label><input type=checkbox> Aerobic digestion</label>
 			</ul>
 		</li>
 		<li>
 			<b>Dewatering</b>
 			<ul>
-				<li><input type=checkbox> Centrifugation
-				<li><input type=checkbox> Filter pressing
-				<li><input type=checkbox> Vacuuming
+				<li><label><input type=checkbox> Centrifugation</label>
+				<li><label><input type=checkbox> Filter pressing</label>
+				<li><label><input type=checkbox> Vacuuming</label>
 			</ul>
 		</li>
 		<li>
 			<b>Nutrient treatment and recovery</b>
 			<ul>
-				<li><input type=checkbox> Struvite formation
-				<li><input type=checkbox> Anammox
+				<li><label><input type=checkbox> Struvite formation</label>
+				<li><label><input type=checkbox> Anammox</label>
 			</ul>
 		</li>
 		<li>
 			<b>Drying</b>
 			<ul>
-				<li><input type=checkbox> Sludge beds
-				<li><input type=checkbox> Heat drying
+				<li><label><input type=checkbox> Sludge beds</label>
+				<li><label><input type=checkbox> Heat drying</label>
 			</ul>
 		</li>
 		<li>
 			<b>Sludge disposal</b>
 			<ul>
-				<li><input type=checkbox> Composting
-				<li><input type=checkbox> Land application
-				<li><input type=checkbox> Landfilling
-				<li><input type=checkbox> Incineration
+				<li><label><input type=checkbox> Composting</label>
+				<li><label><input type=checkbox> Land application</label>
+				<li><label><input type=checkbox> Landfilling</label>
+				<li><label><input type=checkbox> Incineration</label>
 			</ul>
 		</li>
 	</ul>
@@ -102,3 +87,4 @@
 <div>
 	<button>Save</button>
 </div>
+
