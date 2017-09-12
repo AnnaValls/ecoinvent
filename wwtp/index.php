@@ -28,60 +28,18 @@
 </div>
 
 <div>
-	<h3>2. Secondary treatment</h3>
+	<h3>2. Secondary treatment (enter percentage of treated flow with each technology)</h3>
 	<table>
-		<tr><td> <label><input name=sec_conf type=radio> BOD<sub>5</sub> removal</label>
-		<tr><td> <label><input name=sec_conf type=radio> BOD<sub>5</sub> removal &amp; Nitrification</label>
-		<tr><td> <label><input name=sec_conf type=radio> BOD<sub>5</sub> removal &amp; Nitrification &amp; N removal</label>
-		<tr><td> <label><input name=sec_conf type=radio> BOD<sub>5</sub> removal &amp; Nitrification &amp; N removal &amp; P removal</label>
-		<tr><td> <label><input name=sec_conf type=radio> BOD<sub>5</sub> removal &amp; P removal</label>
+		<tr> <td> 
+			<input value=0 type=number min=0> (m3/d)
+			Total treated flow 
+		</tr>
+		<tr><td> <input type=number value=0 min=0 max=100> % &mdash; BOD<sub>5</sub> removal
+		<tr><td> <input type=number value=0 min=0 max=100> % &mdash; BOD<sub>5</sub> removal &amp; Nitrification
+		<tr><td> <input type=number value=0 min=0 max=100> % &mdash; BOD<sub>5</sub> removal &amp; Nitrification &amp; N removal
+		<tr><td> <input type=number value=0 min=0 max=100> % &mdash; BOD<sub>5</sub> removal &amp; Nitrification &amp; N removal &amp; P removal
+		<tr><td> <input type=number value=0 min=0 max=100> % &mdash; BOD<sub>5</sub> removal &amp; P removal
 	</table>
-</div>
-
-<div>
-	<h3>3. Sludge treatment unit processes</h3>
-	<ul>
-		<li><label><input type=checkbox> Gravity thickening</label>
-		<li><label><input type=checkbox> Conditioning: coagulant and polymer addition</label>
-		<li>
-			<b>Digestion</b>
-			<ul>
-				<li><label><input type=checkbox> Anaerobic digestion</label>
-				<li><label><input type=checkbox> Aerobic digestion</label>
-			</ul>
-		</li>
-		<li>
-			<b>Dewatering</b>
-			<ul>
-				<li><label><input type=checkbox> Centrifugation</label>
-				<li><label><input type=checkbox> Filter pressing</label>
-				<li><label><input type=checkbox> Vacuuming</label>
-			</ul>
-		</li>
-		<li>
-			<b>Nutrient treatment and recovery</b>
-			<ul>
-				<li><label><input type=checkbox> Struvite formation</label>
-				<li><label><input type=checkbox> Anammox</label>
-			</ul>
-		</li>
-		<li>
-			<b>Drying</b>
-			<ul>
-				<li><label><input type=checkbox> Sludge beds</label>
-				<li><label><input type=checkbox> Heat drying</label>
-			</ul>
-		</li>
-		<li>
-			<b>Sludge disposal</b>
-			<ul>
-				<li><label><input type=checkbox> Composting</label>
-				<li><label><input type=checkbox> Land application</label>
-				<li><label><input type=checkbox> Landfilling</label>
-				<li><label><input type=checkbox> Incineration</label>
-			</ul>
-		</li>
-	</ul>
 </div>
 
 <div>

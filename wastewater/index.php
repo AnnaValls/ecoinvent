@@ -8,7 +8,19 @@
 <h2>Wastewater characteristics</h2><hr>
 
 <table>
-	<tr><td>Volume<td><input value=0><td>m<sup>3</sup>
+	<tr><th align=left>Inputs
+		<th>Municipal wastewater
+		<th>Industrial processes
+		<th>Total (mass balance)
+		<th>Units
+		<th style=background:red>layout TBD
+
+	<tr><td>Volume of treated wastewater
+		<td><input value=0>
+		<td><input value=0>
+		<td>4
+		<td>m<sup>3</sup>
+	<!--
 	<tr><td>Origin 
 		<td> 
 			<select>
@@ -18,14 +30,21 @@
 			</select>
 		</td>
 	</tr>
+	-->
 	<tr><td><b>Oxygen (O)</b>
-		<tr><td>&emsp; Total Chemical Oxygen Demand tCOD       <td><input value=0><td>as kg O<sub>2</sub>/m<sup>3</sup>) 
-		<tr><td>&emsp; Soluble Chemical Oxygen Demand sCOD     <td><input value=0><td>as kg O<sub>2</sub>/m<sup>3</sup>)  
-		<tr><td>&emsp; Biological Oxygen Demand BOD<sub>5</sub><td><input value=0><td>as kg O<sub>2</sub>/m<sup>3</sup>)  
+		<tr><td>&emsp; Total Chemical Oxygen Demand tCOD       
+			<td><input value=0>
+			<td><input value=0>
+			<td>as kg O<sub>2</sub>/m<sup>3</sup>
+		<tr><td>&emsp; Soluble Chemical Oxygen Demand sCOD     
+			<td><input value=0>
+			<td><input value=0>
+			<td>as kg O<sub>2</sub>/m<sup>3</sup>
+		<tr><td>&emsp; Biological Oxygen Demand BOD<sub>5</sub><td><input value=0><td>as kg O<sub>2</sub>/m<sup>3</sup>
 	</tr>
 	<tr><td><b>Carbon (C)</b>
-		<tr><td>&emsp; Dissolved organic carbon DOC<td><input value=0><td>as C (kg/m<sup>3</sup>) 
-		<tr><td>&emsp; Total organic carbon TOC    <td><input value=0><td>as C (kg/m<sup>3</sup>) 
+		<tr><td>&emsp; Dissolved organic carbon DOC<td><input value=0><td>as kg C/m<sup>3</sup>
+		<tr><td>&emsp; Total organic carbon TOC    <td><input value=0><td>as kg C/m<sup>3</sup>
 	</tr>
 	<tr><td><b>Sulfur (S)</b>
 		<tr><td>&emsp; Sulfate SO<sub>4</sub><td><input value=0><td>as kg S /m<sup>3</sup>
