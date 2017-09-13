@@ -3,7 +3,7 @@
 	<meta name="viewport" content="width=device-width">
 	<meta name="description" content="ecoinvent">
 	<script src="construction.js"></script>
-	<script src="format.js"></script>
+	<script src="../format.js"></script>
 	<title>Construction</title>
 	<script>
 		function init(){

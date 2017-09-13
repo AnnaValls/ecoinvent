@@ -28,17 +28,13 @@
 </div>
 
 <div>
-	<h3>2. Secondary treatment (enter percentage of treated flow with each technology)</h3>
+	<h3>2. Secondary treatment</h3>
 	<table>
-		<tr> <td> 
-			<input value=0 type=number min=0> (m3/d)
-			Total treated flow 
-		</tr>
-		<tr><td> <input type=number value=0 min=0 max=100> % &mdash; BOD<sub>5</sub> removal
-		<tr><td> <input type=number value=0 min=0 max=100> % &mdash; BOD<sub>5</sub> removal &amp; Nitrification
-		<tr><td> <input type=number value=0 min=0 max=100> % &mdash; BOD<sub>5</sub> removal &amp; Nitrification &amp; N removal
-		<tr><td> <input type=number value=0 min=0 max=100> % &mdash; BOD<sub>5</sub> removal &amp; Nitrification &amp; N removal &amp; P removal
-		<tr><td> <input type=number value=0 min=0 max=100> % &mdash; BOD<sub>5</sub> removal &amp; P removal
+		<tr><td><label><input name=sec_conf type=radio> BOD<sub>5</sub> removal</label>
+		<tr><td><label><input name=sec_conf type=radio> BOD<sub>5</sub> removal &amp; Nitrification</label>
+		<tr><td><label><input name=sec_conf type=radio> BOD<sub>5</sub> removal &amp; Nitrification &amp; N removal</label>
+		<tr><td><label><input name=sec_conf type=radio> BOD<sub>5</sub> removal &amp; Nitrification &amp; N removal &amp; P removal</label>
+		<tr><td><label><input name=sec_conf type=radio> BOD<sub>5</sub> removal &amp; P removal</label>
 	</table>
 </div>
 

@@ -6,8 +6,9 @@
 	<!--imports-->
 	<script src="geographies.js"></script>
 </head><body>
+
 <h1>General configuration</h1>
-<h2>Geography characteristics</h2>
+<h2>Geography characteristics</h2> <hr>
 
 <ul>
 	<li><span>Country</span> 
@@ -21,30 +22,6 @@
 		</select>
 	</li>
 	<li><span>Population equivalents in terms of BOD<sub>5</sub> loading</span> <input value=1000>
-	<li>
-		<span>Temperature</span>
-		<select> <option>range 1 <option>range 2 <option>[...] </select>
-	</li>
-	<li>
-		<span >Rainfall</span>
-		<select> <option>range 1 <option>range 2 <option>[...] </select>
-	</li>
-	<li>
-		<span >Unit per capita domestic pollution loading </span>
-		<input value=0>
-	</li>
-	<li>
-		<span >Unit pollution loading from industrial sources</span>
-		<input value=0>
-	</li>
-	<li>
-		<span >Water dilution from rainfall, snowmelt</span>
-		<input value=0>
-	</li>
-	<li>
-		????
-		<input value=0>
-	</li>
 </ul>
 
-<button>Save</button>
+<hr><div><button>Save</button></div>

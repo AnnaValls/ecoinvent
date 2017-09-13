@@ -2,9 +2,10 @@
 	<meta charset=utf-8>
 	<title>BOD removal &amp; nitrification</title>
 	<script src="utils.js"></script>
+	<script src="format.js"></script>
 	<script>
 		function init(){
-			//compute_exercise();
+			compute_exercise();
 		}
 	</script>
 	<style>
@@ -16,7 +17,7 @@
 		.invisible{
 			display:none;
 		}
-		.number{
+		.number, [type=number]{
 			text-align:right;
 		}
 		table{
@@ -50,7 +51,6 @@
 		#btn_calculate{
 			display:block;
 			font-size:22px;
-			width:100%;
 			margin:auto;
 		}
 		[onclick]{
@@ -251,48 +251,47 @@
 
 <!--implementation gui-->
 <div><h2>Implementation in Javascript</h2>
+	<div>
+		<button id=btn_calculate onclick=compute_exercise() style>Solve</button>
+	</div>
 	<ol class=flex>
 		<li>
 			<div>Inputs</div>
 			<table style=width:100%>
-				<tr><td>Q               <td><input type=number class=number id=Q value=22700> m<sup>3</sup>/d
-				<tr><td>T               <td><input type=number class=number id=T value=12> ºC
-				<tr><td>BOD             <td><input type=number class=number id=BOD value=140> g/m<sup>3</sup>
-				<tr><td>sBOD            <td><input type=number class=number id=sBOD value=70> g/m<sup>3</sup>
-				<tr><td>COD	            <td><input type=number class=number id=COD value=300> g/m<sup>3</sup>
-				<tr><td>sCOD            <td><input type=number class=number id=sCOD value=132> g/m<sup>3</sup>
-				<tr><td>rbCOD           <td><input type=number class=number id=rbCOD value=80> g/m<sup>3</sup>
-				<tr><td>TSS	            <td><input type=number class=number id=TSS value=70> g/m<sup>3</sup>
-				<tr><td>VSS	            <td><input type=number class=number id=VSS value=60> g/m<sup>3</sup>
-				<tr><td>TKN             <td><input type=number class=number id=TKN value=35> g/m<sup>3</sup>
-				<tr><td>NH<sub>4</sub>-N<td><input type=number class=number id=NH4_N value=25> g/m<sup>3</sup>
-				<tr><td>TP              <td><input type=number class=number id=TP value=6> g/m<sup>3</sup>
-				<tr><td>Alkalinity      <td><input type=number class=number id=Alkalinity value=140> as CaCO<sub>3</sub>
-				<tr><td>bCOD/BOD ratio  <td><input type=number class=number id=bCOD_BOD_ratio value=1.6> &empty;
+				<tr><td>Q               <td><input type=number id=input_Q value=22700> m<sup>3</sup>/d
+				<tr><td>T               <td><input type=number id=input_T value=12> ºC
+				<tr><td>BOD             <td><input type=number id=input_BOD value=140> g/m<sup>3</sup>
+				<tr><td>sBOD            <td><input type=number id=input_sBOD value=70> g/m<sup>3</sup>
+				<tr><td>COD	            <td><input type=number id=input_COD value=300> g/m<sup>3</sup>
+				<tr><td>sCOD            <td><input type=number id=input_sCOD value=132> g/m<sup>3</sup>
+				<tr><td>rbCOD           <td><input type=number id=input_rbCOD value=80> g/m<sup>3</sup>
+				<tr><td>TSS	            <td><input type=number id=input_TSS value=70> g/m<sup>3</sup>
+				<tr><td>VSS	            <td><input type=number id=input_VSS value=60> g/m<sup>3</sup>
+				<tr><td>TKN             <td><input type=number id=input_TKN value=35> g/m<sup>3</sup>
+				<tr><td>NH<sub>4</sub>-N<td><input type=number id=input_NH4_N value=25> g/m<sup>3</sup>
+				<tr><td>TP              <td><input type=number id=input_TP value=6> g/m<sup>3</sup>
+				<tr><td>Alkalinity      <td><input type=number id=input_Alkalinity value=140> as CaCO<sub>3</sub>
+				<tr><td>bCOD/BOD ratio  <td><input type=number id=input_bCOD_BOD_ratio value=1.6> &empty;
 				<tr><td><b>Design parameters</b>
-				<tr><td>SRT                         <td><input type=number class=number id=parameter_SRT value=5> d
-				<tr><td>MLSS<sub>X,TSS</sub>        <td><input type=number class=number id=parameter_MLSS_X_TSS value=3000> g/m<sup>3</sup>
-				<tr><td>z<sub>b</sub> (elevation)   <td><input type=number class=number id=parameter_zb value=500> m 
-				<tr><td>Pressure (at z<sub>b</sub>) <td><input type=number class=number id=parameter_Pressure value=95600> Pa
-				<tr><td>D<sub>f</sub>               <td><input type=number class=number id=parameter_Df value=4.4> m
-				<tr><td>sBOD<sub>e</sub>            <td><input type=number class=number id=parameter_sBODe value=3> g/m<sup>3</sup>
-				<tr><td>TSS<sub>e</sub>             <td><input type=number class=number id=parameter_TSSe value=10> g/m<sup>3</sup>
-				<tr><td>X<sub>R</sub>               <td><input type=number class=number id=parameter_X_R value=8000> g/m<sup>3</sup>
-				<tr><td>Hydraulic application rate  <td><input type=number class=number id=parameter_hydraulic_application_rate value=24> m<sup>3</sup>/m<sup>2</sup>·d
-				<tr><td>Clarifiers                  <td><input type=number class=number id=parameter_clarifiers value=3> clarifiers
-				<tr><td>Clarifier diameter          <td><input type=number class=number id=parameter_clarifier_diameter value=20> m
+				<tr><td>SRT                         <td><input type=number id=parameter_SRT value=5> d
+				<tr><td>MLSS<sub>X,TSS</sub>        <td><input type=number id=parameter_MLSS_X_TSS value=3000> g/m<sup>3</sup>
+				<tr><td>z<sub>b</sub> (elevation)   <td><input type=number id=parameter_zb value=500> m 
+				<tr><td>Pressure (at z<sub>b</sub>) <td><input type=number id=parameter_Pressure value=95600> Pa
+				<tr><td>D<sub>f</sub>               <td><input type=number id=parameter_Df value=4.4> m
+				<tr><td>N<sub>e</sub>               <td><input type=number id=parameter_Ne value=0.50> g/m<sup>3</sup>
+				<tr><td>sBOD<sub>e</sub>            <td><input type=number id=parameter_sBODe value=3> g/m<sup>3</sup>
+				<tr><td>TSS<sub>e</sub>             <td><input type=number id=parameter_TSSe value=10> g/m<sup>3</sup>
+				<tr><td>X<sub>R</sub>               <td><input type=number id=parameter_X_R value=8000> g/m<sup>3</sup>
+				<tr><td>Hydraulic application rate  <td><input type=number id=parameter_hydraulic_application_rate value=24> m<sup>3</sup>/m<sup>2</sup>·d
+				<tr><td>Clarifiers                  <td><input type=number id=parameter_clarifiers value=3> clarifiers
 			</table>
-			</table>
-			<div>
-				<button id=btn_calculate onclick=compute_exercise() style>Solve</button>
-			</div>
 		</li>
 		<li><div>Tabulated parameters</div>
 			<table>
 				<tr><td>Y<sub>H</sub>                  <td class=number>0.45<td>gVSS/gbCOD
 				<tr><td>K<sub>s</sub>                  <td class=number>8<td>g/m<sup>3</sup>
 				<tr><td>&mu;<sub>m</sub>               <td class=number>6<td>d<sup>-1</sup>
-				<tr><td>b<sub>H</sub>                  <td class=number>0.12<td>d<sup>-1</sup>
+				<tr><td>b<sub>H,20</sub>               <td class=number>0.12<td>d<sup>-1</sup>
 				<tr><td>f<sub>d</sub>                  <td class=number>0.15<td>g/g
 				<tr><td>Pa                             <td class=number>10.33<td>m
 				<tr><td>R                              <td class=number>8314<td>J/K·kmol
@@ -312,7 +311,6 @@
 				<tr><td>K<sub>o,AOB</sub>              <td class=number>0.50<td>g/m<sup>3</sup>
 				<tr><td>S<sub>NH<sub>4</sub></sub>     <td class=number>0.50<td>g/m<sup>3</sup>
 				<tr><td>Y<sub>n</sub>                  <td class=number>0.15<td>gVSS/gNOx
-				<tr><td>N<sub>e</sub>                  <td class=number>0.50<td>g/m<sup>3</sup>
 				<tr><td>E                              <td class=number>35<td>%
 			</table>
 		</li>
@@ -334,6 +332,8 @@
 				<tr><td>MLVSS               <td class=number><span id=part_A_MLVSS>?</span><td>g/m<sup>3</sup>
 				<tr><td>BOD loading         <td class=number><span id=part_A_BOD_loading>?</span><td>kg/m<sup>3</sup>·d
 				<tr><td>bCOD removed        <td class=number><span id=part_A_bCOD_removed>?</span><td>kg/d
+				<tr><td>Y<sub>obs,TSS</sub> <td class=number><span id=part_A_Y_obs_TSS>?</span><td>g/g
+				<tr><td>Y<sub>obs,VSS</sub> <td class=number><span id=part_A_Y_obs_VSS>?</span><td>g/g
 				<tr><td>O<sub>2</sub> demand<td class=number><span id=part_A_R0>?  </span><td>kgO<sub>2</sub>/h
 				<tr><td>P<sub>b</sub>       <td class=number><span id=part_A_Pb>?  </span><td>m
 				<tr><td>C<sub>T</sub>       <td class=number><span id=part_C_T>?  </span><td>mg/L
@@ -362,9 +362,10 @@
 				<tr><td>BOD effluent            <td class=number><span id=part_B_BOD_eff>?</span><td>g/m<sup>3</sup>
 				<tr><th colspan=3>
 				<tr><th colspan=3>Secondary clarifier sizing
-				<tr><td>R                       <td class=number><span id=part_C_R_ratio>?</span><td>&empty;
+				<tr><td>RAS                     <td class=number><span id=part_C_RAS>?</span><td>&empty;
 				<tr><td>Area                    <td class=number><span id=part_C_Area>?</span><td>m<sup>2</sup>
 				<tr><td>Area per clarifier      <td class=number><span id=part_C_area_per_clarifier>?</span><td>m<sup>2</sup>/clarifier
+				<tr><td>Clarifier diameter      <td class=number><span id=part_C_clarifier_diameter>?</span><td>m
 				<tr><td>Area of clarifiers      <td class=number><span id=part_C_area_of_clarifiers>?</span><td>m<sup>2</sup>
 				<tr><td>Solids loading          <td class=number><span id=part_C_Solids_loading>?</span><td>kg MLSS/m<sup>2</sup>·h
 			</table>
@@ -376,28 +377,28 @@
 <script>
 	function compute_exercise(){
 		//get inputs
-			var BOD            = parseFloat(document.querySelector('#BOD').value);
-			var sBOD           = parseFloat(document.querySelector('#sBOD').value);
-			var COD            = parseFloat(document.querySelector('#COD').value);
-			var sCOD           = parseFloat(document.querySelector('#sCOD').value);
-			var rbCOD          = parseFloat(document.querySelector('#rbCOD').value);
-			var TSS            = parseFloat(document.querySelector('#TSS').value);
-			var VSS            = parseFloat(document.querySelector('#VSS').value);
-			var TKN            = parseFloat(document.querySelector('#TKN').value);
-			var NH4_N          = parseFloat(document.querySelector('#NH4_N').value);
-			var TP             = parseFloat(document.querySelector('#TP').value);
-			var Alkalinity     = parseFloat(document.querySelector('#Alkalinity').value);
-			var bCOD_BOD_ratio = parseFloat(document.querySelector('#bCOD_BOD_ratio').value);
-			var Q              = parseFloat(document.querySelector('#Q').value);
-			var T              = parseFloat(document.querySelector('#T').value);
+			var BOD            = getInput('input_BOD');
+			var sBOD           = getInput('input_sBOD');
+			var COD            = getInput('input_COD');
+			var sCOD           = getInput('input_sCOD');
+			var rbCOD          = getInput('input_rbCOD');
+			var TSS            = getInput('input_TSS');
+			var VSS            = getInput('input_VSS');
+			var TKN            = getInput('input_TKN');
+			var NH4_N          = getInput('input_NH4_N');
+			var TP             = getInput('input_TP');
+			var Alkalinity     = getInput('input_Alkalinity');
+			var bCOD_BOD_ratio = getInput('input_bCOD_BOD_ratio');
+			var Q              = getInput('input_Q');
+			var T              = getInput('input_T');
 		//end inputs
 
 		//design parameters
-			var SRT        = parseFloat(document.querySelector('#parameter_SRT').value); //5
-			var MLSS_X_TSS = parseFloat(document.querySelector('#parameter_MLSS_X_TSS').value); //3000
-			var zb         = parseFloat(document.querySelector('#parameter_zb').value); //500
-			var Pressure   = parseFloat(document.querySelector('#parameter_Pressure').value); //95600
-			var Df         = parseFloat(document.querySelector('#parameter_Df').value); //4.4 = 4.9m-0.5m, from design conditions and assumptions (depth of diffusers in basin)
+			var SRT        = getInput('parameter_SRT'); //5
+			var MLSS_X_TSS = getInput('parameter_MLSS_X_TSS'); //3000
+			var zb         = getInput('parameter_zb'); //500
+			var Pressure   = getInput('parameter_Pressure'); //95600
+			var Df         = getInput('parameter_Df'); //4.4 = 4.9m-0.5m, from design conditions and assumptions (depth of diffusers in basin)
 
 		//tabulated parameters
 			var Y = 0.45;
@@ -463,26 +464,28 @@
 		//end part A
 
 		//show results for part A
-			show_var('part_A_bCOD',bCOD);
-			show_var('part_A_nbCOD',nbCOD);
-			show_var('part_A_nbsCODe',nbsCODe);
-			show_var('part_A_nbVSS',nbVSS);
-			show_var('part_A_iTSS',iTSS);
-			show_var('part_A_P_X_bio',P_X_bio);
-			show_var('part_A_P_X_VSS',P_X_VSS);
-			show_var('part_A_P_X_TSS',P_X_TSS);
-			show_var('part_A_X_VSS_V',X_VSS_V);
-			show_var('part_A_X_TSS_V',X_TSS_V);
-			show_var('part_A_V',V);
-			show_var('part_A_tau',tau);
-			show_var('part_A_MLVSS',MLVSS);
-			show_var('part_A_BOD_loading',BOD_loading);
-			show_var('part_A_bCOD_removed',bCOD_removed);
-			show_var('part_A_R0',R0);
-			show_var('part_A_Pb',Pb);
-			show_var('part_C_T',C_T);
-			show_var('part_A_SOTR',SOTR);
-			show_var('part_A_air_flowrate',air_flowrate);
+			showResult('part_A_bCOD',bCOD);
+			showResult('part_A_nbCOD',nbCOD);
+			showResult('part_A_nbsCODe',nbsCODe);
+			showResult('part_A_nbVSS',nbVSS);
+			showResult('part_A_iTSS',iTSS);
+			showResult('part_A_P_X_bio',P_X_bio);
+			showResult('part_A_P_X_VSS',P_X_VSS);
+			showResult('part_A_P_X_TSS',P_X_TSS);
+			showResult('part_A_X_VSS_V',X_VSS_V);
+			showResult('part_A_X_TSS_V',X_TSS_V);
+			showResult('part_A_V',V);
+			showResult('part_A_tau',tau);
+			showResult('part_A_MLVSS',MLVSS);
+			showResult('part_A_BOD_loading',BOD_loading);
+			showResult('part_A_bCOD_removed',bCOD_removed);
+			showResult('part_A_Y_obs_TSS',Y_obs_TSS);
+			showResult('part_A_Y_obs_VSS',Y_obs_VSS);
+			showResult('part_A_R0',R0);
+			showResult('part_A_Pb',Pb);
+			showResult('part_C_T',C_T);
+			showResult('part_A_SOTR',SOTR);
+			showResult('part_A_air_flowrate',air_flowrate);
 		//end results part A
 
 		//9: part B NITRIFICATION
@@ -493,13 +496,13 @@
 			var K_o_AOB = 0.50 //table 8-14 at 20ºC
 			var S_NH4 = 0.50 //g/m3 at effluent?
 			var Yn = 0.15; //Table 8-14
-			var Ne = 0.50; //N at effluent?
 			var alpha = 0.65;
 			var beta = 0.95;
 
 			//design parameters
-			var sBODe = parseFloat(document.querySelector('#parameter_sBODe').value); //assume 3
-			var TSSe  = parseFloat(document.querySelector('#parameter_TSSe').value); //assume 10 g/m3
+			var Ne    = getInput('parameter_Ne'); //assume 0.50; N at effluent (g/m3)
+			var sBODe = getInput('parameter_sBODe'); //assume 3
+			var TSSe  = getInput('parameter_TSSe'); //assume 10 g/m3
 
 			//9 start nitrification
 			var mu_max_AOB_T = mu_max_AOB * Math.pow(1.072,T-20);
@@ -594,51 +597,55 @@
 		//end part B
 
 		//show results for part B
-			show_var('part_B_mu_AOB',mu_AOB);
-			show_var('part_B_SRT_theoretical',SRT_theoretical);
-			show_var('part_B_SRT_design',SRT_design);
-			show_var('part_B_NOx',NOx);
-			show_var('part_B_P_X_bio_VSS',P_X_bio_VSS);
-			show_var('part_B_P_X_VSS',P_X_VSS);
-			show_var('part_B_P_X_TSS',P_X_TSS);
-			show_var('part_B_X_VSS_V',X_VSS_V);
-			show_var('part_B_X_TSS_V',X_TSS_V);
-			show_var('part_B_V',V);
-			show_var('part_B_tau',tau);
-			show_var('part_B_MLVSS',MLVSS);
-			show_var('part_B_BOD_loading',BOD_loading);
-			show_var('part_B_bCOD_removed',bCOD_removed);
-			show_var('part_B_R0',R0);
-			show_var('part_B_SOTR',SOTR);
-			show_var('part_B_air_flowrate',air_flowrate);
-			show_var('part_B_alkalinity_to_be_added',alkalinity_to_be_added);
-			show_var('part_B_BOD_eff',BOD_eff);
+			showResult('part_B_mu_AOB',mu_AOB);
+			showResult('part_B_SRT_theoretical',SRT_theoretical);
+			showResult('part_B_SRT_design',SRT_design);
+			showResult('part_B_NOx',NOx);
+			showResult('part_B_P_X_bio_VSS',P_X_bio_VSS);
+			showResult('part_B_P_X_VSS',P_X_VSS);
+			showResult('part_B_P_X_TSS',P_X_TSS);
+			showResult('part_B_X_VSS_V',X_VSS_V);
+			showResult('part_B_X_TSS_V',X_TSS_V);
+			showResult('part_B_V',V);
+			showResult('part_B_tau',tau);
+			showResult('part_B_MLVSS',MLVSS);
+			showResult('part_B_BOD_loading',BOD_loading);
+			showResult('part_B_bCOD_removed',bCOD_removed);
+			showResult('part_B_R0',R0);
+			showResult('part_B_SOTR',SOTR);
+			showResult('part_B_air_flowrate',air_flowrate);
+			showResult('part_B_alkalinity_to_be_added',alkalinity_to_be_added);
+			showResult('part_B_BOD_eff',BOD_eff);
 		//end results part B
 
 		//21: part C SECONDARY CLARIFIER SIZING (for both bod removal and nitrification)
-			var hydraulic_application_rate = parseFloat(document.querySelector('#parameter_hydraulic_application_rate').value); //assume 24 m3/m2·d (from table 8-34, page 890, range 16-28)
-			var X_R                        = parseFloat(document.querySelector('#parameter_X_R').value); //assume 8000 g/m3
-			var clarifiers                 = parseFloat(document.querySelector('#parameter_clarifiers').value); //assume 3
-			var clarifier_diameter         = parseFloat(document.querySelector('#parameter_clarifier_diameter').value); //assume 20 m
+			var hydraulic_application_rate = getInput('parameter_hydraulic_application_rate'); //assume 24 m3/m2·d (from table 8-34, page 890, range 16-28)
+			var X_R                        = getInput('parameter_X_R'); //assume 8000 g/m3
+			var clarifiers                 = getInput('parameter_clarifiers'); //assume 3
 
-			var R = MLSS_X_TSS/(X_R - MLSS_X_TSS); //calc return sludge recycle ratio
+			var RAS = MLSS_X_TSS/(X_R - MLSS_X_TSS); //calc return sludge recycle ratio
 			var Area = Q/hydraulic_application_rate; //m2
 			var area_per_clarifier = Area/clarifiers; //m2/clarifier
+			var clarifier_diameter = Math.sqrt(area_per_clarifier*4/Math.PI); //meters
 			var area_of_clarifiers = Math.PI*Math.pow(clarifier_diameter/2,2)*clarifiers; //m2
-			var Solids_loading = (1+R)*Q*MLSS_X_TSS/1000/(area_of_clarifiers*24); //kg MLSS/m2·h
+			var Solids_loading = (1+RAS)*Q*MLSS_X_TSS/1000/(area_of_clarifiers*24); //kg MLSS/m2·h
 		//end part C
 
 		//show results part C
-			show_var('part_C_R_ratio',R);
-			show_var('part_C_Area',Area);
-			show_var('part_C_area_per_clarifier',area_per_clarifier);
-			show_var('part_C_area_of_clarifiers',area_of_clarifiers);
-			show_var('part_C_Solids_loading',Solids_loading);
+			showResult('part_C_RAS',RAS);
+			showResult('part_C_Area',Area);
+			showResult('part_C_area_per_clarifier',area_per_clarifier);
+			showResult('part_C_clarifier_diameter',clarifier_diameter);
+			showResult('part_C_area_of_clarifiers',area_of_clarifiers);
+			showResult('part_C_Solids_loading',Solids_loading);
 		//end results part C
 	};
-
-	//util: show a result in the gui
-	function show_var(id,value){
-		document.querySelector("#"+id).innerHTML=value.toString().substring(0,7);
-	}
 </script>
+
+<div>
+	To discuss:
+	<ul>
+		<li>Add a warning if Solids loading is out of the acceptable range (4-6 kg MLSS/m<sup>2</sup>·h)
+	</ul>
+</div>
+
