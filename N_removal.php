@@ -244,8 +244,9 @@
 			console.log(" b1: "+b1);
 			var SDNR_b = b0 + b1*Math.log(FM_b); //gNO3-N/gMLVSS,biomass·d
 		}else{
-			var b0='-';//not used
-			var b1='-';//not used
+			console.log('F/M_b<0.50 => equation for SDNR_b = 0.24*F/M_b');
+			var b0=0;//not used
+			var b1=0;//not used
 			var SDNR_b = 0.24*FM_b;
 		}
 

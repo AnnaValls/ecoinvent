@@ -33,8 +33,10 @@
 		<tr><td><label><input name=sec_conf type=radio> BOD<sub>5</sub> removal</label>
 		<tr><td><label><input name=sec_conf type=radio> BOD<sub>5</sub> removal &amp; Nitrification</label>
 		<tr><td><label><input name=sec_conf type=radio> BOD<sub>5</sub> removal &amp; Nitrification &amp; N removal</label>
-		<tr><td><label><input name=sec_conf type=radio> BOD<sub>5</sub> removal &amp; Nitrification &amp; N removal &amp; P removal</label>
-		<tr><td><label><input name=sec_conf type=radio> BOD<sub>5</sub> removal &amp; P removal</label>
+		<tr><td><label><input name=sec_conf type=radio> BOD<sub>5</sub> removal &amp; Nitrification &amp; N removal &amp; BioP removal</label>
+		<tr><td><label><input name=sec_conf type=radio> BOD<sub>5</sub> removal &amp; Nitrification &amp; N removal &amp; ChemP removal</label>
+		<tr><td><label><input name=sec_conf type=radio> BOD<sub>5</sub> removal &amp; BioP removal</label>
+		<tr><td><label><input name=sec_conf type=radio> BOD<sub>5</sub> removal &amp; ChemP removal</label>
 	</table>
 </div>
 
