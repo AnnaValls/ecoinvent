@@ -144,8 +144,8 @@
 				<tr><td>Y<sub>H</sub> <td class=number>0.45<td>%
 				<tr><td>&tau;         <td class=number>2.5<td>h
 				<tr><td>&theta;       <td class=number>1.026<td> &empty;
-				<tr><td> Alkalinity to<br>maintain<br>pH ~ 7
-				                      <td class=number>70<td> g/m<sup>3</sup> as CaCO<sub>3</sub>
+				<tr><td>Alkalinity to<br>maintain<br>pH ~ 7
+					<td class=number>70<td> g/m<sup>3</sup> as CaCO<sub>3</sub>
 				</tr>
 			</table>
 		</li><li><div>Results</div>

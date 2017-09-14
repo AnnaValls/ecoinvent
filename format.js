@@ -3,10 +3,10 @@ function format(number,digits){
 	digits=digits||3;
 
 	//less digits for big numbers
-	if(number>10000){
+	if(number>1000){
 		digits=0;
 	}
-	else if(number>1000){
+	else if(number>100){
 		digits=1;
 	}
 
