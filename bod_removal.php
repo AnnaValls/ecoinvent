@@ -63,7 +63,7 @@
 	</script>
 </head><body onload="init()">
 
-<h1>Metcalf exercise 8-2 (p. 707) (fragment) implementation example</h1>
+<h1>Metcalf 4th ed. exercise 8-2 (p. 707) (fragment) implementation example</h1>
 
 <!--Enunciat-->
 <h2 onclick=document.getElementById('enunciat').classList.toggle('invisible')>
@@ -200,12 +200,11 @@
 			</ol>
 		</li>
 	</ol>
-</div>
-
-<hr>
+</div><hr>
 
 <!--IMPLEMENTATION-->
 <h2>Implementation in Javascript</h2>
+
 <ol class=flex>
 	<li>
 		Inputs

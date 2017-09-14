@@ -3,13 +3,14 @@ function format(number,digits){
 	digits=digits||3;
 
 	//less digits for big numbers
-	if(number>1000){
+	if(number>10000){
 		digits=0;
 	}
-	else if(number>100){
+	else if(number>1000){
 		digits=1;
 	}
 
+	//format number
 	var str=new Intl.NumberFormat('en-EN',{maximumFractionDigits:digits}).format(number);
 	return str;
 }

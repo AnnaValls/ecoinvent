@@ -68,7 +68,7 @@
 <!--title-->
 <div>
 	<h1>Metcalf &amp; Eddy, Wastewater Engineering, 5th ed, 2014</h1>
-	<h2>Implementation of Example 8-3 (p. 756)</h2>
+	<h2>Example 8-3 (p. 756)</h2>
 	<h3 onclick=document.getElementById('enunciat').classList.toggle('invisible')>
 		Complete-Mix Activated Sludge for BOD Removal with Nitrification
 	</h3><hr>
@@ -282,13 +282,13 @@
 				<tr><td>sBOD<sub>e</sub>            <td><input type=number id=parameter_sBODe value=3> g/m<sup>3</sup>
 				<tr><td>TSS<sub>e</sub>             <td><input type=number id=parameter_TSSe value=10> g/m<sup>3</sup>
 				<tr><td>X<sub>R</sub>               <td><input type=number id=parameter_X_R value=8000> g/m<sup>3</sup>
-				<tr><td>Hydraulic application rate  <td><input type=number id=parameter_hydraulic_application_rate value=24> m<sup>3</sup>/m<sup>2</sup>·d
+				<tr><td>Hydraulic application rate (16-28) <td><input type=number id=parameter_hydraulic_application_rate value=24> m<sup>3</sup>/m<sup>2</sup>·d
 				<tr><td>Clarifiers                  <td><input type=number id=parameter_clarifiers value=3> clarifiers
 			</table>
 		</li>
 		<li><div>Tabulated parameters</div>
 			<table>
-				<tr><td>Y<sub>H</sub>                  <td class=number>0.45<td>gVSS/gbCOD
+				<tr><td>Y<sub>H</sub>                  <td class=number>0.45<td>g VSS/g bCOD
 				<tr><td>K<sub>s</sub>                  <td class=number>8<td>g/m<sup>3</sup>
 				<tr><td>&mu;<sub>m</sub>               <td class=number>6<td>d<sup>-1</sup>
 				<tr><td>b<sub>H,20</sub>               <td class=number>0.12<td>d<sup>-1</sup>
@@ -310,7 +310,7 @@
 				<tr><td>K<sub>NH<sub>4</sub></sub>     <td class=number>0.50<td>g/m<sup>3</sup>
 				<tr><td>K<sub>o,AOB</sub>              <td class=number>0.50<td>g/m<sup>3</sup>
 				<tr><td>S<sub>NH<sub>4</sub></sub>     <td class=number>0.50<td>g/m<sup>3</sup>
-				<tr><td>Y<sub>n</sub>                  <td class=number>0.15<td>gVSS/gNOx
+				<tr><td>Y<sub>n</sub>                  <td class=number>0.15<td>g VSS/g NOx
 				<tr><td>E                              <td class=number>35<td>%
 			</table>
 		</li>
@@ -322,21 +322,22 @@
 				<tr><td>nbsCODe             <td class=number><span id=part_A_nbsCODe>?</span><td>g/m<sup>3</sup>
 				<tr><td>nbVSS               <td class=number><span id=part_A_nbVSS>?</span><td>g/m<sup>3</sup>
 				<tr><td>iTSS                <td class=number><span id=part_A_iTSS>?</span><td>g/m<sup>3</sup>
-				<tr><td>P<sub>X,Bio</sub>   <td class=number><span id=part_A_P_X_bio>?</span><td>kgVSS/d
+				<tr><td>P<sub>X,Bio</sub>   <td class=number><span id=part_A_P_X_bio>?</span><td>kg VSS/d
 				<tr><td>P<sub>X,VSS</sub>   <td class=number><span id=part_A_P_X_VSS>?</span><td>kg/d
 				<tr><td>P<sub>X,TSS</sub>   <td class=number><span id=part_A_P_X_TSS>?</span><td>kg/d
 				<tr><td>X<sub>VSS</sub>V    <td class=number><span id=part_A_X_VSS_V>?</span><td>kg
 				<tr><td>X<sub>TSS</sub>V    <td class=number><span id=part_A_X_TSS_V>?</span><td>kg
-				<tr><td>V                   <td class=number><span id=part_A_V>?</span><td>m<sup>3</sup>
+				<tr><td>V<sub>aer tank</sub><td class=number><span id=part_A_V>?</span><td>m<sup>3</sup>
 				<tr><td>&tau;               <td class=number><span id=part_A_tau>?</span><td>h
 				<tr><td>MLVSS               <td class=number><span id=part_A_MLVSS>?</span><td>g/m<sup>3</sup>
+				<tr><td>F/M                 <td class=number><span id=part_A_FM>?</span><td>kg/kg·d
 				<tr><td>BOD loading         <td class=number><span id=part_A_BOD_loading>?</span><td>kg/m<sup>3</sup>·d
 				<tr><td>bCOD removed        <td class=number><span id=part_A_bCOD_removed>?</span><td>kg/d
-				<tr><td>Y<sub>obs,TSS</sub> <td class=number><span id=part_A_Y_obs_TSS>?</span><td>g/g
-				<tr><td>Y<sub>obs,VSS</sub> <td class=number><span id=part_A_Y_obs_VSS>?</span><td>g/g
-				<tr><td>O<sub>2</sub> demand<td class=number><span id=part_A_R0>?  </span><td>kgO<sub>2</sub>/h
+				<tr><td>Y<sub>obs,TSS</sub> <td class=number><span id=part_A_Y_obs_TSS>?</span><td>g TSS/g BOD
+				<tr><td>Y<sub>obs,VSS</sub> <td class=number><span id=part_A_Y_obs_VSS>?</span><td>g VSS/g BOD
+				<tr><td>O<sub>2</sub> demand<td class=number><span id=part_A_R0>?  </span><td>kg O<sub>2</sub>/h
 				<tr><td>P<sub>b</sub>       <td class=number><span id=part_A_Pb>?  </span><td>m
-				<tr><td>C<sub>T</sub>       <td class=number><span id=part_C_T>?  </span><td>mg/L
+				<tr><td>C<sub>T</sub>       <td class=number><span id=part_C_T>?  </span><td>mg O<sub>2</sub>/L
 				<tr><td>SOTR                <td class=number><span id=part_A_SOTR>?</span><td>kg/h
 				<tr><td>Air flowrate        <td class=number><span id=part_A_air_flowrate>?</span><td>m<sup>3</sup>/min
 				<tr><th colspan=3>
@@ -345,28 +346,30 @@
 				<tr><td>SRT theoretical         <td class=number><span id=part_B_SRT_theoretical>?</span><td>d
 				<tr><td>SRT design              <td class=number><span id=part_B_SRT_design>?</span><td>d
 				<tr><td>NO<sub>x</sub>          <td class=number><span id=part_B_NOx>?</span><td>g/m<sup>3</sup>
-				<tr><td>P<sub>X,Bio,VSS</sub>   <td class=number><span id=part_B_P_X_bio_VSS>?</span><td>kgVSS/d
+				<tr><td>P<sub>X,Bio,VSS</sub>   <td class=number><span id=part_B_P_X_bio_VSS>?</span><td>kg VSS/d
 				<tr><td>P<sub>X,VSS</sub>       <td class=number><span id=part_B_P_X_VSS>?</span><td>kg/d
 				<tr><td>P<sub>X,TSS</sub>       <td class=number><span id=part_B_P_X_TSS>?</span><td>kg/d
 				<tr><td>X<sub>VSS</sub>V        <td class=number><span id=part_B_X_VSS_V>?</span><td>kg
 				<tr><td>X<sub>TSS</sub>V        <td class=number><span id=part_B_X_TSS_V>?</span><td>kg
-				<tr><td>V                       <td class=number><span id=part_B_V>?</span><td>m<sup>3</sup>
+				<tr><td>V<sub>aer tank</sub>    <td class=number><span id=part_B_V>?</span><td>m<sup>3</sup>
 				<tr><td>&tau;                   <td class=number><span id=part_B_tau>?</span><td>h
 				<tr><td>MLVSS                   <td class=number><span id=part_B_MLVSS>?</span><td>g/m<sup>3</sup>
+				<tr><td>F/M                     <td class=number><span id=part_B_FM>?</span><td>kg/kg·d
 				<tr><td>BOD loading             <td class=number><span id=part_B_BOD_loading>?</span><td>kg/m<sup>3</sup>·d
 				<tr><td>bCOD removed            <td class=number><span id=part_B_bCOD_removed>?</span><td>kg/d
-				<tr><td>O<sub>2</sub> demand    <td class=number><span id=part_B_R0>?  </span><td>kgO<sub>2</sub>/h
+				<tr><td>Y<sub>obs,TSS</sub>     <td class=number><span id=part_B_Y_obs_TSS>?</span><td>g TSS/g BOD
+				<tr><td>Y<sub>obs,VSS</sub>     <td class=number><span id=part_B_Y_obs_VSS>?</span><td>g VSS/g BOD
+				<tr><td>O<sub>2</sub> demand    <td class=number><span id=part_B_R0>?  </span><td>kg O<sub>2</sub>/h
 				<tr><td>SOTR                    <td class=number><span id=part_B_SOTR>?</span><td>kg/h
 				<tr><td>Air flowrate            <td class=number><span id=part_B_air_flowrate>?</span><td>m<sup>3</sup>/min
 				<tr><td>NaHCO<sub>3</sub> added <td class=number><span id=part_B_alkalinity_to_be_added>?</span><td>kg/d as NaHCO<sub>3</sub>
-				<tr><td>BOD effluent            <td class=number><span id=part_B_BOD_eff>?</span><td>g/m<sup>3</sup>
+				<tr><td>BOD<sub>e</sub> estimate<td class=number><span id=part_B_BOD_eff>?</span><td>g/m<sup>3</sup>
 				<tr><th colspan=3>
 				<tr><th colspan=3>Secondary clarifier sizing
 				<tr><td>RAS                     <td class=number><span id=part_C_RAS>?</span><td>&empty;
 				<tr><td>Area                    <td class=number><span id=part_C_Area>?</span><td>m<sup>2</sup>
 				<tr><td>Area per clarifier      <td class=number><span id=part_C_area_per_clarifier>?</span><td>m<sup>2</sup>/clarifier
 				<tr><td>Clarifier diameter      <td class=number><span id=part_C_clarifier_diameter>?</span><td>m
-				<tr><td>Area of clarifiers      <td class=number><span id=part_C_area_of_clarifiers>?</span><td>m<sup>2</sup>
 				<tr><td>Solids loading          <td class=number><span id=part_C_Solids_loading>?</span><td>kg MLSS/m<sup>2</sup>·h
 			</table>
 		</li>
@@ -417,8 +420,8 @@
 			var C_T = air_solubility_of_oxygen(T,0);//elevation=0 //Table E-1, Appendix E, implemented in "utils.js"
 			var de=0.40;//8.b mid-depth correction factor (range: 0.25-0.45)
 			var C_L=2.0;//DO in aeration basin (mg/L)
-			var SF =1.5 //peak to average tkn load (design assumptions)
 			var E = 0.35 //O2 transfer efficiency
+			var SF =1.5 //peak to average tkn load (design assumptions)
 		//end
 
 		/*compute values*/
@@ -451,14 +454,14 @@
 			var bCOD_removed = Q*(S0-S)/1000;
 			var Y_obs_TSS = P_X_TSS/bCOD_removed*bCOD_BOD_ratio;
 			var Y_obs_VSS = P_X_TSS/bCOD_removed*(X_VSS_V/X_TSS_V)*bCOD_BOD_ratio;
-			var NOx=0;
 			//7
-			var R0 = (Q*(S0-S)/1000 -1.42*P_X_bio)/24 + 4.57*Q*NOx;
+			var NOx=0;
+			var R0 = (Q*(S0-S)/1000 -1.42*P_X_bio)/24 + 0; //NOx is zero here
 			//8
-			var Pb = Pa*Math.exp(-g*M*(zb-0)/(R*(273.15+T)));
+			var Pb = Pa*Math.exp(-g*M*(zb-0)/(R*(273.15+T))); //pressure at plant site
 			var C_inf_20 = C_s_20 * (1+de*Df/Pa);
 			var OTRf = R0;
-			var SOTR = (OTRf/alpha/F)*(C_inf_20/(beta*C_T/C_s_20*Pb/Pa*C_inf_20-C_L))*(Math.pow(1.024,20-T));
+			var SOTR = (OTRf/(alpha*F))*(C_inf_20/(beta*C_T/C_s_20*Pb/Pa*C_inf_20-C_L))*(Math.pow(1.024,20-T));
 			var kg_O2_per_m3_air = density_of_air(T,Pressure)*0.2318 //oxygen in air by weight is 23.18%, by volume is 20.99%
 			var air_flowrate = SOTR/(E*60*kg_O2_per_m3_air);
 		//end part A
@@ -477,6 +480,7 @@
 			showResult('part_A_V',V);
 			showResult('part_A_tau',tau);
 			showResult('part_A_MLVSS',MLVSS);
+			showResult('part_A_FM',FM);
 			showResult('part_A_BOD_loading',BOD_loading);
 			showResult('part_A_bCOD_removed',bCOD_removed);
 			showResult('part_A_Y_obs_TSS',Y_obs_TSS);
@@ -568,7 +572,7 @@
 			var tau = V/Q*24;
 			var MLVSS = X_VSS_V/X_TSS_V * MLSS_X_TSS;
 			//15
-			var FM = Q*BOD/MLVSS/V
+			var FM = Q*BOD/MLVSS/V;
 			var BOD_loading = Q*BOD/V/1000;
 			//16
 			var bCOD_removed = Q*(S0-S)/1000;
@@ -609,8 +613,11 @@
 			showResult('part_B_V',V);
 			showResult('part_B_tau',tau);
 			showResult('part_B_MLVSS',MLVSS);
+			showResult('part_B_FM',FM);
 			showResult('part_B_BOD_loading',BOD_loading);
 			showResult('part_B_bCOD_removed',bCOD_removed);
+			showResult('part_B_Y_obs_TSS',Y_obs_TSS);
+			showResult('part_B_Y_obs_VSS',Y_obs_VSS);
 			showResult('part_B_R0',R0);
 			showResult('part_B_SOTR',SOTR);
 			showResult('part_B_air_flowrate',air_flowrate);
@@ -622,13 +629,11 @@
 			var hydraulic_application_rate = getInput('parameter_hydraulic_application_rate'); //assume 24 m3/m2·d (from table 8-34, page 890, range 16-28)
 			var X_R                        = getInput('parameter_X_R'); //assume 8000 g/m3
 			var clarifiers                 = getInput('parameter_clarifiers'); //assume 3
-
 			var RAS = MLSS_X_TSS/(X_R - MLSS_X_TSS); //calc return sludge recycle ratio
 			var Area = Q/hydraulic_application_rate; //m2
 			var area_per_clarifier = Area/clarifiers; //m2/clarifier
 			var clarifier_diameter = Math.sqrt(area_per_clarifier*4/Math.PI); //meters
-			var area_of_clarifiers = Math.PI*Math.pow(clarifier_diameter/2,2)*clarifiers; //m2
-			var Solids_loading = (1+RAS)*Q*MLSS_X_TSS/1000/(area_of_clarifiers*24); //kg MLSS/m2·h
+			var Solids_loading = (1+RAS)*Q*MLSS_X_TSS/1000/(Area*24); //kg MLSS/m2·h
 		//end part C
 
 		//show results part C
@@ -636,16 +641,15 @@
 			showResult('part_C_Area',Area);
 			showResult('part_C_area_per_clarifier',area_per_clarifier);
 			showResult('part_C_clarifier_diameter',clarifier_diameter);
-			showResult('part_C_area_of_clarifiers',area_of_clarifiers);
 			showResult('part_C_Solids_loading',Solids_loading);
 		//end results part C
 	};
 </script>
 
 <div>
-	To discuss:
+	To do:
 	<ul>
-		<li>Add a warning if Solids loading is out of the acceptable range (4-6 kg MLSS/m<sup>2</sup>·h)
+		<li>Warning if Solids loading is out of range (4-6 kg MLSS/m<sup>2</sup>·h)
 	</ul>
 </div>
 

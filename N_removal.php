@@ -49,6 +49,7 @@
 		}
 		#btn_calculate{
 			display:block;
+			margin:auto;
 			font-size:22px;
 		}
 		[onclick]{
@@ -66,7 +67,7 @@
 <!--title-->
 <div>
 	<h1>Metcalf &amp; Eddy, Wastewater Engineering, 5th ed, 2014</h1>
-	<h2>Implementation of Example 8-7 (p. 810)</h2>
+	<h2>Example 8-7 (p. 810)</h2>
 	<h3 onclick=document.getElementById('enunciat').classList.toggle('invisible')>
 		Preanoxic Denitrification Process Design for MLE Process
 	</h3><hr>
@@ -92,19 +93,6 @@
 			<tr><td>TP              <td class=number>6
 			<tr><td>Alkalinity      <td class=number>140
 		</table>
-		<table>
-			<tr><th>Constituent<th>Unit<th>Value
-			<tr><td>Influent flowrate     <td>m<sup>3</sup>/d<td class=number>22700
-			<tr><td>Temperature           <td>ºC<td class=number>12
-			<tr><td>MLSS                  <td>g/m<sup>3</sup><td class=number>3000
-			<tr><td>MLVSS                 <td>g/m<sup>3</sup><td class=number>2370
-			<tr><td>Aerobic SRT           <td>d<td class=number>21
-			<tr><td>Aeration basin volume <td>m<sup>3</sup><td class=number>13410
-			<tr><td>Aerobic               <td>h<td class=number>14.2
-			<tr><td>Anoxic mixing energy  <td>kW/10<sup>3</sup>m<sup>3</sup><td class=number>5
-			<tr><td>RAS ratio             <td>&empty;<td class=number>0.6
-			<tr><td>R<sub>o</sub>         <td>kg O<sub>2</sub>/h<td class=number>275.9
-		</table>
 	</div>
 	<div>2. Assumptions</div>
 	<ul>
@@ -114,7 +102,7 @@
 	</ul>
 </div><hr>
 
-<!--implementation gui-->
+<!--gui-->
 <div><h2>Implementation in Javascript</h2>
 	<div> <button id=btn_calculate onclick=compute_exercise() style>Solve</button> </div>
 	<ol class=flex>
@@ -133,7 +121,7 @@
 				<tr><td>MLVSS                 <td><span class=number>2370  g/m<sup>3</sup>                
 				<tr><td>Aerobic SRT           <td><span class=number>21    d                              
 				<tr><td>Aeration basin volume <td><span class=number>13410 m<sup>3</sup>                  
-				<tr><td>Aerobic               <td><span class=number>14.2  h                              
+				<tr><td>&tau;<sub>aerobic</sub><td><span class=number>14.2  h                              
 				<tr><td>Anoxic mixing energy  <td><span class=number>5     kW/10<sup>3</sup>m<sup>3</sup> 
 				<tr><td>RAS ratio             <td><span class=number>0.6   &empty;                        
 				<tr><td>R<sub>o</sub>         <td><span class=number>275.9 kg O<sub>2</sub>/h             
@@ -141,9 +129,8 @@
 			</table>
 		</li><li><div>Tabulated parameters</div>
 			<table>
-				<tr><td>Y<sub>H</sub> <td class=number>0.45<td>%
-				<tr><td>&tau;         <td class=number>2.5<td>h
-				<tr><td>&theta;       <td class=number>1.026<td> &empty;
+				<tr><td>Y<sub>H</sub>         <td class=number>0.45<td>g VSS/g bCOD
+				<tr><td>&theta;<sub>SDNR</sub><td class=number>1.026<td> &empty;
 				<tr><td>Alkalinity to<br>maintain<br>pH ~ 7
 					<td class=number>70<td> g/m<sup>3</sup> as CaCO<sub>3</sub>
 				</tr>
@@ -154,19 +141,17 @@
 				<tr><td>IR                        <td class=number><span id=result_IR>?</span><td>&empty;
 				<tr><td>Flowrate to anoxic tank   <td class=number><span id=result_Flowrate_to_anoxic_tank>?</span><td>m3/d
 				<tr><td>NO<sub>x</sub> feed       <td class=number><span id=result_NOx_feed>?</span><td>g/d
+				<tr><td>&tau;                     <td class=number><span id=result_tau>?</span><td>d
 				<tr><td>V<sub>nox</sub>           <td class=number><span id=result_V_nox>?</span><td>m<sup>3</sup>
 				<tr><td>F/M<sub>b</sub>           <td class=number><span id=result_FM_b>?</span><td>g/g·d
 				<tr><td>Fraction of rbCOD         <td class=number><span id=result_Fraction_of_rbCOD>?</span><td>%
 				<tr><td>b<sub>0</sub> (only if F/M<sub>b</sub>&gt;0.5) <td class=number><span id=result_b0>-</span><td>g/g·d
 				<tr><td>b<sub>1</sub> (only if F/M<sub>b</sub>&gt;0.5) <td class=number><span id=result_b1>-</span><td>g/g·d
-
 				<tr><td>SDNR<sub>b</sub>          <td class=number><span id=result_SDNR_b>?</span><td>g/g·d
 				<tr><td>SDNR<sub>T</sub>          <td class=number><span id=result_SDNR_T>?</span><td>g/g·d
 				<tr><td>SDNR<sub>adj</sub>        <td class=number><span id=result_SDNR_adj>?</span><td>g/g·d
 				<tr><td>Overall SDNR              <td class=number><span id=result_SDNR>?</span><td>g/g·d
-
 				<tr><td>NO<sub>r</sub>            <td class=number><span id=result_NO_r>?</span><td>g/d
-
 				<tr><td>Net O<sub>2</sub> required<td class=number><span id=result_Net_O2_required>?</span><td>kg O<sub>2</sub>/h
 				<tr><td>Mass of alkalinity needed <td class=number><span id=result_Mass_of_alkalinity_needed>?</span><td> kg/d as CaCO<sub>3</sub>
 				<tr><td>Power                     <td class=number><span id=result_Power>?</span><td>kW
@@ -178,6 +163,9 @@
 <!--implementation-->
 <script>
 	function compute_exercise(){
+		//Design conditions
+		var Q = getInput('input_Q');
+		var T = getInput('input_T');
 
 		//Wastewater characteristics
 		var BOD=getInput('input_BOD');
@@ -186,39 +174,32 @@
 		var NOx=getInput('input_NOx');
 		var TP=getInput('input_TP');
 		var Alkalinity=getInput('input_Alkalinity');
-
-		//Design conditions
-		var Q = getInput('input_Q');
-		var T = getInput('input_T');
-
-		//tabulated parameters
-		var YH = 0.45;
-
 		var MLSS = 3000; //g/m3
 		var MLVSS = 2370; //g/m3
 		var Aerobic_SRT = 21; //d
 		var Aeration_basin_volume = 13410; //m3
-		var Aerobic = 14.2; //h (?)
+		var Aerobic = 14.2; //h (tau detention time)
 		var Anoxic_mixing_energy = 5; //kW
 		var RAS = 0.6; //unitless
 		var Ro = 275.9; //kgO2/h
-		var Ne = 6; //g/m3
+		var Ne = 6; //g/m3 (nitrate at effluent)
+
+		//tabulated parameters
+		var YH = 0.45;
 
 		//calculated parameters in previous implementations
-		var bH = 0.12*Math.pow(1.04, T - 20); 
+		var bH = 0.12*Math.pow(1.04, T - 20); //correct bH by temperature
 		
-		//SOLUTIONS
 		//1
 		var Xb = Q*Aerobic_SRT*YH*bCOD/(1+bH*Aerobic_SRT)/Aeration_basin_volume; //g/m3
 		//2
 		var IR = NOx/Ne - 1 - RAS;
 		//3
 		var Flowrate_to_anoxic_tank = Q*(IR+RAS); //m3/d
-
 		var NOx_feed = Flowrate_to_anoxic_tank*Ne; //g/d
 		//4
-		var Tau = 2.5/24; //d
-		var V_nox = Tau*Q; //m3
+		var tau = (0.20*Aerobic)/24; //d
+		var V_nox = tau*Q; //m3
 		//5
 		var FM_b = Q*BOD/(V_nox*Xb); //g/g·d
 
@@ -276,12 +257,14 @@
 		var Mass_of_alkalinity_needed = Alk_to_be_added * Q /1000; //kg/d as CaCO3
 		//11
 		var Power = V_nox * Anoxic_mixing_energy / 1000; //kW
+		//end N removal
 
 		//show results
 		showResult("result_Xb",Xb);
 		showResult("result_IR",IR);
 		showResult('result_Flowrate_to_anoxic_tank',Flowrate_to_anoxic_tank);
 		showResult('result_NOx_feed',NOx_feed);
+		showResult("result_tau",tau);
 		showResult("result_V_nox",V_nox);
 		showResult("result_FM_b",FM_b);
 		showResult('result_Fraction_of_rbCOD',100*rbCOD/bCOD);
@@ -296,5 +279,4 @@
 		showResult("result_Mass_of_alkalinity_needed",Mass_of_alkalinity_needed);
 		showResult("result_Power",Power);
 	}
-
 </script>
