@@ -1,4 +1,7 @@
-
+/*
+	Implementation of tables and appendixes from
+	Metcalf & Eddy 5th ed
+*/
 function density_of_air(temperature,pressure) {
 	/*
 		Appendix B, B-3
