@@ -1,5 +1,6 @@
 /** return 3.999,4 instead of 3999.4*/
 function format(number,digits){
+	//default digits for decimals
 	digits=digits||3;
 
 	//less digits for big numbers
@@ -14,10 +15,22 @@ function format(number,digits){
 
 //set a formatted number string into an html element
 function showResult(id,value){
-	document.getElementById(id).innerHTML=format(value);
+	var el=document.getElementById(id);
+	try{
+		el.innerHTML=format(value);
+	}catch(e){
+		console.error("id: "+id);
+		console.error(e);
+	}
 }
 
 //get a number from a input id html element
 function getInput(id){
-	return parseFloat(document.getElementById(id).value);
+	var el=document.getElementById(id);
+	try{
+		return parseFloat(el.value);
+	}catch(e){
+		console.error("id: "+id);
+		console.error(e);
+	}
 }

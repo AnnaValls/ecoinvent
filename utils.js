@@ -1,16 +1,35 @@
 /*
-	Implementation of tables and appendixes from
-	Metcalf & Eddy 5th ed
+	Implementation of figures, tables and appendixes from Metcalf & Eddy, 5th ed, 2014
+*/
+
+/*
+	Fig 8-38, page 874
+	get the rbCOD/P ratio from the VFA/rbCOD ratio
+*/
+function rbCOD_P_ratio(VFA_rbCOD_ratio){
+	//TODO
+	var Pairs=[
+		{VFA:0.1, P:20},
+		{VFA:0.2, P:15},
+		{VFA:0.3, P:12.5},
+		{VFA:0.4, P:11},
+		{VFA:0.5, P:10},
+		{VFA:0.6, P:9},
+		{VFA:0.7, P:8},
+		{VFA:0.8, P:7},
+	];
+	return 0;
+}
+
+/*
+	Appendix B, B-3, page 1910
+	Calculate Density of air at other temperatures
+	formula: d = PM/RT
+	inputs:
+		- T: temperature (ºC)
+		- P: pressure (Pa)
 */
 function density_of_air(temperature,pressure) {
-	/*
-		Appendix B, B-3
-		Calculate Density of air at other temperatures
-		formula: d = PM/RT
-		inputs:
-			- T: temperature (ºC)
-			- P: pressure (Pa)
-	*/
 	var R=8314;//universal gas constant (J/K·kmol)
 	var M=28.97;//molecular weight of air (g/mol)
 	var density = pressure*M/(R*(273.15+temperature));
@@ -21,12 +40,12 @@ function density_of_air(temperature,pressure) {
 	*/
 }
 
+/*
+	Appendix E, Table E-1, page 1923
+	The air solubility of oxygen in mg/L as functions of temperature (ºC) and elevation (m) for 0-1800 m
+	Perform linear interpolation or bilinear interpolation
+*/
 function air_solubility_of_oxygen(temperature,elevation){
-	/*
-		Appendix E, Table E-1, page 1923
-		The air solubility of oxygen in mg/L as functions of temperature (ºC) and elevation (m) for 0-1800 m
-		Perform linear interpolation or bilinear interpolation
-	*/
 	//input checks
 	console.log('Calculating air solubility of oxygen (mg/L) from Table E-1 (Appendix E)');
 	temperature=temperature||0;

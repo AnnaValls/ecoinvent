@@ -58,6 +58,9 @@
 			margin:auto;
 			font-size:22px;
 		}
+		#results td[id]{
+			color:blue;
+		}
 	</style>
 </head><body onload="init()">
 
@@ -73,28 +76,28 @@
 <!--problem statement-->
 <div id=statement>
 	<p>
-		Determine the amount of ferric chloride required to precipitat phosphorus from untreated wastewater
+		Determine the amount of ferric chloride required to precipitate phosphorus from untreated wastewater
 		with the characteristics given below. Also determine the required ferric
-		chloride storage capacity if a 15 d supply is to be stored at the treatment facility and the 
+		chloride storage capacity, if a 15 d supply is to be stored at the treatment facility and the 
 		added quantity of sludge generated from the ferric chloride addition.
 	</p>
 	<table>
-		<tr><td>1. Q                             <td class=number>3800 <td>m<sup>3</sup>/d
-		<tr><td>2. TSS                           <td class=number>220  <td>mg/L
-		<tr><td>3. TSS removal w/o iron addition <td class=number>60   <td>%
-		<tr><td>4. TSS removal w/  iron addition <td class=number>75   <td>%
-		<tr><td>5. Influent total P              <td class=number>7    <td>g/m<sup>3</sup>
-		<tr><td>6. Influent PO4(3-)              <td class=number>5    <td>as mg P/L
-		<tr><td>7. Effluent PO4(3-)              <td class=number>0.1  <td>as mg P/L
-		<tr><td>8. Wastewater alkalinity         <td class=number>240  <td>as mg CaCO<sub>3</sub>/L
-		<tr><td>9. Ferric chloride solution      <td class=number>37   <td>%
-		<tr><td>10. Ferric chloride, unit weight <td class=number>1.35 <td>kg/L
-		<tr><td>11. Raw sludge properties        <td>                  <td>
-		<tr><td>&emsp; Specific gravity          <td class=number>1.03 <td>&empty;
-		<tr><td>&emsp; Moisture content          <td class=number>94   <td>%
-		<tr><td>12. Chemical sludge properties (ch.13)<td>             <td>
-		<tr><td>&emsp; Specific gravity          <td class=number>1.05 <td>&empty;
-		<tr><td>&emsp; Moisture content          <td class=number>92.5 <td>%
+		<tr><td>1. Q                                    <td class=number>3800 <td>m<sup>3</sup>/d
+		<tr><td>2. TSS                                  <td class=number>220  <td>mg/L
+		<tr><td>3. TSS removal w/o iron addition        <td class=number>60   <td>%
+		<tr><td>4. TSS removal w/  iron addition        <td class=number>75   <td>%
+		<tr><td>5. Influent total P                     <td class=number>7    <td>g/m<sup>3</sup>
+		<tr><td>6. Influent PO<sub>4</sub><sup>3-</sup> <td class=number>5    <td>as mg P/L
+		<tr><td>7. Effluent PO<sub>4</sub><sup>3-</sup> <td class=number>0.1  <td>as mg P/L
+		<tr><td>8. Wastewater alkalinity                <td class=number>240  <td>as mg CaCO<sub>3</sub>/L
+		<tr><td>9. Ferric chloride solution             <td class=number>37   <td>%
+		<tr><td>10. Ferric chloride, unit weight        <td class=number>1.35 <td>kg/L
+		<tr><td>11. Raw sludge properties               <td>                  <td>
+		<tr><td>&emsp; Specific gravity                 <td class=number>1.03 <td>&empty;
+		<tr><td>&emsp; Moisture content                 <td class=number>94   <td>%
+		<tr><td>12. Chemical sludge properties (ch.13)  <td>                  <td>
+		<tr><td>&emsp; Specific gravity                 <td class=number>1.05 <td>&empty;
+		<tr><td>&emsp; Moisture content                 <td class=number>92.5 <td>%
 	</table>
 </div><hr>
 
@@ -118,42 +121,42 @@
 			</table>
 		</li><li><div>Tabulated parameters</div>
 			<table>
-				<tr><td>Fe/P mole ratio                  <td class=number>3.3    <td>&empty;
-				<tr><td>M<sub>Fe</sub>                   <td class=number>55.845 <td>g/mol
-				<tr><td>M<sub>P</sub>                    <td class=number>30.974 <td>g/mol
-				<tr><td>M<sub>Fe</sub>                   <td class=number>55.845 <td>g/mol
-				<tr><td>M<sub>P</sub>                    <td class=number>30.974 <td>g/mol
-				<tr><td>Raw sludge specific gravity      <td class=number>1.03   <td>&empty;
-				<tr><td>Raw sludge moisture content      <td class=number>94     <td>%
-				<tr><td>Chemical sludge specific gravity <td class=number>1.05   <td>&empty;
-				<tr><td>Chemical sludge moisture content <td class=number>92.5   <td>%
+				<tr><td>Fe/P mole ratio                  <td class=number>3.3   <td>&empty;
+				<tr><td>M<sub>Fe</sub>                   <td class=number>55.845<td>g/mol
+				<tr><td>M<sub>P</sub>                    <td class=number>30.974<td>g/mol
+				<tr><td>M<sub>Fe</sub>                   <td class=number>55.845<td>g/mol
+				<tr><td>M<sub>P</sub>                    <td class=number>30.974<td>g/mol
+				<tr><td>Raw sludge specific gravity      <td class=number>1.03  <td>&empty;
+				<tr><td>Raw sludge moisture content      <td class=number>94    <td>%
+				<tr><td>Chemical sludge specific gravity <td class=number>1.05  <td>&empty;
+				<tr><td>Chemical sludge moisture content <td class=number>92.5  <td>%
 			</table>
 		</li><li><div>Results</div>
 			<table id=results>
-				<tr><td>Fe(III)<sub>dose</sub>               <td id=result_Fe_III_dose>          ? <td>mg/L
-				<tr><td>Primary effluent [P]                 <td id=result_primary_eff_P>        ? <td>mg/L
-				<tr><td>Fe dose required                     <td id=result_Fe_dose>              ? <td>kg/d
-				<tr><td>Amount FeCl<sub>3</sub> solution     <td id=result_amount_FeCl3_solution>? <td>kg/d
-				<tr><td>FeCl<sub>3</sub>        volume       <td id=result_FeCl3_volume>         ? <td>L/d
-				<tr><td>FeCL<sub>3</sub> storage requirement <td id=result_storage_req_15_d>     ? <td>m<sup>3</sup>
-				<tr><td>Additional sludge (precipitation)    <td id=result_Additional_sludge>    ? <td>kg/d
-				<tr><td>Fe dose                              <td id=result_Fe_dose_M>            ? <td>M
-				<tr><td>P removed                            <td id=result_P_removed>            ? <td>M
-				<tr><td>Fe<sub>1.6</sub>·H<sub>2</sub>PO<sub>4</sub>(OH)<sub>3.8</sub> sludge <td id=result_FeH2PO4OH_sludge>     ? <td>mg/L
-				<tr><td>Excess Fe added                      <td id=result_Excess_Fe_added>      ? <td>M
-				<tr><td>Fe(OH)<sub>3</sub> sludge            <td id=result_FeOH3_sludge>         ? <td>mg/L
-				<tr><td>Excess sludge                        <td id=result_Excess_sludge>        ? <td>mg/L
-				<tr><td>Excess sludge_kg                     <td id=result_Excess_sludge_kg>     ? <td>kg/d
-				<tr><td>Total excess sludge                  <td id=result_Total_excess_sludge>  ? <td>kg/d
+				<tr><td>Fe(III)<sub>dose</sub>               <td id=result_Fe_III_dose>          ?<td>mg/L
+				<tr><td>Primary effluent [P]                 <td id=result_primary_eff_P>        ?<td>mg/L
+				<tr><td>Fe dose required                     <td id=result_Fe_dose>              ?<td>kg/d
+				<tr><td>Amount FeCl<sub>3</sub> solution     <td id=result_amount_FeCl3_solution>?<td>kg/d
+				<tr><td>FeCl<sub>3</sub>        volume       <td id=result_FeCl3_volume>         ?<td>L/d
+				<tr><td>FeCL<sub>3</sub> storage requirement <td id=result_storage_req_15_d>     ?<td>m<sup>3</sup>
+				<tr><td>Additional sludge (precipitation)    <td id=result_Additional_sludge>    ?<td>kg/d
+				<tr><td>Fe dose                              <td id=result_Fe_dose_M>            ?<td>M
+				<tr><td>P removed                            <td id=result_P_removed>            ?<td>M
+				<tr><td>Fe<sub>1.6</sub>·H<sub>2</sub>PO<sub>4</sub>(OH)<sub>3.8</sub> sludge <td id=result_FeH2PO4OH_sludge>?<td>mg/L
+				<tr><td>Excess Fe added                      <td id=result_Excess_Fe_added>      ?<td>M
+				<tr><td>Fe(OH)<sub>3</sub> sludge            <td id=result_FeOH3_sludge>         ?<td>mg/L
+				<tr><td>Excess sludge                        <td id=result_Excess_sludge>        ?<td>mg/L
+				<tr><td>Excess sludge_kg                     <td id=result_Excess_sludge_kg>     ?<td>kg/d
+				<tr><td>Total excess sludge                  <td id=result_Total_excess_sludge>  ?<td>kg/d
 				<tr><th colspan=3>
 				<tr><td><th colspan=2 style=text-align:center>Sludge
 				<tr><th>Treatment<th>Mass (kg/d)<th>Volume (m<sup>3</sup>/d)
 				<tr>
-					<td>Without chemical precipitation 
+					<td>W/o chemical precipitation 
 					<td id="sludge_production_wo_chemical_addition">?
 					<td id="Vs_without">?
 				</tr><tt>
-					<td>With chemical precipitation 
+					<td>W/ chemical precipitation 
 					<td id="sludge_production_w_chemical_addition">?
 					<td id="Vs">?
 				</tr>

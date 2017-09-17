@@ -69,22 +69,13 @@
 <div>
 	<h1>Metcalf &amp; Eddy, Wastewater Engineering, 5th ed, 2014</h1>
 	<h2>Example 8-3 (p. 756)</h2>
-	<h3 onclick=document.getElementById('enunciat').classList.toggle('invisible')>
+	<h3 onclick=document.getElementById('statement').classList.toggle('invisible')>
 		Complete-Mix Activated Sludge for BOD Removal with Nitrification
 	</h3><hr>
 </div>
 
-<!--btn show hide statement-->
-<div>
-	<button 
-		onclick="document.querySelector('#enunciat').classList.toggle('invisible')"
-		style="margin:auto;display:block;"
-		>Show/hide statement
-	</button>
-</div>
-
 <!--problem statement-->
-<div id=enunciat class=invisible><hr>
+<div id=statement>
 	<div>
 		Prepare a process design for a complete-mix activated sludge (CMAS) 
 		system to treat 22,700 m<sup>3</sup>/d
