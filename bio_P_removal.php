@@ -5,7 +5,7 @@
 	<script src="utils.js"></script>
 	<script>
 		function init(){
-			compute_exercise();
+			//compute_exercise();
 		}
 	</script>
 	<style>
@@ -228,7 +228,7 @@
 
 			//2
 			var VFA_rbCOD_ratio = Acetate / rbCOD; //0.20 no unit
-			var rbCOD_P_ratio = 15; //TODO implement fig 8-38 at "utils.js"
+			var rbCOD_P_ratio = get_rbCOD_P_ratio(VFA_rbCOD_ratio); //implemented fig 8-38 at "utils.js"
 			var rbCOD_available_normalized = rbCOD_available/Q; //59.4 g/m3
 			var P_removal_EBPR = rbCOD_available_normalized/rbCOD_P_ratio; //4 g/m3
 			console.log("---2---");
@@ -275,7 +275,6 @@
 			showResult('result_B1_rbCOD_used_by_NO3',rbCOD_used_by_NO3);
 			showResult('result_B1_rbCOD_available',rbCOD_available);
 			//2
-			var rbCOD_P_ratio = 15; //TODO implement table
 			var rbCOD_available = rbCOD_available / Q; //74.2 g/m3
 			var P_removal_EBPR = rbCOD_available / rbCOD_P_ratio ; //4.9 g/m3
 			console.log("---2---");
@@ -295,7 +294,7 @@
 </p>
 
 <hr><div>
-	I've found 2 numeric errors in Metcalf and Eddy, regarding to:
+	I've found 2 numeric discrepancies in Metcalf and Eddy, regarding to:
 	<ul>
 		<li>P<sub>X,bio</sub> (334,134 g VSS/d)
 		<li>P<sub>X,TSS</sub> (433,099 g/d)

@@ -4,7 +4,7 @@
 	<script src="format.js"></script>
 	<script>
 		function init(){
-			//compute_exercise();
+			compute_exercise();
 		}
 	</script>
 	<style>
@@ -106,7 +106,6 @@
 <!--implementation-->
 <script>
 	function compute_exercise(){
-
 		/*
 			Lluis, The equations I use are
 

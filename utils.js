@@ -5,25 +5,40 @@
 /*
 	Fig 8-38, page 874
 	get the rbCOD/P ratio from the VFA/rbCOD ratio
+	for P removal (biologically)
 */
-function rbCOD_P_ratio(VFA_rbCOD_ratio){
-	//TODO
-	var Pairs=[
-		{VFA:0.1, P:20},
-		{VFA:0.2, P:15},
-		{VFA:0.3, P:12.5},
-		{VFA:0.4, P:11},
-		{VFA:0.5, P:10},
-		{VFA:0.6, P:9},
-		{VFA:0.7, P:8},
-		{VFA:0.8, P:7},
+function get_rbCOD_P_ratio(VFA_rbCOD_ratio){
+	//input abbrev to V
+	var V = VFA_rbCOD_ratio || 0;
+
+	//min and max values are: 0.1 and 0.8
+	V=Math.min(0.8,Math.max(0.1,V));
+	console.log("VFA/rbCOD ratio: "+V);
+
+	//get only the first decimal part of the number
+	V=Math.round(V*10)/10;
+	console.log("rounded: VFA/rbCOD ratio: "+V);
+
+	var Figure=[
+		{V:0.1, P:20},
+		{V:0.2, P:15},
+		{V:0.3, P:12.5},
+		{V:0.4, P:11},
+		{V:0.5, P:10},
+		{V:0.6, P:9},
+		{V:0.7, P:8},
+		{V:0.8, P:7},
 	];
-	return 0;
+	//found rbCOD/P ratio
+	var P = Figure.filter(row=>{return V==row.V})[0].P;
+	console.log("rbCOD/P ratio: "+P);
+	return P;
 }
 
 /*
 	Appendix B, B-3, page 1910
 	Calculate Density of air at other temperatures
+	for BOD removal with nitrification
 	formula: d = PM/RT
 	inputs:
 		- T: temperature (ºC)
@@ -42,6 +57,7 @@ function density_of_air(temperature,pressure) {
 
 /*
 	Appendix E, Table E-1, page 1923
+	for BOD removal with nitrification
 	The air solubility of oxygen in mg/L as functions of temperature (ºC) and elevation (m) for 0-1800 m
 	Perform linear interpolation or bilinear interpolation
 */
