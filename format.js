@@ -1,4 +1,8 @@
-/** return 3.999,4 instead of 3999.4*/
+/*
+	functions to deal with numbers
+*/
+
+/*return "3,999.4" instead of 3999.4*/
 function format(number,digits){
 	//default digits for decimals
 	digits=digits||3;
@@ -13,7 +17,7 @@ function format(number,digits){
 	return str;
 }
 
-//set a formatted number string into an html element
+/*set a formatted number string into an html element*/
 function showResult(id,value){
 	var el=document.getElementById(id);
 	try{
@@ -24,7 +28,7 @@ function showResult(id,value){
 	}
 }
 
-//get a number from a input id html element
+/*get a number from a input id html element*/
 function getInput(id){
 	var el=document.getElementById(id);
 	try{

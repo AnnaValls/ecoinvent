@@ -105,10 +105,11 @@
 		<li>3. P content of other heterotrophic biomass = 0.015 g P/g X.
 		<li>4. Nitrate oxidized (NO<sub>x</sub>) =  28 g/m<sup>3</sup>
 		<li>5. Use coefficients from Table 8-14.
+	</ul>
 </div><hr>
 
 <!--implementation gui-->
-<div style=display:><h2>Implementation in Javascript</h2>
+<div><h2>Implementation in Javascript</h2>
 	<div>
 		<button id=btn_calculate onclick=compute_exercise() style>Solve</button>
 	</div>

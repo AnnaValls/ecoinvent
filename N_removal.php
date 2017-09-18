@@ -89,7 +89,7 @@
 			<tr><td>BOD             <td class=number>140
 			<tr><td>bCOD            <td class=number>224
 			<tr><td>rbCOD           <td class=number>80
-			<tr><td>NOx             <td class=number>28.9
+			<tr><td>NO<sub>x</sub>  <td class=number>28.9
 			<tr><td>TP              <td class=number>6
 			<tr><td>Alkalinity      <td class=number>140
 		</table>
@@ -113,7 +113,7 @@
 				<tr><td>BOD             <td><input type=number id=input_BOD value=140> g/m<sup>3</sup>
 				<tr><td>bCOD            <td><input type=number id=input_bCOD value=224> g/m<sup>3</sup>
 				<tr><td>rbCOD           <td><input type=number id=input_rbCOD value=80> g/m<sup>3</sup>
-				<tr><td>NOx             <td><input type=number id=input_NOx value=28.9> g/m<sup>3</sup>
+				<tr><td>NO<sub>x</sub>  <td><input type=number id=input_NOx value=28.9> g/m<sup>3</sup>
 				<tr><td>TP              <td><input type=number id=input_TP value=6> g/m<sup>3</sup>
 				<tr><td>Alkalinity      <td><input type=number id=input_Alkalinity value=140> as CaCO<sub>3</sub>
 				<tr><td colspan=2><b>Inputs from nitrification</b>

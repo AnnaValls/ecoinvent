@@ -112,7 +112,7 @@
 				<tr><td>TSS<sub>rem w/o Fe</sub>                               <td><input type=number id=input_TSS_removal_wo_Fe value=60  > %
 				<tr><td>TSS<sub>rem w/ Fe</sub>                                <td><input type=number id=input_TSS_removal_w_Fe  value=75  > %
 				<tr><td>[P]<sub>influent</sub>                                 <td><input type=number id=input_C_P_inf           value=7   > mg/L
-				<tr><td>[P]<sub>effluent</sub>                                 <td><input type=number id=input_C_PO4_inf         value=5   > mg/L
+				<tr><td>[PO<sub>4</sub>]<sub>influent</sub>                    <td><input type=number id=input_C_PO4_inf         value=5   > mg/L
 				<tr><td>[PO<sub>4</sub>]<sub>effluent</sub>                    <td><input type=number id=input_C_PO4_eff         value=0.1 > mg/L
 				<tr><td>Alkalinity                                             <td><input type=number id=input_Alkalinity        value=240 > mg/L as CaCO<sub>3</sub>
 				<tr><td>FeCl<sub>3</sub> solution                              <td><input type=number id=input_FeCl3_solution    value=37  > %
