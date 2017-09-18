@@ -108,23 +108,24 @@
 	<ol class=flex>
 		<li><div>Inputs</div>
 			<table>
-				<tr><td>Q               <td><input type=number id=input_Q value=22700> m<sup>3</sup>/d
-				<tr><td>T               <td><input type=number id=input_T value=12> ºC
-				<tr><td>BOD             <td><input type=number id=input_BOD value=140> g/m<sup>3</sup>
-				<tr><td>bCOD            <td><input type=number id=input_bCOD value=224> g/m<sup>3</sup>
-				<tr><td>rbCOD           <td><input type=number id=input_rbCOD value=80> g/m<sup>3</sup>
-				<tr><td>NO<sub>x</sub>  <td><input type=number id=input_NOx value=28.9> g/m<sup>3</sup>
-				<tr><td>TP              <td><input type=number id=input_TP value=6> g/m<sup>3</sup>
-				<tr><td>Alkalinity      <td><input type=number id=input_Alkalinity value=140> as CaCO<sub>3</sub>
-				<tr><td colspan=2><b>Inputs from nitrification</b>
-				<tr><td>MLSS                  <td><span class=number>3000  g/m<sup>3</sup>                
-				<tr><td>MLVSS                 <td><span class=number>2370  g/m<sup>3</sup>                
-				<tr><td>Aerobic SRT           <td><span class=number>21    d                              
-				<tr><td>Aeration basin volume <td><span class=number>13410 m<sup>3</sup>                  
-				<tr><td>&tau;<sub>aerobic</sub><td><span class=number>14.2  h                              
-				<tr><td>Anoxic mixing energy  <td><span class=number>5     kW/10<sup>3</sup>m<sup>3</sup> 
-				<tr><td>RAS ratio             <td><span class=number>0.6   &empty;                        
-				<tr><td>R<sub>o</sub>         <td><span class=number>275.9 kg O<sub>2</sub>/h             
+				<tr><td>Q               <td><input type=number id=input_Q          value=22700> m<sup>3</sup>/d
+				<tr><td>T               <td><input type=number id=input_T          value=12>    ºC
+				<tr><td>BOD             <td><input type=number id=input_BOD        value=140>   g/m<sup>3</sup>
+				<tr><td>bCOD            <td><input type=number id=input_bCOD       value=224>   g/m<sup>3</sup>
+				<tr><td>rbCOD           <td><input type=number id=input_rbCOD      value=80>    g/m<sup>3</sup>
+				<tr><td>NO<sub>x</sub>  <td><input type=number id=input_NOx        value=28.9>  g/m<sup>3</sup>
+				<tr><td>TP              <td><input type=number id=input_TP         value=6>     g/m<sup>3</sup>
+				<tr><td>Alkalinity      <td><input type=number id=input_Alkalinity value=140>   as CaCO<sub>3</sub>
+				<tr><td colspan=2><b>Inputs from previous steps (already implemented)</b>
+				<tr><td>MLSS                   <td><span class=number>3000   g/m<sup>3</sup>                
+				<tr><td>MLVSS                  <td><span class=number>2370   g/m<sup>3</sup>                
+				<tr><td>Aerobic SRT            <td><span class=number>21     d                              
+				<tr><td>Aeration basin volume  <td><span class=number>13410  m<sup>3</sup>                  
+				<tr><td>&tau;<sub>aerobic</sub><td><span class=number>14.2   h                              
+				<tr><td>Anoxic mixing energy   <td><span class=number>5      kW/10<sup>3</sup>m<sup>3</sup> 
+				<tr><td>RAS ratio              <td><span class=number>0.6    &empty;                        
+				<tr><td>R<sub>o</sub>          <td><span class=number>275.9  kg O<sub>2</sub>/h             
+				<tr><td>N<sub>e</sub>          <td><span class=number>6      g/m<sup>3</sup>             
 			</table>
 			</table>
 		</li><li><div>Tabulated parameters</div>
@@ -240,7 +241,7 @@
 		}else if(IR<=3){
 			var SDNR_adj = SDNR_T - 0.0166*Math.log(FM_b) - 0.078; //g/g·d (Eq. 8.59)
 		}else{
-			var SDNR_adj = SDNR_T - 0.029*Math.log(FM_b) - 0.012; //g/g·d  (Eq. 8-60)
+			var SDNR_adj = SDNR_T - 0.0290*Math.log(FM_b) - 0.012; //g/g·d  (Eq. 8-60)
 		}
 
 		//7
