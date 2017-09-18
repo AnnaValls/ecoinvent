@@ -5,7 +5,7 @@
 	<script src="format.js"></script>
 	<script>
 		function init(){
-			compute_exercise();
+			//compute_exercise();
 		}
 	</script>
 	<style>
@@ -67,11 +67,11 @@
 
 <!--title-->
 <div>
-	<h1>Metcalf &amp; Eddy, Wastewater Engineering, 5th ed, 2014</h1>
-	<h2>Example 8-3 (p. 756)</h2>
-	<h3 onclick=document.getElementById('statement').classList.toggle('invisible')>
+	<h1 onclick=document.getElementById('statement').classList.toggle('invisible')>
 		Complete-Mix Activated Sludge for BOD Removal with Nitrification
-	</h3><hr>
+	</h1>
+	<h2>Example 8-3 (p. 756)</h2>
+	<hr>
 </div>
 
 <!--problem statement-->
@@ -237,8 +237,8 @@
 				</li>
 			</ol>
 		</li>
-	</ol>
-</div><hr>
+	</ol><hr>
+</div>
 
 <!--implementation gui-->
 <div><h2>Implementation in Javascript</h2>

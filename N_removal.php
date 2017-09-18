@@ -4,7 +4,7 @@
 	<script src="format.js"></script>
 	<script>
 		function init(){
-			compute_exercise();
+			//compute_exercise();
 		}
 	</script>
 	<style>
@@ -66,11 +66,11 @@
 
 <!--title-->
 <div>
-	<h1>Metcalf &amp; Eddy, Wastewater Engineering, 5th ed, 2014</h1>
-	<h2>Example 8-7 (p. 810)</h2>
-	<h3 onclick=document.getElementById('enunciat').classList.toggle('invisible')>
+	<h1 onclick=document.getElementById('enunciat').classList.toggle('invisible')>
 		Preanoxic Denitrification Process Design for MLE Process
-	</h3><hr>
+	</h1>
+	<h2>Example 8-7 (p. 810)</h2>
+	<hr>
 </div>
 
 <!--problem statement-->
@@ -99,8 +99,8 @@
 		<li>a. Nitrate concentration in RAS = 6 g/m<sup>3</sup>.
 		<li>b. Use the same coefficients as the nitrification process design.
 		<li>c. Mixing energy for anoxic reactor = 5 kW/10<sup>3</sup> m<sup>3</sup>.
-	</ul>
-</div><hr>
+	</ul> <hr>
+</div>
 
 <!--gui-->
 <div><h2>Implementation in Javascript</h2>

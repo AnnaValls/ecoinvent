@@ -4,12 +4,12 @@
 	<script src="format.js"></script>
 	<script>
 		function init(){
-			compute_exercise();
+			//compute_exercise();
 		}
 	</script>
 	<style>
 		body{
-			max-width:85em;
+			max-width:90em;
 			margin:auto;
 			margin-bottom:100px;
 		}
@@ -66,11 +66,11 @@
 
 <!--title-->
 <div>
-	<h1>Metcalf &amp; Eddy, Wastewater Engineering, 5th ed, 2014</h1>
-	<h2>Example 6-2 (p. 484)</h2>
-	<h3 onclick=document.getElementById('statement').classList.toggle('invisible')>
+	<h1 onclick=document.getElementById('statement').classList.toggle('invisible')>
 		Determination of Ferric Chloride Dosage for Phosphorus Removal
-	</h3><hr>
+	</h1>
+	<h2>Example 6-2 (p. 484)</h2>
+	<hr>
 </div>
 
 <!--problem statement-->
@@ -99,7 +99,8 @@
 		<tr><td>&emsp; Specific gravity                 <td class=number>1.05 <td>&empty;
 		<tr><td>&emsp; Moisture content                 <td class=number>92.5 <td>%
 	</table>
-</div><hr>
+	<hr>
+</div>
 
 <!--implementation gui-->
 <div style=display:><h2>Implementation in Javascript</h2>
@@ -117,7 +118,7 @@
 				<tr><td>Alkalinity                                             <td><input type=number id=input_Alkalinity        value=240 > mg/L as CaCO<sub>3</sub>
 				<tr><td>FeCl<sub>3</sub> solution                              <td><input type=number id=input_FeCl3_solution    value=37  > %
 				<tr><td>FeCl<sub>3</sub> unit weight                           <td><input type=number id=input_FeCl3_unit_weight value=1.35> kg/L
-				<tr><td>Time for supply to be stored at the treatment facility <td><input type=number id=input_days              value=15  > days
+				<tr><td>Time for supply to be<br>stored at the treatment facility <td><input type=number id=input_days              value=15  > days
 			</table>
 		</li><li><div>Tabulated parameters</div>
 			<table>
@@ -126,10 +127,12 @@
 				<tr><td>M<sub>P</sub>                    <td class=number>30.974<td>g/mol
 				<tr><td>M<sub>Fe</sub>                   <td class=number>55.845<td>g/mol
 				<tr><td>M<sub>P</sub>                    <td class=number>30.974<td>g/mol
-				<tr><td>Raw sludge specific gravity      <td class=number>1.03  <td>&empty;
-				<tr><td>Raw sludge moisture content      <td class=number>94    <td>%
-				<tr><td>Chemical sludge specific gravity <td class=number>1.05  <td>&empty;
-				<tr><td>Chemical sludge moisture content <td class=number>92.5  <td>%
+				<tr><td colspan=3>Raw sludge properties
+				<tr><td>&emsp;Specific gravity      <td class=number>1.03  <td>&empty;
+				<tr><td>&emsp;Moisture content      <td class=number>94    <td>%
+				<tr><td colspan=3>Chemical sludge properties
+				<tr><td>&emsp;Specific gravity <td class=number>1.05  <td>&empty;
+				<tr><td>&emsp;Moisture content <td class=number>92.5  <td>%
 			</table>
 		</li><li><div>Results</div>
 			<table id=results>
@@ -138,8 +141,8 @@
 				<tr><td>Fe dose required                     <td id=result_Fe_dose>              ?<td>kg/d
 				<tr><td>Amount FeCl<sub>3</sub> solution     <td id=result_amount_FeCl3_solution>?<td>kg/d
 				<tr><td>FeCl<sub>3</sub>        volume       <td id=result_FeCl3_volume>         ?<td>L/d
-				<tr><td>FeCL<sub>3</sub> storage requirement <td id=result_storage_req_15_d>     ?<td>m<sup>3</sup>
-				<tr><td>Additional sludge (precipitation)    <td id=result_Additional_sludge>    ?<td>kg/d
+				<tr><td>FeCl<sub>3</sub> storage requirement <td id=result_storage_req_15_d>     ?<td>m<sup>3</sup>
+				<tr><td>Additional sludge<sub>precipitation</sub> <td id=result_Additional_sludge>    ?<td>kg/d
 				<tr><td>Fe dose                              <td id=result_Fe_dose_M>            ?<td>M
 				<tr><td>P removed                            <td id=result_P_removed>            ?<td>M
 				<tr><td>Fe<sub>1.6</sub>·H<sub>2</sub>PO<sub>4</sub>(OH)<sub>3.8</sub> sludge <td id=result_FeH2PO4OH_sludge>?<td>mg/L

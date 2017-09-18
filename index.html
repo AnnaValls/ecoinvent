@@ -3,7 +3,6 @@
 	<meta name="viewport" content="width=device-width">
 	<meta name="description" content="ecoinvent">
 	<title>Ecoinvent</title>
-
 	<script>
 		function init(){
 			//init
@@ -71,7 +70,7 @@
 </head><body onload=init()>
 
 <div id=navbar>
-	Ecoinvent wastewater web tool
+	Ecoinvent wastewater web tool (in development)
 	<style>
 		#navbar {
 			background:linear-gradient(to top, #e01a1a, #eb6666);
@@ -90,61 +89,61 @@
 		(not yet a draft for the design, this goes last).
 		The goal is to have a very clear user interface for the inputs 
 		before moving forward to create the backend (models).
+		<hr>
 	</p>
 
-	<hr>
-
 	<div>
-		<p>
-			Web parts:
-		</p>
+		<p>Web parts:</p>
 		<ul>
 			<li><a href=general>1. General configuration</a>
 			<li><a href=wastewater>2. Wastewater configuration</a>
 			<li><a href=wwtp>3. WWTP configuration</a>
 			<li><a href=construction>4. Construction materials</a>
-			<li>5. Energy
-			<li>6. Chemicals
+			<li>5. Chemicals consumed
+			<li>6. Energy consumed
 			<li>7. Generate ecoSpold (python)
 		</ul>
+		<hr>
 	</div>
 
 	<div>
-		<p>Metcalf implementations</p>
+		<p>Metcalf &amp; Eddy, Wastewater Engineering, 5th ed., 2014, implementations:</p>
 		<table>
 			<tr><th>Technology<th>Coding status
 			<tr>
-				<td> <a href="bod_removal.php">BOD<sub>5</sub> removal</a>
+				<td> <a href="bod_removal.php">0. BOD<sub>5</sub> removal [example]</a>
 				<td>Done
 			<tr>
-				<td> <a href="bod_removal_with_nitrification.php">BOD<sub>5</sub> removal w/ &amp; w/o nitrification</a>
+				<td> <a href="bod_removal_with_nitrification.php">1. BOD<sub>5</sub> removal w/ &amp; w/o nitrification</a>
 				<td>Done
 			<tr>
-				<td> <a href="N_removal.php">N removal</a>
+				<td> <a href="N_removal.php">2. N removal</a>
 				<td>Done
 			<tr>
-				<td> <a href="chem_P_removal.php">P removal (chemically)</a>
+				<td> <a href="chem_P_removal.php">3. P removal (chemically)</a>
 				<td>Done
 			<tr>
-				<td> <a href="bio_P_removal.php">P removal (biologically)</a>
-				<td>(in progress, at 2017-09-17)
+				<td> <a href="bio_P_removal.php">4. P removal (biologically)</a>
+				<td>Done
+			</tr>
+			<tr>
+				<td> <a href="ekama_sizing.php">5. Reactor sizing (optim. cost) [G. Ekama]</a>
+				<td>(in progress, at 2017-09-18)
 			</tr>
 		</table>
-	</div>
+	</div><hr>
 
 	<div>
-		<p>
-			Other things:
-		</p>
+		<p>Other things:</p>
 		<ul>
 			<li><a href=docs>Documents</a>
 			<li>
 				<a target=_blank href="https://docs.google.com/spreadsheets/d/1DiBhDCjxGyw2-umImIfHiZOzY5LJF_psGiD4fEf7Wgk/edit?usp=sharing">
-					Google drive document 
+					Google Drive document 
 				</a>
 			</li>
 			<li>This web source code: <a href=//github.com/holalluis/ecoinvent>github.com/holalluis/ecoinvent</a>
-			<li>Guillaume's github: 
+			<li>Guillaume's github (for ecoSpold): 
 				<a href="//github.com/ecoinvent/wastewater_treatment_tool">github.com/ecoinvent/wastewater_treatment_tool</a>
 			</li>
 		</ul>

@@ -63,7 +63,15 @@
 	</script>
 </head><body onload="init()">
 
-<h1>Metcalf 4th ed. exercise 8-2 (p. 707) (fragment) implementation example</h1>
+<h2>
+	Example 8-2 (p. 707) (fragment)
+	Metcalf 4th ed. 
+</h2>
+
+<p>
+	Note: this is a sample implementation. for the complete implementation go 
+	<a href="bod_removal_with_nitrification.php">here</a>
+</p>
 
 <!--Enunciat-->
 <h2 onclick=document.getElementById('enunciat').classList.toggle('invisible')>
@@ -221,7 +229,7 @@
 			<tr><td>T              <td><input class=number id=T value=12> ºC
 		</table>
 		<div>
-			<button id=btn_calculate onclick=compute_exercise()>Solve exercise</button>
+			<button id=btn_calculate onclick=compute_exercise()>Solve</button>
 		</div>
 	</li>
 	<li>
