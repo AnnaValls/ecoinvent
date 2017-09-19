@@ -84,20 +84,21 @@
 </div>
 
 <!--implementation gui-->
-<div style=display:><h2>Implementation in Javascript</h2>
+<div id=implementation style="display:">
+	<h2>Implementation in Javascript</h2>
 	<div> <button id=btn_calculate onclick=compute_exercise() style>Solve</button> </div>
 	<ol class=flex>
 		<li><div>Inputs</div>
 			<table>
-				<tr><td>Q                                                      <td><input type=number id=input_Q                 value=3800> m<sup>3</sup>/d
+				<tr><td>Q <td><input type=number id=input_Q value=3800> m<sup>3</sup>/d
 			</table>
 		</li><li><div>Parameters</div>
 			<table>
-				<tr><td>Parameter <td class=number>3.3   <td>&empty;
+				<tr><td>Parameter <td class=number>3.3 <td>&empty;
 			</table>
 		</li><li><div>Results</div>
 			<table id=results>
-				<tr><td>Result k<td id=result_result> ?<td>mg/L
+				<tr><td>Result k<td id=result_result>? <td>mg/L
 			</table>
 		</li>
 	</ol>
@@ -106,29 +107,41 @@
 <!--implementation-->
 <script>
 	function compute_exercise(){
+
+		//cost reactor
+		var MLSS_X_TSS = 3; //kg/m3 <-- value to be looped to find min costs
+		var X_TSS_V = 40395; //kg
+
+		function cost_reactor(X_TSS_V,MLSS_X_TSS) {
+			/*
+				Calculate cost of the reactor.
+				Inputs:
+				1. MLSS_X_TSS: kg/m3
+					 MLSS_X_TSS is always between 1 and 10 g/l (or kg/m3)
+				2. X_TSS_V: kg
+			*/
+			var V = X_TSS_V / MLSS_X_TSS; //m3 (volume)
+			V = V/1000; //conver to megaliters
+			return 770*Math.pow(V,0.761); //dollars (?)
+			/*
+				George Ekama:
+				I also set maximum limits, i.e. V>1 ML and < 16ML. 
+				If V>16ML, then the plant divides into two parallel modules. 
+			*/
+		}
+
+		//cost sst
+		var Area = 500;       //m2
+
+		function cost_sst(Area){
+			var diam_sst = Area
+			return 30*Math.pow(diam_sst,1.22);
+		}
+
 		/*
-			Lluis, The equations I use are
-
-			V_Reac=MX_TSS/X_TSS 
-			and 
-			Cost_reac=C_reac(V_reac)^P_reac
-
-			Cost_SST=C_SST(Diam_SST)^P_SST
-
-			where C_reac =770, C_SST=30, P_reac=0.761 and P_SST =1.22. 
-
-			with V in megalitres (ML) and D in m. 
-
-			The powers give the economy of scale. 
-			I also set maximum limits, i.e. V>1 ML and < 16ML. 
-			If V>16ML, then 
-				the plant divides into two parallel modules. 
-			
 			Also D >15m and < 40m and again each module is 
 			given 1, or 2 or 3 SSTs. 
 			
-			My spreadsheet does this calculation. 
-			X_TSS is always between 1 and 10 gTSS/l.
 		*/
 	}
 </script>

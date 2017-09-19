@@ -674,7 +674,12 @@
 		//end results part B
 
 		//21: part C SECONDARY CLARIFIER SIZING (for both bod removal and nitrification)
-			var hydraulic_application_rate = getInput('parameter_hydraulic_application_rate'); //assume 24 m3/m2·d (from table 8-34, page 890, range 16-28)
+			var hydraulic_application_rate = getInput('parameter_hydraulic_application_rate'); 
+				/*
+					hydraulic application rate:
+					assume 24 m3/m2·d (from table 8-34, page 890, range 16-28 m3/m2·d)
+					"settling following air activated sludge, excluding extended aeration"
+				*/
 			var X_R                        = getInput('parameter_X_R'); //assume 8000 g/m3
 			var clarifiers                 = getInput('parameter_clarifiers'); //assume 3
 			var RAS = MLSS_X_TSS/(X_R - MLSS_X_TSS); //calc return sludge recycle ratio
@@ -700,4 +705,3 @@
 		<li>Warning if Solids loading is out of range (4-6 kg MLSS/m<sup>2</sup>·h)
 	</ul>
 </div>
-
