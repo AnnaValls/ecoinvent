@@ -48,6 +48,7 @@
 	</script>
 	<style>
 		body{
+			overflow-y:scroll;
 			max-width:90em;
 			margin:auto;
 			margin-bottom:100px;
