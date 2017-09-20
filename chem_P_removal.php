@@ -73,7 +73,10 @@
 	<hr>
 </div>
 
-<!--problem statement-->
+<!--tabs-->
+<?php include'tabs.php'?>
+
+<!--statement-->
 <div id=statement>
 	<p>
 		Determine the amount of ferric chloride required to precipitate phosphorus from untreated wastewater
@@ -99,11 +102,11 @@
 		<tr><td>&emsp; Specific gravity                 <td class=number>1.05 <td>&empty;
 		<tr><td>&emsp; Moisture content                 <td class=number>92.5 <td>%
 	</table>
-	<hr>
 </div>
 
-<!--implementation gui-->
-<div style=display:><h2>Implementation in Javascript</h2>
+<!--implementation-->
+<div id=implement class=invisible>
+	<h2>Implementation in Javascript</h2>
 	<div> <button id=btn_calculate onclick=compute_exercise() style>Solve</button> </div>
 	<ol class=flex>
 		<li><div>Inputs</div>

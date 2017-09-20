@@ -73,8 +73,11 @@
 	<hr>
 </div>
 
+<!--tabs-->
+<?php include'tabs.php'?>
+
 <!--problem statement-->
-<div id=enunciat>
+<div id=statement>
 	<p>
 		Design a preanoxic basin for (a) the CMAS nitrification-secondary clarifiery system described in Example 8-3
 		to produce an effluent NH4-N and NO3-N concentration of 0.50 and
@@ -125,7 +128,8 @@
 </div>
 
 <!--gui-->
-<div><h2>Implementation in Javascript</h2>
+<div id=implement class=invisible>
+	<h2>Implementation in Javascript</h2>
 	<div> <button id=btn_calculate onclick=compute_exercise() style>Solve</button> </div>
 	<ol class=flex>
 		<li><div>Inputs</div>

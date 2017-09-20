@@ -6,6 +6,45 @@
 		function init(){
 			compute_exercise();
 		}
+
+		function compute_exercise(){
+			//cost reactor
+			var MLSS_X_TSS = getInput('input_MLSS_X_TSS'); //kg/m3 <-- value to be looped to find min costs
+			var X_TSS_V = getInput('input_X_TSS_V'); //kg
+			showResult('result_cost_reactor',cost_reactor(X_TSS_V,MLSS_X_TSS));
+
+			//cost sst
+			var Area = getInput('input_Area'); //m2
+			showResult('result_cost_sst',cost_sst(Area));
+		}
+
+		function cost_reactor(X_TSS_V,MLSS_X_TSS) {
+			/*
+				Calculate cost of the reactor.
+				Inputs:
+				1. MLSS_X_TSS: kg/m3
+						MLSS_X_TSS is always between 1 and 10 g/l (or kg/m3)
+				2. X_TSS_V: kg
+			*/
+			var V = X_TSS_V / MLSS_X_TSS; //m3 (volume)
+			V = V/1000; //conver to megaliters
+			return 770*Math.pow(V,0.761); //dollars (?)
+			/*
+				George Ekama:
+				I also set maximum limits, i.e. V>1 ML and < 16ML. 
+				If V>16ML, then the plant divides into two parallel modules. 
+			*/
+		}
+
+		function cost_sst(Area){
+			var diameter = Math.sqrt(4*Area/Math.PI);
+			return 30*Math.pow(diameter,1.22);
+			/*
+				Also D >15m and < 40m and again each module is 
+				given 1, or 2 or 3 SSTs. 
+				
+			*/
+		}
 	</script>
 	<style>
 		body{
@@ -66,82 +105,70 @@
 
 <!--title-->
 <div>
-	<h1 onclick=document.getElementById('statement').classList.toggle('invisible')>
+	<h2> 
 		Optimizing activated sludge systems (George A Ekama)
-	</h1>
-	<a href="docs/reactorSizing_ekama/PG4SSTAS-SSTOptNoBack(2PerPage).pdf">Document</a>
+	</h2>
+	<a href="docs/reactorSizing_ekama/PG4SSTAS-SSTOptNoBack(2PerPage).pdf">Document</a> 
 	<hr>
 </div>
 
-<!--problem statement-->
-<div id=statement>
-	<ul>
-		<li>1. Estimating reactor TSS concentration
-		<li>2. Estimating AS system capacity
-	</ul>
+<!--view formulas-->
+<div>
+	<div>
+		1. Cost reactor
+		<code>
+			Volume = X<sub>TSS,V</sub>/MLSS<sub>X,TSS</sub> (m<sup>3</sup>) <br>
+			Volume = Volume/1000; (megaliters) <br>
+			<br>
+			Cost reactor = 770·(Volume)<sup>0.761</sup>
+		</code>
+	</div>
+	<div>
+		2. Cost SST
+		<code>
+			Area = f(MLSS<sub>X,TSS</sub>) (m<sup>2</sup>)
+				<span style=background:orange>pending: formula for Area using MLSS<sub>X,TSS</sub> as input</span> <br>
+			diameter = (4·Area/&pi;)<sup>0.5</sup> (m)<br>
+			<br>
+			Cost SST = 30·(diameter)<sup>1.22</sup>
+		</code>
+	</div>
 	<hr>
-	(in progress)
 </div>
 
-<!--implementation gui-->
-<div id=implementation style="display:">
+<!--view menus-->
+<div>
 	<h2>Implementation in Javascript</h2>
-	<div> <button id=btn_calculate onclick=compute_exercise() style>Solve</button> </div>
 	<ol class=flex>
 		<li><div>Inputs</div>
-			<table>
-				<tr><td>Q <td><input type=number id=input_Q value=3800> m<sup>3</sup>/d
+			<table id=inputs>
+				<tr>
+					<td>X<sub>TSS</sub>V
+					<td><input type=number id=input_X_TSS_V value=40000> kg
+				</tr>
+				<tr>
+					<td>MLSS<sub>X,TSS</sub> 
+					<td><input type=number id=input_MLSS_X_TSS value=3> kg/m<sup>3</sup>
+				</tr>
+				<tr>
+					<td>Area SST
+					<td><input type=number id=input_Area value=1000> m<sup>2</sup>
+				<tr>
 			</table>
-		</li><li><div>Parameters</div>
-			<table>
-				<tr><td>Parameter <td class=number>3.3 <td>&empty;
-			</table>
+			<script>
+				//add onchange listeners to recompute
+				(function(){
+					var inputs=document.querySelectorAll('table#inputs input[id]');
+					for(var i=0;i<inputs.length;i++){
+						inputs[i].onchange=function(){init()};
+					}
+				})();
+			</script>
 		</li><li><div>Results</div>
 			<table id=results>
-				<tr><td>Result k<td id=result_result>? <td>mg/L
+				<tr><td>Cost reactor<td id=result_cost_reactor>?<td>$
+				<tr><td>Cost sst<td id=result_cost_sst>?<td>$
 			</table>
 		</li>
 	</ol>
 </div>
-
-<!--implementation-->
-<script>
-	function compute_exercise(){
-
-		//cost reactor
-		var MLSS_X_TSS = 3; //kg/m3 <-- value to be looped to find min costs
-		var X_TSS_V = 40395; //kg
-
-		function cost_reactor(X_TSS_V,MLSS_X_TSS) {
-			/*
-				Calculate cost of the reactor.
-				Inputs:
-				1. MLSS_X_TSS: kg/m3
-					 MLSS_X_TSS is always between 1 and 10 g/l (or kg/m3)
-				2. X_TSS_V: kg
-			*/
-			var V = X_TSS_V / MLSS_X_TSS; //m3 (volume)
-			V = V/1000; //conver to megaliters
-			return 770*Math.pow(V,0.761); //dollars (?)
-			/*
-				George Ekama:
-				I also set maximum limits, i.e. V>1 ML and < 16ML. 
-				If V>16ML, then the plant divides into two parallel modules. 
-			*/
-		}
-
-		//cost sst
-		var Area = 500;       //m2
-
-		function cost_sst(Area){
-			var diam_sst = Area
-			return 30*Math.pow(diam_sst,1.22);
-		}
-
-		/*
-			Also D >15m and < 40m and again each module is 
-			given 1, or 2 or 3 SSTs. 
-			
-		*/
-	}
-</script>
