@@ -1,0 +1,17 @@
+# ECOINVENT WEB TOOL for wastewater
+
+In development. Expected finish: October 31 2017
+
+## backend tasks
+calculate area from mlss in reactor sizing
+implement elementary flows factor (l corominas is gathering equations)
+implement "simple treat" equations for other elementary flows factors
+
+## frontend tasks
+unify inputs in a single page, then, select technology
+
+## non prioratary tasks
+substitute images for text in implementations
+
+-----------------------------
+# vim: set filetype=markdown:
