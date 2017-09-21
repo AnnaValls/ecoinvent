@@ -7,23 +7,12 @@
 			compute_exercise();
 		}
 
-		function compute_exercise(){
-			//cost reactor
-			var MLSS_X_TSS = getInput('input_MLSS_X_TSS'); //kg/m3 <-- value to be looped to find min costs
-			var X_TSS_V = getInput('input_X_TSS_V'); //kg
-			showResult('result_cost_reactor',cost_reactor(X_TSS_V,MLSS_X_TSS));
-
-			//cost sst
-			var Area = getInput('input_Area'); //m2
-			showResult('result_cost_sst',cost_sst(Area));
-		}
-
 		function cost_reactor(X_TSS_V,MLSS_X_TSS) {
 			/*
 				Calculate cost of the reactor.
 				Inputs:
 				1. MLSS_X_TSS: kg/m3
-						MLSS_X_TSS is always between 1 and 10 g/l (or kg/m3)
+					 MLSS_X_TSS is always between 1 and 10 g/l (or kg/m3)
 				2. X_TSS_V: kg
 			*/
 			var V = X_TSS_V / MLSS_X_TSS; //m3 (volume)
@@ -36,7 +25,23 @@
 			*/
 		}
 
-		function cost_sst(Area){
+		function cost_sst(MLSS_X_TSS,Q){
+			/*	
+				Calculate the cost of the SST 
+				Inputs:
+				1. MLSS_X_TSS in kg/m3
+				2. Q in m3/d
+			*/
+			//convert MLSS_X_TSS to mg/L
+			MLSS_X_TSS*=1000;
+			const Vmax=7;//max settling velocity of interface: m/h
+			const K=600;//constant, L/mg for AS mixed liquor with SVI=150 (eq 8-86 and 8-87 exist if SVI is different, (not implemented))
+			/*equation 8-85: page 895*/
+			var Vi=Vmax*Math.exp(-K/1e6*MLSS_X_TSS); //settling velocity of interface: m/h
+			/*equation 8-20: page 686 in metcalf 4th ed*/
+			var SOR = Vi*24/1.75; //m3/m2·d or m/h 1.75 is safety factor (is the same as hydraulic application rate)
+			/*equation 8-20: page 880 in metcalf 5th ed*/
+			var Area = Q/SOR; //m2
 			var diameter = Math.sqrt(4*Area/Math.PI);
 			return 30*Math.pow(diameter,1.22);
 			/*
@@ -44,6 +49,48 @@
 				given 1, or 2 or 3 SSTs. 
 				
 			*/
+		}
+
+		function total_cost(MLSS_X_TSS){
+			var X_TSS_V = getInput('input_X_TSS_V'); //kg
+			var reactor = cost_reactor(X_TSS_V,MLSS_X_TSS);
+			showResult('result_cost_reactor',reactor);
+
+			//cost sst
+			var Q = getInput('input_Q'); //m3/d
+			var sst = cost_sst(MLSS_X_TSS,Q);
+			showResult('result_cost_sst',sst);
+
+			//total
+			var total = reactor+sst;
+			return total;
+		}
+
+		function compute_exercise(){
+			var MLSS_X_TSS = getInput('input_MLSS_X_TSS'); //kg/m3 <-- value to be looped to find min costs
+			var total = total_cost(MLSS_X_TSS);
+			showResult('result_total',total);
+		}
+
+		function optimize_MLSS_X_TSS(){
+			//initial values
+			var optimum_cost=Infinity;
+			var optimum_M=Infinity;
+			//loop from 0 to 10 kg/m3
+			for(var M=0;M<10;M+=0.01) {
+				var current_cost = total_cost(M);
+				if(current_cost<optimum_cost){
+					optimum_cost=current_cost;
+					optimum_M=M;
+				}
+			}
+			console.log("MLSS: "+optimum_M);
+			console.log("Cost: "+optimum_cost);
+			showResult('result_optimum_M',optimum_M);
+			showResult('result_optimum_cost',optimum_cost);
+			showResult('result_total',0);
+			showResult('result_cost_reactor',0);
+			showResult('result_cost_sst',0);
 		}
 	</script>
 	<style>
@@ -98,7 +145,7 @@
 			margin:auto;
 			font-size:22px;
 		}
-		#results td[id]{
+		#results td[id],#optim td[id]{
 			color:blue;
 		}
 	</style>
@@ -109,7 +156,7 @@
 	<h2> 
 		Optimizing activated sludge systems (George A Ekama)
 	</h2>
-	<a href="docs/reactorSizing_ekama/PG4SSTAS-SSTOptNoBack(2PerPage).pdf">Document</a> 
+	<a target=_blank href="docs/reactorSizing_ekama/PG4SSTAS-SSTOptNoBack(2PerPage).pdf">Document</a> 
 	<hr>
 </div>
 
@@ -118,20 +165,41 @@
 	<div>
 		1. Cost reactor
 		<code>
-			Volume = X<sub>TSS,V</sub>/MLSS<sub>X,TSS</sub> (m<sup>3</sup>) <br>
-			Volume = Volume/1000; (megaliters) <br>
-			<br>
-			Cost reactor = 770·(Volume)<sup>0.761</sup>
+			Inputs:
+			<ul>
+				<li>X_TSS_V: kg of TSS (kg)
+				<li>MLSS_X_TSS: average MLSS concentration (kg/m3)
+			</ul>
+			Equations:
+			<ul>
+				<li>Volume = X<sub>TSS,V</sub>/MLSS<sub>X,TSS</sub> (m<sup>3</sup>)
+				<li>Volume = Volume/1000; (megaliters) 
+				<li><b>Cost reactor = 770·(Volume)<sup>0.761</sup> ($)</b>
+			</ul>
 		</code>
 	</div>
 	<div>
 		2. Cost SST
 		<code>
-			Area = f(MLSS<sub>X,TSS</sub>) (m<sup>2</sup>)
-				<span style=background:orange>pending: formula for Area using MLSS<sub>X,TSS</sub> as input</span> <br>
-			diameter = (4·Area/&pi;)<sup>0.5</sup> (m)<br>
-			<br>
-			Cost SST = 30·(diameter)<sup>1.22</sup>
+			Inputs:
+			<ul>
+				<li>MLSS_X_TSS: average MLSS concentration (kg/m3)
+				<li>Q: flowrate m3/d
+			</ul>
+			Parameters:
+			<ul>
+				<li>V<sub>max</sub> = 7 m/h (max settling velocity of interface)
+				<li>K = 600 L/mg (constant for AS mixed liquor with SVI=150)
+				<li>SF = 1.75 (safety factor)
+			</ul>
+			Equations:
+			<ul>
+				<li> V<sub>i</sub> = V<sub>max</sub>·e<sup>(-K/10<sup>6</sup>·MLSS<sub>X,TSS</sub>)</sup> (m/h) (settling velocity of interface)
+				<li> SOR = V<sub>i</sub>·24/SF (m/h) (surface overflow rate)
+				<li> Area = Q/SOR (m<sup>2</sup>)
+				<li> diameter = (4·Area/&pi;)<sup>0.5</sup> (m)
+				<li> <b>Cost SST = 30·(diameter)<sup>1.22</sup> ($)</b>
+			</ul>
 		</code>
 	</div>
 	<hr>
@@ -152,8 +220,8 @@
 					<td><input type=number id=input_MLSS_X_TSS value=3> kg/m<sup>3</sup>
 				</tr>
 				<tr>
-					<td>Area SST
-					<td><input type=number id=input_Area value=1000> m<sup>2</sup>
+					<td>Q
+					<td><input type=number id=input_Q value=4000> m<sup>3</sup>/d
 				<tr>
 			</table>
 			<script>
@@ -169,6 +237,16 @@
 			<table id=results>
 				<tr><td>Cost reactor<td id=result_cost_reactor>?<td>$
 				<tr><td>Cost sst<td id=result_cost_sst>?<td>$
+				<tr><td>Total cost<td id=result_total>?<td>$
+			</table>
+		</li><li>
+			<div>
+				Optimization
+				<button onclick=optimize_MLSS_X_TSS()>OPTIMIZE</button>
+			</div>
+			<table id=optim>
+				<tr><td>Optimum MLSS<td id=result_optimum_M>?<td>kg/m3
+				<tr><td>Optimum cost<td id=result_optimum_cost>?<td>$
 			</table>
 		</li>
 	</ol>

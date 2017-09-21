@@ -13,5 +13,13 @@ unify inputs in a single page, then, select technology
 ## non prioratary tasks
 substitute images for text in implementations
 
+## future
+be able to calculate n subsystems (==run n models in parallel)
+join ecospold generation code inside the web
+
+
+
+
+
 -----------------------------
 # vim: set filetype=markdown:
