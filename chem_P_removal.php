@@ -9,6 +9,7 @@
 	</script>
 	<style>
 		body{
+			overflow-y:scroll;
 			max-width:90em;
 			margin:auto;
 			margin-bottom:100px;
@@ -73,7 +74,10 @@
 	<hr>
 </div>
 
-<!--problem statement-->
+<!--tabs-->
+<?php include'tabs.php'?>
+
+<!--statement-->
 <div id=statement>
 	<p>
 		Determine the amount of ferric chloride required to precipitate phosphorus from untreated wastewater
@@ -99,11 +103,103 @@
 		<tr><td>&emsp; Specific gravity                 <td class=number>1.05 <td>&empty;
 		<tr><td>&emsp; Moisture content                 <td class=number>92.5 <td>%
 	</table>
-	<hr>
+
+	<div>
+		<p><b>Solution</b></p>
+		<pre>
+			1. Determine the weight of iron required to remove ortophosphate.
+				a. From Fig. 6-13 for an effluent PO43- concentration of 0.1 mg/L the required
+				<code>
+				(Fe/P) mole ratio is approximately 3.3.
+				</code>
+				b. Using Eq- 6-24, the required ferric chloride dose is
+				<code>
+				Fe(III) dose = (Fe/P)(CP,in - CP,res)[(55.85 g/mole Fe)/(30.97 g/mole P)]
+				Substitute known values and solve for the dose
+				Fe(III) dose = (3.3)(5 - 0.1)[(55.85 g/mole Fe)/(30.97 g/mole P)]
+				Fe(III) dose = 29.2 mg/L
+				</code>
+			2. Determine primary effluent P concentration.
+			<code>
+				P, mg/L = 7 - (5 - 0.1) = 2.1 mg/L
+			</code>
+			3. Determine the amount of ferric iron required per day
+			<code>
+				Fe Dose = (3800 m3/d)(29.2 mg/L)(1 kg/1000 g) = 111.0 kg/d
+			</code>
+			4. Determine the amount of ferric chloride solution required per day and the 15 d storage requirement.
+				a. Determine the percent ferric iron in FeCl3.
+				<code>
+				Percent Fe in FeCl3 = (55.85/162.3)·100 = 34.4%
+				</code>
+				b. Determine the amount of a 34.4% solution of ferric chloride required per day
+				<code>
+				FeCl3 solution = [(111.0 kg/d)/0.344] = 322.7 kg/d
+				</code>
+				c. Determine volume of required FeCl3 solution per day.
+				<code>
+				FeCl3 volume = [(322.7 kg/d)/(0.37) · 1.35](1 L/kg) = 646.0 L/d
+				</code>
+				d. Determine 15-d storage requirement based on average flowrate.
+				<code>
+				15-d storage requirement = (646.0 L/d)(1 m3/1000 L)(15) = 10.3 m3
+				</code>
+			5. Determine the total maass of sludge on a dry basis resulting	from chemical precipitation.
+				a. Estimate the additional TSS removal resulting from the addition of FeCl3 for P removal.
+				<code>
+				Additional sludge = (0.15)(220 g/m3)(3800 m3/d)(1 kg/1000 g)
+				Additional sludge = 125.4 kg/d
+				</code>
+				b. Estimate the additional sludge resulting from the precipitate formed with P using Eq. (6-21)
+				<code>
+				1.6Fe3+ + HPO44- + 3.8OH &rarr; Fe1.6·H2PO4(OH)3.8
+				Fe dose = (29.2 mg Fe/L)(1 g/1000 mg)/(55.85 g/mole) = 0.00052 M
+				P removed = [(5 - 0.1) mg P/L)](1 g/1000 mg)/(30.97 g/mole)
+				P removed = 0.00016 M
+				Fe1.6·H2PO4(OH)3.8 sludge = (0.00016 M)(251 g/mole)(1000 mg/g)
+				Fe1.6·H2PO4(OH)3.8 sludge = 40.2 mg/L
+				</code>
+				c. Estimate the additional sludge resulting from Fe(OH)3.
+				<code>
+				Excess Fe added = 0.00052 M - 1.6(0.00016 M) = 0.000264 M
+				Fe(OH)3 sludge = 0.000264 M · (106.8 g/mole) = 28.2 mg/L
+				</code>
+				d. Estimate total chemical sludge resulting FeCl3 addition.
+				<code>
+				Excess sludge = 40.2 mg/L + 28.2 mg/L = 68.4 mg/L
+				Excess sludge = (3800 m3/d)(68.4 mg/L)(1 kg/1000 g) = 259.9 kg/d
+				</code>
+				e. Estimate total excess sludge resulting FeCl3 addition.
+				<code>
+				Total excess sludge = 125.4 kg/d + 259.9 kg/d = 385.3 kg/d
+				</code>
+			6. Compare total sludge production without and with chemical addition.
+				a. Without chemical addition 
+				<code>
+				Sludge = (3800 m3/d)(220.0 mg/L)(0.6)(1 kg/1000 g) = 501.6 kg/d
+				</code>
+				b. Total with chemical addition
+				<code>
+				Total = 501.6 kg/d + 385.3 kg/d = 886.9 kg/d
+				</code>
+			7. Determine the total volume of sludge without chemical precipitation, assuming that the sludge
+		  has a specific gravity of 1.03 and a moisture content of 94%.
+				<code>
+				Vs = (501.6 kg/d)/(1.03·(1000 kg/m3)0.006) = 8.1 m3
+				</code>
+			8. Determine the total volume of sludge resulting from chemical precipitation, assuming
+			that the sludge has a specific gravity of 1.05 and a moisture content of 92.5%
+				<code>
+				Vs = (886.9 kg/d)/(1.05·(1000 kg/m3)0.075) = 11.3 m3/d
+				</code>
+			9. The summary table is in the implementation tab
+		</pre>
+	</div>
 </div>
 
-<!--implementation gui-->
-<div style=display:><h2>Implementation in Javascript</h2>
+<!--implementation-->
+<div id=implement class=invisible>
+	<h2>Implementation in Javascript</h2>
 	<div> <button id=btn_calculate onclick=compute_exercise() style>Solve</button> </div>
 	<ol class=flex>
 		<li><div>Inputs</div>

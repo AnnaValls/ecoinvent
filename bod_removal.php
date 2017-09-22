@@ -1,8 +1,10 @@
 <!doctype html><html><head>
 	<meta charset=utf-8>
 	<title>Metcalf exercise 8-2 (p. 707)</title>
+	<script src="format.js"></script>
 	<style>
 		body{
+			overflow-y:scroll;
 			max-width:60em;
 			margin:auto;
 			margin-bottom:100px;
@@ -46,7 +48,6 @@
 		#btn_calculate{
 			display:block;
 			font-size:22px;
-			width:95%;
 			margin:auto;
 		}
 		[onclick]{
@@ -63,6 +64,7 @@
 	</script>
 </head><body onload="init()">
 
+<!--titol-->
 <h2>
 	Example 8-2 (p. 707) (fragment)
 	Metcalf 4th ed. 
@@ -74,11 +76,14 @@
 </p>
 
 <!--Enunciat-->
-<h2 onclick=document.getElementById('enunciat').classList.toggle('invisible')>
+<h2>
 	Complete-Mix Activated sludge process design for BOD Removal
 </h2>
 
-<div id=enunciat>
+<!--tabs-->
+<?php include'tabs.php'?>
+
+<div id=statement>
 	<div>
 		Design a complete-mix activated-sludge (CMAS) process to treat 22464 m3/d of primary effluent 
 		to (a) meet a BODe concentration less than 30 g/m3 and (b) accomplish BOD removal and nitrification
@@ -208,56 +213,57 @@
 			</ol>
 		</li>
 	</ol>
-</div><hr>
+</div>
 
 <!--IMPLEMENTATION-->
-<h2>Implementation in Javascript</h2>
-
-<ol class=flex>
-	<li>
-		Inputs
-		<table>
-			<tr><td>BOD            <td><input class=number id=BOD value=140> g/m3
-			<tr><td>sBOD           <td><input class=number id=sBOD value=70> g/m3
-			<tr><td>COD	           <td><input class=number id=COD value=300> g/m3
-			<tr><td>sCOD           <td><input class=number id=sCOD value=132> g/m3
-			<tr><td>rbCOD          <td><input class=number id=rbCOD value=80> g/m3
-			<tr><td>TSS	           <td><input class=number id=TSS value=70> g/m3
-			<tr><td>VSS	           <td><input class=number id=VSS value=60> g/m3
-			<tr><td>bCOD/BOD ratio <td><input class=number id=bCOD_BOD_ratio value=1.6> -
-			<tr><td>Q              <td><input class=number id=Q value=22464> m3/d
-			<tr><td>T              <td><input class=number id=T value=12> ºC
-		</table>
-		<div>
-			<button id=btn_calculate onclick=compute_exercise()>Solve</button>
-		</div>
-	</li>
-	<li>
-		Parameters
-		<table>
-			<tr><td>SRT   <td class=number>5    <td>d
-			<tr><td>Y     <td class=number>0.40 <td>g VSS / g bCOD
-			<tr><td>Ks    <td class=number>20   <td>g/m3
-			<tr><td>&mu;<sub>m</sub> <td class=number>6    <td>g/g·d
-			<tr><td>k<sub>d</sub>    <td class=number>0.12 <td>g/g·d
-			<tr><td>fd    <td class=number>0.15 <td>g/g
-		</table>
-	</li>
-	<li>
-		Calculated variables
-		<table id=calculated_variables>
-			<tr><td>bCOD               <td class=number><span id=bCOD>0</span><td>g/m3
-			<tr><td>nbCOD              <td class=number><span id=nbCOD>0</span><td>g/m3
-			<tr><td>sCODe              <td class=number><span id=sCODe>0</span><td>g/m3
-			<tr><td>nbVSS              <td class=number><span id=nbVSS>0</span><td>g/m3
-			<tr><td>iTSS               <td class=number><span id=iTSS>0</span><td>g/m3
-			<tr><td>S                  <td class=number><span id=S>0</span><td>g/m3
-			<tr><td>&mu;<sub>m,T</sub> <td class=number><span id=mu_mT>0</span><td>g/g·d
-			<tr><td>k<sub>d,T</sub>    <td class=number><span id=kdT>0</span><td>g/g·d
-			<tr><td>P<sub>X,VSS</sub>  <td class=number><span id=P_XVSS_kg>0</span><td>kg VSS/d
-		</table>
-	</li>
-</ol>
+<div id=implement class=invisible>
+	<h2>Implementation in Javascript</h2>
+	<div>
+		<button id=btn_calculate onclick=compute_exercise()>Solve</button>
+	</div>
+	<ol id=implement class=flex>
+		<li>
+			Inputs
+			<table>
+				<tr><td>BOD            <td><input class=number id=BOD value=140> g/m3
+				<tr><td>sBOD           <td><input class=number id=sBOD value=70> g/m3
+				<tr><td>COD	           <td><input class=number id=COD value=300> g/m3
+				<tr><td>sCOD           <td><input class=number id=sCOD value=132> g/m3
+				<tr><td>rbCOD          <td><input class=number id=rbCOD value=80> g/m3
+				<tr><td>TSS	           <td><input class=number id=TSS value=70> g/m3
+				<tr><td>VSS	           <td><input class=number id=VSS value=60> g/m3
+				<tr><td>bCOD/BOD ratio <td><input class=number id=bCOD_BOD_ratio value=1.6> -
+				<tr><td>Q              <td><input class=number id=Q value=22464> m3/d
+				<tr><td>T              <td><input class=number id=T value=12> ºC
+			</table>
+		</li>
+		<li>
+			Parameters
+			<table>
+				<tr><td>SRT   <td class=number>5    <td>d
+				<tr><td>Y     <td class=number>0.40 <td>g VSS / g bCOD
+				<tr><td>Ks    <td class=number>20   <td>g/m3
+				<tr><td>&mu;<sub>m</sub> <td class=number>6    <td>g/g·d
+				<tr><td>k<sub>d</sub>    <td class=number>0.12 <td>g/g·d
+				<tr><td>fd    <td class=number>0.15 <td>g/g
+			</table>
+		</li>
+		<li>
+			Calculated variables
+			<table id=calculated_variables>
+				<tr><td>bCOD               <td class=number><span id=bCOD>0</span><td>g/m3
+				<tr><td>nbCOD              <td class=number><span id=nbCOD>0</span><td>g/m3
+				<tr><td>sCODe              <td class=number><span id=sCODe>0</span><td>g/m3
+				<tr><td>nbVSS              <td class=number><span id=nbVSS>0</span><td>g/m3
+				<tr><td>iTSS               <td class=number><span id=iTSS>0</span><td>g/m3
+				<tr><td>S                  <td class=number><span id=S>0</span><td>g/m3
+				<tr><td>&mu;<sub>m,T</sub> <td class=number><span id=mu_mT>0</span><td>g/g·d
+				<tr><td>k<sub>d,T</sub>    <td class=number><span id=kdT>0</span><td>g/g·d
+				<tr><td>P<sub>X,VSS</sub>  <td class=number><span id=P_XVSS_kg>0</span><td>kg VSS/d
+			</table>
+		</li>
+	</ol>
+</div>
 
 <script>
 	function compute_exercise(){
@@ -296,18 +302,14 @@
 		var P_XVSS_kg = P_XVSS/1000;
 
 		//show results inner function
-		function show_var(id,value){
-			//console.log(id+": "+value);
-			document.getElementById(id).innerHTML=value.toString().substring(0,8);
-		}
-		show_var('bCOD',bCOD);     
-		show_var('nbCOD',nbCOD);    
-		show_var('sCODe',sCODe);    
-		show_var('nbVSS',nbVSS);    
-		show_var('iTSS',iTSS);    
-		show_var('mu_mT',mu_mT);    
-		show_var('kdT',kdT);      
-		show_var('S',S);        
-		show_var('P_XVSS_kg',P_XVSS_kg);
+		showResult('bCOD',bCOD);     
+		showResult('nbCOD',nbCOD);    
+		showResult('sCODe',sCODe);    
+		showResult('nbVSS',nbVSS);    
+		showResult('iTSS',iTSS);    
+		showResult('mu_mT',mu_mT);    
+		showResult('kdT',kdT);      
+		showResult('S',S);        
+		showResult('P_XVSS_kg',P_XVSS_kg);
 	};
 </script>
