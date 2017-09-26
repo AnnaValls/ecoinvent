@@ -457,7 +457,7 @@
 			var bCOD_BOD_ratio = getInput('input_bCOD_BOD_ratio');
 			var Q              = getInput('input_Q');
 			var T              = getInput('input_T');
-		//end inputs
+		//end
 
 		//design parameters
 			var SRT        = getInput('parameter_SRT'); //5
@@ -465,29 +465,30 @@
 			var zb         = getInput('parameter_zb'); //500
 			var Pressure   = getInput('parameter_Pressure'); //95600
 			var Df         = getInput('parameter_Df'); //4.4 = 4.9m-0.5m, from design conditions and assumptions (depth of diffusers in basin)
+		//end
 
-		//tabulated parameters
-			var Y = 0.45;
+		//tabulated parameters (constants)
+			var YH = 0.45;
 			var Ks = 8;
 			var mu_m = 6;
 			var bH = 0.12;
 			var fd = 0.15;
 			var Pa = 10.33; //m standard pressure at sea level
 			var R = 8314; //kg*m2/s2*kmol*K (ideal gases constant)
-			var g = 9.81;//m/s2 (gravity)
-			var M = 28.97;//g/mol (air molecular weight)
-			var alpha=0.50;//8.b
-			var beta=0.95;//8.b
-			var F=0.9;//8.b
-			var C_s_20 = 9.09;//8.b sat DO at sea level at 20ºC
-			var C_T = air_solubility_of_oxygen(T,0);//elevation=0 //Table E-1, Appendix E, implemented in "utils.js"
-			var de=0.40;//8.b mid-depth correction factor (range: 0.25-0.45)
-			var C_L=2.0;//DO in aeration basin (mg/L)
-			var E = 0.35 //O2 transfer efficiency
-			var SF =1.5 //peak to average tkn load (design assumptions)
+			var g = 9.81; //m/s2 (gravity)
+			var M = 28.97; //g/mol (air molecular weight)
+			var alpha=0.50; //8.b
+			var beta=0.95; //8.b
+			var F=0.9; //8.b
+			var C_s_20=9.09; //8.b sat DO at sea level at 20ºC
+			var C_T=air_solubility_of_oxygen(T,0); //elevation=0 //Table E-1, Appendix E, implemented in "utils.js"
+			var de=0.40; //8.b mid-depth correction factor (range: 0.25-0.45)
+			var C_L=2.0; //DO in aeration basin (mg/L)
+			var E = 0.35; //O2 transfer efficiency
+			var SF =1.5; //peak to average tkn load (design assumptions)
 		//end
 
-		/*compute values*/
+		/*compute results*/
 		//part A: bod removal without nitrification
 			var bCOD = bCOD_BOD_ratio * BOD;
 			var nbCOD = COD - bCOD;
@@ -500,7 +501,7 @@
 			var mu_mT = mu_m * Math.pow(1.07, T - 20);
 			var bHT = bH * Math.pow(1.04, T - 20); 
 			var S = Ks*(1+bHT*SRT)/(SRT*(mu_mT-bHT)-1);
-			var P_X_bio = (Q*Y*(S0 - S) / (1 + bHT*SRT) + (fd*bHT*Q*Y*(S0 - S)*SRT) / (1 + bHT*SRT))/1000;
+			var P_X_bio = (Q*YH*(S0 - S) / (1 + bHT*SRT) + (fd*bHT*Q*YH*(S0 - S)*SRT) / (1 + bHT*SRT))/1000;
 			//3
 			var P_X_VSS = P_X_bio + Q*nbVSS/1000;
 			var P_X_TSS = P_X_bio/0.85 + Q*nbVSS/1000 + Q*(TSS-VSS)/1000;
@@ -582,12 +583,12 @@
 			var S = Ks * (1+bHT*SRT_design) / (SRT_design*(mu_mT-bHT)-1);
 			var NOx = 0.80 * TKN; //aproximation for nitrate, prior to iteration (80% of TKN)
 			//biomass first approximation with first NOx concentration aproximation
-			var P_X_bio_VSS = Q*Y*(S0-S)/(1+bHT*SRT_design) + fd*bHT*Q*Y*(S0-S)*SRT_design/(1+bHT*SRT_design) + Q*Yn*NOx/(1+b_AOB_T*SRT_design);
+			var P_X_bio_VSS = Q*YH*(S0-S)/(1+bHT*SRT_design) + fd*bHT*Q*YH*(S0-S)*SRT_design/(1+bHT*SRT_design) + Q*Yn*NOx/(1+b_AOB_T*SRT_design);
 			P_X_bio_VSS/=1000;
 			//12 iteration for finding more accurate value of NOx (nitrogen oxidized to nitrate)
 			var NOx = TKN - Ne - 0.12*P_X_bio_VSS/Q*1000;
 			//recalc PXbioVSS with accurate NOx (one iteration)
-			var P_X_bio_VSS = Q*Y*(S0-S)/(1+bHT*SRT_design) + fd*bHT*Q*Y*(S0-S)*SRT_design/(1+bHT*SRT_design) + Q*Yn*NOx/(1+b_AOB_T*SRT_design);
+			var P_X_bio_VSS = Q*YH*(S0-S)/(1+bHT*SRT_design) + fd*bHT*Q*YH*(S0-S)*SRT_design/(1+bHT*SRT_design) + Q*Yn*NOx/(1+b_AOB_T*SRT_design);
 			P_X_bio_VSS/=1000;
 
 			//loop for NOx and PXBioVSS calculation
@@ -609,7 +610,7 @@
 					var last_NOx = TKN - Ne - 0.12*P_X_bio_VSS_array[P_X_bio_VSS_array.length-1]/Q*1000;
 					NOx_array.push(last_NOx);
 					//recalculate P_X_bio_VSS with NOx approximation
-					var last_PX=(Q*Y*(S0-S)/(1+bHT*SRT_design)+fd*bHT*Q*Y*(S0-S)*SRT_design/(1+bHT*SRT_design)+Q*Yn*(last_NOx)/(1+b_AOB_T*SRT_design))/1000
+					var last_PX=(Q*YH*(S0-S)/(1+bHT*SRT_design)+fd*bHT*Q*YH*(S0-S)*SRT_design/(1+bHT*SRT_design)+Q*Yn*(last_NOx)/(1+b_AOB_T*SRT_design))/1000
 					P_X_bio_VSS_array.push(last_PX);
 					console.log("  NOx approximations: "+NOx_array);
 					console.log("  PXbioVSS approximations: "+P_X_bio_VSS_array);
@@ -642,7 +643,7 @@
 			var Y_obs_TSS = P_X_TSS/bCOD_removed*bCOD_BOD_ratio;
 			var Y_obs_VSS = P_X_TSS/bCOD_removed*(X_VSS_V/X_TSS_V)*bCOD_BOD_ratio;
 			//17
-			var P_X_bio_VSS_without_nitrifying = Q*Y*(S0-S)/(1+bHT*SRT_design) + fd*bHT*Q*Y*(S0-S)*SRT_design/(1+bHT*SRT_design);
+			var P_X_bio_VSS_without_nitrifying = Q*YH*(S0-S)/(1+bHT*SRT_design) + fd*bHT*Q*YH*(S0-S)*SRT_design/(1+bHT*SRT_design);
 			P_X_bio_VSS_without_nitrifying /= 1000;
 			var R0 = Q*(S0-S)/1000 -1.42*P_X_bio_VSS_without_nitrifying + 4.57*Q*NOx/1000;
 			R0 /= 24;

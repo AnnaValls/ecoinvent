@@ -1,9 +1,15 @@
 <!--tabs-->
+<!-- 
+	this code fragment implements 2 buttons
+	to show different tabs.
+	It needs two element ids in the parent page: 
+		"statement" and "implement"
+-->
 <div class=flex id=tabs>
 	<button tab=statement class=active>Statement</button>
 	<button tab=implement >Implementation</button>
 	<script>
-		//add listeners
+		//add onclick listeners
 		(function(){
 			var btns=document.querySelectorAll('#tabs button[tab]');
 			for(var i=0;i<btns.length;i++){
@@ -11,15 +17,14 @@
 			}
 		})();
 		function activateTab(tab){
-			//all invisible
+			//make all invisible
 			var btns=document.querySelectorAll('#tabs button[tab]');
 			for(var i=0;i<btns.length;i++){
 				btns[i].classList.remove('active');
 				var id=btns[i].getAttribute('tab');
 				document.getElementById(id).classList.add('invisible');
 			}
-			//visible
-			//button.tab == div.id
+			//make tab visible (button.tab == div.id)
 			document.querySelector('#tabs button[tab='+tab+']').classList.add('active');
 			document.getElementById(tab).classList.remove('invisible');
 		}
