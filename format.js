@@ -21,7 +21,6 @@ function format(number,digits){
 function showResult(id,value){
 	var el=document.getElementById(id);
 	try{
-		console.log(id+": "+value);
 		el.innerHTML=format(value);
 	}catch(e){
 		console.error("id: "+id);

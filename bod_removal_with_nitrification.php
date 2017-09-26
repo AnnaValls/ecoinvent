@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-	<meta charset=utf-8>
+	<?php include'imports.php'?>
 	<title>BOD removal &amp; nitrification</title>
 	<script src="utils.js"></script>
 	<script src="format.js"></script>
@@ -447,114 +447,59 @@
 			var sBOD           = getInput('input_sBOD');
 			var COD            = getInput('input_COD');
 			var sCOD           = getInput('input_sCOD');
-			var rbCOD          = getInput('input_rbCOD');
 			var TSS            = getInput('input_TSS');
 			var VSS            = getInput('input_VSS');
+			var bCOD_BOD_ratio = getInput('input_bCOD_BOD_ratio');
+			var Q              = getInput('input_Q');
+			var T              = getInput('input_T');
+			var SRT            = getInput('parameter_SRT'); //5
+			var MLSS_X_TSS     = getInput('parameter_MLSS_X_TSS'); //3000
+			var zb             = getInput('parameter_zb'); //500
+			var Pressure       = getInput('parameter_Pressure'); //95600
+			var Df             = getInput('parameter_Df'); //4.4 = 4.9m-0.5m, from design conditions and assumptions (depth of diffusers in basin)
+		//end
+
+		//perform bod removal only
+		var r=bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb,Pressure,Df);
+		console.log(r);
+
+		//show results for part A
+			showResult('part_A_bCOD',r.bCOD);
+			showResult('part_A_nbCOD',r.nbCOD);
+			showResult('part_A_nbsCODe',r.nbsCODe);
+			showResult('part_A_nbVSS',r.nbVSS);
+			showResult('part_A_iTSS',r.iTSS);
+			showResult('part_A_P_X_bio',r.P_X_bio);
+			showResult('part_A_P_X_VSS',r.P_X_VSS);
+			showResult('part_A_P_X_TSS',r.P_X_TSS);
+			showResult('part_A_X_VSS_V',r.X_VSS_V);
+			showResult('part_A_X_TSS_V',r.X_TSS_V);
+			showResult('part_A_V',r.V);
+			showResult('part_A_tau',r.tau);
+			showResult('part_A_MLVSS',r.MLVSS);
+			showResult('part_A_FM',r.FM);
+			showResult('part_A_BOD_loading',r.BOD_loading);
+			showResult('part_A_bCOD_removed',r.bCOD_removed);
+			showResult('part_A_Y_obs_TSS',r.Y_obs_TSS);
+			showResult('part_A_Y_obs_VSS',r.Y_obs_VSS);
+			showResult('part_A_R0',r.OTRf);
+			showResult('part_A_Pb',r.Pb);
+			showResult('part_C_T',r.C_T);
+			showResult('part_A_SOTR',r.SOTR);
+			showResult('part_A_air_flowrate',r.air_flowrate);
+		//end results part A
+
+		//continue here
+		return;
+
+		//tabulated parameters (constants)
+			var SF = 1.5; //peak to average tkn load (design assumptions)
+			var rbCOD          = getInput('input_rbCOD');
 			var TKN            = getInput('input_TKN');
 			var NH4_N          = getInput('input_NH4_N');
 			var TP             = getInput('input_TP');
 			var Alkalinity     = getInput('input_Alkalinity');
-			var bCOD_BOD_ratio = getInput('input_bCOD_BOD_ratio');
-			var Q              = getInput('input_Q');
-			var T              = getInput('input_T');
 		//end
-
-		//design parameters
-			var SRT        = getInput('parameter_SRT'); //5
-			var MLSS_X_TSS = getInput('parameter_MLSS_X_TSS'); //3000
-			var zb         = getInput('parameter_zb'); //500
-			var Pressure   = getInput('parameter_Pressure'); //95600
-			var Df         = getInput('parameter_Df'); //4.4 = 4.9m-0.5m, from design conditions and assumptions (depth of diffusers in basin)
-		//end
-
-		//tabulated parameters (constants)
-			var YH = 0.45;
-			var Ks = 8;
-			var mu_m = 6;
-			var bH = 0.12;
-			var fd = 0.15;
-			var Pa = 10.33; //m standard pressure at sea level
-			var R = 8314; //kg*m2/s2*kmol*K (ideal gases constant)
-			var g = 9.81; //m/s2 (gravity)
-			var M = 28.97; //g/mol (air molecular weight)
-			var alpha=0.50; //8.b
-			var beta=0.95; //8.b
-			var F=0.9; //8.b
-			var C_s_20=9.09; //8.b sat DO at sea level at 20ºC
-			var C_T=air_solubility_of_oxygen(T,0); //elevation=0 //Table E-1, Appendix E, implemented in "utils.js"
-			var de=0.40; //8.b mid-depth correction factor (range: 0.25-0.45)
-			var C_L=2.0; //DO in aeration basin (mg/L)
-			var E = 0.35; //O2 transfer efficiency
-			var SF =1.5; //peak to average tkn load (design assumptions)
-		//end
-
-		/*compute results*/
-		//part A: bod removal without nitrification
-			var bCOD = bCOD_BOD_ratio * BOD;
-			var nbCOD = COD - bCOD;
-			var nbsCODe = sCOD - bCOD_BOD_ratio * sBOD;
-			var nbpCOD = COD - bCOD - nbsCODe;
-			var VSS_COD = (COD-sCOD)/VSS;
-			var nbVSS = nbpCOD/VSS_COD;
-			var iTSS = TSS - VSS;
-			var S0=bCOD;
-			var mu_mT = mu_m * Math.pow(1.07, T - 20);
-			var bHT = bH * Math.pow(1.04, T - 20); 
-			var S = Ks*(1+bHT*SRT)/(SRT*(mu_mT-bHT)-1);
-			var P_X_bio = (Q*YH*(S0 - S) / (1 + bHT*SRT) + (fd*bHT*Q*YH*(S0 - S)*SRT) / (1 + bHT*SRT))/1000;
-			//3
-			var P_X_VSS = P_X_bio + Q*nbVSS/1000;
-			var P_X_TSS = P_X_bio/0.85 + Q*nbVSS/1000 + Q*(TSS-VSS)/1000;
-			//4
-			var X_VSS_V = P_X_VSS*SRT;
-			var X_TSS_V = P_X_TSS*SRT;
-			var V = X_TSS_V*1000/MLSS_X_TSS;
-			var tau = V*24/Q;
-			var MLVSS = X_VSS_V/X_TSS_V * MLSS_X_TSS;
-			//5
-			var FM = Q*BOD/MLVSS/V;
-			var BOD_loading = Q*BOD/V/1000;
-			//6
-			var bCOD_removed = Q*(S0-S)/1000;
-			var Y_obs_TSS = P_X_TSS/bCOD_removed*bCOD_BOD_ratio;
-			var Y_obs_VSS = P_X_TSS/bCOD_removed*(X_VSS_V/X_TSS_V)*bCOD_BOD_ratio;
-			//7
-			var NOx=0;
-			var R0 = (Q*(S0-S)/1000 -1.42*P_X_bio)/24 + 0; //NOx is zero here
-			//8
-			var Pb = Pa*Math.exp(-g*M*(zb-0)/(R*(273.15+T))); //pressure at plant site
-			var C_inf_20 = C_s_20 * (1+de*Df/Pa);
-			var OTRf = R0;
-			var SOTR = (OTRf/(alpha*F))*(C_inf_20/(beta*C_T/C_s_20*Pb/Pa*C_inf_20-C_L))*(Math.pow(1.024,20-T));
-			var kg_O2_per_m3_air = density_of_air(T,Pressure)*0.2318 //oxygen in air by weight is 23.18%, by volume is 20.99%
-			var air_flowrate = SOTR/(E*60*kg_O2_per_m3_air);
-		//end part A
-
-		//show results for part A
-			showResult('part_A_bCOD',bCOD);
-			showResult('part_A_nbCOD',nbCOD);
-			showResult('part_A_nbsCODe',nbsCODe);
-			showResult('part_A_nbVSS',nbVSS);
-			showResult('part_A_iTSS',iTSS);
-			showResult('part_A_P_X_bio',P_X_bio);
-			showResult('part_A_P_X_VSS',P_X_VSS);
-			showResult('part_A_P_X_TSS',P_X_TSS);
-			showResult('part_A_X_VSS_V',X_VSS_V);
-			showResult('part_A_X_TSS_V',X_TSS_V);
-			showResult('part_A_V',V);
-			showResult('part_A_tau',tau);
-			showResult('part_A_MLVSS',MLVSS);
-			showResult('part_A_FM',FM);
-			showResult('part_A_BOD_loading',BOD_loading);
-			showResult('part_A_bCOD_removed',bCOD_removed);
-			showResult('part_A_Y_obs_TSS',Y_obs_TSS);
-			showResult('part_A_Y_obs_VSS',Y_obs_VSS);
-			showResult('part_A_R0',R0);
-			showResult('part_A_Pb',Pb);
-			showResult('part_C_T',C_T);
-			showResult('part_A_SOTR',SOTR);
-			showResult('part_A_air_flowrate',air_flowrate);
-		//end results part A
 
 		//9: part B NITRIFICATION
 			//parameters

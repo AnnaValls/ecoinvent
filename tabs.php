@@ -40,10 +40,15 @@
 			border:1px solid #ccc;
 			border-bottom:none;
 			box-shadow: 0 0 4px 2px rgba(0,0,0,.3) inset;
+			outline:none;
 		}
 		#tabs button.active {
 			background:white;
 			box-shadow:none;
+		}
+		#tabs button:not(.active):hover {
+			box-shadow: 0 0 4px 2px rgba(0,0,0,.1) inset;
+			transition:box-shadow 0.3s;
 		}
 	</style>
 </div>

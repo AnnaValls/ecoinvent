@@ -201,4 +201,7 @@ function air_solubility_of_oxygen(temperature,elevation){
 		var f_x_y = (y2-y)/(y2-y1)*f_x_y1 + (y-y1)/(y2-y1)*f_x_y2;
 		return f_x_y;
 	}
+	/*test:
+	console.log(air_solubility_of_oxygen(12,0))
+	*/
 }
