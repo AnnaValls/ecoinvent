@@ -5,8 +5,9 @@
 <link rel="icon" href="img/favicon.ico" type="image/x-icon">
 
 <!--imports-->
-<script src="format.js"></script>
 <script src="utils.js"></script>
+<script src="format.js"></script>
 
 <!--technologies-->
+<script src="techs/constants.js"></script>
 <script src="techs/bod_removal_only.js"></script>

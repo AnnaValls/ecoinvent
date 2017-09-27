@@ -1,41 +1,32 @@
 /** 
+
 	Technology: BOD removal only 
+
 **/
 function bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb,Pressure,Df){
 	/*
-		Inputs (14): 
-			BOD             g/m3
-			sBOD            g/m3
-			COD             g/m3
-			sCOD            g/m3
-			TSS             g/m3
-			VSS             g/m3
-			bCOD_BOD_ratio  g bCOD / g BOD
-			Q               m3/d
-			T               ºC
-			SRT             d
-			MLSS_X_TSS      g/m3
-			zb              m
-			Pressure        Pa
-			Df              m
+		Inputs            example values 
+		--------------------------------
+			BOD             140 g/m3
+			sBOD            70 g/m3
+			COD             300 g/m3
+			sCOD            132 g/m3
+			TSS             70 g/m3
+			VSS             60 g/m3
+			bCOD_BOD_ratio  1.6 g bCOD/g BOD
+			Q               22700 m3/d
+			T               12 ºC
+			SRT             5 d
+			MLSS_X_TSS      3000 g/m3
+			zb              500 m
+			Pressure        95600 Pa
+			Df              4.4 m
+		--------------------------------
 	*/
-	//tabulated parameters (constants)
-		var YH     = 0.45;
-		var Ks     = 8;
-		var mu_m   = 6;
-		var bH     = 0.12;
-		var fd     = 0.15;
-		var Pa     = 10.33; //m standard pressure at sea level
-		var R      = 8314;  //kg*m2/s2*kmol*K (ideal gases constant)
-		var g      = 9.81;  //m/s2 (gravity)
-		var M      = 28.97; //g/mol (air molecular weight)
+
+	//parameters
 		var alpha  = 0.50;  //8.b
 		var beta   = 0.95;  //8.b
-		var F      = 0.9;   //8.b fouling factor
-		var C_s_20 = 9.09;  //8.b sat DO at sea level at 20ºC
-		var de     = 0.40;  //8.b mid-depth correction factor (range: 0.25 - 0.45)
-		var C_L    = 2.0;   //DO in aeration basin (mg/L)
-		var E      = 0.35;  //O2 transfer efficiency
 	//end
 
 	/*compute results*/
@@ -117,6 +108,7 @@ function bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_
 };
 
 /*node test
+*/
 (function(){
 	var BOD            = 140;
 	var sBOD           = 70;
@@ -135,4 +127,3 @@ function bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_
 	var result = bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb,Pressure,Df);
 	console.log(result);
 })();
-*/

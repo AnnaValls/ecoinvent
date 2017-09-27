@@ -443,15 +443,15 @@
 <script>
 	function compute_exercise(){
 		//get inputs
-			var BOD            = getInput('input_BOD');
-			var sBOD           = getInput('input_sBOD');
-			var COD            = getInput('input_COD');
-			var sCOD           = getInput('input_sCOD');
-			var TSS            = getInput('input_TSS');
-			var VSS            = getInput('input_VSS');
-			var bCOD_BOD_ratio = getInput('input_bCOD_BOD_ratio');
-			var Q              = getInput('input_Q');
-			var T              = getInput('input_T');
+			var BOD            = getInput('input_BOD'); //140
+			var sBOD           = getInput('input_sBOD'); //70
+			var COD            = getInput('input_COD'); //300
+			var sCOD           = getInput('input_sCOD'); //132
+			var TSS            = getInput('input_TSS'); //70
+			var VSS            = getInput('input_VSS'); //60
+			var bCOD_BOD_ratio = getInput('input_bCOD_BOD_ratio'); //1.6
+			var Q              = getInput('input_Q'); //22700
+			var T              = getInput('input_T'); //12
 			var SRT            = getInput('parameter_SRT'); //5
 			var MLSS_X_TSS     = getInput('parameter_MLSS_X_TSS'); //3000
 			var zb             = getInput('parameter_zb'); //500

@@ -1,7 +1,5 @@
 <!doctype html><html><head>
-	<meta charset=utf-8>
-	<meta name="viewport" content="width=device-width">
-	<meta name="description" content="ecoinvent">
+	<?php include'imports.php'?>
 	<title>Ecoinvent</title>
 	<script>
 		function init(){
@@ -95,13 +93,14 @@
 	<div>
 		<p>Web parts:</p>
 		<ul>
-			<li><a href=general>1. General configuration</a>
-			<li><a href=wastewater>2. Wastewater configuration</a>
-			<li><a href=wwtp>3. WWTP configuration</a>
-			<li><a href=construction>4. Construction materials</a>
+			<li><a href=general      >1. General configuration    </a>
+			<li><a href=wastewater   >2. Wastewater configuration </a>
+			<li><a href=wwtp         >3. WWTP configuration       </a>
+			<li><a href=construction >4. Construction materials   </a>
 			<li>5. Chemicals consumed
 			<li>6. Energy consumed
-			<li>7. Generate ecoSpold (python)
+			<li>7. Generate ecoSpold (connection with python code)
+			<li><a href=views>Views architecture</a>
 			<li>Appendix: <a href=terms.php>Terms</a>
 		</ul>
 		<hr>
@@ -129,10 +128,9 @@
 			<tr>
 				<td><a href="ekama_sizing.php">5. Reactor sizing (optim. cost) [G. Ekama]</a>
 				<td>Done
-			</tr>
 			<tr>
 				<td><a>6. Elementary flows factors + simpleTreat</a>
-				<td>(in progress at 2017-09-21)
+				<td>(in progress at <?php echo date("Y-m-d")?>)
 			</tr>
 		</table>
 	</div><hr>

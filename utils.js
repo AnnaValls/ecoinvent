@@ -1,5 +1,6 @@
 /*
-	Implementation of figures, tables and appendixes from Metcalf & Eddy, 5th ed, 2014
+	Implementation of figures, tables and appendixes 
+	from Metcalf & Eddy, 5th ed, 2014
 */
 
 /*
@@ -60,6 +61,8 @@ function density_of_air(temperature,pressure) {
 	for BOD removal with nitrification
 	The air solubility of oxygen in mg/L as functions of temperature (ºC) and elevation (m) for 0-1800 m
 	Perform linear interpolation or bilinear interpolation
+	test:
+	console.log(air_solubility_of_oxygen(12,0))
 */
 function air_solubility_of_oxygen(temperature,elevation){
 	//input checks
@@ -201,7 +204,4 @@ function air_solubility_of_oxygen(temperature,elevation){
 		var f_x_y = (y2-y)/(y2-y1)*f_x_y1 + (y-y1)/(y2-y1)*f_x_y2;
 		return f_x_y;
 	}
-	/*test:
-	console.log(air_solubility_of_oxygen(12,0))
-	*/
 }
