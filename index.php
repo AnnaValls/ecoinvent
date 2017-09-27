@@ -1,19 +1,9 @@
 <!doctype html><html><head>
 	<?php include'imports.php'?>
 	<title>Ecoinvent</title>
-	<!--css styles are at the end-->
+	<!--css at the end-->
 </head><body>
-<!--title-->
-<div id=title>
-	Ecoinvent wastewater web tool (in development)
-	<style>
-		#title {
-			background:linear-gradient(to top, #e01a1a, #eb6666);
-			padding:0.5em;
-			font-size:22px;
-		}
-	</style>
-</div>
+<?php include'navbar.php'?>
 
 <div id=root>
 

@@ -35,7 +35,7 @@
 <!--select technology-->
 <div>
 	<p>1. Select technology</p>
-	<table id=technology></table>
+	<table id=technology border=1></table>
 	<script>
 		var table=document.querySelector('table#technology');
 		Technologies.forEach(input=>{
@@ -48,11 +48,11 @@
 <!--select primary treatment-->
 <div>
 	<p>2. Primary treatment exists?</p>
-	<table>
-		<tr><td><label><input type=radio name=primary_treatment> No
-			<small>(influent COD fractions use raw wastewater)
+	<table border=1>
+		<tr><td><label><input type=radio name=primary_treatment checked> No
+			<small>(influent COD fractions use raw wastewater)</small>
 		<tr><td><label><input type=radio name=primary_treatment> Yes
-			<small>(influent COD fractions use primary effluent)
+			<small>(influent COD fractions use primary effluent)</small>
 		</tr>
 	</table>
 </div><hr>
@@ -60,7 +60,7 @@
 <!--enter inputs-->
 <div>
 	<p>3. Influent wastewater flow and composition</p>
-	<table id=inputs>
+	<table id=inputs border=1>
 		<tr><th>Compound<th>Unit<th>Value
 	</table>
 	<script>
@@ -77,7 +77,7 @@
 <!--enter design parameters-->
 <div>
 	<p>4. Design parameters</p>
-	<table id=design_parameters>
+	<table id=design_parameters border=1>
 		<tr><th>Parameter<th>Unit<th>Value
 	</table>
 	<script>
@@ -92,4 +92,14 @@
 </div><hr>
 
 <!--end of the page-->
-<a href=outputs.php>Outputs</a>
+<div>
+	<a href=outputs.php>Outputs</a>
+</div>
+
+<style>
+	table {
+	}
+	th, td {
+		padding:0.2em;
+	}
+</style>
