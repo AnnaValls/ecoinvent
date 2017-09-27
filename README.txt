@@ -9,6 +9,8 @@ In development. Expected web application finish: October 31 2017
 implement elementary flows factors (lcorominas is gathering equations)
 implement "simple treat" equations for other elementary flows factors
 
+implement Fe/P mole ratio from figure 6-13 (page 484)
+
 ### frontend tasks
 unify inputs in a single page, then, select technology
 

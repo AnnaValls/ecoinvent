@@ -1,3 +1,8 @@
+<!--enable debugging tests-->
+<script>
+	var debug=!false; //global variable
+</script>
+
 <!--meta-->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
@@ -11,3 +16,4 @@
 <!--technologies-->
 <script src="techs/constants.js"></script>
 <script src="techs/bod_removal_only.js"></script>
+<script src="techs/nitrification.js"></script>

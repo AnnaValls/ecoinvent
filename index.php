@@ -1,76 +1,13 @@
 <!doctype html><html><head>
 	<?php include'imports.php'?>
 	<title>Ecoinvent</title>
-	<script>
-		function init(){
-			//init
-		}
-	</script>
-
-	<!--styles-->
-	<style>
-		/*general*/
-		body{
-			font-family:sans-serif;
-			margin:0;
-		}
-		h1{
-			margin-top:5px;
-			font-weight:normal;
-		}
-		h2{
-			font-weight:normal;
-		}
-		table th{
-			border-bottom:1px solid #ccc;
-		}
-
-		/*lists*/
-		ol{	
-			counter-reset:item;
-		}
-		ol li{
-			display:block;
-		}
-		ol li:before{
-			content:counters(item,".") ". "; 
-			counter-increment:item;
-			font-family:monospace;
-		}
-		#root {
-			margin:5px;
-		}
-		#root > li {
-			margin-top:0.5em;
-		}
-		#root > li > b{
-			font-size:17px;
-		}
-
-		.description {
-			display:inline-block;
-			width:350px;
-			font-size:12px;
-		}
-
-		/*folds*/
-		.foldable.folded > ol {
-			display:none;
-		}
-		.foldable b {
-			cursor:pointer;
-			font-size:14px;
-		}
-		.foldable b:hover {
-			text-decoration:underline;
-		}
-	</style>
-</head><body onload=init()>
-
-<div id=navbar>
+	<!--css styles are at the end-->
+</head><body>
+<!--title-->
+<div id=title>
 	Ecoinvent wastewater web tool (in development)
 	<style>
-		#navbar {
+		#title {
 			background:linear-gradient(to top, #e01a1a, #eb6666);
 			padding:0.5em;
 			font-size:22px;
@@ -93,15 +30,16 @@
 	<div>
 		<p>Web parts:</p>
 		<ul>
-			<li><a href=general      >1. General configuration    </a>
-			<li><a href=wastewater   >2. Wastewater configuration </a>
-			<li><a href=wwtp         >3. WWTP configuration       </a>
-			<li><a href=construction >4. Construction materials   </a>
-			<li>5. Chemicals consumed
-			<li>6. Energy consumed
-			<li>7. Generate ecoSpold (connection with python code)
-			<li><a href=views>Views architecture</a>
+			<li>Single WWTP configuration
+			<li><a href=inputs.php>1. Inputs</a>
+			<li><a href=outputs.php>2. Outputs</a>
+			<li><a href=construction >3. Construction materials   </a>
+			<li>4. Chemicals consumed
+			<li>5. Energy consumed
+			<li>6. Generate ecoSpold (connection with python code)
 			<li>Appendix: <a href=terms.php>Terms</a>
+			<li><hr>
+			<li><a href=future>Future implementations (for "n" WWTPs)</a>
 		</ul>
 		<hr>
 	</div>
@@ -149,9 +87,7 @@
 				<a href="//github.com/ecoinvent/wastewater_treatment_tool">github.com/ecoinvent/wastewater_treatment_tool</a>
 			</li>
 		</ul>
-	</div>
-
-	<hr>
+	</div><hr>
 
 	<div>
 		ICRA people:
@@ -161,3 +97,62 @@
 		</ul>
 	</div>
 </p>
+
+<!--styles-->
+<style>
+	/*general*/
+	body{
+		font-family:sans-serif;
+		margin:0;
+	}
+	h1{
+		margin-top:5px;
+		font-weight:normal;
+	}
+	h2{
+		font-weight:normal;
+	}
+	table th{
+		border-bottom:1px solid #ccc;
+	}
+
+	/*lists*/
+	ol{	
+		counter-reset:item;
+	}
+	ol li{
+		display:block;
+	}
+	ol li:before{
+		content:counters(item,".") ". "; 
+		counter-increment:item;
+		font-family:monospace;
+	}
+	#root {
+		margin:5px;
+	}
+	#root > li {
+		margin-top:0.5em;
+	}
+	#root > li > b{
+		font-size:17px;
+	}
+
+	.description {
+		display:inline-block;
+		width:350px;
+		font-size:12px;
+	}
+
+	/*folds*/
+	.foldable.folded > ol {
+		display:none;
+	}
+	.foldable b {
+		cursor:pointer;
+		font-size:14px;
+	}
+	.foldable b:hover {
+		text-decoration:underline;
+	}
+</style>

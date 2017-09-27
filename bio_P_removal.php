@@ -273,7 +273,7 @@
 			var VFA_rbCOD_ratio = Acetate / rbCOD; //0.20 no unit
 			var rbCOD_P_ratio = get_rbCOD_P_ratio(VFA_rbCOD_ratio); //implemented fig 8-38 at "utils.js"
 			var rbCOD_available_normalized = rbCOD_available/Q; //59.4 g/m3
-			var P_removal_EBPR = rbCOD_available_normalized/rbCOD_P_ratio; //4 g/m3
+			var P_removal_EBPR = rbCOD_available_normalized/rbCOD_P_ratio; //4 g/m3 (page 484)
 			console.log("---2---");
 			showResult('result_VFA_rbCOD_ratio',VFA_rbCOD_ratio);
 			showResult('result_rbCOD_P_ratio',rbCOD_P_ratio);

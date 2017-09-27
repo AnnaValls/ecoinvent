@@ -110,6 +110,7 @@ function bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_
 /*node test
 */
 (function(){
+	if(debug==false)return;
 	var BOD            = 140;
 	var sBOD           = 70;
 	var COD            = 300;

@@ -1,5 +1,8 @@
 /*
-	functions to deal with numbers
+	functions to:
+	deal with number formatting
+	and getting inputs from user
+	and displaying results
 */
 
 /*return "3,999.4" instead of 3999.4*/
@@ -17,22 +20,22 @@ function format(number,digits){
 	return str;
 }
 
-/*set a formatted number string into an html element*/
-function showResult(id,value){
+/*get a number value from input element*/
+function getInput(id){
 	var el=document.getElementById(id);
 	try{
-		el.innerHTML=format(value);
+		return parseFloat(el.value);
 	}catch(e){
 		console.error("id: "+id);
 		console.error(e);
 	}
 }
 
-/*get a number from a input id html element*/
-function getInput(id){
+/*show a formatted number string into element*/
+function showResult(id,value){
 	var el=document.getElementById(id);
 	try{
-		return parseFloat(el.value);
+		el.innerHTML=format(value);
 	}catch(e){
 		console.error("id: "+id);
 		console.error(e);
