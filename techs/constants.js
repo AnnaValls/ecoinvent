@@ -11,10 +11,12 @@ const bH     = 0.12; //
 const fd     = 0.15; //
 
 //physics
-const Pa     = 10.33; //m (standard pressure at sea level)
-const R      = 8314;  //kg*m2/s2*kmol*K (ideal gases constant)
-const g      = 9.81;  //m/s2 (gravity)
-const M      = 28.97; //g/mol (air molecular weight)
+const Pa     = 10.33;  //m (standard pressure at sea level)
+const R      = 8314;   //kg*m2/s2*kmol*K (ideal gases constant)
+const g      = 9.81;   //m/s2 (gravity)
+const M      = 28.97;  //g/mol (air molecular weight)
+const M_Fe   = 55.845; //g/mol (Fe molecular weight)
+const M_P    = 30.974; //g/mol (P molecular weight)
 
 //aeration related
 const C_L    = 2.0;   //DO in aeration basin (mg/L)

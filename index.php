@@ -29,6 +29,8 @@
 			<li>6. Generate ecoSpold (connection with python code)
 			<li>Appendix: <a href=terms.php>Terms</a>
 			<li><hr>
+			<li><a href=techs/tests.php>Tests</a>
+			<li><hr>
 			<li><a href=future>Future implementations (for "n" WWTPs)</a>
 		</ul>
 		<hr>

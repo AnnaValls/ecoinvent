@@ -1,26 +1,24 @@
 /** 
-
 	Technology: BOD removal only 
-
 **/
 function bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb,Pressure,Df){
 	/*
 		Inputs            example values 
 		--------------------------------
-			BOD             140 g/m3
-			sBOD            70 g/m3
-			COD             300 g/m3
-			sCOD            132 g/m3
-			TSS             70 g/m3
-			VSS             60 g/m3
-			bCOD_BOD_ratio  1.6 g bCOD/g BOD
-			Q               22700 m3/d
-			T               12 ºC
-			SRT             5 d
-			MLSS_X_TSS      3000 g/m3
-			zb              500 m
-			Pressure        95600 Pa
-			Df              4.4 m
+			BOD             140    g/m3
+			sBOD            70     g/m3
+			COD             300    g/m3
+			sCOD            132    g/m3
+			TSS             70     g/m3
+			VSS             60     g/m3
+			bCOD_BOD_ratio  1.6    g bCOD/g BOD
+			Q               22700  m3/d
+			T               12     ºC
+			SRT             5      d
+			MLSS_X_TSS      3000   g/m3
+			zb              500    m
+			Pressure        95600  Pa
+			Df              4.4    m
 		--------------------------------
 	*/
 
@@ -107,9 +105,10 @@ function bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_
 	};
 };
 
-/*node test
+/*node debugging
 */
 (function(){
+	var debug=false;
 	if(debug==false)return;
 	var BOD            = 140;
 	var sBOD           = 70;

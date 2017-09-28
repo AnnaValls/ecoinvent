@@ -191,6 +191,7 @@ function nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pr
 /*node debugging
 */
 (function(){
+	var debug=false;
 	if(debug==false)return;
 	var BOD             = 140;
 	var bCOD_BOD_ratio  = 1.6;
