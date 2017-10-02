@@ -97,12 +97,10 @@
 			<tr><td>sBOD             <td class=number> 70
 			<tr><td>COD              <td class=number> 300
 			<tr><td>sCOD             <td class=number> 132
-			<tr><td>rbCOD            <td class=number> 80
 			<tr><td>TSS              <td class=number> 70
 			<tr><td>VSS              <td class=number> 60
 			<tr><td>TKN              <td class=number> 35
 			<tr><td>NH<sub>4</sub>-N <td class=number> 25
-			<tr><td>TP               <td class=number> 6
 			<tr><td>Alkalinity       <td class=number> 140 as CaCO3
 			<tr><td>bCOD/BOD ratio   <td class=number> 1.6
 		</table>
@@ -327,12 +325,10 @@
 				<tr><td>sBOD            <td><input type=number id=input_sBOD value=70> g/m<sup>3</sup>
 				<tr><td>COD	            <td><input type=number id=input_COD value=300> g/m<sup>3</sup>
 				<tr><td>sCOD            <td><input type=number id=input_sCOD value=132> g/m<sup>3</sup>
-				<tr><td>rbCOD           <td><input type=number id=input_rbCOD value=80> g/m<sup>3</sup>
 				<tr><td>TSS	            <td><input type=number id=input_TSS value=70> g/m<sup>3</sup>
 				<tr><td>VSS	            <td><input type=number id=input_VSS value=60> g/m<sup>3</sup>
 				<tr><td>TKN             <td><input type=number id=input_TKN value=35> g/m<sup>3</sup>
 				<tr><td>NH<sub>4</sub>-N<td><input type=number id=input_NH4_N value=25> g/m<sup>3</sup>
-				<tr><td>TP              <td><input type=number id=input_TP value=6> g/m<sup>3</sup>
 				<tr><td>Alkalinity      <td><input type=number id=input_Alkalinity value=140> as CaCO<sub>3</sub>
 				<tr><td>bCOD/BOD ratio  <td><input type=number id=input_bCOD_BOD_ratio value=1.6> &empty;
 				<tr><td><b>Design parameters</b>
@@ -341,9 +337,11 @@
 				<tr><td>z<sub>b</sub> (elevation)   <td><input type=number id=parameter_zb value=500> m 
 				<tr><td>Pressure (at z<sub>b</sub>) <td><input type=number id=parameter_Pressure value=95600> Pa
 				<tr><td>D<sub>f</sub>               <td><input type=number id=parameter_Df value=4.4> m
+				<tr><td>SF (safety factor)          <td><input type=number id=parameter_SF value=1.5> &empty;
 				<tr><td>N<sub>e</sub>               <td><input type=number id=parameter_Ne value=0.50> g/m<sup>3</sup>
 				<tr><td>sBOD<sub>e</sub>            <td><input type=number id=parameter_sBODe value=3> g/m<sup>3</sup>
 				<tr><td>TSS<sub>e</sub>             <td><input type=number id=parameter_TSSe value=10> g/m<sup>3</sup>
+
 				<tr><td>X<sub>R</sub>               <td><input type=number id=parameter_X_R value=8000> g/m<sup>3</sup>
 				<tr><td>Hydraulic application rate (16-28) <td><input type=number id=parameter_hydraulic_application_rate value=24> m<sup>3</sup>/m<sup>2</sup>·d
 				<tr><td>Clarifiers                  <td><input type=number id=parameter_clarifiers value=3> clarifiers
@@ -459,196 +457,89 @@
 			var Df             = getInput('parameter_Df'); //4.4 = 4.9m-0.5m, from design conditions and assumptions (depth of diffusers in basin)
 		//end
 
-		//perform bod removal only
-		var r=bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb,Pressure,Df);
-		console.log(r);
+		//(1) perform bod removal only
+		var r1=bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb,Pressure,Df);
+		console.log(r1);
 
 		//show results for part A
-			showResult('part_A_bCOD',r.bCOD);
-			showResult('part_A_nbCOD',r.nbCOD);
-			showResult('part_A_nbsCODe',r.nbsCODe);
-			showResult('part_A_nbVSS',r.nbVSS);
-			showResult('part_A_iTSS',r.iTSS);
-			showResult('part_A_P_X_bio',r.P_X_bio);
-			showResult('part_A_P_X_VSS',r.P_X_VSS);
-			showResult('part_A_P_X_TSS',r.P_X_TSS);
-			showResult('part_A_X_VSS_V',r.X_VSS_V);
-			showResult('part_A_X_TSS_V',r.X_TSS_V);
-			showResult('part_A_V',r.V);
-			showResult('part_A_tau',r.tau);
-			showResult('part_A_MLVSS',r.MLVSS);
-			showResult('part_A_FM',r.FM);
-			showResult('part_A_BOD_loading',r.BOD_loading);
-			showResult('part_A_bCOD_removed',r.bCOD_removed);
-			showResult('part_A_Y_obs_TSS',r.Y_obs_TSS);
-			showResult('part_A_Y_obs_VSS',r.Y_obs_VSS);
-			showResult('part_A_R0',r.OTRf);
-			showResult('part_A_Pb',r.Pb);
-			showResult('part_C_T',r.C_T);
-			showResult('part_A_SOTR',r.SOTR);
-			showResult('part_A_air_flowrate',r.air_flowrate);
+			showResult('part_A_bCOD',         r1.bCOD);
+			showResult('part_A_nbCOD',        r1.nbCOD);
+			showResult('part_A_nbsCODe',      r1.nbsCODe);
+			showResult('part_A_nbVSS',        r1.nbVSS);
+			showResult('part_A_iTSS',         r1.iTSS);
+			showResult('part_A_P_X_bio',      r1.P_X_bio);
+			showResult('part_A_P_X_VSS',      r1.P_X_VSS);
+			showResult('part_A_P_X_TSS',      r1.P_X_TSS);
+			showResult('part_A_X_VSS_V',      r1.X_VSS_V);
+			showResult('part_A_X_TSS_V',      r1.X_TSS_V);
+			showResult('part_A_V',            r1.V);
+			showResult('part_A_tau',          r1.tau);
+			showResult('part_A_MLVSS',        r1.MLVSS);
+			showResult('part_A_FM',           r1.FM);
+			showResult('part_A_BOD_loading',  r1.BOD_loading);
+			showResult('part_A_bCOD_removed', r1.bCOD_removed);
+			showResult('part_A_Y_obs_TSS',    r1.Y_obs_TSS);
+			showResult('part_A_Y_obs_VSS',    r1.Y_obs_VSS);
+			showResult('part_A_R0',           r1.OTRf);
+			showResult('part_A_Pb',           r1.Pb);
+			showResult('part_C_T',            r1.C_T);
+			showResult('part_A_SOTR',         r1.SOTR);
+			showResult('part_A_air_flowrate', r1.air_flowrate);
 		//end results part A
 
-		//continue here
-		return;
+		//get inputs for nitrification
+		var TKN        = getInput('input_TKN');        //35 mg/L
+		var Alkalinity = getInput('input_Alkalinity'); //140 mg/L
+		var SF         = getInput('parameter_SF');     //1.5 safety factor
+		var Ne         = getInput('parameter_Ne');     //0.50 mg/L NH4_N effluent
+		var sBODe      = getInput('parameter_sBODe');  //3 mg/L
+		var TSSe       = getInput('parameter_TSSe');   //10 mg/L
 
-		//tabulated parameters (constants)
-			var SF = 1.5; //peak to average tkn load (design assumptions)
-			var rbCOD          = getInput('input_rbCOD');
-			var TKN            = getInput('input_TKN');
-			var NH4_N          = getInput('input_NH4_N');
-			var TP             = getInput('input_TP');
-			var Alkalinity     = getInput('input_Alkalinity');
-		//end
-
-		//9: part B NITRIFICATION
-			//parameters
-			var mu_max_AOB = 0.90 //table 8-14 at 20ºC
-			var b_AOB = 0.17 // table 8-14 at 20ºC
-			var K_NH4 = 0.50 //table 8-14 at 20ºC
-			var K_o_AOB = 0.50 //table 8-14 at 20ºC
-			var S_NH4 = 0.50 //g/m3 at effluent?
-			var Yn = 0.15; //Table 8-14
-			var alpha = 0.65;
-			var beta = 0.95;
-
-			//design parameters
-			var Ne    = getInput('parameter_Ne'); //assume 0.50; N at effluent (g/m3)
-			var sBODe = getInput('parameter_sBODe'); //assume 3
-			var TSSe  = getInput('parameter_TSSe'); //assume 10 g/m3
-
-			//9 start nitrification
-			var mu_max_AOB_T = mu_max_AOB * Math.pow(1.072,T-20);
-			var b_AOB_T = b_AOB* Math.pow(1.029,T-20);
-			var mu_AOB = mu_max_AOB_T * (S_NH4/(S_NH4+K_NH4)) * (C_L/(C_L+K_o_AOB)) - b_AOB_T;
-			//10
-			var SRT_theoretical = 1/mu_AOB;
-			var SRT_design = SF*SRT_theoretical;
-			//11
-			var S = Ks * (1+bHT*SRT_design) / (SRT_design*(mu_mT-bHT)-1);
-			var NOx = 0.80 * TKN; //aproximation for nitrate, prior to iteration (80% of TKN)
-			//biomass first approximation with first NOx concentration aproximation
-			var P_X_bio_VSS = Q*YH*(S0-S)/(1+bHT*SRT_design) + fd*bHT*Q*YH*(S0-S)*SRT_design/(1+bHT*SRT_design) + Q*Yn*NOx/(1+b_AOB_T*SRT_design);
-			P_X_bio_VSS/=1000;
-			//12 iteration for finding more accurate value of NOx (nitrogen oxidized to nitrate)
-			var NOx = TKN - Ne - 0.12*P_X_bio_VSS/Q*1000;
-			//recalc PXbioVSS with accurate NOx (one iteration)
-			var P_X_bio_VSS = Q*YH*(S0-S)/(1+bHT*SRT_design) + fd*bHT*Q*YH*(S0-S)*SRT_design/(1+bHT*SRT_design) + Q*Yn*NOx/(1+b_AOB_T*SRT_design);
-			P_X_bio_VSS/=1000;
-
-			//loop for NOx and PXBioVSS calculation
-			(function(){
-				console.log("=======================================")
-				console.log("LOOP FOR NOx and PXbioVSS approximation")
-				console.log("=======================================")
-				//max difference
-				var tolerance = 0.0001;
-
-				//arrays for approximations
-				var NOx_array = [NOx];
-				var P_X_bio_VSS_array = [P_X_bio_VSS];
-
-				//loop until difference < tolerance
-				while(true){
-					console.log("- new iteration")
-					//increase accuracy of NOx from P_X_bio_VSS
-					var last_NOx = TKN - Ne - 0.12*P_X_bio_VSS_array[P_X_bio_VSS_array.length-1]/Q*1000;
-					NOx_array.push(last_NOx);
-					//recalculate P_X_bio_VSS with NOx approximation
-					var last_PX=(Q*YH*(S0-S)/(1+bHT*SRT_design)+fd*bHT*Q*YH*(S0-S)*SRT_design/(1+bHT*SRT_design)+Q*Yn*(last_NOx)/(1+b_AOB_T*SRT_design))/1000
-					P_X_bio_VSS_array.push(last_PX);
-					console.log("  NOx approximations: "+NOx_array);
-					console.log("  PXbioVSS approximations: "+P_X_bio_VSS_array);
-					//length of NOx approximations
-					var l = NOx_array.length;
-					var difference = Math.abs(NOx_array[l-1]-NOx_array[l-2]);
-					if(difference<tolerance){
-						NOx         = last_NOx;
-						P_X_bio_VSS = last_PX;
-						console.log('loop finished: difference is small enough ('+difference+')');
-						break;
-					}
-				}
-			})();
-
-			//13
-			var P_X_VSS = P_X_bio_VSS + Q*nbVSS/1000;
-			var P_X_TSS = P_X_bio_VSS/0.85 + Q*nbVSS/1000 + Q*(TSS-VSS)/1000;
-			var X_VSS_V = P_X_VSS * SRT_design;
-			var X_TSS_V = P_X_TSS * SRT_design;
-			//14
-			var V = X_TSS_V*1000 / MLSS_X_TSS ;
-			var tau = V/Q*24;
-			var MLVSS = X_VSS_V/X_TSS_V * MLSS_X_TSS;
-			//15
-			var FM = Q*BOD/MLVSS/V;
-			var BOD_loading = Q*BOD/V/1000;
-			//16
-			var bCOD_removed = Q*(S0-S)/1000;
-			var Y_obs_TSS = P_X_TSS/bCOD_removed*bCOD_BOD_ratio;
-			var Y_obs_VSS = P_X_TSS/bCOD_removed*(X_VSS_V/X_TSS_V)*bCOD_BOD_ratio;
-			//17
-			var P_X_bio_VSS_without_nitrifying = Q*YH*(S0-S)/(1+bHT*SRT_design) + fd*bHT*Q*YH*(S0-S)*SRT_design/(1+bHT*SRT_design);
-			P_X_bio_VSS_without_nitrifying /= 1000;
-			var R0 = Q*(S0-S)/1000 -1.42*P_X_bio_VSS_without_nitrifying + 4.57*Q*NOx/1000;
-			R0 /= 24;
-			//18
-			var OTRf = R0;
-			var SOTR = (OTRf/alpha/F)*(C_inf_20/(beta*C_T/C_s_20*Pb/Pa*C_inf_20-C_L))*(Math.pow(1.024,20-T));
-			var kg_O2_per_m3_air = density_of_air(T,Pressure)*0.2318 //oxygen in air by weight is 23.18%, by volume is 20.99%
-			var air_flowrate = SOTR/(E*60*kg_O2_per_m3_air);
-			//19 alkalinity 
-			var alkalinity_to_be_added = 0;
-			(function(){
-				var alkalinity_used_for_nitrification = 7.14*NOx //g/m3 used as CaCO3
-				alkalinity_to_be_added = 70-Alkalinity+alkalinity_used_for_nitrification; //g/m3 as CaCO3
-				alkalinity_to_be_added*=Q/1000; // kg/d as CaCO3
-				alkalinity_to_be_added*=(84/50); // kg/d as NaHCO3
-			})();
-			//20 estimate effluent BOD
-			var BOD_eff = sBODe + 0.85*0.85*TSSe;
-		//end part B
+		//(2) perform nitrification
+		var r2=nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pressure,Df,MLSS_X_TSS,Ne,sBODe,TSSe,Alkalinity);
+		console.log(r2);
 
 		//show results for part B
-			showResult('part_B_mu_AOB',mu_AOB);
-			showResult('part_B_SRT_theoretical',SRT_theoretical);
-			showResult('part_B_SRT_design',SRT_design);
-			showResult('part_B_NOx',NOx);
-			showResult('part_B_P_X_bio_VSS',P_X_bio_VSS);
-			showResult('part_B_P_X_VSS',P_X_VSS);
-			showResult('part_B_P_X_TSS',P_X_TSS);
-			showResult('part_B_X_VSS_V',X_VSS_V);
-			showResult('part_B_X_TSS_V',X_TSS_V);
-			showResult('part_B_V',V);
-			showResult('part_B_tau',tau);
-			showResult('part_B_MLVSS',MLVSS);
-			showResult('part_B_FM',FM);
-			showResult('part_B_BOD_loading',BOD_loading);
-			showResult('part_B_bCOD_removed',bCOD_removed);
-			showResult('part_B_Y_obs_TSS',Y_obs_TSS);
-			showResult('part_B_Y_obs_VSS',Y_obs_VSS);
-			showResult('part_B_R0',R0);
-			showResult('part_B_SOTR',SOTR);
-			showResult('part_B_air_flowrate',air_flowrate);
-			showResult('part_B_alkalinity_to_be_added',alkalinity_to_be_added);
-			showResult('part_B_BOD_eff',BOD_eff);
+			showResult('part_B_mu_AOB',                 r2.mu_AOB);
+			showResult('part_B_SRT_theoretical',        r2.SRT_theoretical);
+			showResult('part_B_SRT_design',             r2.SRT_design);
+			showResult('part_B_NOx',                    r2.NOx);
+			showResult('part_B_P_X_bio_VSS',            r2.P_X_bio_VSS);
+			showResult('part_B_P_X_VSS',                r2.P_X_VSS);
+			showResult('part_B_P_X_TSS',                r2.P_X_TSS);
+			showResult('part_B_X_VSS_V',                r2.X_VSS_V);
+			showResult('part_B_X_TSS_V',                r2.X_TSS_V);
+			showResult('part_B_V',                      r2.V);
+			showResult('part_B_tau',                    r2.tau);
+			showResult('part_B_MLVSS',                  r2.MLVSS);
+			showResult('part_B_FM',                     r2.FM);
+			showResult('part_B_BOD_loading',            r2.BOD_loading);
+			showResult('part_B_bCOD_removed',           r2.bCOD_removed);
+			showResult('part_B_Y_obs_TSS',              r2.Y_obs_TSS);
+			showResult('part_B_Y_obs_VSS',              r2.Y_obs_VSS);
+			showResult('part_B_R0',                     r2.OTRf);
+			showResult('part_B_SOTR',                   r2.SOTR);
+			showResult('part_B_air_flowrate',           r2.air_flowrate);
+			showResult('part_B_alkalinity_to_be_added', r2.alkalinity_to_be_added);
+			showResult('part_B_BOD_eff',                r2.BOD_eff);
 		//end results part B
 
+		return;
+		//continue here
+
+		var SOR = getInput('parameter_hydraulic_application_rate'); //24 m3/m2·d
+		var X_R = getInput('parameter_X_R'); //8000 g/m3
+		var clarifiers = getInput('parameter_clarifiers'); //3 clarifiers
+		var r3 = sst_sizing(Q, SOR, X_R, clarifiers, MLSS_X_TSS);
+		console.log(r3);
+
 		//21: part C SECONDARY CLARIFIER SIZING (for both bod removal and nitrification)
-			var hydraulic_application_rate = getInput('parameter_hydraulic_application_rate'); 
 				/*
 					hydraulic application rate:
 					assume 24 m3/m2·d (from table 8-34, page 890, range 16-28 m3/m2·d)
 					"settling following air activated sludge, excluding extended aeration"
 				*/
-			var X_R                        = getInput('parameter_X_R'); //assume 8000 g/m3
-			var clarifiers                 = getInput('parameter_clarifiers'); //assume 3
-			var RAS = MLSS_X_TSS/(X_R - MLSS_X_TSS); //calc return sludge recycle ratio
-			var Area = Q/hydraulic_application_rate; //m2
-			var area_per_clarifier = Area/clarifiers; //m2/clarifier
-			var clarifier_diameter = Math.sqrt(area_per_clarifier*4/Math.PI); //meters
-			var Solids_loading = (1+RAS)*Q*MLSS_X_TSS/1000/(Area*24); //kg MLSS/m2·h
-		//end part C
+		//
 
 		//show results part C
 			showResult('part_C_RAS',RAS);

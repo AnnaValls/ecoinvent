@@ -14,6 +14,12 @@ function sst_sizing(Q, SOR, X_R, clarifiers, MLSS_X_TSS){
 			Q                                 22700 m3/d
 
 	*/
+	/*
+		for SOR:
+		hydraulic application rate:
+		assume 24 m3/m2·d (from table 8-34, page 890, range 16-28 m3/m2·d)
+		"settling following air activated sludge, excluding extended aeration"
+	*/
 
 	var RAS = MLSS_X_TSS/(X_R - MLSS_X_TSS); //calc return sludge recycle ratio
 	var Area = Q/SOR; //m2
