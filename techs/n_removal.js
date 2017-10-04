@@ -1,5 +1,5 @@
 /** 
-	Technology: N removal
+Technology: N removal
 **/
 function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_basin_volume,Aerobic_T,Anoxic_mixing_energy,RAS,Ro,Ne){
 	/*

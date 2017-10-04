@@ -50,7 +50,7 @@ function bio_P_removal(Q,BOD,bCOD,rbCOD,Acetate,nbVSS,iTSS,TKN,TP,T,SRT,RAS,tau_
 	var P_removal_gday = (TP - Effluent_P)*Q; //20,800 g/d
 	var P_in_waste_sludge = 100*P_removal_gday/P_X_TSS; //4.8 %
 
-	var P_removal = (TP - Effluent_P)*Q; //20,800 g/d
+	var P_removal = (TP - Effluent_P); //5 g/m3
 	/*end solution*/
 
 	return {

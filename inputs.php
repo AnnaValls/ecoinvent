@@ -12,23 +12,6 @@
 			{name:"Aerobic: BOD + Chem P removal"},
 			{name:"Anaerobic: No polishing"},
 		];
-		var Inputs=[
-			{name:"Q",    unit:"m3/d", default:22700},
-			{name:"T",    unit:"ºC",   default:12},
-			{name:"COD",  unit:"g/m3", default:300},
-			{name:"sCOD", unit:"g/m3", default:132},
-			{name:"BOD",  unit:"g/m3", default:140},
-			{name:"TKN",  unit:"g/m3", default:35},
-			{name:"TP",   unit:"g/m3", default:6},
-			{name:"TS",   unit:"g/m3", default:0},
-			{name:"TSS",  unit:"g/m3", default:70},
-			{name:"VSS",  unit:"g/m3", default:60},
-		];
-		var DesignParameters=[
-			{name:"Ne",      unit:"g/m3"},
-			{name:"NOx,e",   unit:"g/m3"},
-			{name:"PO4,e",   unit:"g/m3"},
-		];
 	</script>
 </head><body>
 <h1>Inputs &mdash; single WWTP</h1><hr>
@@ -60,44 +43,7 @@
 	</table>
 </div><hr>
 
-<!--enter inputs-->
-<div>
-	<p>3. Influent wastewater flow and composition</p>
-	<table id=inputs border=1>
-		<tr style=background:#eee><th>Compound<th>Unit<th>Value
-	</table>
-	<script>
-		var table=document.querySelector('table#inputs');
-		Inputs.forEach(input=>{
-			var newRow=table.insertRow(-1);
-			newRow.insertCell(-1).innerHTML=input.name;
-			newRow.insertCell(-1).innerHTML=input.unit.replace("m3",'m<sup>3</sup>');
-			newRow.insertCell(-1).innerHTML="<input type=number value='"+input.default+"'>";
-		})
-	</script>
-</div><hr>
-
-<!--enter design parameters-->
-<div>
-	<p>4. Design parameters</p>
-	<table id=design_parameters border=1>
-		<tr><th>Parameter<th>Unit<th>Value
-	</table>
-	<script>
-		var table=document.querySelector('table#design_parameters');
-		DesignParameters.forEach(input=>{
-			var newRow=table.insertRow(-1);
-			newRow.insertCell(-1).innerHTML=input.name;
-			newRow.insertCell(-1).innerHTML=input.unit.replace("m3",'m<sup>3</sup>');
-			newRow.insertCell(-1).innerHTML="<input type=number value=0>";
-		})
-	</script>
-</div><hr>
-
-<!--end of the page-->
-<div>
-	<a href=outputs.php>Outputs</a>
-</div>
+<a href=elementary.php>Next</a>
 
 <style>
 	#root table tr:hover{

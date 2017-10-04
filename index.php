@@ -21,16 +21,14 @@
 		<p>Web parts:</p>
 		<ul>
 			<li>Single WWTP configuration
-			<li><a href=inputs.php>1. Inputs</a>
-			<li><a href=outputs.php>2. Outputs</a>
-			<li><a href=construction >3. Construction materials   </a>
+			<li><a href=inputs.php     >1. Inputs</a>
+			<li><a href=elementary.php >2. Outputs: Elementary flows</a>
+			<li><a href=construction   >3. Construction materials   </a>
 			<li>4. Chemicals consumed
 			<li>5. Energy consumed
 			<li>6. Generate ecoSpold (connection with python code)
 			<li>Appendix: <a href=terms.php>Terms</a>
-			<li><hr>
 			<li><a href=techs/tests.php>Tests</a>
-			<li><hr>
 			<li><a href=future>Future implementations (for "n" WWTPs)</a>
 		</ul>
 		<hr>
@@ -38,29 +36,40 @@
 
 	<div>
 		<p>Metcalf &amp; Eddy, Wastewater Engineering, 5th ed., 2014, implementations:</p>
-		<table>
-			<tr><th>Technology<th>Coding status
+		<table style=margin-left:10px border=1>
+			<tr><th> <th>Technology<th>Coding status
 			<tr>
-				<td><a href="implementations/bod_removal_only.php">0. BOD<sub>5</sub> removal [example]</a>
+				<td>0.
+				<td><a href="implementations/bod_removal_only.php">BOD removal [example]</a>
 				<td>Done
 			<tr>
-				<td><a href="implementations/bod_removal_with_nitrification.php">1. BOD<sub>5</sub> removal w/ &amp; w/o nitrification</a>
+				<td>1.
+				<td><a href="implementations/bod_removal_with_nitrification.php">BOD removal w/ &amp; w/o nitrification</a>
 				<td>Done
 			<tr>
-				<td><a href="implementations/N_removal.php">2. N removal</a>
+				<td>2.
+				<td><a href="implementations/N_removal.php">N removal</a>
 				<td>Done
 			<tr>
-				<td><a href="implementations/chem_P_removal.php">3. P removal (chemically)</a>
+				<td>3.
+				<td><a href="implementations/chem_P_removal.php">P removal (chemically)</a>
 				<td>Done
 			<tr>
-				<td><a href="implementations/bio_P_removal.php">4. P removal (biologically)</a>
+				<td>4.
+				<td><a href="implementations/bio_P_removal.php">P removal (biologically)</a>
 				<td>Done
 			<tr>
-				<td><a href="implementations/ekama_sizing.php">5. Reactor sizing (optim. cost) [G. Ekama]</a>
+				<td>5.
+				<td><a href="implementations/ekama_sizing.php">Reactor sizing (optim. cost) [G. Ekama]</a>
 				<td>Done
 			<tr>
-				<td><a>6. Elementary flows factors + simpleTreat</a>
-				<td>(in progress at <?php echo date("Y-m-d")?>)
+				<td>6.
+				<td><a href="elementary.php">Elementary flows factors</a>
+				<td>In progress at <?php echo date("M-d-Y")?>
+			<tr>
+				<td>7.
+				<td><a>Simple Treat flows factors</a>
+				<td>Pending
 			</tr>
 		</table>
 	</div><hr>
@@ -87,7 +96,7 @@
 			<li><a target=_blank href=mailto:lbosch@icra.cat>lbosch@icra.cat</a> (Lluís Bosch, ICRA software developer)
 			<li><a target=_blank href=mailto:lcorominas@icra.cat>lcorominas@icra.cat</a> (Lluís Corominas, ICRA coordinator)
 		</ul>
-	</div>
+	</div><hr>
 </p>
 
 <!--styles-->

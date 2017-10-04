@@ -1,5 +1,5 @@
 /** 
-	Technology: BOD removal only 
+Technology: BOD removal only 
 **/
 function bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb,Pressure,Df){
 	/*
@@ -21,7 +21,6 @@ function bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_
 			Df              4.4    m
 		--------------------------------
 	*/
-
 	//parameters
 		var alpha  = 0.50;  //8.b
 		var beta   = 0.95;  //8.b
@@ -36,6 +35,7 @@ function bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_
 		var VSS_COD = (COD-sCOD)/VSS;
 		var nbVSS = nbpCOD/VSS_COD;
 		var iTSS = TSS - VSS;
+
 		var S0 = bCOD;
 		var mu_mT = mu_m * Math.pow(1.07, T - 20);
 		var bHT = bH * Math.pow(1.04, T - 20); 

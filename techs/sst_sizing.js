@@ -1,9 +1,6 @@
 /** 
-
-	Technology: sst sizing
-
+Technology: sst sizing
 **/
-
 function sst_sizing(Q,SOR,X_R,clarifiers,MLSS_X_TSS){
 	/*
 		Inputs:

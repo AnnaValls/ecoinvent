@@ -183,13 +183,13 @@
 					<tr><td>b<sub>H,T</sub>             <td id=result_bHT>?                        <td>d<sup>-1</sup>
 					<tr><td>b<sub>n,T</sub>             <td id=result_bnT>?                        <td>d<sup>-1</sup>
 					<tr><td>P<sub>X,bio</sub>           <td id=result_P_X_bio>?                    <td>g VSS/d
-					<tr><td>P removal synthesis         <td id=result_P_removal_synthesis>?        <td>g/d
-					<tr><td>P removal synthesis (/Q)   <td id=result_P_removal_synthesis_n>?      <td>g/m<sup>3</sup>
+					<tr><td>P removal (synth)         <td id=result_P_removal_synthesis>?        <td>g/d
+					<tr><td>P removal (synth) (/Q)   <td id=result_P_removal_synthesis_n>?      <td>g/m<sup>3</sup>
 					<tr><th colspan=3>4.
 					<tr><td>Effluent [P]                <td id=result_Effluent_P>?                 <td>g/m<sup>3</sup>
 					<tr><th colspan=3>5.
 					<tr><td>P<sub>X,TSS</sub>           <td id=result_P_X_TSS>?                    <td>g/m<sup>3</sup>
-					<tr><td>P removal                   <td id=result_P_removal_gday>?                  <td>g/d
+					<tr><td>P removal                   <td id=result_P_removal_gday>?             <td>g/d
 					<tr><td>P in waste sludge           <td id=result_P_in_waste_sludge>?          <td>%
 					<tr><td>Total P removal (EBPR+synth)<td id=result_P_removal>?                  <td>g/d
 			</table>
@@ -219,45 +219,45 @@
 <script>
 	function compute_exercise(){
 		/*INPUTS*/
-		var  Q                =  getInput('input_Q');        //4000;
-		var  BOD              =  getInput('input_BOD');      //160;
-		var  bCOD             =  getInput('input_bCOD');     //250;
-		var  rbCOD            =  getInput('input_rbCOD');    //75;
-		var  Acetate          =  getInput('input_Acetate');  //15;
-		var  nbVSS            =  getInput('input_nbVSS');    //20;
-		var  iTSS             =  getInput('input_iTSS');     //10;
-		var  TKN              =  getInput('input_TKN');      //35;
-		var  TP               =  getInput('input_TP');       //6;
-		var  T                =  getInput('input_T');        //12;
-		var  SRT              =  8;
-		var  RAS              =  0.5;
-		var  tau_aerobic      =  0.75;
-		var  rbCOD_NO3_ratio  =  5.2;
-		var  NOx              =  28;
-		var  NO3_eff          =  6;                          //case   a
+		var Q               = getInput('input_Q');       //4000;
+		var BOD             = getInput('input_BOD');     //160;
+		var bCOD            = getInput('input_bCOD');    //250;
+		var rbCOD           = getInput('input_rbCOD');   //75;
+		var Acetate         = getInput('input_Acetate'); //15;
+		var nbVSS           = getInput('input_nbVSS');   //20;
+		var iTSS            = getInput('input_iTSS');    //10;
+		var TKN             = getInput('input_TKN');     //35;
+		var TP              = getInput('input_TP');      //6;
+		var T               = getInput('input_T');       //12;
+		var SRT             = 8;
+		var RAS             = 0.5;
+		var tau_aerobic     = 0.75;
+		var rbCOD_NO3_ratio = 5.2;
+		var NOx             = 28;
+		var NO3_eff         = 6;                         //case   a
 
 		//solve
 		var r = bio_P_removal(Q,BOD,bCOD,rbCOD,Acetate,nbVSS,iTSS,TKN,TP,T,SRT,RAS,tau_aerobic,rbCOD_NO3_ratio,NOx,NO3_eff);
 
 		//show results
-		showResult('result_Q_rbCOD',                     r.Q_rbCOD);
-		showResult('result_RQ_NO3_N',                    r.RQ_NO3_N);
-		showResult('result_rbCOD_used_by_NO3',           r.rbCOD_used_by_NO3);
-		showResult('result_rbCOD_available',             r.rbCOD_available);
-		showResult('result_VFA_rbCOD_ratio',             r.VFA_rbCOD_ratio);
-		showResult('result_rbCOD_P_ratio',               r.rbCOD_P_ratio);
-		showResult('result_rbCOD_available_normalized',  r.rbCOD_available_normalized);
-		showResult('result_P_removal_EBPR',              r.P_removal_EBPR);
-		showResult('result_bHT',                         r.bHT);
-		showResult('result_bnT',                         r.bnT);
-		showResult('result_P_X_bio',                     r.P_X_bio);
-		showResult('result_P_removal_synthesis',         r.P_removal_synthesis);
-		showResult('result_P_removal_synthesis_n',       r.P_removal_synthesis_n);
-		showResult('result_Effluent_P',                  r.Effluent_P);
-		showResult('result_P_X_TSS',                     r.P_X_TSS);
-		showResult('result_P_removal_gday',              r.P_removal_gday);
-		showResult('result_P_in_waste_sludge',           r.P_in_waste_sludge);
-		showResult('result_P_removal_EBPR',              r.P_removal_EBPR);
-		showResult('result_P_removal',                   r.P_removal);
+		showResult('result_Q_rbCOD',                    r.Q_rbCOD);
+		showResult('result_RQ_NO3_N',                   r.RQ_NO3_N);
+		showResult('result_rbCOD_used_by_NO3',          r.rbCOD_used_by_NO3);
+		showResult('result_rbCOD_available',            r.rbCOD_available);
+		showResult('result_VFA_rbCOD_ratio',            r.VFA_rbCOD_ratio);
+		showResult('result_rbCOD_P_ratio',              r.rbCOD_P_ratio);
+		showResult('result_rbCOD_available_normalized', r.rbCOD_available_normalized);
+		showResult('result_P_removal_EBPR',             r.P_removal_EBPR);
+		showResult('result_bHT',                        r.bHT);
+		showResult('result_bnT',                        r.bnT);
+		showResult('result_P_X_bio',                    r.P_X_bio);
+		showResult('result_P_removal_synthesis',        r.P_removal_synthesis);
+		showResult('result_P_removal_synthesis_n',      r.P_removal_synthesis_n);
+		showResult('result_Effluent_P',                 r.Effluent_P);
+		showResult('result_P_X_TSS',                    r.P_X_TSS);
+		showResult('result_P_removal_gday',             r.P_removal_gday);
+		showResult('result_P_in_waste_sludge',          r.P_in_waste_sludge);
+		showResult('result_P_removal_EBPR',             r.P_removal_EBPR);
+		showResult('result_P_removal',                  r.P_removal);
 	}
 </script>

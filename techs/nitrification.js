@@ -1,9 +1,6 @@
 /** 
-
-	Technology: nitrification
-
+Technology: nitrification
 **/
-
 function nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pressure,Df,MLSS_X_TSS,Ne,sBODe,TSSe,Alkalinity){
 	/*
 		Inputs            example values 

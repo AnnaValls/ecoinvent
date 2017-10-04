@@ -1,7 +1,7 @@
 <!doctype html><html><head>
-	<meta charset=utf-8>
+	<?php include'imports.php'?>
 	<title>Reactor sizing</title>
-	<script src="format.js"></script>
+	<!--css at the end-->
 	<script>
 		function init(){
 			compute_exercise();
@@ -93,62 +93,6 @@
 			showResult('result_cost_sst',0);
 		}
 	</script>
-	<style>
-		body{
-			overflow-y:scroll;
-			max-width:90em;
-			margin:auto;
-			margin-bottom:100px;
-		}
-		.invisible{
-			display:none;
-		}
-		.number, [type=number]{
-			text-align:right;
-		}
-		table{
-			border-collapse:collapse;
-			border:1px solid #ccc;
-			margin:5px auto;
-		}
-		td,th{
-			padding:0.1em 0.3em;
-		}
-		th{
-			text-align:left;
-			border-bottom:1px solid black;
-		}
-		code{
-			display:block;
-			background:#ddd;
-			padding:5px 0;
-			padding-left:5px;
-		}
-		.flex{
-			display:flex;
-			flex-wrap:wrap;
-		}
-		.flex li {
-			margin-right:30px;
-		}
-		[onclick]{
-			cursor:pointer;
-		}
-		input {
-			width:100px;
-		}
-		table[id^=results] span[id]{
-			color:blue;
-		}
-		#btn_calculate{
-			display:block;
-			margin:auto;
-			font-size:22px;
-		}
-		#results td[id],#optim td[id]{
-			color:blue;
-		}
-	</style>
 </head><body onload="init()">
 
 <!--title-->
@@ -221,15 +165,15 @@
 			<table id=inputs>
 				<tr>
 					<td>X<sub>TSS</sub>V
-					<td><input type=number id=input_X_TSS_V value=40000> kg
+					<td><input type=number id=input_X_TSS_V value=40000 min=0> kg
 				</tr>
 				<tr>
 					<td>MLSS<sub>X,TSS</sub> 
-					<td><input type=number id=input_MLSS_X_TSS value=3> kg/m<sup>3</sup>
+					<td><input type=number id=input_MLSS_X_TSS value=3 min=0> kg/m<sup>3</sup>
 				</tr>
 				<tr>
 					<td>Q
-					<td><input type=number id=input_Q value=4000> m<sup>3</sup>/d
+					<td><input type=number id=input_Q value=4000 min=0> m<sup>3</sup>/d
 				<tr>
 			</table>
 			<script>
@@ -241,21 +185,78 @@
 					}
 				})();
 			</script>
-		</li><li><div>Results</div>
+		<li><div>Results</div>
 			<table id=results>
 				<tr><td>Cost reactor<td id=result_cost_reactor>?<td>$
 				<tr><td>Cost sst<td id=result_cost_sst>?<td>$
 				<tr><td>Total cost<td id=result_total>?<td>$
 			</table>
-		</li><li>
-			<div>
-				Find best MLSS<sub>X,TSS</sub> that optimizes Total cost (for current X<sub>TSS</sub>V and Q)
-				<button onclick=optimize_MLSS_X_TSS()>OPTIMIZE</button>
-			</div>
-			<table id=optim>
-				<tr><td>Optimum MLSS<td id=result_optimum_M>?<td>kg/m3
-				<tr><td>Optimum cost<td id=result_optimum_cost>?<td>$
-			</table>
 		</li>
 	</ol>
+	<div>
+		3. Find best <b>MLSS<sub>X,TSS</sub></b> that optimizes <b>Total cost</b> (for current X<sub>TSS</sub>V and Q)
+		<div>
+			<button onclick=optimize_MLSS_X_TSS()>OPTIMIZE</button>
+		</div>
+		<table id=optim>
+			<tr><td>Optimum MLSS<td id=result_optimum_M>?<td>kg/m3
+			<tr><td>Optimum cost<td id=result_optimum_cost>?<td>$
+		</table>
+	</div>
 </div>
+
+<style>
+	body{
+		overflow-y:scroll;
+		max-width:90em;
+		margin:auto;
+		margin-bottom:100px;
+	}
+	.invisible{
+		display:none;
+	}
+	.number, [type=number]{
+		text-align:right;
+	}
+	table{
+		border-collapse:collapse;
+		border:1px solid #ccc;
+	}
+	td,th{
+		padding:0.1em 0.3em;
+	}
+	th{
+		text-align:left;
+		border-bottom:1px solid black;
+	}
+	code{
+		display:block;
+		background:#ddd;
+		padding:5px 0;
+		padding-left:5px;
+	}
+	.flex{
+		display:flex;
+		flex-wrap:wrap;
+	}
+	.flex li {
+		margin-right:30px;
+	}
+	[onclick]{
+		cursor:pointer;
+	}
+	input {
+		width:100px;
+	}
+	table[id^=results] span[id]{
+		color:blue;
+	}
+	#btn_calculate{
+		display:block;
+		margin:auto;
+		font-size:22px;
+	}
+	#results td[id],#optim td[id]{
+		color:blue;
+	}
+</style>
