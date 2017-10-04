@@ -63,15 +63,6 @@ function chem_P_removal(Q,TSS,TSS_removal_wo_Fe,TSS_removal_w_Fe,C_P_inf,C_PO4_i
 		Fe_dose:                                 Fe_dose,
 		percent_Fe_in_FeCl3:                     percent_Fe_in_FeCl3,
 		amount_FeCl3_solution:                   amount_FeCl3_solution,
-		amount_FeCl3_solution:                   amount_FeCl3_solution,
-		amount_FeCl3_solution:                   amount_FeCl3_solution,
-		amount_FeCl3_solution:                   amount_FeCl3_solution,
-		amount_FeCl3_solution:                   amount_FeCl3_solution,
-		amount_FeCl3_solution:                   amount_FeCl3_solution,
-		amount_FeCl3_solution:                   amount_FeCl3_solution,
-		amount_FeCl3_solution:                   amount_FeCl3_solution,
-		amount_FeCl3_solution:                   amount_FeCl3_solution,
-		amount_FeCl3_solution:                   amount_FeCl3_solution,
 		FeCl3_volume:                            FeCl3_volume,
 		storage_req_15_d:                        storage_req_15_d,
 		Additional_sludge:                       Additional_sludge,
@@ -93,7 +84,7 @@ function chem_P_removal(Q,TSS,TSS_removal_wo_Fe,TSS_removal_w_Fe,C_P_inf,C_PO4_i
 /*node debugging
 */
 (function(){
-	var debug=true;
+	var debug=false;
 	if(debug==false)return;
 	var Q                  = 3800
 	var TSS                = 220 

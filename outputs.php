@@ -31,7 +31,11 @@
 		var table=document.querySelector('table#outputs');
 		Outputs.forEach(output=>{
 			var newRow=table.insertRow(-1);
-			newRow.insertCell(-1).innerHTML=output.name;
+			newRow.insertCell(-1).innerHTML=output.name
+				.replace('O2','O<sub>2</sub>')
+				.replace('N2','N<sub>2</sub>')
+				.replace('CH4','CH<sub>4</sub>');
+
 			newRow.insertCell(-1).innerHTML="10";
 			newRow.insertCell(-1).innerHTML="5";
 			newRow.insertCell(-1).innerHTML="3";

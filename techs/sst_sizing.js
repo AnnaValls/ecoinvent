@@ -4,7 +4,7 @@
 
 **/
 
-function sst_sizing(Q, SOR, X_R, clarifiers, MLSS_X_TSS){
+function sst_sizing(Q,SOR,X_R,clarifiers,MLSS_X_TSS){
 	/*
 		Inputs:
 			SOR (hydraulic application rate)     24 m3/m2·d

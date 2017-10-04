@@ -1,8 +1,6 @@
 <!doctype html><html><head>
 	<?php include'imports.php'?>
 	<title>BOD removal &amp; nitrification</title>
-	<script src="utils.js"></script>
-	<script src="format.js"></script>
 	<script>
 		function init(){
 			//compute_exercise();
@@ -441,20 +439,20 @@
 <script>
 	function compute_exercise(){
 		//get inputs
-			var BOD            = getInput('input_BOD'); //140
-			var sBOD           = getInput('input_sBOD'); //70
-			var COD            = getInput('input_COD'); //300
-			var sCOD           = getInput('input_sCOD'); //132
-			var TSS            = getInput('input_TSS'); //70
-			var VSS            = getInput('input_VSS'); //60
-			var bCOD_BOD_ratio = getInput('input_bCOD_BOD_ratio'); //1.6
-			var Q              = getInput('input_Q'); //22700
-			var T              = getInput('input_T'); //12
-			var SRT            = getInput('parameter_SRT'); //5
-			var MLSS_X_TSS     = getInput('parameter_MLSS_X_TSS'); //3000
-			var zb             = getInput('parameter_zb'); //500
-			var Pressure       = getInput('parameter_Pressure'); //95600
-			var Df             = getInput('parameter_Df'); //4.4 = 4.9m-0.5m, from design conditions and assumptions (depth of diffusers in basin)
+		var BOD            = getInput('input_BOD'); //140
+		var sBOD           = getInput('input_sBOD'); //70
+		var COD            = getInput('input_COD'); //300
+		var sCOD           = getInput('input_sCOD'); //132
+		var TSS            = getInput('input_TSS'); //70
+		var VSS            = getInput('input_VSS'); //60
+		var bCOD_BOD_ratio = getInput('input_bCOD_BOD_ratio'); //1.6
+		var Q              = getInput('input_Q'); //22700
+		var T              = getInput('input_T'); //12
+		var SRT            = getInput('parameter_SRT'); //5
+		var MLSS_X_TSS     = getInput('parameter_MLSS_X_TSS'); //3000
+		var zb             = getInput('parameter_zb'); //500
+		var Pressure       = getInput('parameter_Pressure'); //95600
+		var Df             = getInput('parameter_Df'); //4.4 = 4.9m-0.5m, from design conditions and assumptions (depth of diffusers in basin)
 		//end
 
 		//(1) perform bod removal only
@@ -462,29 +460,29 @@
 		console.log(r1);
 
 		//show results for part A
-			showResult('part_A_bCOD',         r1.bCOD);
-			showResult('part_A_nbCOD',        r1.nbCOD);
-			showResult('part_A_nbsCODe',      r1.nbsCODe);
-			showResult('part_A_nbVSS',        r1.nbVSS);
-			showResult('part_A_iTSS',         r1.iTSS);
-			showResult('part_A_P_X_bio',      r1.P_X_bio);
-			showResult('part_A_P_X_VSS',      r1.P_X_VSS);
-			showResult('part_A_P_X_TSS',      r1.P_X_TSS);
-			showResult('part_A_X_VSS_V',      r1.X_VSS_V);
-			showResult('part_A_X_TSS_V',      r1.X_TSS_V);
-			showResult('part_A_V',            r1.V);
-			showResult('part_A_tau',          r1.tau);
-			showResult('part_A_MLVSS',        r1.MLVSS);
-			showResult('part_A_FM',           r1.FM);
-			showResult('part_A_BOD_loading',  r1.BOD_loading);
-			showResult('part_A_bCOD_removed', r1.bCOD_removed);
-			showResult('part_A_Y_obs_TSS',    r1.Y_obs_TSS);
-			showResult('part_A_Y_obs_VSS',    r1.Y_obs_VSS);
-			showResult('part_A_R0',           r1.OTRf);
-			showResult('part_A_Pb',           r1.Pb);
-			showResult('part_C_T',            r1.C_T);
-			showResult('part_A_SOTR',         r1.SOTR);
-			showResult('part_A_air_flowrate', r1.air_flowrate);
+		showResult('part_A_bCOD',         r1.bCOD);
+		showResult('part_A_nbCOD',        r1.nbCOD);
+		showResult('part_A_nbsCODe',      r1.nbsCODe);
+		showResult('part_A_nbVSS',        r1.nbVSS);
+		showResult('part_A_iTSS',         r1.iTSS);
+		showResult('part_A_P_X_bio',      r1.P_X_bio);
+		showResult('part_A_P_X_VSS',      r1.P_X_VSS);
+		showResult('part_A_P_X_TSS',      r1.P_X_TSS);
+		showResult('part_A_X_VSS_V',      r1.X_VSS_V);
+		showResult('part_A_X_TSS_V',      r1.X_TSS_V);
+		showResult('part_A_V',            r1.V);
+		showResult('part_A_tau',          r1.tau);
+		showResult('part_A_MLVSS',        r1.MLVSS);
+		showResult('part_A_FM',           r1.FM);
+		showResult('part_A_BOD_loading',  r1.BOD_loading);
+		showResult('part_A_bCOD_removed', r1.bCOD_removed);
+		showResult('part_A_Y_obs_TSS',    r1.Y_obs_TSS);
+		showResult('part_A_Y_obs_VSS',    r1.Y_obs_VSS);
+		showResult('part_A_R0',           r1.OTRf);
+		showResult('part_A_Pb',           r1.Pb);
+		showResult('part_C_T',            r1.C_T);
+		showResult('part_A_SOTR',         r1.SOTR);
+		showResult('part_A_air_flowrate', r1.air_flowrate);
 		//end results part A
 
 		//get inputs for nitrification
@@ -500,54 +498,43 @@
 		console.log(r2);
 
 		//show results for part B
-			showResult('part_B_mu_AOB',                 r2.mu_AOB);
-			showResult('part_B_SRT_theoretical',        r2.SRT_theoretical);
-			showResult('part_B_SRT_design',             r2.SRT_design);
-			showResult('part_B_NOx',                    r2.NOx);
-			showResult('part_B_P_X_bio_VSS',            r2.P_X_bio_VSS);
-			showResult('part_B_P_X_VSS',                r2.P_X_VSS);
-			showResult('part_B_P_X_TSS',                r2.P_X_TSS);
-			showResult('part_B_X_VSS_V',                r2.X_VSS_V);
-			showResult('part_B_X_TSS_V',                r2.X_TSS_V);
-			showResult('part_B_V',                      r2.V);
-			showResult('part_B_tau',                    r2.tau);
-			showResult('part_B_MLVSS',                  r2.MLVSS);
-			showResult('part_B_FM',                     r2.FM);
-			showResult('part_B_BOD_loading',            r2.BOD_loading);
-			showResult('part_B_bCOD_removed',           r2.bCOD_removed);
-			showResult('part_B_Y_obs_TSS',              r2.Y_obs_TSS);
-			showResult('part_B_Y_obs_VSS',              r2.Y_obs_VSS);
-			showResult('part_B_R0',                     r2.OTRf);
-			showResult('part_B_SOTR',                   r2.SOTR);
-			showResult('part_B_air_flowrate',           r2.air_flowrate);
-			showResult('part_B_alkalinity_to_be_added', r2.alkalinity_to_be_added);
-			showResult('part_B_BOD_eff',                r2.BOD_eff);
+		showResult('part_B_mu_AOB',                 r2.mu_AOB);
+		showResult('part_B_SRT_theoretical',        r2.SRT_theoretical);
+		showResult('part_B_SRT_design',             r2.SRT_design);
+		showResult('part_B_NOx',                    r2.NOx);
+		showResult('part_B_P_X_bio_VSS',            r2.P_X_bio_VSS);
+		showResult('part_B_P_X_VSS',                r2.P_X_VSS);
+		showResult('part_B_P_X_TSS',                r2.P_X_TSS);
+		showResult('part_B_X_VSS_V',                r2.X_VSS_V);
+		showResult('part_B_X_TSS_V',                r2.X_TSS_V);
+		showResult('part_B_V',                      r2.V);
+		showResult('part_B_tau',                    r2.tau);
+		showResult('part_B_MLVSS',                  r2.MLVSS);
+		showResult('part_B_FM',                     r2.FM);
+		showResult('part_B_BOD_loading',            r2.BOD_loading);
+		showResult('part_B_bCOD_removed',           r2.bCOD_removed);
+		showResult('part_B_Y_obs_TSS',              r2.Y_obs_TSS);
+		showResult('part_B_Y_obs_VSS',              r2.Y_obs_VSS);
+		showResult('part_B_R0',                     r2.OTRf);
+		showResult('part_B_SOTR',                   r2.SOTR);
+		showResult('part_B_air_flowrate',           r2.air_flowrate);
+		showResult('part_B_alkalinity_to_be_added', r2.alkalinity_to_be_added);
+		showResult('part_B_BOD_eff',                r2.BOD_eff);
 		//end results part B
 
-		return;
-		//continue here
-
-		var SOR = getInput('parameter_hydraulic_application_rate'); //24 m3/m2·d
-		var X_R = getInput('parameter_X_R'); //8000 g/m3
-		var clarifiers = getInput('parameter_clarifiers'); //3 clarifiers
-		var r3 = sst_sizing(Q, SOR, X_R, clarifiers, MLSS_X_TSS);
+		//21: part C SECONDARY CLARIFIER SIZING (for both bod removal and nitrification)
+		var SOR        = getInput('parameter_hydraulic_application_rate');  //24    m3/m2·d
+		var X_R        = getInput('parameter_X_R');                         //8000  g/m3
+		var clarifiers = getInput('parameter_clarifiers');                  //3     clarifiers
+		var r3         = sst_sizing(Q,SOR,X_R,clarifiers,MLSS_X_TSS);
 		console.log(r3);
 
-		//21: part C SECONDARY CLARIFIER SIZING (for both bod removal and nitrification)
-				/*
-					hydraulic application rate:
-					assume 24 m3/m2·d (from table 8-34, page 890, range 16-28 m3/m2·d)
-					"settling following air activated sludge, excluding extended aeration"
-				*/
-		//
-
 		//show results part C
-			showResult('part_C_RAS',RAS);
-			showResult('part_C_Area',Area);
-			showResult('part_C_area_per_clarifier',area_per_clarifier);
-			showResult('part_C_clarifier_diameter',clarifier_diameter);
-			showResult('part_C_Solids_loading',Solids_loading);
-		//end results part C
+		showResult('part_C_RAS',                r3.RAS);
+		showResult('part_C_Area',               r3.Area);
+		showResult('part_C_area_per_clarifier', r3.area_per_clarifier);
+		showResult('part_C_clarifier_diameter', r3.clarifier_diameter);
+		showResult('part_C_Solids_loading',     r3.Solids_loading);
 	};
 </script>
 

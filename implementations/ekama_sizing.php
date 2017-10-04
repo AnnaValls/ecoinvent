@@ -167,8 +167,8 @@
 		<code>
 			Inputs:
 			<ul>
-				<li>X_TSS_V: kg of TSS (kg)
-				<li>MLSS_X_TSS: average MLSS concentration (kg/m3)
+				<li>X<sub>TSS,V</sub>: kg of TSS (kg)
+				<li>MLSS<sub>X,TSS</sub>: average MLSS concentration (kg/m3)
 			</ul>
 			Equations:
 			<ul>
@@ -183,7 +183,7 @@
 		<code>
 			Inputs:
 			<ul>
-				<li>MLSS_X_TSS: average MLSS concentration (kg/m3)
+				<li>MLSS<sub>X,TSS</sub>: average MLSS concentration (kg/m3)
 				<li>Q: flowrate m3/d
 			</ul>
 			Parameters:
@@ -199,6 +199,14 @@
 				<li> Area = Q/SOR (m<sup>2</sup>)
 				<li> diameter = (4·Area/&pi;)<sup>0.5</sup> (m)
 				<li> <b>Cost SST = 30·(diameter)<sup>1.22</sup> ($)</b>
+			</ul>
+		</code>
+	</div>
+	<div>
+		3. Total cost
+		<code>
+			<ul>
+				<li><b>Total cost = Cost reactor + Cost SST</b>
 			</ul>
 		</code>
 	</div>
@@ -241,7 +249,7 @@
 			</table>
 		</li><li>
 			<div>
-				Optimization
+				Find best MLSS<sub>X,TSS</sub> that optimizes Total cost (for current X<sub>TSS</sub>V and Q)
 				<button onclick=optimize_MLSS_X_TSS()>OPTIMIZE</button>
 			</div>
 			<table id=optim>

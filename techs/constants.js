@@ -31,3 +31,7 @@ const b_AOB      = 0.17; //table 8-14 at 20ºC
 const K_NH4      = 0.50; //table 8-14 at 20ºC
 const K_o_AOB    = 0.50; //table 8-14 at 20ºC
 const Yn         = 0.15; //table 8-14
+
+//bio P removal
+const bn = 0.17; // 1/d
+const P_content_het_X  =  0.015  //g P/g X

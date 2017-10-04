@@ -1,15 +1,16 @@
 <!doctype html><html><head>
 	<?php include'imports.php'?>
+	<!--css at the end-->
 	<script>
 		var Technologies=[
-			{name:"Aerobic   &mdash; BOD "},
-			{name:"Aerobic   &mdash; BOD + nitrification"},
-			{name:"Aerobic   &mdash; BOD + nitrification + denitrification"},
-			{name:"Aerobic   &mdash; BOD + nitrification + denitrification + BioP"},
-			{name:"Aerobic   &mdash; BOD + nitrification + denitrification + ChemP"},
-			{name:"Aerobic   &mdash; BOD + BioP"},
-			{name:"Aerobic   &mdash; BOD + ChemP"},
-			{name:"Anaerobic &mdash; No polishing"},
+			{name:"Aerobic: BOD"},
+			{name:"Aerobic: BOD + Nitrification"},
+			{name:"Aerobic: BOD + Nitrification + Denitrification"},
+			{name:"Aerobic: BOD + Nitrification + Denitrification + Bio P removal"},
+			{name:"Aerobic: BOD + Nitrification + Denitrification + Chem P removal"},
+			{name:"Aerobic: BOD + Bio P removal"},
+			{name:"Aerobic: BOD + Chem P removal"},
+			{name:"Anaerobic: No polishing"},
 		];
 		var Inputs=[
 			{name:"Q",    unit:"m3/d", default:22700},
@@ -32,9 +33,11 @@
 </head><body>
 <h1>Inputs &mdash; single WWTP</h1><hr>
 
+<div id=root>
+
 <!--select technology-->
 <div>
-	<p>1. Select technology</p>
+	<p>1. Select technology combination for your treatment plant</p>
 	<table id=technology border=1></table>
 	<script>
 		var table=document.querySelector('table#technology');
@@ -61,14 +64,14 @@
 <div>
 	<p>3. Influent wastewater flow and composition</p>
 	<table id=inputs border=1>
-		<tr><th>Compound<th>Unit<th>Value
+		<tr style=background:#eee><th>Compound<th>Unit<th>Value
 	</table>
 	<script>
 		var table=document.querySelector('table#inputs');
 		Inputs.forEach(input=>{
 			var newRow=table.insertRow(-1);
 			newRow.insertCell(-1).innerHTML=input.name;
-			newRow.insertCell(-1).innerHTML=input.unit;
+			newRow.insertCell(-1).innerHTML=input.unit.replace("m3",'m<sup>3</sup>');
 			newRow.insertCell(-1).innerHTML="<input type=number value='"+input.default+"'>";
 		})
 	</script>
@@ -85,7 +88,7 @@
 		DesignParameters.forEach(input=>{
 			var newRow=table.insertRow(-1);
 			newRow.insertCell(-1).innerHTML=input.name;
-			newRow.insertCell(-1).innerHTML=input.unit;
+			newRow.insertCell(-1).innerHTML=input.unit.replace("m3",'m<sup>3</sup>');
 			newRow.insertCell(-1).innerHTML="<input type=number value=0>";
 		})
 	</script>
@@ -97,9 +100,14 @@
 </div>
 
 <style>
-	table {
+	#root table tr:hover{
+		background:#eee;
 	}
-	th, td {
-		padding:0.2em;
+	label{
+		display:block;
+		cursor:pointer;
+	}
+	#root th, td {
+		padding:0.15em;
 	}
 </style>

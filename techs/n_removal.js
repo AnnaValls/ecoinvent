@@ -1,7 +1,7 @@
 /** 
 	Technology: N removal
 **/
-function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,TP,Alkalinity,MLSS,MLVSS,Aerobic_SRT,Aeration_basin_volume,Aerobic_T,Anoxic_mixing_energy,RAS,Ro,Ne){
+function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_basin_volume,Aerobic_T,Anoxic_mixing_energy,RAS,Ro,Ne){
 	/*
 		Inputs                   example values 
 		---------------------------------------
@@ -11,9 +11,7 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,TP,Alkalinity,MLSS,MLVSS,Aerobic_SRT,A
 			bCOD                   224    g/m3
 			rbCOD                  80     g/m3
 			NOx                    28.9   g/m3
-			TP                     6      g/m3
 			Alkalinity             140    g/m3 as CaCO3
-			MLSS                   3000   g/m3
 			MLVSS                  2370   g/m3
 			Aerobic_SRT            21     d
 			Aeration_basin_volume  13410  m3
@@ -131,9 +129,7 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,TP,Alkalinity,MLSS,MLVSS,Aerobic_SRT,A
 	var bCOD                   = 224  ;
 	var rbCOD                  = 80   ;
 	var NOx                    = 28.9 ;
-	var TP                     = 6    ;
 	var Alkalinity             = 140  ;
-	var MLSS                   = 3000 ;
 	var MLVSS                  = 2370 ;
 	var Aerobic_SRT            = 21   ;
 	var Aeration_basin_volume  = 13410;
@@ -142,6 +138,6 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,TP,Alkalinity,MLSS,MLVSS,Aerobic_SRT,A
 	var RAS                    = 0.6  ;
 	var Ro                     = 275.9;
 	var Ne                     = 6    ;
-	var result=N_removal(Q,T,BOD,bCOD,rbCOD,NOx,TP,Alkalinity,MLSS,MLVSS,Aerobic_SRT,Aeration_basin_volume,Aerobic_T,Anoxic_mixing_energy,RAS,Ro,Ne);
+	var result=N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_basin_volume,Aerobic_T,Anoxic_mixing_energy,RAS,Ro,Ne);
 	console.log(result);
 })();

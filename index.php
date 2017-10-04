@@ -41,22 +41,22 @@
 		<table>
 			<tr><th>Technology<th>Coding status
 			<tr>
-				<td><a href="bod_removal_only.php">0. BOD<sub>5</sub> removal [example]</a>
+				<td><a href="implementations/bod_removal_only.php">0. BOD<sub>5</sub> removal [example]</a>
 				<td>Done
 			<tr>
-				<td><a href="bod_removal_with_nitrification.php">1. BOD<sub>5</sub> removal w/ &amp; w/o nitrification</a>
+				<td><a href="implementations/bod_removal_with_nitrification.php">1. BOD<sub>5</sub> removal w/ &amp; w/o nitrification</a>
 				<td>Done
 			<tr>
-				<td><a href="N_removal.php">2. N removal</a>
+				<td><a href="implementations/N_removal.php">2. N removal</a>
 				<td>Done
 			<tr>
-				<td><a href="chem_P_removal.php">3. P removal (chemically)</a>
+				<td><a href="implementations/chem_P_removal.php">3. P removal (chemically)</a>
 				<td>Done
 			<tr>
-				<td><a href="bio_P_removal.php">4. P removal (biologically)</a>
+				<td><a href="implementations/bio_P_removal.php">4. P removal (biologically)</a>
 				<td>Done
 			<tr>
-				<td><a href="ekama_sizing.php">5. Reactor sizing (optim. cost) [G. Ekama]</a>
+				<td><a href="implementations/ekama_sizing.php">5. Reactor sizing (optim. cost) [G. Ekama]</a>
 				<td>Done
 			<tr>
 				<td><a>6. Elementary flows factors + simpleTreat</a>
@@ -134,17 +134,5 @@
 		display:inline-block;
 		width:350px;
 		font-size:12px;
-	}
-
-	/*folds*/
-	.foldable.folded > ol {
-		display:none;
-	}
-	.foldable b {
-		cursor:pointer;
-		font-size:14px;
-	}
-	.foldable b:hover {
-		text-decoration:underline;
 	}
 </style>

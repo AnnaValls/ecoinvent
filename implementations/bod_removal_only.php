@@ -1,7 +1,8 @@
 <!doctype html><html><head>
-	<meta charset=utf-8>
+
+	<?php include'imports.php'?>
+
 	<title>Metcalf exercise 8-2 (p. 707)</title>
-	<script src="format.js"></script>
 	<style>
 		body{
 			overflow-y:scroll;

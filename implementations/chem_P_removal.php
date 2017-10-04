@@ -1,7 +1,6 @@
 <!doctype html><html><head>
-	<meta charset=utf-8>
+	<?php include'imports.php'?>
 	<title>Chemical P removal</title>
-	<script src="format.js"></script>
 	<script>
 		function init(){
 			//compute_exercise();
@@ -267,7 +266,7 @@
 <!--implementation-->
 <script>
 	function compute_exercise(){
-		/*INPUTS*/
+		//inputs
 		var Q                                = getInput('input_Q');
 		var TSS                              = getInput('input_TSS');
 		var TSS_removal_wo_Fe                = getInput('input_TSS_removal_wo_Fe');
@@ -280,87 +279,28 @@
 		var FeCl3_unit_weight                = getInput('input_FeCl3_unit_weight');
 		var days                             = getInput('input_days');
 
-		/*PARAMETERS*/
-		var Fe_P_mole_ratio = 3.3;
-		var M_Fe = 55.845; //g/mol
-		var M_P = 30.974; //g/mol
-		var Raw_sludge_specific_gravity      = 1.03;
-		var Raw_sludge_moisture_content      = 94;
-		var Chemical_sludge_specific_gravity = 1.05
-		var Chemical_sludge_moisture_content = 92.5;
-
-		/*SOLUTION*/
-			//1
-			var Fe_III_dose = Fe_P_mole_ratio*(C_PO4_inf-C_PO4_eff)*M_Fe/M_P; //mg/L
-			console.log(Fe_III_dose);
-			//2
-			var primary_eff_P = C_P_inf - (C_PO4_inf - C_PO4_eff); //mg/L
-			console.log(primary_eff_P);
-			//3
-			var Fe_dose = Q*Fe_III_dose/1000; //kg/d
-			console.log(Fe_dose); 
-			//4
-			var percent_Fe_in_FeCl3 = 100*M_Fe/162.3; //%
-			console.log(percent_Fe_in_FeCl3); 
-			var amount_FeCl3_solution = Fe_dose/percent_Fe_in_FeCl3*100; //kg/d
-			console.log(amount_FeCl3_solution); 
-			var FeCl3_volume = amount_FeCl3_solution/(FeCl3_solution/100*FeCl3_unit_weight); //L/d 
-			console.log(FeCl3_volume); 
-			var storage_req_15_d = FeCl3_volume/1000*days; //m3
-			console.log(storage_req_15_d); 
-
-			//5
-			var Additional_sludge = 0.15*TSS*Q/1000; //kg/d   (? 0.15)
-			console.log(Additional_sludge); 
-			var Fe_dose_M = Fe_III_dose/1000/M_Fe; //M (mol/L)
-			console.log(Fe_dose_M); 
-			var P_removed = (C_PO4_inf - C_PO4_eff)/1000/M_P; //M(mol/L)
-			console.log(P_removed); 
-			var FeH2PO4OH_sludge = P_removed*251*1000; //mg/L (251 is FeH2PO4OH molecular weight)
-			console.log(FeH2PO4OH_sludge);
-			var Excess_Fe_added = Fe_dose_M - 1.6*P_removed; //M (mol/L) (? 1.6)
-			console.log(Excess_Fe_added);
-			var FeOH3_sludge = Excess_Fe_added*(106.8)*1000; //mg/L (106.8 is FeCl3 molecular weight)
-			console.log(FeOH3_sludge);
-			var Excess_sludge = FeH2PO4OH_sludge + FeOH3_sludge; //mg/L
-			console.log(Excess_sludge);
-			var Excess_sludge_kg = Q*Excess_sludge/1000; //kg/d
-			console.log(Excess_sludge_kg);
-			var Total_excess_sludge = Additional_sludge + Excess_sludge_kg; //kg/d
-			console.log(Total_excess_sludge);
-
-			//6
-			var sludge_production_wo_chemical_addition = Q*TSS*0.6/1000; //kg/d (? 0.6)
-			console.log(sludge_production_wo_chemical_addition);
-			var sludge_production_w_chemical_addition = sludge_production_wo_chemical_addition + Total_excess_sludge; //kg/d
-			console.log(sludge_production_w_chemical_addition);
-			//7
-			var Vs_without = sludge_production_wo_chemical_addition/(Raw_sludge_specific_gravity*1000*(1-Raw_sludge_moisture_content/100)); //m3/d
-			console.log(Vs_without);
-			//8
-			var Vs = sludge_production_w_chemical_addition/(Chemical_sludge_specific_gravity*1000*(1-Chemical_sludge_moisture_content/100)); //m3/d
-			console.log(Vs);
-		//end solution
+		//solve
+		var r = chem_P_removal(Q,TSS,TSS_removal_wo_Fe,TSS_removal_w_Fe,C_P_inf,C_PO4_inf,C_PO4_eff,Alkalinity,FeCl3_solution,FeCl3_unit_weight,days);
 
 		//show results
-		showResult('result_Fe_III_dose',Fe_III_dose);
-		showResult('result_primary_eff_P',primary_eff_P);
-		showResult('result_Fe_dose',Fe_dose);
-		showResult('result_amount_FeCl3_solution',amount_FeCl3_solution);
-		showResult('result_FeCl3_volume',FeCl3_volume);
-		showResult('result_storage_req_15_d',storage_req_15_d);
-		showResult('result_Additional_sludge',Additional_sludge);
-		showResult('result_Fe_dose_M',Fe_dose_M);
-		showResult('result_P_removed',P_removed);
-		showResult('result_FeH2PO4OH_sludge',FeH2PO4OH_sludge);
-		showResult('result_Excess_Fe_added',Excess_Fe_added);
-		showResult('result_FeOH3_sludge',FeOH3_sludge);
-		showResult('result_Excess_sludge',Excess_sludge);
-		showResult('result_Excess_sludge_kg',Excess_sludge_kg);
-		showResult('result_Total_excess_sludge',Total_excess_sludge);
-		showResult('sludge_production_wo_chemical_addition',sludge_production_wo_chemical_addition);
-		showResult('Vs_without',Vs_without);
-		showResult('sludge_production_w_chemical_addition',sludge_production_w_chemical_addition);
-		showResult('Vs',Vs);
+		showResult('result_Fe_III_dose',                     r.Fe_III_dose);
+		showResult('result_primary_eff_P',                   r.primary_eff_P);
+		showResult('result_Fe_dose',                         r.Fe_dose);
+		showResult('result_amount_FeCl3_solution',           r.amount_FeCl3_solution);
+		showResult('result_FeCl3_volume',                    r.FeCl3_volume);
+		showResult('result_storage_req_15_d',                r.storage_req_15_d);
+		showResult('result_Additional_sludge',               r.Additional_sludge);
+		showResult('result_Fe_dose_M',                       r.Fe_dose_M);
+		showResult('result_P_removed',                       r.P_removed);
+		showResult('result_FeH2PO4OH_sludge',                r.FeH2PO4OH_sludge);
+		showResult('result_Excess_Fe_added',                 r.Excess_Fe_added);
+		showResult('result_FeOH3_sludge',                    r.FeOH3_sludge);
+		showResult('result_Excess_sludge',                   r.Excess_sludge);
+		showResult('result_Excess_sludge_kg',                r.Excess_sludge_kg);
+		showResult('result_Total_excess_sludge',             r.Total_excess_sludge);
+		showResult('sludge_production_wo_chemical_addition', r.sludge_production_wo_chemical_addition);
+		showResult('sludge_production_w_chemical_addition',  r.sludge_production_w_chemical_addition);
+		showResult('Vs_without',                             r.Vs_without);
+		showResult('Vs',                                     r.Vs);
 	}
 </script>
