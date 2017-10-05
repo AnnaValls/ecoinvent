@@ -10,5 +10,6 @@
 <script src="utils.js"></script>
 <script src="format.js"></script>
 <script src="techs/inputs.js"></script>
+<script src="techs/constants.js"></script>
 
 <!--/imports.php-->
