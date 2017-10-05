@@ -150,7 +150,7 @@
 		3. Total cost
 		<code>
 			<ul>
-				<li><b>Total cost = Cost reactor + Cost SST</b>
+				<li><b>Total cost = Cost reactor + Cost SST ($)</b>
 			</ul>
 		</code>
 	</div>
@@ -188,19 +188,19 @@
 		<li><div>Results</div>
 			<table id=results>
 				<tr><td>Cost reactor<td id=result_cost_reactor>?<td>$
-				<tr><td>Cost sst<td id=result_cost_sst>?<td>$
+				<tr><td>Cost SST<td id=result_cost_sst>?<td>$
 				<tr><td>Total cost<td id=result_total>?<td>$
 			</table>
 		</li>
 	</ol>
 	<div>
-		3. Find best <b>MLSS<sub>X,TSS</sub></b> that optimizes <b>Total cost</b> (for current X<sub>TSS</sub>V and Q)
 		<div>
-			<button onclick=optimize_MLSS_X_TSS()>OPTIMIZE</button>
+			3. Find best <b>MLSS<sub>X,TSS</sub></b> that optimizes <b>Total cost</b> (for current X<sub>TSS</sub>V and Q)
+			<button onclick=optimize_MLSS_X_TSS() style=padding:1em>OPTIMIZE</button>
 		</div>
 		<table id=optim>
-			<tr><td>Optimum MLSS<td id=result_optimum_M>?<td>kg/m3
-			<tr><td>Optimum cost<td id=result_optimum_cost>?<td>$
+			<tr><td>Optimum MLSS<sub>X,TSS</sub><td id=result_optimum_M>?<td>kg/m3
+			<tr><td>Optimum Total cost<td id=result_optimum_cost>?<td>$
 		</table>
 	</div>
 </div>

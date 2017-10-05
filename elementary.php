@@ -1,10 +1,10 @@
 <!doctype html><html><head><?php include'imports.php'?><title>Elementary Flows</title>
 	<!--
 		vim * shortcuts: 
-			backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"
+			[backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 	-->
 
-	<!--data structures for inputs and outputs-->
+	<!--data structures-->
 	<script>
 		/*
 		 * Structure 1: Inputs with default values
@@ -87,16 +87,9 @@
 		};
 	</script>
 
-	<!--init/backend/frontend-->
+	<!--backend (equations)-->
 	<script>
-		function init(){
-			compute_elementary_flows();
-			updateViews();
-		}
-
-		/*
-		 * backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"
-		 */
+		//[backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 		function compute_elementary_flows(){
 			//inputs and technologies
 			var Q              = getInput('Q').value;
@@ -247,6 +240,14 @@
 			Outputs.TS.air=0;
 			Outputs.TS.sludge=0;
 		}
+	</script>
+
+	<!--init/frontend-->
+	<script>
+		function init(){
+			compute_elementary_flows();
+			updateViews();
+		}
 
 		/*
 		 * frontend update views
@@ -279,7 +280,6 @@
 			}
 		}
 	</script>
-
 </head><body onload="init()">
 
 <!--title-->
