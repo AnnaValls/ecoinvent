@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 	<?php include'imports.php'?>
+	<!--css styles are at the end-->
 	<title>Ecoinvent</title>
-	<!--css at the end-->
 </head><body>
 <?php include'navbar.php'?>
 
@@ -10,32 +10,34 @@
 <p style=max-width:50em>
 	<p style=max-width:50em>
 		This is a placeholder for drafting the interface 
-		that will request the user's inputs
-		(not yet a draft for the design, this goes last).
-		The goal is to have a very clear user interface for the inputs 
-		before moving forward to create the backend (models).
+		that will request the user's inputs.
+		<br>
+		The goal is to have a functional backend first, and then implement a pretty design on top of it.
 		<hr>
 	</p>
 
 	<div>
-		<p>Web parts:</p>
+		<p><b>Web parts:</b></p>
 		<ul>
-			<li>Single WWTP configuration
-			<li><a href=inputs.php     >1. Inputs</a>
-			<li><a href=elementary.php >2. Outputs: Elementary flows</a>
-			<li><a href=construction   >3. Construction materials   </a>
-			<li>4. Chemicals consumed
-			<li>5. Energy consumed
-			<li>6. Generate ecoSpold (connection with python code)
+			<li>Single plant configuration
+				<ul>
+					<li><a href=inputs.php     >1. Select technology combination</a>
+					<li><a href=elementary.php >2. Elementary flows factors (in progress)</a>
+					<li><a                     >3. Simple Treat flows factors (pending)</a>
+					<li><a href=construction   >4. Construction materials</a>
+					<li><a                     >5. Chemicals consumed (pending)
+					<li><a                     >6. Energy consumed (pending)
+					<li><a                     >7. Generate ecoSpold (pending, connection with python code)
+				</ul>
+			</li>
 			<li>Appendix: <a href=terms.php>Terms</a>
-			<li><a href=techs/tests.php>Tests</a>
 			<li><a href=future>Future implementations (for "n" WWTPs)</a>
 		</ul>
 		<hr>
 	</div>
 
 	<div>
-		<p>Metcalf &amp; Eddy, Wastewater Engineering, 5th ed., 2014, implementations:</p>
+		<p>Metcalf &amp; Eddy, Wastewater Engineering, 5th ed., 2014, technologies implementations:</p>
 		<table style=margin-left:10px border=1>
 			<tr><th> <th>Technology<th>Coding status
 			<tr>
@@ -63,13 +65,7 @@
 				<td><a href="implementations/ekama_sizing.php">Reactor sizing (optim. cost) [G. Ekama]</a>
 				<td>Done
 			<tr>
-				<td>6.
-				<td><a href="elementary.php">Elementary flows factors</a>
-				<td>In progress at <?php echo date("M-d-Y")?>
-			<tr>
-				<td>7.
-				<td><a>Simple Treat flows factors</a>
-				<td>Pending
+				<td colspan=3><a href=techs/tests.php>Implementation Tests</a>
 			</tr>
 		</table>
 	</div><hr>
@@ -89,17 +85,9 @@
 			</li>
 		</ul>
 	</div><hr>
-
-	<div>
-		ICRA people:
-		<ul>
-			<li><a target=_blank href=mailto:lbosch@icra.cat>lbosch@icra.cat</a> (Lluís Bosch, ICRA software developer)
-			<li><a target=_blank href=mailto:lcorominas@icra.cat>lcorominas@icra.cat</a> (Lluís Corominas, ICRA coordinator)
-		</ul>
-	</div><hr>
 </p>
 
-<!--styles-->
+<!--css styles-->
 <style>
 	/*general*/
 	body{
