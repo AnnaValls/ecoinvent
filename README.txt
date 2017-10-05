@@ -4,11 +4,11 @@ In development. Expected web application finish: October 31 2017
 
 ## Tasks
 ### backend tasks
-- [done] calculate area from mlss in reactor sizing
-- [done] pack technology code in a reusable coding interface
 - [doing] implement elementary flows factors (lcorominas is gathering equations)
 - [to do] implement "simple treat" equations for other elementary flows factors
 - [to do] implement Fe/P mole ratio from figure 6-13 (page 484)
+- [done] calculate area from mlss in reactor sizing
+- [done] pack technology code in a reusable coding interface
 
 ### frontend tasks
 - [to do] unify inputs in a single page, then, select technology, then run technology combination
