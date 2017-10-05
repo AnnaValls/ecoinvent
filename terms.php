@@ -15,7 +15,7 @@
 			{name:"b_col_COD", definition:"Biodegradable colloidal COD"},
 			{name:"sbCOD", definition:"Slowly biodegradable COD"},
 			{name:"bpCOD", definition:"Biodegradable particulate COD"},
-			{name:"npbCOD", definition:"Nonbiodegradable particulate COD"},
+			{name:"nbpCOD", definition:"Nonbiodegradable particulate COD"},
 			{name:"nbsCOD", definition:"Nonbiodegradable soluble COD"},
 			{name:"TKN", definition:"Total Kjedahl nitrogen"},
 			{name:"bTKN", definition:"Biodegradable TKN"},
@@ -39,7 +39,7 @@
 			{name:"TSS", definition:"Total suspended solids"},
 			{name:"VSS", definition:"Volatile suspended solids"},
 			{name:"nbVSS", definition:"Nonbiodegradable volatile suspended solids"},
-			{name:"iTSS", definition:"Inter total suspended solids"},
+			{name:"iTSS", definition:"Inert total suspended solids"},
 		];
 	</script>
 </head><body>

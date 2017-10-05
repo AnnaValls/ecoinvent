@@ -381,6 +381,7 @@
 				<tr><td>nbsCODe             <td class=number><span id=part_A_nbsCODe>?</span><td>g/m<sup>3</sup>
 				<tr><td>nbVSS               <td class=number><span id=part_A_nbVSS>?</span><td>g/m<sup>3</sup>
 				<tr><td>iTSS                <td class=number><span id=part_A_iTSS>?</span><td>g/m<sup>3</sup>
+				<tr><td>&mu;<sub>m,T</sub>  <td class=number><span id=part_A_mu_mT>?</span><td>1/d
 				<tr><td>P<sub>X,Bio</sub>   <td class=number><span id=part_A_P_X_bio>?</span><td>kg VSS/d
 				<tr><td>P<sub>X,VSS</sub>   <td class=number><span id=part_A_P_X_VSS>?</span><td>kg/d
 				<tr><td>P<sub>X,TSS</sub>   <td class=number><span id=part_A_P_X_TSS>?</span><td>kg/d
@@ -465,6 +466,7 @@
 		showResult('part_A_nbsCODe',      r1.nbsCODe);
 		showResult('part_A_nbVSS',        r1.nbVSS);
 		showResult('part_A_iTSS',         r1.iTSS);
+		showResult('part_A_mu_mT',        r1.mu_mT);
 		showResult('part_A_P_X_bio',      r1.P_X_bio);
 		showResult('part_A_P_X_VSS',      r1.P_X_VSS);
 		showResult('part_A_P_X_TSS',      r1.P_X_TSS);

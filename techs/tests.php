@@ -16,13 +16,17 @@
 	<script src="chem_P_removal.js"></script>
 </head><body>
 
-<h1>Javascript test page</h1>
+<h1>Test page for Javascript technology implementations</h1>
 <h2>Open console to display results</h2>
+<p>(only if debug mode is active)</p>
+
+<p>How to open Javascript console:</p>
 <table border=1>
-	<tr><th>OS<th>Browser<th>Shortcut to console
-	<tr><td>Linux<td>Chromium<td>?
-	<tr><td>Linux<td>Firefox<td>F12
-	<tr><td>MacOSX<td>Chrome<td>alt+cmd+j
-	<tr><td>MacOSX<td>Firefox<td>alt+cmd+k
-	<tr><td>Windows<td>?<td>F12
+	<tr><th>OS       <th>Browser   <th>Shortcut
+
+	<tr><td>Linux    <td>Chromium  <td>?
+	<tr><td>Linux    <td>Firefox   <td>F12
+	<tr><td>MacOSX   <td>Chrome    <td>alt+cmd+j
+	<tr><td>MacOSX   <td>Firefox   <td>alt+cmd+k
+	<tr><td>Windows  <td>All       <td>F12
 </table>

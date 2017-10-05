@@ -12,7 +12,7 @@
 		This is a placeholder for drafting the interface 
 		that will request the user's inputs.
 		<br>
-		The goal is to have a functional backend first, and then implement a pretty design on top of it.
+		The goal is to have a functional backend first, and then we'll implement a 'pretty design' on top of it.
 		<hr>
 	</p>
 
@@ -37,41 +37,35 @@
 	</div>
 
 	<div>
-		<p>Metcalf &amp; Eddy, Wastewater Engineering, 5th ed., 2014, technologies implementations:</p>
+		<p><b>Metcalf &amp; Eddy, Wastewater Engineering, 5th ed., 2014, technologies implemented:</b></p>
 		<table style=margin-left:10px border=1>
-			<tr><th> <th>Technology<th>Coding status
+			<tr><th>Technology<th>Coding status
 			<tr>
-				<td>0.
-				<td><a href="implementations/bod_removal_only.php">BOD removal [example]</a>
+				<td>0. <a href="implementations/bod_removal_only.php">BOD removal [example]</a>
 				<td>Done
 			<tr>
-				<td>1.
-				<td><a href="implementations/bod_removal_with_nitrification.php">BOD removal w/ &amp; w/o nitrification</a>
+				<td>1. <a href="implementations/bod_removal_with_nitrification.php">BOD removal w/ &amp; w/o nitrification</a>
 				<td>Done
 			<tr>
-				<td>2.
-				<td><a href="implementations/N_removal.php">N removal</a>
+				<td>2. <a href="implementations/N_removal.php">N removal</a>
 				<td>Done
 			<tr>
-				<td>3.
-				<td><a href="implementations/chem_P_removal.php">P removal (chemically)</a>
+				<td>3. <a href="implementations/chem_P_removal.php">P removal (chemically)</a>
 				<td>Done
 			<tr>
-				<td>4.
-				<td><a href="implementations/bio_P_removal.php">P removal (biologically)</a>
+				<td>4. <a href="implementations/bio_P_removal.php">P removal (biologically)</a>
 				<td>Done
 			<tr>
-				<td>5.
-				<td><a href="implementations/ekama_sizing.php">Reactor sizing (optim. cost) [G. Ekama]</a>
+				<td>5. <a href="implementations/ekama_sizing.php">Reactor sizing (optim. cost) [G. Ekama]</a>
 				<td>Done
 			<tr>
-				<td colspan=3><a href=techs/tests.php>Implementation Tests</a>
+				<td colspan=2 align=center><a href="techs/tests.php">Implementation Tests</a>
 			</tr>
 		</table>
 	</div><hr>
 
 	<div>
-		<p>Other things:</p>
+		<p><b>Other things:</b></p>
 		<ul>
 			<li><a href=docs>Documents</a>
 			<li>
@@ -89,47 +83,10 @@
 
 <!--css styles-->
 <style>
-	/*general*/
 	body{
-		font-family:sans-serif;
 		margin:0;
-	}
-	h1{
-		margin-top:5px;
-		font-weight:normal;
-	}
-	h2{
-		font-weight:normal;
-	}
-	table th{
-		border-bottom:1px solid #ccc;
-	}
-
-	/*lists*/
-	ol{	
-		counter-reset:item;
-	}
-	ol li{
-		display:block;
-	}
-	ol li:before{
-		content:counters(item,".") ". "; 
-		counter-increment:item;
-		font-family:monospace;
 	}
 	#root {
 		margin:5px;
-	}
-	#root > li {
-		margin-top:0.5em;
-	}
-	#root > li > b{
-		font-size:17px;
-	}
-
-	.description {
-		display:inline-block;
-		width:350px;
-		font-size:12px;
 	}
 </style>

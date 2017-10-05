@@ -1,6 +1,6 @@
 <!--title-->
 <div id=title onclick=window.location='index.php'>
-	Ecoinvent wastewater web tool (in development)
+	Ecoinvent wastewater web tool (development)
 	<style>
 		#title {
 			background:linear-gradient(to top, #e01a1a, #eb6666);

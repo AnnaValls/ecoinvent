@@ -1,10 +1,14 @@
 <!--imports.php-->
 
-<!--meta ico-->
+<!--meta-->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
 <meta name="description" content="ecoinvent">
+
+<!--link-->
 <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+
+<!--CSS-->
 
 <!--javascript-->
 <script src="utils.js"></script>
@@ -12,4 +16,4 @@
 <script src="techs/inputs.js"></script>
 <script src="techs/constants.js"></script>
 
-<!--/imports.php-->
+<!--end imports.php-->
