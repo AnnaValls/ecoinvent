@@ -1,8 +1,14 @@
 <!doctype html><html><head><?php include'imports.php'?><title>Elementary Flows</title>
+	<!--
+		vim * shortcuts: 
+			backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"
+	-->
+
+	<!--data structures for inputs and outputs-->
 	<script>
 		/*
-		 * Structure: Inputs with default values
-		 * Structure: Technologies used, (also inputs)
+		 * Structure 1: Inputs with default values
+		 * Structure 2: Technologies used (also inputs)
 		 */
 		var Inputs = [
 			//influent
@@ -35,7 +41,7 @@
 		];
 
 		/*
-		 * function: Get an input or technology by id
+		 * function: Get an input||technology by id
 		 */
 		function getInput(id,isTechnology){
 			isTechnology=isTechnology||false;
@@ -57,7 +63,7 @@
 		}
 
 		/*
-		 * function: Set an input or technology by id
+		 * function: Set an input||technology by id
 		 */
 		function setInput(id,newValue,isTechnology){
 			isTechnology=isTechnology||false;
@@ -66,7 +72,7 @@
 		}
 
 		/*
-		 * Structure: Elementary flows for water, air and sludge (g/d)
+		 * Structure: Outputs, elementary flows for water, air and sludge (g/d)
 		 */
 		var Outputs={
 			"COD":{water:0, air:0, sludge:0},
@@ -81,34 +87,37 @@
 		};
 	</script>
 
+	<!--init/backend/frontend-->
 	<script>
 		function init(){
 			compute_elementary_flows();
 			updateViews();
 		}
 
-		//backend implementation of "docs/Elementaryflows_20170927evening.pdf"
+		/*
+		 * backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"
+		 */
 		function compute_elementary_flows(){
-			//inputs
-			var  Q           = getInput('Q').value;
-			var  T           = getInput('T').value;
-			var  SRT         = getInput('SRT').value;
-			var  COD         = getInput('COD').value;
-			var  sCOD        = getInput('sCOD').value;
-			var  BOD         = getInput('BOD').value;
-			var  sBOD        = getInput('sBOD').value;
-			var  MLSS_X_TSS  = getInput('MLSS_X_TSS').value;
-			var  VSS         = getInput('VSS').value;
-			var  TSS         = getInput('TSS').value;
-			var  TSSe        = getInput('TSSe').value;
-			var  TSS_was     = getInput('TSS_was').value;
+			//inputs and technologies
+			var Q              = getInput('Q').value;
+			var T              = getInput('T').value;
+			var SRT            = getInput('SRT').value;
+			var COD            = getInput('COD').value;
+			var sCOD           = getInput('sCOD').value;
+			var BOD            = getInput('BOD').value;
+			var sBOD           = getInput('sBOD').value;
+			var MLSS_X_TSS     = getInput('MLSS_X_TSS').value;
+			var VSS            = getInput('VSS').value;
+			var TSS            = getInput('TSS').value;
+			var TSSe           = getInput('TSSe').value;
+			var TSS_was        = getInput('TSS_was').value;
+			var bCOD_BOD_ratio = getInput('bCOD_BOD_ratio').value;
 
-			//technologies activated by the user
-			var  Pri = getInput("Pri",true).value;
-			var  Nit = getInput("Nit",true).value;
-			var  Des = getInput("Des",true).value;
-			var  BiP = getInput("BiP",true).value;
-			var  ChP = getInput("ChP",true).value;
+			var Pri = getInput("Pri",true).value; //tech
+			var Nit = getInput("Nit",true).value; //tech
+			var Des = getInput("Des",true).value; //tech
+			var BiP = getInput("BiP",true).value; //tech
+			var ChP = getInput("ChP",true).value; //tech
 
 			//technologies booleans
 			var primary_effluent_wastewater = Pri;
@@ -116,7 +125,7 @@
 			var nitrification               = Nit;
 			var denitrification             = Des;
 
-			//equations
+			/* Equations start */
 			var bCOD = 1.6*BOD;
 			var nbCOD = COD - bCOD;
 			var nbsCODe = sCOD - 1.6*sBOD
@@ -239,7 +248,9 @@
 			Outputs.TS.sludge=0;
 		}
 
-		//update views
+		/*
+		 * frontend update views
+		 */
 		function updateViews(){
 			//update inputs
 			var table=document.querySelector('table#inputs');
@@ -269,49 +280,52 @@
 		}
 	</script>
 
-</head><body onload="init()"><h1>Elementary Flows</h1>
+</head><body onload="init()">
 
+<!--title-->
+<h1>Elementary Flows</h1>
+
+<!--temporal note-->
 <p>Implementation in progress as <?php echo date("M-d-Y") ?> <hr>
 
-<!--inputs and outputs-->
-<div style="display:flex;flex-wrap:wrap">
+<!--inputs and outputs scaffold-->
+<div id=root>
+	<div style="display:flex;flex-wrap:wrap">
+		<!--inputs-->
+		<div>
+			<p>1. Inputs</p>
+			<table id=inputs border=1>
+				<tr><th>Input<th>Value<th>Unit
+			</table>
+		</div>
 
-	<!--inputs-->
+		<!--margin--><div>&emsp;</div>
+
+		<!--outputs-->
+		<div>
+			<p>2. Outputs</p>
+			<table id=outputs border=1 cellpadding=2>
+				<tr>
+					<th rowspan=2>Compound
+					<th colspan=3>Effluent (g/d)
+				</tr>
+				<tr>
+					<th>Water<th>Air<th>Sludge
+				</tr>
+			</table>
+		</div>
+	</div><hr>
+	<!--mass balances-->
 	<div>
-		<p>1. Inputs</p>
-		<table id=inputs border=1>
-			<tr><th>Input<th>Value<th>Unit
+		<p>3. Mass balances (pending)</p>
+		<table border=1>
+			<tr><th>Element <th>Influent (g/d) <th>Effluent (g/d) <th>Air (g/d) <th>Sludge (g/d) <th>Difference in mass balance (g/d)
+			<tr><td>C       <td>Q·COD          <td>1:1            <td>2:2       <td>1:3          <td>A-B-C-D
+			<tr><td>N       <td>Q·TKN          <td>4:1+5:1        <td>6:2+7:2   <td>4:3+5:3      <td>A-B-C-D
+			<tr><td>P       <td>Q·TP           <td>8:1            <td>-         <td>8:3          <td>A-B-C-D
+			<tr><td>C       <td>Q·TS           <td>9:1            <td>-         <td>9:3          <td>A-B-C-D
 		</table>
 	</div>
-
-	<!--space between--><div>&emsp;</div>
-
-	<!--outputs-->
-	<div>
-		<p>2. Outputs</p>
-		<table id=outputs border=1 cellpadding=2>
-			<tr>
-				<th rowspan=2>Compound
-				<th colspan=3>Effluent (g/d)
-			</tr>
-			<tr>
-				<th>Water<th>Air<th>Sludge
-			</tr>
-		</table>
-	</div>
-</div><hr>
-
-<!--mass balances-->
-<div>
-	<p>3. Mass balances (pending)</p>
-	<table border=1>
-		<tr><th>Element <th>Influent (g/d) <th>Effluent (g/d) <th>Air (g/d) <th>Sludge (g/d) <th>Difference in mass balance (g/d)
-		<tr><td>C       <td>Q·COD          <td>1:1            <td>2:2       <td>1:3          <td>A-B-C-D
-		<tr><td>N       <td>Q·TKN          <td>4:1+5:1        <td>6:2+7:2   <td>4:3+5:3      <td>A-B-C-D
-		<tr><td>P       <td>Q·TP           <td>8:1            <td>-         <td>8:3          <td>A-B-C-D
-		<tr><td>C       <td>Q·TS           <td>9:1            <td>-         <td>9:3          <td>A-B-C-D
-	</table>
+	<hr>
+	<a href=inputs.php>Back</a>
 </div>
-
-<hr>
-<a href=inputs.php>Back</a>

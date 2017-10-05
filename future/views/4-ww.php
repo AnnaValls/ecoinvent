@@ -14,9 +14,9 @@
 	</ul>
 
 	<hr>
+
 	<div>
 		<a href="3-activity.php">Back</a>
-		<a href="5-.php">Next</a>
 	</div>
 
 </div>

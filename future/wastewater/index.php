@@ -7,8 +7,6 @@
 <h1>Wastewater configuration</h1>
 <h2>Wastewater characteristics</h2><hr>
 
-<div style="background:red;text-align:center;padding:0.5em">layout TBD</div>
-
 <table>
 	<tr><th align=left>Inputs
 		<th>Municipal wastewater
@@ -317,6 +315,7 @@
 		<td><input value=0>
 		<td align=center>0
 		<td>kg/m<sup>3</sup>
-</table> <hr>
+</table> 
 
+<hr>
 <button>Save</button>
