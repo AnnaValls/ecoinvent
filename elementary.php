@@ -1,8 +1,7 @@
 <!doctype html><html><head><?php include'imports.php'?><title>Elementary Flows</title>
-	<!--
-		vim * shortcuts: 
-			[backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
-	-->
+<!-- vim * shortcuts: 
+backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
+-->
 
 	<!--data structures-->
 	<script>
@@ -12,19 +11,20 @@
 		 */
 		var Inputs = [
 			//influent
-			{id:"Q",         value:22700, unit:"m3/d", descr:"Flowrate"},
-			{id:"T",         value:12,    unit:"ºC",   descr:"Temperature"},
-			{id:"SRT",       value:5,     unit:"d",    descr:"Solids Retention Time"},
-			{id:"COD",       value:300,   unit:"g/m3", descr:"Total chemical oxygen demand"},
-			{id:"sCOD",      value:132,   unit:"g/m3", descr:"Soluble COD"},
-			{id:"BOD",       value:140,   unit:"g/m3", descr:"Total 5d biochemical oxygen demand"},
-			{id:"sBOD",      value:70,    unit:"g/m3", descr:"Soluble BOD"},
-			{id:"MLSS_X_TSS",value:3000,  unit:"g/m3", descr:"Mixed liquor suspended solids"},
-			{id:"VSS",       value:60,    unit:"g/m3", descr:"Volatile suspended solids"},
-			{id:"TSS",       value:70,    unit:"g/m3", descr:"Total suspended solids"},
-			{id:"TSS_was",   value:1,     unit:"g/m3", descr:"Total suspended solids (wastage)"},
-			{id:"TKN",       value:35,    unit:"g/m3", descr:"Total Kjedahl nitrogen"},
-			{id:"TP",        value:6,     unit:"g/m3", descr:"Total phosphorus"},
+			{id:"Q",              value:22700, unit:"m3/d", descr:"Flowrate"},
+			{id:"T",              value:12,    unit:"ºC",   descr:"Temperature"},
+			{id:"SRT",            value:5,     unit:"d",    descr:"Solids Retention Time"},
+			{id:"COD",            value:300,   unit:"g/m3", descr:"Total chemical oxygen demand"},
+			{id:"sCOD",           value:132,   unit:"g/m3", descr:"Soluble COD"},
+			{id:"BOD",            value:140,   unit:"g/m3", descr:"Total 5d biochemical oxygen demand"},
+			{id:"sBOD",           value:70,    unit:"g/m3", descr:"Soluble BOD"},
+			{id:"MLSS_X_TSS",     value:3000,  unit:"g/m3", descr:"Mixed liquor suspended solids"},
+			{id:"VSS",            value:60,    unit:"g/m3", descr:"Volatile suspended solids"},
+			{id:"TSS",            value:70,    unit:"g/m3", descr:"Total suspended solids"},
+			{id:"TSS_was",        value:1,     unit:"g/m3", descr:"Total suspended solids (wastage)"},
+			{id:"TKN",            value:35,    unit:"g/m3", descr:"Total Kjedahl nitrogen"},
+			{id:"TP",             value:6,     unit:"g/m3", descr:"Total phosphorus"},
+			{id:"bCOD_BOD_ratio", value:1.6,   unit:"g/g",  descr:"bCOD/BOD ratio"},
 			//effluent
 			{id:"TSSe",      value:1,     unit:"g/m3", descr:"Effluent design Total suspended solids"},
 			{id:"Ne",        value:0.50,  unit:"g/m3", descr:"Effluent design NH4"},
@@ -40,9 +40,7 @@
 			{id:"ChP", value:false, descr:"Chemical P removal", },
 		];
 
-		/*
-		 * function: Get an input||technology by id
-		 */
+		/* Get an input or technology by id */
 		function getInput(id,isTechnology){
 			isTechnology=isTechnology||false;
 			var ret;
@@ -62,9 +60,7 @@
 			return ret[0];
 		}
 
-		/*
-		 * function: Set an input||technology by id
-		 */
+		/* Set an input or technology by id */
 		function setInput(id,newValue,isTechnology){
 			isTechnology=isTechnology||false;
 			getInput(id,isTechnology).value=newValue;
@@ -72,7 +68,71 @@
 		}
 
 		/*
-		 * Structure: Outputs, elementary flows for water, air and sludge (g/d)
+		 * Structure 3: Intermediate variables calculations
+		 */
+		var Variables=[
+			//table 1 and 2:
+			{id:"bCOD",       value:0,  unit:"g/m3",  descr:"Biodegradable COD"},
+			{id:"nbCOD",      value:0,  unit:"g/m3",  descr:"Nonbiodegradable COD"},
+			{id:"nbsCODe",    value:0,  unit:"g/m3",  descr:""},
+			{id:"nbpCOD",     value:0,  unit:"g/m3",  descr:""},
+			{id:"VSS_COD",    value:0,  unit:"g/m3",  descr:""},
+			{id:"nbVSS",      value:0,  unit:"g/m3",  descr:""},
+			{id:"rbCOD",      value:0,  unit:"g/m3",  descr:""},
+			{id:"VFA",        value:0,  unit:"g/m3",  descr:""},
+			{id:"iTSS",       value:0,  unit:"g/m3",  descr:""},
+			{id:"mu_mT",      value:0,  unit:"1/d",   descr:""},
+			{id:"bHT",        value:0,  unit:"1/d",   descr:""},
+			{id:"S",          value:0,  unit:"g/m3",  descr:""},
+			{id:"P_X_bio",    value:0,  unit:"g/m3",  descr:""},
+			{id:"P_X_VSS",    value:0,  unit:"g/m3",  descr:""},
+			{id:"P_X_TSS",    value:0,  unit:"g/m3",  descr:""},
+			{id:"X_VSS_V",    value:0,  unit:"kg",  descr:""},
+			{id:"X_TSS_V",    value:0,  unit:"kg",  descr:""},
+			{id:"V_reactor",  value:0,  unit:"m3",  descr:""},
+			{id:"tau",        value:0,  unit:"g/m3",  descr:""},
+			{id:"MLVSS",      value:0,  unit:"g/m3",  descr:""},
+			{id:"VSSe",       value:0,  unit:"g/m3",  descr:""},
+			{id:"Qwas",       value:0,  unit:"m3/d",  descr:""},
+			//table 3:
+			{id:"nbpON",      value:0,  unit:"g/m3",  descr:""},
+			{id:"nbsON",      value:0,  unit:"g/m3",  descr:""},
+			{id:"TKN_N2O",    value:0,  unit:"g/m3",  descr:""},
+			{id:"bTKN",       value:0,  unit:"g/m3",  descr:""},
+			{id:"NOx",        value:0,  unit:"g/m3",  descr:""},
+			//table 4:
+			{id:"nbpP",       value:0,  unit:"g/m3",  descr:""},
+			{id:"nbsP",       value:0,  unit:"g/m3",  descr:""},
+			{id:"aP",         value:0,  unit:"g/m3",  descr:""},
+			{id:"aPchem",     value:0,  unit:"g/m3",  descr:""},
+			//outputs part
+			{id:"sCODe",        value:0,  unit:"g/m3",  descr:""},
+			{id:"biomass_CODe", value:0,  unit:"g/m3",  descr:""},
+			{id:"sTKNe",        value:0,  unit:"g/m3",  descr:""},
+		];
+
+		/* Get a variable by id */
+		function getVariable(id){
+			var ret;
+			ret=Variables.filter(el=>{return id==el.id});
+			if(ret.length==0){ 
+				console.error('Variable id not found'); 
+				return false;
+			}
+			else if(ret.length>1){ 
+				console.error('Variable id is not unique');
+				return false;
+			}
+			return ret[0];
+		}
+
+		/* Set a variable by id */
+		function setVariable(id,newValue){
+			getVariable(id).value=newValue;
+		}
+
+		/*
+		 * Structure 4: Outputs, elementary flows for water, air and sludge (g/d)
 		 */
 		var Outputs={
 			"COD":{water:0, air:0, sludge:0},
@@ -91,37 +151,36 @@
 	<script>
 		//[backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 		function compute_elementary_flows(){
-			//inputs and technologies
-			var Q              = getInput('Q').value;
-			var T              = getInput('T').value;
-			var SRT            = getInput('SRT').value;
-			var COD            = getInput('COD').value;
-			var sCOD           = getInput('sCOD').value;
-			var BOD            = getInput('BOD').value;
-			var sBOD           = getInput('sBOD').value;
-			var MLSS_X_TSS     = getInput('MLSS_X_TSS').value;
-			var VSS            = getInput('VSS').value;
-			var TSS            = getInput('TSS').value;
-			var TSSe           = getInput('TSSe').value;
-			var TSS_was        = getInput('TSS_was').value;
-			var bCOD_BOD_ratio = getInput('bCOD_BOD_ratio').value;
+			/*get input values and technologies booleans*/
+				var Q              = getInput('Q').value;
+				var T              = getInput('T').value;
+				var SRT            = getInput('SRT').value;
+				var COD            = getInput('COD').value;
+				var sCOD           = getInput('sCOD').value;
+				var BOD            = getInput('BOD').value;
+				var sBOD           = getInput('sBOD').value;
+				var MLSS_X_TSS     = getInput('MLSS_X_TSS').value;
+				var VSS            = getInput('VSS').value;
+				var TSS            = getInput('TSS').value;
+				var TSSe           = getInput('TSSe').value;
+				var TSS_was        = getInput('TSS_was').value;
+				var bCOD_BOD_ratio = getInput('bCOD_BOD_ratio').value;
+				//technologies booleans
+				var Pri = getInput("Pri",true).value; //tech
+				var Nit = getInput("Nit",true).value; //tech
+				var Des = getInput("Des",true).value; //tech
+				var BiP = getInput("BiP",true).value; //tech
+				var ChP = getInput("ChP",true).value; //tech
+				var primary_effluent_wastewater = Pri;
+				var raw_wastewater              = !Pri;
+				var nitrification               = Nit;
+				var denitrification             = Des;
+			//end
 
-			var Pri = getInput("Pri",true).value; //tech
-			var Nit = getInput("Nit",true).value; //tech
-			var Des = getInput("Des",true).value; //tech
-			var BiP = getInput("BiP",true).value; //tech
-			var ChP = getInput("ChP",true).value; //tech
-
-			//technologies booleans
-			var primary_effluent_wastewater = Pri;
-			var raw_wastewater              = !Pri;
-			var nitrification               = Nit;
-			var denitrification             = Des;
-
-			/* Equations start */
-			var bCOD = 1.6*BOD;
-			var nbCOD = COD - bCOD;
-			var nbsCODe = sCOD - 1.6*sBOD
+			/*equations start*/
+			var bCOD = bCOD_BOD_ratio*BOD; setVariable('bCOD',bCOD);
+			var nbCOD = COD - bCOD;        setVariable('nbCOD',nbCOD); //continue here
+			var nbsCODe = sCOD - bCOD_BOD_ratio*sBOD
 			var nbpCOD = COD - bCOD - nbsCODe;
 			var VSS_COD = (COD-sCOD)/VSS;
 			var nbVSS = nbpCOD/VSS_COD;
@@ -254,30 +313,47 @@
 		 */
 		function updateViews(){
 			//update inputs
-			var table=document.querySelector('table#inputs');
-			while(table.rows.length>1){table.deleteRow(-1)}
-			Inputs.forEach(i=>{
-				var newRow=table.insertRow(-1);
-				newRow.title=i.descr;
-				newRow.insertCell(-1).innerHTML=i.id;
-				newRow.insertCell(-1).innerHTML="<input id='"+i.id+"' value='"+i.value+"' type=number onchange=setInput('"+i.id+"',this.value)>"
-				newRow.insertCell(-1).innerHTML=i.unit.replace('m3','m<sup>3</sup>');
-			});
+			(function(){
+				var table=document.querySelector('table#inputs');
+				while(table.rows.length>1){table.deleteRow(-1)}
+				Inputs.forEach(i=>{
+					var newRow=table.insertRow(-1);
+					newRow.title=i.descr;
+					newRow.insertCell(-1).innerHTML=i.id;
+					newRow.insertCell(-1).innerHTML="<input id='"+i.id+"' value='"+i.value+"' type=number onchange=setInput('"+i.id+"',this.value)>"
+					newRow.insertCell(-1).innerHTML=i.unit.replace('m3','m<sup>3</sup>');
+				});
+			})();
+
+			//update variables
+			(function(){
+				var table=document.querySelector('table#variables');
+				while(table.rows.length>1){table.deleteRow(-1)}
+				Variables.forEach(i=>{
+					var newRow=table.insertRow(-1);
+					newRow.title=i.descr;
+					newRow.insertCell(-1).innerHTML=i.id;
+					newRow.insertCell(-1).innerHTML=format(i.value);
+					newRow.insertCell(-1).innerHTML=i.unit.replace('m3','m<sup>3</sup>');
+				});
+			})();
 
 			//update outputs
-			var table=document.querySelector('table#outputs');
-			while(table.rows.length>2){table.deleteRow(-1)}
-			for(var output in Outputs) {
-				var newRow=table.insertRow(-1);
-				newRow.insertCell(-1).innerHTML=output
-					.replace('O2','O<sub>2</sub>')
-					.replace('N2','N<sub>2</sub>')
-					.replace('CH4','CH<sub>4</sub>');
+			(function(){
+				var table=document.querySelector('table#outputs');
+				while(table.rows.length>2){table.deleteRow(-1)}
+				for(var output in Outputs) {
+					var newRow=table.insertRow(-1);
+					newRow.insertCell(-1).innerHTML=output
+						.replace('O2','O<sub>2</sub>')
+						.replace('N2','N<sub>2</sub>')
+						.replace('CH4','CH<sub>4</sub>');
 
-				newRow.insertCell(-1).innerHTML=format(Outputs[output].water);
-				newRow.insertCell(-1).innerHTML=format(Outputs[output].air);
-				newRow.insertCell(-1).innerHTML=format(Outputs[output].sludge);
-			}
+					newRow.insertCell(-1).innerHTML=format(Outputs[output].water);
+					newRow.insertCell(-1).innerHTML=format(Outputs[output].air);
+					newRow.insertCell(-1).innerHTML=format(Outputs[output].sludge);
+				}
+			})();
 		}
 	</script>
 </head><body onload="init()">
@@ -288,22 +364,29 @@
 <!--temporal note-->
 <p>Implementation in progress as <?php echo date("M-d-Y") ?> <hr>
 
-<!--inputs and outputs scaffold-->
+<!--root-->
 <div id=root>
+	<!--inputs and outputs scaffold-->
 	<div style="display:flex;flex-wrap:wrap">
 		<!--inputs-->
 		<div>
 			<p>1. Inputs</p>
 			<table id=inputs border=1>
-				<tr><th>Input<th>Value<th>Unit
+				<tr><th>Input id<th>Value<th>Unit
 			</table>
-		</div>
+		</div><!--margin--><div>&emsp;</div>
 
-		<!--margin--><div>&emsp;</div>
+		<!--intermediate variables-->
+		<div>
+			<p>2. Variables</p>
+			<table id=variables border=1>
+				<tr><th>Variable<th>Value<th>Unit
+			</table>
+		</div><!--margin--><div>&emsp;</div>
 
 		<!--outputs-->
 		<div>
-			<p>2. Outputs</p>
+			<p>3. Outputs</p>
 			<table id=outputs border=1 cellpadding=2>
 				<tr>
 					<th rowspan=2>Compound
@@ -313,11 +396,12 @@
 					<th>Water<th>Air<th>Sludge
 				</tr>
 			</table>
-		</div>
+		</div><!--margin--><div>&emsp;</div>
 	</div><hr>
+
 	<!--mass balances-->
 	<div>
-		<p>3. Mass balances (pending)</p>
+		<p>4. Mass balances (pending)</p>
 		<table border=1>
 			<tr><th>Element <th>Influent (g/d) <th>Effluent (g/d) <th>Air (g/d) <th>Sludge (g/d) <th>Difference in mass balance (g/d)
 			<tr><td>C       <td>Q·COD          <td>1:1            <td>2:2       <td>1:3          <td>A-B-C-D
@@ -325,7 +409,10 @@
 			<tr><td>P       <td>Q·TP           <td>8:1            <td>-         <td>8:3          <td>A-B-C-D
 			<tr><td>C       <td>Q·TS           <td>9:1            <td>-         <td>9:3          <td>A-B-C-D
 		</table>
-	</div>
-	<hr>
-	<a href=inputs.php>Back</a>
+	</div><hr>
+
+	<!--navigation buttons-->
+	<div>
+		<a href=inputs.php>Back</a>
+	</div><hr>
 </div>
