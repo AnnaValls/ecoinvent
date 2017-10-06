@@ -207,7 +207,7 @@
 				<tr><td>TSS                                                    <td><input type=number id=input_TSS               value=220 > mg/L
 				<tr><td>TSS<sub>rem w/o Fe</sub>                               <td><input type=number id=input_TSS_removal_wo_Fe value=60  > %
 				<tr><td>TSS<sub>rem w/ Fe</sub>                                <td><input type=number id=input_TSS_removal_w_Fe  value=75  > %
-				<tr><td>[P]<sub>influent</sub>                                 <td><input type=number id=input_C_P_inf           value=7   > mg/L
+				<tr><td>[P]<sub>influent</sub>                                 <td><input type=number id=input_TP                value=7   > mg/L
 				<tr><td>[PO<sub>4</sub>]<sub>influent</sub>                    <td><input type=number id=input_C_PO4_inf         value=5   > mg/L
 				<tr><td>[PO<sub>4</sub>]<sub>effluent</sub>                    <td><input type=number id=input_C_PO4_eff         value=0.1 > mg/L
 				<tr><td>Alkalinity                                             <td><input type=number id=input_Alkalinity        value=240 > mg/L as CaCO<sub>3</sub>
@@ -267,20 +267,20 @@
 <script>
 	function compute_exercise(){
 		//inputs
-		var Q                                = getInput('input_Q');
-		var TSS                              = getInput('input_TSS');
-		var TSS_removal_wo_Fe                = getInput('input_TSS_removal_wo_Fe');
-		var TSS_removal_w_Fe                 = getInput('input_TSS_removal_w_Fe');
-		var C_P_inf                          = getInput('input_C_P_inf');
-		var C_PO4_inf                        = getInput('input_C_PO4_inf');
-		var C_PO4_eff                        = getInput('input_C_PO4_eff');
-		var Alkalinity                       = getInput('input_Alkalinity');
-		var FeCl3_solution                   = getInput('input_FeCl3_solution');
-		var FeCl3_unit_weight                = getInput('input_FeCl3_unit_weight');
-		var days                             = getInput('input_days');
+		var Q                 = getInput('input_Q');
+		var TSS               = getInput('input_TSS');
+		var TSS_removal_wo_Fe = getInput('input_TSS_removal_wo_Fe');
+		var TSS_removal_w_Fe  = getInput('input_TSS_removal_w_Fe');
+		var TP                = getInput('input_TP');
+		var C_PO4_inf         = getInput('input_C_PO4_inf');
+		var C_PO4_eff         = getInput('input_C_PO4_eff');
+		var Alkalinity        = getInput('input_Alkalinity');
+		var FeCl3_solution    = getInput('input_FeCl3_solution');
+		var FeCl3_unit_weight = getInput('input_FeCl3_unit_weight');
+		var days              = getInput('input_days');
 
 		//solve
-		var r = chem_P_removal(Q,TSS,TSS_removal_wo_Fe,TSS_removal_w_Fe,C_P_inf,C_PO4_inf,C_PO4_eff,Alkalinity,FeCl3_solution,FeCl3_unit_weight,days);
+		var r = chem_P_removal(Q,TSS,TSS_removal_wo_Fe,TSS_removal_w_Fe,TP,C_PO4_inf,C_PO4_eff,Alkalinity,FeCl3_solution,FeCl3_unit_weight,days);
 
 		//show results
 		showResult('result_Fe_III_dose',                     r.Fe_III_dose);

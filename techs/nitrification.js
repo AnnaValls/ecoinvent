@@ -141,7 +141,7 @@ function nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pr
 		alkalinity_to_be_added*=Q/1000; // kg/d as CaCO3
 		alkalinity_to_be_added*=(84/50); // kg/d as NaHCO3
 	})();
-	//20 estimate effluent BOD (no incloure a resultats per estalviar un input (sBODe))
+	//20 estimate effluent BOD (TODO no incloure a resultats per estalviar un input (sBODe))
 	var BOD_eff = sBODe + 0.85*0.85*TSSe;
 
 	return {

@@ -9,7 +9,6 @@ function sst_sizing(Q,SOR,X_R,clarifiers,MLSS_X_TSS){
 			clarifiers                            3 clarifiers
 			MLSS_X_TSS                         3000 g/m3
 			Q                                 22700 m3/d
-
 	*/
 	/*
 		for SOR:

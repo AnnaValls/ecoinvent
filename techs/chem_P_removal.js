@@ -1,7 +1,7 @@
 /** 
 Technology: Chemical P removal
 **/
-function chem_P_removal(Q,TSS,TSS_removal_wo_Fe,TSS_removal_w_Fe,C_P_inf,C_PO4_inf,C_PO4_eff,Alkalinity,FeCl3_solution,FeCl3_unit_weight,days){
+function chem_P_removal(Q,TSS,TSS_removal_wo_Fe,TSS_removal_w_Fe,TP,C_PO4_inf,C_PO4_eff,Alkalinity,FeCl3_solution,FeCl3_unit_weight,days){
 	/*
 		Inputs               example values 
 		--------------------------------
@@ -9,7 +9,7 @@ function chem_P_removal(Q,TSS,TSS_removal_wo_Fe,TSS_removal_w_Fe,C_P_inf,C_PO4_i
 			TSS                220   mg/L
 			TSS_removal_wo_Fe  60    %
 			TSS_removal_w_Fe   75    %
-			C_P_inf            7     mg/L
+			TP                 7     mg/L
 			C_PO4_inf          5     mg/L
 			C_PO4_eff          0.1   mg/L
 			Alkalinity         240   mg/L as CaCO3
@@ -30,7 +30,7 @@ function chem_P_removal(Q,TSS,TSS_removal_wo_Fe,TSS_removal_w_Fe,C_P_inf,C_PO4_i
 		//1
 		var Fe_III_dose = Fe_P_mole_ratio*(C_PO4_inf-C_PO4_eff)*M_Fe/M_P; //mg/L
 		//2
-		var primary_eff_P = C_P_inf - (C_PO4_inf - C_PO4_eff); //mg/L
+		var primary_eff_P = TP - (C_PO4_inf - C_PO4_eff); //mg/L
 		//3
 		var Fe_dose = Q*Fe_III_dose/1000; //kg/d
 		//4
@@ -90,13 +90,13 @@ function chem_P_removal(Q,TSS,TSS_removal_wo_Fe,TSS_removal_w_Fe,C_P_inf,C_PO4_i
 	var TSS                = 220 
 	var TSS_removal_wo_Fe  = 60  
 	var TSS_removal_w_Fe   = 75  
-	var C_P_inf            = 7   
+	var TP                 = 7   
 	var C_PO4_inf          = 5   
 	var C_PO4_eff          = 0.1 
 	var Alkalinity         = 240 
 	var FeCl3_solution     = 37  
 	var FeCl3_unit_weight  = 1.35
 	var days               = 15  
-	var result = chem_P_removal(Q,TSS,TSS_removal_wo_Fe,TSS_removal_w_Fe,C_P_inf,C_PO4_inf,C_PO4_eff,Alkalinity,FeCl3_solution,FeCl3_unit_weight,days);
+	var result = chem_P_removal(Q,TSS,TSS_removal_wo_Fe,TSS_removal_w_Fe,TP,C_PO4_inf,C_PO4_eff,Alkalinity,FeCl3_solution,FeCl3_unit_weight,days);
 	console.log(result);
 })();

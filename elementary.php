@@ -349,7 +349,6 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 				setVariable('sTKNe',sTKNe);
 			})();
 		}
-
 	</script>
 
 	<!--init/frontend-->

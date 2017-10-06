@@ -95,7 +95,7 @@
 				<tr><td>Total BOD                <td class=number>  160<td>g/m<sup>3</sup>
 				<tr><td>bCOD                     <td class=number>  250<td>g/m<sup>3</sup>
 				<tr><td>rbCOD                    <td class=number>   75<td>g/m<sup>3</sup>
-				<tr><td>Acetate                  <td class=number>   15<td>g/m<sup>3</sup>
+				<tr><td>VFA                  <td class=number>   15<td>g/m<sup>3</sup>
 				<tr><td>nbVSS                    <td class=number>   20<td>g/m<sup>3</sup>
 				<tr><td>Inorganic inert matter   <td class=number>   10<td>g/m<sup>3</sup>
 				<tr><td>TKN                      <td class=number>   35<td>g/m<sup>3</sup>
@@ -143,7 +143,7 @@
 				<tr><td>BOD              <td><input type=number id=input_BOD     value=160> g/m<sup>3</sup>
 				<tr><td>bCOD             <td><input type=number id=input_bCOD    value=250> g/m<sup>3</sup>
 				<tr><td>rbCOD            <td><input type=number id=input_rbCOD   value=75> g/m<sup>3</sup>
-				<tr><td>Acetate<br>(VFA) <td><input type=number id=input_Acetate value=15> g/m<sup>3</sup>
+				<tr><td>Acetate<br>(VFA) <td><input type=number id=input_VFA value=15> g/m<sup>3</sup>
 				<tr><td>nbVSS            <td><input type=number id=input_nbVSS   value=20> g/m<sup>3</sup>
 				<tr><td>iTSS             <td><input type=number id=input_iTSS    value=10> g/m<sup>3</sup>
 				<tr><td>TKN              <td><input type=number id=input_TKN     value=35> g/m<sup>3</sup>
@@ -223,7 +223,7 @@
 		var BOD             = getInput('input_BOD');     //160;
 		var bCOD            = getInput('input_bCOD');    //250;
 		var rbCOD           = getInput('input_rbCOD');   //75;
-		var Acetate         = getInput('input_Acetate'); //15;
+		var VFA             = getInput('input_VFA'); //15;
 		var nbVSS           = getInput('input_nbVSS');   //20;
 		var iTSS            = getInput('input_iTSS');    //10;
 		var TKN             = getInput('input_TKN');     //35;
@@ -231,13 +231,12 @@
 		var T               = getInput('input_T');       //12;
 		var SRT             = 8;
 		var RAS             = 0.5;
-		var tau_aerobic     = 0.75;
 		var rbCOD_NO3_ratio = 5.2;
 		var NOx             = 28;
 		var NO3_eff         = 6;                         //case   a
 
 		//solve
-		var r = bio_P_removal(Q,BOD,bCOD,rbCOD,Acetate,nbVSS,iTSS,TKN,TP,T,SRT,RAS,tau_aerobic,rbCOD_NO3_ratio,NOx,NO3_eff);
+		var r = bio_P_removal(Q,BOD,bCOD,rbCOD,VFA,nbVSS,iTSS,TKN,TP,T,SRT,RAS,rbCOD_NO3_ratio,NOx,NO3_eff);
 
 		//show results
 		showResult('result_Q_rbCOD',                    r.Q_rbCOD);

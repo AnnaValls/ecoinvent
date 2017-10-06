@@ -1,7 +1,7 @@
 /** 
 	Technology: Biological P removal
 **/
-function bio_P_removal(Q,BOD,bCOD,rbCOD,Acetate,nbVSS,iTSS,TKN,TP,T,SRT,RAS,tau_aerobic,rbCOD_NO3_ratio,NOx,NO3_eff){
+function bio_P_removal(Q,BOD,bCOD,rbCOD,VFA,nbVSS,iTSS,TKN,TP,T,SRT,RAS,rbCOD_NO3_ratio,NOx,NO3_eff){
 	/*
 		Inputs            example values 
 		--------------------------------
@@ -9,7 +9,7 @@ function bio_P_removal(Q,BOD,bCOD,rbCOD,Acetate,nbVSS,iTSS,TKN,TP,T,SRT,RAS,tau_
 			BOD              160   g/m3
 			bCOD             250   g/m3
 			rbCOD            75    g/m3
-			Acetate          15    g/m3
+			VFA              15    g/m3
 			nbVSS            20    g/m3
 			iTSS             10    g/m3
 			TKN              35    g/m3
@@ -17,7 +17,6 @@ function bio_P_removal(Q,BOD,bCOD,rbCOD,Acetate,nbVSS,iTSS,TKN,TP,T,SRT,RAS,tau_
 			T                12    ºC
 			SRT              8     d
 			RAS              0.5   unitless
-			tau_aerobic      0.75  h
 			rbCOD_NO3_ratio  5.2   g_rbCOD/g_NO3
 			NOx              28    g/m3
 			NO3_eff          6     g/m3
@@ -31,7 +30,7 @@ function bio_P_removal(Q,BOD,bCOD,rbCOD,Acetate,nbVSS,iTSS,TKN,TP,T,SRT,RAS,tau_
 	var rbCOD_used_by_NO3 = rbCOD_NO3_ratio * RQ_NO3_N; //62,400 g/d
 	var rbCOD_available = Q_rbCOD - rbCOD_used_by_NO3; //237,600 g/d
 	//2
-	var VFA_rbCOD_ratio = Acetate / rbCOD; //0.20 no unit
+	var VFA_rbCOD_ratio = VFA / rbCOD; //0.20 no unit
 	var rbCOD_P_ratio = get_rbCOD_P_ratio(VFA_rbCOD_ratio); //15: implemented fig 8-38 at "utils.js"
 	var rbCOD_available_normalized = rbCOD_available/Q; //59.4 g/m3
 	var P_removal_EBPR = rbCOD_available_normalized/rbCOD_P_ratio; //4 g/m3 (page 881)
@@ -84,7 +83,7 @@ function bio_P_removal(Q,BOD,bCOD,rbCOD,Acetate,nbVSS,iTSS,TKN,TP,T,SRT,RAS,tau_
 	var BOD              = 160;
 	var bCOD             = 250;
 	var rbCOD            = 75;
-	var Acetate          = 15;
+	var VFA              = 15;
 	var nbVSS            = 20;
 	var iTSS             = 10;
 	var TKN              = 35;
@@ -92,10 +91,9 @@ function bio_P_removal(Q,BOD,bCOD,rbCOD,Acetate,nbVSS,iTSS,TKN,TP,T,SRT,RAS,tau_
 	var T                = 12;
 	var SRT              = 8;
 	var RAS              = 0.5;
-	var tau_aerobic      = 0.75;
 	var rbCOD_NO3_ratio  = 5.2;
 	var NOx              = 28;
 	var NO3_eff          = 6;
-	var result = bio_P_removal(Q,BOD,bCOD,rbCOD,Acetate,nbVSS,iTSS,TKN,TP,T,SRT,RAS,tau_aerobic,rbCOD_NO3_ratio,NOx,NO3_eff);
+	var result = bio_P_removal(Q,BOD,bCOD,rbCOD,VFA,nbVSS,iTSS,TKN,TP,T,SRT,RAS,rbCOD_NO3_ratio,NOx,NO3_eff);
 	console.log(result);
 })();

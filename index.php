@@ -21,16 +21,17 @@
 		<ul>
 			<li>Single plant configuration
 				<ul>
-					<li><a href=inputs.php     >1. Select technology combination</a>
-					<li><a href=elementary.php >2. Elementary flows factors (in progress)</a>
-					<li><a                     >3. Simple Treat flows factors (pending)</a>
-					<li><a href=construction   >4. Construction materials</a>
-					<li><a                     >5. Chemicals consumed (pending)
-					<li><a                     >6. Energy consumed (pending)
-					<li><a                     >7. Generate ecoSpold (pending, connection with python code)
+					<li><a href=elementary.php >1. Elementary flows factors (in progress)</a>
+					<li><a                     >2. Simple Treat flows factors (pending)</a>
+					<li><a href=construction   >3. Construction materials</a>
+					<li><a                     >4. Chemicals consumed (pending)
+					<li><a                     >5. Energy consumed (pending)
+					<li><a                     >6. Generate ecoSpold (pending, connection with python code)
 				</ul>
 			</li>
-			<li>Appendix: <a href=terms.php>Terms</a>
+			<li><a href=inputs.php       >Info: All inputs</a>
+			<li><a href=technologies.php >Info: All technologies</a>
+			<li><a href=terms.php        >Appendix: All terms</a>
 			<li><a href=future>Future implementations (for "n" WWTPs)</a>
 		</ul>
 		<hr>

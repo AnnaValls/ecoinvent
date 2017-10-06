@@ -16,7 +16,7 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
 			Aerobic_SRT            21     d
 			Aeration_basin_volume  13410  m3
 			Aerobic_T              14.2   h (tau detention time)
-			Anoxic_mixing_energy   5      kW
+			Anoxic_mixing_energy   5      kW/1000 m3
 			RAS                    0.6    unitless
 			Ro                     275.9  kgO2/h
 			Ne                     6      g/m3 (nitrate at effluent)

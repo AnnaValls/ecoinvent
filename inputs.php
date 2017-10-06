@@ -1,59 +1,83 @@
 <!doctype html><html><head>
 	<?php include'imports.php'?>
-	<!--css at the end-->
-	<script>
-		var Technologies=[
-			{name:"Aerobic: BOD"},
-			{name:"Aerobic: BOD + Nitrification"},
-			{name:"Aerobic: BOD + Nitrification + Denitrification"},
-			{name:"Aerobic: BOD + Nitrification + Denitrification + Bio P removal"},
-			{name:"Aerobic: BOD + Nitrification + Denitrification + Chem P removal"},
-			{name:"Aerobic: BOD + Bio P removal"},
-			{name:"Aerobic: BOD + Chem P removal"},
-			{name:"Anaerobic: No polishing"},
-		];
-	</script>
+	<title>Inputs</title>
 </head><body>
-<h1>Inputs &mdash; single WWTP</h1><hr>
 
-<div id=root>
+<h1>All Inputs</h1>
+<p>Move the mouse over an input to see the description</p>
 
-<!--select technology-->
-<div>
-	<p>1. Select technology combination for your treatment plant</p>
-	<table id=technology border=1></table>
-	<script>
-		var table=document.querySelector('table#technology');
-		Technologies.forEach(input=>{
-			var newRow=table.insertRow(-1);
-			newRow.insertCell(-1).innerHTML="<label><input type=radio name=selected_tech> "+input.name+"</label>";
-		})
-	</script>
-</div><hr>
+<div class=flex>
+	<!--inputs-->
+	<div>
+		<table id=inputs border=1>
+			<tr><th>Input<th>Default value<th>Unit<th>Required by <a href=technologies.php>technologies</a>
+		</table>
+		<script>
+			//fill inputs table
+			(function(){
+				function inputRequiredBy(id){
+					var ret=[];
+					for(var tec in Technologies)
+					{
+						if(Technologies[tec].Inputs.indexOf(id)+1)
+						{
+							ret.push(tec)
+						}
+					}
+					return ret;
+				}
 
-<!--select primary treatment-->
-<div>
-	<p>2. Primary treatment exists?</p>
-	<table border=1>
-		<tr><td><label><input type=radio name=primary_treatment checked> No
-			<small>(influent COD fractions use raw wastewater)</small>
-		<tr><td><label><input type=radio name=primary_treatment> Yes
-			<small>(influent COD fractions use primary effluent)</small>
-		</tr>
-	</table>
-</div><hr>
+				var t=document.querySelector('#inputs');
+				Inputs.forEach(input=>{
+					var newRow=t.insertRow(-1);
+					newRow.classList.add('help');
+					newRow.title=input.descr;
+					newRow.insertCell(-1).innerHTML=input.id;
+					newRow.insertCell(-1).innerHTML=input.value;
+					newRow.insertCell(-1).outerHTML="<td class=unit>"+input.unit
+						.replace('m3','m<sup>3</sup>')
+						.replace('m2','m<sup>2</sup>')
+						.replace('O2','O<sub>2</sub>')
+						.replace('O3','O<sub>3</sub>')
+						.replace(/_/g,' ')
+						;
+					newRow.insertCell(-1).innerHTML=(function(){
+						var techs=inputRequiredBy(input.id);
+						return techs.toString().replace(/,/g,', ');
+					})();
+				});
+			})();
+		</script>
+	</div>
 
-<a href=elementary.php>Next</a>
+	<div>&emsp;</div>
+
+	<!--legend-->
+	<div>
+		<table id=legend border=1>
+			<tr><th colspan=2>Legend
+		</table>
+		<script>
+			//fill legend table
+			(function(){
+				var t=document.querySelector('#legend');
+				for(var tec in Technologies) {
+					var el=Technologies[tec];
+					var newRow=t.insertRow(-1);
+					newRow.insertCell(-1).innerHTML=tec;
+					newRow.insertCell(-1).innerHTML=el.Name;
+				}
+			})();
+		</script>
+	</div>
+</div>
 
 <style>
-	#root table tr:hover{
-		background:#eee;
+	#inputs, #legend {
+		font-family:monospace;
 	}
-	label{
-		display:block;
-		cursor:pointer;
-	}
-	#root th, td {
-		padding:0.15em;
+	#inputs tr.help:hover{
+		background:yellow;
+		transition:background 0.2s;
 	}
 </style>
