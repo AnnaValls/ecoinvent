@@ -16,10 +16,14 @@
 		<hr>
 	</p>
 
+	<!--web parts-->
 	<div>
 		<p><b>Web parts:</b></p>
 		<ul>
-			<li>Single plant configuration
+			<li><a href=inputs.php       >All inputs</a>
+			<li><a href=technologies.php >All technologies</a>
+			<li>
+				Single plant configuration
 				<ul>
 					<li><a href=elementary.php >1. Elementary flows factors (in progress)</a>
 					<li><a                     >2. Simple Treat flows factors (pending)</a>
@@ -29,14 +33,12 @@
 					<li><a                     >6. Generate ecoSpold (pending, connection with python code)
 				</ul>
 			</li>
-			<li><a href=inputs.php       >Info: All inputs</a>
-			<li><a href=technologies.php >Info: All technologies</a>
 			<li><a href=terms.php        >Appendix: All terms</a>
-			<li><a href=future>Future implementations (for "n" WWTPs)</a>
-		</ul>
-		<hr>
+			<li><a href=future           >Future implementations (for "n" WWTPs)</a>
+		</ul><hr>
 	</div>
 
+	<!--implementations-->
 	<div>
 		<p><b>Metcalf &amp; Eddy, Wastewater Engineering, 5th ed., 2014, technologies implemented:</b></p>
 		<table style=margin-left:10px border=1>
@@ -65,6 +67,7 @@
 		</table>
 	</div><hr>
 
+	<!--other things-->
 	<div>
 		<p><b>Other things:</b></p>
 		<ul>
@@ -82,7 +85,7 @@
 	</div><hr>
 </p>
 
-<!--css styles-->
+<!--css-->
 <style>
 	body{
 		margin:0;

@@ -10,6 +10,9 @@
 
 <!--CSS classes-->
 <style>
+	body {
+		font-family:Charter,serif;
+	}
 	.flex {
 		display:flex;
 		flex-wrap:wrap;

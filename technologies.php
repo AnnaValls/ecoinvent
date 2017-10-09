@@ -3,23 +3,13 @@
 	<title>Technologies</title>
 	<!--css at the end-->
 </head><body>
+<!--back--><div><a href=index.php>Back</a></div>
 
-(in development)
-
+<!--technologies table-->
 <h1>All Technologies</h1>
-pending: insert to table links to code:
-<ul>
-	<li>bio_P_removal.js
-	<li>bod_removal_only.js
-	<li>chem_P_removal.js
-	<li>n_removal.js
-	<li>nitrification.js
-	<li>sst_sizing.js
-</ul>
-
 <div>
 	<table id=technologies border=1>
-		<tr><th>Technology<th>Name<th><a href=inputs.php>Inputs</a> required
+		<tr><th>Technology<th>Name<th>Implemented in<th><a href=inputs.php>Inputs</a> required
 	</table>
 	<script>
 		//fill technologies table
@@ -31,6 +21,7 @@ pending: insert to table links to code:
 				var newRow=t.insertRow(-1);
 				newRow.insertCell(-1).innerHTML=tec;
 				newRow.insertCell(-1).innerHTML=el.Name;
+				newRow.insertCell(-1).innerHTML="<a href='techs/"+el.File+"'>"+el.File+"</a>";
 				newRow.insertCell(-1).innerHTML=( ()=>{
 					var str=[]
 					el.Inputs.forEach(i=>{
@@ -43,6 +34,7 @@ pending: insert to table links to code:
 	</script>
 </div>
 
+<!--technologt combinations table-->
 <h1>All Technology combinations</h1>
 <div>
 	<table id=combinations border=1>
@@ -75,6 +67,7 @@ pending: insert to table links to code:
 	</script>
 </div>
 
+<!--css-->
 <style>
 	#technologies, #combinations {
 		font-family:monospace;

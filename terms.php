@@ -43,6 +43,8 @@
 		];
 	</script>
 </head><body>
+<!--back--><div><a href=index.php>Back</a></div>
+
 <h1>Summary of terms</h1>
 <h3>Page 708, Table 8-2, Metcalf &amp; Eddy</h3>
 

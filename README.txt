@@ -4,7 +4,7 @@ In development. Expected web application finish: October 31 2017
 
 ## Tasks
 ### backend tasks
-- [doing] implement elementary flows factors (lcorominas is gathering equations)
+- [doing] implement elementary flows factors (lcorominas gathered equations)
 - [to do] implement "simple treat" equations for other elementary flows factors
 - [to do] implement Fe/P mole ratio from figure 6-13 (page 484)
 - [done] calculate area from mlss in reactor sizing
@@ -15,7 +15,7 @@ In development. Expected web application finish: October 31 2017
 
 ### non prioratary tasks
 - [to do] substitute images for text in implementations
-- [done] create a summary of terms
+- [done] create a summary of terms (BOD, sBOD, ...)
 
 ### future
 - [to do] be able to calculate n subsystems (==run n models in parallel)

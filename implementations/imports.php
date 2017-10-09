@@ -9,7 +9,7 @@
 <script src="../format.js"></script>
 
 <!--technologies-->
-<script src="../techs/constants.js"></script>
+<script src="../dataModel/constants.js"></script>
 
 <script src="../techs/bod_removal_only.js"></script>
 <script src="../techs/sst_sizing.js"></script>

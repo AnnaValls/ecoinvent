@@ -2,10 +2,12 @@
 	<?php include'imports.php'?>
 	<title>Inputs</title>
 </head><body>
+<!--back--><div><a href=index.php>Back</a></div>
 
 <h1>All Inputs</h1>
 <p>Move the mouse over an input to see the description</p>
 
+<!--tables-->
 <div class=flex>
 	<!--inputs-->
 	<div>
@@ -14,8 +16,10 @@
 		</table>
 		<script>
 			//fill inputs table
-			(function(){
-				function inputRequiredBy(id){
+			(function()
+			{
+				function inputRequiredBy(id)
+				{
 					var ret=[];
 					for(var tec in Technologies)
 					{
@@ -75,9 +79,5 @@
 <style>
 	#inputs, #legend {
 		font-family:monospace;
-	}
-	#inputs tr.help:hover{
-		background:yellow;
-		transition:background 0.2s;
 	}
 </style>

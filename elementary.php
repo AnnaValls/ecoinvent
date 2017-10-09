@@ -428,6 +428,7 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 		}
 	</script>
 </head><body onload="init()">
+<!--back--><div><a href=index.php>Back</a></div>
 
 <!--title-->
 <h1>Elementary Flows</h1>
@@ -490,11 +491,6 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 			<tr><td>P       <td>Q·TP           <td>8:1            <td>-         <td>8:3          <td>A-B-C-D
 			<tr><td>C       <td>Q·TS           <td>9:1            <td>-         <td>9:3          <td>A-B-C-D
 		</table>
-	</div><hr>
-
-	<!--navigation buttons-->
-	<div>
-		<a href=inputs.php>Back</a>
 	</div><hr>
 </div>
 
