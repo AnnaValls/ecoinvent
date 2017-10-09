@@ -1,4 +1,4 @@
-<div id=root>
+<?php include'navbar.php'?>
 
 <!--select technology-->
 <div>

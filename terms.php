@@ -43,7 +43,8 @@
 		];
 	</script>
 </head><body>
-<!--back--><div><a href=index.php>Back</a></div>
+<?php include'navbar.php'?>
+<div id=root>
 
 <h1>Summary of terms</h1>
 <h3>Page 708, Table 8-2, Metcalf &amp; Eddy</h3>

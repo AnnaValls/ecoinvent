@@ -1,5 +1,7 @@
 /** 
 Technology: nitrification
+Metcalf & Eddy, Wastewater Engineering, 5th ed., 2014:
+page 762
 **/
 function nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pressure,Df,MLSS_X_TSS,Ne,sBODe,TSSe,Alkalinity){
 	/*

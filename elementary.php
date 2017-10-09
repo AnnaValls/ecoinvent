@@ -8,8 +8,7 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 		 * Structure 1: Inputs with default values
 		 * Structure 2: Technologies used (also inputs)
 		 */
-		var Inputs = [
-			//influent
+		var Inputs=[
 			{id:"Q",              value:22700, unit:"m3/d", descr:"Flowrate"},
 			{id:"T",              value:12,    unit:"ºC",   descr:"Temperature"},
 			{id:"SRT",            value:5,     unit:"d",    descr:"Solids Retention Time"},
@@ -20,23 +19,23 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 			{id:"MLSS_X_TSS",     value:3000,  unit:"g/m3", descr:"Mixed liquor suspended solids"},
 			{id:"VSS",            value:60,    unit:"g/m3", descr:"Volatile suspended solids"},
 			{id:"TSS",            value:70,    unit:"g/m3", descr:"Total suspended solids"},
-			{id:"TSS_was",        value:10,    unit:"g/m3", descr:"Total suspended solids (wastage)"},
+			{id:"TSS_was",        value:8000,  unit:"g/m3", descr:"Total suspended solids (wastage)"},
 			{id:"TKN",            value:35,    unit:"g/m3", descr:"Total Kjedahl nitrogen"},
 			{id:"TP",             value:6,     unit:"g/m3", descr:"Total phosphorus"},
+			{id:"TS",             value:0,     unit:"g/m3", descr:"Total sulfur"},
 			{id:"bCOD_BOD_ratio", value:1.6,   unit:"g/g",  descr:"bCOD/BOD ratio"},
-			//effluent
-			{id:"TSSe",      value:1,     unit:"g/m3", descr:"Effluent design Total suspended solids"},
-			{id:"Ne",        value:0.50,  unit:"g/m3", descr:"Effluent design NH4"},
-			{id:"NOx_e",     value:1,     unit:"g/m3", descr:"Effluent design NOx"},
-			{id:"PO4_e",     value:1,     unit:"g/m3", descr:"Effluent design PO4"},
+			{id:"TSSe",  value:1,    unit:"g/m3", descr:"Effluent design Total suspended solids"},
+			{id:"Ne",    value:0.50, unit:"g/m3", descr:"Effluent design NH4"},
+			{id:"NOx_e", value:4,    unit:"g/m3", descr:"Effluent design NOx"},
+			{id:"PO4_e", value:2,    unit:"g/m3", descr:"Effluent design PO4"},
 		];
-		var Technologies = [
-			{id:"Pri", value:false, descr:"Primary treatment", },
-			{id:"BOD", value:true , descr:"BOD removal", },
-			{id:"Nit", value:false, descr:"Nitrification", },
-			{id:"Des", value:false, descr:"Denitrification or N removal", },
-			{id:"BiP", value:false, descr:"Biological P removal", },
-			{id:"ChP", value:false, descr:"Chemical P removal", },
+		var Technologies=[
+			{id:"Pri", value:false, descr:"Primary treatment" },
+			{id:"BOD", value:true , descr:"BOD removal" },
+			{id:"Nit", value:false, descr:"Nitrification" },
+			{id:"Des", value:false, descr:"Denitrification" },
+			{id:"BiP", value:false, descr:"Biological P removal" },
+			{id:"ChP", value:false, descr:"Chemical P removal" },
 		];
 
 		/* Get an input or technology by id */
@@ -65,7 +64,16 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 			getInput(id,isTechnology).value=newValue;
 			init();
 			//focus again after modification
-			document.getElementById(id).select();
+			if(isTechnology==false){
+				document.getElementById(id).select();
+			}
+		}
+
+		/* Toggle technology active/inactive by id */
+		function toggleTech(id){
+			var currValue=getInput(id,true).value;
+			setInput(id,!currValue,true);
+			console.log(id+" "+(!currValue).toString());
 		}
 
 		/*
@@ -77,7 +85,7 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 			{id:"nbCOD",      value:0,  unit:"g/m3",  descr:"Nonbiodegradable COD"},
 			{id:"nbsCODe",    value:0,  unit:"g/m3",  descr:"Nonbiodegradable soluble COD"},
 			{id:"nbpCOD",     value:0,  unit:"g/m3",  descr:"Nonbiodegradable particulate COD"},
-			{id:"VSS_COD",    value:0,  unit:"g/m3",  descr:""},
+			{id:"VSS_COD",    value:0,  unit:"g/m3",  descr:"VSS/COD ratio"},
 			{id:"nbVSS",      value:0,  unit:"g/m3",  descr:"Nonbiodegradable volatile suspended solids"},
 			{id:"rbCOD",      value:0,  unit:"g/m3",  descr:"Readily biodegradable COD"},
 			{id:"VFA",        value:0,  unit:"g/m3",  descr:"Volatile Fatty Acids"},
@@ -86,8 +94,8 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 			{id:"bHT",        value:0,  unit:"1/d",   descr:"b max corrected by Temperature"},
 			{id:"S",          value:0,  unit:"g/m3",  descr:"[S]"},
 			{id:"P_X_bio",    value:0,  unit:"kg/d",  descr:"Biomass production"},
-			{id:"P_X_VSS",    value:0,  unit:"kg/d",  descr:""},
-			{id:"P_X_TSS",    value:0,  unit:"kg/d",  descr:""},
+			{id:"P_X_VSS",    value:0,  unit:"kg/d",  descr:"Sludge production in VSS units"},
+			{id:"P_X_TSS",    value:0,  unit:"kg/d",  descr:"Sludge production in TSS units"},
 			{id:"X_VSS_V",    value:0,  unit:"kg",    descr:"Mass of VSS"},
 			{id:"X_TSS_V",    value:0,  unit:"kg",    descr:"Mass of TSS"},
 			{id:"V_reactor",  value:0,  unit:"m3",    descr:"Aeration tank volume"},
@@ -98,7 +106,7 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 			//table 3:
 			{id:"nbpON",      value:0,  unit:"g/m3",  descr:"Nonbiodegradable particulate ON"},
 			{id:"nbsON",      value:0,  unit:"g/m3",  descr:"Nonbiodegradable soluble ON"},
-			{id:"TKN_N2O",    value:0,  unit:"g/m3",  descr:""},
+			{id:"TKN_N2O",    value:0,  unit:"g/m3",  descr:"N2O / TKN ratio"},
 			{id:"bTKN",       value:0,  unit:"g/m3",  descr:"Biodegradable TKN"},
 			{id:"NOx",        value:0,  unit:"g/m3",  descr:"Nitrogen oxidized to nitrate"},
 			//table 4:
@@ -107,9 +115,9 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 			{id:"aP",         value:0,  unit:"g/m3",  descr:"Available P to be accumulated in organisms"},
 			{id:"aPchem",     value:0,  unit:"g/m3",  descr:"Available P for chemical removal"},
 			//outputs part
-			{id:"sCODe",        value:0,  unit:"g/m3",  descr:"Effluent Soluble COD"},
-			{id:"biomass_CODe", value:0,  unit:"g/m3",  descr:""},
-			{id:"sTKNe",        value:0,  unit:"g/m3",  descr:"Effluent Soluble TKN"},
+			{id:"sCODe",        value:0,  unit:"g/d",  descr:"Effluent Soluble COD"},
+			{id:"biomass_CODe", value:0,  unit:"g/d",  descr:"Effluent COD of suspended solids"},
+			{id:"sTKNe",        value:0,  unit:"g/d",  descr:"Effluent Soluble TKN"},
 		];
 
 		/* Get a variable by id */
@@ -218,7 +226,7 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 			var nbsON = 0.3;
 			var TKN_N2O = 0.001*TKN;
 			var bTKN = TKN - nbpON - nbsON - TKN_N2O;
-			var NOx = bTKN - Ne - 0.12*P_X_bio;
+			var NOx = bTKN - Ne - 0.12*P_X_bio/Q;
 
 			//TABLE 4
 			var TP    = getInput('TP').value; //6
@@ -232,14 +240,13 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 
 			//OUTPUTS table 5 elementary flows-->
 			//COD
-			var sCODe = Q*nbsCODe + Q*Ks*(1+bHT*SRT)/(SRT*(YH-bHT)-1)
+			var sCODe = Q*(nbsCODe + S);
 			var biomass_CODe = Q*VSSe*1.42;
-
 			Outputs.COD.water = sCODe + biomass_CODe;
 			Outputs.COD.air = "0";
 			Outputs.COD.sludge = (function(){
-				var A = (Q*YH*(S0-S)/(1+bHT*SRT) + bHT*fd*Q*YH*(S0-S)*SRT/(1+bHT*SRT))/1000;
-				var B = (Qwas * sCODe)/1000;
+				var A = Q*YH*(S0 - S)/(1 + bHT*SRT) + (fd*bHT*Q*YH*(S0 - S)*SRT)/(1 + bHT*SRT) + 0;
+				var B = Qwas*sCODe/Q;
 				return A+B;
 			})();
 
@@ -249,33 +256,43 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 			Outputs.CO2.sludge=0;
 
 			//CH4
-			Outputs.CH4.water = 0;
-			Outputs.CH4.air = (bCOD*Q*0.95);
+			Outputs.CH4.water  = 0;
+			Outputs.CH4.air    = 0; //(bCOD*Q*0.95); //TBD (only in anaerobic treatment)
 			Outputs.CH4.sludge = 0;
 
 			//TKN
-			var sTKNe = Ne*Q + nbsON*Q;
+			var sTKNe = Ne*Q + nbsON*Q; //g/d
 			Outputs.TKN.water = (function(){
 				if(nitrification){
 					return sTKNe + Q*VSSe*0.12;
 				}
 				else{
-					return Q*TKN - 0.12*P_X_bio;
+					return Q*TKN - 0.12*P_X_bio + Q*VSSe*0.12;
 				}
 			})();
 			Outputs.TKN.air=0;
-			Outputs.TKN.sludge = 0.12*P_X_bio + Qwas*sTKNe;
+			Outputs.TKN.sludge = 0.12*P_X_bio*1000 + Qwas*sTKNe/Q;
 
 			//NOx
 			Outputs.NOx.water=(function(){
-				if(denitrification){
+				if(nitrification==false){
+					return 0;
+				}
+				else if(denitrification){
 					return Q*NOx_e;
-				}else{
+				}else if(nitrification){ 
 					return Q*(bTKN - Ne) - 0.12*P_X_bio;
 				}
 			})();
 			Outputs.NOx.air=0;
-			Outputs.NOx.sludge=Qwas*NOx_e;
+			Outputs.NOx.sludge=(function(){
+				if(nitrification==false){
+					return 0;
+				}
+				else{
+					return Qwas*NOx_e;
+				}
+			})();
 
 			//N2
 			Outputs.N2.water=0;
@@ -363,6 +380,7 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 		function init(){
 			compute_elementary_flows();
 			updateViews(sortAZ);
+			do_mass_balances();
 		}
 
 		/*
@@ -370,6 +388,19 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 		 */
 		function updateViews(sortAZ){
 			sortAZ=sortAZ||false;
+
+			//update technologies
+			(function() {
+				var table=document.querySelector('table#inputs_tech');
+				while(table.rows.length>0){table.deleteRow(-1);}
+				Technologies.forEach(tec=>
+				{
+					var newRow=table.insertRow(-1);
+					newRow.insertCell(-1).innerHTML=tec.descr
+					var checked = getInput(tec.id,true).value ? "checked" : "";
+					newRow.insertCell(-1).innerHTML="<input type=checkbox "+checked+" onchange=\"toggleTech('"+tec.id+"')\">";
+				});
+			})();
 
 			//update inputs
 			(function(){
@@ -428,70 +459,122 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 		}
 	</script>
 </head><body onload="init()">
-<!--back--><div><a href=index.php>Back</a></div>
+<?php include'navbar.php'?>
+<div id=root>
 
-<!--title-->
 <h1>Elementary Flows</h1>
 
 <!--temporal note-->
 <div>
 	<span style=color:red>Implementation in progress as <?php echo date("M-d-Y") ?></span> 
 	<a target=_blank href="docs/Elementaryflows_20170927evening.pdf">(Document here)</a>
-	<p>Too see the implementation code: right click the page and click "View page source".</p>
+	<p>(Note: to check this implementation source code: right click the page and click "View page source")</p>
 </div><hr> 
 
-<!--root-->
-<div id=root>
+<div>
+	<!-- button toggle sorting 
+	<button onclick=toggleSorting()>Sort A-Z</button>
+	-->
+</div>
+
+<!--inputs and outputs scaffold-->
+<div style="display:flex;flex-wrap:wrap">
+	<!--inputs-->
 	<div>
-		<!--
-		<button onclick=toggleSorting()>Sort A-Z</button>
-		-->
-	</div>
-	<!--inputs and outputs scaffold-->
-	<div style="display:flex;flex-wrap:wrap">
-		<!--inputs-->
+		<p><b>1. User Inputs</b></p>
+		<!--enter technologies-->
 		<div>
-			<p>1. Inputs</p>
+			<p>1.1. Activate technologies</p>
+			<table id=inputs_tech border=1></table>
+		</div>
+		<!--enter ww characteristics-->
+		<div>
+			<p>1.2. Enter Wastewater characteristics</p>
 			<table id=inputs border=1>
 				<tr><th>Input<th>Value<th>Unit
 			</table>
-		</div><!--margin--><div>&emsp;</div>
-
-		<!--intermediate variables-->
-		<div>
-			<p>2. Variables</p>
-			<table id=variables border=1>
-				<tr><th>Variable<th>Value<th>Unit
-			</table>
-		</div><!--margin--><div>&emsp;</div>
-
-		<!--outputs-->
-		<div>
-			<p>3. Outputs</p>
-			<table id=outputs border=1 cellpadding=2>
-				<tr>
-					<th rowspan=2>Compound
-					<th colspan=3>Effluent (g/d)
-				</tr>
-				<tr>
-					<th>Water<th>Air<th>Sludge
-				</tr>
-			</table>
-		</div><!--margin--><div>&emsp;</div>
+		</div>
 	</div><hr>
 
-	<!--mass balances-->
+	<!--intermediate variables-->
 	<div>
-		<p>4. Mass balances (pending)</p>
-		<table border=1>
-			<tr><th rowspan=2>Element <th rowspan=2>Influent (g/d) <th colspan=3>Effluent (g/d) <th rowspan=2>Difference in mass balance (g/d)
-			<tr>                               <th>Water          <th>Air       <th>Sludge       
-			<tr><td>C       <td>Q·COD          <td>1:1            <td>2:2       <td>1:3          <td>A-B-C-D
-			<tr><td>N       <td>Q·TKN          <td>4:1+5:1        <td>6:2+7:2   <td>4:3+5:3      <td>A-B-C-D
-			<tr><td>P       <td>Q·TP           <td>8:1            <td>-         <td>8:3          <td>A-B-C-D
-			<tr><td>C       <td>Q·TS           <td>9:1            <td>-         <td>9:3          <td>A-B-C-D
+		<p><b>2. Variables (calculated from inputs)</b></p>
+		<table id=variables border=1>
+			<tr><th>Variable<th>Value<th>Unit
 		</table>
 	</div><hr>
+
+	<!--outputs-->
+	<div>
+		<p><b>3. Outputs</b></p>
+		<!--Effluent phases-->
+		<p>3.1. Effluent</p>
+		<table id=outputs border=1 cellpadding=2>
+			<tr>
+				<th rowspan=2>Compound
+				<th colspan=3>Effluent phase (g/d)
+			</tr>
+			<tr>
+				<th>Water<th>Air<th>Sludge
+			</tr>
+		</table>
+
+		<!--mass balances-->
+		<div>
+			<p>3.2. Mass balances</p>
+			<table id=mass_balances border=1>
+				<tr><th rowspan=2>Element<th rowspan=2>Influent (g/d)<th colspan=3>Effluent (g/d)<th rowspan=2>Difference in<br>mass balance<br>(g/d)
+				<tr><th>Water<th>Air<th>Sludge  
+				<tr id=C><td>C <td phase=influent>Q·COD <td phase=water>1:1     <td phase=air>2:2     <td phase=sludge>1:3     <td phase=balance>A-B-C-D
+				<tr id=N><td>N <td phase=influent>Q·TKN <td phase=water>4:1+5:1 <td phase=air>6:2+7:2 <td phase=sludge>4:3+5:3 <td phase=balance>A-B-C-D
+				<tr id=P><td>P <td phase=influent>Q·TP  <td phase=water>8:1     <td phase=air>-       <td phase=sludge>8:3     <td phase=balance>A-B-C-D
+				<tr id=S><td>S <td phase=influent>Q·TS  <td phase=water>9:1     <td phase=air>-       <td phase=sludge>9:3     <td phase=balance>A-B-C-D
+			</table>
+			<script>
+				function do_mass_balances(){
+					function setBalance(element,influent,water,air,sludge){
+						document.querySelector('#mass_balances #'+element+' td[phase=influent]').innerHTML=format(influent);
+						document.querySelector('#mass_balances #'+element+' td[phase=water]').innerHTML=format(water);
+						document.querySelector('#mass_balances #'+element+' td[phase=air]').innerHTML=format(air);
+						document.querySelector('#mass_balances #'+element+' td[phase=sludge]').innerHTML=format(sludge);
+						document.querySelector('#mass_balances #'+element+' td[phase=balance]').innerHTML=format(influent-water-air-sludge);
+					}
+
+					var table=document.querySelector('table#mass_balances');
+					var Q = getInput('Q').value;
+					//C
+						var COD = getInput('COD').value;
+						var influent = Q*COD;
+						var water    = Outputs.COD.water;
+						var air      = Outputs.CO2.air;
+						var sludge   = Outputs.COD.sludge;
+						setBalance('C',influent,water,air,sludge);
+					//N
+						var TKN = getInput('TKN').value;
+						var influent = Q*TKN;
+						var water    = Outputs.TKN.water  + Outputs.NOx.water;
+						var air      = Outputs.N2.air     + Outputs.N2O.air;
+						var sludge   = Outputs.TKN.sludge + Outputs.NOx.sludge;
+						setBalance('N',influent,water,air,sludge);
+					//P
+						var TP = getInput('TP').value;
+						var influent = Q*TP;
+						var water    = Outputs.TP.water;
+						var air      = 0;
+						var sludge   = Outputs.TP.sludge;
+						setBalance('P',influent,water,air,sludge);
+					//S
+						var TS = getInput('TS').value;
+						var influent = Q*TS;
+						var water    = Outputs.TS.water;
+						var air      = 0;
+						var sludge   = Outputs.TS.sludge;
+						setBalance('S',influent,water,air,sludge);
+					//end
+				}
+			</script>
+		</div>
+	</div>
 </div>
 
 <style>
@@ -502,7 +585,7 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 		cursor:help;
 	}
 	.no_description:after {
-		content:"no description";
+		content:"(no description, please provide)";
 		font-size:11px;
 		color:red;
 	}

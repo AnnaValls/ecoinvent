@@ -2,7 +2,8 @@
 	<?php include'imports.php'?>
 	<title>Inputs</title>
 </head><body>
-<!--back--><div><a href=index.php>Back</a></div>
+<?php include'navbar.php'?>
+<div id=root>
 
 <h1>All Inputs</h1>
 <p>Move the mouse over an input to see the description</p>

@@ -6,35 +6,40 @@
 <?php include'navbar.php'?>
 
 <div id=root>
+<h1>Main menu</h1>
 
 <p style=max-width:50em>
 	<p style=max-width:50em>
-		This is a placeholder for drafting the interface 
-		that will request the user's inputs.
-		<br>
-		The goal is to have a functional backend first, and then we'll implement a 'pretty design' on top of it.
+		This is a placeholder for drafting the user interface.
+		The goal is to have a functional backend first, and then implement a 'pretty design' on top of it.
 		<hr>
 	</p>
 
 	<!--web parts-->
 	<div>
-		<p><b>Web parts:</b></p>
+		<p><b>Web parts</b></p>
 		<ul>
-			<li><a href=inputs.php       >All inputs</a>
-			<li><a href=technologies.php >All technologies</a>
 			<li>
-				Single plant configuration
+				Single plant
 				<ul>
-					<li><a href=elementary.php >1. Elementary flows factors (in progress)</a>
-					<li><a                     >2. Simple Treat flows factors (pending)</a>
-					<li><a href=construction   >3. Construction materials</a>
-					<li><a                     >4. Chemicals consumed (pending)
-					<li><a                     >5. Energy consumed (pending)
-					<li><a                     >6. Generate ecoSpold (pending, connection with python code)
+					<li><a href=elementary.php >1. [in progress] Elementary flows factors </a>
+					<li><a                     >2. [on hold] Simple Treat flows factors </a>
+					<li><a href=construction   >3. [done] Construction materials </a>
+					<li><a                     >4. [pending] Chemicals consumed 
+					<li><a                     >5. [pending] Energy consumed 
+					<li><a                     >6. [next] Generate ecoSpold 
 				</ul>
 			</li>
-			<li><a href=terms.php        >Appendix: All terms</a>
-			<li><a href=future           >Future implementations (for "n" WWTPs)</a>
+			<li>
+				Appendix
+				<ul>
+					<li><a href=inputs.php       >All inputs</a>
+					<li><a href=technologies.php >All technologies</a>
+					<li><a href=terms.php        >All terms</a>
+				</ul>
+			</li>
+			<li><a href=future           >Future implementations (for 'n' plants)</a>
+			<li><a href=README.txt       >README (tasks)</a>
 		</ul><hr>
 	</div>
 
@@ -91,6 +96,6 @@
 		margin:0;
 	}
 	#root {
-		margin:5px;
+		margin:8px;
 	}
 </style>

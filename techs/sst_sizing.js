@@ -1,5 +1,7 @@
 /** 
 Technology: sst sizing
+Metcalf & Eddy, Wastewater Engineering, 5th ed., 2014:
+page 767
 **/
 function sst_sizing(Q,SOR,X_R,clarifiers,MLSS_X_TSS){
 	/*

@@ -12,6 +12,10 @@
 <style>
 	body {
 		font-family:Charter,serif;
+		margin:0 auto;
+	}
+	#root {
+		margin-left:8px;
 	}
 	.flex {
 		display:flex;

@@ -1,5 +1,7 @@
 /** 
 Technology: Chemical P removal
+Metcalf & Eddy, Wastewater Engineering, 5th ed., 2014:
+page 484
 **/
 function chem_P_removal(Q,TSS,TSS_removal_wo_Fe,TSS_removal_w_Fe,TP,C_PO4_inf,C_PO4_eff,Alkalinity,FeCl3_solution,FeCl3_unit_weight,days){
 	/*

@@ -1,5 +1,7 @@
 /** 
-	Technology: Biological P removal
+Technology: Biological P removal
+Metcalf & Eddy, Wastewater Engineering, 5th ed., 2014:
+page 880
 **/
 function bio_P_removal(Q,BOD,bCOD,rbCOD,VFA,nbVSS,iTSS,TKN,TP,T,SRT,RAS,rbCOD_NO3_ratio,NOx,NO3_eff){
 	/*

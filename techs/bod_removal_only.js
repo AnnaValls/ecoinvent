@@ -1,5 +1,7 @@
 /** 
 Technology: BOD removal only 
+Metcalf & Eddy, Wastewater Engineering, 5th ed., 2014:
+pages 756-768
 **/
 function bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb,Pressure,Df){
 	/*

@@ -1,9 +1,7 @@
 <!doctype html><html><head>
-	<meta charset=utf-8>
-	<meta name="viewport" content="width=device-width">
-	<meta name="description" content="ecoinvent">
-	<script src="construction.js"></script>
-	<script src="../format.js"></script>
+	<?php include'imports.php'?>
+	<script src="construction/construction.js"></script>
+	<script src="format.js"></script>
 	<title>Construction</title>
 	<script>
 		function init(){
@@ -90,6 +88,7 @@
 	</style>
 </head><body onload=init()>
 <!--back--><div><a href="../index.php">Back</a></div>
+<?php include'navbar.php'?>
 
 <h1>Construction materials</h1>
 
@@ -122,4 +121,3 @@
 		Table 4, Morera et al (2017): Up-to-date and modular construction inventories for Life Cycle Assessment of small to medium wastewater treatment plants (page 22)
 	</a>
 </h4>
-

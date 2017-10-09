@@ -3,7 +3,8 @@
 	<title>Technologies</title>
 	<!--css at the end-->
 </head><body>
-<!--back--><div><a href=index.php>Back</a></div>
+<?php include'navbar.php'?>
+<div id=root>
 
 <!--technologies table-->
 <h1>All Technologies</h1>
