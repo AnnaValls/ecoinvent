@@ -402,25 +402,6 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 				});
 			})();
 
-			//update inputs
-			(function(){
-				var table=document.querySelector('table#inputs');
-				while(table.rows.length>1){table.deleteRow(-1)}
-
-				//sort by id (A-Z)
-				var Sorted = sortAZ ? Inputs.sort((a,z)=>{return a.id.localeCompare(z.id)}) : Inputs; 
-
-				Sorted.forEach(i=>{
-					var newRow=table.insertRow(-1);
-					newRow.title=i.descr;
-					if(i.descr=="") newRow.classList.add('no_description');
-					else            newRow.classList.add('with_description');
-					newRow.insertCell(-1).innerHTML=i.id;
-					newRow.insertCell(-1).innerHTML="<input id='"+i.id+"' value='"+i.value+"' type=number onchange=setInput('"+i.id+"',this.value) min=0>"
-					newRow.insertCell(-1).outerHTML="<td class=unit>"+i.unit.replace('m3','m<sup>3</sup>');
-				});
-			})();
-
 			//update variables
 			(function(){
 				var table=document.querySelector('table#variables');
@@ -468,7 +449,7 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 <div>
 	<span style=color:red>Implementation in progress as <?php echo date("M-d-Y") ?></span> 
 	<a target=_blank href="docs/Elementaryflows_20170927evening.pdf">(Document here)</a>
-	<p>(Note: to check this implementation source code: right click the page and click "View page source")</p>
+	<p>(source code: right click the page and click "View page source")</p>
 </div><hr> 
 
 <div>
@@ -484,15 +465,32 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 		<p><b>1. User Inputs</b></p>
 		<!--enter technologies-->
 		<div>
-			<p>1.1. Activate technologies</p>
+			<p>1.1. Activate technologies of your plant</p>
 			<table id=inputs_tech border=1></table>
 		</div>
 		<!--enter ww characteristics-->
 		<div>
-			<p>1.2. Enter Wastewater characteristics</p>
+			<p>1.2. Enter wastewater characteristics</p>
 			<table id=inputs border=1>
 				<tr><th>Input<th>Value<th>Unit
 			</table>
+			<script>
+				//create inputs table
+				(function(){
+					var table=document.querySelector('table#inputs');
+					while(table.rows.length>1){table.deleteRow(-1)}
+
+					Inputs.forEach(i=>{
+						var newRow=table.insertRow(-1);
+						newRow.title=i.descr;
+						if(i.descr=="") newRow.classList.add('no_description');
+						else            newRow.classList.add('with_description');
+						newRow.insertCell(-1).innerHTML=i.id;
+						newRow.insertCell(-1).innerHTML="<input id='"+i.id+"' value='"+i.value+"' type=number onchange=setInput('"+i.id+"',this.value) min=0>"
+						newRow.insertCell(-1).outerHTML="<td class=unit>"+i.unit.replace('m3','m<sup>3</sup>');
+					});
+				})();
+			</script>
 		</div>
 	</div><hr>
 
@@ -580,6 +578,9 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 <style>
 	#root th{
 		background:#eee;
+	}
+	#root input[type=number]{
+		text-align:right;
 	}
 	.with_description {
 		cursor:help;

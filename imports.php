@@ -13,6 +13,8 @@
 	body {
 		font-family:Charter,serif;
 		margin:0 auto;
+		max-width:80em;
+		overflow-y:scroll;
 	}
 	#root {
 		margin-left:8px;

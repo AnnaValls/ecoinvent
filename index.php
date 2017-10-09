@@ -6,7 +6,7 @@
 <?php include'navbar.php'?>
 
 <div id=root>
-<h1>Main menu</h1>
+<h1>Home page</h1>
 
 <p style=max-width:50em>
 	<p style=max-width:50em>
@@ -22,12 +22,12 @@
 			<li>
 				Single plant
 				<ul>
-					<li><a href=elementary.php >1. [in progress] Elementary flows factors </a>
-					<li><a                     >2. [on hold] Simple Treat flows factors </a>
-					<li><a href=construction   >3. [done] Construction materials </a>
-					<li><a                     >4. [pending] Chemicals consumed 
-					<li><a                     >5. [pending] Energy consumed 
-					<li><a                     >6. [next] Generate ecoSpold 
+					<li><a href=elementary.php   >1. [in progress] Elementary flows (C, N, P &amp; S)
+					<li><a                       >2. [on hold]     Simple Treat flows
+					<li><a href=construction.php >3. [done]        Construction materials
+					<li><a		                   >4. [pending]     Chemicals consumed
+					<li><a		                   >5. [pending]     Energy consumed
+					<li><a		                   >6. [next]        Generate ecoSpold
 				</ul>
 			</li>
 			<li>
@@ -89,13 +89,3 @@
 		</ul>
 	</div><hr>
 </p>
-
-<!--css-->
-<style>
-	body{
-		margin:0;
-	}
-	#root {
-		margin:8px;
-	}
-</style>

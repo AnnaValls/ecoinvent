@@ -1,6 +1,6 @@
 <!doctype html><html><head>
 	<?php include'imports.php'?>
-	<script src="construction/construction.js"></script>
+	<script src="construction.js"></script>
 	<script src="format.js"></script>
 	<title>Construction</title>
 	<script>
@@ -8,7 +8,7 @@
 			updateTable();
 		}
 
-		var cap=0;
+		var cap=0; //capacity
 		function updateTable(){
 			//update capacity
 			cap=parseFloat(document.querySelector('input#capacity').value);
@@ -54,42 +54,9 @@
 			document.querySelector('input#capacity').select();
 		}
 	</script>
-	<style>
-		table {
-			border-collapse:collapse;
-			width:100%;
-		}
-		td:hover{
-			background:linear-gradient(to top, #e01a1a, #eb6666);
-		}
-		th,td {
-			padding:0 0.5em;
-		}
-		td:nth-child(n+2){
-			text-align:right;
-		}
-		tr:first-child {
-			border-top:1px solid #ccc;
-		}
-		tr:last-child, th {
-			border-bottom:1px solid #ccc;
-		}
-		th:first-child, td:first-child {
-			border-left:1px solid #ccc;
-		}
-		th:last-child, th, td:last-child {
-			border-right:1px solid #ccc;
-		}
-		div[id]{
-			border-bottom:1px solid #ccc;
-			padding-bottom:5px;
-			margin-bottom:5px;
-		}
-	</style>
 </head><body onload=init()>
-<!--back--><div><a href="../index.php">Back</a></div>
 <?php include'navbar.php'?>
-
+<div id=root>
 <h1>Construction materials</h1>
 
 <!--input capacity of the plant-->
@@ -121,3 +88,37 @@
 		Table 4, Morera et al (2017): Up-to-date and modular construction inventories for Life Cycle Assessment of small to medium wastewater treatment plants (page 22)
 	</a>
 </h4>
+
+<!--css-->
+<style>
+	table {
+		border-collapse:collapse;
+		width:100%;
+	}
+	td:hover{
+		background:linear-gradient(to top, #e01a1a, #eb6666);
+	}
+	th,td {
+		padding:0 0.5em;
+	}
+	td:nth-child(n+2){
+		text-align:right;
+	}
+	tr:first-child {
+		border-top:1px solid #ccc;
+	}
+	tr:last-child, th {
+		border-bottom:1px solid #ccc;
+	}
+	th:first-child, td:first-child {
+		border-left:1px solid #ccc;
+	}
+	th:last-child, th, td:last-child {
+		border-right:1px solid #ccc;
+	}
+	div[id]{
+		border-bottom:1px solid #ccc;
+		padding-bottom:5px;
+		margin-bottom:5px;
+	}
+</style>
