@@ -4,10 +4,8 @@
 	<title>Ecoinvent</title>
 </head><body>
 <?php include'navbar.php'?>
-
 <div id=root>
 <h1>Home page</h1>
-
 <p style=max-width:50em>
 	<p style=max-width:50em>
 		This is a placeholder for drafting the user interface.
@@ -40,8 +38,8 @@
 			</li>
 			<li><a href=future           >Future implementations (for 'n' plants)</a>
 			<li><a href=README.txt       >README (tasks)</a>
-		</ul><hr>
-	</div>
+		</ul>
+	</div><hr>
 
 	<!--implementations-->
 	<div>
@@ -77,6 +75,10 @@
 		<p><b>Other things:</b></p>
 		<ul>
 			<li><a href=docs>Documents</a>
+			<li>
+				<a href="https://github.com/ecoinvent/wastewater_treatment_tool/blob/master/Generating%20ecoSPold%20files%20for%20WWT.ipynb">
+					ecospold notebook
+				</a>
 			<li>
 				<a target=_blank href="https://docs.google.com/spreadsheets/d/1DiBhDCjxGyw2-umImIfHiZOzY5LJF_psGiD4fEf7Wgk/edit?usp=sharing">
 					Google Drive document 
