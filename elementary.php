@@ -448,7 +448,7 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 <!--temporal note-->
 <div>
 	<span style=color:red>Implementation in progress as <?php echo date("M-d-Y") ?></span> 
-	<a target=_blank href="docs/Elementaryflows_20170927evening.pdf">(Document here)</a>
+	<a target=_blank href="docs/Elementaryflows_20170927evening.pdf">(document here)</a>
 	<p>(source code: right click the page and click "View page source")</p>
 </div><hr> 
 
