@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ecoSpold xmlns="http://www.EcoInvent.org/EcoSpold02">
+	<activityDataset>
+		<activityDescription>
+			<activity>
+				<activityName></activityName>
+				<includedActivitiesEnd></includedActivitiesEnd>
+				<generalComment>
+					<text></text>
+					<text></text>
+				</generalComment>
+				<tag></tag>
+			</activity>
+
+			<classification>
+				<classificationSystem></classificationSystem>
+				<classificationValue></classificationValue>
+			</classification>
+
+			<geography>
+				<shortname></shortname>
+				<comment>
+					<text></text>
+				</comment>
+			</geography>
+
+			<technology>
+				<comment>
+					<text></text>
+				</comment>
+			</technology>
+
+			<timePeriod></timePeriod>
+
+			<macroEconomicScenario>
+				<name></name>
+			</macroEconomicScenario>
+		</activityDescription>
+
+		<flowData>
+			<intermediateExchange>
+				<name></name>
+				<unitName></unitName>
+				<comment></comment>
+				<uncertainty>
+					<lognormal />
+					<pedigreeMatrix />
+				</uncertainty>
+				<classification>
+					<classificationSystem></classificationSystem>
+					<classificationValue></classificationValue>
+				</classification>
+				<inputGroup></inputGroup>
+			</intermediateExchange>
+
+			<elementaryExchange>
+				<name></name>
+				<unitName></unitName>
+				<comment></comment>
+				<uncertainty>
+					<lognormal />
+					<pedigreeMatrix />
+				</uncertainty>
+				<property>
+					<name></name>
+					<unitName></unitName>
+				</property>
+				<compartment>
+					<compartment></compartment>
+					<subcompartment></subcompartment>
+				</compartment>
+				<outputGroup></outputGroup>
+			</elementaryExchange>
+
+			<parameter>
+				<name></name>
+				<unitName></unitName>
+				<uncertainty>
+					<lognormal />
+					<pedigreeMatrix  />
+				</uncertainty>
+				<comment></comment>
+			</parameter>
+		</flowData>
+
+		<modellingAndValidation>
+			<representativeness>
+				<systemModelName></systemModelName>
+				<extrapolations></extrapolations>
+			</representativeness>
+			<review>
+				<details>
+					<text></text>
+				</details>
+			</review>
+		</modellingAndValidation>
+
+		<administrativeInformation>
+			<dataEntryBy />
+			<dataGeneratorAndPublication />
+			<fileAttributes>
+				<contextName>
+				</contextName>
+			</fileAttributes>
+		</administrativeInformation>
+	</activityDataset>
+</ecoSpold>

@@ -23,11 +23,11 @@
 				Single plant
 				<ul>
 					<li><a href=elementary.php   >1. [in progress] Elementary flows (C, N, P &amp; S)
-					<li><a                       >2. [on hold]     Simple Treat flows
-					<li><a href=construction.php >3. [done]        Construction materials
-					<li><a		                   >4. [pending]     Chemicals consumed
-					<li><a		                   >5. [pending]     Energy consumed
-					<li><a		                   >6. [next]        Generate ecoSpold
+					<li><a href=construction.php >2. [done]        Construction materials
+					<li><a		                   >3. [pending]     Chemicals consumed
+					<li><a		                   >4. [pending]     Energy consumed
+					<li><a href=ecospold.php     >5. [in progress] Generate ecoSpold
+					<li><a                       >6. [on hold]     Simple Treat flows
 				</ul>
 			</li>
 			<li>

@@ -505,17 +505,18 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 	<!--outputs-->
 	<div>
 		<p><b>3. Outputs</b></p>
-		<!--Effluent phases-->
-		<p>3.1. Effluent</p>
-		<table id=outputs border=1 cellpadding=2>
-			<tr>
-				<th rowspan=2>Compound
-				<th colspan=3>Effluent phase (g/d)
-			</tr>
-			<tr>
-				<th>Water<th>Air<th>Sludge
-			</tr>
-		</table>
+		<!--effluent phases-->
+		<div>
+			<p>3.1. Effluent</p>
+			<table id=outputs border=1 cellpadding=2>
+				<tr>
+					<th rowspan=2>Compound
+					<th colspan=3>Effluent phase (g/d)
+				<tr>
+					<th>Water<th>Air<th>Sludge
+				</tr>
+			</table>
+		</div>
 
 		<!--mass balances-->
 		<div>
@@ -571,6 +572,13 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 					//end
 				}
 			</script>
+		</div>
+
+		<!--generate ecospold file-->
+		<div style=margin-top:10px>
+			<a href=ecospold.php>
+				Save results as ecoSpold file
+			</a>
 		</div>
 	</div>
 </div>
