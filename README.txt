@@ -11,18 +11,16 @@ In development. Expected web application finish: October 31 2017
 - [done] refactor technologies code for a reusable coding interface
 
 ### frontend tasks
-- [to do] unify inputs in a single page, then, select technology, then run technology combination
 - [to do] save inputs and technologies chosen in cookies
-
-### non prioratary tasks
-- [to do] substitute images for text in the example implementations
-- [done] create a summary of terms (BOD, sBOD, ...)
-- [done] add references to metcalf pages in implementation code
 
 ### future
 - [1][to do, NEXT] join ecospold generation code inside the web
 - [2][to do] be able to calculate 'n' systems (= run 'n' models in parallel)
 
+### non prioratary tasks
+- [to do] substitute images for text in the example implementations
+- [done] create a summary of terms (BOD, sBOD, ...)
+- [done] add references to metcalf pages in implementation code
 
 -----------------------------
 vim: set filetype=markdown:
