@@ -76,10 +76,6 @@
 		<ul>
 			<li><a href=docs>Documents</a>
 			<li>
-				<a href="https://github.com/ecoinvent/wastewater_treatment_tool/blob/master/Generating%20ecoSPold%20files%20for%20WWT.ipynb">
-					ecospold notebook
-				</a>
-			<li>
 				<a target=_blank href="https://docs.google.com/spreadsheets/d/1DiBhDCjxGyw2-umImIfHiZOzY5LJF_psGiD4fEf7Wgk/edit?usp=sharing">
 					Google Drive document 
 				</a>
@@ -87,6 +83,13 @@
 			<li>This web source code: <a href=//github.com/holalluis/ecoinvent>github.com/holalluis/ecoinvent</a>
 			<li>Guillaume's github (for ecoSpold): 
 				<a href="//github.com/ecoinvent/wastewater_treatment_tool">github.com/ecoinvent/wastewater_treatment_tool</a>
+				<ul>
+					<li>
+						<a href="https://github.com/ecoinvent/wastewater_treatment_tool/blob/master/Generating%20ecoSPold%20files%20for%20WWT.ipynb">
+							ecospold notebook
+						</a>
+					</li>
+				</ul>
 			</li>
 		</ul>
 	</div><hr>
