@@ -195,7 +195,7 @@
 	</ol>
 	<div>
 		<div>
-			3. Find best <b>MLSS<sub>X,TSS</sub></b> that optimizes <b>Total cost</b> (for current X<sub>TSS</sub>V and Q)
+			3. Find best <b>MLSS<sub>X,TSS</sub></b> that minimizes the <b>Total cost</b> (for current X<sub>TSS</sub>V and Q)
 			<button onclick=optimize_MLSS_X_TSS() style=padding:1em>OPTIMIZE</button>
 		</div>
 		<table id=optim>

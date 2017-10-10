@@ -36,8 +36,8 @@
 					<li><a href=terms.php        >All terms</a>
 				</ul>
 			</li>
-			<li><a href=future           >Future implementations (for 'n' plants)</a>
 			<li><a href=README.txt       >README (tasks)</a>
+			<li><a href=future           >Future implementations (for 'n' plants)</a>
 		</ul>
 	</div><hr>
 
