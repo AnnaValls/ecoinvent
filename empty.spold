@@ -2,38 +2,37 @@
 <ecoSpold xmlns="http://www.EcoInvent.org/EcoSpold02">
 	<activityDataset>
 		<activityDescription>
-			<activity>
+			<activity inheritanceDepth="0" type="1" specialActivityType="0">
 				<activityName></activityName>
 				<includedActivitiesEnd></includedActivitiesEnd>
 				<generalComment>
-					<text></text>
-					<text></text>
+					<text xml:lang="en"></text>
 				</generalComment>
-				<tag></tag>
+				<tag>Treatment</tag>
 			</activity>
 
-			<classification>
-				<classificationSystem></classificationSystem>
-				<classificationValue></classificationValue>
+			<classification classificationId="a84d0ee4-d77c-4905-b876-3ef60873c763">
+				<classificationSystem xml:lang="en">ISIC rev.4 ecoinvent</classificationSystem>
+				<classificationValue xml:lang="en">3700:Sewerage</classificationValue>
 			</classification>
 
 			<geography>
 				<shortname></shortname>
 				<comment>
-					<text></text>
+					<text xml:lang="en"></text>
 				</comment>
 			</geography>
 
 			<technology>
 				<comment>
-					<text></text>
+					<text xml:lang="en"></text>
 				</comment>
 			</technology>
 
-			<timePeriod></timePeriod>
+			<timePeriod isDataValidForEntirePeriod="true"></timePeriod>
 
-			<macroEconomicScenario>
-				<name></name>
+			<macroEconomicScenario macroEconomicScenarioId="d9f57f0a-a01f-42eb-a57b-8f18d6635801">
+				<name xml:lang="en">Business-as-Usual</name>
 			</macroEconomicScenario>
 		</activityDescription>
 
@@ -90,16 +89,45 @@
 			</representativeness>
 			<review>
 				<details>
-					<text></text>
+					<text xml:lang="en"></text>
 				</details>
 			</review>
 		</modellingAndValidation>
 
 		<administrativeInformation>
-			<dataEntryBy />
-			<dataGeneratorAndPublication />
-			<fileAttributes>
-				<contextName>
+			<dataEntryBy 
+				personId="788d0176-a69c-4de0-a5d3-259866b6b100" 
+				isActiveAuthor="false" 
+				personName="[Current User]" 
+				personEmail="no@email.com" 
+			/>
+			<dataGeneratorAndPublication 
+				personId="788d0176-a69c-4de0-a5d3-259866b6b100" 
+				personName="Pascal Lesage" 
+				personEmail="pascal.lesage@polymtl.ca" 
+				dataPublishedIn="0" 
+				publishedSourceId="" 
+				publishedSourceYear="" 
+				publishedSourceFirstAuthor="" 
+				isCopyrightProtected="true" 
+				pageNumbers="" 
+				accessRestrictedTo="1" 
+			/>
+
+			<fileAttributes 
+				majorRelease="3" 
+				minorRelease="4" 
+				majorRevision="0" 
+				minorRevision="1" 
+				defaultLanguage="en" 
+				internalSchemaVersion="" 
+				creationTimestamp="" 
+				lastEditTimestamp="" 
+				fileGenerator="" 
+				fileTimestamp="" 
+				contextId=""
+			>
+				<contextName xml:lang="en">
 				</contextName>
 			</fileAttributes>
 		</administrativeInformation>

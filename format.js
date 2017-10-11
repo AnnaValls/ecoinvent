@@ -7,13 +7,15 @@
 
 /*return "3,999.4" instead of 3999.4*/
 function format(number,digits){
-	//default digits for decimals
-	digits=digits||3;
 
-	//less digits for big numbers
-	if     (Math.abs(number)>10000){ digits=0; }
-	else if(Math.abs(number)>1000 ){ digits=1; }
-	else if(Math.abs(number)<0.01 ){ digits=6; }
+	//if not specified, less digits for big numbers
+	if(!digits){
+		if     (Math.abs(number)> 10000){ digits=0 }
+		else if(Math.abs(number)> 100  ){ digits=1 }
+		else if(Math.abs(number)> 10   ){ digits=2 }
+		else if(Math.abs(number)> 0.1  ){ digits=3 }
+		else if(Math.abs(number)<=0.1  ){ digits=6 }
+	}
 
 	//format number
 	var str=new Intl.NumberFormat('en-EN',{maximumFractionDigits:digits}).format(number);

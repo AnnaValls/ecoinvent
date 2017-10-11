@@ -1,33 +1,40 @@
-<!doctype html><html><head><?php include'imports.php'?><title>Elementary Flows</title>
+<!doctype html><html><head>
 <!-- vim * shortcuts: 
 backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 -->
+	<?php include'imports.php'?>
+	<title>Elementary Flows</title>
+
 	<!--data structures-->
 	<script>
 		/*
-		 * Structure 1: Inputs with default values
-		 * Structure 2: Technologies used (also inputs)
+		 * Structure 1: Inputs for wastewater observed
+		 * Structure 2: Inputs for design choices
+		 * Structure 3: Variables (intermediate calculations)
+		 * Structure 4: Technologies used (also inputs)
 		 */
 		var Inputs=[
 			{id:"Q",              value:22700, unit:"m3/d", descr:"Flowrate"},
 			{id:"T",              value:12,    unit:"ºC",   descr:"Temperature"},
-			{id:"SRT",            value:5,     unit:"d",    descr:"Solids Retention Time"},
 			{id:"COD",            value:300,   unit:"g/m3", descr:"Total chemical oxygen demand"},
 			{id:"sCOD",           value:132,   unit:"g/m3", descr:"Soluble COD"},
 			{id:"BOD",            value:140,   unit:"g/m3", descr:"Total 5d biochemical oxygen demand"},
 			{id:"sBOD",           value:70,    unit:"g/m3", descr:"Soluble BOD"},
-			{id:"MLSS_X_TSS",     value:3000,  unit:"g/m3", descr:"Mixed liquor suspended solids"},
 			{id:"VSS",            value:60,    unit:"g/m3", descr:"Volatile suspended solids"},
 			{id:"TSS",            value:70,    unit:"g/m3", descr:"Total suspended solids"},
-			{id:"TSS_was",        value:8000,  unit:"g/m3", descr:"Total suspended solids (wastage)"},
 			{id:"TKN",            value:35,    unit:"g/m3", descr:"Total Kjedahl nitrogen"},
 			{id:"TP",             value:6,     unit:"g/m3", descr:"Total phosphorus"},
-			{id:"TS",             value:0,     unit:"g/m3", descr:"Total sulfur"},
+			{id:"TS",             value:10,    unit:"g/m3", descr:"Total sulfur"},
 			{id:"bCOD_BOD_ratio", value:1.6,   unit:"g/g",  descr:"bCOD/BOD ratio"},
-			{id:"TSSe",  value:1,    unit:"g/m3", descr:"Effluent design Total suspended solids"},
-			{id:"Ne",    value:0.50, unit:"g/m3", descr:"Effluent design NH4"},
-			{id:"NOx_e", value:4,    unit:"g/m3", descr:"Effluent design NOx"},
-			{id:"PO4_e", value:2,    unit:"g/m3", descr:"Effluent design PO4"},
+		];
+		var Design=[
+			{id:"SRT",        value:5,    unit:"d",    descr:"Solids Retention Time"},
+			{id:"MLSS_X_TSS", value:3000, unit:"g/m3", descr:"Mixed liquor suspended solids"},
+			{id:"TSS_was",    value:8000, unit:"g/m3", descr:"MLSS at the bottom of the settler"},
+			{id:"TSSe",       value:1,    unit:"g/m3", descr:"Effluent design Total suspended solids"},
+			{id:"Ne",         value:0.50, unit:"g/m3", descr:"Effluent design NH4"},
+			{id:"NOx_e",      value:4,    unit:"g/m3", descr:"Effluent design NOx"},
+			{id:"PO4_e",      value:2,    unit:"g/m3", descr:"Effluent design PO4"},
 		];
 		var Technologies=[
 			{id:"Pri", value:false, descr:"Primary treatment" },
@@ -45,7 +52,7 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 			if(isTechnology){
 				ret=Technologies.filter(el=>{return id==el.id});
 			}else{
-				ret=Inputs.filter(el=>{return id==el.id});
+				ret=Inputs.concat(Design).filter(el=>{return id==el.id});
 			}
 			if(ret.length==0){ 
 				console.error('Input id not found'); 
@@ -226,10 +233,12 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 			var nbsON = 0.3;
 			var TKN_N2O = 0.001*TKN;
 			var bTKN = TKN - nbpON - nbsON - TKN_N2O;
-			var NOx = 0;
 
-			if(nitrification){
-				NOx = bTKN - Ne - 0.12*P_X_bio/Q;
+			var NOx = 0;
+			if(nitrification==false){
+				NOx = 0;
+			}else{
+				NOx = bTKN - Ne - 0.12*P_X_bio*1000/Q; //g/m3
 			}
 
 			//TABLE 4
@@ -240,10 +249,14 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 			var nbpP = 0.025*nbVSS;
 			var nbsP = 0;
 			var aP = TP - nbpP - nbsP;
-			var aPchem = aP - 0.015*P_X_bio/Q;
+			var aPchem = aP - 0.015*P_X_bio*1000/Q;
 
 			//OUTPUTS table 5 elementary flows-->
-			//COD
+			/*
+				IMPORTANT: all Outputs should be in g/d
+			*/
+
+			//Outputs.COD
 			var sCODe = Q*(nbsCODe + S);
 			var biomass_CODe = Q*VSSe*1.42;
 			Outputs.COD.water = sCODe + biomass_CODe;
@@ -251,10 +264,11 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 			Outputs.COD.sludge = (function(){
 				var A = Q*YH*(S0 - S)/(1 + bHT*SRT) + (fd*bHT*Q*YH*(S0 - S)*SRT)/(1 + bHT*SRT) + 0;
 				var B = Qwas*sCODe/Q;
-				return A+B;
+				var C = Q*nbpCOD;
+				return A+B+C;
 			})();
 
-			//CO2
+			//Outputs.CO2
 			Outputs.CO2.water=0;
 			Outputs.CO2.air=(function(){
 				var k_CO2_COD = 0.99; //? TODO
@@ -264,72 +278,87 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 			})();
 			Outputs.CO2.sludge=0;
 
-			//CH4
+			//Outputs.CH4
 			Outputs.CH4.water  = 0;
 			Outputs.CH4.air    = 0; //(bCOD*Q*0.95); //TBD (only in anaerobic treatment)
 			Outputs.CH4.sludge = 0;
 
-			//TKN
+			//Outputs.TKN
 			var sTKNe = Ne*Q + nbsON*Q; //g/d
+
 			Outputs.TKN.water = (function(){
 				if(nitrification){
 					return sTKNe + Q*VSSe*0.12;
-				}
-				else{
-					return Q*TKN - 0.12*P_X_bio + Q*VSSe*0.12;
+				}else{
+					return Q*TKN - 0.12*P_X_bio*1000 - Q*VSSe*0.12;
 				}
 			})();
 			Outputs.TKN.air=0;
 			Outputs.TKN.sludge = 0.12*P_X_bio*1000 + Qwas*sTKNe/Q;
 
-			//NOx
+			//Outputs.NOx
 			Outputs.NOx.water=(function(){
 				if(nitrification==false){
 					return 0;
-				}
-				else if(denitrification){
+				}else if(denitrification){
 					return Q*NOx_e;
-				}else if(nitrification){ 
-					return Q*(bTKN - Ne) - 0.12*P_X_bio;
+				}else if(denitrification==false){ 
+					return Q*(bTKN - Ne) - 0.12*P_X_bio*1000;
 				}
 			})();
 			Outputs.NOx.air=0;
 			Outputs.NOx.sludge=(function(){
-				if(nitrification==false){
+				if(nitrification==false) {
 					return 0;
-				}
-				else{
+				} else if(denitrification){
 					return Qwas*NOx_e;
+				}else if(denitrification==false){
+					return Qwas*NOx;
 				}
 			})();
 
-			//N2
+			//Outputs.N2
 			Outputs.N2.water=0;
-			Outputs.N2.air = 0.22 * (NOx - NOx_e);
+			Outputs.N2.air = (function(){
+				if(denitrification) {
+					var factor = 0.1*28/0.2/62; //TODO (0.2258) find reference for this factor
+					console.log(factor);
+					return Q*factor*(NOx - NOx_e);
+				}
+				else
+					return 0;
+			})();
 			Outputs.N2.sludge=0;
 
-			//N2O
+			//Outputs.N2O
 			Outputs.N2O.water=0;
 			Outputs.N2O.air=Q*TKN_N2O;
 			Outputs.N2O.sludge=0;
 
-			//TP
-			Outputs.TP.sludge=(function(){
-				if(BiP || ChP){
-					return 0;//TODO	
+			//Outputs.TP
+			Outputs.TP.water=(function(){
+				if(BiP==false && ChP==false){
+					return Q*TP;
 				}else{
-					return TP;
+					return Q*PO4_e;
 				}
 			})();
 			Outputs.TP.air=0;
 			Outputs.TP.sludge=(function(){
-				var P_EBPR = 0; //TODO already implemented
-				var A;
-				if     (ChP) A=0.015*P_X_bio + Q*(aPchem-PO4_e);
-				else if(BiP) A=0.015*P_X_bio;
-				else         A=0.015*P_X_bio + P_EBPR;
-				var B=Qwas*PO4_e;
-				return A+B;
+				if(BiP==false && ChP==false){
+					return 0;
+				}else{
+					return Q*(TP-PO4_e); //hauria de donar això
+				}
+				/*
+					var P_EBPR = 0;
+					var A;
+					if     (ChP) A=0.015*P_X_bio*1000 + Q*(aPchem-PO4_e);
+					else if(BiP) A=0.015*P_X_bio*1000;
+					else         A=0.015*P_X_bio*1000 + P_EBPR;
+					var B=Qwas*PO4_e;
+					return A+B;
+				*/
 			})();
 
 			//TS
@@ -423,9 +452,9 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 					var newRow=table.insertRow(-1);
 					newRow.title=i.descr;
 					if(i.descr=="") newRow.classList.add('no_description');
-					else            newRow.classList.add('with_description');
+					else            newRow.classList.add('help');
 					newRow.insertCell(-1).innerHTML=i.id;
-					newRow.insertCell(-1).innerHTML=format(i.value);
+					newRow.insertCell(-1).outerHTML="<td class=number>"+format(i.value);
 					newRow.insertCell(-1).outerHTML="<td class=unit>"+i.unit.replace('m3','m<sup>3</sup>');
 				});
 			})();
@@ -441,9 +470,9 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 						.replace('N2','N<sub>2</sub>')
 						.replace('CH4','CH<sub>4</sub>');
 
-					newRow.insertCell(-1).innerHTML=format(Outputs[output].water);
-					newRow.insertCell(-1).innerHTML=format(Outputs[output].air);
-					newRow.insertCell(-1).innerHTML=format(Outputs[output].sludge);
+					newRow.insertCell(-1).outerHTML="<td class=number>"+format(Outputs[output].water/1000);
+					newRow.insertCell(-1).outerHTML="<td class=number>"+format(Outputs[output].air/1000);
+					newRow.insertCell(-1).outerHTML="<td class=number>"+format(Outputs[output].sludge/1000);
 				}
 			})();
 		}
@@ -451,14 +480,13 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 </head><body onload="init()">
 <?php include'navbar.php'?>
 <div id=root>
-
 <h1>Elementary Flows</h1>
 
 <!--temporal note-->
 <div>
 	<span style=color:red>Implementation in progress as <?php echo date("M-d-Y") ?></span> 
 	<a target=_blank href="docs/Elementaryflows_20170927evening.pdf">(document here)</a>
-	<p>(source code: right click the page and click "View page source")</p>
+	<p>status: Lluís Corominas &amp; Lluís Bosch are verifying mass balance equations</p>
 </div><hr> 
 
 <div>
@@ -493,7 +521,28 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 						var newRow=table.insertRow(-1);
 						newRow.title=i.descr;
 						if(i.descr=="") newRow.classList.add('no_description');
-						else            newRow.classList.add('with_description');
+						else            newRow.classList.add('help');
+						newRow.insertCell(-1).innerHTML=i.id;
+						newRow.insertCell(-1).innerHTML="<input id='"+i.id+"' value='"+i.value+"' type=number onchange=setInput('"+i.id+"',this.value) min=0>"
+						newRow.insertCell(-1).outerHTML="<td class=unit>"+i.unit.replace('m3','m<sup>3</sup>');
+					});
+				})();
+			</script>
+			<p>1.3. Enter design parameters</p>
+			<table id=design border=1>
+				<tr><th>Input<th>Value<th>Unit
+			</table>
+			<script>
+				//create inputs table
+				(function(){
+					var table=document.querySelector('table#design');
+					while(table.rows.length>1){table.deleteRow(-1)}
+
+					Design.forEach(i=>{
+						var newRow=table.insertRow(-1);
+						newRow.title=i.descr;
+						if(i.descr=="") newRow.classList.add('no_description');
+						else            newRow.classList.add('help');
 						newRow.insertCell(-1).innerHTML=i.id;
 						newRow.insertCell(-1).innerHTML="<input id='"+i.id+"' value='"+i.value+"' type=number onchange=setInput('"+i.id+"',this.value) min=0>"
 						newRow.insertCell(-1).outerHTML="<td class=unit>"+i.unit.replace('m3','m<sup>3</sup>');
@@ -520,7 +569,7 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 			<table id=outputs border=1 cellpadding=2>
 				<tr>
 					<th rowspan=2>Compound
-					<th colspan=3>Effluent phase (g/d)
+					<th colspan=3>Effluent phase (kg/d)
 				<tr>
 					<th>Water<th>Air<th>Sludge
 				</tr>
@@ -531,21 +580,40 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 		<div>
 			<p>3.2. Mass balances</p>
 			<table id=mass_balances border=1>
-				<tr><th rowspan=2>Element<th rowspan=2>Influent (g/d)<th colspan=3>Effluent (g/d)<th rowspan=2>Difference in<br>mass balance<br>(g/d)
+				<tr><th rowspan=2>Element<th rowspan=2>Influent (kg/d)<th colspan=3>Effluent (kg/d)
+					<th rowspan=2>
+						|Difference| <br>mass balance (%)
+						<br>
+						<small>
+							1-[water+air+sludge]/Influent
+						</small>
 				<tr><th>Water<th>Air<th>Sludge  
-				<tr id=C><td>C <td phase=influent>Q·COD <td phase=water>1:1     <td phase=air>2:2     <td phase=sludge>1:3     <td phase=balance>A-B-C-D
-				<tr id=N><td>N <td phase=influent>Q·TKN <td phase=water>4:1+5:1 <td phase=air>6:2+7:2 <td phase=sludge>4:3+5:3 <td phase=balance>A-B-C-D
-				<tr id=P><td>P <td phase=influent>Q·TP  <td phase=water>8:1     <td phase=air>-       <td phase=sludge>8:3     <td phase=balance>A-B-C-D
-				<tr id=S><td>S <td phase=influent>Q·TS  <td phase=water>9:1     <td phase=air>-       <td phase=sludge>9:3     <td phase=balance>A-B-C-D
+				<tr id=C><td align=center>C <td phase=influent>Q·COD <td phase=water>1:1     <td phase=air>2:2     <td phase=sludge>1:3     <td phase=balance>A-B-C-D
+				<tr id=N><td align=center>N <td phase=influent>Q·TKN <td phase=water>4:1+5:1 <td phase=air>6:2+7:2 <td phase=sludge>4:3+5:3 <td phase=balance>A-B-C-D
+				<tr id=P><td align=center>P <td phase=influent>Q·TP  <td phase=water>8:1     <td phase=air>-       <td phase=sludge>8:3     <td phase=balance>A-B-C-D
+				<tr id=S><td align=center>S <td phase=influent>Q·TS  <td phase=water>9:1     <td phase=air>-       <td phase=sludge>9:3     <td phase=balance>A-B-C-D
 			</table>
 			<script>
-				function do_mass_balances(){
-					function setBalance(element,influent,water,air,sludge){
-						document.querySelector('#mass_balances #'+element+' td[phase=influent]').innerHTML=format(influent);
-						document.querySelector('#mass_balances #'+element+' td[phase=water]').innerHTML=format(water);
-						document.querySelector('#mass_balances #'+element+' td[phase=air]').innerHTML=format(air);
-						document.querySelector('#mass_balances #'+element+' td[phase=sludge]').innerHTML=format(sludge);
-						document.querySelector('#mass_balances #'+element+' td[phase=balance]').innerHTML=format(influent-water-air-sludge);
+				function do_mass_balances()
+				{
+					function setBalance(element,influent,water,air,sludge)
+					{
+						document.querySelector('#mass_balances #'+element+' td[phase=influent]').innerHTML=format(influent/1000);
+						document.querySelector('#mass_balances #'+element+' td[phase=water]').innerHTML=format(water/1000);
+						document.querySelector('#mass_balances #'+element+' td[phase=air]').innerHTML=format(air/1000);
+						document.querySelector('#mass_balances #'+element+' td[phase=sludge]').innerHTML=format(sludge/1000);
+
+						//mass balance: output/input should be aprox 1
+						var el= document.querySelector('#mass_balances #'+element+' td[phase=balance]')
+						var percent = Math.abs(100*(1-(water+air+sludge)/influent));
+						el.innerHTML=format(percent,2)+" %";
+
+						//warning
+						if(percent>5){
+							el.style.color='red';
+						}else{
+							el.style.color='green';
+						}
 					}
 
 					var table=document.querySelector('table#mass_balances');
@@ -568,14 +636,14 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 						var TP = getInput('TP').value;
 						var influent = Q*TP;
 						var water    = Outputs.TP.water;
-						var air      = 0;
+						var air      = Outputs.TP.air;
 						var sludge   = Outputs.TP.sludge;
 						setBalance('P',influent,water,air,sludge);
 					//S
 						var TS = getInput('TS').value;
 						var influent = Q*TS;
 						var water    = Outputs.TS.water;
-						var air      = 0;
+						var air      = Outputs.TS.air;
 						var sludge   = Outputs.TS.sludge;
 						setBalance('S',influent,water,air,sludge);
 					//end
@@ -599,15 +667,12 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 	#root input[type=number]{
 		text-align:right;
 	}
-	.with_description {
-		cursor:help;
-	}
 	.no_description:after {
 		content:"(no description, please provide)";
 		font-size:11px;
 		color:red;
 	}
-	.unit {
-		font-size:11px;
+	#root #mass_balances [phase]{
+		text-align:right;
 	}
 </style>

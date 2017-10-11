@@ -61,7 +61,7 @@
 					{
 						ret.push("<span class=help title='"+getInputById(i).descr+"'>"+i+"</span>")
 					});
-					return ret.join(', ');
+					return uniq(inputs).length+": "+ret.join(', ');
 				})();
 			});
 		})();

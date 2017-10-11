@@ -7,6 +7,26 @@
 <!--link-->
 <link rel="icon" href="img/favicon.ico" type="image/x-icon">
 
+<!--javascript-->
+<script src="utils.js"></script> <!--metcalf figures and tables-->
+<script src="format.js"></script> <!--real utils-->
+<script src="dataModel/constants.js"></script>
+<script src="dataModel/inputs.js"></script>
+<script src="dataModel/technologies.js"></script>
+<script src="dataModel/combinations.js"></script>
+<script src="dataModel/outputs.js"></script>
+
+<!--metcalf technologies-->
+<script src="techs/bod_removal_only.js"></script>
+<script src="techs/sst_sizing.js"></script>
+<script src="techs/nitrification.js"></script>
+<script src="techs/n_removal.js"></script>
+<script src="techs/bio_P_removal.js"></script>
+<script src="techs/chem_P_removal.js"></script>
+
+<!--TODO decide if eliminate-->
+<script src="dataModel/variables.js"></script>
+
 <!--css-->
 <style>
 	body {
@@ -33,16 +53,5 @@
 	}
 </style>
 
-<!--javascript-->
-<script src="utils.js"></script> <!--metcalf figures and tables-->
-<script src="format.js"></script> <!--real utils-->
-<script src="dataModel/constants.js"></script>
-<script src="dataModel/inputs.js"></script>
-<script src="dataModel/technologies.js"></script>
-<script src="dataModel/combinations.js"></script>
-
-<!--these two TODO-->
-<script src="dataModel/outputs.js"></script>
-<script src="dataModel/variables.js"></script>
 
 <!--end imports.php-->

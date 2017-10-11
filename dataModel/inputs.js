@@ -1,8 +1,10 @@
 /*
  * Lists of all possible inputs for all technologies
- * To confirm:
- *   TSS_was is X_R ? 
- *   NO3_eff is NOx_e ?
+ *
+ * Notation to remember:
+ *   TSS_was = X_R
+ *   NO3_eff = NOx_e
+ *
  */
 var Inputs = [
 
