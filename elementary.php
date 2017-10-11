@@ -219,14 +219,18 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 			//inputs
 			var TKN   = getInput('TKN').value;   //35
 			var Ne    = getInput('Ne').value;    //0.50
-			var NOx_e = getInput('NOx_e').value; //TODO find default value
+			var NOx_e = getInput('NOx_e').value; //4
 
 			//equations
 			var nbpON = 0.064*nbVSS;
 			var nbsON = 0.3;
 			var TKN_N2O = 0.001*TKN;
 			var bTKN = TKN - nbpON - nbsON - TKN_N2O;
-			var NOx = bTKN - Ne - 0.12*P_X_bio/Q;
+			var NOx = 0;
+
+			if(nitrification){
+				NOx = bTKN - Ne - 0.12*P_X_bio/Q;
+			}
 
 			//TABLE 4
 			var TP    = getInput('TP').value; //6
@@ -252,7 +256,12 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 
 			//CO2
 			Outputs.CO2.water=0;
-			Outputs.CO2.air=0; //TODO
+			Outputs.CO2.air=(function(){
+				var k_CO2_COD = 0.99; //? TODO
+				var k_CO2_bio = 1.03; //? TODO
+				var air = k_CO2_COD*Q*(1-YH)*(S0-S) + k_CO2_bio*Q*YH*(S0-S)*bHT*SRT/(1+bHT*SRT)*(1-fd) - 4.49*NOx;
+				return air;
+			})();
 			Outputs.CO2.sludge=0;
 
 			//CH4
@@ -313,8 +322,8 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 				}
 			})();
 			Outputs.TP.air=0;
-			Outputs.TP.sludge=(function(){ //TODO
-				var P_EBPR = 0; //TODO
+			Outputs.TP.sludge=(function(){
+				var P_EBPR = 0; //TODO already implemented
 				var A;
 				if     (ChP) A=0.015*P_X_bio + Q*(aPchem-PO4_e);
 				else if(BiP) A=0.015*P_X_bio;

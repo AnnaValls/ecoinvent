@@ -1,14 +1,13 @@
 <!--imports.php-->
-
-<!--metas-->
+<!--meta-->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
 <meta name="description" content="ecoinvent">
 
-<!--links-->
+<!--link-->
 <link rel="icon" href="img/favicon.ico" type="image/x-icon">
 
-<!--CSS classes-->
+<!--css-->
 <style>
 	body {
 		font-family:Charter,serif;
@@ -34,9 +33,9 @@
 	}
 </style>
 
-<!--javascripts-->
-<script src="utils.js"></script> <!--figures and tables-->
-<script src="format.js"></script> <!-- real utils-->
+<!--javascript-->
+<script src="utils.js"></script> <!--metcalf figures and tables-->
+<script src="format.js"></script> <!--real utils-->
 <script src="dataModel/constants.js"></script>
 <script src="dataModel/inputs.js"></script>
 <script src="dataModel/technologies.js"></script>
