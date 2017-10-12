@@ -1,13 +1,13 @@
 
 /*Possible Technology combinations*/
 var Combinations=[
-	["BOD"],
-	["BOD","Nit"],
-	["BOD","Nit","Des"],
-	["BOD","Nit","Des","BiP"],
-	["BOD","Nit","Des","ChP"],
-	["BOD","BiP"],
-	["BOD","ChP"],
+	["BOD","SST"],
+	["BOD","SST","Nit"],
+	["BOD","SST","Nit","Des"],
+	["BOD","SST","Nit","Des","BiP"],
+	["BOD","SST","Nit","Des","ChP"],
+	["BOD","SST","BiP"],
+	["BOD","SST","ChP"],
 ];
 
 // util: remove duplicate elements in arrays

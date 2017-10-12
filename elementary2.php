@@ -335,7 +335,7 @@
 			/*
 			 * frontend functions
 			 */
-			document.querySelector('#input_amount').innerHTML=Inputs_current_combination.length;
+			document.querySelector('#input_amount').innerHTML=Inputs_current_combination.concat(Design).length;
 			document.querySelector('#variable_amount').innerHTML=Variables.length;
 
 			(function updateViews(){
