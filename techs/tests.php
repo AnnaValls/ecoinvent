@@ -23,7 +23,6 @@
 <p>How to open Javascript console:</p>
 <table border=1>
 	<tr><th>OS       <th>Browser   <th>Shortcut
-
 	<tr><td>Linux    <td>Chromium  <td>?
 	<tr><td>Linux    <td>Firefox   <td>F12
 	<tr><td>MacOSX   <td>Chrome    <td>alt+cmd+j

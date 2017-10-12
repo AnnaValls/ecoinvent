@@ -149,7 +149,7 @@
 				<tr><td>Anoxic mixing energy   <td><span class=number>5      kW/10<sup>3</sup>m<sup>3</sup> 
 				<tr><td>RAS ratio              <td><span class=number>0.6    &empty;                        
 				<tr><td>R<sub>o</sub>          <td><span class=number>275.9  kg O<sub>2</sub>/h             
-				<tr><td>N<sub>e</sub>          <td><span class=number>6      g/m<sup>3</sup>             
+				<tr><td>NO3<sub>e</sub>        <td><span class=number>6      g/m<sup>3</sup>             
 			</table>
 			</table>
 		</li><li><div>Tabulated parameters</div>
@@ -203,29 +203,29 @@
 		var Anoxic_mixing_energy = 5; //kW
 		var RAS = 0.6; //unitless
 		var Ro = 275.9; //kgO2/h
-		var Ne = 6; //g/m3 (nitrate at effluent)
+		var NO3_eff = 6; //g/m3 (nitrate at effluent)
 
 		//solve N removal
-		var r=N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_basin_volume,Aerobic_T,Anoxic_mixing_energy,RAS,Ro,Ne);
+		var r=N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_basin_volume,Aerobic_T,Anoxic_mixing_energy,RAS,Ro,NO3_eff);
 
 		//show results
-		showResult("result_Xb",                         r.Xb);
-		showResult("result_IR",                         r.IR);
-		showResult('result_Flowrate_to_anoxic_tank',    r.Flowrate_to_anoxic_tank);
-		showResult('result_NOx_feed',                   r.NOx_feed);
-		showResult("result_tau",                        r.tau);
-		showResult("result_V_nox",                      r.V_nox);
-		showResult("result_FM_b",                       r.FM_b);
-		showResult('result_Fraction_of_rbCOD',          r.Fraction_of_rbCOD);
-		showResult('result_b0',                         r.b0);
-		showResult('result_b1',                         r.b1);
-		showResult("result_SDNR_b",                     r.SDNR_b);
-		showResult("result_SDNR_T",                     r.SDNR_T);
-		showResult("result_SDNR_adj",                   r.SDNR_adj);
-		showResult("result_SDNR",                       r.SDNR);
-		showResult("result_NO_r",                       r.NO_r);
-		showResult("result_Net_O2_required",            r.Net_O2_required);
-		showResult("result_Mass_of_alkalinity_needed",  r.Mass_of_alkalinity_needed);
-		showResult("result_Power",                      r.Power);
+		showResult("result_Xb",                         r.Xb.value);
+		showResult("result_IR",                         r.IR.value);
+		showResult('result_Flowrate_to_anoxic_tank',    r.Flowrate_to_anoxic_tank.value);
+		showResult('result_NOx_feed',                   r.NOx_feed.value);
+		showResult("result_tau",                        r.tau.value);
+		showResult("result_V_nox",                      r.V_nox.value);
+		showResult("result_FM_b",                       r.FM_b.value);
+		showResult('result_Fraction_of_rbCOD',          r.Fraction_of_rbCOD.value);
+		showResult('result_b0',                         r.b0.value);
+		showResult('result_b1',                         r.b1.value);
+		showResult("result_SDNR_b",                     r.SDNR_b.value);
+		showResult("result_SDNR_T",                     r.SDNR_T.value);
+		showResult("result_SDNR_adj",                   r.SDNR_adj.value);
+		showResult("result_SDNR",                       r.SDNR.value);
+		showResult("result_NO_r",                       r.NO_r.value);
+		showResult("result_Net_O2_required",            r.Net_O2_required.value);
+		showResult("result_Mass_of_alkalinity_needed",  r.Mass_of_alkalinity_needed.value);
+		showResult("result_Power",                      r.Power.value);
 	}
 </script>

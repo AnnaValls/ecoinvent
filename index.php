@@ -20,7 +20,8 @@
 			<li>
 				Single plant
 				<ul>
-					<li><a href=elementary.php   >1. [in progress] Elementary flows (C, N, P &amp; S)
+					<li><a href=elementary.php   >1. [in progress] Elementary flows (C, N, P &amp; S) [standalone (from pdf)]
+					<li><a href=elementary2.php  >1. [in progress] Elementary flows (C, N, P &amp; S) [COMPLETE (from metcalf implementations)]
 					<li><a href=construction.php >2. [done]        Construction materials
 					<li><a		                   >3. [pending]     Chemicals consumed
 					<li><a		                   >4. [pending]     Energy consumed
@@ -56,10 +57,10 @@
 				<td>2. <a href="implementations/N_removal.php">N removal</a>
 				<td>Done
 			<tr>
-				<td>3. <a href="implementations/chem_P_removal.php">P removal (chemically)</a>
+				<td>3. <a href="implementations/bio_P_removal.php">P removal (biologically)</a>
 				<td>Done
 			<tr>
-				<td>4. <a href="implementations/bio_P_removal.php">P removal (biologically)</a>
+				<td>4. <a href="implementations/chem_P_removal.php">P removal (chemically)</a>
 				<td>Done
 			<tr>
 				<td>5. <a href="implementations/ekama_sizing.php">Reactor sizing (optim. cost) [G. Ekama]</a>

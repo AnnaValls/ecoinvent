@@ -15,6 +15,7 @@
 <script src="dataModel/technologies.js"></script>
 <script src="dataModel/combinations.js"></script>
 <script src="dataModel/outputs.js"></script>
+<script src="dataModel/terms.js"></script> <!--units and descriptions-->
 
 <!--metcalf technologies-->
 <script src="techs/bod_removal_only.js"></script>

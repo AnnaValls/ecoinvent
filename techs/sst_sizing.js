@@ -26,11 +26,11 @@ function sst_sizing(Q,SOR,X_R,clarifiers,MLSS_X_TSS){
 	var Solids_loading = (1+RAS)*Q*MLSS_X_TSS/1000/(Area*24); //kg MLSS/m2·h
 
 	return {
-		RAS:                 RAS,
-		Area:                Area,
-		area_per_clarifier:  area_per_clarifier,
-		clarifier_diameter:  clarifier_diameter,
-		Solids_loading:      Solids_loading,
+		RAS:                 {value:RAS,                 unit:"&empty;",       descr:"RAS"},
+		Area:                {value:Area,                unit:"m2",            descr:"Area"},
+		area_per_clarifier:  {value:area_per_clarifier,  unit:"m2/clarifier",  descr:"area_per_clarifier"},
+		clarifier_diameter:  {value:clarifier_diameter,  unit:"m",             descr:"clarifier_diameter"},
+		Solids_loading:      {value:Solids_loading,      unit:"kg_MLSS/m2·h",  descr:"Solids_loading"},
 	}
 }
 

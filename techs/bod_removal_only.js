@@ -30,85 +30,85 @@ function bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_
 
 	/*compute results*/
 	//part A: bod removal without nitrification
-		var bCOD = bCOD_BOD_ratio * BOD;
-		var nbCOD = COD - bCOD;
-		var nbsCODe = sCOD - bCOD_BOD_ratio * sBOD;
-		var nbpCOD = COD - bCOD - nbsCODe;
-		var VSS_COD = (COD-sCOD)/VSS;
-		var nbVSS = nbpCOD/VSS_COD;
-		var iTSS = TSS - VSS;
+		var bCOD = bCOD_BOD_ratio * BOD; //g/m3
+		var nbCOD = COD - bCOD; //g/m3
+		var nbsCODe = sCOD - bCOD_BOD_ratio * sBOD; //g/m3
+		var nbpCOD = COD - bCOD - nbsCODe; //g/m3
+		var VSS_COD = (COD-sCOD)/VSS; //g_COD/g_VSS
+		var nbVSS = nbpCOD/VSS_COD; //g/m3
+		var iTSS = TSS - VSS; //g/m3
 
-		var S0 = bCOD;
-		var mu_mT = mu_m * Math.pow(1.07, T - 20);
-		var bHT = bH * Math.pow(1.04, T - 20); 
-		var S = Ks*(1+bHT*SRT)/(SRT*(mu_mT-bHT)-1);
-		var P_X_bio = (Q*YH*(S0 - S) / (1 + bHT*SRT) + (fd*bHT*Q*YH*(S0 - S)*SRT) / (1 + bHT*SRT))/1000;
+		var S0 = bCOD; //g/m3
+		var mu_mT = mu_m * Math.pow(1.07, T - 20); //1/d
+		var bHT = bH * Math.pow(1.04, T - 20);  //1/d
+		var S = Ks*(1+bHT*SRT)/(SRT*(mu_mT-bHT)-1); //g/m3
+		var P_X_bio = (Q*YH*(S0 - S) / (1 + bHT*SRT) + (fd*bHT*Q*YH*(S0 - S)*SRT) / (1 + bHT*SRT))/1000; //kg/d
 		//3
-		var P_X_VSS = P_X_bio + Q*nbVSS/1000;
-		var P_X_TSS = P_X_bio/0.85 + Q*nbVSS/1000 + Q*(TSS-VSS)/1000;
+		var P_X_VSS = P_X_bio + Q*nbVSS/1000; //kg/d
+		var P_X_TSS = P_X_bio/0.85 + Q*nbVSS/1000 + Q*(TSS-VSS)/1000; //kg/d
 		//4
-		var X_VSS_V = P_X_VSS*SRT;
-		var X_TSS_V = P_X_TSS*SRT;
-		var V = X_TSS_V*1000/MLSS_X_TSS;
-		var tau = V*24/Q;
-		var MLVSS = X_VSS_V/X_TSS_V * MLSS_X_TSS;
+		var X_VSS_V = P_X_VSS*SRT; //kg
+		var X_TSS_V = P_X_TSS*SRT; //kg
+		var V = X_TSS_V*1000/MLSS_X_TSS; //m3
+		var tau = V*24/Q; //h
+		var MLVSS = X_VSS_V/X_TSS_V * MLSS_X_TSS; //g/m3
 		//5
-		var FM = Q*BOD/MLVSS/V;
-		var BOD_loading = Q*BOD/V/1000;
+		var FM = Q*BOD/MLVSS/V; //kg/kg·d
+		var BOD_loading = Q*BOD/V/1000; //kg/m3·d
 		//6
-		var bCOD_removed = Q*(S0-S)/1000;
-		var Y_obs_TSS = P_X_TSS/bCOD_removed*bCOD_BOD_ratio;
-		var Y_obs_VSS = P_X_TSS/bCOD_removed*(X_VSS_V/X_TSS_V)*bCOD_BOD_ratio;
+		var bCOD_removed = Q*(S0-S)/1000; //kg/d
+		var Y_obs_TSS = P_X_TSS/bCOD_removed*bCOD_BOD_ratio; //g_TSS/g_BOD
+		var Y_obs_VSS = P_X_TSS/bCOD_removed*(X_VSS_V/X_TSS_V)*bCOD_BOD_ratio; //g_VSS/g_BOD
 		//7
-		var NOx=0;
-		var R0 = (Q*(S0-S)/1000 -1.42*P_X_bio)/24 + 0; //NOx is zero here
+		var NOx=0; //g/m3
+		var R0 = (Q*(S0-S)/1000 -1.42*P_X_bio)/24 + 0; // kg_O2/h note: NOx is zero here
 		//8
-		var C_T = air_solubility_of_oxygen(T,0); //elevation=0 TableE-1, Appendix E, implemented in "utils.js"
-		var Pb = Pa*Math.exp(-g*M*(zb-0)/(R*(273.15+T))); //pressure at plant site
-		var C_inf_20 = C_s_20 * (1+de*Df/Pa);
-		var OTRf = R0;
-		var SOTR = (OTRf/(alpha*F))*(C_inf_20/(beta*C_T/C_s_20*Pb/Pa*C_inf_20-C_L))*(Math.pow(1.024,20-T));
+		var C_T = air_solubility_of_oxygen(T,0); //mg_O2/L -> elevation=0 TableE-1, Appendix E, implemented in "utils.js"
+		var Pb = Pa*Math.exp(-g*M*(zb-0)/(R*(273.15+T))); //Pa -> pressure at plant site
+		var C_inf_20 = C_s_20 * (1+de*Df/Pa); //mg_O2/L
+		var OTRf = R0; //kgO2/h
+		var SOTR = (OTRf/(alpha*F))*(C_inf_20/(beta*C_T/C_s_20*Pb/Pa*C_inf_20-C_L))*(Math.pow(1.024,20-T)); //kg/h
 		var kg_O2_per_m3_air = density_of_air(T,Pressure)*0.2318 //oxygen in air by weight is 23.18%, by volume is 20.99%
-		var air_flowrate = SOTR/(E*60*kg_O2_per_m3_air);
+		var air_flowrate = SOTR/(E*60*kg_O2_per_m3_air); //m3/min
 	//end part A
 
-	//return object
+	//return results object
 	return {
-		bCOD:              bCOD,
-		nbCOD:             nbCOD,
-		nbsCODe:           nbsCODe,
-		nbpCOD:            nbpCOD,
-		VSS_COD:           VSS_COD,
-		nbVSS:             nbVSS,
-		iTSS:              iTSS,
-		mu_mT:             mu_mT,
-		bHT:               bHT,
-		S:                 S,
-		P_X_bio:           P_X_bio,
-		P_X_VSS:           P_X_VSS,
-		P_X_TSS:           P_X_TSS,
-		X_VSS_V:           X_VSS_V,
-		X_TSS_V:           X_TSS_V,
-		V:                 V,
-		tau:               tau,
-		MLVSS:             MLVSS,
-		FM:                FM,
-		BOD_loading:       BOD_loading,
-		bCOD_removed:      bCOD_removed,
-		Y_obs_TSS:         Y_obs_TSS,
-		Y_obs_VSS:         Y_obs_VSS,
-		C_T:               C_T,
-		Pb:                Pb,
-		C_inf_20:          C_inf_20,
-		OTRf:              OTRf,
-		SOTR:              SOTR,
-		kg_O2_per_m3_air:  kg_O2_per_m3_air,
-		air_flowrate:      air_flowrate,
+		bCOD:              {value:bCOD,              unit:"g/m3",         descr:"bCOD"},
+		nbCOD:             {value:nbCOD,             unit:"g/m3",         descr:"nbCOD"},
+		nbsCODe:           {value:nbsCODe,           unit:"g/m3",         descr:"nbsCODe"},
+		nbpCOD:            {value:nbpCOD,            unit:"g/m3",         descr:"nbpCOD"},
+		VSS_COD:           {value:VSS_COD,           unit:"g_COD/g_VSS",  descr:"VSS_COD"},
+		nbVSS:             {value:nbVSS,             unit:"g/m3",         descr:"nbVSS"},
+		iTSS:              {value:iTSS,              unit:"g/m3",         descr:"iTSS"},
+		mu_mT:             {value:mu_mT,             unit:"1/d",          descr:"mu_mT"},
+		bHT:               {value:bHT,               unit:"1/d",          descr:"bHT"},
+		S:                 {value:S,                 unit:"g/m3",         descr:"S"},
+		P_X_bio:           {value:P_X_bio,           unit:"kg/d",         descr:"P_X_bio"},
+		P_X_VSS:           {value:P_X_VSS,           unit:"kg/d",         descr:"P_X_VSS"},
+		P_X_TSS:           {value:P_X_TSS,           unit:"kg/d",         descr:"P_X_TSS"},
+		X_VSS_V:           {value:X_VSS_V,           unit:"kg",           descr:"X_VSS_V"},
+		X_TSS_V:           {value:X_TSS_V,           unit:"kg",           descr:"X_TSS_V"},
+		V:                 {value:V,                 unit:"m3",           descr:"V"},
+		tau:               {value:tau,               unit:"h",            descr:"tau"},
+		MLVSS:             {value:MLVSS,             unit:"g/m3",         descr:"MLVSS"},
+		FM:                {value:FM,                unit:"kg/kg·d",      descr:"FM"},
+		BOD_loading:       {value:BOD_loading,       unit:"kg/m3·d",      descr:"BOD_loading"},
+		bCOD_removed:      {value:bCOD_removed,      unit:"kg/d",         descr:"bCOD_removed"},
+		Y_obs_TSS:         {value:Y_obs_TSS,         unit:"g_TSS/g_BOD",  descr:"Y_obs_TSS"},
+		Y_obs_VSS:         {value:Y_obs_VSS,         unit:"g_VSS/g_BOD",  descr:"Y_obs_VSS"},
+		NOx:               {value:0,                 unit:"g/m3",         descr:"N oxidized to nitrate"},
+		C_T:               {value:C_T,               unit:"mg_O2/L",      descr:"C_T"},
+		Pb:                {value:Pb,                unit:"m",            descr:"Pb"},
+		C_inf_20:          {value:C_inf_20,          unit:"mg_O2/L",      descr:"C_inf_20"},
+		OTRf:              {value:OTRf,              unit:"kg_O2/h",      descr:"OTRf"},
+		SOTR:              {value:SOTR,              unit:"kg/h",         descr:"SOTR"},
+		kg_O2_per_m3_air:  {value:kg_O2_per_m3_air,  unit:"kg_O2/m3",     descr:"kg_O2_per_m3_air"},
+		air_flowrate:      {value:air_flowrate,      unit:"m3/min",       descr:"air_flowrate"},
 	};
 };
 
-/*node debugging
-*/
+/*node debugging */
 (function(){
 	var debug=false;
 	if(debug==false)return;

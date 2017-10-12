@@ -36,32 +36,32 @@ function nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pr
 	//end
 
 	//9 start nitrification
-	var bCOD = bCOD_BOD_ratio * BOD;
-	var nbCOD = COD - bCOD;
-	var nbsCODe = sCOD - bCOD_BOD_ratio * sBOD;
-	var nbpCOD = COD - bCOD - nbsCODe;
-	var VSS_COD = (COD-sCOD)/VSS;
-	var nbVSS = nbpCOD/VSS_COD;
+	var bCOD = bCOD_BOD_ratio * BOD; //g/m3
+	var nbCOD = COD - bCOD; //g/m3
+	var nbsCODe = sCOD - bCOD_BOD_ratio * sBOD; //g/m3
+	var nbpCOD = COD - bCOD - nbsCODe; //g/m3
+	var VSS_COD = (COD-sCOD)/VSS; 
+	var nbVSS = nbpCOD/VSS_COD; //g/m3
 
-	var mu_max_AOB_T = mu_max_AOB * Math.pow(1.072,T-20);
-	var b_AOB_T = b_AOB* Math.pow(1.029,T-20);
-	var S_NH4 = Ne;
+	var mu_max_AOB_T = mu_max_AOB * Math.pow(1.072,T-20); //1/d
+	var b_AOB_T = b_AOB* Math.pow(1.029,T-20); //1/d
+	var S_NH4 = Ne; //g/m3
 	var mu_AOB = mu_max_AOB_T * (S_NH4/(S_NH4+K_NH4)) * (C_L/(C_L+K_o_AOB)) - b_AOB_T;
 
 	//10
-	var SRT_theoretical = 1/mu_AOB;
-	var SRT_design = SF*SRT_theoretical;
+	var SRT_theoretical = 1/mu_AOB; //d
+	var SRT_design = SF*SRT_theoretical; //d
 
 	//11
-	var bHT = bH * Math.pow(1.04, T - 20); 
-	var mu_mT = mu_m * Math.pow(1.07, T - 20);
-	var S = Ks * (1+bHT*SRT_design) / (SRT_design*(mu_mT-bHT)-1);
+	var bHT = bH * Math.pow(1.04, T - 20);  //1/d
+	var mu_mT = mu_m * Math.pow(1.07, T - 20); //1/d
+	var S = Ks * (1+bHT*SRT_design) / (SRT_design*(mu_mT-bHT)-1); //g/m3
 	var NOx = 0.80 * TKN; //aproximation for nitrate, prior to iteration (80% of TKN)
 
 	//biomass first approximation with first NOx concentration aproximation
 	var S0 = bCOD;
 	var P_X_bio_VSS = Q*YH*(S0-S)/(1+bHT*SRT_design) + fd*bHT*Q*YH*(S0-S)*SRT_design/(1+bHT*SRT_design) + Q*Yn*NOx/(1+b_AOB_T*SRT_design);
-	P_X_bio_VSS/=1000;
+	P_X_bio_VSS/=1000; //kg/d
 
 	//12 iteration for finding more accurate value of NOx (nitrogen oxidized to nitrate)
 	var NOx = TKN - Ne - 0.12*P_X_bio_VSS/Q*1000;
@@ -107,32 +107,32 @@ function nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pr
 	})();
 
 	//13
-	var P_X_VSS = P_X_bio_VSS + Q*nbVSS/1000;
-	var P_X_TSS = P_X_bio_VSS/0.85 + Q*nbVSS/1000 + Q*(TSS-VSS)/1000;
-	var X_VSS_V = P_X_VSS * SRT_design;
-	var X_TSS_V = P_X_TSS * SRT_design;
+	var P_X_VSS = P_X_bio_VSS + Q*nbVSS/1000; //kg/d
+	var P_X_TSS = P_X_bio_VSS/0.85 + Q*nbVSS/1000 + Q*(TSS-VSS)/1000; //kg/d
+	var X_VSS_V = P_X_VSS * SRT_design; //kg
+	var X_TSS_V = P_X_TSS * SRT_design; //kg
 
 	//14
-	var V = X_TSS_V*1000 / MLSS_X_TSS ;
-	var tau = V/Q*24;
-	var MLVSS = X_VSS_V/X_TSS_V * MLSS_X_TSS;
+	var V = X_TSS_V*1000 / MLSS_X_TSS ; //g/m3
+	var tau = V/Q*24; //h
+	var MLVSS = X_VSS_V/X_TSS_V * MLSS_X_TSS; //g/m3
 	//15
-	var FM = Q*BOD/MLVSS/V;
-	var BOD_loading = Q*BOD/V/1000;
+	var FM = Q*BOD/MLVSS/V; //kg/kg·d
+	var BOD_loading = Q*BOD/V/1000; //kg/m3·d
 	//16
-	var bCOD_removed = Q*(S0-S)/1000;
-	var Y_obs_TSS = P_X_TSS/bCOD_removed*bCOD_BOD_ratio;
-	var Y_obs_VSS = P_X_TSS/bCOD_removed*(X_VSS_V/X_TSS_V)*bCOD_BOD_ratio;
+	var bCOD_removed = Q*(S0-S)/1000; //kg/d
+	var Y_obs_TSS = P_X_TSS/bCOD_removed*bCOD_BOD_ratio; //g_TSS/g_BOD
+	var Y_obs_VSS = P_X_TSS/bCOD_removed*(X_VSS_V/X_TSS_V)*bCOD_BOD_ratio; //g_VSS/g_BOD
 	//17
 	var P_X_bio_VSS_without_nitrifying = Q*YH*(S0-S)/(1+bHT*SRT_design) + fd*bHT*Q*YH*(S0-S)*SRT_design/(1+bHT*SRT_design);
 	P_X_bio_VSS_without_nitrifying /= 1000;
 	var R0 = Q*(S0-S)/1000 -1.42*P_X_bio_VSS_without_nitrifying + 4.57*Q*NOx/1000;
-	R0 /= 24;
+	R0 /= 24; //kgO2/h
 	//18
 	var OTRf = R0;
-	var C_inf_20 = C_s_20 * (1+de*Df/Pa);
+	var C_inf_20 = C_s_20 * (1+de*Df/Pa); //mgO2/L
 	var Pb = Pa*Math.exp(-g*M*(zb-0)/(R*(273.15+T))); //pressure at plant site (m)
-	var SOTR = (OTRf/alpha/F)*(C_inf_20/(beta*C_T/C_s_20*Pb/Pa*C_inf_20-C_L))*(Math.pow(1.024,20-T));
+	var SOTR = (OTRf/alpha/F)*(C_inf_20/(beta*C_T/C_s_20*Pb/Pa*C_inf_20-C_L))*(Math.pow(1.024,20-T)); //kg/h
 	var kg_O2_per_m3_air = density_of_air(T,Pressure)*0.2318 //oxygen in air by weight is 23.18%, by volume is 20.99%
 	var air_flowrate = SOTR/(E*60*kg_O2_per_m3_air);
 	//19 alkalinity 
@@ -147,43 +147,43 @@ function nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pr
 	var BOD_eff = sBODe + 0.85*0.85*TSSe;
 
 	return {
-		bCOD:                            bCOD,
-		nbCOD:                           nbCOD,
-		nbsCODe:                         nbsCODe,
-		nbpCOD:                          nbpCOD,
-		VSS_COD:                         VSS_COD,
-		nbVSS:                           nbVSS,
-		mu_max_AOB_T:                    mu_max_AOB_T,
-		b_AOB_T:                         b_AOB_T,
-		mu_AOB:                          mu_AOB,
-		SRT_theoretical:                 SRT_theoretical,
-		SRT_design:                      SRT_design,
-		bHT:                             bHT,
-		mu_mT:                           mu_mT,
-		S:                               S,
-		P_X_bio_VSS:                     P_X_bio_VSS,
-		NOx:                             NOx,
-		P_X_VSS:                         P_X_VSS,
-		P_X_TSS:                         P_X_TSS,
-		X_VSS_V:                         X_VSS_V,
-		X_TSS_V:                         X_TSS_V,
-		V:                               V,
-		tau:                             tau,
-		MLVSS:                           MLVSS,
-		FM:                              FM,
-		BOD_loading:                     BOD_loading,
-		bCOD_removed:                    bCOD_removed,
-		Y_obs_TSS:                       Y_obs_TSS,
-		Y_obs_VSS:                       Y_obs_VSS,
-		P_X_bio_VSS_without_nitrifying:  P_X_bio_VSS_without_nitrifying,
-		OTRf:                            OTRf,
-		C_inf_20:                        C_inf_20,
-		Pb:                              Pb,
-		SOTR:                            SOTR,
-		kg_O2_per_m3_air:                kg_O2_per_m3_air,
-		air_flowrate:                    air_flowrate,
-		alkalinity_to_be_added:          alkalinity_to_be_added,
-		BOD_eff:                         BOD_eff,
+		bCOD:                            {value:bCOD,                            unit:"g/m3",  descr:"bCOD"},
+		nbCOD:                           {value:nbCOD,                           unit:"g/m3",  descr:"nbCOD"},
+		nbsCODe:                         {value:nbsCODe,                         unit:"g/m3",  descr:"nbsCODe"},
+		nbpCOD:                          {value:nbpCOD,                          unit:"g/m3",  descr:"nbpCOD"},
+		VSS_COD:                         {value:VSS_COD,                         unit:"g_COD/g_VSS",  descr:"VSS_COD"},
+		nbVSS:                           {value:nbVSS,                           unit:"g/m3",  descr:"nbVSS"},
+		mu_max_AOB_T:                    {value:mu_max_AOB_T,                    unit:"1/d",  descr:"mu_max_AOB_T"},
+		b_AOB_T:                         {value:b_AOB_T,                         unit:"1/d",  descr:"b_AOB_T"},
+		mu_AOB:                          {value:mu_AOB,                          unit:"1/d",  descr:"mu_AOB"},
+		SRT_theoretical:                 {value:SRT_theoretical,                 unit:"d",  descr:"SRT_theoretical"},
+		SRT_design:                      {value:SRT_design,                      unit:"d",  descr:"SRT_design"},
+		bHT:                             {value:bHT,                             unit:"1/d",  descr:"bHT"},
+		mu_mT:                           {value:mu_mT,                           unit:"1/d",  descr:"mu_mT"},
+		S:                               {value:S,                               unit:"g/m3",  descr:"S"},
+		P_X_bio_VSS:                     {value:P_X_bio_VSS,                     unit:"kg/d",  descr:"P_X_bio_VSS"},
+		NOx:                             {value:NOx,                             unit:"g/m3",  descr:"NOx"},
+		P_X_VSS:                         {value:P_X_VSS,                         unit:"kg/d",  descr:"P_X_VSS"},
+		P_X_TSS:                         {value:P_X_TSS,                         unit:"kg/d",  descr:"P_X_TSS"},
+		X_VSS_V:                         {value:X_VSS_V,                         unit:"kg",  descr:"X_VSS_V"},
+		X_TSS_V:                         {value:X_TSS_V,                         unit:"kg",  descr:"X_TSS_V"},
+		V:                               {value:V,                               unit:"m3",  descr:"V"},
+		tau:                             {value:tau,                             unit:"h",  descr:"tau"},
+		MLVSS:                           {value:MLVSS,                           unit:"g/m3",  descr:"MLVSS"},
+		FM:                              {value:FM,                              unit:"kg/kg·d",  descr:"FM"},
+		BOD_loading:                     {value:BOD_loading,                     unit:"kg/m3·d",  descr:"BOD_loading"},
+		bCOD_removed:                    {value:bCOD_removed,                    unit:"kg/d",  descr:"bCOD_removed"},
+		Y_obs_TSS:                       {value:Y_obs_TSS,                       unit:"g_TSS/g_BOD",  descr:"Y_obs_TSS"},
+		Y_obs_VSS:                       {value:Y_obs_VSS,                       unit:"g_VSS/g_BOD",  descr:"Y_obs_VSS"},
+		//P_X_bio_VSS_without_nitrifying:  {value:P_X_bio_VSS_without_nitrifying,  unit:"kg/d",  descr:"P_X_bio_VSS_without_nitrifying"},
+		OTRf:                            {value:OTRf,                            unit:"kg_O2/h",  descr:"OTRf"},
+		C_inf_20:                        {value:C_inf_20,                        unit:"mg_O2/L",  descr:"C_inf_20"},
+		Pb:                              {value:Pb,                              unit:"m",  descr:"Pb"},
+		SOTR:                            {value:SOTR,                            unit:"kg/h",  descr:"SOTR"},
+		kg_O2_per_m3_air:                {value:kg_O2_per_m3_air,                unit:"kg_O2/m3",  descr:"kg_O2_per_m3_air"},
+		air_flowrate:                    {value:air_flowrate,                    unit:"m3/min",  descr:"air_flowrate"},
+		alkalinity_added:                {value:alkalinity_to_be_added,          unit:"kg/d_as_NaHCO3", descr:"alkalinity_to_be_added"},
+		BOD_eff:                         {value:BOD_eff,                         unit:"g/m3",  descr:"BOD_eff"},
 	};
 }
 

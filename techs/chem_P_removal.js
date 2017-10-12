@@ -3,18 +3,17 @@ Technology: Chemical P removal
 Metcalf & Eddy, Wastewater Engineering, 5th ed., 2014:
 page 484
 **/
-function chem_P_removal(Q,TSS,TSS_removal_wo_Fe,TSS_removal_w_Fe,TP,C_PO4_inf,C_PO4_eff,Alkalinity,FeCl3_solution,FeCl3_unit_weight,days){
+function chem_P_removal(Q,TSS,TSS_removal_wo_Fe,TSS_removal_w_Fe,TP,C_PO4_inf,C_PO4_eff,FeCl3_solution,FeCl3_unit_weight,days){
 	/*
 		Inputs               example values 
 		--------------------------------
 			Q                  3800  m3/d
 			TSS                220   mg/L
-			TSS_removal_wo_Fe  60    %
-			TSS_removal_w_Fe   75    %
+			TSS_removal_wo_Fe  60    %     [not used!]
+			TSS_removal_w_Fe   75    %     [not used!]
 			TP                 7     mg/L
 			C_PO4_inf          5     mg/L
 			C_PO4_eff          0.1   mg/L
-			Alkalinity         240   mg/L as CaCO3
 			FeCl3_solution     37    %
 			FeCl3_unit_weight  1.35  kg/L
 			days               15    days
@@ -22,7 +21,7 @@ function chem_P_removal(Q,TSS,TSS_removal_wo_Fe,TSS_removal_w_Fe,TP,C_PO4_inf,C_
 	*/
 
 	/*parameters*/
-	var Fe_P_mole_ratio                  = 3.3; //TODO check if table/figure can be implemented to get this value
+	var Fe_P_mole_ratio                  = 3.3; //TODO check if figure 6-13 can be implemented to get this value
 	var Raw_sludge_specific_gravity      = 1.03;
 	var Raw_sludge_moisture_content      = 94;
 	var Chemical_sludge_specific_gravity = 1.05
@@ -60,26 +59,26 @@ function chem_P_removal(Q,TSS,TSS_removal_wo_Fe,TSS_removal_w_Fe,TP,C_PO4_inf,C_
 	//end solution
 
 	return {
-		Fe_III_dose:                             Fe_III_dose,
-		primary_eff_P:                           primary_eff_P,
-		Fe_dose:                                 Fe_dose,
-		percent_Fe_in_FeCl3:                     percent_Fe_in_FeCl3,
-		amount_FeCl3_solution:                   amount_FeCl3_solution,
-		FeCl3_volume:                            FeCl3_volume,
-		storage_req_15_d:                        storage_req_15_d,
-		Additional_sludge:                       Additional_sludge,
-		Fe_dose_M:                               Fe_dose_M,
-		P_removed:                               P_removed,
-		FeH2PO4OH_sludge:                        FeH2PO4OH_sludge,
-		Excess_Fe_added:                         Excess_Fe_added,
-		FeOH3_sludge:                            FeOH3_sludge,
-		Excess_sludge:                           Excess_sludge,
-		Excess_sludge_kg:                        Excess_sludge_kg,
-		Total_excess_sludge:                     Total_excess_sludge,
-		sludge_production_wo_chemical_addition:  sludge_production_wo_chemical_addition,
-		sludge_production_w_chemical_addition:   sludge_production_w_chemical_addition,
-		Vs_without:                              Vs_without,
-		Vs:                                      Vs,
+		Fe_III_dose:            {value:Fe_III_dose,                             unit:"mg/L",  descr:"Fe_III_dose"},
+		primary_eff_P:          {value:primary_eff_P,                           unit:"mg/L",  descr:"primary_effluent"},
+		Fe_dose:                {value:Fe_dose,                                 unit:"kg/d",  descr:"Fe_dose_required"},
+		percent_Fe_in_FeCl3:    {value:percent_Fe_in_FeCl3,                     unit:"%",     descr:"percent_Fe_in_FeCl3"},
+		amount_FeCl3_solution:  {value:amount_FeCl3_solution,                   unit:"kg/d",  descr:"amount_FeCl3_solution"},
+		FeCl3_volume:           {value:FeCl3_volume,                            unit:"L/d",   descr:"FeCl3_volume"},
+		storage_req_15_d:       {value:storage_req_15_d,                        unit:"m3",    descr:"storage_req_15_d"},
+		Additional_sludge:      {value:Additional_sludge,                       unit:"kg/d",  descr:"Additional_sludge"},
+		Fe_dose_M:              {value:Fe_dose_M,                               unit:"M",     descr:"Fe_dose_M"},
+		P_removed:              {value:P_removed,                               unit:"M",     descr:"P_removed"},
+		FeH2PO4OH_sludge:       {value:FeH2PO4OH_sludge,                        unit:"mg/L",  descr:"FeH2PO4OH_sludge"},
+		Excess_Fe_added:        {value:Excess_Fe_added,                         unit:"M",     descr:"Excess_Fe_added"},
+		FeOH3_sludge:           {value:FeOH3_sludge,                            unit:"mg/L",  descr:"FeOH3_sludge"},
+		Excess_sludge:          {value:Excess_sludge,                           unit:"mg/L",  descr:"Excess_sludge"},
+		Excess_sludge_kg:       {value:Excess_sludge_kg,                        unit:"kg/d",  descr:"Excess_sludge_kg"},
+		Total_excess_sludge:    {value:Total_excess_sludge,                     unit:"kg/d",  descr:"Total_excess_sludge"},
+		sludge_prod_without:    {value:sludge_production_wo_chemical_addition,  unit:"kg/d",  descr:"sludge_production_wo_chemical_addition"},
+		sludge_prod:            {value:sludge_production_w_chemical_addition,   unit:"kg/d",  descr:"sludge_production_w_chemical_addition"},
+		Vs_without:             {value:Vs_without,                              unit:"m3/d",  descr:"Vs_without"},
+		Vs:                     {value:Vs,                                      unit:"m3/d",  descr:"Vs"},
 	};
 }
 
@@ -95,10 +94,9 @@ function chem_P_removal(Q,TSS,TSS_removal_wo_Fe,TSS_removal_w_Fe,TP,C_PO4_inf,C_
 	var TP                 = 7   
 	var C_PO4_inf          = 5   
 	var C_PO4_eff          = 0.1 
-	var Alkalinity         = 240 
 	var FeCl3_solution     = 37  
 	var FeCl3_unit_weight  = 1.35
 	var days               = 15  
-	var result = chem_P_removal(Q,TSS,TSS_removal_wo_Fe,TSS_removal_w_Fe,TP,C_PO4_inf,C_PO4_eff,Alkalinity,FeCl3_solution,FeCl3_unit_weight,days);
+	var result = chem_P_removal(Q,TSS,TSS_removal_wo_Fe,TSS_removal_w_Fe,TP,C_PO4_inf,C_PO4_eff,FeCl3_solution,FeCl3_unit_weight,days);
 	console.log(result);
 })();

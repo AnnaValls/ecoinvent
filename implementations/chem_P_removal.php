@@ -210,7 +210,6 @@
 				<tr><td>[P]<sub>influent</sub>                                 <td><input type=number id=input_TP                value=7   > mg/L
 				<tr><td>[PO<sub>4</sub>]<sub>influent</sub>                    <td><input type=number id=input_C_PO4_inf         value=5   > mg/L
 				<tr><td>[PO<sub>4</sub>]<sub>effluent</sub>                    <td><input type=number id=input_C_PO4_eff         value=0.1 > mg/L
-				<tr><td>Alkalinity                                             <td><input type=number id=input_Alkalinity        value=240 > mg/L as CaCO<sub>3</sub>
 				<tr><td>FeCl<sub>3</sub> solution                              <td><input type=number id=input_FeCl3_solution    value=37  > %
 				<tr><td>FeCl<sub>3</sub> unit weight                           <td><input type=number id=input_FeCl3_unit_weight value=1.35> kg/L
 				<tr><td>Time for supply to be<br>stored at the treatment facility <td><input type=number id=input_days              value=15  > days
@@ -274,33 +273,32 @@
 		var TP                = getInput('input_TP');
 		var C_PO4_inf         = getInput('input_C_PO4_inf');
 		var C_PO4_eff         = getInput('input_C_PO4_eff');
-		var Alkalinity        = getInput('input_Alkalinity');
 		var FeCl3_solution    = getInput('input_FeCl3_solution');
 		var FeCl3_unit_weight = getInput('input_FeCl3_unit_weight');
 		var days              = getInput('input_days');
 
 		//solve
-		var r = chem_P_removal(Q,TSS,TSS_removal_wo_Fe,TSS_removal_w_Fe,TP,C_PO4_inf,C_PO4_eff,Alkalinity,FeCl3_solution,FeCl3_unit_weight,days);
+		var r = chem_P_removal(Q,TSS,TSS_removal_wo_Fe,TSS_removal_w_Fe,TP,C_PO4_inf,C_PO4_eff,FeCl3_solution,FeCl3_unit_weight,days);
 
 		//show results
-		showResult('result_Fe_III_dose',                     r.Fe_III_dose);
-		showResult('result_primary_eff_P',                   r.primary_eff_P);
-		showResult('result_Fe_dose',                         r.Fe_dose);
-		showResult('result_amount_FeCl3_solution',           r.amount_FeCl3_solution);
-		showResult('result_FeCl3_volume',                    r.FeCl3_volume);
-		showResult('result_storage_req_15_d',                r.storage_req_15_d);
-		showResult('result_Additional_sludge',               r.Additional_sludge);
-		showResult('result_Fe_dose_M',                       r.Fe_dose_M);
-		showResult('result_P_removed',                       r.P_removed);
-		showResult('result_FeH2PO4OH_sludge',                r.FeH2PO4OH_sludge);
-		showResult('result_Excess_Fe_added',                 r.Excess_Fe_added);
-		showResult('result_FeOH3_sludge',                    r.FeOH3_sludge);
-		showResult('result_Excess_sludge',                   r.Excess_sludge);
-		showResult('result_Excess_sludge_kg',                r.Excess_sludge_kg);
-		showResult('result_Total_excess_sludge',             r.Total_excess_sludge);
-		showResult('sludge_production_wo_chemical_addition', r.sludge_production_wo_chemical_addition);
-		showResult('sludge_production_w_chemical_addition',  r.sludge_production_w_chemical_addition);
-		showResult('Vs_without',                             r.Vs_without);
-		showResult('Vs',                                     r.Vs);
+		showResult('result_Fe_III_dose',                     r.Fe_III_dose.value);
+		showResult('result_primary_eff_P',                   r.primary_eff_P.value);
+		showResult('result_Fe_dose',                         r.Fe_dose.value);
+		showResult('result_amount_FeCl3_solution',           r.amount_FeCl3_solution.value);
+		showResult('result_FeCl3_volume',                    r.FeCl3_volume.value);
+		showResult('result_storage_req_15_d',                r.storage_req_15_d.value);
+		showResult('result_Additional_sludge',               r.Additional_sludge.value);
+		showResult('result_Fe_dose_M',                       r.Fe_dose_M.value);
+		showResult('result_P_removed',                       r.P_removed.value);
+		showResult('result_FeH2PO4OH_sludge',                r.FeH2PO4OH_sludge.value);
+		showResult('result_Excess_Fe_added',                 r.Excess_Fe_added.value);
+		showResult('result_FeOH3_sludge',                    r.FeOH3_sludge.value);
+		showResult('result_Excess_sludge',                   r.Excess_sludge.value);
+		showResult('result_Excess_sludge_kg',                r.Excess_sludge_kg.value);
+		showResult('result_Total_excess_sludge',             r.Total_excess_sludge.value);
+		showResult('sludge_production_wo_chemical_addition', r.sludge_prod_without.value);
+		showResult('sludge_production_w_chemical_addition',  r.sludge_prod.value);
+		showResult('Vs_without',                             r.Vs_without.value);
+		showResult('Vs',                                     r.Vs.value);
 	}
 </script>

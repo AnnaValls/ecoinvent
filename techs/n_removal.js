@@ -3,7 +3,7 @@ Technology: N removal
 Metcalf & Eddy, Wastewater Engineering, 5th ed., 2014:
 page 810
 **/
-function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_basin_volume,Aerobic_T,Anoxic_mixing_energy,RAS,Ro,Ne){
+function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_basin_volume,Aerobic_T,Anoxic_mixing_energy,RAS,Ro,NO3_eff){
 	/*
 		Inputs                   example values 
 		---------------------------------------
@@ -21,19 +21,20 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
 			Anoxic_mixing_energy   5      kW/1000 m3
 			RAS                    0.6    unitless
 			Ro                     275.9  kgO2/h
-			Ne                     6      g/m3 (nitrate at effluent)
+			NO3_eff                6      g/m3 (nitrate at effluent)
 		---------------------------------------
 	*/
+	var Ne=NO3_eff;
 
 	//calculated parameters in previous implementations
 	var bHT = bH*Math.pow(1.04, T - 20); //correct bH by temperature
 	
 	//1
-	var Xb = Q*Aerobic_SRT*YH*bCOD/(1+bHT*Aerobic_SRT)/Aeration_basin_volume; //g/m3
+	var Xb = Q*Aerobic_SRT*YH*bCOD/(1 + bHT*Aerobic_SRT)/Aeration_basin_volume; //g/m3
 	//2
 	var IR = NOx/Ne - 1 - RAS;
 	//3
-	var Flowrate_to_anoxic_tank = Q*(IR+RAS); //m3/d
+	var Flowrate_to_anoxic_tank = Q*(IR + RAS); //m3/d
 	var NOx_feed = Flowrate_to_anoxic_tank*Ne; //g/d
 	//4
 	var tau = (0.20*Aerobic_T)/24; //d
@@ -99,24 +100,24 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
 
 	//results
 	return {
-		Xb:                         Xb,
-		IR:                         IR,
-		Flowrate_to_anoxic_tank:    Flowrate_to_anoxic_tank,
-		NOx_feed:                   NOx_feed,
-		tau:                        tau,
-		V_nox:                      V_nox,
-		FM_b:                       FM_b,
-		Fraction_of_rbCOD:          100*rbCOD/bCOD,
-		b0:                         b0,
-		b1:                         b1,
-		SDNR_b:                     SDNR_b,
-		SDNR_T:                     SDNR_T,
-		SDNR_adj:                   SDNR_adj,
-		SDNR:                       SDNR,
-		NO_r:                       NO_r,
-		Net_O2_required:            Net_O2_required,
-		Mass_of_alkalinity_needed:  Mass_of_alkalinity_needed,
-		Power:                      Power,
+		Xb:                         {value:Xb,                         unit:"g/m3",           descr:"Xb"},
+		IR:                         {value:IR,                         unit:"&empty;",        descr:"IR"},
+		Flowrate_to_anoxic_tank:    {value:Flowrate_to_anoxic_tank,    unit:"m3/d",           descr:"Flowrate_to_anoxic_tank"},
+		NOx_feed:                   {value:NOx_feed,                   unit:"g/d",            descr:"NOx_feed"},
+		tau:                        {value:tau,                        unit:"d",              descr:"tau"},
+		V_nox:                      {value:V_nox,                      unit:"m3",             descr:"V_nox"},
+		FM_b:                       {value:FM_b,                       unit:"g/g·d",          descr:"FM_b"},
+		Fraction_of_rbCOD:          {value:100*rbCOD/bCOD,             unit:"%",              descr:"Fraction_of_rbCOD"},
+		b0:                         {value:b0,                         unit:"g/g·d",          descr:"b0"},
+		b1:                         {value:b1,                         unit:"g/g·d",          descr:"b1"},
+		SDNR_b:                     {value:SDNR_b,                     unit:"g/g·d",          descr:"SDNR_b"},
+		SDNR_T:                     {value:SDNR_T,                     unit:"g/g·d",          descr:"SDNR_T"},
+		SDNR_adj:                   {value:SDNR_adj,                   unit:"g/g·d",          descr:"SDNR_adj"},
+		SDNR:                       {value:SDNR,                       unit:"g/g·d",          descr:"SDNR"},
+		NO_r:                       {value:NO_r,                       unit:"g/d",            descr:"NO_r"},
+		Net_O2_required:            {value:Net_O2_required,            unit:"kg_O2/d",        descr:"Net_O2_required"},
+		Mass_of_alkalinity_needed:  {value:Mass_of_alkalinity_needed,  unit:"kg/d_as_CaCO3",  descr:"Mass_of_alkalinity_needed"},
+		Power:                      {value:Power,                      unit:"kW",             descr:"Power"},
 	}
 }
 
@@ -139,7 +140,7 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
 	var Anoxic_mixing_energy   = 5    ;
 	var RAS                    = 0.6  ;
 	var Ro                     = 275.9;
-	var Ne                     = 6    ;
-	var result=N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_basin_volume,Aerobic_T,Anoxic_mixing_energy,RAS,Ro,Ne);
+	var NO3_eff                = 6    ;
+	var result=N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_basin_volume,Aerobic_T,Anoxic_mixing_energy,RAS,Ro,NO3_eff);
 	console.log(result);
 })();

@@ -322,6 +322,7 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 			Outputs.N2.air = (function(){
 				if(denitrification) {
 					var factor = 0.1*28/0.2/62; //TODO (0.2258) find reference for this factor
+					factor=1;
 					console.log(factor);
 					return Q*factor*(NOx - NOx_e);
 				}

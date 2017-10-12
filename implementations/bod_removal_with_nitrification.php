@@ -396,8 +396,9 @@
 				<tr><td>Y<sub>obs,TSS</sub> <td class=number><span id=part_A_Y_obs_TSS>?</span><td>g TSS/g BOD
 				<tr><td>Y<sub>obs,VSS</sub> <td class=number><span id=part_A_Y_obs_VSS>?</span><td>g VSS/g BOD
 				<tr><td>O<sub>2</sub> demand<td class=number><span id=part_A_R0>?  </span><td>kg O<sub>2</sub>/h
+				<tr><td>C<sub>T</sub>       <td class=number><span id=part_A_C_T>?  </span><td>mg O<sub>2</sub>/L
 				<tr><td>P<sub>b</sub>       <td class=number><span id=part_A_Pb>?  </span><td>m
-				<tr><td>C<sub>T</sub>       <td class=number><span id=part_C_T>?  </span><td>mg O<sub>2</sub>/L
+				<tr><td>C<sub>&infin;,20ºC</sub><td class=number><span id=part_A_C_inf_20>? </span><td>mg O<sub>2</sub>/L
 				<tr><td>SOTR                <td class=number><span id=part_A_SOTR>?</span><td>kg/h
 				<tr><td>Air flowrate        <td class=number><span id=part_A_air_flowrate>?</span><td>m<sup>3</sup>/min
 				<tr><th colspan=3>
@@ -422,7 +423,7 @@
 				<tr><td>O<sub>2</sub> demand    <td class=number><span id=part_B_R0>?  </span><td>kg O<sub>2</sub>/h
 				<tr><td>SOTR                    <td class=number><span id=part_B_SOTR>?</span><td>kg/h
 				<tr><td>Air flowrate            <td class=number><span id=part_B_air_flowrate>?</span><td>m<sup>3</sup>/min
-				<tr><td>NaHCO<sub>3</sub> added <td class=number><span id=part_B_alkalinity_to_be_added>?</span><td>kg/d as NaHCO<sub>3</sub>
+				<tr><td>NaHCO<sub>3</sub> added <td class=number><span id=part_B_alkalinity_added>?</span><td>kg/d as NaHCO<sub>3</sub>
 				<tr><td>BOD<sub>e</sub> estimate<td class=number><span id=part_B_BOD_eff>?</span><td>g/m<sup>3</sup>
 				<tr><th colspan=3>
 				<tr><th colspan=3>Secondary clarifier sizing
@@ -458,33 +459,33 @@
 
 		//(1) perform bod removal only
 		var r1=bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb,Pressure,Df);
-		console.log(r1);
 
 		//show results for part A
-		showResult('part_A_bCOD',         r1.bCOD);
-		showResult('part_A_nbCOD',        r1.nbCOD);
-		showResult('part_A_nbsCODe',      r1.nbsCODe);
-		showResult('part_A_nbVSS',        r1.nbVSS);
-		showResult('part_A_iTSS',         r1.iTSS);
-		showResult('part_A_mu_mT',        r1.mu_mT);
-		showResult('part_A_P_X_bio',      r1.P_X_bio);
-		showResult('part_A_P_X_VSS',      r1.P_X_VSS);
-		showResult('part_A_P_X_TSS',      r1.P_X_TSS);
-		showResult('part_A_X_VSS_V',      r1.X_VSS_V);
-		showResult('part_A_X_TSS_V',      r1.X_TSS_V);
-		showResult('part_A_V',            r1.V);
-		showResult('part_A_tau',          r1.tau);
-		showResult('part_A_MLVSS',        r1.MLVSS);
-		showResult('part_A_FM',           r1.FM);
-		showResult('part_A_BOD_loading',  r1.BOD_loading);
-		showResult('part_A_bCOD_removed', r1.bCOD_removed);
-		showResult('part_A_Y_obs_TSS',    r1.Y_obs_TSS);
-		showResult('part_A_Y_obs_VSS',    r1.Y_obs_VSS);
-		showResult('part_A_R0',           r1.OTRf);
-		showResult('part_A_Pb',           r1.Pb);
-		showResult('part_C_T',            r1.C_T);
-		showResult('part_A_SOTR',         r1.SOTR);
-		showResult('part_A_air_flowrate', r1.air_flowrate);
+		showResult('part_A_bCOD',         r1.bCOD.value);
+		showResult('part_A_nbCOD',        r1.nbCOD.value);
+		showResult('part_A_nbsCODe',      r1.nbsCODe.value);
+		showResult('part_A_nbVSS',        r1.nbVSS.value);
+		showResult('part_A_iTSS',         r1.iTSS.value);
+		showResult('part_A_mu_mT',        r1.mu_mT.value);
+		showResult('part_A_P_X_bio',      r1.P_X_bio.value);
+		showResult('part_A_P_X_VSS',      r1.P_X_VSS.value);
+		showResult('part_A_P_X_TSS',      r1.P_X_TSS.value);
+		showResult('part_A_X_VSS_V',      r1.X_VSS_V.value);
+		showResult('part_A_X_TSS_V',      r1.X_TSS_V.value);
+		showResult('part_A_V',            r1.V.value);
+		showResult('part_A_tau',          r1.tau.value);
+		showResult('part_A_MLVSS',        r1.MLVSS.value);
+		showResult('part_A_FM',           r1.FM.value);
+		showResult('part_A_BOD_loading',  r1.BOD_loading.value);
+		showResult('part_A_bCOD_removed', r1.bCOD_removed.value);
+		showResult('part_A_Y_obs_TSS',    r1.Y_obs_TSS.value);
+		showResult('part_A_Y_obs_VSS',    r1.Y_obs_VSS.value);
+		showResult('part_A_C_T',          r1.C_T.value);
+		showResult('part_A_Pb',           r1.Pb.value);
+		showResult('part_A_C_inf_20',     r1.C_inf_20.value);
+		showResult('part_A_R0',           r1.OTRf.value);
+		showResult('part_A_SOTR',         r1.SOTR.value);
+		showResult('part_A_air_flowrate', r1.air_flowrate.value);
 		//end results part A
 
 		//get inputs for nitrification
@@ -497,31 +498,30 @@
 
 		//(2) perform nitrification
 		var r2=nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pressure,Df,MLSS_X_TSS,Ne,sBODe,TSSe,Alkalinity);
-		console.log(r2);
 
 		//show results for part B
-		showResult('part_B_mu_AOB',                 r2.mu_AOB);
-		showResult('part_B_SRT_theoretical',        r2.SRT_theoretical);
-		showResult('part_B_SRT_design',             r2.SRT_design);
-		showResult('part_B_NOx',                    r2.NOx);
-		showResult('part_B_P_X_bio_VSS',            r2.P_X_bio_VSS);
-		showResult('part_B_P_X_VSS',                r2.P_X_VSS);
-		showResult('part_B_P_X_TSS',                r2.P_X_TSS);
-		showResult('part_B_X_VSS_V',                r2.X_VSS_V);
-		showResult('part_B_X_TSS_V',                r2.X_TSS_V);
-		showResult('part_B_V',                      r2.V);
-		showResult('part_B_tau',                    r2.tau);
-		showResult('part_B_MLVSS',                  r2.MLVSS);
-		showResult('part_B_FM',                     r2.FM);
-		showResult('part_B_BOD_loading',            r2.BOD_loading);
-		showResult('part_B_bCOD_removed',           r2.bCOD_removed);
-		showResult('part_B_Y_obs_TSS',              r2.Y_obs_TSS);
-		showResult('part_B_Y_obs_VSS',              r2.Y_obs_VSS);
-		showResult('part_B_R0',                     r2.OTRf);
-		showResult('part_B_SOTR',                   r2.SOTR);
-		showResult('part_B_air_flowrate',           r2.air_flowrate);
-		showResult('part_B_alkalinity_to_be_added', r2.alkalinity_to_be_added);
-		showResult('part_B_BOD_eff',                r2.BOD_eff);
+		showResult('part_B_mu_AOB',                 r2.mu_AOB.value);
+		showResult('part_B_SRT_theoretical',        r2.SRT_theoretical.value);
+		showResult('part_B_SRT_design',             r2.SRT_design.value);
+		showResult('part_B_NOx',                    r2.NOx.value);
+		showResult('part_B_P_X_bio_VSS',            r2.P_X_bio_VSS.value);
+		showResult('part_B_P_X_VSS',                r2.P_X_VSS.value);
+		showResult('part_B_P_X_TSS',                r2.P_X_TSS.value);
+		showResult('part_B_X_VSS_V',                r2.X_VSS_V.value);
+		showResult('part_B_X_TSS_V',                r2.X_TSS_V.value);
+		showResult('part_B_V',                      r2.V.value);
+		showResult('part_B_tau',                    r2.tau.value);
+		showResult('part_B_MLVSS',                  r2.MLVSS.value);
+		showResult('part_B_FM',                     r2.FM.value);
+		showResult('part_B_BOD_loading',            r2.BOD_loading.value);
+		showResult('part_B_bCOD_removed',           r2.bCOD_removed.value);
+		showResult('part_B_Y_obs_TSS',              r2.Y_obs_TSS.value);
+		showResult('part_B_Y_obs_VSS',              r2.Y_obs_VSS.value);
+		showResult('part_B_R0',                     r2.OTRf.value);
+		showResult('part_B_SOTR',                   r2.SOTR.value);
+		showResult('part_B_air_flowrate',           r2.air_flowrate.value);
+		showResult('part_B_alkalinity_added',       r2.alkalinity_added.value);
+		showResult('part_B_BOD_eff',                r2.BOD_eff.value);
 		//end results part B
 
 		//21: part C SECONDARY CLARIFIER SIZING (for both bod removal and nitrification)
@@ -529,14 +529,13 @@
 		var X_R        = getInput('parameter_X_R');                         //8000  g/m3
 		var clarifiers = getInput('parameter_clarifiers');                  //3     clarifiers
 		var r3         = sst_sizing(Q,SOR,X_R,clarifiers,MLSS_X_TSS);
-		console.log(r3);
 
 		//show results part C
-		showResult('part_C_RAS',                r3.RAS);
-		showResult('part_C_Area',               r3.Area);
-		showResult('part_C_area_per_clarifier', r3.area_per_clarifier);
-		showResult('part_C_clarifier_diameter', r3.clarifier_diameter);
-		showResult('part_C_Solids_loading',     r3.Solids_loading);
+		showResult('part_C_RAS',                r3.RAS.value);
+		showResult('part_C_Area',               r3.Area.value);
+		showResult('part_C_area_per_clarifier', r3.area_per_clarifier.value);
+		showResult('part_C_clarifier_diameter', r3.clarifier_diameter.value);
+		showResult('part_C_Solids_loading',     r3.Solids_loading.value);
 	};
 </script>
 
