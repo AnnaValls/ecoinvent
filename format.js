@@ -7,7 +7,6 @@
 
 /*return "3,999.4" instead of 3999.4*/
 function format(number,digits){
-
 	//if not specified, less digits for big numbers
 	if(!digits){
 		if     (Math.abs(number)> 10000){ digits=0 }
@@ -16,7 +15,6 @@ function format(number,digits){
 		else if(Math.abs(number)> 0.1  ){ digits=3 }
 		else if(Math.abs(number)<=0.1  ){ digits=6 }
 	}
-
 	//format number
 	var str=new Intl.NumberFormat('en-EN',{maximumFractionDigits:digits}).format(number);
 	return str;
@@ -51,9 +49,20 @@ var str2color = function(str) {
 		hash = str.charCodeAt(i) + ((hash << 5) - hash);
 	}
 	var colour = '#';
-	for (var i = 0; i < 3; i++) {
+	for (var i = 0; i<3; i++) {
 		var value = (hash >> (i * 8)) & 0xFF;
 		colour += ('00' + value.toString(16)).substr(-2);
 	}
 	return colour;
+}
+
+String.prototype.prettifyUnit=function(){
+	return this
+		.replace('m3','m<sup>3</sup>')
+		.replace('m2','m<sup>2</sup>')
+		.replace(/_/g,' ')
+		.replace('O3','O<sub>3</sub>')
+		.replace('O2','O<sub>2</sub>')
+		.replace('N2','N<sub>2</sub>')
+		.replace('CH4','CH<sub>4</sub>');
 }

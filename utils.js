@@ -4,6 +4,16 @@
 */
 
 /*
+	Fig 6-13, page 484 
+	for chem P removal technology
+	Fe/P mole ratio 
+	TODO
+*/
+function get_Fe_P_mole_ratio(){
+	return 3.3;
+}
+
+/*
 	Fig 8-38, page 874
 	get the rbCOD/P ratio from the VFA/rbCOD ratio
 	for P removal (biologically)

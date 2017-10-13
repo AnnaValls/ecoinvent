@@ -456,7 +456,7 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 					else            newRow.classList.add('help');
 					newRow.insertCell(-1).innerHTML=i.id;
 					newRow.insertCell(-1).outerHTML="<td class=number>"+format(i.value);
-					newRow.insertCell(-1).outerHTML="<td class=unit>"+i.unit.replace('m3','m<sup>3</sup>');
+					newRow.insertCell(-1).outerHTML="<td class=unit>"+i.unit.prettifyUnit();
 				});
 			})();
 
@@ -464,16 +464,12 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 			(function(){
 				var table=document.querySelector('table#outputs');
 				while(table.rows.length>2){table.deleteRow(-1)}
-				for(var output in Outputs) {
+				for(var output in Outputs){
 					var newRow=table.insertRow(-1);
-					newRow.insertCell(-1).innerHTML=output
-						.replace('O2','O<sub>2</sub>')
-						.replace('N2','N<sub>2</sub>')
-						.replace('CH4','CH<sub>4</sub>');
-
-					newRow.insertCell(-1).outerHTML="<td class=number>"+format(Outputs[output].water/1000);
-					newRow.insertCell(-1).outerHTML="<td class=number>"+format(Outputs[output].air/1000);
-					newRow.insertCell(-1).outerHTML="<td class=number>"+format(Outputs[output].sludge/1000);
+					newRow.insertCell(-1).innerHTML=output.prettifyUnit();
+					newRow.insertCell(-1).outerHTML="<td class=number>"+format(Outputs[output].water/1000);  //g to kg
+					newRow.insertCell(-1).outerHTML="<td class=number>"+format(Outputs[output].air/1000);    //g to kg 
+					newRow.insertCell(-1).outerHTML="<td class=number>"+format(Outputs[output].sludge/1000); //g to kg 
 				}
 			})();
 		}
@@ -525,7 +521,7 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 						else            newRow.classList.add('help');
 						newRow.insertCell(-1).innerHTML=i.id;
 						newRow.insertCell(-1).innerHTML="<input id='"+i.id+"' value='"+i.value+"' type=number onchange=setInput('"+i.id+"',this.value) min=0>"
-						newRow.insertCell(-1).outerHTML="<td class=unit>"+i.unit.replace('m3','m<sup>3</sup>');
+						newRow.insertCell(-1).outerHTML="<td class=unit>"+i.unit.prettifyUnit();
 					});
 				})();
 			</script>
@@ -546,7 +542,7 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 						else            newRow.classList.add('help');
 						newRow.insertCell(-1).innerHTML=i.id;
 						newRow.insertCell(-1).innerHTML="<input id='"+i.id+"' value='"+i.value+"' type=number onchange=setInput('"+i.id+"',this.value) min=0>"
-						newRow.insertCell(-1).outerHTML="<td class=unit>"+i.unit.replace('m3','m<sup>3</sup>');
+						newRow.insertCell(-1).outerHTML="<td class=unit>"+i.unit.prettifyUnit();
 					});
 				})();
 			</script>

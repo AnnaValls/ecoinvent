@@ -14,7 +14,8 @@
 			var is_ChP_active = getInput("ChP",true).value; //tech
 
 			//add result to Variables after a technology resolves
-			function showResults(tech, result){
+			function showResults(tech,result){
+				//tech: string, result: object
 				for(var res in result){
 					var value=result[res].value;
 					var unit =result[res].unit;
@@ -23,18 +24,17 @@
 					if(
 						Variables.filter(v=>{return (v.id==res && v.unit==unit && format(v.value)==format(value))}).length>0
 					){continue}
-					Variables.push({ id:res, value, unit, descr, tech, });
+					//add to variables
+					Variables.push({id:res,value,unit,descr,tech});
 				}
 			}
 
-			/*
-				TECHNOLOGY COMPOSITION CALLING
-			*/
+			/* TECHNOLOGY COMPOSITION CALLING */
 			//here results for each technology resolved are stored
 			var Result = { BOD:{}, Nit:{}, SST:{}, Des:{}, BiP:{}, ChP:{} }; 
 
 			//bod removal
-			if(is_BOD_active) {
+			if(is_BOD_active){
 				var BOD            = getInput('BOD').value; //140;
 				var sBOD           = getInput('sBOD').value; //70;
 				var COD            = getInput('COD').value; //300;
@@ -50,7 +50,7 @@
 				var Pressure       = getInput('Pressure').value; //95600;
 				var Df             = getInput('Df').value; //4.4;
 				var NOx            = 0;
-				Result.BOD = bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb,Pressure,Df);
+				Result.BOD=bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb,Pressure,Df);
 				showResults('BOD',Result.BOD);
 
 				//Nit --- bod + nitrification
@@ -61,7 +61,7 @@
 					var sBODe      = getInput('sBODe').value; //3;
 					var TSSe       = getInput('TSSe').value; //10;
 					var Alkalinity = getInput('Alkalinity').value; //140;
-					Result.Nit = nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pressure,Df,MLSS_X_TSS,Ne,sBODe,TSSe,Alkalinity);
+					Result.Nit=nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pressure,Df,MLSS_X_TSS,Ne,sBODe,TSSe,Alkalinity);
 					showResults('Nit',Result.Nit);
 				}
 
@@ -70,7 +70,7 @@
 					var SOR        = getInput('SOR').value;
 					var X_R        = getInput('X_R').value;
 					var clarifiers = getInput('clarifiers').value;
-					Result.SST = sst_sizing(Q, SOR, X_R, clarifiers, MLSS_X_TSS);
+					Result.SST=sst_sizing(Q,SOR,X_R,clarifiers,MLSS_X_TSS);
 					showResults('SST',Result.SST);
 				}
 
@@ -88,22 +88,22 @@
 					var RAS                   = Result.SST.RAS.value; //0.6
 					var R0                    = Result.Nit.OTRf.value; //275.9;
 					var NO3_eff               = getInput('NO3_eff').value; //6
-					Result.Des = N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_basin_volume,Aerobic_T,Anoxic_mixing_energy,RAS,R0,NO3_eff);
+					Result.Des=N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_basin_volume,Aerobic_T,Anoxic_mixing_energy,RAS,R0,NO3_eff);
 					showResults('Des',Result.Des);
 				}
 
 				//BiP --- bod + (nitrification) + sst + (denitrification) + bioP
 				if(is_BiP_active){
-					var bCOD            = Result.BOD.bCOD.value; //250
-					var rbCOD           = getInput('rbCOD').value; //80
-					var VFA             = getInput('VFA').value; //15
-					var nbVSS           = Result.BOD.nbVSS.value; //20
-					var iTSS            = Result.BOD.iTSS.value; //10
-					var TP              = getInput('TP').value; //6
+					var bCOD            = Result.BOD.bCOD.value;             //250
+					var rbCOD           = getInput('rbCOD').value;           //80
+					var VFA             = getInput('VFA').value;             //15
+					var nbVSS           = Result.BOD.nbVSS.value;            //20
+					var iTSS            = Result.BOD.iTSS.value;             //10
+					var TP              = getInput('TP').value;              //6
 					var rbCOD_NO3_ratio = getInput('rbCOD_NO3_ratio').value; //5.2
 					var NOx             = is_Nit_active ? Result.Nit.NOx.value : 0; //28.9
 					var NO3_eff         = getInput('NO3_eff').value; //6
-					Result.BiP = bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,rbCOD_NO3_ratio,NOx,NO3_eff);
+					Result.BiP=bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,rbCOD_NO3_ratio,NOx,NO3_eff);
 					showResults('BiP',Result.BiP);
 				}
 
@@ -117,7 +117,7 @@
 					var FeCl3_solution    = getInput('FeCl3_solution').value; //37  
 					var FeCl3_unit_weight = getInput('FeCl3_unit_weight').value; //1.35
 					var days              = getInput('days').value; //15  
-					Result.ChP = chem_P_removal(Q,TSS,TSS_removal_wo_Fe,TSS_removal_w_Fe,TP,C_PO4_inf,C_PO4_eff,FeCl3_solution,FeCl3_unit_weight,days);
+					Result.ChP=chem_P_removal(Q,TSS,TSS_removal_wo_Fe,TSS_removal_w_Fe,TP,C_PO4_inf,C_PO4_eff,FeCl3_solution,FeCl3_unit_weight,days);
 					showResults('ChP',Result.ChP);
 				}
 			}else if(is_BOD_active==false){
@@ -126,9 +126,9 @@
 
 			/*
 				OUTPUTS by phase (water, air, sludge)
-				IMPORTANT: all Outputs should be in g/d (frontend functions turn them to kg/d)
+				important: all Outputs should be in g/d (frontend functions turn them to kg/d)
 			*/
-			if(typeof(Q)=='undefined'){var Q=0;}
+			if(typeof(Q)=='undefined'){var Q=0}
 
 			//Outputs.COD
 			if(typeof(COD)=="undefined"){var COD=0;}
@@ -207,11 +207,11 @@
 			{id:"BiP", value:false, descr:"Biological P removal" },
 			{id:"ChP", value:false, descr:"Chemical P removal"   },
 		];
-		var Inputs_current_combination = [ ]; //filled in frontend
-		var Design = [ ];                     //TODO filled in frontend
+		var Inputs_current_combination=[ ]; //filled in frontend
+		var Design=[ ];                     //TODO filled in frontend
 
 		/* Get an input or technology by id */
-		function getInput(id,isTechnology) {
+		function getInput(id,isTechnology){
 			isTechnology=isTechnology||false;
 			var ret;
 			if(isTechnology){
@@ -231,16 +231,13 @@
 		}
 
 		/* Set an input or technology by id */
-		function setInput(id,newValue,isTechnology) {
+		function setInput(id,newValue,isTechnology){
 			isTechnology=isTechnology||false;
-
 			if(isTechnology) getInput(id,isTechnology).value=newValue;
 			else             getInput(id,isTechnology).value=parseFloat(newValue);
-
 			init();
-
 			//focus again after init()
-			if(isTechnology==false){ document.getElementById(id).select() }
+			if(isTechnology==false){document.getElementById(id).select()}
 		}
 
 		/* Toggle technology active/inactive by id */
@@ -289,7 +286,7 @@
 				// disable denitri
 				// disable bioP
 				// disable chemP
-				if(getInput('BOD',true).value==false) {
+				if(getInput('BOD',true).value==false){
 					getInput('SST',true).value=false;
 					getInput('Nit',true).value=false;
 					getInput('Des',true).value=false;
@@ -301,10 +298,11 @@
 				}
 
 				//denitri only if nitri
-				if(getInput('Nit',true).value==false) {
+				if(getInput('Nit',true).value==false){
 					getInput('Des',true).value=false;
 				}
 			})();
+
 			(function set_current_inputs(){
 				//find current inputs from the technology combination
 				var current_combination=['Pri','BOD','SST','Nit','Des','BiP','ChP'].filter(tec=>{return getInput(tec,true).value});
@@ -329,7 +327,7 @@
 				});
 			})();
 
-			Variables=[];
+			Variables = [ ];
 			compute_elementary_flows();
 
 			/*
@@ -367,7 +365,7 @@
 						else            newRow.classList.add('help');
 						newRow.insertCell(-1).innerHTML="<small>"+i.id;
 						newRow.insertCell(-1).innerHTML="<input id='"+i.id+"' value='"+i.value+"' type=number onchange=setInput('"+i.id+"',this.value) min=0>"
-						newRow.insertCell(-1).outerHTML="<td class=unit>"+i.unit.replace('m3','m<sup>3</sup>');
+						newRow.insertCell(-1).outerHTML="<td class=unit>"+i.unit.prettifyUnit();
 					});
 				})();
 
@@ -385,7 +383,7 @@
 						else            newRow.classList.add('help');
 						newRow.insertCell(-1).innerHTML="<small>"+i.id;
 						newRow.insertCell(-1).innerHTML="<input id='"+i.id+"' value='"+i.value+"' type=number onchange=setInput('"+i.id+"',this.value) min=0>"
-						newRow.insertCell(-1).outerHTML="<td class=unit>"+i.unit.replace('m3','m<sup>3</sup>');
+						newRow.insertCell(-1).outerHTML="<td class=unit>"+i.unit.prettifyUnit();
 					});
 				})();
 
@@ -402,15 +400,9 @@
 						else            newRow.classList.add('help');
 						newRow.style.background=str2color(i.tech+i.tech);
 						newRow.insertCell(-1).outerHTML="<td title='"+Technologies[i.tech].Name+"'><small>"+i.tech+"</small>";
-						newRow.insertCell(-1).outerHTML="<td class=help title='"+i.descr+"'><small>"+i.id.substr(0,21);
+						newRow.insertCell(-1).outerHTML="<td class=help title='"+i.descr+"'><small>"+i.id;
 						newRow.insertCell(-1).outerHTML="<td class=number>"+format(i.value);
-						newRow.insertCell(-1).outerHTML="<td class=unit>"+i.unit
-							.replace('m3','m<sup>3</sup>')
-							.replace('m2','m<sup>2</sup>')
-							.replace(/_/g,' ')
-							.replace('O3','O<sub>3</sub>')
-							.replace('O2','O<sub>2</sub>')
-							;
+						newRow.insertCell(-1).outerHTML="<td class=unit>"+i.unit.prettifyUnit();
 					});
 				})();
 
@@ -420,11 +412,7 @@
 					while(table.rows.length>2){table.deleteRow(-1)}
 					for(var output in Outputs) {
 						var newRow=table.insertRow(-1);
-						newRow.insertCell(-1).innerHTML=output
-							.replace('O2','O<sub>2</sub>')
-							.replace('N2','N<sub>2</sub>')
-							.replace('CH4','CH<sub>4</sub>');
-
+						newRow.insertCell(-1).innerHTML=output.prettifyUnit();
 						newRow.insertCell(-1).outerHTML="<td class=number>"+format(Outputs[output].effluent.water/1000);
 						newRow.insertCell(-1).outerHTML="<td class=number>"+format(Outputs[output].effluent.air/1000);
 						newRow.insertCell(-1).outerHTML="<td class=number>"+format(Outputs[output].effluent.sludge/1000);
@@ -452,8 +440,8 @@
 			})();
 
 			//MASS BALANCES (end part)
-			(function do_mass_balances() {
-				function setBalance(element,influent,water,air,sludge) {
+			(function do_mass_balances(){
+				function setBalance(element,influent,water,air,sludge){
 					document.querySelector('#mass_balances #'+element+' td[phase=influent]').innerHTML=format(influent/1000);
 					document.querySelector('#mass_balances #'+element+' td[phase=water]').innerHTML=format(water/1000);
 					document.querySelector('#mass_balances #'+element+' td[phase=air]').innerHTML=format(air/1000);
@@ -465,7 +453,7 @@
 					el.innerHTML = format(percent,2)+" %";
 
 					//red warning if percent is greater than 5%
-					if(percent>5){ el.style.color='red'; }else{ el.style.color='green'; }
+					if(percent>5){el.style.color='red'}else{el.style.color='green'}
 				}
 
 				var table=document.querySelector('table#mass_balances');
@@ -503,40 +491,30 @@
 <h1>Elementary Flows</h1>
 
 <!--TASKS-->
-<div id=tasks>
-	<p style=color:red>Implementation in progress as <?php echo date("M-d-Y") ?></p> 
-	<b>Tasks and questions</b>
-	<button onclick="document.querySelector('#tasks').style.display='none';">hide tasks and questions</button>
-	<p><b>Tasks for this page</b></p>
+<div id=tasks><hr> 
+	<p>
+		<b>Tasks and questions</b>
+		<button onclick="document.querySelector('#tasks').style.display='none';">hide tasks and questions</button>
+	</p>
+
+	<p><b>This page</b></p>
 	<ul>
-		<li>[to do] Add variable descriptions
-		<li>[to do] Calculate outputs
-		<li>[see questions] Implement primary treatment
+		<li>[TO DO] Calculate outputs
+		<li>[TO DO] Implement primary treatment
 	</ul>
 
-	<p><b>Lluís Bosch's questions for experts</b></p>
+	<p><b>Questions for experts</b></p>
 	<ul>
 		<li>Regarding these equations not from Metcalf (still not implemented): reference required (book, pages)
 			<ul>
-				<li>rbCOD = 0.32*bCOD (if primary effluent)
-				<li>rbCOD = 0.2*bCOD  (if not primary effluent)
-				<li>VFA   = 0.15*rbCOD
-				<li>problem: in metcalf Bio P removal a parameter VFA/rbCOD is calculated, is not a constant
-			</ul>
-		<li>Regarding P removal
-			<ul>
-				<li>can we have P removal (bio or chem) without nitrification/denitrification?
-				<li>can we have Bio P removal and Chem P simultaneously? which one calculate first ? (if it matters)
+				<li>rbCOD   = 0.32*bCOD (if primary effluent)
+				<li>rbCOD   = 0.2*bCOD  (if not primary effluent)
+				<li>VFA     = 0.15*rbCOD
+				<li>problem : in metcalf Bio P removal a parameter VFA/rbCOD is calculated, is not a constant
 			</ul>
 		</li>
 	</ul>
 </div><hr> 
-
-<div>
-	<!-- button toggle sorting 
-	<button onclick=toggleSorting()>Sort A-Z</button>
-	-->
-</div>
 
 <!--inputs and outputs scaffold-->
 <div style="display:flex;flex-wrap:wrap">
@@ -560,8 +538,6 @@
 			<table id=design border=1>
 				<tr><th>Input<th>Value<th>Unit
 			</table>
-			<script>
-			</script>
 		</div>
 	</div><hr>
 
@@ -579,7 +555,7 @@
 
 	<!--outputs-->
 	<div>
-		<p><b>3. Outputs (calculated from Variables)</b></p>
+		<p><b>3. Outputs</b></p>
 		<!--effluent phases-->
 		<div>
 			<p>3.1. Effluent [TO DO]</p>
@@ -587,9 +563,7 @@
 				<tr>
 					<th rowspan=2>Compound
 					<th colspan=3>Effluent phase (kg/d)
-				<tr>
-					<th>Water<th>Air<th>Sludge
-				</tr>
+				<tr> <th>Water<th>Air<th>Sludge
 			</table>
 		</div>
 
@@ -599,11 +573,9 @@
 			<table id=mass_balances border=1>
 				<tr><th rowspan=2>Element<th rowspan=2>Influent (kg/d)<th colspan=3>Effluent (kg/d)
 					<th rowspan=2>
-						|Difference| <br>mass balance (%)
-						<br>
-						<small>
-							1-[water+air+sludge]/Influent
-						</small>
+						|Difference| <br>mass balance (%) <br>
+						<small> 1-[water+air+sludge]/Influent </small>
+					</th>
 				<tr><th>Water<th>Air<th>Sludge  
 				<tr id=C><td align=center>C <td phase=influent>Q·COD <td phase=water>1:1     <td phase=air>2:2     <td phase=sludge>1:3     <td phase=balance>A-B-C-D
 				<tr id=N><td align=center>N <td phase=influent>Q·TKN <td phase=water>4:1+5:1 <td phase=air>6:2+7:2 <td phase=sludge>4:3+5:3 <td phase=balance>A-B-C-D
@@ -614,9 +586,7 @@
 
 		<!--generate ecospold file-->
 		<div style=margin-top:10px>
-			<a href=ecospold.php>
-				Save results as ecoSpold file
-			</a>
+			<a href=ecospold.php> Save results as ecoSpold file </a>
 		</div>
 	</div>
 </div>
