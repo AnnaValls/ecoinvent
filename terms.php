@@ -15,10 +15,11 @@
 <script>
 	(function(){
 		var table=document.querySelector('table#terms');
-		Terms.forEach(term=>{
+		for(t in Terms){
+			var term=Terms[t];
 			var newRow=table.insertRow(-1);
-			newRow.insertCell(-1).innerHTML=term.name;
+			newRow.insertCell(-1).innerHTML=t;
 			newRow.insertCell(-1).innerHTML=term.descr;
-		});
+		};
 	})();
 </script>

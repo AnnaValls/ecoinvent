@@ -4,25 +4,10 @@ Expected web tool finish: October 31 2017
 ## Tasks
 ### backend tasks
 - [1][DOING] ecospold generation code in Javascript
-  - [PROCESSED] Pascal + Lluis B. meeting 11/10/2017 notes:
-		```
-			- file spold2_writer_functions.py:
-				- 1. create_empty_dataset()
-					status: revised (added default fields to empty.spold file)
-
-				- 2. recursive_rendering() ( inside 3. )
-					status: revised (nothing done)
-
-				- 3. generateEcospold2()
-					status: revised (nothing done)
-
-			- file spold2_writer_test.py
-				- description: boiler plate for ecospold generation
-				- status: [doing]
-		```
 	- [TO PROCESS] Pascal + Lluis B. meeting 12/10/2017 notes:
 		```
 			1. check for equivalent library in javascript as jinja2 for python
+				jinja is a template engine for python
 			2. check file "spold2_writer_test_batch_1"
 
 			3. get master data dictionary: look at the existing master data files
@@ -51,7 +36,7 @@ Expected web tool finish: October 31 2017
 		```
 - [2][DOING] implementation elementary flows (lcorominas equations)
 - [2][DOING] implementation elementary flows (complete version)
-	- [TO DO] Add variable descriptions
+	- [TO DO] Finish adding variable descriptions to each technology
 	- [TO DO] Calculate outputs
 - [TO DO] implement Fe/P mole ratio from figure 6-13 (page 484), for chem P removal technology
 - [ON HOLD] implement "simple treat" equations for other elementary flows factors
