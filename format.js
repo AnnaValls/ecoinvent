@@ -42,6 +42,18 @@ function showResult(id,value){
 	}
 }
 
+String.prototype.prettifyUnit=function(){
+	return this
+		.replace('m3','m<sup>3</sup>')
+		.replace('m2','m<sup>2</sup>')
+		.replace(/_/g,' ')
+		.replace('O3','O<sub>3</sub>')
+		.replace('O2','O<sub>2</sub>')
+		.replace('N2','N<sub>2</sub>')
+		.replace('CH4','CH<sub>4</sub>')
+		.replace('NOx','NO<sub>x</sub>');
+}
+
 //string to color
 var str2color = function(str) {
 	var hash = 0;
@@ -56,13 +68,3 @@ var str2color = function(str) {
 	return colour;
 }
 
-String.prototype.prettifyUnit=function(){
-	return this
-		.replace('m3','m<sup>3</sup>')
-		.replace('m2','m<sup>2</sup>')
-		.replace(/_/g,' ')
-		.replace('O3','O<sub>3</sub>')
-		.replace('O2','O<sub>2</sub>')
-		.replace('N2','N<sub>2</sub>')
-		.replace('CH4','CH<sub>4</sub>');
-}

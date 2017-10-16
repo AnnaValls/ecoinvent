@@ -9,31 +9,31 @@
 var Inputs = [
 
 //bod removal
-{id:"Q",              value:22700, unit:"m3/d",                 descr:"Flowrate"                           },
-{id:"T",              value:12,    unit:"ºC",                   descr:"Temperature"                        },
+{id:"Q",              value:22700, unit:"m3/d",                   descr:"Flowrate"                           },
+{id:"T",              value:12,    unit:"ºC",                     descr:"Temperature"                        },
 {id:"SRT",            value:5,     unit:"d",    isParameter:true, descr:"Solids Retention Time"              },
-{id:"BOD",            value:140,   unit:"g/m3",                 descr:"Total 5d biochemical oxygen demand" },
-{id:"sBOD",           value:70,    unit:"g/m3",                 descr:"Soluble BOD"                        },
-{id:"COD",            value:300,   unit:"g/m3",                 descr:"Total chemical oxygen demand"       },
-{id:"sCOD",           value:132,   unit:"g/m3",                 descr:"Soluble COD"                        },
-{id:"TSS",            value:70,    unit:"g/m3",                 descr:"Total suspended solids"             },
-{id:"VSS",            value:60,    unit:"g/m3",                 descr:"Volatile suspended solids"          },
-{id:"bCOD_BOD_ratio", value:1.6,   unit:"g/g",                  descr:"bCOD/BOD ratio"                     },
-{id:"MLSS_X_TSS",     value:3000,  unit:"g/m3",                 descr:"Mixed liquor suspended solids"      },
+{id:"BOD",            value:140,   unit:"g/m3",                   descr:"Total 5d biochemical oxygen demand" },
+{id:"sBOD",           value:70,    unit:"g/m3",                   descr:"Soluble BOD"                        },
+{id:"COD",            value:300,   unit:"g/m3",                   descr:"Total chemical oxygen demand"       },
+{id:"sCOD",           value:132,   unit:"g/m3",                   descr:"Soluble COD"                        },
+{id:"TSS",            value:70,    unit:"g/m3",                   descr:"Total suspended solids"             },
+{id:"VSS",            value:60,    unit:"g/m3",                   descr:"Volatile suspended solids"          },
+{id:"bCOD_BOD_ratio", value:1.6,   unit:"g/g",                    descr:"bCOD/BOD ratio"                     },
+{id:"MLSS_X_TSS",     value:3000,  unit:"g/m3", isParameter:true, descr:"Mixed liquor suspended solids"      },
 {id:"zb",             value:500,   unit:"m",    isParameter:true, descr:"Site elevation"                     },
 {id:"Pressure",       value:95600, unit:"Pa",   isParameter:true, descr:"Pressure at site elevation"         },
 {id:"Df",             value:4.4,   unit:"m",    isParameter:true, descr:"Liquid depth for aeration basin minus distance between tank bottom and point of air release for the  diffusers.  For  example:  4.9  m  -  0.5  m  =  4.4  m" },
 
 //nitrification
-{id:"TKN",        value:35,   unit:"g/m3",                          descr:"Total Kjedahl nitrogen"                 },
-{id:"SF",         value:1.5,  unit:"&empty;",                       descr:"Peak to average TKN load : Safety factor for compute a design SRT (= SF·SRT_theoretical), (where  SRT_theoretical  =  1/µAOB)",  },
+{id:"TKN",        value:35,   unit:"g/m3",                            descr:"Total Kjedahl nitrogen"                 },
+{id:"SF",         value:1.5,  unit:"&empty;",                         descr:"Peak to average TKN load : Safety factor for compute a design SRT (= SF·SRT_theoretical), (where  SRT_theoretical  =  1/µAOB)",  },
 {id:"Ne",         value:0.50, unit:"g/m3",          isParameter:true, descr:"Effluent design NH4",   },
 {id:"sBODe",      value:3,    unit:"g/m3",          isParameter:true, descr:"Effluent design Soluble BOD"            },
 {id:"TSSe",       value:10,   unit:"g/m3",          isParameter:true, descr:"Effluent design Total suspended solids" },
-{id:"Alkalinity", value:140,  unit:"g/m3_as_CaCO3",                 descr:"Influent alkalinity"                    },
+{id:"Alkalinity", value:140,  unit:"g/m3_as_CaCO3",                   descr:"Influent alkalinity"                    },
 
 //N removal
-{id:"rbCOD",                value:80, unit:"g/m3",                       descr:"Readily biodegradable COD"         },
+{id:"rbCOD",                value:80, unit:"g/m3",                         descr:"Readily biodegradable COD"         },
 {id:"Anoxic_mixing_energy", value:5,  unit:"kW/1000_m3", isParameter:true, descr:"Mixing energy for anoxic reactor"  },
 {id:"NO3_eff",              value:6,  unit:"g/m3",       isParameter:true, descr:"Effluent design NO3 concentration" },
 

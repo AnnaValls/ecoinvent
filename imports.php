@@ -35,6 +35,10 @@
 		margin:0 auto;
 		max-width:80em;
 		overflow-y:scroll;
+		margin-bottom:50px;
+	}
+	a:visited{
+		color:rgb(0,0,238);
 	}
 	#root {
 		margin-left:8px;

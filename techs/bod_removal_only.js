@@ -1,8 +1,8 @@
-/** 
-Technology: BOD removal only 
-Metcalf & Eddy, Wastewater Engineering, 5th ed., 2014:
-pages 756-768
-**/
+/* 
+ * Technology: BOD removal only 
+ * Metcalf & Eddy, Wastewater Engineering, 5th ed., 2014:
+ * pages 756-768
+ */
 function bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb,Pressure,Df){
 	/*
 		Inputs            example values 
@@ -28,11 +28,11 @@ function bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_
 		var beta   = 0.95;  //8.b
 	//end
 
-	/*compute results*/
+	/*SOLUTION*/
 	//part A: bod removal without nitrification
 		var bCOD = bCOD_BOD_ratio * BOD; //g/m3
 		var nbCOD = COD - bCOD; //g/m3
-		var nbsCODe = sCOD - bCOD_BOD_ratio * sBOD; //g/m3
+		var nbsCODe = sCOD - bCOD_BOD_ratio*sBOD; //g/m3
 		var nbpCOD = COD - bCOD - nbsCODe; //g/m3
 		var VSS_COD = (COD-sCOD)/VSS; //g_COD/g_VSS
 		var nbVSS = nbpCOD/VSS_COD; //g/m3

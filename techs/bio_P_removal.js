@@ -1,8 +1,8 @@
-/** 
-Technology: Biological P removal
-Metcalf & Eddy, Wastewater Engineering, 5th ed., 2014:
-page 880
-**/
+/* 
+ * Technology: Biological P removal
+ * Metcalf & Eddy, Wastewater Engineering, 5th ed., 2014:
+ * page 880
+ */
 function bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,rbCOD_NO3_ratio,NOx,NO3_eff){
 	/*
 		Inputs            example values 
@@ -28,8 +28,9 @@ function bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,rbCOD_NO3_ratio,NOx,
 	var RQ_NO3_N = 0.50*Q*NO3_eff; //12,000 g/d
 	var rbCOD_used_by_NO3 = rbCOD_NO3_ratio * RQ_NO3_N; //62,400 g/d
 	var rbCOD_available = Q_rbCOD - rbCOD_used_by_NO3; //237,600 g/d
+
 	//2
-	var VFA_rbCOD_ratio = VFA / rbCOD; //0.20 no unit
+	var VFA_rbCOD_ratio = VFA / rbCOD; //0.20 no unit (0.15 in biowin)
 	var rbCOD_P_ratio = get_rbCOD_P_ratio(VFA_rbCOD_ratio); //15: implemented fig 8-38 at "utils.js"
 	var rbCOD_available_normalized = rbCOD_available/Q; //59.4 g/m3
 	var P_removal_EBPR = rbCOD_available_normalized/rbCOD_P_ratio; //4 g/m3 (page 881)

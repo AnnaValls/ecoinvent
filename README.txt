@@ -40,8 +40,11 @@ Expected web tool finish: October 31 2017
 	- [TO DO] Calculate outputs
 - [TO DO] implement Fe/P mole ratio from figure 6-13 (page 484), for chem P removal technology
 - [ON HOLD] implement "simple treat" equations for other elementary flows factors
+- [TO DO] some constants in constants.js are design choices, like C_L
+- [TO DO] use Qe (Q-Qwas) in equations ("elementary.php")
 
 ### frontend tasks
+- Add equations in a "profile page" for each
 - [TO DO] Add descriptions in technology results
 - [TO DO] save inputs and technologies chosen in cookies
 

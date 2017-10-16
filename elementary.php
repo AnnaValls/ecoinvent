@@ -22,9 +22,9 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 			{id:"sBOD",           value:70,    unit:"g/m3", descr:"Soluble BOD"},
 			{id:"VSS",            value:60,    unit:"g/m3", descr:"Volatile suspended solids"},
 			{id:"TSS",            value:70,    unit:"g/m3", descr:"Total suspended solids"},
-			{id:"TKN",            value:35,    unit:"g/m3", descr:"Total Kjedahl nitrogen"},
-			{id:"TP",             value:6,     unit:"g/m3", descr:"Total phosphorus"},
-			{id:"TS",             value:10,    unit:"g/m3", descr:"Total sulfur"},
+			{id:"TKN",            value:35,    unit:"g_N/m3", descr:"Total Kjedahl nitrogen"},
+			{id:"TP",             value:6,     unit:"g_P/m3", descr:"Total phosphorus"},
+			{id:"TS",             value:10,    unit:"g_S/m3", descr:"Total sulfur"},
 			{id:"bCOD_BOD_ratio", value:1.6,   unit:"g/g",  descr:"bCOD/BOD ratio"},
 		];
 		var Design=[
@@ -32,8 +32,8 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 			{id:"MLSS_X_TSS", value:3000, unit:"g/m3", descr:"Mixed liquor suspended solids"},
 			{id:"TSS_was",    value:8000, unit:"g/m3", descr:"MLSS at the bottom of the settler"},
 			{id:"TSSe",       value:1,    unit:"g/m3", descr:"Effluent design Total suspended solids"},
-			{id:"Ne",         value:0.50, unit:"g/m3", descr:"Effluent design NH4"},
-			{id:"NOx_e",      value:4,    unit:"g/m3", descr:"Effluent design NOx"},
+			{id:"Ne",         value:0.50, unit:"g_N/m3", descr:"Effluent design NH4"},
+			{id:"NOx_e",      value:4,    unit:"g_N/m3", descr:"Effluent design NOx"},
 			{id:"PO4_e",      value:2,    unit:"g/m3", descr:"Effluent design PO4"},
 		];
 		var Technologies=[
@@ -196,7 +196,7 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 			/*equations start*/
 			var bCOD = bCOD_BOD_ratio*BOD; 
 			var nbCOD = COD - bCOD;        
-			var nbsCODe = sCOD - bCOD_BOD_ratio*sBOD
+			var nbsCODe = sCOD - bCOD_BOD_ratio*sBOD;
 			var nbpCOD = COD - bCOD - nbsCODe;
 			var VSS_COD = (COD-sCOD)/VSS;
 			var nbVSS = nbpCOD/VSS_COD;
@@ -221,6 +221,8 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 			var MLVSS = X_VSS_V/X_TSS_V*MLSS_X_TSS;
 			var VSSe = TSSe*0.85
 			var Qwas = (V_reactor*MLSS_X_TSS/SRT - Q*TSSe)/(TSS_was - TSSe);
+
+			var Qe = Q - Qwas; //TODO use in equations (waiting lcorominas)
 
 			//TABLE 3
 			//inputs
@@ -284,17 +286,22 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 			Outputs.CH4.sludge = 0;
 
 			//Outputs.TKN
-			var sTKNe = Ne*Q + nbsON*Q; //g/d
-
-			Outputs.TKN.water = (function(){
-				if(nitrification){
-					return sTKNe + Q*VSSe*0.12;
-				}else{
-					return Q*TKN - 0.12*P_X_bio*1000 - Q*VSSe*0.12;
-				}
-			})();
-			Outputs.TKN.air=0;
-			Outputs.TKN.sludge = 0.12*P_X_bio*1000 + Qwas*sTKNe/Q;
+				var sTKNe = Q*(Ne + nbsON); //g/d
+				Outputs.TKN.water = (function(){
+					if(nitrification){
+						return sTKNe + Q*VSSe*0.12;
+					}else{
+						//corrected 2017-10-13
+						return Q*TKN - 0.12*P_X_bio*1000 - Q*nbpON - Q*TKN_N2O + 0.12*Q*VSSe;
+					}
+				})();
+				Outputs.TKN.air=0;
+				Outputs.TKN.sludge = (function(){
+					var A = 0.12*P_X_bio*1000 
+					var B = Qwas*sTKNe/Q;
+					var C = Q*nbpON;
+					return A+B+C;
+				})();
 
 			//Outputs.NOx
 			Outputs.NOx.water=(function(){
@@ -321,10 +328,7 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 			Outputs.N2.water=0;
 			Outputs.N2.air = (function(){
 				if(denitrification) {
-					var factor = 0.1*28/0.2/62; //TODO (0.2258) find reference for this factor
-					factor=1;
-					console.log(factor);
-					return Q*factor*(NOx - NOx_e);
+					return Q*(NOx - NOx_e);
 				}
 				else
 					return 0;
@@ -579,7 +583,7 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 			<table id=mass_balances border=1>
 				<tr><th rowspan=2>Element<th rowspan=2>Influent (kg/d)<th colspan=3>Effluent (kg/d)
 					<th rowspan=2>
-						|Difference| <br>mass balance (%)
+						|Error|<br>in mass balance (%)
 						<br>
 						<small>
 							1-[water+air+sludge]/Influent
@@ -606,11 +610,7 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 						el.innerHTML=format(percent,2)+" %";
 
 						//warning
-						if(percent>5){
-							el.style.color='red';
-						}else{
-							el.style.color='green';
-						}
+						if(percent>1){el.style.color='red'}else{el.style.color='green'}
 					}
 
 					var table=document.querySelector('table#mass_balances');

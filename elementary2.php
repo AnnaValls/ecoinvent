@@ -3,6 +3,7 @@
 	<title>Elementary Flows 2</title>
 	<!--backend function-->
 	<script>
+		var tech_BOD_default = true;
 		function compute_elementary_flows(){
 			//technology booleans
 			var is_Pri_active = getInput("Pri",true).value; //tech
@@ -200,7 +201,7 @@
 		 */
 		var Technologies_selected=[
 			{id:"Pri", value:false, descr:"Primary treatment"    }, //not a real technology, just modifies [rbCOD = Pri ? 0.32*bCOD : 0.32*bCOD]
-			{id:"BOD", value:false, descr:"BOD removal"          },
+			{id:"BOD", value:tech_BOD_default, descr:"BOD removal"          },
 			{id:"Nit", value:false, descr:"Nitrification"        },
 			{id:"SST", value:false, descr:"SST sizing"           }, //not a "real" technology, should be always true
 			{id:"Des", value:false, descr:"Denitrification"      },
@@ -277,7 +278,7 @@
 	<script>
 		function init(){
 			/*
-			 * backend functions
+			 * call backend functions
 			 */
 			(function disable_impossible_options(){
 				//if bod removal is false
@@ -348,6 +349,11 @@
 						newRow.insertCell(-1).innerHTML=tec.descr;
 						var checked = getInput(tec.id,true).value ? "checked" : "";
 						newRow.insertCell(-1).innerHTML="<input type=checkbox "+checked+" onchange=\"toggleTech('"+tec.id+"')\" tech='"+tec.id+"'>";
+
+						if(Technologies[tec.id]){
+							//show implementation link
+							newRow.insertCell(-1).innerHTML="<small><a href='techs/"+Technologies[tec.id].File+"' target=_blank>equations</a>";
+						}
 					});
 				})();
 
@@ -398,9 +404,9 @@
 						var newRow=table.insertRow(-1);
 						if(i.descr=="") newRow.classList.add('no_description');
 						else            newRow.classList.add('help');
-						newRow.style.background=str2color(i.tech+i.tech);
+						newRow.setAttribute('tech',i.tech);
 						newRow.insertCell(-1).outerHTML="<td title='"+Technologies[i.tech].Name+"'><small>"+i.tech+"</small>";
-						newRow.insertCell(-1).outerHTML="<td class=help title='"+i.descr+"'><small>"+i.id;
+						newRow.insertCell(-1).outerHTML="<td class=help title='"+i.descr.replace(/_/g,' ')+"'><small>"+i.id;
 						newRow.insertCell(-1).outerHTML="<td class=number>"+format(i.value);
 						newRow.insertCell(-1).outerHTML="<td class=unit>"+i.unit.prettifyUnit();
 					});
@@ -437,6 +443,19 @@
 				if(getInput('Nit',true).value==false) {
 					disable_checkbox('Des');
 				}
+			})();
+
+			//set scroll link visibility for each tech
+			(function(){
+				function set_scroll_link_visibility(tec){
+					var el=document.querySelector('#variable_scrolling a[tech='+tec+']')
+					if(el){
+						el.style.display=getInput(tec,true).value ? "":"none";
+					}
+				}
+				Technologies_selected.forEach(t=>{
+					set_scroll_link_visibility(t.id)
+				});
 			})();
 
 			//MASS BALANCES (end part)
@@ -488,33 +507,7 @@
 </head><body onload="init()">
 <?php include'navbar.php'?>
 <div id=root>
-<h1>Elementary Flows</h1>
-
-<!--TASKS-->
-<div id=tasks><hr> 
-	<p>
-		<b>Tasks and questions</b>
-		<button onclick="document.querySelector('#tasks').style.display='none';">hide tasks and questions</button>
-	</p>
-
-	<p><b>This page</b></p>
-	<ul>
-		<li>[TO DO] Calculate outputs
-		<li>[TO DO] Implement primary treatment
-	</ul>
-
-	<p><b>Questions for experts</b></p>
-	<ul>
-		<li>Regarding these equations not from Metcalf (still not implemented): reference required (book, pages)
-			<ul>
-				<li>rbCOD   = 0.32*bCOD (if primary effluent)
-				<li>rbCOD   = 0.2*bCOD  (if not primary effluent)
-				<li>VFA     = 0.15*rbCOD
-				<li>problem : in metcalf Bio P removal a parameter VFA/rbCOD is calculated, is not a constant
-			</ul>
-		</li>
-	</ul>
-</div><hr> 
+<h1>Elementary Flows</h1><hr>
 
 <!--inputs and outputs scaffold-->
 <div style="display:flex;flex-wrap:wrap">
@@ -534,7 +527,7 @@
 			<table id=inputs border=1>
 				<tr><th>Input<th>Value<th>Unit
 			</table>
-			<p>1.3. Enter design parameters [TO DO]</p>
+			<p>1.3. Adjust design parameters [TO DO]</p>
 			<table id=design border=1>
 				<tr><th>Input<th>Value<th>Unit
 			</table>
@@ -544,7 +537,37 @@
 	<!--intermediate variables-->
 	<div>
 		<p><b>2. Variables (grouped by technology)</b></p>
-		<p>Number of variables: <span id=variable_amount>0</span></p>
+		<p>Variables calculated: <span id=variable_amount>0</span></p>
+		<div id=variable_scrolling>
+			<small>
+				<script>
+					//frontend function
+					function scroll2tec(a){
+						var tec=a.getAttribute('tech');
+						var els=document.querySelectorAll('#variables tr[tech='+tec+']');
+						//els[0].scrollIntoView({behavior:'smooth'});
+						els[0].scrollIntoView();
+						//mini animation
+						for(var i=0;i<els.length;i++) {
+							els[i].style.transition='background 0.4s';
+							els[i].style.background='lightblue';
+						}
+						setTimeout(function(){
+							for(var i=0;i<els.length;i++) {
+								els[i].style.background='white';
+							}
+						},800);
+					}
+				</script>
+				Scroll to &rarr;
+				<a tech=BOD href=# onclick="scroll2tec(this);return false">BOD</a>
+				<a tech=Nit href=# onclick="scroll2tec(this);return false">Nit</a>
+				<a tech=SST href=# onclick="scroll2tec(this);return false">SST</a>
+				<a tech=Des href=# onclick="scroll2tec(this);return false">Des</a>
+				<a tech=BiP href=# onclick="scroll2tec(this);return false">BiP</a>
+				<a tech=ChP href=# onclick="scroll2tec(this);return false">ChP</a>
+			</small>
+		</div>
 		<table id=variables border=1><tr>
 			<th>Tech
 			<th>Variable
@@ -562,7 +585,7 @@
 			<table id=outputs border=1 cellpadding=2>
 				<tr>
 					<th rowspan=2>Compound
-					<th colspan=3>Effluent phase (kg/d)
+					<th colspan=3>Effluent <small>(kg/d)</small>
 				<tr> <th>Water<th>Air<th>Sludge
 			</table>
 		</div>
@@ -571,16 +594,15 @@
 		<div>
 			<p>3.2. Mass balances [TO DO]</p>
 			<table id=mass_balances border=1>
-				<tr><th rowspan=2>Element<th rowspan=2>Influent (kg/d)<th colspan=3>Effluent (kg/d)
+				<tr><th rowspan=2>Element<th rowspan=2>Influent<br><small>(kg/d)</small><th colspan=3>Effluent <small>(kg/d)</small>
 					<th rowspan=2>
-						|Difference| <br>mass balance (%) <br>
-						<small> 1-[water+air+sludge]/Influent </small>
+						|Error| <small>(%)</small>
 					</th>
 				<tr><th>Water<th>Air<th>Sludge  
-				<tr id=C><td align=center>C <td phase=influent>Q·COD <td phase=water>1:1     <td phase=air>2:2     <td phase=sludge>1:3     <td phase=balance>A-B-C-D
-				<tr id=N><td align=center>N <td phase=influent>Q·TKN <td phase=water>4:1+5:1 <td phase=air>6:2+7:2 <td phase=sludge>4:3+5:3 <td phase=balance>A-B-C-D
-				<tr id=P><td align=center>P <td phase=influent>Q·TP  <td phase=water>8:1     <td phase=air>-       <td phase=sludge>8:3     <td phase=balance>A-B-C-D
-				<tr id=S><td align=center>S <td phase=influent>Q·TS  <td phase=water>9:1     <td phase=air>-       <td phase=sludge>9:3     <td phase=balance>A-B-C-D
+				<tr id=C><th>C <td phase=influent>Q·COD <td phase=water>1:1     <td phase=air>2:2     <td phase=sludge>1:3     <td phase=balance>A-B-C-D
+				<tr id=N><th>N <td phase=influent>Q·TKN <td phase=water>4:1+5:1 <td phase=air>6:2+7:2 <td phase=sludge>4:3+5:3 <td phase=balance>A-B-C-D
+				<tr id=P><th>P <td phase=influent>Q·TP  <td phase=water>8:1     <td phase=air>-       <td phase=sludge>8:3     <td phase=balance>A-B-C-D
+				<tr id=S><th>S <td phase=influent>Q·TS  <td phase=water>9:1     <td phase=air>-       <td phase=sludge>9:3     <td phase=balance>A-B-C-D
 			</table>
 		</div>
 

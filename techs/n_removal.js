@@ -1,8 +1,8 @@
-/** 
-Technology: N removal
-Metcalf & Eddy, Wastewater Engineering, 5th ed., 2014:
-page 810
-**/
+/* 
+ * Technology: N removal
+ * Metcalf & Eddy, Wastewater Engineering, 5th ed., 2014:
+ * page 810
+ */
 function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_basin_volume,Aerobic_T,Anoxic_mixing_energy,RAS,Ro,NO3_eff){
 	/*
 		Inputs                   example values 
@@ -24,10 +24,13 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
 			NO3_eff                6      g/m3 (nitrate at effluent)
 		---------------------------------------
 	*/
-	var Ne=NO3_eff;
 
-	//calculated parameters in previous implementations
-	var bHT = bH*Math.pow(1.04, T - 20); //correct bH by temperature
+	/*SOLUTION*/
+
+	//name change
+	var Ne=NO3_eff; 
+	//correct bH by temperature
+	var bHT=bH*Math.pow(1.04,T - 20); 
 	
 	//1
 	var Xb = Q*Aerobic_SRT*YH*bCOD/(1 + bHT*Aerobic_SRT)/Aeration_basin_volume; //g/m3
@@ -98,7 +101,6 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
 	var Power = V_nox * Anoxic_mixing_energy / 1000; //kW
 	//end N removal
 
-	//results
 	return {
 		Xb:                         {value:Xb,                         unit:"g/m3",           descr:"Xb"},
 		IR:                         {value:IR,                         unit:"&empty;",        descr:"IR"},
@@ -121,8 +123,7 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
 	}
 }
 
-/*node debugging
-*/
+/*node debugging */
 (function(){
 	var debug=false;
 	if(debug==false)return;

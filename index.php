@@ -34,6 +34,7 @@
 				<ul>
 					<li><a href=inputs.php       >All inputs</a>
 					<li><a href=technologies.php >All technologies</a>
+					<li><a href=IO.php           >I/O overview</a>
 					<li><a href=terms.php        >All terms</a>
 				</ul>
 			</li>
