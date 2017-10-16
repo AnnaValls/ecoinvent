@@ -93,8 +93,8 @@ function nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pr
 			//recalculate P_X_bio_VSS with NOx approximation
 			var last_PX=(Q*YH*(S0-S)/(1+bHT*SRT_design)+fd*bHT*Q*YH*(S0-S)*SRT_design/(1+bHT*SRT_design)+Q*Yn*(last_NOx)/(1+b_AOB_T*SRT_design))/1000
 			P_X_bio_VSS_array.push(last_PX);
-			console.log("  NOx approximations: "+NOx_array);
-			console.log("  PXbioVSS approximations: "+P_X_bio_VSS_array);
+			//console.log("  NOx approximations: "+NOx_array);
+			//console.log("  PXbioVSS approximations: "+P_X_bio_VSS_array);
 			//length of NOx approximations
 			var l = NOx_array.length;
 			var difference = Math.abs(NOx_array[l-1]-NOx_array[l-2]);

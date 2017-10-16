@@ -20,26 +20,26 @@
 			<li>
 				Single plant
 				<ul>
-					<li><a href=elementary.php   >1. [in progress] Elementary flows (C, N, P &amp; S) [standalone (from pdf)]
-					<li><a href=elementary2.php  >1. [in progress] Elementary flows (C, N, P &amp; S) [COMPLETE (from metcalf implementations)]
-					<li><a href=construction.php >2. [done]        Construction materials
-					<li><a		                   >3. [pending]     Chemicals consumed
-					<li><a		                   >4. [pending]     Energy consumed
-					<li><a href=ecospold.php     >5. [in progress] Generate ecoSpold
-					<li><a                       >6. [on hold]     Simple Treat flows
+					<li><a href=elementary.php  >1. [IN PROGRESS] Elementary flows (C, N, P &amp; S) [standalone (from pdf)]
+					<li><a href=elementary2.php >1. [IN PROGRESS] Elementary flows (C, N, P &amp; S) [COMPLETE (from metcalf implementations)]
+					<li><a href=construction.php>2. [DONE]        Construction materials
+					<li><a		                  >3. [PENDING]     Chemicals consumed
+					<li><a		                  >4. [PENDING]     Energy consumed
+					<li><a href=ecospold.php    >5. [IN PROGRESS] Generate ecoSpold
+					<li><a                      >6. [ON HOLD]     Simple Treat flows
 				</ul>
 			</li>
 			<li>
 				Appendix
 				<ul>
-					<li><a href=inputs.php       >All inputs</a>
-					<li><a href=technologies.php >All technologies</a>
-					<li><a href=IO.php           >I/O overview</a>
-					<li><a href=terms.php        >All terms</a>
+					<li><a href=inputs.php      >All inputs</a>
+					<li><a href=technologies.php>All technologies</a>
+					<li><a href=IO.php          >I/O overview</a>
+					<li><a href=terms.php       >All terms</a>
 				</ul>
 			</li>
-			<li><a href=README.txt       >README (tasks)</a>
-			<li><a href=future           >Future implementations (for 'n' plants)</a>
+			<li><a href=README.txt>README (tasks)</a>
+			<li><a href=future    >Future implementations (for 'n' plants)</a>
 		</ul>
 	</div><hr>
 
@@ -49,7 +49,7 @@
 		<table style=margin-left:10px border=1>
 			<tr><th>Technology<th>Coding status
 			<tr>
-				<td>0. <a href="implementations/bod_removal_only.php">BOD removal [example]</a>
+				<td>0. <a href="implementations/bod_removal_only.php">BOD removal example</a>
 				<td>Done
 			<tr>
 				<td>1. <a href="implementations/bod_removal_with_nitrification.php">BOD removal w/ &amp; w/o nitrification</a>

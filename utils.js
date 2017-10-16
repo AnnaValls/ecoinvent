@@ -7,10 +7,88 @@
 	Fig 6-13, page 484 
 	for chem P removal technology
 	Fe/P mole ratio 
-	TODO
+	"Soluble P removal by Al and Fe addition. (Adapted from Szabo et al. 2008)"
+	note: implemented only for Fe(III) addition
 */
-function get_Fe_P_mole_ratio(){
-	return 3.3;
+function get_Fe_P_mole_ratio(C_PO4_eff){
+	/* Input:  Residual soluble P concentration (C_P_residual), [mg/L]
+	 *  -> range: 0.01, 0.1, 1, 10 (log scale)
+	 * Output: Fe to initial soluble P ratio, [mole/mole]
+	 *  -> range: 0, 1, 2, 3, 4, 5 (lineal scale)
+	 */
+  console.log("FIG 6-13");
+	console.log("--------");
+
+	//rename input to "inp"
+	var inp = C_PO4_eff || 0;
+
+	//min and max values are: 0.01 and 10
+	inp=Math.min(10,Math.max(0.01,inp));
+	console.log("C_PO4_eff: "+inp);
+
+	var Figure=[
+		{inp:0.01,out:8.00},
+		{inp:0.02,out:4.90}, //if input is less than 0.02 is not linear
+		{inp:0.03,out:4.50},
+		{inp:0.04,out:4.20},
+		{inp:0.05,out:3.90},
+		{inp:0.06,out:3.80},
+		{inp:0.07,out:3.70},
+		{inp:0.08,out:3.50},
+		{inp:0.09,out:3.35},
+		{inp:0.10,out:3.30}, //book example has this value (0.1, 3.3)
+		{inp:0.20,out:2.60},
+		{inp:0.30,out:2.10},
+		{inp:0.40,out:2.00},
+		{inp:0.50,out:1.70},
+		{inp:0.60,out:1.50},
+		{inp:0.70,out:1.20},
+		{inp:0.80,out:1.10},
+		{inp:0.90,out:1.00},
+		{inp:1.00,out:1.00}, //if input is greater than 1, it's no more linear
+		{inp:2.00,out:0.20},
+		{inp:3.00,out:0.10},
+		{inp:4.00,out:0.10},
+		{inp:5.00,out:0.01},
+		{inp:6.00,out:0.01},
+		{inp:7.00,out:0.005},
+		{inp:8.00,out:0.001},
+		{inp:9.00,out:0.001},
+		{inp:10.0,out:0.0001},
+	];
+
+	//do linear interpolation if value is not in table
+	if(Figure.filter(row=>{return row.inp==inp}).length==0) {
+		console.log('value '+inp+' not in table, performing linear interpolation');
+
+		//find inputs above and below (i_above and i_below)
+		var Inps=Figure.map(row=>{return row.inp});
+
+		for(var i=1;i<Inps.length;i++){
+			if ((Inps[i-1]<inp) && (inp<Inps[i])){
+				var i_below = Inps[i-1];
+				var i_above = Inps[i];
+				break;
+			}
+		}
+
+		//find outputs above and below (o_above and o_below)
+		var percentage = (inp-i_below)/(i_above-i_below);
+		var o_below = Figure.filter(row=>{return row.inp==i_below})[0].out;
+		var o_above = Figure.filter(row=>{return row.inp==i_above})[0].out;
+		console.log('value between '+o_below+' and '+o_above);
+		var o_inter = o_below + (o_above-o_below)*percentage;
+		console.log("Fe/P mole ratio found: "+o_inter);
+		console.log("--------");
+		return o_inter;
+	}
+	else{
+		console.log('value '+inp+' is in table');
+		var out=Figure.filter(row=>{return inp==row.inp})[0].out;
+		console.log("Fe/P mole ratio found: "+out);
+		console.log("--------");
+		return out;
+	}
 }
 
 /*
@@ -135,6 +213,7 @@ function air_solubility_of_oxygen(temperature,elevation){
 	//case 1: temp and elevation defined
 	if(Table[temperature] && Table[temperature][elevation]){
 		console.log('temperature and elevation defined, no interpolation needed');
+		console.log(Table[temperature][elevation]+" mg/L");
 		return Table[temperature][elevation];
 	}
 
@@ -157,6 +236,7 @@ function air_solubility_of_oxygen(temperature,elevation){
 		var s_range = s_above - s_below;
 		var s_added = s_range*percentage;
 		var s_inter = s_below + s_added;
+		console.log(s_inter+" mg/L");
 		return s_inter;
 	}
 
@@ -173,6 +253,7 @@ function air_solubility_of_oxygen(temperature,elevation){
 		var s_range = s_above - s_below;
 		var s_added = s_range*percentage;
 		var s_inter = s_below + s_added;
+		console.log(s_inter+" mg/L");
 		return s_inter;
 	}
 	else{
@@ -212,6 +293,7 @@ function air_solubility_of_oxygen(temperature,elevation){
 		var f_x_y2 = (x2-x)/(x2-x1)*f_x1_y2 + (x-x1)/(x2-x1)*f_x2_y2;
 		//proceed to interpolate the y direction to obtain f(x,y) estimate
 		var f_x_y = (y2-y)/(y2-y1)*f_x_y1 + (y-y1)/(y2-y1)*f_x_y2;
+		console.log(f_x_y+" mg/L");
 		return f_x_y;
 	}
 }

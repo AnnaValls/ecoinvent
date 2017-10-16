@@ -21,7 +21,7 @@ function chem_P_removal(Q,TSS,TSS_removal_wo_Fe,TSS_removal_w_Fe,TP,C_PO4_inf,C_
 	*/
 
 	/*parameters*/
-	var Fe_P_mole_ratio                  = 3.3; //TODO check if figure 6-13 can be implemented to get this value
+	var Fe_P_mole_ratio                  = get_Fe_P_mole_ratio(C_PO4_eff); //3.3 mole/mole (Fig 6-13, page 484, see "utils.js")
 	var Raw_sludge_specific_gravity      = 1.03;
 	var Raw_sludge_moisture_content      = 94;
 	var Chemical_sludge_specific_gravity = 1.05

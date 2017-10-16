@@ -127,67 +127,155 @@
 
 			/*
 				OUTPUTS by phase (water, air, sludge)
-				important: all Outputs should be in g/d (frontend functions turn them to kg/d)
+				---IMPORTANT---: all Outputs should be in g/d,
+				because frontend functions will turn them to kg/d
 			*/
+
+			/*
+				Technology         | In/active     | Results object
+				-------------------+---------------+---------------
+				primary treatment  | is_Pri_active | (no results)
+				bod removal        | is_BOD_active | Result.BOD
+				nitrification      | is_Nit_active | Result.Nit
+				sst sizing         | is_SST_active | Result.SST
+				denitrification    | is_Des_active | Result.Des
+				bio P removal      | is_BiP_active | Result.BiP
+				chemical P removal | is_ChP_active | Result.ChP
+			*/
+
+			if(is_BOD_active==false){return}
 			if(typeof(Q)=='undefined'){var Q=0}
 
 			//Outputs.COD
-			if(typeof(COD)=="undefined"){var COD=0;}
+			if(typeof(COD)=='undefined'){var COD=0}
 			Outputs.COD.influent        = Q*COD;
-			Outputs.COD.effluent.water  = 0;
-			Outputs.COD.effluent.air    = 0;
-			Outputs.COD.effluent.sludge = 0;
+			Outputs.COD.effluent.water  = (function()
+			{
+				var nbsCODe = Result.BOD.nbsCODe.value; //g/m3
+				var S       = Result.BOD.S.value; //g/m3
+				var V       = Result.BOD.V.value; //m3
+				var TSS_was = X_R; //g/m3
+				var TSSe    = 15; //TODO continue here
+				var Qwas    = (V*MLSS_X_TSS/SRT - Q*TSSe)/(TSS_was - TSSe);
+				var sCODe = Q*(nbsCODe+S);
+				var biomass_CODe = Q;
+				return sCODe + biomass_CODe;
+			})();
+			Outputs.COD.effluent.air    = (function(){
+				return 0; //TODO
+			})();
+			Outputs.COD.effluent.sludge = (function(){
+				return 0; //TODO
+			})();
 
 			//Outputs.CO2
-			Outputs.CO2.influent        = 0;
-			Outputs.CO2.effluent.water  = 0;
-			Outputs.CO2.effluent.air    = 0;
-			Outputs.CO2.effluent.sludge = 0;
+			Outputs.CO2.influent        = (function(){
+				return 0; //TODO
+			})();
+			Outputs.CO2.effluent.water  = (function(){
+				return 0; //TODO
+			})();
+			Outputs.CO2.effluent.air    = (function(){
+				return 0; //TODO
+			})();
+			Outputs.CO2.effluent.sludge = (function(){
+				return 0; //TODO
+			})();
 
 			//Outputs.CH4
-			Outputs.CH4.influent        = 0;
-			Outputs.CH4.effluent.water  = 0;
-			Outputs.CH4.effluent.air    = 0;
-			Outputs.CH4.effluent.sludge = 0;
+			Outputs.CH4.influent        = (function(){
+				return 0; //TODO
+			})();
+			Outputs.CH4.effluent.water  = (function(){
+				return 0; //TODO
+			})();
+			Outputs.CH4.effluent.air    = (function(){
+				return 0; //TODO
+			})();
+			Outputs.CH4.effluent.sludge = (function(){
+				return 0; //TODO
+			})();
 
 			//Outputs.TKN
 			if(typeof(TKN)=="undefined"){var TKN=0;}
 			Outputs.TKN.influent        = Q*TKN;
-			Outputs.TKN.effluent.water  = 0;
-			Outputs.TKN.effluent.air    = 0;
-			Outputs.TKN.effluent.sludge = 0;
+			Outputs.TKN.effluent.water  = (function(){
+				return 0; //TODO
+			})();
+			Outputs.TKN.effluent.air    = (function(){
+				return 0; //TODO
+			})();
+			Outputs.TKN.effluent.sludge = (function(){
+				return 0; //TODO
+			})();
 
 			//Outputs.NOx
-			Outputs.NOx.influent        = 0;
-			Outputs.NOx.effluent.water  = 0;
-			Outputs.NOx.effluent.air    = 0;
-			Outputs.NOx.effluent.sludge = 0;
+			Outputs.NOx.influent        = (function(){
+				return 0; //TODO
+			})();
+			Outputs.NOx.effluent.water  = (function(){
+				return 0; //TODO
+			})();
+			Outputs.NOx.effluent.air    = (function(){
+				return 0; //TODO
+			})();
+			Outputs.NOx.effluent.sludge = (function(){
+				return 0; //TODO
+			})();
 
 			//Outputs.N2
-			Outputs.N2.influent        = 0;
-			Outputs.N2.effluent.water  = 0;
-			Outputs.N2.effluent.air    = 0;
-			Outputs.N2.effluent.sludge = 0;
+			Outputs.N2.influent        = (function(){
+				return 0; //TODO
+			})();
+			Outputs.N2.effluent.water  = (function(){
+				return 0; //TODO
+			})();
+			Outputs.N2.effluent.air    = (function(){
+				return 0; //TODO
+			})();
+			Outputs.N2.effluent.sludge = (function(){
+				return 0; //TODO
+			})();
 
 			//Outputs.N2O
-			Outputs.N2O.influent        = 0;
-			Outputs.N2O.effluent.water  = 0;
-			Outputs.N2O.effluent.air    = 0;
-			Outputs.N2O.effluent.sludge = 0;
+			Outputs.N2O.influent        = (function(){
+				return 0; //TODO
+			})();
+			Outputs.N2O.effluent.water  = (function(){
+				return 0; //TODO
+			})();
+			Outputs.N2O.effluent.air    = (function(){
+				return 0; //TODO
+			})();
+			Outputs.N2O.effluent.sludge = (function(){
+				return 0; //TODO
+			})();
 
 			//Outputs.TP
 			if(typeof(TP)=="undefined"){var TP=0;}
 			Outputs.TP.influent        = Q*TP;
-			Outputs.TP.effluent.water  = 0;
-			Outputs.TP.effluent.air    = 0;
-			Outputs.TP.effluent.sludge = 0;
+			Outputs.TP.effluent.water  = (function(){
+				return 0; //TODO
+			})();
+			Outputs.TP.effluent.air    = (function(){
+				return 0; //TODO
+			})();
+			Outputs.TP.effluent.sludge = (function(){
+				return 0; //TODO
+			})();
 
 			//Outputs.TS
 			if(typeof(TS)=="undefined"){var TS=0;}
 			Outputs.TS.influent        = Q*TS;
-			Outputs.TS.effluent.water  = 0;
-			Outputs.TS.effluent.air    = 0;
-			Outputs.TS.effluent.sludge = 0;
+			Outputs.TS.effluent.water  = (function(){
+				return 0; //TODO
+			})();
+			Outputs.TS.effluent.air    = (function(){
+				return 0; //TODO
+			})();
+			Outputs.TS.effluent.sludge = (function(){
+				return 0; //TODO
+			})();
 		}
 	</script>
 
@@ -209,7 +297,7 @@
 			{id:"ChP", value:false, descr:"Chemical P removal"   },
 		];
 		var Inputs_current_combination=[ ]; //filled in frontend
-		var Design=[ ];                     //TODO filled in frontend
+		var Design=[ ];                     //filled in frontend
 
 		/* Get an input or technology by id */
 		function getInput(id,isTechnology){
@@ -237,12 +325,15 @@
 			if(isTechnology) getInput(id,isTechnology).value=newValue;
 			else             getInput(id,isTechnology).value=parseFloat(newValue);
 			init();
+
 			//focus again after init()
-			if(isTechnology==false){document.getElementById(id).select()}
+			setTimeout(function(){
+				if(!isTechnology){document.getElementById(id).select()}
+			},10);
 		}
 
 		/* Toggle technology active/inactive by id */
-		function toggleTech(id) {
+		function toggleTech(id){
 			var currValue=getInput(id,true).value;
 			setInput(id,!currValue,true);
 			console.log(id+" "+(!currValue).toString());
@@ -251,7 +342,7 @@
 		/*
 		 * Structure 3: Intermediate variables calculations
 		 */
-		var Variables=[ ];
+		var Variables=[];
 
 		/* Get a variable by id */
 		function getVariable(id){
@@ -345,14 +436,14 @@
 					Technologies_selected.forEach(tec=> {
 						if(tec.id=="SST") return; //SST always on
 						var newRow=table.insertRow(-1);
-						newRow.title=tec.id;
-						newRow.insertCell(-1).innerHTML=tec.descr;
+						//tec name
+						newRow.insertCell(-1).innerHTML="<small>"+tec.descr;
+						//checkbox
 						var checked = getInput(tec.id,true).value ? "checked" : "";
 						newRow.insertCell(-1).innerHTML="<input type=checkbox "+checked+" onchange=\"toggleTech('"+tec.id+"')\" tech='"+tec.id+"'>";
-
+						//implementation link
 						if(Technologies[tec.id]){
-							//show implementation link
-							newRow.insertCell(-1).innerHTML="<small><a href='techs/"+Technologies[tec.id].File+"' target=_blank>equations</a>";
+							newRow.insertCell(-1).innerHTML="<small><a href='techs/"+Technologies[tec.id].File+"' target=_blank>see equations</a>";
 						}
 					});
 				})();
@@ -362,7 +453,7 @@
 					var table=document.querySelector('table#inputs');
 					while(table.rows.length>1){table.deleteRow(-1)}
 					if(Inputs_current_combination.length==0){
-						table.insertRow(-1).insertCell(-1).outerHTML="<td colspan=3><i><small>~Activate some technologies first";
+						table.insertRow(-1).insertCell(-1).outerHTML="<td colspan=3><i><small>~Activate technologies first";
 					}
 					Inputs_current_combination.forEach(i=>{
 						var newRow=table.insertRow(-1);
@@ -370,7 +461,7 @@
 						if(i.descr=="") newRow.classList.add('no_description');
 						else            newRow.classList.add('help');
 						newRow.insertCell(-1).innerHTML="<small>"+i.id;
-						newRow.insertCell(-1).innerHTML="<input id='"+i.id+"' value='"+i.value+"' type=number onchange=setInput('"+i.id+"',this.value) min=0>"
+						newRow.insertCell(-1).innerHTML="<input id='"+i.id+"' value='"+i.value+"' type=number step=any onchange=setInput('"+i.id+"',this.value) min=0>"
 						newRow.insertCell(-1).outerHTML="<td class=unit>"+i.unit.prettifyUnit();
 					});
 				})();
@@ -380,7 +471,7 @@
 					var table=document.querySelector('table#design');
 					while(table.rows.length>1){table.deleteRow(-1)}
 					if(Design.length==0){
-						table.insertRow(-1).insertCell(-1).outerHTML="<td colspan=3><i><small>~Activate some technologies first";
+						table.insertRow(-1).insertCell(-1).outerHTML="<td colspan=3><i><small>~Activate technologies first";
 					}
 					Design.forEach(i=>{
 						var newRow=table.insertRow(-1);
@@ -388,7 +479,7 @@
 						if(i.descr=="") newRow.classList.add('no_description');
 						else            newRow.classList.add('help');
 						newRow.insertCell(-1).innerHTML="<small>"+i.id;
-						newRow.insertCell(-1).innerHTML="<input id='"+i.id+"' value='"+i.value+"' type=number onchange=setInput('"+i.id+"',this.value) min=0>"
+						newRow.insertCell(-1).innerHTML="<input id='"+i.id+"' value='"+i.value+"' type=number step=any onchange=setInput('"+i.id+"',this.value) min=0>"
 						newRow.insertCell(-1).outerHTML="<td class=unit>"+i.unit.prettifyUnit();
 					});
 				})();
@@ -398,7 +489,7 @@
 					var table=document.querySelector('table#variables');
 					while(table.rows.length>1){table.deleteRow(-1)}
 					if(Variables.length==0){
-						table.insertRow(-1).insertCell(-1).outerHTML="<td colspan=4><i><small>~Activate some technologies first";
+						table.insertRow(-1).insertCell(-1).outerHTML="<td colspan=4><i><small>~Activate technologies first";
 					}
 					Variables.forEach(i=>{
 						var newRow=table.insertRow(-1);
@@ -527,7 +618,7 @@
 			<table id=inputs border=1>
 				<tr><th>Input<th>Value<th>Unit
 			</table>
-			<p>1.3. Adjust design parameters [TO DO]</p>
+			<p>1.3. Adjust design parameters</p>
 			<table id=design border=1>
 				<tr><th>Input<th>Value<th>Unit
 			</table>
@@ -592,7 +683,7 @@
 
 		<!--mass balances-->
 		<div>
-			<p>3.2. Mass balances [TO DO]</p>
+			<p>3.2. Mass balances</p>
 			<table id=mass_balances border=1>
 				<tr><th rowspan=2>Element<th rowspan=2>Influent<br><small>(kg/d)</small><th colspan=3>Effluent <small>(kg/d)</small>
 					<th rowspan=2>

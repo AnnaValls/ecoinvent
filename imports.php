@@ -25,9 +25,6 @@
 <script src="techs/bio_P_removal.js"></script>
 <script src="techs/chem_P_removal.js"></script>
 
-<!--TODO decide if eliminate-->
-<script src="dataModel/variables.js"></script>
-
 <!--css-->
 <style>
 	body {
@@ -37,9 +34,11 @@
 		overflow-y:scroll;
 		margin-bottom:50px;
 	}
+	/* 
 	a:visited{
 		color:rgb(0,0,238);
 	}
+	*/
 	#root {
 		margin-left:8px;
 	}
