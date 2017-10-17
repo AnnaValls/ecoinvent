@@ -69,7 +69,7 @@
 				for(var tec in Technologies) {
 					var el=Technologies[tec];
 					var newRow=t.insertRow(-1);
-					newRow.insertCell(-1).innerHTML=tec;
+					newRow.insertCell(-1).outerHTML="<th>"+tec;
 					newRow.insertCell(-1).innerHTML=el.Name;
 				}
 			})();
@@ -80,5 +80,11 @@
 <style>
 	#inputs, #legend {
 		font-family:monospace;
+	}
+	th {
+		background:#eee;
+	}
+	.help:hover {
+		text-decoration:underline;
 	}
 </style>

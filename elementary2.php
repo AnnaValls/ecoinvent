@@ -721,6 +721,11 @@
 			</table>
 		</div>
 
+		<div>
+			<p>3.3. Aeration &amp; energy consumed [TO DO]</p>
+			<p>3.4. Chemicals consumed [TO DO]</p>
+		</div>
+
 		<!--generate ecospold file-->
 		<div style=margin-top:10px>
 			<a href=ecospold.php> Save results as ecoSpold file </a>
