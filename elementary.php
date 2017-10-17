@@ -261,8 +261,10 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 			//Outputs.COD
 			var sCODe = Q*(nbsCODe + S);
 			var biomass_CODe = Q*VSSe*1.42;
-			Outputs.COD.water = sCODe + biomass_CODe;
-			Outputs.COD.air = "0";
+			Outputs.COD.water = (function(){
+				return sCODe + biomass_CODe;
+			})(); 
+			Outputs.COD.air = 0;
 			Outputs.COD.sludge = (function(){
 				var A = Q*YH*(S0 - S)/(1 + bHT*SRT) + (fd*bHT*Q*YH*(S0 - S)*SRT)/(1 + bHT*SRT) + 0;
 				var B = Qwas*sCODe/Q;
@@ -329,9 +331,9 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 			Outputs.N2.air = (function(){
 				if(denitrification) {
 					return Q*(NOx - NOx_e);
-				}
-				else
+				}else{
 					return 0;
+				}
 			})();
 			Outputs.N2.sludge=0;
 

@@ -143,115 +143,128 @@
 				chemical P removal | is_ChP_active | Result.ChP
 			*/
 
+			//at least bod removal should be active before next part
 			if(is_BOD_active==false){return}
-			if(typeof(Q)=='undefined'){var Q=0}
+
+			//RESULTS USED FOR OUTPUTS TABLE
+			//equations NOT FROM METCALF TODO in progress
+			var nbsCODe      = Result.BOD.nbsCODe.value; //g/m3
+			var nbpCOD       = Result.BOD.nbpCOD.value;  //g/m3
+			var S0           = Result.BOD.bCOD.value;    //g/m3
+			var bHT          = Result.BOD.bHT.value;     //1/d
+			var nbVSS        = Result.BOD.nbVSS.value;   //g/m3
+
+			var S            = is_Nit_active ? Result.Nit.S.value : Result.BOD.S.value; //kg/d
+			var P_X_bio      = is_Nit_active ? Result.Nit.P_X_bio_VSS.value : Result.BOD.P_X_bio.value; //kg/d
+			var V            = is_Nit_active ? Result.Nit.V.value : Result.BOD.V.value; //m3
+			var NOx          = is_Nit_active ? Result.Nit.NOx.value : 0; //g/m3
+			var TSSe         = is_Nit_active ? TSSe    : getInputById('TSSe').value; //g/m3
+			var Ne           = is_Nit_active ? Ne      : getInputById('Ne').value; //g/m3
+			var TKN          = is_Nit_active ? TKN     : getInputById('TKN').value; //g/m3
+			var NO3_eff      = is_Des_active ? NO3_eff : getInputById('NO3_eff').value; //g/m3
+
+			var TSS_was      = X_R;                      //g/m3
+			var VSSe         = TSSe*0.85;                //g/m3
+			var Qwas         = (V*MLSS_X_TSS/SRT - Q*TSSe)/(TSS_was - TSSe);
+			var sCODe        = Q*(nbsCODe + S);
+			var biomass_CODe = 1.42*Q*VSSe;
+			var nbpON        = 0.064*nbVSS;
+			var nbsON        = 0.3;                      //g/m3
+			var TKN_N2O      = 0.001*TKN;
+			var bTKN         = TKN - nbpON - nbsON - TKN_N2O;
+			var sTKNe        = Q*(Ne + nbsON); //g/d
 
 			//Outputs.COD
-			if(typeof(COD)=='undefined'){var COD=0}
-			Outputs.COD.influent        = Q*COD;
-			Outputs.COD.effluent.water  = (function()
-			{
-				var nbsCODe = Result.BOD.nbsCODe.value; //g/m3
-				var S       = Result.BOD.S.value; //g/m3
-				var V       = Result.BOD.V.value; //m3
-				var TSS_was = X_R; //g/m3
-				var TSSe    = 15; //TODO continue here
-				var Qwas    = (V*MLSS_X_TSS/SRT - Q*TSSe)/(TSS_was - TSSe);
-				var sCODe = Q*(nbsCODe+S);
-				var biomass_CODe = Q;
-				return sCODe + biomass_CODe;
-			})();
-			Outputs.COD.effluent.air    = (function(){
-				return 0; //TODO
-			})();
-			Outputs.COD.effluent.sludge = (function(){
-				return 0; //TODO
+			Outputs.COD.influent = Q*COD;
+			Outputs.COD.effluent.water = (function(){return sCODe + biomass_CODe})();
+			Outputs.COD.effluent.air = (function(){return 0})();
+			Outputs.COD.effluent.sludge = (function() {
+				var A = Q*YH*(S0 - S)/(1 + bHT*SRT) + (fd*bHT*Q*YH*(S0 - S)*SRT)/(1 + bHT*SRT) + 0;
+				var B = Qwas*sCODe/Q;
+				var C = Q*nbpCOD;
+				return A+B+C;
 			})();
 
 			//Outputs.CO2
-			Outputs.CO2.influent        = (function(){
-				return 0; //TODO
-			})();
-			Outputs.CO2.effluent.water  = (function(){
-				return 0; //TODO
-			})();
+			Outputs.CO2.influent        = (function(){return 0})();
+			Outputs.CO2.effluent.water  = (function(){return 0})();
 			Outputs.CO2.effluent.air    = (function(){
-				return 0; //TODO
+				var k_CO2_COD = 0.99;
+				var k_CO2_bio = 1.03;
+				var air = k_CO2_COD*Q*(1-YH)*(S0-S) + k_CO2_bio*Q*YH*(S0-S)*bHT*SRT/(1+bHT*SRT)*(1-fd) - 4.49*NOx;
+				return air;
 			})();
-			Outputs.CO2.effluent.sludge = (function(){
-				return 0; //TODO
-			})();
+			Outputs.CO2.effluent.sludge = (function(){return 0})();
 
-			//Outputs.CH4
-			Outputs.CH4.influent        = (function(){
-				return 0; //TODO
-			})();
-			Outputs.CH4.effluent.water  = (function(){
-				return 0; //TODO
-			})();
-			Outputs.CH4.effluent.air    = (function(){
-				return 0; //TODO
-			})();
-			Outputs.CH4.effluent.sludge = (function(){
-				return 0; //TODO
-			})();
+			//Outputs.CH4 TODO
+			Outputs.CH4.influent        = (function(){return 0})();
+			Outputs.CH4.effluent.water  = (function(){return 0})();
+			Outputs.CH4.effluent.air    = (function(){return 0})();
+			Outputs.CH4.effluent.sludge = (function(){return 0})();
 
 			//Outputs.TKN
-			if(typeof(TKN)=="undefined"){var TKN=0;}
-			Outputs.TKN.influent        = Q*TKN;
-			Outputs.TKN.effluent.water  = (function(){
-				return 0; //TODO
+			Outputs.TKN.influent = Q*TKN;
+			Outputs.TKN.effluent.water = (function(){
+				if(is_Nit_active){
+					return sTKNe + Q*VSSe*0.12;
+				}else{
+					//corrected 2017-10-13
+					return Q*(TKN - nbpON - TKN_N2O + 0.12*VSSe) - 0.12*P_X_bio*1000;
+				}
 			})();
-			Outputs.TKN.effluent.air    = (function(){
-				return 0; //TODO
-			})();
+			Outputs.TKN.effluent.air = (function(){return 0})();
 			Outputs.TKN.effluent.sludge = (function(){
-				return 0; //TODO
+				var A = 0.12*P_X_bio*1000;
+				var B = Qwas*sTKNe/Q;
+				var C = Q*nbpON;
+				return A+B+C;
 			})();
 
 			//Outputs.NOx
-			Outputs.NOx.influent        = (function(){
-				return 0; //TODO
-			})();
+			Outputs.NOx.influent = Q*NOx;
 			Outputs.NOx.effluent.water  = (function(){
-				return 0; //TODO
+				if(is_Nit_active==false){
+					return 0;
+				}else if(is_Des_active){
+					return Q*NO3_eff;
+				}else if(is_Des_active==false){ 
+					console.log(bTKN);
+					console.log(Ne);
+					return Q*(bTKN - Ne) - 0.12*P_X_bio*1000;
+				}
 			})();
-			Outputs.NOx.effluent.air    = (function(){
-				return 0; //TODO
-			})();
+			Outputs.NOx.effluent.air = (function(){return 0})();
 			Outputs.NOx.effluent.sludge = (function(){
-				return 0; //TODO
+				if(is_Nit_active==false) {
+					return 0;
+				}else if(is_Des_active){
+					return Qwas*NO3_eff;
+				}else if(is_Des_active==false){
+					return Qwas*NOx;
+				}
 			})();
 
 			//Outputs.N2
-			Outputs.N2.influent        = (function(){
-				return 0; //TODO
-			})();
-			Outputs.N2.effluent.water  = (function(){
-				return 0; //TODO
-			})();
+			Outputs.N2.influent        = (function(){return 0})();
+			Outputs.N2.effluent.water  = (function(){return 0})();
 			Outputs.N2.effluent.air    = (function(){
-				return 0; //TODO
+				if(is_Des_active) {
+					return Q*(NOx - NO3_eff);
+				}else{
+					return 0;
+				}
 			})();
-			Outputs.N2.effluent.sludge = (function(){
-				return 0; //TODO
-			})();
+			Outputs.N2.effluent.sludge = (function(){return 0})();
 
 			//Outputs.N2O
-			Outputs.N2O.influent        = (function(){
-				return 0; //TODO
-			})();
-			Outputs.N2O.effluent.water  = (function(){
-				return 0; //TODO
-			})();
+			Outputs.N2O.influent        = (function(){return 0})();
+			Outputs.N2O.effluent.water  = (function(){return 0})();
 			Outputs.N2O.effluent.air    = (function(){
-				return 0; //TODO
+				return Q*TKN_N2O;
 			})();
-			Outputs.N2O.effluent.sludge = (function(){
-				return 0; //TODO
-			})();
+			Outputs.N2O.effluent.sludge = (function(){return 0})();
 
-			//Outputs.TP
+			//Outputs.TP continue here TODO
 			if(typeof(TP)=="undefined"){var TP=0;}
 			Outputs.TP.influent        = Q*TP;
 			Outputs.TP.effluent.water  = (function(){
@@ -371,6 +384,15 @@
 			/*
 			 * call backend functions
 			 */
+			(function reset_all_outputs(){
+				for(var out in Outputs){
+					Outputs[out].influent=0;
+					Outputs[out].effluent.water=0;
+					Outputs[out].effluent.air=0;
+					Outputs[out].effluent.sludge=0;
+				}
+			})();
+
 			(function disable_impossible_options(){
 				//if bod removal is false
 				// disable nitrification 
@@ -429,7 +451,7 @@
 			document.querySelector('#variable_amount').innerHTML=Variables.length;
 
 			(function updateViews(){
-				//update technologies
+				//update technologies table
 				(function(){
 					var table=document.querySelector('table#inputs_tech');
 					while(table.rows.length>0){table.deleteRow(-1);}
@@ -484,7 +506,7 @@
 					});
 				})();
 
-				//update variables
+				//update variables table
 				(function(){
 					var table=document.querySelector('table#variables');
 					while(table.rows.length>1){table.deleteRow(-1)}
@@ -563,7 +585,7 @@
 					el.innerHTML = format(percent,2)+" %";
 
 					//red warning if percent is greater than 5%
-					if(percent>5){el.style.color='red'}else{el.style.color='green'}
+					if(percent>3){el.style.color='red'}else{el.style.color='green'}
 				}
 
 				var table=document.querySelector('table#mass_balances');
@@ -598,7 +620,9 @@
 </head><body onload="init()">
 <?php include'navbar.php'?>
 <div id=root>
-<h1>Elementary Flows</h1><hr>
+<h1>Elementary Flows</h1>
+<p>under development</p>
+<hr>
 
 <!--inputs and outputs scaffold-->
 <div style="display:flex;flex-wrap:wrap">

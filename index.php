@@ -20,8 +20,8 @@
 			<li>
 				Single plant
 				<ul>
-					<li><a href=elementary.php  >1. [IN PROGRESS] Elementary flows (C, N, P &amp; S) [standalone (from pdf)]
-					<li><a href=elementary2.php >1. [IN PROGRESS] Elementary flows (C, N, P &amp; S) [COMPLETE (from metcalf implementations)]
+					<li><a href=elementary.php  >1. [IN PROGRESS] Elementary flows [standalone implementation]
+					<li><a href=elementary2.php >1. [IN PROGRESS] Elementary flows [COMPLETE  implementation (from metcalf &amp; eddy)]
 					<li><a href=construction.php>2. [DONE]        Construction materials
 					<li><a		                  >3. [PENDING]     Chemicals consumed
 					<li><a		                  >4. [PENDING]     Energy consumed

@@ -85,6 +85,7 @@ function nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pr
 		var tolerance = 0.0001;
 
 		//loop until difference < tolerance
+		var iterations_performed=0;
 		while(true){
 			console.log("- new iteration")
 			//increase accuracy of NOx from P_X_bio_VSS
@@ -102,6 +103,12 @@ function nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pr
 				NOx         = last_NOx;
 				P_X_bio_VSS = last_PX;
 				console.log('loop finished: difference is small enough ('+difference+')');
+				break;
+			}
+			iterations_performed++;
+
+			//break if too much iterations
+			if(iterations_performed>=50){
 				break;
 			}
 		}
@@ -144,7 +151,7 @@ function nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pr
 		alkalinity_to_be_added*=Q/1000; // kg/d as CaCO3
 		alkalinity_to_be_added*=(84/50); // kg/d as NaHCO3
 	})();
-	//20 estimate effluent BOD (TODO no incloure a resultats per estalviar un input (sBODe))
+	//20 estimate effluent BOD //TODO if we don't include BOD_eff, we save an input (sBODE)
 	var BOD_eff = sBODe + 0.85*0.85*TSSe;
 	/*end solution*/
 

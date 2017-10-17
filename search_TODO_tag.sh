@@ -5,5 +5,14 @@
 #   search expressions (tags) with -e "expression"
 #   recursively with ". -r"
 #   excludes readme file
+#   excludes .git folder
+#   excludes README.txt file
+#   excludes this file
 
-grep -e "TODO" -e "TO DO" . -r | grep -v "README.txt"
+echo "Searching 'TBD', 'TO DO' and 'TODO' tags..."
+
+grep -e "TBD" -e "TODO" -e "TO DO" . -r \
+	--exclude-dir ".git" \
+	--exclude-dir "docs" \
+	--exclude "$0" \
+	--exclude "README.txt" | grep -v "base64"
