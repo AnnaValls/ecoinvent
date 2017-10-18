@@ -6,13 +6,13 @@
 		var tech_BOD_default = true;
 		function compute_elementary_flows(){
 			//technology booleans
-			var is_Pri_active = getInput("Pri",true).value; //tech
-			var is_BOD_active = getInput("BOD",true).value; //tech
-			var is_Nit_active = getInput("Nit",true).value; //tech
-			var is_SST_active = getInput("SST",true).value; //tech
-			var is_Des_active = getInput("Des",true).value; //tech
-			var is_BiP_active = getInput("BiP",true).value; //tech
-			var is_ChP_active = getInput("ChP",true).value; //tech
+			var is_Pri_active = getInput("Pri",true).value //tech
+			var is_BOD_active = getInput("BOD",true).value //tech
+			var is_Nit_active = getInput("Nit",true).value //tech
+			var is_SST_active = getInput("SST",true).value //tech
+			var is_Des_active = getInput("Des",true).value //tech
+			var is_BiP_active = getInput("BiP",true).value //tech
+			var is_ChP_active = getInput("ChP",true).value //tech
 
 			//add result to Variables after a technology resolves
 			function showResults(tech,result){
@@ -113,7 +113,7 @@
 				if(is_ChP_active){
 					var TSS_removal_wo_Fe = getInput('TSS_removal_wo_Fe').value; //60  
 					var TSS_removal_w_Fe  = getInput('TSS_removal_w_Fe').value; //75  
-					var TP                = getInput('TP').value; //6
+					var TP                = is_BiP_active ? Result.BiP.Effluent_P.value : getInput('TP').value; //6
 					var C_PO4_inf         = getInput('C_PO4_inf').value; //5   
 					var C_PO4_eff         = getInput('C_PO4_eff').value; //0.1 
 					var FeCl3_solution    = getInput('FeCl3_solution').value; //37  
@@ -128,14 +128,13 @@
 
 			/*
 				OUTPUTS by phase (water, air, sludge)
-				---IMPORTANT---: all Outputs should be in g/d,
-				because frontend functions will turn them to kg/d
+				*note*: all Outputs are in g/d, and turned to kg/d in frontend
 			*/
 
 			/*
-				Technology         | In/active     | Results object
+				TECHNOLOGY         | IN/ACTIVE     | RESULTS OBJECT
 				-------------------+---------------+---------------
-				primary treatment  | is_Pri_active | (no results)
+				primary treatment  | is_Pri_active | ---N/A----
 				bod removal        | is_BOD_active | Result.BOD
 				nitrification      | is_Nit_active | Result.Nit
 				sst sizing         | is_SST_active | Result.SST
@@ -169,11 +168,22 @@
 			var TP = (is_BiP_active || is_ChP_active) ? TP : getInputById('TP').value;  //g/m3
 
 			var C_PO4_eff = (function(){
-				return 0.1; 
-				//TODO ask what happens if both techs are simulataneous, because this happens:
-				//in chem P this is C_PO4_eff             (input)
-				//in bio  P this is Result.BiP.Effluent_P (output)
+				if (is_BiP_active==false && is_ChP_active==false){
+					return getInputById('C_PO4_eff').value; //default value
+				}
+				else if(is_BiP_active && is_ChP_active==false){
+					return Result.BiP.Effluent_P.value;
+				}
+				else if(is_BiP_active==false && is_ChP_active){
+					return getInput('C_PO4_eff').value;
+				}
+				else if(is_BiP_active && is_ChP_active){
+					return getInput('C_PO4_eff').value;
+				}
 			})();
+
+			//total sulfur is not used still (no equations)
+			var TS = getInputById('TS').value;
 
 			//lcorominas pdf starts here
 			var TSS_was      = X_R;                                          //g/m3
@@ -187,129 +197,136 @@
 			var bTKN         = TKN - nbpON - nbsON - TKN_N2O;                //g/m3
 			var sTKNe        = Q*(Ne + nbsON);                               //g/d
 
-			//Outputs.COD
-			Outputs.COD.influent = Q*COD;
-			Outputs.COD.effluent.water  = (function(){return sCODe + biomass_CODe})();
-			Outputs.COD.effluent.air    = (function(){return 0})();
-			Outputs.COD.effluent.sludge = (function(){
-				var A = P_X_bio*1000;
-				var B = Qwas*sCODe/Q;
-				var C = Q*nbpCOD;
-				return A+B+C;
-			})();
+			//OUTPUTS.COD
+				Outputs.COD.influent = Q*COD;
+				Outputs.COD.effluent.water  = (function(){return sCODe + biomass_CODe})();
+				Outputs.COD.effluent.air    = (function(){return 0})();
+				Outputs.COD.effluent.sludge = (function(){
+					var A = P_X_bio*1000;
+					var B = Qwas*sCODe/Q;
+					var C = Q*nbpCOD;
+					return A+B+C;
+				})();
 
-			//Outputs.CO2
-			Outputs.CO2.influent       = (function(){return 0})();
-			Outputs.CO2.effluent.water = (function(){return 0})();
-			Outputs.CO2.effluent.air   = (function(){
-				var k_CO2_COD = 0.99;
-				var k_CO2_bio = 1.03;
-				var air = k_CO2_COD*Q*(1-YH)*(S0-S) + k_CO2_bio*Q*YH*(S0-S)*bHT*SRT/(1+bHT*SRT)*(1-fd) - 4.49*NOx;
-				return air;
-			})();
-			Outputs.CO2.effluent.sludge = (function(){return 0})();
+			//OUTPUTS.CO2
+				Outputs.CO2.influent       = (function(){return 0})();
+				Outputs.CO2.effluent.water = (function(){return 0})();
+				Outputs.CO2.effluent.air   = (function(){
+					var k_CO2_COD = 0.99;
+					var k_CO2_bio = 1.03;
+					var air = k_CO2_COD*Q*(1-YH)*(S0-S) + k_CO2_bio*Q*YH*(S0-S)*bHT*SRT/(1+bHT*SRT)*(1-fd) - 4.49*NOx;
+					return air;
+				})();
+				Outputs.CO2.effluent.sludge = (function(){return 0})();
 
-			//Outputs.CH4 TODO
-			Outputs.CH4.influent        = (function(){return 0})();
-			Outputs.CH4.effluent.water  = (function(){return 0})();
-			Outputs.CH4.effluent.air    = (function(){return 0})();
-			Outputs.CH4.effluent.sludge = (function(){return 0})();
+			//OUTPUTS.CH4
+				Outputs.CH4.influent        = (function(){return 0})();
+				Outputs.CH4.effluent.water  = (function(){return 0})();
+				Outputs.CH4.effluent.air    = (function(){return 0})();
+				Outputs.CH4.effluent.sludge = (function(){return 0})();
 
-			//Outputs.TKN
-			Outputs.TKN.influent = Q*TKN;
-			Outputs.TKN.effluent.water = (function(){
-				if(is_Nit_active){
-					return sTKNe + Q*VSSe*0.12;
-				}else{
-					//corrected 2017-10-13
-					return Q*(TKN - nbpON - TKN_N2O + 0.12*VSSe) - 0.12*P_X_bio*1000;
-				}
-			})();
-			Outputs.TKN.effluent.air = (function(){return 0})();
-			Outputs.TKN.effluent.sludge = (function(){
-				var A = 0.12*P_X_bio*1000;
-				var B = Qwas*sTKNe/Q;
-				var C = Q*nbpON;
-				return A+B+C;
-			})();
+			//OUTPUTS.TKN
+				Outputs.TKN.influent = Q*TKN;
+				Outputs.TKN.effluent.water = (function(){
+					if(is_Nit_active){
+						return sTKNe + Q*VSSe*0.12;
+					}else{
+						//corrected 2017-10-13
+						return Q*(TKN - nbpON - TKN_N2O + 0.12*VSSe) - 0.12*P_X_bio*1000;
+					}
+				})();
+				Outputs.TKN.effluent.air = (function(){return 0})();
+				Outputs.TKN.effluent.sludge = (function(){
+					var A = 0.12*P_X_bio*1000;
+					var B = Qwas*sTKNe/Q;
+					var C = Q*nbpON;
+					return A+B+C;
+				})();
 
-			//Outputs.NOx
-			Outputs.NOx.influent = Q*NOx;
-			Outputs.NOx.effluent.water  = (function(){
-				if(is_Nit_active==false){
-					return 0;
-				}else if(is_Des_active){
-					return Q*NO3_eff;
-				}else if(is_Des_active==false){ 
-					return Q*(bTKN - Ne) - 0.12*P_X_bio*1000;
-				}
-			})();
-			Outputs.NOx.effluent.air = (function(){return 0})();
-			Outputs.NOx.effluent.sludge = (function(){
-				if(is_Nit_active==false) {
-					return 0;
-				}else if(is_Des_active){
-					return Qwas*NO3_eff;
-				}else if(is_Des_active==false){
-					return Qwas*NOx;
-				}
-			})();
+			//OUTPUTS.NOX
+				Outputs.NOx.influent = Q*NOx;
+				Outputs.NOx.effluent.water = (function(){
+					if(is_Nit_active==false){
+						return 0;
+					}else if(is_Des_active){
+						return Q*NO3_eff;
+					}else if(is_Des_active==false){ 
+						return Q*(bTKN - Ne) - 0.12*P_X_bio*1000;
+					}
+				})();
+				Outputs.NOx.effluent.air = (function(){return 0})();
+				Outputs.NOx.effluent.sludge = (function(){
+					if(is_Nit_active==false) {
+						return 0;
+					}else if(is_Des_active){
+						return Qwas*NO3_eff;
+					}else if(is_Des_active==false){
+						return Qwas*NOx;
+					}
+				})();
 
-			//Outputs.N2
-			Outputs.N2.influent        = (function(){return 0})();
-			Outputs.N2.effluent.water  = (function(){return 0})();
-			Outputs.N2.effluent.air    = (function(){
-				if(is_Des_active) {
-					return Q*(NOx - NO3_eff);
-				}else{
-					return 0;
-				}
-			})();
-			Outputs.N2.effluent.sludge = (function(){return 0})();
+			//OUTPUTS.N2
+				Outputs.N2.influent        = (function(){return 0})();
+				Outputs.N2.effluent.water  = (function(){return 0})();
+				Outputs.N2.effluent.air    = (function(){
+					if(is_Des_active) {
+						return Q*(NOx - NO3_eff);
+					}else{ return 0 }
+				})();
+				Outputs.N2.effluent.sludge = (function(){return 0})();
 
-			//Outputs.N2O
-			Outputs.N2O.influent        = (function(){return 0})();
-			Outputs.N2O.effluent.water  = (function(){return 0})();
-			Outputs.N2O.effluent.air    = (function(){
-				return Q*TKN_N2O;
-			})();
-			Outputs.N2O.effluent.sludge = (function(){return 0})();
+			//OUTPUTS.N2O
+				Outputs.N2O.influent = (function(){return 0})();
+				Outputs.N2O.effluent.water = (function(){return 0})();
+				Outputs.N2O.effluent.air = (function(){
+					return Q*TKN_N2O;
+				})();
+				Outputs.N2O.effluent.sludge = (function(){return 0})();
 
-			//Outputs.TP continue here TODO
-			Outputs.TP.influent        = Q*TP;
-			Outputs.TP.effluent.water  = (function(){
-				if(is_BiP_active==false && is_ChP_active==false){
-					return Q*TP;
-				}else{
-					return Q*C_PO4_eff;
-				}
-			})();
-			Outputs.TP.effluent.air = (function(){return 0})();
-			Outputs.TP.effluent.sludge = (function(){
-				if(is_BiP_active==false && is_ChP_active==false){
-					return 0;
-				}
-				var A=0.015*P_X_bio*1000;
-				var B=Qwas*C_PO4_eff;
-				if(is_BiP_active && is_ChP_active==false){
-					var C = 0 //continue here
-				}
+			//OUTPUTS.TP
+				Outputs.TP.influent = Q*TP;
+				Outputs.TP.effluent.water = (function(){
+					if(is_BiP_active==false && is_ChP_active==false){
+						return Q*TP;
+					}else{
+						return Q*C_PO4_eff;
+					}
+				})();
+				Outputs.TP.effluent.air = (function(){return 0})();
+				Outputs.TP.effluent.sludge = (function(){
+					if(is_BiP_active==false && is_ChP_active==false){
+						return 0;
+					}
 
-			})();
+					//return A+B+C equations
+					var A = 0.015*P_X_bio*1000;
+					var B = Qwas*C_PO4_eff;
 
-			//Outputs.TS
-			if(typeof(TS)=="undefined"){var TS=0;}
-			Outputs.TS.influent        = Q*TS;
-			Outputs.TS.effluent.water  = (function(){
-				return 0; //TODO
-			})();
-			Outputs.TS.effluent.air    = (function(){
-				return 0; //TODO
-			})();
-			Outputs.TS.effluent.sludge = (function(){
-				return 0; //TODO
-			})();
-		}
+					//calculate C depending on P removal
+					var nbpP = 0.025*nbVSS;
+					var nbsP = 0;
+					var aP = TP - nbpP - nbsP;
+					var aPchem = aP - 0.015*P_X_bio*1000/Q;
+
+					if (is_BiP_active && is_ChP_active==false){
+						var C = Q*Result.BiP.P_removal.value;
+					}
+					else if(is_BiP_active==false && is_ChP_active){
+						var C = Q*(aPchem - C_PO4_eff);
+					}
+					else if(is_BiP_active && is_ChP_active){
+						var C = NaN;
+						//TODO ask what happens here first
+					}
+					return A+B+C
+				})();
+
+			//OUTPUTS.TS
+				Outputs.TS.influent        = Q*TS;
+				Outputs.TS.effluent.water  = (function(){return 0})();
+				Outputs.TS.effluent.air    = (function(){return 0})();
+				Outputs.TS.effluent.sludge = (function(){return 0})();
+		} //end compute_elementary_flows()
 	</script>
 
 	<!--data structures-->
@@ -428,7 +445,7 @@
 					getInput('ChP',true).value=false;
 				}
 				else{
-					getInput('SST',true).value=true;
+					getInput('SST',true).value=true; //if bod active, sst active
 				}
 
 				//denitri only if nitri
@@ -455,7 +472,7 @@
 				});
 
 				//reset design inputs
-				Design = [ ];
+				Design=[];
 				input_codes.filter(code=>{return getInputById(code).isParameter}).forEach(code=>{
 					Design.push(getInputById(code));
 				});
@@ -635,6 +652,7 @@
 <?php include'navbar.php'?>
 <div id=root>
 <h1>Elementary Flows</h1>
+
 <p>Under development:</p>
 	<ul>
 		<li>outputs for P removal

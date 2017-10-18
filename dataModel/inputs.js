@@ -57,6 +57,9 @@ var Inputs = [
 {id:"FeCl3_unit_weight", value:1.35, unit:"kg/L", isParameter:true, descr:"Ferric chloride unit weight"                                },
 {id:"days",              value:15,   unit:"d",    isParameter:true, descr:"Time for the supply to be stored at the treatment facility" },
 
+//Sulfur (not used)
+{id:"TS", value:0, unit:"g/m3", descr:"Total Sulfur in influent" },
+
 ];
 
 //getter

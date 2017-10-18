@@ -247,16 +247,14 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 			var TP    = getInput('TP').value; //6
 			var PO4_e = getInput('PO4_e').value; //6
 
-			//equations
+			//equations P
 			var nbpP = 0.025*nbVSS;
 			var nbsP = 0;
 			var aP = TP - nbpP - nbsP;
 			var aPchem = aP - 0.015*P_X_bio*1000/Q;
 
 			//OUTPUTS table 5 elementary flows-->
-			/*
-				IMPORTANT: all Outputs should be in g/d
-			*/
+			/* IMPORTANT: all Outputs should be in g/d */
 
 			//Outputs.COD
 			var sCODe = Q*(nbsCODe + S);

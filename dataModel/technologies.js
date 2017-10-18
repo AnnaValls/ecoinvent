@@ -81,7 +81,7 @@ var Technologies = {
 		],
 	},
 	"BiP":{
-		Name:"Bio P removal",
+		Name:"Biological P removal",
 		File:"bio_P_removal.js",
 		Inputs:[ 
 			"Q", 
@@ -95,7 +95,7 @@ var Technologies = {
 		],
 	},
 	"ChP":{
-		Name:"Chem P removal",
+		Name:"Chemical P removal",
 		File:"chem_P_removal.js",
 		Inputs:[ 
 			"Q", 
