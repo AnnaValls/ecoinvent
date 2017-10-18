@@ -12,6 +12,8 @@
 				for(var o in Result){
 					ret.push({name:o, unit:Result[o].unit, descr:Result[o].descr});
 				}
+				//sort by name
+				var ret = ret.sort((a,z)=>{return a.name.localeCompare(z.name)});
 				return ret;
 			})();
 			for(var i=0;i<out.length;i++){
@@ -35,7 +37,7 @@
 <div id=root>
 
 <h1>All Outputs</h1>
-<p>Grouped by technology</p>
+<p>Grouped by technology and sorted alphabetically</p>
 <hr>
 <div class=flex>
 	<script>

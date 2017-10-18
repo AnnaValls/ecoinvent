@@ -315,8 +315,7 @@
 						var C = Q*(aPchem - C_PO4_eff);
 					}
 					else if(is_BiP_active && is_ChP_active){
-						var C = NaN;
-						//TODO ask what happens here first
+						var C = 0; //TODO ask what happens here
 					}
 					return A+B+C
 				})();

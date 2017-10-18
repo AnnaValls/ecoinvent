@@ -64,9 +64,6 @@
 			<tr>
 				<td>5. <a href="implementations/ekama_sizing.php">Reactor sizing (optim. cost) [G. Ekama]</a>
 				<td>Done
-			<tr>
-				<td colspan=2 align=center><a href="techs/tests.php">Implementation Tests</a>
-			</tr>
 		</table>
 	</div><hr>
 
