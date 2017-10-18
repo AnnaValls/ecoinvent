@@ -7,7 +7,13 @@
 <div id=root>
 
 <!--technologies table-->
-<h1>All Technologies</h1>
+<h1>
+	All Technologies
+	(<span id=number_of_technologies></span>)
+	<script>
+		document.querySelector('#number_of_technologies').innerHTML=Object.keys(Technologies).length;
+	</script>
+</h1>
 <div>
 	<table id=technologies border=1>
 		<tr><th>Technology<th>Name<th>Implemented in<th><a href=inputs.php>Inputs</a> required
@@ -36,7 +42,13 @@
 </div>
 
 <!--technologt combinations table-->
-<h1>All Technology combinations</h1>
+<h1>
+	All Technology combinations
+	(<span id=number_of_combinations></span>)
+	<script>
+		document.querySelector('#number_of_combinations').innerHTML=Combinations.length;
+	</script>
+</h1>
 <div>
 	<table id=combinations border=1>
 		<tr><th>Combination<th><a href=inputs.php>Inputs</a> required

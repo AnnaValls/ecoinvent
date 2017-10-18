@@ -1,6 +1,9 @@
 <!--title-->
-<div id=navbar onclick=window.location='index.php' title="Click here to go to the main page">
-	Ecoinvent wastewater web tool <i>(under development)</i>
+<div id=navbar onclick=window.location='index.php' 
+	title="Go to home page">
+	<b>Ecoinvent</b> 
+	wastewater web tool 
+	<i>(under development)</i>
 	<style>
 		#navbar {
 			background:linear-gradient(to top, #e01a1a, #eb6666);

@@ -5,7 +5,13 @@
 <?php include'navbar.php'?>
 <div id=root>
 
-<h1>All Inputs</h1>
+<h1>
+	All Inputs
+	(<span id=Inputs_length></span>)
+	<script>
+		document.querySelector('#Inputs_length').innerHTML=Inputs.length
+	</script>
+</h1>
 <p>Move the mouse over an input to see the description</p>
 
 <!--tables-->

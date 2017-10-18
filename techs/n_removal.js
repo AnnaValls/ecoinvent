@@ -102,24 +102,24 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
 	//end N removal
 
 	return {
-		Xb:                         {value:Xb,                         unit:"g/m3",           descr:"Xb"},
-		IR:                         {value:IR,                         unit:"&empty;",        descr:"IR"},
+		Xb:                         {value:Xb,                         unit:"g/m3",           descr:"Active biomass concentration"},
+		IR:                         {value:IR,                         unit:"&empty;",        descr:"IR ratio"},
 		Flowrate_to_anoxic_tank:    {value:Flowrate_to_anoxic_tank,    unit:"m3/d",           descr:"Flowrate_to_anoxic_tank"},
 		NOx_feed:                   {value:NOx_feed,                   unit:"g/d",            descr:"NOx_feed"},
-		tau:                        {value:tau,                        unit:"d",              descr:"tau"},
-		V_nox:                      {value:V_nox,                      unit:"m3",             descr:"V_nox"},
-		FM_b:                       {value:FM_b,                       unit:"g/g·d",          descr:"FM_b"},
+		tau:                        {value:tau,                        unit:"d",              descr:"tau detention time"},
+		V_nox:                      {value:V_nox,                      unit:"m3",             descr:"Anoxic volume"},
+		FM_b:                       {value:FM_b,                       unit:"g/g·d",          descr:"F/Mb"},
 		Fraction_of_rbCOD:          {value:100*rbCOD/bCOD,             unit:"%",              descr:"Fraction_of_rbCOD"},
-		b0:                         {value:b0,                         unit:"g/g·d",          descr:"b0"},
-		b1:                         {value:b1,                         unit:"g/g·d",          descr:"b1"},
+		b0:                         {value:b0,                         unit:"g/g·d",          descr:"b0 (needed for SDNR)"},
+		b1:                         {value:b1,                         unit:"g/g·d",          descr:"b1 (needed for SDNR)"},
 		SDNR_b:                     {value:SDNR_b,                     unit:"g/g·d",          descr:"SDNR_b"},
-		SDNR_T:                     {value:SDNR_T,                     unit:"g/g·d",          descr:"SDNR_T"},
-		SDNR_adj:                   {value:SDNR_adj,                   unit:"g/g·d",          descr:"SDNR_adj"},
-		SDNR:                       {value:SDNR,                       unit:"g/g·d",          descr:"SDNR"},
-		NO_r:                       {value:NO_r,                       unit:"g/d",            descr:"NO_r"},
+		SDNR_T:                     {value:SDNR_T,                     unit:"g/g·d",          descr:"SDNR_T (corrected by temperature)"},
+		SDNR_adj:                   {value:SDNR_adj,                   unit:"g/g·d",          descr:"SDNR_adj (applied recycle correction)"},
+		SDNR:                       {value:SDNR,                       unit:"g/g·d",          descr:"Overall SDNR based on MLVSS"},
+		NO_r:                       {value:NO_r,                       unit:"g/d",            descr:"Amount of NO3-N that can be reduced"},
 		Net_O2_required:            {value:Net_O2_required,            unit:"kg_O2/d",        descr:"Net_O2_required"},
 		Mass_of_alkalinity_needed:  {value:Mass_of_alkalinity_needed,  unit:"kg/d_as_CaCO3",  descr:"Mass_of_alkalinity_needed"},
-		Power:                      {value:Power,                      unit:"kW",             descr:"Power"},
+		Power:                      {value:Power,                      unit:"kW",             descr:"Anoxic zone mixing energy"},
 	}
 }
 

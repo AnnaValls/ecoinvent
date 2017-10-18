@@ -154,15 +154,16 @@
 			var bHT          = Result.BOD.bHT.value;     //1/d
 			var nbVSS        = Result.BOD.nbVSS.value;   //g/m3
 
-			var S            = is_Nit_active ? Result.Nit.S.value : Result.BOD.S.value; //kg/d
+			var S            = is_Nit_active ? Result.Nit.S.value           : Result.BOD.S.value; //kg/d
 			var P_X_bio      = is_Nit_active ? Result.Nit.P_X_bio_VSS.value : Result.BOD.P_X_bio.value; //kg/d
-			var V            = is_Nit_active ? Result.Nit.V.value : Result.BOD.V.value; //m3
-			var NOx          = is_Nit_active ? Result.Nit.NOx.value : 0; //g/m3
+			var V            = is_Nit_active ? Result.Nit.V.value           : Result.BOD.V.value; //m3
+			var NOx          = is_Nit_active ? Result.Nit.NOx.value         : 0;                  //g/m3
 			var TSSe         = is_Nit_active ? TSSe    : getInputById('TSSe').value; //g/m3
 			var Ne           = is_Nit_active ? Ne      : getInputById('Ne').value; //g/m3
 			var TKN          = is_Nit_active ? TKN     : getInputById('TKN').value; //g/m3
 			var NO3_eff      = is_Des_active ? NO3_eff : getInputById('NO3_eff').value; //g/m3
 
+			//lcorominas pdf starts here
 			var TSS_was      = X_R;                      //g/m3
 			var VSSe         = TSSe*0.85;                //g/m3
 			var Qwas         = (V*MLSS_X_TSS/SRT - Q*TSSe)/(TSS_was - TSSe);
@@ -176,8 +177,8 @@
 
 			//Outputs.COD
 			Outputs.COD.influent = Q*COD;
-			Outputs.COD.effluent.water = (function(){return sCODe + biomass_CODe})();
-			Outputs.COD.effluent.air = (function(){return 0})();
+			Outputs.COD.effluent.water  = (function(){return sCODe + biomass_CODe})();
+			Outputs.COD.effluent.air    = (function(){return 0})();
 			Outputs.COD.effluent.sludge = (function() {
 				var A = Q*YH*(S0 - S)/(1 + bHT*SRT) + (fd*bHT*Q*YH*(S0 - S)*SRT)/(1 + bHT*SRT) + 0;
 				var B = Qwas*sCODe/Q;
