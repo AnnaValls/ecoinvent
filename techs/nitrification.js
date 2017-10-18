@@ -3,7 +3,7 @@
  * Metcalf & Eddy, Wastewater Engineering, 5th ed., 2014:
  * page 762
  */
-function nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pressure,Df,MLSS_X_TSS,Ne,sBODe,TSSe,Alkalinity){
+function nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pressure,Df,MLSS_X_TSS,Ne,sBODe,TSSe,Alkalinity,C_L){
 	/*
 		Inputs            example values 
 		--------------------------------
@@ -26,6 +26,7 @@ function nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pr
 			sBODe           3 g/m3 (design)
 			TSSe            10 g/m3 (design)
 			Alkalinity      140 g/m3 as CaCO3
+			C_L             2.0 mg/L
 		--------------------------------
 	*/
 
@@ -219,6 +220,7 @@ function nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pr
 	var sBODe           = 3;
 	var TSSe            = 10;
 	var Alkalinity      = 140;
-	var result = nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pressure,Df,MLSS_X_TSS,Ne,sBODe,TSSe,Alkalinity);
+	var C_L             = 2.0;
+	var result = nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pressure,Df,MLSS_X_TSS,Ne,sBODe,TSSe,Alkalinity,C_L);
 	console.log(result);
 })();

@@ -15,3 +15,15 @@
 	Generate
 </button>
 
+<hr>
+
+<p>
+	Ask for
+	<ul>
+		<li>technology
+		<li>capacity
+		<li>geography
+		<li>time period start
+		<li>time period end
+	</ul>
+</p>

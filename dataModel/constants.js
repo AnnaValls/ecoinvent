@@ -12,18 +12,17 @@ const M_Fe   = 55.845; //g/mol (Fe molecular weight)
 const M_P    = 30.974; //g/mol (P molecular weight)
 
 //bod removal related
-const YH     = 0.45; //
-const Ks     = 8;    //
-const mu_m   = 6;    //
-const bH     = 0.12; //
-const fd     = 0.15; //
+const YH     = 0.45; //TODO add description
+const Ks     = 8;    //TODO add description
+const mu_m   = 6;    //TODO add description
+const bH     = 0.12; //TODO add description
+const fd     = 0.15; //TODO add description
 
 //aeration related
-const C_L    = 2.0;   //DO in aeration basin (mg/L) TBD (is a design choice 1.5-2)
-const F      = 0.9;   //8.b fouling factor
+const F      = 0.90;  //8.b fouling factor
 const C_s_20 = 9.09;  //8.b sat DO at sea level at 20ºC
 const de     = 0.40;  //8.b mid-depth correction factor (range: 0.25 - 0.45)
-const E      = 0.35;  //O2 transfer efficiency
+const E      = 0.35;  //oxygen transfer efficiency
 
 //nitrification related
 const mu_max_AOB = 0.90; //table 8-14 at 20ºC

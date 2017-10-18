@@ -6,10 +6,13 @@
 #   recursively with ". -r"
 #   excludes readme file
 #   excludes .git folder
-#   excludes README.txt file
+#   excludes docs folder
 #   excludes this file
+#   excludes README.txt file
+#   excludes images in base64 encoding
 
 echo "Searching 'TBD', 'TO DO' and 'TODO' tags..."
+echo ''
 
 grep -e "TBD" -e "TODO" -e "TO DO" . -r \
 	--exclude-dir ".git" \

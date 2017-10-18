@@ -20,13 +20,11 @@
 			<li>
 				Single plant
 				<ul>
-					<li><a href=elementary.php  >1. [IN PROGRESS] Elementary flows [standalone implementation]
-					<li><a href=elementary2.php >1. [IN PROGRESS] Elementary flows [COMPLETE  implementation (from metcalf &amp; eddy)]
-					<li><a href=construction.php>2. [DONE]        Construction materials
-					<li><a		                  >3. [PENDING]     Chemicals consumed
-					<li><a		                  >4. [PENDING]     Energy consumed
-					<li><a href=ecospold.php    >5. [IN PROGRESS] Generate ecoSpold
-					<li><a                      >6. [ON HOLD]     Simple Treat flows
+					<li><a href=elementary.php  >1.a. [IN PROGRESS] Elementary flows (standalone)
+					<li><a href=elementary2.php >1.b. [IN PROGRESS] Elementary flows (COMPLETE - from metcalf &amp; eddy)
+					<li><a href=construction.php>2.   [DONE]        Construction materials
+					<li><a href=ecospold.php    >3.   [IN PROGRESS] Generate ecoSpold
+					<li><a                      >4.   [ON HOLD]     Simple Treat flows
 				</ul>
 			</li>
 			<li>

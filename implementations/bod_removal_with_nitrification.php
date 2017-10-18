@@ -325,6 +325,7 @@
 				<tr><td>z<sub>b</sub> (elevation)   <td><input type=number id=parameter_zb value=500> m 
 				<tr><td>Pressure (at z<sub>b</sub>) <td><input type=number id=parameter_Pressure value=95600> Pa
 				<tr><td>D<sub>f</sub>               <td><input type=number id=parameter_Df value=4.4> m
+				<tr><td>C<sub>L</sub>               <td><input type=number id=parameter_C_L value=2.0> mg/L
 				<tr><td>SF (safety factor)          <td><input type=number id=parameter_SF value=1.5> &empty;
 				<tr><td>N<sub>e</sub>               <td><input type=number id=parameter_Ne value=0.50> g/m<sup>3</sup>
 				<tr><td>sBOD<sub>e</sub>            <td><input type=number id=parameter_sBODe value=3> g/m<sup>3</sup>
@@ -445,10 +446,11 @@
 		var zb             = getInput('parameter_zb'); //500
 		var Pressure       = getInput('parameter_Pressure'); //95600
 		var Df             = getInput('parameter_Df'); //4.4 = 4.9m-0.5m, from design conditions and assumptions (depth of diffusers in basin)
+		var C_L            = getInput('parameter_C_L'); //2.0
 		//end
 
 		//(1) perform bod removal only
-		var r1=bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb,Pressure,Df);
+		var r1=bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb,Pressure,Df,C_L);
 
 		//show results for part A
 		showResult('part_A_bCOD',         r1.bCOD.value);
@@ -487,7 +489,7 @@
 		var TSSe       = getInput('parameter_TSSe');   //10 mg/L
 
 		//(2) perform nitrification
-		var r2=nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pressure,Df,MLSS_X_TSS,Ne,sBODe,TSSe,Alkalinity);
+		var r2=nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pressure,Df,MLSS_X_TSS,Ne,sBODe,TSSe,Alkalinity,C_L);
 
 		//show results for part B
 		showResult('part_B_mu_AOB',                 r2.mu_AOB.value);

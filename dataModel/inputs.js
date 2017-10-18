@@ -23,6 +23,7 @@ var Inputs = [
 {id:"zb",             value:500,   unit:"m",    isParameter:true, descr:"Site elevation"                     },
 {id:"Pressure",       value:95600, unit:"Pa",   isParameter:true, descr:"Pressure at site elevation"         },
 {id:"Df",             value:4.4,   unit:"m",    isParameter:true, descr:"Liquid depth for aeration basin minus distance between tank bottom and point of air release for the  diffusers.  For  example:  4.9  m  -  0.5  m  =  4.4  m" },
+{id:"C_L",            value:2.0,   unit:"mg/L", isParameter:true, descr:"DO in aeration basin (generally: 1.5 to 2)" },
 
 //nitrification
 {id:"TKN",        value:35,   unit:"g/m3",                            descr:"Total Kjedahl nitrogen"                 },

@@ -275,8 +275,8 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 			//Outputs.CO2
 			Outputs.CO2.water=0;
 			Outputs.CO2.air=(function(){
-				var k_CO2_COD = 0.99; //? TODO
-				var k_CO2_bio = 1.03; //? TODO
+				var k_CO2_COD = 0.99;
+				var k_CO2_bio = 1.03;
 				var air = k_CO2_COD*Q*(1-YH)*(S0-S) + k_CO2_bio*Q*YH*(S0-S)*bHT*SRT/(1+bHT*SRT)*(1-fd) - 4.49*NOx;
 				return air;
 			})();

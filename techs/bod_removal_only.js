@@ -3,7 +3,7 @@
  * Metcalf & Eddy, Wastewater Engineering, 5th ed., 2014:
  * pages 756-768
  */
-function bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb,Pressure,Df){
+function bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb,Pressure,Df,C_L){
 	/*
 		Inputs            example values 
 		--------------------------------
@@ -21,6 +21,7 @@ function bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_
 			zb              500    m
 			Pressure        95600  Pa
 			Df              4.4    m
+			C_L             2.0 mg/L
 		--------------------------------
 	*/
 	//parameters
@@ -126,6 +127,7 @@ function bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_
 	var zb             = 500;
 	var Pressure       = 95600;
 	var Df             = 4.4;
-	var result = bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb,Pressure,Df);
+	var C_L             = 2.0;
+	var result = bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb,Pressure,Df,C_L);
 	console.log(result);
 })();

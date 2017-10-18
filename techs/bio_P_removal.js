@@ -52,9 +52,7 @@ function bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,rbCOD_NO3_ratio,NOx,
 	var P_removal_gday = (TP - Effluent_P)*Q; //20,800 g/d
 	var P_in_waste_sludge = 100*P_removal_gday/P_X_TSS; //4.8 %
 
-	//part B 1
-		//skipped
-	//
+	//part B 1 //skipped //
 
 	var P_removal = P_removal_EBPR + P_removal_synthesis_n; //5 g/m3
 	/*end solution*/
@@ -75,9 +73,9 @@ function bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,rbCOD_NO3_ratio,NOx,
 		P_removal_synthesis_n: {value:P_removal_synthesis_n,       unit:"g/m3",     descr:"P removal (synthesis) normalized to flowrate"},
 		Effluent_P:            {value:Effluent_P,                  unit:"g/m3",     descr:"Effluent P (influent-P_EBPR-P_synth)"},
 		P_X_TSS:               {value:P_X_TSS,                     unit:"g/d",      descr:"Total sludge production"},
-		P_removal_gday:        {value:P_removal_gday,              unit:"g/d",      descr:"P_removal_gday"},
+		P_removal_gday:        {value:P_removal_gday,              unit:"g/d",      descr:"P_removal (g/day)"},
 		P_in_waste_sludge:     {value:P_in_waste_sludge,           unit:"%",        descr:"P_in_waste_sludge"},
-		P_removal:             {value:P_removal,                   unit:"g/m3",     descr:"P_removal_by_EBPR"},
+		P_removal:             {value:P_removal,                   unit:"g/m3",     descr:"Total P removal"},
 	}
 }
 
