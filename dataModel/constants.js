@@ -3,6 +3,8 @@
 	used in technologies
 */
 
+const COD_VSS_bio = 1.42; //TODO (g COD/g VSS) add to equations with 1.42 value
+
 //physics (universal)
 const Pa     = 10.33;  //m (standard pressure at sea level)
 const R      = 8314;   //kg*m2/s2*kmol*K (ideal gases constant)

@@ -22,6 +22,8 @@ function bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,rbCOD_NO3_ratio,NOx,
 		--------------------------------
 	*/
 
+	var V_anaerobic = 0.75 * Q / 24; //709.4 m3 (tau=0.75h from exercise statement)
+
 	/*SOLUTION*/
 	//1
 	var Q_rbCOD = Q*rbCOD; //300,000 g/d
@@ -75,6 +77,7 @@ function bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,rbCOD_NO3_ratio,NOx,
 		P_removal_gday:        {value:P_removal_gday,              unit:"g/d",      descr:"P_removal (g/day)"},
 		P_in_waste_sludge:     {value:P_in_waste_sludge,           unit:"%",        descr:"P_in_waste_sludge"},
 		P_removal:             {value:P_removal,                   unit:"g/m3",     descr:"Total P removal"},
+		V:                     {value:V_anaerobic,                 unit:"m3",       descr:"Anaerobic volume"},
 	}
 }
 

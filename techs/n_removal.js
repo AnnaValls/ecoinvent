@@ -29,6 +29,7 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
 
 	//name change
 	var Ne=NO3_eff; 
+
 	//correct bH by temperature
 	var bHT=bH*Math.pow(1.04,T - 20); 
 	

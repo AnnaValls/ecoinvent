@@ -45,6 +45,7 @@ function nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pr
 	var nbpCOD = COD - bCOD - nbsCODe; //g/m3
 	var VSS_COD = (COD-sCOD)/VSS; 
 	var nbVSS = nbpCOD/VSS_COD; //g/m3
+
 	var mu_max_AOB_T = mu_max_AOB * Math.pow(1.072,T-20); //1/d
 	var b_AOB_T = b_AOB* Math.pow(1.029,T-20); //1/d
 	var S_NH4 = Ne; //g/m3

@@ -264,10 +264,10 @@ backend_implementation_of_"docs/Elementaryflows_20170927evening.pdf"]
 			})(); 
 			Outputs.COD.air = 0;
 			Outputs.COD.sludge = (function(){
-				var A = Q*YH*(S0 - S)/(1 + bHT*SRT) + (fd*bHT*Q*YH*(S0 - S)*SRT)/(1 + bHT*SRT) + 0;
+        var A = P_X_bio*1000;
 				var B = Qwas*sCODe/Q;
 				var C = Q*nbpCOD;
-				return A+B+C;
+				return A+B+C - biomass_CODe;
 			})();
 
 			//Outputs.CO2
