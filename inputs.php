@@ -66,7 +66,7 @@
 	<!--legend-->
 	<div>
 		<table id=legend border=1>
-			<tr><th colspan=2>Legend
+			<tr><th colspan=2>Technologies Legend
 		</table>
 		<script>
 			//fill legend table

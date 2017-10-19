@@ -213,7 +213,14 @@
 			//OUTPUTS.CH4
 				Outputs.CH4.influent        = (function(){return 0})();
 				Outputs.CH4.effluent.water  = (function(){return 0})();
-				Outputs.CH4.effluent.air    = (function(){return 0})();
+				Outputs.CH4.air             = (function(){ //TODO
+					var is_Anaer_treatment = false; 
+					if(is_Anaer_treatment){
+						return 0.95*Q*bCOD;
+					}else{
+						return 0;
+					}
+				})();
 				Outputs.CH4.effluent.sludge = (function(){return 0})();
 
 			//OUTPUTS.TKN
@@ -285,7 +292,34 @@
 				Outputs.TS.effluent.water  = (function(){return 0})();
 				Outputs.TS.effluent.air    = (function(){return 0})();
 				Outputs.TS.effluent.sludge = (function(){return 0})();
+
+			//deal with unit change
+			(function reset_all_outputs(){
+				if(Options.currentUnit.value=="g/m3") {
+					for(var out in Outputs){
+						Outputs[out].influent        /= Q/1000;
+						Outputs[out].effluent.water  /= Q/1000;
+						Outputs[out].effluent.air    /= Q/1000;
+						Outputs[out].effluent.sludge /= Q/1000;
+					}
+				}
+			})();
+
 		} //end compute_elementary_flows()
+	</script>
+
+	<!--options object-->
+	<script>
+		//options
+		var Options = {
+			currentUnit: {
+				value:"kg/d",
+				update:function(){
+					var els=document.querySelectorAll('span.currentUnit');
+					for(var i=0;i<els.length;i++){ els[i].innerHTML=this.value.prettifyUnit(); }
+				}
+			},
+		}
 	</script>
 
 	<!--data structures-->
@@ -457,13 +491,13 @@
 						if(tec.id=="SST") return; //SST always on
 						var newRow=table.insertRow(-1);
 						//tec name
-						newRow.insertCell(-1).innerHTML="<small>"+tec.descr;
+						newRow.insertCell(-1).innerHTML=tec.descr;
 						//checkbox
 						var checked = getInput(tec.id,true).value ? "checked" : "";
 						newRow.insertCell(-1).innerHTML="<input type=checkbox "+checked+" onchange=\"toggleTech('"+tec.id+"')\" tech='"+tec.id+"'>";
 						//implementation link
 						if(Technologies[tec.id]){
-							newRow.insertCell(-1).innerHTML="<small><a href='techs/"+Technologies[tec.id].File+"' target=_blank>see equations</a>";
+							newRow.insertCell(-1).innerHTML="<a href='techs/"+Technologies[tec.id].File+"' target=_blank>see equations</a>";
 						}
 					});
 				})();
@@ -475,7 +509,7 @@
 					Inputs.filter(i=>{return !i.isParameter}).forEach(i=>{
 						var newRow=table.insertRow(-1);
 						newRow.title=i.descr;
-						newRow.insertCell(-1).outerHTML="<td class=help><small>"+i.id;
+						newRow.insertCell(-1).outerHTML="<td class=help>"+i.id;
 						newRow.insertCell(-1).innerHTML="<input id='"+i.id+"' value='"+i.value+"' type=number step=any onchange=setInput('"+i.id+"',this.value) min=0>"
 						newRow.insertCell(-1).outerHTML="<td class=unit>"+i.unit.prettifyUnit();
 					});
@@ -485,7 +519,7 @@
 					Inputs.filter(i=>{return i.isParameter}).forEach(i=>{
 						var newRow=table.insertRow(-1);
 						newRow.title=i.descr;
-						newRow.insertCell(-1).outerHTML="<td class=help><small>"+i.id;
+						newRow.insertCell(-1).outerHTML="<td class=help>"+i.id;
 						newRow.insertCell(-1).innerHTML="<input id='"+i.id+"' value='"+i.value+"' type=number step=any onchange=setInput('"+i.id+"',this.value) min=0>"
 						newRow.insertCell(-1).outerHTML="<td class=unit>"+i.unit.prettifyUnit();
 					});
@@ -567,12 +601,10 @@
 					document.querySelector('#mass_balances #'+element+' td[phase=water]').innerHTML=format(water/1000);
 					document.querySelector('#mass_balances #'+element+' td[phase=air]').innerHTML=format(air/1000);
 					document.querySelector('#mass_balances #'+element+' td[phase=sludge]').innerHTML=format(sludge/1000);
-
 					//actual balance: output/input should be aprox 1
 					var el=document.querySelector('#mass_balances #'+element+' td[phase=balance]')
 					var percent = influent==0 ? 0 : Math.abs(100*(1-(water+air+sludge)/influent));
 					el.innerHTML = format(percent,2)+" %";
-
 					//red warning if percent is greater than 5%
 					if(percent>3){el.style.color='red'}else{el.style.color='green'}
 				}
@@ -604,6 +636,8 @@
 					setBalance('S',influent,water,air,sludge);
 				//end
 			})();
+
+			Options.currentUnit.update();
 		}
 	</script>
 </head><body onload="init()">
@@ -614,7 +648,7 @@
 <p>Under development:</p>
 	<ul>
 		<li>outputs for BioP + ChemP removal at the same time
-		<li>outputs for Sulfur (TS)
+		<li>outputs for Sulfur (TS) (don't have the equations)
 	</ul>
 <hr>
 
@@ -631,7 +665,7 @@
 		<!--input amount-->
 		<div>
 			<small>
-				Inputs &amp; design parameters required: 
+				Inputs required: 
 				<span id=input_amount>0</span> 
 			</small>
 		</div>
@@ -649,7 +683,7 @@
 		<p><b>2. Variables (grouped by technology)</b></p>
 
 		<!--variable amount-->
-		<div style=font-size:11px>
+		<div style=font-size:smaller>
 			Variables calculated: 
 			<span id=variable_amount>0</span>
 		</div>
@@ -696,13 +730,21 @@
 	<!--outputs-->
 	<div>
 		<p><b>3. Outputs</b> (not finished)</p>
+		<!--change units-->
+		<div>
+			<label>
+				<input type=radio name=currentUnit value="kg/d" checked onclick="Options.currentUnit.value=this.value;init()"> kg/d
+			</label><label>
+				<input type=radio name=currentUnit value="g/m3"         onclick="Options.currentUnit.value=this.value;init()"> g/m<sup>3</sup>
+			</label>
+		</div>
 		<!--effluent phases-->
 		<div>
 			<p>3.1. Effluent</p>
 			<table id=outputs border=1 cellpadding=2>
 				<tr>
 					<th rowspan=2>Compound
-					<th colspan=3>Effluent <small>(kg/d)</small>
+					<th colspan=3>Effluent <small>(<span class=currentUnit>kg/d</span>)</small>
 				<tr> <th>Water<th>Air<th>Sludge
 			</table>
 		</div>
@@ -712,8 +754,8 @@
 			<p>3.2. Mass balances</p>
 			<table id=mass_balances border=1>
 				<tr>
-					<th rowspan=2>Element<th rowspan=2>Influent<br><small>(kg/d)</small><th colspan=3>Effluent <small>(kg/d)</small>
-					<th rowspan=2>|Error| <small>(%)</small>
+					<th rowspan=2>Element<th rowspan=2>Influent<br><small>(<span class=currentUnit>kg/d</span>)</small><th colspan=3>Effluent <small>(<span class=currentUnit>kg/d</span>)</small>
+					<th rowspan=2>|Error|<br><small>(%)</small>
 				<tr>
 					<th>Water<th>Air<th>Sludge  
 				<tr id=C><th>C <td phase=influent>Q·COD <td phase=water>1:1     <td phase=air>2:2     <td phase=sludge>1:3     <td phase=balance>A-B-C-D
@@ -732,11 +774,11 @@
 					<li>Purge flow (Qw)
 					<li>SRT
 					<li>Recirculation flow
-					<li>kg concrete
+					<li>Kg concrete
 				</ul>
 			<p>3.4. Technosphere
 				<ul>
-					<li>chemicals consumed from chem P
+					<li>Chemicals consumed
 				</ul>
 			<p>3.5. Aeration &amp; energy consumed</p>
 		</div>
@@ -761,7 +803,7 @@
 	.help:hover{
 		text-decoration:underline;
 	}
-	#variables {
-		font-size:11px;
+	#inputs, #variables {
+		font-size:smaller;
 	}
 </style>

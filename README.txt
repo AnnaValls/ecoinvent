@@ -23,28 +23,26 @@ Expected web tool finish: October 31 2017
 	7. future: code in javascript
 		generate data set id    (automatically) TODO
 		generate activity index (automatically) TODO
-
-- [2][DOING] implementation elementary flows (complete)
-	- [TO DO] Calculate outputs
-- [TO DO] some constants in constants.js are design choices, like *C_L*. Check them.
-- [TO DO] use Qe (Q-Qwas) in equations ("elementary.php")
+- [2][DOING] implementation elementary flows
+	- [TO DO] Bio P + Chem P simulatenous, how to deal with inputs and outputs?
+- [TO DO] constants without description
+- [WAIT] check Qe (Q-Qwas) in equations ("elementary.php") (task for lcorominas)
 
 ### frontend tasks
 - [TO DO] Add equations in a "profile page" for each 
 - [TO DO] save inputs and technologies chosen in cookies
 
-### Lluís Corominas requests
-- [TO DO] meeting notes
-	1. Color code the inputs; what needs to be entered or not, and give some instructions; 
-		--> això t'ho hauré de donar jo amb l'ajuda dels modellers
-	2. a les taules elementary flows, afegir button que et permeti veure els valors de la taula també expressats en m3 en comptes de per dia
-	3. Mass balances under 1% error! Ask modelers to confirm
-	4. We will give them pdf with equations, access to the code; some explanation on the tool; 
+### lcorominas requests
+1. Color code the inputs; what needs to be entered or not, and give some instructions; 
+	--> això t'ho hauré de donar jo amb l'ajuda dels modellers
+2. a les taules elementary flows, afegir button que et permeti veure els valors de la taula també expressats en m3 en comptes de per dia
+3. Mass balances under 1% error! Ask modelers to confirm
+4. We will give them pdf with equations, access to the code; some explanation on the tool; 
 
 	```
 	Per energy consumption:
 	Un cop tens calculats els KgO2, pots aplicar aquest factor per passar de Kg O2 a kWh. 
-	Aquest factor és diferent per cada tipus de difusor. Per difusors del tipus "fine bubble systems" el factor està entre 3.6 i 4.8. Pots agafar un valor de 4. Pots referenciar també a simba#.
+	Aquest factor és diferent per cada tipus de difusor. Per difusors del tipus "fine bubble systems" el factor està entre 3.6 i 4.8. Pots agafar un valor de 4.
 	Fine bubble systems have SAE ranges of between 3.6 and 4.8 kgO2/kWh.
 	```
 

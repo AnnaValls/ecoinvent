@@ -81,7 +81,7 @@ function bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,rbCOD_NO3_ratio,NOx,
 	}
 }
 
-/*node debugging */
+/*node debugging*/
 (function(){
 	var debug=false;
 	if(debug==false)return;

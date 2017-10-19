@@ -90,7 +90,7 @@ function bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_
 		P_X_TSS:           {value:P_X_TSS,           unit:"kg/d",         descr:"P_X_TSS"},
 		X_VSS_V:           {value:X_VSS_V,           unit:"kg",           descr:"Mass of VSS"},
 		X_TSS_V:           {value:X_TSS_V,           unit:"kg",           descr:"Mass of TSS"},
-		V:                 {value:V,                 unit:"m3",           descr:"Areation_tank_Volume"},
+		V:                 {value:V,                 unit:"m3",           descr:"Aeration_tank_Volume"},
 		tau:               {value:tau,               unit:"h",            descr:"&tau;_aeration_tank_detention_time"},
 		MLVSS:             {value:MLVSS,             unit:"g/m3",         descr:"MLVSS"},
 		FM:                {value:FM,                unit:"kg/kg·d",      descr:"F/M"},
@@ -109,7 +109,7 @@ function bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_
 	};
 };
 
-/*node debugging */
+/*node debugging*/
 (function(){
 	var debug=false;
 	if(debug==false)return;

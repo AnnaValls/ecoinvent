@@ -4,8 +4,8 @@
 	<script>
 		function print_io(tech,func){
 			var name = Technologies[tech].Name;
-			document.write("<table border=1 style=font-size:11px><tr><th colspan=2>"+name);
-			document.write(" - <a href='techs/"+Technologies[tech].File+"'>see equations</a>")
+			document.write("<table border=1 style=font-size:11px><tr><th colspan=2>");
+			document.write("<a href='techs/"+Technologies[tech].File+"'>"+name+"</a>")
 			var out = (function(){
 				var ret=[];
 				var Result = func();
