@@ -20,12 +20,11 @@
 			<li>
 				Single plant
 				<ul>
-					<li><a href=elementary.php  >1.a. Elementary flows (standalone)
-					<li><a href=elementary2.php >1.b. [IN PROGRESS] Elementary flows (COMPLETE - from metcalf &amp; eddy)
-					<li><a href=construction.php>2.   Construction materials
-					<li><a href=ecospold.php    >3.   [IN PROGRESS] Generate ecoSpold
+					<li><a href=elementary.php  >1. Elementary flows (standalone)
+					<li><a href=elementary2.php >1. Elementary flows (from Metcalf &amp; Eddy)
+					<li><a href=construction.php>2. Construction materials
+					<li><a href=ecospold.php    >3. [IN PROGRESS] Generate ecoSpold
 				</ul>
-			</li>
 			<li>
 				Appendix
 				<ul>
@@ -34,7 +33,6 @@
 					<li><a href=technologies.php>All technologies</a>
 					<li><a href=terms.php       >All terms</a>
 				</ul>
-			</li>
 			<li><a href=README.txt>README (tasks)</a>
 			<li><a href=future    >Future implementations (for 'n' plants)</a>
 		</ul>

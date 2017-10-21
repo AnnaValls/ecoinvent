@@ -15,6 +15,7 @@ var Technologies = {
 	"BOD":{
 		Name:"BOD removal",
 		File:"bod_removal_only.js",
+		Implemented_in:"bod_removal_with_nitrification.php",
 		Inputs:[ 
 			"Q", 
 			"T", 
@@ -36,6 +37,7 @@ var Technologies = {
 	"Nit":{
 		Name:"Nitrification",
 		File:"nitrification.js",
+		Implemented_in:"bod_removal_with_nitrification.php",
 		Inputs:[ 
 			"Q",
 			"T",
@@ -62,6 +64,7 @@ var Technologies = {
 	"SST":{
 		Name:"SST sizing",
 		File:"sst_sizing.js",
+		Implemented_in:"bod_removal_with_nitrification.php",
 		Inputs:[ 
 			"Q", 
 			"MLSS_X_TSS",
@@ -73,6 +76,7 @@ var Technologies = {
 	"Des":{
 		Name:"Denitrification",
 		File:"n_removal.js",
+		Implemented_in:"N_removal.php",
 		Inputs:[ 
 			"Q", "T", "BOD", "Ne",
 			"rbCOD", 
@@ -83,6 +87,7 @@ var Technologies = {
 	"BiP":{
 		Name:"Biological P removal",
 		File:"bio_P_removal.js",
+		Implemented_in:"bio_P_removal.php",
 		Inputs:[ 
 			"Q", 
 			"T", 
@@ -97,6 +102,7 @@ var Technologies = {
 	"ChP":{
 		Name:"Chemical P removal",
 		File:"chem_P_removal.js",
+		Implemented_in:"chem_P_removal.php",
 		Inputs:[ 
 			"Q", 
 			"TSS", 

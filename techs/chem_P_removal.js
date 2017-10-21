@@ -5,18 +5,18 @@
  */
 function chem_P_removal(Q,TSS,TSS_removal_wo_Fe,TSS_removal_w_Fe,TP,C_PO4_inf,C_PO4_eff,FeCl3_solution,FeCl3_unit_weight,days){
 	/*
-		Inputs               example values 
+		Inputs             example values 
 		--------------------------------
-			Q                  3800  m3/d
-			TSS                220   mg/L
-			TSS_removal_wo_Fe  60    %     [not used!]
-			TSS_removal_w_Fe   75    %     [not used!]
-			TP                 7     mg/L
-			C_PO4_inf          5     mg/L
-			C_PO4_eff          0.1   mg/L
-			FeCl3_solution     37    %
-			FeCl3_unit_weight  1.35  kg/L
-			days               15    days
+		Q                  3800  m3/d
+		TSS                220   mg/L
+		TSS_removal_wo_Fe  60    %     [not used!] TODO
+		TSS_removal_w_Fe   75    %     [not used!] TODO
+		TP                 7     mg/L
+		C_PO4_inf          5     mg/L
+		C_PO4_eff          0.1   mg/L
+		FeCl3_solution     37    %
+		FeCl3_unit_weight  1.35  kg/L
+		days               15    days
 		--------------------------------
 	*/
 

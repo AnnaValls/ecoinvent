@@ -5,23 +5,23 @@
  */
 function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_basin_volume,Aerobic_T,Anoxic_mixing_energy,RAS,Ro,NO3_eff){
 	/*
-		Inputs                   example values 
+		Inputs                 example values 
 		---------------------------------------
-			Q                      22700  m3/d
-			T                      12     ºC
-			BOD                    140    g/m3
-			bCOD                   224    g/m3
-			rbCOD                  80     g/m3
-			NOx                    28.9   g/m3
-			Alkalinity             140    g/m3 as CaCO3
-			MLVSS                  2370   g/m3
-			Aerobic_SRT            21     d
-			Aeration_basin_volume  13410  m3
-			Aerobic_T              14.2   h (tau detention time)
-			Anoxic_mixing_energy   5      kW/1000 m3
-			RAS                    0.6    unitless
-			Ro                     275.9  kgO2/h
-			NO3_eff                6      g/m3 (nitrate at effluent)
+		Q                      22700  m3/d
+		T                      12     ºC
+		BOD                    140    g/m3
+		bCOD                   224    g/m3
+		rbCOD                  80     g/m3
+		NOx                    28.9   g/m3
+		Alkalinity             140    g/m3 as CaCO3
+		MLVSS                  2370   g/m3
+		Aerobic_SRT            21     d
+		Aeration_basin_volume  13410  m3
+		Aerobic_T              14.2   h (tau detention time)
+		Anoxic_mixing_energy   5      kW/1000 m3
+		RAS                    0.6    unitless
+		Ro                     275.9  kgO2/h
+		NO3_eff                6      g/m3 (nitrate at effluent)
 		---------------------------------------
 	*/
 

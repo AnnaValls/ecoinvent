@@ -36,7 +36,6 @@
 			//START SOLVING TECHNOLOGIES
 			//at least bod removal should be active before next part
 			if(is_BOD_active){
-
 				//get all ww characteristics
 				var Q               = getInput('Q').value; //22700;
 				var T               = getInput('T').value; //12;
@@ -195,7 +194,7 @@
 					var A = P_X_bio*1000;
 					var B = Qwas*sCODe/Q;
 					var C = Q*nbpCOD;
-					var D = biomass_CODe
+					var D = biomass_CODe;
 					return A+B+C-D;
 				})();
 
@@ -234,7 +233,7 @@
 					var A = 0.12*P_X_bio*1000;
 					var B = Qwas*sTKNe/Q;
 					var C = Q*nbpON;
-					return A+B+C;
+					return A+B+C - Q*VSSe*0.12;
 				})();
 
 			//OUTPUTS.NOX
@@ -269,8 +268,8 @@
 			//OUTPUTS.TP
 				Outputs.TP.influent = Q*TP;
 				Outputs.TP.effluent.water = (function(){
-					if     (is_BiP_active==false && is_ChP_active==false){ return Q*TP }
-					else if(is_BiP_active        && is_ChP_active==false){ return Q*Result.BiP.Effluent_P.value}
+					if     (is_BiP_active==false && is_ChP_active==false){ return Q*aPchem + Q*VSSe*0.015}
+					else if(is_BiP_active        && is_ChP_active==false){ return Q*(Result.BiP.Effluent_P.value - nbpP)}
 					else if(is_BiP_active==false && is_ChP_active       ){ return Q*C_PO4_eff + Q*VSSe*(C_PO4_eff-C_PO4_inf)/(P_X_VSS*1000)}
 					else{                                                  
 						return 0; //not defined
@@ -279,9 +278,11 @@
 				Outputs.TP.effluent.air = (function(){return 0})();
 				Outputs.TP.effluent.sludge = (function(){
 					var B = Qwas*C_PO4_eff;
-					if     (is_BiP_active==false && is_ChP_active==false){ return 0 }
-					else if(is_BiP_active        && is_ChP_active==false){ return Q*Result.BiP.P_removal.value + B}
-					else if(is_BiP_active==false && is_ChP_active       ){ return 0.015*P_X_bio*1000 + Q*(aPchem - C_PO4_eff) + nbpP*Q + B}
+					var C = Q*nbpP;
+					var D = Q*VSSe*0.015;
+					if     (is_BiP_active==false && is_ChP_active==false){ return (0.015*P_X_bio*1000) + B + C - D}
+					else if(is_BiP_active        && is_ChP_active==false){ return Q*Result.BiP.P_removal.value + B + C - D}
+					else if(is_BiP_active==false && is_ChP_active       ){ return 0.015*P_X_bio*1000 + Q*(aPchem - C_PO4_eff) + B + C - D}
 					else{
 						return 0; //not defined
 					}
@@ -305,7 +306,46 @@
 				}
 			})();
 
-		} //end compute_elementary_flows()
+			//deal with summary tables (frontend function)
+			(function fill_summary_tables(){
+				/*
+
+				- Design
+					BOD.V
+					Nit.V
+					Nit.SRT_design
+					SST.Area
+					SST.area_per_clarifier
+					SST.clarifier_diameter
+					SST.QR
+					SST.RAS
+					Des.V_nox
+					BiP.V
+
+				- Chemicals & Energy
+					BOD.air_flowrate
+					BOD.kg_O2_per_m3_air
+					BOD.OTRf
+					BOD.SOTR
+					Nit.air_flowrate
+					Nit.kg_O2_per_m3_air
+					Nit.OTRf
+					Nit.SOTR
+					Nit.alkalinity_to_be_added
+					Des.Mass_of_alkalinity_needed
+					Des.Net_O2_required
+					Des.Power
+					Des.SDNR
+					ChP.Fe_III_dose
+					ChP.Fe_dose
+					ChP.amount_FeCl3_solution
+					ChP.FeCl3_volume
+					ChP.storage_req_15_d
+
+				*/
+			})();
+
+		}//end compute_elementary_flows()
 	</script>
 
 	<!--options object-->
@@ -479,10 +519,12 @@
 			/*
 			 * frontend functions
 			 */
-			document.querySelector('#input_amount').innerHTML=Inputs_current_combination.concat(Design).length;
-			document.querySelector('#variable_amount').innerHTML=Variables.length;
 
 			(function updateViews(){
+				//update number of inputs and variables
+				document.querySelector('#input_amount').innerHTML=Inputs_current_combination.concat(Design).length;
+				document.querySelector('#variable_amount').innerHTML=Variables.length;
+
 				//update technologies table
 				(function(){
 					var table=document.querySelector('table#inputs_tech');
@@ -497,7 +539,12 @@
 						newRow.insertCell(-1).innerHTML="<input type=checkbox "+checked+" onchange=\"toggleTech('"+tec.id+"')\" tech='"+tec.id+"'>";
 						//implementation link
 						if(Technologies[tec.id]){
-							newRow.insertCell(-1).innerHTML="<a href='techs/"+Technologies[tec.id].File+"' target=_blank>see equations</a>";
+							newRow.insertCell(-1).innerHTML="<small>"+
+								"<a target=_blank href='implementations/"+Technologies[tec.id].Implemented_in+"'>"+
+								"equations</a> "+
+								"<a target=_blank href='techs/"+Technologies[tec.id].File+"'>"+
+								"code</a>"+
+								"";
 						}
 					});
 				})();
@@ -506,6 +553,9 @@
 				(function(){
 					var table=document.querySelector('table#inputs');
 					while(table.rows.length>1){table.deleteRow(-1)}
+
+					//update inputs (not parameters)
+					table.insertRow(-1).insertCell(-1).outerHTML="<th colspan=3 align=left>wastewater characteristics";
 					Inputs.filter(i=>{return !i.isParameter}).forEach(i=>{
 						var newRow=table.insertRow(-1);
 						newRow.title=i.descr;
@@ -513,9 +563,8 @@
 						newRow.insertCell(-1).innerHTML="<input id='"+i.id+"' value='"+i.value+"' type=number step=any onchange=setInput('"+i.id+"',this.value) min=0>"
 						newRow.insertCell(-1).outerHTML="<td class=unit>"+i.unit.prettifyUnit();
 					});
-					//update design parameters table
-					var newRow=table.insertRow(-1);
-					newRow.insertCell(-1).outerHTML="<th colspan=3>design parameters"
+					//update inputs (design parameters)
+					table.insertRow(-1).insertCell(-1).outerHTML="<th colspan=3 align=left>design parameters";
 					Inputs.filter(i=>{return i.isParameter}).forEach(i=>{
 						var newRow=table.insertRow(-1);
 						newRow.title=i.descr;
@@ -581,7 +630,7 @@
 				}
 			})();
 
-			//set scroll link visibility for each tech
+			//scroll link visibility in variables table 
 			(function(){
 				function set_scroll_link_visibility(tec){
 					var el=document.querySelector('#variable_scrolling a[tech='+tec+']')
@@ -637,6 +686,7 @@
 				//end
 			})();
 
+			//update views 
 			Options.currentUnit.update();
 		}
 	</script>
@@ -671,10 +721,12 @@
 		</div>
 		<!--enter ww characteristics-->
 		<div>
-			<p>1.2. Wastewater characteristics &amp; design parameters</p>
+			<p>1.2. Enter inputs</p>
 			<table id=inputs border=1>
 				<tr><th>Input<th>Value<th>Unit
 			</table>
+			<!--go to top-->
+			<div style=font-size:smaller><a href=#>&uarr; top</a></div>
 		</div>
 	</div><hr>
 
@@ -725,13 +777,16 @@
 			<th>Result
 			<th>Unit
 		</table>
+		<!--go to top-->
+		<div style=font-size:smaller><a href=#>&uarr; top</a></div>
 	</div><hr>
 
 	<!--outputs-->
 	<div>
-		<p><b>3. Outputs</b> (not finished)</p>
+		<p><b>3. Outputs</b></p>
 		<!--change units-->
-		<div>
+		<div style=font-size:smaller>
+			Select unit: 
 			<label>
 				<input type=radio name=currentUnit value="kg/d" checked onclick="Options.currentUnit.value=this.value;init()"> kg/d
 			</label><label>
@@ -770,15 +825,28 @@
 			<p>3.3. Design summary
 				<ul>
 					<li>Reactor volume
-					<li>Settler volume
-					<li>Purge flow (Qw)
+						<ul>
+							<li>Aerobic
+							<li>Anoxic
+							<li>Anaerobic
+						</ul>
+					<li>Settler Area
+					<li>Wastage flow (Qwas)
 					<li>SRT
-					<li>Recirculation flow
-					<li>Kg concrete
+						<ul>
+							<li>Input 
+							<li>Design
+						</ul>
+					<li>Recirculation flow (QR)
 				</ul>
 			<p>3.4. Technosphere
 				<ul>
 					<li>Chemicals consumed
+						<ul>
+							<li>NaHCO3 needed
+							<li>kg O2
+						</ul>
+					<li>Kg concrete
 				</ul>
 			<p>3.5. Aeration &amp; energy consumed</p>
 		</div>

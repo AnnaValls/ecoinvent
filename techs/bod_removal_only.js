@@ -5,25 +5,26 @@
  */
 function bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb,Pressure,Df,C_L){
 	/*
-		Inputs            example values 
+		Inputs          example values 
 		--------------------------------
-			BOD             140    g/m3
-			sBOD            70     g/m3
-			COD             300    g/m3
-			sCOD            132    g/m3
-			TSS             70     g/m3
-			VSS             60     g/m3
-			bCOD_BOD_ratio  1.6    g bCOD/g BOD
-			Q               22700  m3/d
-			T               12     ºC
-			SRT             5      d
-			MLSS_X_TSS      3000   g/m3
-			zb              500    m
-			Pressure        95600  Pa
-			Df              4.4    m
-			C_L             2.0 mg/L
+		BOD             140    g/m3
+		sBOD            70     g/m3
+		COD             300    g/m3
+		sCOD            132    g/m3
+		TSS             70     g/m3
+		VSS             60     g/m3
+		bCOD_BOD_ratio  1.6    g bCOD/g BOD
+		Q               22700  m3/d
+		T               12     ºC
+		SRT             5      d
+		MLSS_X_TSS      3000   g/m3
+		zb              500    m
+		Pressure        95600  Pa
+		Df              4.4    m
+		C_L             2.0    mg/L
 		--------------------------------
 	*/
+
 	//parameters
 		var alpha  = 0.50;  //8.b
 		var beta   = 0.95;  //8.b

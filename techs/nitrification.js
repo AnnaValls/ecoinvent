@@ -5,28 +5,28 @@
  */
 function nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pressure,Df,MLSS_X_TSS,Ne,sBODe,TSSe,Alkalinity,C_L){
 	/*
-		Inputs            example values 
+		Inputs          example values 
 		--------------------------------
-			BOD             140 g/m3
-			bCOD_BOD_ratio  1.6 g bCOD/g BOD
-			sBOD            70 g/m3
-			COD             300 g/m3
-			sCOD            132 g/m3
-			TSS             70 g/m3
-			VSS             60 g/m3
-			Q               22700 m3/d
-			T               12 ºC
-			TKN             35 g/m3
-			SF              1.5 (unitless)
-			zb              500 m
-			Pressure        95600 Pa
-			Df              4.4 m
-			MLSS_X_TSS      3000 g/m3 (design)
-			Ne              0.50 g/m3 [NH4 at effluent] (design)
-			sBODe           3 g/m3 (design)
-			TSSe            10 g/m3 (design)
-			Alkalinity      140 g/m3 as CaCO3
-			C_L             2.0 mg/L
+		BOD             140    g/m3
+		bCOD_BOD_ratio  1.6    g bCOD/g BOD
+		sBOD            70     g/m3
+		COD             300    g/m3
+		sCOD            132    g/m3
+		TSS             70     g/m3
+		VSS             60     g/m3
+		Q               22700  m3/d
+		T               12     ºC
+		TKN             35     g/m3
+		SF              1.5    (unitless)
+		zb              500    m
+		Pressure        95600  Pa
+		Df              4.4    m
+		MLSS_X_TSS      3000   g/m3 (design)
+		Ne              0.50   g/m3 [NH4 at effluent]  (design)
+		sBODe           3      g/m3 (design)
+		TSSe            10     g/m3 (design)
+		Alkalinity      140    g/m3 as CaCO3
+		C_L             2.0    mg/L
 		--------------------------------
 	*/
 

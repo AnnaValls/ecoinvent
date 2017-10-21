@@ -5,20 +5,20 @@
  */
 function bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,rbCOD_NO3_ratio,NOx,NO3_eff){
 	/*
-		Inputs            example values 
+		Inputs           example values 
 		--------------------------------
-			Q                4000  m3/d
-			bCOD             250   g/m3
-			rbCOD            75    g/m3
-			VFA              15    g/m3
-			nbVSS            20    g/m3
-			iTSS             10    g/m3
-			TP               6     g/m3
-			T                12    ºC
-			SRT              8     d
-			rbCOD_NO3_ratio  5.2   g_rbCOD/g_NO3
-			NOx              28    g/m3
-			NO3_eff          6     g/m3
+		Q                4000  m3/d
+		bCOD             250   g/m3
+		rbCOD            75    g/m3
+		VFA              15    g/m3
+		nbVSS            20    g/m3
+		iTSS             10    g/m3
+		TP               6     g/m3
+		T                12    ºC
+		SRT              8     d
+		rbCOD_NO3_ratio  5.2   g rbCOD/g NO3
+		NOx              28    g/m3
+		NO3_eff          6     g/m3
 		--------------------------------
 	*/
 

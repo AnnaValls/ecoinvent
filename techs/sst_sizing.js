@@ -19,7 +19,8 @@ function sst_sizing(Q,SOR,X_R,clarifiers,MLSS_X_TSS){
 	*/
 
 	/*SOLUTION*/
-	var RAS = MLSS_X_TSS/(X_R - MLSS_X_TSS); //return sludge recycle ratio (unitless)
+	var RAS = MLSS_X_TSS/(X_R - MLSS_X_TSS); //unitless (return sludge recycle ratio)
+	var QR = Q*RAS; //m3/d (Q return)
 	var Area = Q/SOR; //m2
 	var area_per_clarifier = Area/clarifiers; //m2/clarifier
 	var clarifier_diameter = Math.sqrt(area_per_clarifier*4/Math.PI); //meters
@@ -27,9 +28,10 @@ function sst_sizing(Q,SOR,X_R,clarifiers,MLSS_X_TSS){
 
 	return {
 		RAS:                 {value:RAS,                 unit:"&empty;",       descr:"Return sludge recycle ratio"},
-		Area:                {value:Area,                unit:"m2",            descr:"Area needed"},
-		area_per_clarifier:  {value:area_per_clarifier,  unit:"m2/clarifier",  descr:"area_per_clarifier"},
-		clarifier_diameter:  {value:clarifier_diameter,  unit:"m",             descr:"clarifier_diameter"},
+		QR:                  {value:QR,                  unit:"m3/d",          descr:"Recirculation flow"},
+		Area:                {value:Area,                unit:"m2",            descr:"Total area needed"},
+		area_per_clarifier:  {value:area_per_clarifier,  unit:"m2/clarifier",  descr:"Area_per_clarifier"},
+		clarifier_diameter:  {value:clarifier_diameter,  unit:"m",             descr:"Clarifier_diameter"},
 		Solids_loading:      {value:Solids_loading,      unit:"kg_MLSS/m2·h",  descr:"Solids_loading"},
 	}
 }
