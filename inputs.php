@@ -76,7 +76,7 @@
 					var el=Technologies[tec];
 					var newRow=t.insertRow(-1);
 					newRow.insertCell(-1).outerHTML="<th>"+tec;
-					newRow.insertCell(-1).innerHTML=el.Name;
+					newRow.insertCell(-1).innerHTML="<a href='implementations/"+el.Implemented_in+"'>"+el.Name+"</a>";
 				}
 			})();
 		</script>

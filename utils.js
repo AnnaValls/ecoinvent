@@ -154,7 +154,7 @@ function density_of_air(temperature,pressure) {
 */
 function air_solubility_of_oxygen(temperature,elevation){
 	//input checks
-	console.log('Calculating air solubility of oxygen (mg/L)');
+	console.log('Calculating Air solubility of oxygen (mg/L), function of temperature and elevation');
 	temperature=temperature||0;
 	elevation=elevation||0;
 	if(temperature<0) temperature=0;
@@ -212,14 +212,14 @@ function air_solubility_of_oxygen(temperature,elevation){
 
 	//case 1: temp and elevation defined
 	if(Table[temperature] && Table[temperature][elevation]){
-		console.log('temperature and elevation defined, no interpolation needed');
+		console.log('--temperature and elevation defined, no interpolation needed');
 		console.log(Table[temperature][elevation]+" mg/L");
 		return Table[temperature][elevation];
 	}
 
 	//case 2: temp defined and elevation undefined
 	if(Table[temperature] && !Table[temperature][elevation]) {
-		console.log('temperature defined and elevation undefined => performing linear interpolation (axis x)');
+		console.log('--temperature defined and elevation undefined => performing linear interpolation (axis x)');
 		//find elevation above and below
 		var Elevations=[0,200,400,600,800,1000,1200,1400,1600,1800];
 		for(var i=1;i<Elevations.length;i++){
@@ -232,7 +232,7 @@ function air_solubility_of_oxygen(temperature,elevation){
 		var percentage = (elevation-e_below)/(e_above-e_below);
 		var s_below = Table[temperature][e_below];
 		var s_above = Table[temperature][e_above];
-		console.log('value between '+s_below+' and '+s_above);
+		console.log('--value between '+s_below+' and '+s_above);
 		var s_range = s_above - s_below;
 		var s_added = s_range*percentage;
 		var s_inter = s_below + s_added;
@@ -242,14 +242,14 @@ function air_solubility_of_oxygen(temperature,elevation){
 
 	//case 3: temp undefined and elevation defined
 	if(!Table[temperature] && Table[0][elevation]) {
-		console.log('temperature undefined and elevation defined => performing linear interpolation (axis y)');
+		console.log('--temperature undefined and elevation defined => performing linear interpolation (axis y)');
 		//find temperature above and below
 		var t_below = Math.floor(temperature);
 		var t_above = Math.ceil(temperature);
 		var percentage = (temperature-t_below)/(t_above-t_below);
 		var s_below = Table[t_below][elevation];
 		var s_above = Table[t_above][elevation];
-		console.log('value between '+s_below+' and '+s_above);
+		console.log('--value between '+s_below+' and '+s_above);
 		var s_range = s_above - s_below;
 		var s_added = s_range*percentage;
 		var s_inter = s_below + s_added;
@@ -258,7 +258,7 @@ function air_solubility_of_oxygen(temperature,elevation){
 	}
 	else{
 		//case 4: bilinear interpolation
-		console.log('temperature undefined and elevation undefined => performing bilinear interpolation (axis x,y)');
+		console.log('--temperature undefined and elevation undefined => performing bilinear interpolation (axis x,y)');
 		//find temperature above and below (x1,x2)
 		var x1 = Math.floor(temperature);
 		var x2 = Math.ceil(temperature);
@@ -282,11 +282,11 @@ function air_solubility_of_oxygen(temperature,elevation){
 		var f_x2_y1 = Table[x2][y1];
 		var f_x2_y2 = Table[x2][y2];
 
-		console.log("Bilinear interpolation f(x,y), x="+x+", y="+y+", between: ");
-		console.log("f(x1,y1): "+f_x1_y1);
-		console.log("f(x1,y2): "+f_x1_y2);
-		console.log("f(x2,y1): "+f_x2_y1);
-		console.log("f(x2,y2): "+f_x2_y2);
+		console.log("--Bilinear interpolation f(x,y), x="+x+", y="+y+", between: ");
+		console.log("--f(x1,y1): "+f_x1_y1);
+		console.log("--f(x1,y2): "+f_x1_y2);
+		console.log("--f(x2,y1): "+f_x2_y1);
+		console.log("--f(x2,y2): "+f_x2_y2);
 
 		//apply linear interpolation in the x direction
 		var f_x_y1 = (x2-x)/(x2-x1)*f_x1_y1 + (x-x1)/(x2-x1)*f_x2_y1;

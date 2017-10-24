@@ -6,7 +6,7 @@
 */
 
 /*return "3,999.4" instead of 3999.4*/
-function format(number,digits){
+function format(number,digits,color){
 	//if not specified, less digits for big numbers
 	if(!digits){
 		if     (Math.abs(number)> 10000){ digits=0 }
@@ -19,6 +19,10 @@ function format(number,digits){
 	}
 	//format number
 	var str=new Intl.NumberFormat('en-EN',{maximumFractionDigits:digits}).format(number);
+
+	//color
+	if(color){ str = "<span style='color:"+color+"'>"+str+"</span>"; }
+
 	return str;
 }
 

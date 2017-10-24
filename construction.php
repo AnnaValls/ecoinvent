@@ -62,7 +62,7 @@
 <!--input capacity of the plant-->
 <div>
 	Capacity of the plant 
-	<input id=capacity value="1500" min=1500 max=21000 onchange="updateTable()" type=number>
+	<input id=capacity value="20000" min=1500 max=21000 onchange="updateTable()" type=number>
 	(m<sup>3</sup>/d) 
 	(min:1500, max:21000)
 </div><hr>

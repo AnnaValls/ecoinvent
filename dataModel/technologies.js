@@ -31,7 +31,7 @@ var Technologies = {
 			"zb", 
 			"Pressure", 
 			"Df",
-			"C_L",
+			"DO",
 		],
 	},
 	"Nit":{
@@ -58,7 +58,7 @@ var Technologies = {
 			"Ne", 
 			"sBODe", 
 			"TSSe", 
-			"C_L",
+			"DO",
 		],
 	},
 	"SST":{

@@ -104,7 +104,7 @@ function nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pr
 			if(difference<tolerance){
 				NOx         = last_NOx;
 				P_X_bio_VSS = last_PX;
-				console.log('loop finished: difference is small enough ('+difference+')');
+				console.log('NOx & P_X_bio loop: value is accurate enough (error: '+difference+')');
 				break;
 			}
 			iterations_performed++;
@@ -172,8 +172,8 @@ function nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pr
 		bHT:               {value:bHT,                     unit:"1/d",             descr:"bH corrected by temperature"},
 		mu_mT:             {value:mu_mT,                   unit:"1/d",             descr:"µ_m corrected by temperatureT"},
 		S:                 {value:S,                       unit:"g/m3",            descr:"[S]"},
-		P_X_bio_VSS:       {value:P_X_bio_VSS,             unit:"kg/d",            descr:"Biomass production"},
 		NOx:               {value:NOx,                     unit:"g/m3",            descr:"NOx amount of nitrogen oxidized to nitrate"},
+		P_X_bio_VSS:       {value:P_X_bio_VSS,             unit:"kg/d",            descr:"Biomass production"},
 		P_X_VSS:           {value:P_X_VSS,                 unit:"kg/d",            descr:"P_X_VSS"},
 		P_X_TSS:           {value:P_X_TSS,                 unit:"kg/d",            descr:"P_X_TSS"},
 		X_VSS_V:           {value:X_VSS_V,                 unit:"kg",              descr:"X_VSS_V"},
@@ -189,7 +189,7 @@ function nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pr
 		OTRf:              {value:OTRf,                    unit:"kg_O2/h",         descr:"O2 demand"},
 		C_inf_20:          {value:C_inf_20,                unit:"mg_O2/L",         descr:""},
 		Pb:                {value:Pb,                      unit:"m",               descr:"Pressure at site elevation"},
-		SOTR:              {value:SOTR,                    unit:"kg/h",            descr:"Standard Oxygen Transfer Rate"},
+		SOTR:              {value:SOTR,                    unit:"kg_O2/h",         descr:"Standard Oxygen Transfer Rate"},
 		kg_O2_per_m3_air:  {value:kg_O2_per_m3_air,        unit:"kg_O2/m3",        descr:"kg_O2_per_m3_air"},
 		air_flowrate:      {value:air_flowrate,            unit:"m3/min",          descr:"air_flowrate"},
 		alkalinity_added:  {value:alkalinity_to_be_added,  unit:"kg/d_as_NaHCO3",  descr:"alkalinity_to_be_added"},
