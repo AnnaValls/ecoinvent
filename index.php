@@ -32,7 +32,7 @@
 					<li><a href=technologies.php>All technologies</a>
 					<li><a href=terms.php       >All terms</a>
 				</ul>
-			<li><a href=README.txt>README (tasks)</a>
+			<li><a href=README.md>README (tasks)</a>
 			<li><a href=future    >Future implementations (for 'n' plants)</a>
 		</ul>
 	</div><hr>
