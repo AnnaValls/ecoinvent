@@ -1,6 +1,6 @@
 <!doctype html><html><head>
 	<?php include'imports.php'?>
-	<title>Elementary Flows 2</title>
+	<title>Elementary Flows</title>
 
 	<!--backend function-->
 	<script>
@@ -873,7 +873,7 @@
 		<p><b><u>3. Outputs</u></b></p>
 		<!--change units-->
 		<div style=font-size:smaller>
-			Select output units: 
+			Select units: 
 			<label>
 				<input type=radio name=currentUnit value="kg/d" checked onclick="Options.currentUnit.value=this.value;init()"> kg/d
 			</label><label>
@@ -909,25 +909,25 @@
 
 		<!--summary tables-->
 		<div id=summary>
-			<p>3.3. Design summary
-				<ul>
-					<li>Total reactor volume: <span id=V_total>0</span>
-						<ul>
-							<li>Aerobic volume:   <span id=V_aer>0</span>
-							<li>Anoxic volume <small>(if denitrification)</small>:  <span id=V_nox>0</span>
-							<li>Anaerobic volume <small>(if Bio P removal)</small>: <span id=V_ana>0</span>
-						</ul>
-					<li>Settler Total Area needed:       <span id=Area>0</span>
-					<li>Wastage flow (Q<sub>was</sub>): <span id=Qwas>0</span>
-					<li>SRT:                <span id=SRT>0</span>
-					<li>Recirculation flow (Q<sub>R</sub>): <span id=QR></span>
-				</ul>
+			<p>3.3. Design summary</p>
+			<ul>
+				<li>Total reactor volume: <span id=V_total>0</span>
+					<ul>
+						<li>V<sub>aerobic</sub>:   <span id=V_aer>0</span>
+						<li>V<sub>anoxic</sub>:    <span id=V_nox>0</span>
+						<li>V<sub>anaerobic</sub>: <span id=V_ana>0</span>
+					</ul>
+				<li>Settler Total Area needed:       <span id=Area>0</span>
+				<li>Wastage flow (Q<sub>was</sub>): <span id=Qwas>0</span>
+				<li>SRT:                <span id=SRT>0</span>
+				<li>Recirculation flow (Q<sub>R</sub>): <span id=QR></span>
+			</ul>
 			<p>3.4. Technosphere</p>
 				<ul>
 					<li>Alkalinity to maintain pH
 						<ul>
-							<li>If Nitrification:   <span id=alkalinity_added>0</span>
-							<li>If Denitrification: <span id=Mass_of_alkalinity_needed>0</span>
+							<li>Nitrification:   <span id=alkalinity_added>0</span>
+							<li>Denitrification: <span id=Mass_of_alkalinity_needed>0</span>
 						</ul>
 					</li>
 					<li>FeCl<sub>3</sub> for Chemical P removal
@@ -981,14 +981,21 @@
 	#root #mass_balances [phase]{
 		text-align:right;
 	}
-	.help:hover{
+	#root .help:hover{
 		text-decoration:underline;
 	}
-	#inputs, #variables {
+	#root #inputs, #root #variables {
 		font-size:smaller;
 	}
 	#root .circle{
-		border-radius:1em;
-		width:16px;
+		text-align:center;
+		border-radius:17px;
+		width:17px;
+	}
+	#root #summary > ul {
+		font-size:smaller;
+	}
+	#root #summary ul ul{
+		padding-left:20px;
 	}
 </style>
