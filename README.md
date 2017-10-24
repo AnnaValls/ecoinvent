@@ -24,27 +24,13 @@ Expected web tool finish: October 31 2017
 		generate data set id    (automatically) TODO
 		generate activity index (automatically) TODO
 - [2][DOING] implementation elementary flows
-	- [TO DO] Bio P + Chem P simulatenous, how to deal with inputs and outputs?
-- [TO DO] constants without description
-- [WAIT] check Qe (Q-Qwas) in equations ("elementary.php") (task for lcorominas)
+	- see its own task list there
+- [TO DO] constants without description in code (file dataModel/constants.js)
 
 ### frontend tasks
-- [TO DO] Add equations in a "profile page" for each 
 - [TO DO] save inputs and technologies chosen in cookies
 
 ### lcorominas requests
-1. Color code the inputs; what needs to be entered or not, and give some instructions; 
-	--> això t'ho hauré de donar jo amb l'ajuda dels modellers
-2. a les taules elementary flows, afegir button que et permeti veure els valors de la taula també expressats en m3 en comptes de per dia
-3. Mass balances under 1% error! Ask modelers to confirm
-4. We will give them pdf with equations, access to the code; some explanation on the tool; 
-
-	```
-	Per energy consumption:
-	Un cop tens calculats els KgO2, pots aplicar aquest factor per passar de Kg O2 a kWh. 
-	Aquest factor és diferent per cada tipus de difusor. Per difusors del tipus "fine bubble systems" el factor està entre 3.6 i 4.8. Pots agafar un valor de 4.
-	Fine bubble systems have SAE ranges of between 3.6 and 4.8 kgO2/kWh.
-	```
 
 ### future (=cannot be done in parallel, or should be more discussed to understand it completely)
 - [TO DO] energy and chemicals consumed for single plant 
