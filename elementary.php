@@ -855,6 +855,15 @@
 				<a tech=Des href=# onclick="scroll2tec(this);return false">Des</a>
 				<a tech=BiP href=# onclick="scroll2tec(this);return false">BiP</a>
 				<a tech=ChP href=# onclick="scroll2tec(this);return false">ChP</a>
+				<script>
+					//write a title for the scroll links
+					(function(){
+						var els=document.querySelectorAll('#variable_scrolling a[tech]');
+						for(var i=0;i<els.length;i++){
+							els[i].title=Technologies[els[i].getAttribute('tech')].Name;
+						}
+					})();
+				</script>
 			</small>
 		</div>
 		<!--variables-->
