@@ -3,7 +3,7 @@
  * Metcalf & Eddy, Wastewater Engineering, 5th ed., 2014:
  * page 880
  */
-function bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,rbCOD_NO3_ratio,NOx,NO3_eff){
+function bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,NOx,NO3_eff){
 	/*
 		Inputs           example values 
 		--------------------------------
@@ -16,7 +16,6 @@ function bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,rbCOD_NO3_ratio,NOx,
 		TP               6     g/m3
 		T                12    ºC
 		SRT              8     d
-		rbCOD_NO3_ratio  5.2   g rbCOD/g NO3
 		NOx              28    g/m3
 		NO3_eff          6     g/m3
 		--------------------------------
@@ -94,9 +93,8 @@ function bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,rbCOD_NO3_ratio,NOx,
 	var TP               = 6;
 	var T                = 12;
 	var SRT              = 8;
-	var rbCOD_NO3_ratio  = 5.2;
 	var NOx              = 28;
 	var NO3_eff          = 6;
-	var result = bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,rbCOD_NO3_ratio,NOx,NO3_eff);
+	var result = bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,NOx,NO3_eff);
 	console.log(result);
 })();

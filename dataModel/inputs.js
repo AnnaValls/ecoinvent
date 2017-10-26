@@ -38,7 +38,6 @@ var Inputs = [
 //bio P
 {id:"VFA",             value:15,  unit:"g/m3",   descr:"Volatile Fatty Acids (Acetate)"},
 {id:"TP",              value:6,   unit:"g_P/m3", descr:"Total phosphorus"},
-{id:"rbCOD_NO3_ratio", value:5.2, unit:"g/g",    descr:"rbCOD/NO3-N ratio"},
 
 //chem P
 {id:"TSS_removal_wo_Fe", value:60,   unit:"%",    isParameter:true, descr:"% TSS removal without iron addition"},
