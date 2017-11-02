@@ -223,12 +223,11 @@
 		var TP              = getInput('input_TP');      //6;
 		var T               = getInput('input_T');       //12;
 		var SRT             = 8;
-		var rbCOD_NO3_ratio = 5.2;
 		var NOx             = 28;
 		var NO3_eff         = 6;                         //case   a
 
 		//solve
-		var r = bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,rbCOD_NO3_ratio,NOx,NO3_eff);
+		var r = bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,NOx,NO3_eff);
 
 		//show results
 		showResult('result_Q_rbCOD',                    r.Q_rbCOD.value);

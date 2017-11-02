@@ -127,14 +127,12 @@
 				var aP              = TP - nbpP;                 //g/m3 == PO4_in
 				var aPchem          = aP - 0.015*P_X_bio*1000/Q; //g/m3 == PO4_in
 				var C_PO4_inf       = aPchem;                    //g/m3 (input!)
-				var rbCOD_NO3_ratio = 5.2;                       //g/g  (input!) TODO probably is a constant: check!
 
 				//lcorominas - request hide inputs in frontend functions
 				Inputs_to_be_hidden=[
 					{id:'rbCOD',           value:rbCOD},
 					{id:'VFA',             value:VFA},
 					{id:'C_PO4_inf',       value:C_PO4_inf},
-					{id:'rbCOD_NO3_ratio', value:rbCOD_NO3_ratio},
 					{id:'sBODe',           value:sBODe, invisible:true},
 				];
 
@@ -159,7 +157,7 @@
 				if(is_BiP_active){
 					var iTSS = Result.BOD.iTSS.value; //10 g/m3
 
-					Result.BiP=bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,rbCOD_NO3_ratio,NOx,NO3_eff);
+					Result.BiP=bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,NOx,NO3_eff);
 					showResults('BiP',Result.BiP);
 				}
 
@@ -770,7 +768,6 @@
 <small>
 <p>Development questions I have (lbosch):</p><!--TODO-->
 	<ul>
-		<li>Whether <b>rbCOD/NO<sub>3</sub>-N ratio</b> is a constant (5.2 g/g) or can be calculated somehow (in Bio P removal).
 		<li>How to handle inputs for ChemP when BioP is active? Is Chem [P]<sub>input</sub> = Bio [P]<sub>output</sub> ?
 		<li>TS (Sulfur) effluent equations unknown.
 		<li>CH<sub>4</sub> effluent equations unknown.

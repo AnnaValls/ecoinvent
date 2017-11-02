@@ -95,7 +95,6 @@ var Technologies = {
 			"VFA", 
 			"TP", 
 			"SRT",
-			"rbCOD_NO3_ratio", 
 			"NO3_eff",
 		],
 	},

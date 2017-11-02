@@ -30,6 +30,7 @@
 					<li><a href=inputs.php      >All inputs</a>
 					<li><a href=outputs.php     >All outputs</a>
 					<li><a href=technologies.php>All technologies</a>
+					<li><a href=dataModel/constants.js>All constants</a>
 					<li><a href=terms.php       >All terms</a>
 				</ul>
 			<li><a href=README.md>README (tasks)</a>
