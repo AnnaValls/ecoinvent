@@ -20,9 +20,9 @@
 			<li>
 				Single plant
 				<ul>
-					<li><a href=elementary.php  >1. Elementary flows (from Metcalf &amp; Eddy)
-					<li><a href=construction.php>2. Construction materials
-					<li><a href=ecospold.php    >3. [IN PROGRESS] Generate ecoSpold
+					<li><a href=elementary.php  >1. Elementary flows (from Metcalf &amp; Eddy)</a>
+					<li><a href=construction.php>2. Construction materials</a>
+					<li><a href=ecospold.php    >3. [IN PROGRESS] Generate ecoSpold</a>
 				</ul>
 			<li>
 				Appendix
