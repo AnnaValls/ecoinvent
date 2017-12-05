@@ -671,7 +671,7 @@
             var tech_name = Technologies[i.tech] ? Technologies[i.tech].Name : i.tech;
             var newRow=table.insertRow(-1);
             newRow.setAttribute('tech',i.tech);
-            newRow.insertCell(-1).outerHTML="<td title='"+tech_name+"'>"+i.tech;
+            newRow.insertCell(-1).outerHTML="<td class=help title='"+tech_name+"'>"+i.tech;
             newRow.insertCell(-1).outerHTML="<td class=help title='"+i.descr.replace(/_/g,' ')+"'>"+i.id;
             newRow.insertCell(-1).outerHTML="<td class=number>"+format(i.value);
             newRow.insertCell(-1).outerHTML="<td class=unit>"+i.unit.prettifyUnit();
