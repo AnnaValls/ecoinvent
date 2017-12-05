@@ -22,16 +22,16 @@
 				<ul>
 					<li><a href=elementary.php  >1. Elementary flows (from Metcalf &amp; Eddy)</a>
 					<li><a href=construction.php>2. Construction materials</a>
-					<li><a href=ecospold.php    >3. [IN PROGRESS] Generate ecoSpold</a>
+					<li><a href=ecospold.php    >3. Generate results file (ecospold format)</a>
 				</ul>
 			<li>
 				Appendix
 				<ul>
-					<li><a href=inputs.php      >All inputs</a>
-					<li><a href=outputs.php     >All outputs</a>
-					<li><a href=technologies.php>All technologies</a>
+					<li><a href=inputs.php            >All inputs</a>
+					<li><a href=outputs.php           >All outputs</a>
+					<li><a href=technologies.php      >All technologies</a>
 					<li><a href=dataModel/constants.js>All constants</a>
-					<li><a href=terms.php       >All terms</a>
+					<li><a href=terms.php             >All terms</a>
 				</ul>
 			<li><a href=README.md>README (tasks)</a>
 			<li><a href=future    >Future implementations (for 'n' plants)</a>
@@ -71,10 +71,10 @@
 			<li><a href=docs>Documents</a>
 			<li>
 				<a target=_blank href="https://docs.google.com/spreadsheets/d/1DiBhDCjxGyw2-umImIfHiZOzY5LJF_psGiD4fEf7Wgk/edit?usp=sharing">
-					Google Drive document 
+					Google Drive document
 				</a>
 			</li>
-			<li>This web source code: <a href=//github.com/holalluis/ecoinvent>github.com/holalluis/ecoinvent</a>
+			<li>Source code: <a href=//github.com/holalluis/ecoinvent>github.com/holalluis/ecoinvent</a>
 			<li>Guillaume's github (for ecoSpold): 
 				<a href="//github.com/ecoinvent/wastewater_treatment_tool">github.com/ecoinvent/wastewater_treatment_tool</a>
 				<ul>
@@ -86,5 +86,5 @@
 				</ul>
 			</li>
 		</ul>
-	</div><hr>
+	</div>
 </p>
