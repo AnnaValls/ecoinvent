@@ -1,13 +1,11 @@
 <?php
-  /* 
-    Description of this php page
-
-    1. Data structures
-    2. Backend functions
-    3. Frontend functions
-    4. User Options
-
-   */
+/* 
+  Description of this php page
+  1. Data structures
+  2. Backend functions
+  3. Frontend functions
+  4. User Options
+*/
 ?>
 <!doctype html><html><head>
   <?php include'imports.php'?>
@@ -15,7 +13,6 @@
 
   <!--backend-->
   <script>
-
     //put here input strings that are calculated using lcorominas pdf equations
     var Inputs_to_be_hidden=[]; 
 
@@ -405,7 +402,7 @@
     }
   </script>
 
-  <!--options object-->
+  <!--user options object (only for this page)-->
   <script>
     //options
     var Options={
@@ -419,63 +416,63 @@
           }
         }
       },
+      /*developer: new options go here*/
     }
   </script>
 
   <!--data structures-->
   <script>
     /*
-     * Structure: Technologies used (first inputs)
-     * Structure: Inputs for wastewater observed (they are generated)
+     * Structure: Technologies used (first inputs that the user enters)
+     * Structure: Wastewater observed Inputs (depend on technologies selected)
      * Structure: Design Inputs for design choices
      * Structure: Variables (intermediate calculations)
      */
 
+    //{}: possible tecnologies of the plant (booleans)
     var Technologies_selected=[
-      {id:"BOD", value:tech_BOD_default, descr:"BOD removal"          },
-      {id:"Nit", value:false, descr:"Nitrification"        },
-      {id:"SST", value:false, descr:"SST sizing"           }, //not a "real" technology, it turns automatically on with BOD removal
-      {id:"Des", value:false, descr:"Denitrification"      },
-      {id:"BiP", value:false, descr:"Biological P removal" },
-      {id:"ChP", value:false, descr:"Chemical P removal"   },
+      {id:"BOD", value:tech_BOD_default, descr:"BOD removal"         },
+      {id:"Nit", value:false,            descr:"Nitrification"       },
+      {id:"SST", value:false,            descr:"SST sizing"          }, //not a "real" technology, it turns automatically on with BOD removal
+      {id:"Des", value:false,            descr:"Denitrification"     },
+      {id:"BiP", value:false,            descr:"Biological P removal"},
+      {id:"ChP", value:false,            descr:"Chemical P removal"  },
     ];
 
-    //{}: Inputs are divided in (1) inputs and (2) design inputs
+    //{}: Inputs are divided in (1) wastewater inputs and (2) design inputs
     var Inputs_current_combination=[]; //inputs ww     filled in frontend
     var Design=[];                     //inputs design filled in frontend
 
-    /* fx: get an input or technology by id */
+    /*fx: get an input or technology by id */
     function getInput(id,isTechnology){
       isTechnology=isTechnology||false;
-      var ret;
-      if(isTechnology){
-        ret=Technologies_selected.filter(el=>{return id==el.id});
+      if(!isTechnology){
+        var ret=Inputs.filter(el=>{return id==el.id});
       }else{
-        ret=Inputs.filter(el=>{return id==el.id});
+        var ret=Technologies_selected.filter(el=>{return id==el.id});
       }
       if(ret.length==0){ 
         console.error('Input id "'+id+'" not found'); 
         return false;
       }
       else if(ret.length>1){ 
-        console.error('Input id is not unique');
+        console.error('Input id is not unique (please report this error to developers)');
         return false;
       }
       return ret[0];
     }
 
-    /* fx: set an input(number) or technology(true,false) by id */
+    /*fx: set an input value (number) or technology(boolean) by id */
     function setInput(id,newValue,isTechnology){
       isTechnology=isTechnology||false;
-
-      if(isTechnology) getInput(id,isTechnology).value=newValue;
-      else             getInput(id,isTechnology).value=parseFloat(newValue);
+      //if not technology, parse float new value
+      if(!isTechnology)newValue=parseFloat(newValue);
+      //actual modifying the value of the input
+      getInput(id,isTechnology).value=newValue;
+      //redraw screen
       init();
-
-      //focus again after init()
-      setTimeout(function(){
-        if(!isTechnology){document.getElementById(id).select()}
-      },10);
+      //focus again the <input> element after init()
+      document.getElementById(id).select();
     }
 
     /* fx: toggle technology active/inactive by id */
@@ -784,14 +781,15 @@
       Options.currentUnit.update();
     }
   </script>
+
 </head><body onload="init()">
 <?php include'navbar.php'?>
 <div id=root>
-<h1>Elementary Flows</h1><hr>
+<h1>Elementary Flows (single plant model)</h1><hr>
 
 <!--INPUTS AND OUTPUTS VIEW SCAFFOLD-->
 <div class=flex>
-  <!--Inputs-->
+  <!--1. Inputs-->
   <div>
     <p><b><u>1. User Inputs</u></b></p>
     <!--enter technologies-->
@@ -802,39 +800,42 @@
     <!--enter ww characteristics-->
     <div>
       <p>1.2. Enter inputs
-        (required: <span id=input_amount>0</span>)
+        <small>(required: <span id=input_amount>0</span>)</small>
       </p>
-      <p>
-        <small>
-          Hint: modify inputs using the <kbd>&uarr;</kbd> and <kbd>&darr;</kbd> keys.
-          <style>
-            kbd {
-              display: inline-block;
-              margin: 0 .1em;
-              padding: .1em .6em;
-              font-family: Arial,"Helvetica Neue",Helvetica,sans-serif;
-              font-size: 11px;
-              line-height: 1.4;
-              color: #242729;
-              text-shadow: 0 1px 0 #FFF;
-              background-color: #e1e3e5;
-              border: 1px solid #adb3b9;
-              border-radius: 3px;
-              box-shadow: 0 1px 0 rgba(12,13,14,0.2), 0 0 0 2px #FFF inset;
-              white-space: nowrap;
-            }
-          </style>
-        </small>
-      </p>
+
+      <!--inputs table-->
       <table id=inputs border=1>
         <tr><th>Input<th>Value<th>Unit
       </table>
-      <!--go to top-->
+
+      <!--go to top link-->
       <div style=font-size:smaller><a href=#>&uarr; top</a></div>
+
+      <!--hint modify values using keyboard-->
+      <p style=font-size:smaller>
+        Hint: modify inputs using the <kbd>&uarr;</kbd> and <kbd>&darr;</kbd> keys.
+        <style>
+          kbd {
+            display: inline-block;
+            margin: 0 .1em;
+            padding: .1em .6em;
+            font-family: Arial,"Helvetica Neue",Helvetica,sans-serif;
+            font-size: 11px;
+            line-height: 1.4;
+            color: #242729;
+            text-shadow: 0 1px 0 #FFF;
+            background-color: #e1e3e5;
+            border: 1px solid #adb3b9;
+            border-radius: 3px;
+            box-shadow: 0 1px 0 rgba(12,13,14,0.2), 0 0 0 2px #FFF inset;
+            white-space: nowrap;
+          }
+        </style>
+      </p>
     </div>
   </div><hr>
 
-  <!--Variables (intermediate step between inputs and outputs)-->
+  <!--2. Variables (intermediate step between inputs and outputs)-->
   <div style="width:360px">
     <p><b><u>2. Variables calculated: <span id=variable_amount>0</span></u></b></p>
 
@@ -888,7 +889,7 @@
     <!--link go to top--><div style=font-size:smaller><a href=#>&uarr; top</a></div>
   </div><hr>
 
-  <!--Outputs-->
+  <!--3. Outputs-->
   <div style="width:360px">
     <p><b><u>3. Outputs</u></b></p>
 
@@ -992,9 +993,7 @@
       <a href=ecospold.php> Save results as ecoSpold file </a>
     </div>
   </div>
-</div>
-
-<hr>
+</div><hr>
 
 <!--CSS-->
 <style>
@@ -1034,12 +1033,26 @@
   }
 </style>
 
-<!--TODO-->
+<!--TODO development-->
 <div style=font-size:smaller>
-  Development questions I have (lbosch):
+  Development issues (lbosch):
+  <style>
+    helpWanted{
+      padding:1px;
+      background:lightgreen;
+      border-radius:0.2em;
+      border:1px solid #ccc;
+    }
+    helpWanted:before{
+      content:"help wanted";
+    }
+  </style>
   <ul>
     <li>How to handle inputs for ChemP when BioP is active? Is Chem [P]<sub>input</sub> = Bio [P]<sub>output</sub> ?
+      <helpWanted></helpWanted>
     <li>TS (Sulfur) effluent equations unknown.
+      <helpWanted></helpWanted>
     <li>CH<sub>4</sub> effluent equations unknown.
+      <helpWanted></helpWanted>
   </ul>
 </div>

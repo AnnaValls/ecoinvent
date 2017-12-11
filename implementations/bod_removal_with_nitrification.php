@@ -530,10 +530,3 @@
 		showResult('part_C_Solids_loading',     r3.Solids_loading.value);
 	};
 </script>
-
-<div>
-	To do:
-	<ul>
-		<li>Warning if Solids loading is out of range (4-6 kg MLSS/m<sup>2</sup>·h)
-	</ul>
-</div>

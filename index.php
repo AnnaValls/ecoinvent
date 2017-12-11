@@ -25,7 +25,7 @@
 					<li><a href=ecospold.php    >3. Generate results file (ecospold format)</a>
 				</ul>
 			<li>
-				Appendix
+				Appendix (all model parts)
 				<ul>
 					<li><a href=inputs.php            >All inputs</a>
 					<li><a href=outputs.php           >All outputs</a>

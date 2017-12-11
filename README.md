@@ -26,7 +26,6 @@ Expected web tool finish: October 31 2017
   * [ ][TO DO] some constants without description (file "dataModel/constants.js")
 
 ## FRONTEND TASKS
-  - [TO DO][TO DO]        implement cookies for saving user data
   - [TO DO][low priority] substitute images for text in the example implementations
 
 ## future (=cannot be done in parallel, or should be more discussed to understand it completely)
