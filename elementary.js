@@ -8,7 +8,11 @@ var tech_BOD_default=true;
 //put here input strings that are calculated using lcorominas pdf equations
 var Inputs_to_be_hidden=[]; 
 
-//main backend function
+/*
+ *
+ * MAIN BACKEND FUNCTION
+ *
+*/
 function compute_elementary_flows() {
   //utility to add a technology result to the Variables object
   function showResults(tech,result){
@@ -396,8 +400,7 @@ function compute_elementary_flows() {
  *   Wastewater observed Inputs (depend on technologies selected)
  *   Design Inputs for design choices
  *   Variables (intermediate calculations)
- */
-
+*/
 //{}: possible tecnologies of the plant (booleans)
 var Technologies_selected=[
   {id:"BOD", value:tech_BOD_default, descr:"BOD removal"         },
@@ -411,6 +414,11 @@ var Technologies_selected=[
 //{}: Inputs are divided in (1) wastewater inputs and (2) design inputs
 var Inputs_current_combination=[]; //inputs ww     filled in frontend
 var Design=[];                     //inputs design filled in frontend
+
+/*
+ * {}: Intermediate Variables
+ */
+var Variables=[];
 
 /*fx: get an input or technology by id */
 function getInput(id,isTechnology){
@@ -430,7 +438,6 @@ function getInput(id,isTechnology){
   }
   return ret[0];
 }
-
 /*fx: set an input value (number) or technology(boolean) by id */
 function setInput(id,newValue,isTechnology){
   isTechnology=isTechnology||false;
@@ -446,19 +453,12 @@ function setInput(id,newValue,isTechnology){
     if(el)el.select();
   }
 }
-
 /* fx: toggle technology active/inactive by id */
 function toggleTech(id){
   var currValue=getInput(id,true).value;
   setInput(id,!currValue,true);
   console.log(id+" "+(!currValue).toString());
 }
-
-/*
- * {}: Intermediate variables calculations
- */
-var Variables=[];
-
 /* Get a variable from Variables object by id */
 function getVariable(id){
   var ret;
@@ -473,9 +473,7 @@ function getVariable(id){
   }
   return ret[0];
 }
-
 /* Set a variable value by id */
 function setVariable(id,newValue){
   getVariable(id).value=newValue;
 }
-

@@ -11,34 +11,40 @@
 </head><body>
 <?php include'navbar.php'?>
 <div id=root>
-<h1>Create an Activity (wastewater generation)</h1><hr>
+<h1>Create an Activity</h1><hr>
 
 <!--status-->
 <h4>status: developing user interface (before backend)</h4>
 
 <!--create activity menu-->
-<table border=1>
+<table id=activity border=1>
   <tr>
     <td>Name 
     <td><input placeholder="Name">
 
     <!--user chooses reference data here--> 
     <td rowspan=3 style=text-align:center>
-      Compare activity vs reference data: 
+      Compare the activity vs reference data: 
       <select>
-        <option> --CUSTOM--
-        <option> France 1
-        <option> Germany 1
-        <option> Germany 2
-        <option> Germany 3
-        <option> Spain 1
-        <option> Spain 2
+        <option>--CUSTOM--
+        <option>France 1
+        <option>Germany 1
+        <option>Germany 2
+        <option>Germany 3
+        <option>Spain 1
+        <option>Spain 2
       </select>
       <br>
       (this selection will make values below to change)
     </td>
     <td rowspan=3 style=text-align:center>
+      <button>+Add reference data</button>
+    </td>
+    <td rowspan=3 style=text-align:center>
       <button>Compare</button>
+      <p>
+        The activity will be compared with all the reference data columns added
+      </p>
     </td>
   <tr>
     <td>Comments
@@ -54,7 +60,7 @@
       <template id=inputs_row>
         <tr title class=help>
           <td id>
-          <td><input id value>
+          <td><input id value type=number>
           <td unit style=font-size:smaller>
         </tr>
       </template>
@@ -62,10 +68,19 @@
     <td style="vertical-align:top">
       <p>Chosen Reference data wastewater characteristics</p>
       <table id=inputs_reference></table>
+      <template id=inputs_reference_techs_checkboxes>
+        <tr>
+          <td id>
+          <td><input type=checkbox>
+        </tr>
+      </template>
     </td>
     <td style=vertical-align:top>
-      Outputs will appear here
-      after clicking 'Compare'
+      (Another reference data column would appear here if added)
+    </td>
+    <td style=vertical-align:top>
+      (Outputs will appear here
+      after clicking 'Compare')
     </td>
 </table>
 
@@ -75,6 +90,7 @@
     populate_table('inputs');
     populate_table('inputs_reference',true);
     populate_table('inputs_reference',true,true);
+    add_technology_checkboxes('inputs_reference');
 
     function populate_table(id,disabled,design_parameters){
       disabled=disabled||false;
@@ -127,6 +143,53 @@
         t.appendChild(clone);
       });
     }
+
+    //only for reference data
+    function add_technology_checkboxes(id){
+      //get table by id
+      var t=document.getElementById(id);
+      var template=document.querySelector("template#inputs_reference_techs_checkboxes");
+
+      //new row
+      var newRow=t.insertRow(-1);
+      newRow.insertCell(-1).outerHTML="<td colspan=3><p><b>Technologies used</b></p>";
+
+      //create a imaginary state for technologies
+      var Techs_selected={
+        "BOD":true,
+        "SST":true,
+        "Nit":true,
+        "Des":false,
+        "ChP":false,
+        "BiP":false,
+      };
+
+      //go over technologies
+      for(var i in Technologies){
+        var tec=Technologies[i];
+
+        //clone row template
+        var clone=template.content.cloneNode(true);
+
+        //name
+        var td=clone.querySelector('td[id]');
+        td.innerHTML=i;
+
+        //checkbox
+        var cb=clone.querySelector('input[type=checkbox]');
+        cb.checked=Techs_selected[i];
+        cb.disabled=true;
+
+        //append clone
+        t.appendChild(clone);
+      }
+    }
   })();
 </script>
 
+<style>
+  #root #activity input[type=number] {
+    width:70px;
+    text-align:right;
+  }
+</style>
