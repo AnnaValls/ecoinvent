@@ -20,11 +20,15 @@
 			<li>
 				Single plant model
 				<ul>
-					<li><a href=elementary.php  >1. Elementary flows (from Metcalf &amp; Eddy)</a>
-					<li><a href=construction.php>2. Construction materials</a>
-					<li><a href=ecospold.php    >3. Generate results file (ecospold format)</a>
+					<li><a href=elementary.php  >Elementary flows (from Metcalf &amp; Eddy)</a>
+					<li><a href=construction.php>Construction materials</a>
 				</ul>
-			<li>
+      <li>
+        Multiple plant analysis
+        <ul>
+          <li><a href="activity.php">Create an Activity</a>
+        </ul>
+      <li>
 				Appendix (all model parts)
 				<ul>
 					<li><a href=inputs.php            >All inputs</a>
@@ -33,8 +37,9 @@
 					<li><a href=dataModel/constants.js>All constants</a>
 					<li><a href=terms.php             >All terms</a>
 				</ul>
-			<li><a href="README.md">README (tasks)</a>
-			<li><a href=future    >Future implementations (for 'n' plants)</a>
+      <li><a href=ecospold.php    >Generate results file (ecospold format)</a>
+      <li><a href="README.md">README (tasks)</a>
+      <li><a href=future>Future implementations (for 'n' plants)</a>
 		</ul>
 	</div><hr>
 

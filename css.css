@@ -1,0 +1,13 @@
+
+/*development tags*/
+issue{
+  padding:1px;
+  border-radius:0.2em;
+  border:1px solid #ccc;
+}
+issue.help_wanted{
+  background:lightgreen;
+}
+issue.help_wanted:before{
+  content:"help wanted";
+}
