@@ -8,6 +8,10 @@
 
 <p>
   Current list of WWTP configurations (by country) used for evaluating activities:
+  <br>
+  <small>
+    note: to add more configurations, create a pull request <a href="//github.com/holalluis/ecoinvent/tree/master/activity/referenceData">here</a>
+  </small>
 </p>
 
 <ul>
