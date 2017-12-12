@@ -1,8 +1,8 @@
 <!--title-->
-<div id=navbar onclick=window.location='index.php' 
-	title="Go to home page">
-	<b>Ecoinvent</b> 
-	wastewater web tool 
+<div id=navbar 
+  onclick="window.location='index.php'"
+	title="Home page">
+	<b>Ecoinvent</b> wastewater web tool 
 	<i>(under development)</i>
 	<style>
 		#navbar {
