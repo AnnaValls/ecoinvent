@@ -6,7 +6,10 @@
 <meta name="description" content="ecoinvent">
 
 <!--link-->
+<!--
 <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+-->
+<link rel=stylesheet href=css.css>
 
 <!--javascript-->
 <script src="utils.js"></script><!--metcalf figures and tables-->

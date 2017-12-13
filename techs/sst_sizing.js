@@ -36,7 +36,7 @@ function sst_sizing(Q,SOR,X_R,clarifiers,MLSS_X_TSS){
 	}
 }
 
-/*node debugging*/
+/*debugging*/
 (function(){
 	var debug=false;
 	if(debug==false)return;

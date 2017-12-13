@@ -198,7 +198,7 @@ function nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pr
 	};
 }
 
-/*node debugging*/
+/*debugging*/
 (function(){
 	var debug=false;
 	if(debug==false)return;

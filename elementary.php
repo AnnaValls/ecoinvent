@@ -128,9 +128,10 @@
             newRow.insertCell(-1).outerHTML="<td style=text-align:center><input type=checkbox "+checked+" onchange=\"toggleTech('"+tec.id+"')\" tech='"+tec.id+"'>";
             //implementation link
             if(Technologies[tec.id]){
-              newRow.insertCell(-1).innerHTML="<center><small>"+
+              newRow.insertCell(-1).innerHTML="<small><center>"+
                 "<a href='techs/"+Technologies[tec.id].File+"' title='see javascript implementation'>"+
-                "code</a></center>"+
+                "equations"+
+                "</a></cente></small>"+
                 "";
             }
           });
@@ -340,26 +341,10 @@
       <!--go to top link-->
       <div style=font-size:smaller><a href=#>&uarr; top</a></div>
 
-      <!--hint modify values using keyboard-->
+      <!--hints-->
       <p style=font-size:smaller>
-        Hint: modify inputs using the <kbd>&uarr;</kbd> and <kbd>&darr;</kbd> keys.
-        <style>
-          kbd {
-            display: inline-block;
-            margin: 0 .1em;
-            padding: .1em .6em;
-            font-family: Arial,"Helvetica Neue",Helvetica,sans-serif;
-            font-size: 11px;
-            line-height: 1.4;
-            color: #242729;
-            text-shadow: 0 1px 0 #FFF;
-            background-color: #e1e3e5;
-            border: 1px solid #adb3b9;
-            border-radius: 3px;
-            box-shadow: 0 1px 0 rgba(12,13,14,0.2), 0 0 0 2px #FFF inset;
-            white-space: nowrap;
-          }
-        </style>
+        Hint: modify inputs using the <kbd>&uarr;</kbd> and <kbd>&darr;</kbd> keys.<br>
+        Hint: mouse over inputs and variables to see a description.
       </p>
     </div>
   </div><hr>
@@ -469,74 +454,63 @@
       <ul>
         <li>Total reactor volume: <span id=V_total>0</span>
           <ul>
-            <li>V<sub>aerobic</sub>:   <span id=V_aer>0</span>
-            <li>V<sub>anoxic</sub>:    <span id=V_nox>0</span>
+            <li>V<sub>aerobic</sub>: <span id=V_aer>0</span>
+            <li>V<sub>anoxic</sub>: <span id=V_nox>0</span>
             <li>V<sub>anaerobic</sub>: <span id=V_ana>0</span>
           </ul>
-        <li>Settler Total Area needed:       <span id=Area>0</span>
+        <li>Settler Total Area needed: <span id=Area>0</span>
         <li>Wastage flow (Q<sub>was</sub>): <span id=Qwas>0</span>
-        <li>SRT:                <span id=SRT>0</span>
+        <li>Solids Retention Time (SRT): <span id=SRT>0</span>
         <li>Recirculation flow (Q<sub>R</sub>): <span id=QR></span>
       </ul>
+
       <p>3.4. Technosphere</p>
-        <ul>
-          <li>Alkalinity to maintain pH
-            <ul>
-              <li>Nitrification:   <span id=alkalinity_added>0</span>
-              <li>Denitrification: <span id=Mass_of_alkalinity_needed>0</span>
-            </ul>
-          </li>
-          <li>FeCl<sub>3</sub> for Chemical P removal
-            <ul>
-              <li>Volume per day:          <span id=FeCl3_volume>0</span>
-              <li>Volume storage required: <span id=storage_req_15_d>0</span>
-            </ul>
-          </li>
-          <li>Kg concrete: go <a href="construction.php">here</a>
-          <li>Aeration
-            <ul>
-              <li>Air flowrate:                     <span id=air_flowrate>0</span>
-              <li>OTRf:                             <span id=OTRf>0</span>
-              <li>SOTR :                            <span id=SOTR>0</span>
-              <li>SAE:                              <span id=SAE>0</span>
-                <div>
-                  <small>
-                    (note: Fine bubble systems have SAE ranges 
-                    <br>
-                    of between 3.6 and 4.8 kgO<sub>2</sub>/kWh)
-                  </small>
-                </div>
-              <li>Power required (SOTR/SAE):        <span id=O2_power>0</span>
-              <li>For Denitrirication
-                <ul>
-                  <li>SDNR:           <span id=SDNR>0</span>
-                  <li>Power required: <span id=Power>0</span>
-                </ul>
-              </li>
-            </ul>
-          </li>
-        </ul>
+      <ul>
+        <li>Alkalinity to maintain pH
+          <ul>
+            <li>Nitrification: <span id=alkalinity_added>0</span>
+            <li>Denitrification: <span id=Mass_of_alkalinity_needed>0</span>
+          </ul>
+        </li>
+        <li>FeCl<sub>3</sub> for Chemical P removal
+          <ul>
+            <li>Volume per day: <span id=FeCl3_volume>0</span>
+            <li>Volume storage required: <span id=storage_req_15_d>0</span>
+          </ul>
+        </li>
+        <li>Kg concrete: go <a href="construction.php">here</a>
+        <li>Aeration
+          <ul>
+            <li>Air flowrate: <span id=air_flowrate>0</span>
+            <li>OTRf: <span id=OTRf>0</span>
+            <li>SOTR: <span id=SOTR>0</span>
+            <li>SAE: <span id=SAE>0</span>
+              <div>
+                <small>
+                  (note: Fine bubble systems have SAE ranges 
+                  <br>
+                  of between 3.6 and 4.8 kgO<sub>2</sub>/kWh)
+                </small>
+              </div>
+            <li>Power required (SOTR/SAE): <span id=O2_power>0</span>
+            <li>For Denitrirication
+              <ul>
+                <li>SDNR: <span id=SDNR>0</span>
+                <li>Power required: <span id=Power>0</span>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
     </div>
 
     <!--link to generate an outputs ecospold file-->
     <div style=margin-top:10px>
-      <a href=ecospold.php> Save results as ecoSpold file </a>
+      <p>3.5. <a href=ecospold.php>Save results as ecoSpold file </a>
+      </p>
     </div>
   </div>
 </div><hr>
-
-<!--TODO development-->
-<div style=font-size:smaller>
-  Development issues (lbosch):
-  <ul>
-    <li>How to handle inputs for ChemP when BioP is active? Is Chem [P]<sub>input</sub> = Bio [P]<sub>output</sub> ?
-      <issue class="help_wanted"></issue>
-    <li>TS (Sulfur) effluent equations unknown.
-      <issue class="help_wanted"></issue>
-    <li>CH<sub>4</sub> effluent equations unknown.
-      <issue class="help_wanted"></issue>
-  </ul>
-</div>
 
 <!--CSS-->
 <link rel=stylesheet href=css.css>
@@ -579,3 +553,17 @@
     border-collapse:collapse;
   }
 </style>
+
+<!--TODO development-->
+<p><div style=font-size:smaller>
+  <b>Development issues (<a href=mailto:lbosch@icra.cat target=_blank>lbosch</a>):</b>
+  <ul>
+    <li>How to handle inputs for ChemP when BioP is active? Is Chem [P]<sub>input</sub> = Bio [P]<sub>output</sub> ?
+      <issue class="help_wanted"></issue>
+    <li>TS (Sulfur) effluent equations unknown.
+      <issue class="help_wanted"></issue>
+    <li>CH<sub>4</sub> effluent equations unknown.
+      <issue class="help_wanted"></issue>
+  </ul>
+</div></p>
+

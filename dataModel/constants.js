@@ -1,7 +1,8 @@
 /*
-	Constants (global variables)
-	used in technologies
-*/
+ *
+ * Constants (global variables) used in technologies' equations (see the folder "techs" to see each technology's equations)
+ *
+ */
 
 const COD_VSS_bio = 1.42; //(g COD/g VSS) add to equations with 1.42 value
 

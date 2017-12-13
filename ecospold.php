@@ -8,8 +8,11 @@
 
 <h1>Generate ecoSpold file (XML)</h1>
 
-<p>status: Pascal Lesage &amp; Lluís Bosch are doing this part</p>
-<p>(Note: an empty ecoSpold file is generated now, under development)</p>
+<p>
+  status: Pascal Lesage &amp; Lluís Bosch are doing this part.
+</p>
+
+<p>(Note: an empty ecoSpold file is generated for now)</p>
 
 <button style=font-size:20px onclick="createEcospold()">
 	Generate
@@ -18,12 +21,13 @@
 <hr>
 
 <p>
-	Ask for
+	Information that will contain the ecoSpold file:
 	<ul>
 		<li>technology
 		<li>capacity
 		<li>geography
 		<li>time period start
 		<li>time period end
+    <li>? <issue class=help_wanted></issue>
 	</ul>
 </p>
