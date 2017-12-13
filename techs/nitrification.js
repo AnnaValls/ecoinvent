@@ -79,12 +79,12 @@ function nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pr
 		console.log("LOOP FOR NOx and PXbioVSS approximation")
 		console.log("=======================================")
 
-		//arrays for approximations
+		//initialize arrays with current approximated values
 		var NOx_array = [NOx];
 		var P_X_bio_VSS_array = [P_X_bio_VSS];
 
 		//max difference
-		var tolerance = 0.0001;
+		var tolerance = 0.001;
 
 		//loop until difference < tolerance
 		var iterations_performed=0;
