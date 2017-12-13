@@ -513,7 +513,6 @@
 </div><hr>
 
 <!--CSS-->
-<link rel=stylesheet href=css.css>
 <style>
   #root hr{
     margin:0px auto;
@@ -566,4 +565,3 @@
       <issue class="help_wanted"></issue>
   </ul>
 </div></p>
-
