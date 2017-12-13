@@ -93,6 +93,10 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
 	//9
 	var Oxygen_credit = 2.86*(NOx-Ne)*Q/1000/24; //kg/h
 	var Net_O2_required = Ro - Oxygen_credit; //kg/h
+
+  //OTRf
+  //SOTR
+
 	//10
 	var Alkalinity_used = 7.14*NOx; //g/m3
 	var Alkalinity_produced = 3.57*(NOx-Ne); //g/m3

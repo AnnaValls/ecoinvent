@@ -102,7 +102,7 @@ function compute_elementary_flows() {
     var S0      = Result.BOD.bCOD.value;    //g/m3
 
     //lcorominas - equations block 1
-    var rbCOD        = 0.20 * bCOD;                   //g/m3 (input!)
+    var rbCOD        = sCOD - nbsCODe;                //g/m3 (input!)
     var VFA          = 0.15 * rbCOD;                  //g/m3 (input!)
     var nbpON        = 0.064 * nbVSS;                 //g/m3
     var nbsON        = 0.3;                           //g/m3
