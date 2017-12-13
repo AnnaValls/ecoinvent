@@ -144,11 +144,17 @@
           function process_input(i){
             var newRow=table.insertRow(-1);
             var advanced_indicator = i.color ? "<div class=circle style='background:"+i.color+"' title='Advanced knowledge required to modify this input'></div>" : "";
-            /*
-            */
+
             if(0==Inputs_current_combination.concat(Design).indexOf(i)+1){
               newRow.style.color='#aaa';
             }
+
+            //Special case: if SRT && is_Nit_active, mark input as "inactive"
+            if(getInput("Nit",true).value && i.id=="SRT"){
+              newRow.style.color='#aaa';
+            }
+
+            //insert cells
             newRow.title=i.descr;
             newRow.insertCell(-1).outerHTML="<td class='flex help' style='justify-content:space-between'>"+i.id + advanced_indicator;
             newRow.insertCell(-1).innerHTML="<input id='"+i.id+"' value='"+i.value+"' type=number step=any onchange=setInput('"+i.id+"',this.value) min=0>"
@@ -503,7 +509,6 @@
               <li>Power required (SOTR/SAE):        <span id=O2_power>0</span>
               <li>For Denitrirication
                 <ul>
-                  <li>Net O<sub>2</sub> required: <span id=Net_O2_required>0</span>
                   <li>SDNR:           <span id=SDNR>0</span>
                   <li>Power required: <span id=Power>0</span>
                 </ul>

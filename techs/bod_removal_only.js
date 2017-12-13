@@ -26,8 +26,8 @@ function bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_
 	*/
 
 	//parameters
-		var alpha  = 0.50;  //8.b
-		var beta   = 0.95;  //8.b
+		var alpha = 0.50; //8.b
+		var beta  = 0.95; //8.b
 	//end
 
 	/*SOLUTION*/
@@ -104,7 +104,7 @@ function bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_
 		Pb:                {value:Pb,                unit:"m",            descr:"Pressure_at_the_plant_site_based_on_elevation,_m"},
 		C_inf_20:          {value:C_inf_20,          unit:"mg_O2/L",      descr:"Saturated_DO_value_at_sea_level_and_20ºC_for_diffused_aeartion"},
 		OTRf:              {value:OTRf,              unit:"kg_O2/h",      descr:"O2_demand"},
-		SOTR:              {value:SOTR,              unit:"kg_O2/h",         descr:"Standard_Oxygen_Transfer_Rate"},
+		SOTR:              {value:SOTR,              unit:"kg_O2/h",      descr:"Standard_Oxygen_Transfer_Rate"},
 		kg_O2_per_m3_air:  {value:kg_O2_per_m3_air,  unit:"kg_O2/m3",     descr:"kg_O2_per_m3_air"},
 		air_flowrate:      {value:air_flowrate,      unit:"m3/min",       descr:"Air_flowrate"},
 	};
@@ -128,7 +128,7 @@ function bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_
 	var zb             = 500;
 	var Pressure       = 95600;
 	var Df             = 4.4;
-	var C_L           = 2.0;
+	var C_L            = 2.0;
 	var result = bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb,Pressure,Df,C_L);
 	console.log(result);
 })();

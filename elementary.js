@@ -7,25 +7,31 @@
 var tech_BOD_default=true; 
 
 //put here input strings that are calculated using lcorominas pdf equations
-var Inputs_to_be_hidden=[]; 
+var Inputs_to_be_hidden=[]; //declared here to be visible by frontend
 
 /*
  *
- * MAIN BACKEND FUNCTION
+ * MAIN BACKEND FUNCTION TODO: refactoring needed to reuse it for n simulations
  *
 */
 function compute_elementary_flows() {
   //utility to add a technology result to the Variables object
-  function showResults(tech,result){
-    //tech: string, result: object
+  function addResults(tech,result){
+    //tech: string, result: object resulting from a technology solving
     for(var res in result){
-      var value=result[res].value;
-      var unit =result[res].unit;
+      var value = result[res].value;
+      var unit  = result[res].unit;
       var descr = result[res].descr;
-      //if a variable with same id, unit and value already exists don't add it
-      if(
-        Variables.filter(v=>{return (v.id==res && v.unit==unit && format(v.value)==format(value))}).length>0
-      ){continue}
+
+      //if a variable with the same id and unit already exists replace it
+      var candidates=Variables.filter(v=>{return (v.id==res && v.unit==unit)});
+      if(candidates.length){
+        candidates.forEach(c=>{
+          var index=Variables.indexOf(c);
+          Variables.splice(index,1);
+        });
+      }
+
       //add to variables
       Variables.push({id:res,value,unit,descr,tech});
     }
@@ -90,7 +96,7 @@ function compute_elementary_flows() {
 
     /*1. SOLVE BOD REMOVAL*/
     Result.BOD=bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb,Pressure,Df,C_L);
-    showResults('BOD',Result.BOD);
+    addResults('BOD',Result.BOD);
 
     //lcorominas - get variables for equations block 1 
     var bCOD    = Result.BOD.bCOD.value;    //g/m3
@@ -114,7 +120,7 @@ function compute_elementary_flows() {
       //to correct NOx and P_X_bio from Metcalf use bTKN instead of TKN
       //         nitrification(----------------------------------------------TKN----------------------------------------------------------)
       Result.Nit=nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,bTKN,SF,zb,Pressure,Df,MLSS_X_TSS,Ne,sBODe,TSSe,Alkalinity,C_L);
-      showResults('Nit',Result.Nit);
+      addResults('Nit',Result.Nit);
     }
 
     //lcorominas - get variables after nitrification for equations block 2
@@ -135,7 +141,7 @@ function compute_elementary_flows() {
     var aPchem          = aP - 0.015*P_X_bio*1000/Q; //g/m3 == PO4_in
     var C_PO4_inf       = aPchem;                    //g/m3 (input!)
 
-    //lcorominas - request hide inputs in frontend functions
+    //lcorominas requested hiding these inputs from frontend. I've moved them to Variables
     Inputs_to_be_hidden=[
       {id:'rbCOD',      value:rbCOD},
       {id:'VFA',        value:VFA},
@@ -143,9 +149,9 @@ function compute_elementary_flows() {
       {id:'sBODe',      value:sBODe, invisible:true},
     ];
 
-    /*3. SOLVE SST --- bod + (nitrification) + sst*/
+    /*3. SOLVE SST -- bod + (nitrification) + sst*/
     Result.SST=sst_sizing(Q,SOR,X_R,clarifiers,MLSS_X_TSS);
-    showResults('SST',Result.SST);
+    addResults('SST',Result.SST);
 
     /*4. SOLVE DENITRIFICATION --> BOD + NITRIFICATION + SST + (DENITRIFICATION)*/
     if(is_Nit_active && is_Des_active){
@@ -156,8 +162,8 @@ function compute_elementary_flows() {
       var RAS                   = Result.SST.RAS.value;        //0.6 unitless
       var R0                    = Result.Nit.OTRf.value;       //275.9 kg O2/h
 
-      Result.Des=N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_basin_volume,Aerobic_T,Anoxic_mixing_energy,RAS,R0,NO3_eff);
-      showResults('Des',Result.Des);
+      Result.Des=N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_basin_volume,Aerobic_T,Anoxic_mixing_energy,RAS,R0,NO3_eff,Df,zb,C_L,Pressure);
+      addResults('Des',Result.Des);
     }
 
     /*5. SOLVE BIO P --> BOD + (NITRIFICATION) + SST + (DENITRIFICATION) + (BIOP)*/
@@ -165,13 +171,13 @@ function compute_elementary_flows() {
       var iTSS = Result.BOD.iTSS.value; //10 g/m3
 
       Result.BiP=bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,NOx,NO3_eff);
-      showResults('BiP',Result.BiP);
+      addResults('BiP',Result.BiP);
     }
 
     /*5. SOLVE CHEM P --> BOD + (NITRIFICATION) + SST + (DENITRIFICATION) + (BIOP) + (CHEMP)*/
     if(is_ChP_active){
       Result.ChP=chem_P_removal(Q,TSS,TSS_removal_wo_Fe,TSS_removal_w_Fe,TP,C_PO4_inf,C_PO4_eff,FeCl3_solution,FeCl3_unit_weight,days);
-      showResults('ChP',Result.ChP);
+      addResults('ChP',Result.ChP);
     }
   }else if(is_BOD_active==false){
     console.warn('WARNING: BOD removal is inactive');
@@ -181,29 +187,38 @@ function compute_elementary_flows() {
   //end technology calling
 
   /*
+    lcorominas pdf starts here
+
     CALC OUTPUTS by phase (water, air, sludge)
-    *note*: all Outputs are in g/d, and turned to kg/d in frontend
+    important: all Outputs are in g/d, and turned to kg/d in frontend
 
-    TECHNOLOGY         | IN/ACTIVE     | RESULTS OBJECT
-    -------------------+---------------+---------------
-    bod removal        | is_BOD_active | Result.BOD
-    nitrification      | is_Nit_active | Result.Nit
-    sst sizing         | ---N/A---     | Result.SST
-    denitrification    | is_Des_active | Result.Des
-    bio P removal      | is_BiP_active | Result.BiP
-    chemical P removal | is_ChP_active | Result.ChP
+    | TECHNOLOGY            | IN/ACTIVE     | RESULTS OBJECT |
+    |-----------------------+---------------+----------------|
+    | bod removal           | is_BOD_active | Result.BOD     |
+    | nitrification         | is_Nit_active | Result.Nit     |
+    | sst sizing            | ~N/A          | Result.SST     |
+    | denitrification       | is_Des_active | Result.Des     |
+    | bio P removal         | is_BiP_active | Result.BiP     |
+    | chemical P removal    | is_ChP_active | Result.ChP     |
+
   */
+  /*
+   * inputs needed for lcorominas pdf:
+   * V_total
+   * MLSS_X_TSS
+   * Q
 
+  /*total volume*/
   //V_total = V_aerobic + V_anoxic + V_anaerobic (used to calc Qwas)
   var V_total                 = is_Nit_active ? Result.Nit.V.value : Result.BOD.V.value;  //aerobic m3
   if(is_Des_active){ V_total += Result.Des.V_nox.value } //anoxic m3
   if(is_BiP_active){ V_total += Result.BiP.V.value } //anaerobic m3
 
-  //lcorominas Qwas calc (needs V_total and SRT [either input or calculated] )
+  //lcorominas Qwas equation (needs V_total and SRT [either input or calculated] )
   var Qwas = (V_total*MLSS_X_TSS/SRT - Q*TSSe)/(X_R - TSSe); //m3/d
 
-  //lcorominas calc effluent flowrate Qe (m3/d)
-  var Qe = Q - Qwas;
+  //lcorominas equation Q(effluent) flowrate
+  var Qe = Q - Qwas; //m3/d
 
   //Qe related outputs
   var sTKNe = Qe*(Ne + nbsON); //g/d
@@ -337,8 +352,9 @@ function compute_elementary_flows() {
     }
   })();
 
-  //deal with summary tables (frontend function) TODO
+  //deal with summary tables (frontend function)
   (function fill_summary_tables(){
+
     function fill(id,tec,field){
       var value = Result[tec][field] ? Result[tec][field].value : 0;
       var el=document.querySelector('div#summary #'+id);
@@ -355,7 +371,7 @@ function compute_elementary_flows() {
     }
 
     //auxiliary technology results
-    var SOTR = is_Nit_active ? Result.Nit.SOTR.value : Result.BOD.SOTR.value;
+    var SOTR = is_Des_active? Result.Des.SOTR.value : (is_Nit_active ? Result.Nit.SOTR.value : Result.BOD.SOTR.value);
     var SAE = 4; //kgO2/kWh
 
     Result.lcorominas={
@@ -384,12 +400,11 @@ function compute_elementary_flows() {
     fill('storage_req_15_d','ChP','storage_req_15_d');
 
     //aeration
-    fill('air_flowrate',is_Nit_active?'Nit':'BOD','air_flowrate');
-    fill('OTRf',is_Nit_active?'Nit':'BOD','OTRf');
-    fill('SOTR',is_Nit_active?'Nit':'BOD','SOTR');
+    fill('air_flowrate',is_Des_active?'Des':(is_Nit_active?'Nit':'BOD'),'air_flowrate');
+    fill('OTRf',        is_Des_active?'Des':(is_Nit_active?'Nit':'BOD'),'OTRf');
+    fill('SOTR',        is_Des_active?'Des':(is_Nit_active?'Nit':'BOD'),'SOTR');
     fill('SAE','lcorominas','SAE');
     fill('O2_power','lcorominas','O2_power');
-    fill('Net_O2_required','Des','Net_O2_required');
     fill('SDNR','Des','SDNR');
     fill('Power','Des','Power');
   })();

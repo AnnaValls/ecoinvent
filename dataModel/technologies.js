@@ -82,6 +82,10 @@ var Technologies = {
 			"rbCOD", 
 			"Anoxic_mixing_energy", 
 			"NO3_eff",
+      "Df",
+      "zb",
+      "DO",
+      "Pressure",
 		],
 	},
 	"BiP":{

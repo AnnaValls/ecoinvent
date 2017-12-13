@@ -175,7 +175,7 @@
 				<tr><td>SDNR<sub>adj</sub>        <td class=number><span id=result_SDNR_adj>?</span><td>g/g·d
 				<tr><td>Overall SDNR              <td class=number><span id=result_SDNR>?</span><td>g/g·d
 				<tr><td>NO<sub>r</sub>            <td class=number><span id=result_NO_r>?</span><td>g/d
-				<tr><td>Net O<sub>2</sub> required<td class=number><span id=result_Net_O2_required>?</span><td>kg O<sub>2</sub>/h
+				<tr><td>Net O<sub>2</sub> required<td class=number><span id=result_OTRf>?</span><td>kg O<sub>2</sub>/h
 				<tr><td>Mass of alkalinity needed <td class=number><span id=result_Mass_of_alkalinity_needed>?</span><td> kg/d as CaCO<sub>3</sub>
 				<tr><td>Power                     <td class=number><span id=result_Power>?</span><td>kW
 			</table>
@@ -222,7 +222,7 @@
 		showResult("result_SDNR_adj",                   r.SDNR_adj.value);
 		showResult("result_SDNR",                       r.SDNR.value);
 		showResult("result_NO_r",                       r.NO_r.value);
-		showResult("result_Net_O2_required",            r.Net_O2_required.value);
+		showResult("result_OTRf",                       r.OTRf.value);
 		showResult("result_Mass_of_alkalinity_needed",  r.Mass_of_alkalinity_needed.value);
 		showResult("result_Power",                      r.Power.value);
 	}

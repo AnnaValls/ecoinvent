@@ -3,7 +3,7 @@
  * Metcalf & Eddy, Wastewater Engineering, 5th ed., 2014:
  * page 810
  */
-function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_basin_volume,Aerobic_T,Anoxic_mixing_energy,RAS,Ro,NO3_eff){
+function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_basin_volume,Aerobic_T,Anoxic_mixing_energy,RAS,Ro,NO3_eff,Df,zb,C_L,Pressure){
 	/*
 		Inputs                 example values 
 		---------------------------------------
@@ -22,6 +22,11 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
 		RAS                    0.6    unitless
 		Ro                     275.9  kgO2/h
 		NO3_eff                6      g/m3 (nitrate at effluent)
+
+    Df              4.4    m
+    zb              500    m
+    C_L             2.0    mg/L
+    Pressure        95600  Pa
 		---------------------------------------
 	*/
 
@@ -94,8 +99,17 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
 	var Oxygen_credit = 2.86*(NOx-Ne)*Q/1000/24; //kg/h
 	var Net_O2_required = Ro - Oxygen_credit; //kg/h
 
-  //OTRf
-  //SOTR
+  //9 -- expansion for solving SOTR
+  //Aeration: OTRf,SOTR
+  var alpha = 0.65; //verify values from book TODO
+  var beta = 0.95; //verify values from book TODO
+  var C_T = air_solubility_of_oxygen(T,0); //elevation=0 TableE-1, Appendix E, implemented in "utils.js"
+  var OTRf = Net_O2_required; //kg/h
+  var C_inf_20 = C_s_20 * (1+de*Df/Pa); //mgO2/L
+  var Pb = Pa*Math.exp(-g*M*(zb-0)/(R*(273.15+T))); //pressure at plant site (m)
+  var SOTR = (OTRf/alpha/F)*(C_inf_20/(beta*C_T/C_s_20*Pb/Pa*C_inf_20-C_L))*(Math.pow(1.024,20-T)); //kg/h
+  var kg_O2_per_m3_air = density_of_air(T,Pressure)*0.2318 //oxygen in air by weight is 23.18%, by volume is 20.99%
+  var air_flowrate = SOTR/(E*60*kg_O2_per_m3_air);
 
 	//10
 	var Alkalinity_used = 7.14*NOx; //g/m3
@@ -122,7 +136,13 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
 		SDNR_adj:                   {value:SDNR_adj,                   unit:"g/g·d",          descr:"SDNR_adj (applied recycle correction)"},
 		SDNR:                       {value:SDNR,                       unit:"g/g·d",          descr:"Overall SDNR based on MLVSS"},
 		NO_r:                       {value:NO_r,                       unit:"g/d",            descr:"Amount of NO3-N that can be reduced"},
-		Net_O2_required:            {value:Net_O2_required,            unit:"kg_O2/d",        descr:"Net_O2_required"},
+    C_T:                        {value:C_T,               unit:"mg_O2/L",      descr:"Saturated_DO_at_sea_level_and_operating_tempreature"},
+    Pb:                         {value:Pb,                unit:"m",            descr:"Pressure_at_the_plant_site_based_on_elevation,_m"},
+    C_inf_20:                   {value:C_inf_20,          unit:"mg_O2/L",      descr:"Saturated_DO_value_at_sea_level_and_20ºC_for_diffused_aeartion"},
+    OTRf:                       {value:OTRf,              unit:"kg_O2/h",      descr:"O2_demand"},
+    SOTR:                       {value:SOTR,              unit:"kg_O2/h",      descr:"Standard_Oxygen_Transfer_Rate"},
+    kg_O2_per_m3_air:           {value:kg_O2_per_m3_air,  unit:"kg_O2/m3",     descr:"kg_O2_per_m3_air"},
+    air_flowrate:               {value:air_flowrate,      unit:"m3/min",       descr:"Air_flowrate"},
 		Mass_of_alkalinity_needed:  {value:Mass_of_alkalinity_needed,  unit:"kg/d_as_CaCO3",  descr:"Mass_of_alkalinity_needed"},
 		Power:                      {value:Power,                      unit:"kW",             descr:"Anoxic zone mixing energy"},
 	}
@@ -133,20 +153,24 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
 	var debug=false;
 	if(debug==false)return;
 	var Q                      = 22700;
-	var T                      = 12   ;
-	var BOD                    = 140  ;
-	var bCOD                   = 224  ;
-	var rbCOD                  = 80   ;
-	var NOx                    = 28.9 ;
-	var Alkalinity             = 140  ;
-	var MLVSS                  = 2370 ;
-	var Aerobic_SRT            = 21   ;
+	var T                      = 12;
+	var BOD                    = 140;
+	var bCOD                   = 224;
+	var rbCOD                  = 80;
+	var NOx                    = 28.9;
+	var Alkalinity             = 140;
+	var MLVSS                  = 2370;
+	var Aerobic_SRT            = 21;
 	var Aeration_basin_volume  = 13410;
-	var Aerobic_T              = 14.2 ;
-	var Anoxic_mixing_energy   = 5    ;
-	var RAS                    = 0.6  ;
+	var Aerobic_T              = 14.2;
+	var Anoxic_mixing_energy   = 5;
+	var RAS                    = 0.6;
 	var Ro                     = 275.9;
-	var NO3_eff                = 6    ;
-	var result=N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_basin_volume,Aerobic_T,Anoxic_mixing_energy,RAS,Ro,NO3_eff);
+	var NO3_eff                = 6;
+  var Df                     = 4.4;
+  var zb                     = 500;
+  var C_L                    = 2.0;
+  var Pressure               = 95600;
+  var result = N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_basin_volume,Aerobic_T,Anoxic_mixing_energy,RAS,Ro,NO3_eff,Df,zb,C_L,Pressure);
 	console.log(result);
 })();

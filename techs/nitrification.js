@@ -30,7 +30,7 @@ function nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pr
 		--------------------------------
 	*/
 
-	//parameters
+	//parameters for aeration
 		var alpha = 0.65; //8.b
 		var beta  = 0.95; //8.b
 		var C_T   = air_solubility_of_oxygen(T,0); //elevation=0 TableE-1, Appendix E, implemented in "utils.js"
@@ -145,6 +145,7 @@ function nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pr
 	var SOTR = (OTRf/alpha/F)*(C_inf_20/(beta*C_T/C_s_20*Pb/Pa*C_inf_20-C_L))*(Math.pow(1.024,20-T)); //kg/h
 	var kg_O2_per_m3_air = density_of_air(T,Pressure)*0.2318 //oxygen in air by weight is 23.18%, by volume is 20.99%
 	var air_flowrate = SOTR/(E*60*kg_O2_per_m3_air);
+
 	//19 alkalinity 
 	var alkalinity_to_be_added = 0;
 	(function(){
