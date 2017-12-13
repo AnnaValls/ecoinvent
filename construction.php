@@ -96,7 +96,9 @@
 		width:100%;
 	}
 	td:hover{
+    /*
 		background:linear-gradient(to top, #e01a1a, #eb6666);
+    */
 	}
 	th,td {
 		padding:0 0.5em;
