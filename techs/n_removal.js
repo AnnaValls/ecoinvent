@@ -32,69 +32,114 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
 
 	/*SOLUTION*/
 
-	//name change
+	//name change for effluent N
 	var Ne=NO3_eff; 
 
 	//correct bH by temperature
-	var bHT=bH*Math.pow(1.04,T - 20); 
+	var bHT=bH*Math.pow(1.04,T - 20); //1/d
 	
 	//1
-	var Xb = Q*Aerobic_SRT*YH*bCOD/(1 + bHT*Aerobic_SRT)/Aeration_basin_volume; //g/m3
+	var Xb = Q*Aerobic_SRT*YH*bCOD/(1 + bHT*Aerobic_SRT)/Aeration_basin_volume; //1267 g/m3
+
 	//2
-	var IR = NOx/Ne - 1 - RAS;
+	var IR = NOx/Ne - 1 - RAS; //3.2
+
 	//3
 	var Flowrate_to_anoxic_tank = Q*(IR + RAS); //m3/d
 	var NOx_feed = Flowrate_to_anoxic_tank*Ne; //g/d
-	//4
-	var tau = (0.20*Aerobic_T)/24; //d
-	var V_nox = tau*Q; //m3
-	//5
-	var FM_b = Q*BOD/(V_nox*Xb); //g/g·d
 
-	//6
-	if(FM_b>0.50){
-		//table 8-22, page 806
-		var Table8_22=[
-			{rbCOD:0 ,b0:0.186,b1:0.078},
-			{rbCOD:10,b0:0.186,b1:0.078},
-			{rbCOD:20,b0:0.213,b1:0.118},
-			{rbCOD:30,b0:0.235,b1:0.141},
-			{rbCOD:40,b0:0.242,b1:0.152},
-			{rbCOD:50,b0:0.270,b1:0.162},
-		];
-		//compute the fraction of rbCOD to find b0 and b1 in the table 8-22
-		var Fraction_of_rbCOD = Math.max(0,Math.min(50,Math.floor(100*rbCOD/bCOD))); //min:0, max:50 (for the lookup table)
-		Fraction_of_rbCOD -= Fraction_of_rbCOD%10; //round to 0,10,20,30,40, or 50.
-		console.log("Fraction of rbCOD (rounded): "+Fraction_of_rbCOD+"%");
-		//lookup the value in the table
-		var b0=Table8_22.filter(row=>{return row.rbCOD==Fraction_of_rbCOD})[0].b0;
-		var b1=Table8_22.filter(row=>{return row.rbCOD==Fraction_of_rbCOD})[0].b1;
-		console.log(" b0: "+b0);
-		console.log(" b1: "+b1);
-		var SDNR_b = b0 + b1*Math.log(FM_b); //gNO3-N/gMLVSS,biomass·d
-	}else{
-		console.log('F/M_b<0.50 => equation for SDNR_b = 0.24*F/M_b');
-		var b0=0;//not used
-		var b1=0;//not used
-		var SDNR_b = 0.24*FM_b;
-	}
+  //4
+  var tau,V_nox,FM_b,b0,b1,SDNR_b,SDNR_T,SDNR_adj,SDNR,NO_r;
 
-	//temperature correction
-	var SDNR_T = SDNR_b * Math.pow(1.026,T-20) //g/g·d
+  //iteration for finding an appropiate detention time (tau) that satisfies NOx_feed ~ NO_r  
+  //like G. Ekama excel
+  (function(){
 
-	//correction for SNDR (page 808)
-	if(IR<=1){
-		var SDNR_adj = SDNR_T; //g/g·d
-	}else if(IR<=3){
-		var SDNR_adj = SDNR_T - 0.0166*Math.log(FM_b) - 0.078; //g/g·d (Eq. 8.59)
-	}else{
-		var SDNR_adj = SDNR_T - 0.0290*Math.log(FM_b) - 0.012; //g/g·d  (Eq. 8-60)
-	}
+    var fraction_of_tau = 0.20; //initial value
 
-	//7
-	var SDNR = SDNR_adj*Xb/MLVSS; //g/g·d
-	//8
-	var NO_r = V_nox*SDNR_adj*Xb; //g/d
+    while(true){
+      //check here difference
+      break;
+    }
+
+    tau = (fraction_of_tau*Aerobic_T)/24; //d
+
+    //approximation of V_nox
+    V_nox = tau*Q; //m3
+
+    //5
+    FM_b = Q*BOD/(V_nox*Xb); //g/g·d
+
+    //6
+    if(FM_b>0.50){
+      //table 8-22, page 806:
+      //get b0 and b1 from the percentage of rbCOD/bCOD
+      //b0 and b1 are used to calculate SDNR_b
+      var Table8_22=[
+        {rbCOD:0 ,b0:0.186,b1:0.078},
+        {rbCOD:10,b0:0.186,b1:0.078},
+        {rbCOD:20,b0:0.213,b1:0.118},
+        {rbCOD:30,b0:0.235,b1:0.141},
+        {rbCOD:40,b0:0.242,b1:0.152}, //note: G. Ekama has b0:0.252 instead of 0.242
+        {rbCOD:50,b0:0.270,b1:0.162},
+      ];
+      //compute the fraction of rbCOD to find b0 and b1 in the table 8-22
+      var Fraction_of_rbCOD = Math.max(0,Math.min(50,Math.floor(100*rbCOD/bCOD))); //min:0, max:50 (for the lookup table)
+
+      //round the fraction of rbCOD to 0, 10, 20, 30, 40 or 50.
+      Fraction_of_rbCOD -= Fraction_of_rbCOD%10; 
+      console.log("Fraction of rbCOD (rounded): "+Fraction_of_rbCOD+"%");
+
+      //fetch b0 and b1 from the table. it will work always because Fraction is 0,10,20,30,40 or 50
+      b0=Table8_22.filter(row=>{return row.rbCOD==Fraction_of_rbCOD})[0].b0;
+      b1=Table8_22.filter(row=>{return row.rbCOD==Fraction_of_rbCOD})[0].b1;
+      console.log(" b0: "+b0);
+      console.log(" b1: "+b1);
+
+      SDNR_b = b0 + b1*Math.log(FM_b); //gNO3-N/gMLVSS,biomass·d
+      /*dubte respecte LN o LOG*/
+    }else{
+      console.log('F/M_b<0.50 => equation for SDNR_b = 0.24*F/M_b');
+      b0=0;//not used
+      b1=0;//not used
+      SDNR_b = 0.24*FM_b;
+    }
+
+    //temperature correction
+    SDNR_T = SDNR_b * Math.pow(1.026,T-20) //g/g·d
+
+    //correction for SNDR (page 808)
+    if(IR<=1){
+      SDNR_adj = SDNR_T; //g/g·d
+    }else if(IR<=3){
+      SDNR_adj = SDNR_T - 0.0166*Math.log(FM_b) - 0.078; //g/g·d (Eq. 8.59)
+    }else{
+      SDNR_adj = SDNR_T - 0.0290*Math.log(FM_b) - 0.012; //g/g·d  (Eq. 8-60)
+    }
+
+    //7
+    SDNR = SDNR_adj*Xb/MLVSS; //g/g·d
+    //8
+    NO_r = V_nox*SDNR_adj*Xb; //g/d
+
+    //here: check if NO_r is acceptable compared with NOx_feed
+    (function(){
+      var difference_NOr_NOx = Math.abs((NO_r-NOx_feed)/NO_r)*100;
+
+      //debug info
+      console.log("-----------------");
+      console.log("NOx_feed vs NO_r:");
+      console.log("  NOx_feed:"+NOx_feed);
+      console.log("  NO_r:"+NO_r);
+      console.log("    difference:"+difference_NOr_NOx+" %");
+      console.log("-----------------");
+
+      //if difference is lower than 20% we are ok
+
+    })();
+
+  })();//end iteration for finding tau
+
 	//9
 	var Oxygen_credit = 2.86*(NOx-Ne)*Q/1000/24; //kg/h
 	var Net_O2_required = Ro - Oxygen_credit; //kg/h

@@ -180,7 +180,7 @@ function compute_elementary_flows() {
       addResults('ChP',Result.ChP);
     }
   }else if(is_BOD_active==false){
-    console.warn('WARNING: BOD removal is inactive');
+    console.log('BOD removal is inactive');
     Inputs_to_be_hidden=[];
     return;
   }
@@ -472,8 +472,8 @@ function setInput(id,newValue,isTechnology){
 /* fx: toggle technology active/inactive by id */
 function toggleTech(id){
   var currValue=getInput(id,true).value;
+  console.log("the user set the tech "+id+" "+(!currValue).toString());
   setInput(id,!currValue,true);
-  console.log(id+" "+(!currValue).toString());
 }
 /* Get a variable from Variables object by id */
 function getVariable(id){

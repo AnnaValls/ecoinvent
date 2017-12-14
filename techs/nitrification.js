@@ -90,21 +90,26 @@ function nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pr
 		var iterations_performed=0;
 		while(true){
 			console.log("- new iteration")
+
 			//increase accuracy of NOx from P_X_bio_VSS
-			var last_NOx = TKN - Ne - 0.12*P_X_bio_VSS_array[P_X_bio_VSS_array.length-1]/Q*1000;
-			NOx_array.push(last_NOx);
-			//recalculate P_X_bio_VSS with NOx approximation
-			var last_PX=(Q*YH*(S0-S)/(1+bHT*SRT_design)+fd*bHT*Q*YH*(S0-S)*SRT_design/(1+bHT*SRT_design)+Q*Yn*(last_NOx)/(1+b_AOB_T*SRT_design))/1000
-			P_X_bio_VSS_array.push(last_PX);
+      var last_PX = P_X_bio_VSS_array.slice(-1)[0];
+			var new_NOx = TKN - Ne - 0.12*(last_PX)/Q*1000;
+
+			//increase accuracy of P_X_bio_VSS with new NOx approximation
+			var new_PX=(Q*YH*(S0-S)/(1+bHT*SRT_design)+fd*bHT*Q*YH*(S0-S)*SRT_design/(1+bHT*SRT_design)+Q*Yn*(new_NOx)/(1+b_AOB_T*SRT_design))/1000;
+
+      NOx_array.push(new_NOx);
+			P_X_bio_VSS_array.push(new_PX);
+
 			//console.log("  NOx approximations: "+NOx_array);
 			//console.log("  PXbioVSS approximations: "+P_X_bio_VSS_array);
 			//length of NOx approximations
 			var l = NOx_array.length;
 			var difference = Math.abs(NOx_array[l-1]-NOx_array[l-2]);
 			if(difference<tolerance){
-				NOx         = last_NOx;
-				P_X_bio_VSS = last_PX;
-				console.log('NOx & P_X_bio loop: value is accurate enough (error: '+difference+')');
+				NOx         = new_NOx;
+				P_X_bio_VSS = new_PX;
+				console.log('NOx & P_X_bio loop: value is accurate enough (difference: '+difference+')');
 				break;
 			}
 			iterations_performed++;
