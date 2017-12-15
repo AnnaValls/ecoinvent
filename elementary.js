@@ -143,10 +143,10 @@ function compute_elementary_flows() {
 
     //lcorominas requested hiding these inputs from frontend. I've moved them to Variables
     Inputs_to_be_hidden=[
-      {id:'rbCOD',      value:rbCOD},
-      {id:'VFA',        value:VFA},
-      {id:'C_PO4_inf',  value:C_PO4_inf},
-      {id:'sBODe',      value:sBODe, invisible:true},
+      {id:'rbCOD',      value:rbCOD      },
+      {id:'VFA',        value:VFA        },
+      {id:'C_PO4_inf',  value:C_PO4_inf, },
+      {id:'sBODe',      value:sBODe,     invisible:true},
     ];
 
     /*3. SOLVE SST -- bod + (nitrification) + sst*/
@@ -180,14 +180,14 @@ function compute_elementary_flows() {
       addResults('ChP',Result.ChP);
     }
   }else if(is_BOD_active==false){
-    console.log('BOD removal is inactive');
+    console.log('BOD REMOVAL IS INACTIVE: nothing will be calculated');
     Inputs_to_be_hidden=[];
     return;
   }
-  //end technology calling
+  //end technologies from metcalf and eddy
 
   /*
-    lcorominas pdf starts here
+    lcorominas pdf implementation starts here
 
     CALC OUTPUTS by phase (water, air, sludge)
     important: all Outputs are in g/d, and turned to kg/d in frontend
@@ -202,11 +202,15 @@ function compute_elementary_flows() {
     | chemical P removal    | is_ChP_active | Result.ChP     |
 
   */
+
   /*
-   * inputs needed for lcorominas pdf:
-   * V_total
-   * MLSS_X_TSS
-   * Q
+   * idea: refactor lcorominas pdf in a single function with inputs and ouputs just like a metcalf technology TODO
+   *   inputs needed for lcorominas pdf:
+   *   V_total
+   *   MLSS_X_TSS
+   *   Q
+   *   TODO
+   */
 
   /*total volume*/
   //V_total = V_aerobic + V_anoxic + V_anaerobic (used to calc Qwas)
@@ -214,16 +218,16 @@ function compute_elementary_flows() {
   if(is_Des_active){ V_total += Result.Des.V_nox.value } //anoxic m3
   if(is_BiP_active){ V_total += Result.BiP.V.value } //anaerobic m3
 
-  //lcorominas Qwas equation (needs V_total and SRT [either input or calculated] )
+  //Qwas: lcorominas Qwas equation (needs V_total and SRT [either input or calculated] )
   var Qwas = (V_total*MLSS_X_TSS/SRT - Q*TSSe)/(X_R - TSSe); //m3/d
 
-  //lcorominas equation Q(effluent) flowrate
+  //Qe: lcorominas equation Q(effluent) flowrate
   var Qe = Q - Qwas; //m3/d
 
   //Qe related outputs
   var sTKNe = Qe*(Ne + nbsON); //g/d
 
-  //OUTPUTS.COD
+  //Outputs.COD
     Outputs.COD.influent        = Q*COD;
     Outputs.COD.effluent.water  = (function(){return sCODe + Qe*VSSe*1.42})();
     Outputs.COD.effluent.air    = (function(){return 0})();
@@ -235,7 +239,7 @@ function compute_elementary_flows() {
       return A+B+C-D;
     })();
 
-  //OUTPUTS.CO2
+  //Outputs.CO2
     Outputs.CO2.influent       = (function(){return 0})();
     Outputs.CO2.effluent.water = (function(){return 0})();
     Outputs.CO2.effluent.air   = (function(){
@@ -246,7 +250,7 @@ function compute_elementary_flows() {
     })();
     Outputs.CO2.effluent.sludge = (function(){return 0})();
 
-  //OUTPUTS.CH4
+  //Outputs.CH4
     Outputs.CH4.influent        = (function(){return 0})();
     Outputs.CH4.effluent.water  = (function(){return 0})();
     Outputs.CH4.air             = (function(){ //TODO
@@ -259,7 +263,7 @@ function compute_elementary_flows() {
     })();
     Outputs.CH4.effluent.sludge = (function(){return 0})();
 
-  //OUTPUTS.TKN
+  //Outputs.TKN
     Outputs.TKN.influent = Q*TKN;
     Outputs.TKN.effluent.water = (function(){
       if(is_Nit_active){ return Qe*Ne + Qe*nbsON + Qe*VSSe*0.12 }
@@ -274,7 +278,7 @@ function compute_elementary_flows() {
       return A+B+C-D;
     })();
 
-  //OUTPUTS.NOX
+  //Outputs.NOx
     Outputs.NOx.influent       = Q*NOx;
     Outputs.NOx.effluent.water = (function(){
       if     (is_Nit_active==false){ return 0}
@@ -288,7 +292,7 @@ function compute_elementary_flows() {
       else if(is_Des_active==false){ return Qwas*NOx}
     })();
 
-  //OUTPUTS.N2
+  //Outputs.N2
     Outputs.N2.influent       = (function(){return 0})();
     Outputs.N2.effluent.water = (function(){return 0})();
     Outputs.N2.effluent.air   = (function(){
@@ -297,13 +301,13 @@ function compute_elementary_flows() {
     })();
     Outputs.N2.effluent.sludge = (function(){return 0})();
 
-  //OUTPUTS.N2O
+  //Outputs.N2O
     Outputs.N2O.influent        = (function(){return 0})();
     Outputs.N2O.effluent.water  = (function(){return 0})();
     Outputs.N2O.effluent.air    = (function(){return Q*TKN_N2O})();
     Outputs.N2O.effluent.sludge = (function(){return 0})();
 
-  //OUTPUTS.TP
+  //Outputs.TP
     Outputs.TP.influent = Q*TP;
     Outputs.TP.effluent.water = (function(){
       if     (is_BiP_active==false && is_ChP_active==false){return Q*aPchem + Qe*VSSe*0.015}
@@ -334,7 +338,7 @@ function compute_elementary_flows() {
       }
     })();
 
-  //OUTPUTS.TS
+  //Outputs.TS
     Outputs.TS.influent        = Q*TS;
     Outputs.TS.effluent.water  = (function(){return 0})();
     Outputs.TS.effluent.air    = (function(){return 0})();

@@ -110,6 +110,7 @@ function nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pr
 				NOx         = new_NOx;
 				P_X_bio_VSS = new_PX;
 				console.log('NOx & P_X_bio loop: value is accurate enough (difference: '+difference+')');
+        console.log('=================================');
 				break;
 			}
 			iterations_performed++;
