@@ -3,9 +3,6 @@
  *
  */
 
-//shortcut for initial BOD technology state
-var tech_BOD_default=true; 
-
 //put here input strings that are calculated using lcorominas pdf equations
 var Inputs_to_be_hidden=[]; //declared here to be visible by frontend
 
@@ -17,7 +14,10 @@ var Inputs_to_be_hidden=[]; //declared here to be visible by frontend
 function compute_elementary_flows() {
   //utility to add a technology result to the Variables object
   function addResults(tech,result){
-    //tech: string, result: object resulting from a technology solving
+    /*inputs:
+      tech: string representing a technology
+      result: object returned from a technology
+    */
     for(var res in result){
       var value = result[res].value;
       var unit  = result[res].unit;
@@ -32,7 +32,7 @@ function compute_elementary_flows() {
         });
       }
 
-      //add to variables
+      //add a new variable object to "Variables"
       Variables.push({id:res,value,unit,descr,tech});
     }
   }
@@ -49,7 +49,7 @@ function compute_elementary_flows() {
   var is_BiP_active = getInput("BiP",true).value //tech
   var is_ChP_active = getInput("ChP",true).value //tech
 
-  //results object for each technology
+  //result holder object for each technology
   var Result = { BOD:{}, Nit:{}, SST:{}, Des:{}, BiP:{}, ChP:{} }; 
 
   //bod removal has to be always active. If not, calculate nothing
@@ -187,8 +187,6 @@ function compute_elementary_flows() {
   //end technologies from metcalf and eddy
 
   /*
-    lcorominas pdf implementation starts here
-
     CALC OUTPUTS by phase (water, air, sludge)
     important: all Outputs are in g/d, and turned to kg/d in frontend
 
@@ -214,7 +212,7 @@ function compute_elementary_flows() {
 
   /*total volume*/
   //V_total = V_aerobic + V_anoxic + V_anaerobic (used to calc Qwas)
-  var V_total                 = is_Nit_active ? Result.Nit.V.value : Result.BOD.V.value;  //aerobic m3
+  var V_total = is_Nit_active ? Result.Nit.V.value : Result.BOD.V.value; //aerobic m3
   if(is_Des_active){ V_total += Result.Des.V_nox.value } //anoxic m3
   if(is_BiP_active){ V_total += Result.BiP.V.value } //anaerobic m3
 
@@ -420,25 +418,29 @@ function compute_elementary_flows() {
  *   Wastewater observed Inputs (depend on technologies selected)
  *   Design Inputs for design choices
  *   Variables (intermediate calculations)
-*/
+ */
+
 //{}: possible tecnologies of the plant (booleans)
 var Technologies_selected=[
-  {id:"BOD", value:tech_BOD_default, descr:"BOD removal"         },
-  {id:"Nit", value:false,            descr:"Nitrification"       },
-  {id:"SST", value:false,            descr:"SST sizing"          }, //not a "real" technology, it turns automatically on with BOD removal
-  {id:"Des", value:false,            descr:"Denitrification"     },
-  {id:"BiP", value:false,            descr:"Biological P removal"},
-  {id:"ChP", value:false,            descr:"Chemical P removal"  },
+  {id:"BOD", value:true,  descr:"BOD removal"         },
+  {id:"Nit", value:false, descr:"Nitrification"       },
+  {id:"SST", value:false, descr:"SST sizing"          }, //not a "real" technology, it turns automatically on with BOD removal
+  {id:"Des", value:false, descr:"Denitrification"     },
+  {id:"BiP", value:false, descr:"Biological P removal"},
+  {id:"ChP", value:false, descr:"Chemical P removal"  },
 ];
 
 //{}: Inputs are divided in (1) wastewater inputs and (2) design inputs
 var Inputs_current_combination=[]; //inputs ww     filled in frontend
 var Design=[];                     //inputs design filled in frontend
 
-/*
- * {}: Intermediate Variables
- */
+//: {}: Intermediate Variables: results from each technology.
 var Variables=[];
+
+/*
+ * Methods
+ *
+ */
 
 /*fx: get an input or technology by id */
 function getInput(id,isTechnology){
@@ -458,7 +460,8 @@ function getInput(id,isTechnology){
   }
   return ret[0];
 }
-/*fx: set an input value (number) or technology(boolean) by id */
+
+/*fx: set input value (number) or technology(boolean) by id */
 function setInput(id,newValue,isTechnology){
   isTechnology=isTechnology||false;
   //if not technology, parse float new value
@@ -473,13 +476,15 @@ function setInput(id,newValue,isTechnology){
     if(el)el.select();
   }
 }
-/* fx: toggle technology active/inactive by id */
+
+/* fx: toggle technology value (true/false) by id */
 function toggleTech(id){
   var currValue=getInput(id,true).value;
   console.log("the user set the tech "+id+" "+(!currValue).toString());
   setInput(id,!currValue,true);
 }
-/* Get a variable from Variables object by id */
+
+/* fx: get variable pointer by id */
 function getVariable(id){
   var ret;
   ret=Variables.filter(el=>{return id==el.id});
@@ -493,7 +498,8 @@ function getVariable(id){
   }
   return ret[0];
 }
-/* Set a variable value by id */
+
+/* fx: set variable value by id */
 function setVariable(id,newValue){
   getVariable(id).value=newValue;
 }
