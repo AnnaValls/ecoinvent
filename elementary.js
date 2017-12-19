@@ -225,10 +225,18 @@ function compute_elementary_flows() {
   //Qe related outputs
   var sTKNe = Qe*(Ne + nbsON); //g/d
 
+  /*OUTPUTS*/
+
   //Outputs.COD
     Outputs.COD.influent        = Q*COD;
     Outputs.COD.effluent.water  = (function(){return sCODe + Qe*VSSe*1.42})();
-    Outputs.COD.effluent.air    = (function(){return 0})();
+    Outputs.COD.effluent.air    = (function(){
+      if(is_Des_active){
+        return Result.Des.OTRf.value*24*1000;
+      }else{
+        return Result.BOD.OTRf.value*24*1000;
+      }
+    })();
     Outputs.COD.effluent.sludge = (function(){
       var A = P_X_bio*1000;
       var B = Qwas*sCODe/Q;
@@ -243,6 +251,11 @@ function compute_elementary_flows() {
     Outputs.CO2.effluent.air   = (function(){
       var k_CO2_COD = 0.99;
       var k_CO2_bio = 1.03;
+
+      //prova TODO
+      var k_CO2_COD = 1.00;
+      var k_CO2_bio = 1.00;
+
       var air = k_CO2_COD*Q*(1-YH)*(S0-S) + k_CO2_bio*Q*YH*(S0-S)*bHT*SRT/(1+bHT*SRT)*(1-fd) - 4.49*NOx;
       return air;
     })();
@@ -377,11 +390,11 @@ function compute_elementary_flows() {
     var SAE = 4; //kgO2/kWh
 
     Result.lcorominas={
-      'Qwas':{value:Qwas, unit:"m3/d", descr:"Wastage flow"},
-      'SRT':{value:SRT, unit:"d", descr:getInputById('SRT').descr},
-      'SAE':{value:SAE, unit:"kg_O2/kWh", descr:"Conversion from kgO2 to kWh"},
-      'O2_power':{value:SOTR/SAE, unit:"kW", descr:"Power needed for aeration"},
-      'V_total':{value:V_total, unit:"m3", descr:"Total reactor volume"},
+      'Qwas':    {value:Qwas,     unit:"m3/d",      descr:"Wastage flow"},
+      'SRT':     {value:SRT,      unit:"d",         descr:getInputById('SRT').descr},
+      'SAE':     {value:SAE,      unit:"kg_O2/kWh", descr:"Conversion from kgO2 to kWh"},
+      'O2_power':{value:SOTR/SAE, unit:"kW",        descr:"Power needed for aeration"},
+      'V_total': {value:V_total,  unit:"m3",        descr:"Total reactor volume"},
     };
 
     fill('V_aer', (is_Nit_active?'Nit':'BOD'), 'V');

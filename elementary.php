@@ -565,8 +565,6 @@
 <p><div style=font-size:smaller>
   <b>Development issues (<a href=mailto:lbosch@icra.cat target=_blank>lbosch</a>):</b>
   <ul>
-    <li>How to handle inputs for ChemP when BioP is active? Is Chem [P]<sub>input</sub> = Bio [P]<sub>output</sub> ?
-      <issue class="help_wanted"></issue>
     <li>TS (Sulfur) effluent equations unknown.
       <issue class="help_wanted"></issue>
     <li>CH<sub>4</sub> effluent equations unknown.

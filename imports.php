@@ -29,12 +29,7 @@
 <!--css-->
 <style>
 	body {
-    /*
-    font-family:'Comic Sans MS',cursive,sans-serif;
-    */
-    font-family:'Roboto',sans-serif;
     font-family:Charter,serif;
-
 		margin:0 auto;
 		max-width:80em;
 		overflow-y:scroll;
