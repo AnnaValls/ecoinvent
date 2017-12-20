@@ -1,22 +1,27 @@
 <?php
 /* 
-  backend is in 'elementary.js' (data structures + technology appliying)
-  views and frontend is implemented here
+  ELEMENTARY FLOWS (SINGLE PLANT MODEL)
+  -------------------------------------
+  - The backend is in 'elementary.js' (data structures + technology appliying)
+  - The views and frontend is implemented here
 */
 ?>
 <!doctype html><html><head>
   <?php include'imports.php'?>
   <title>Elementary Flows</title>
 
-  <!--backend-->
+  <!--backend definitions: elementary flows and mass balances-->
   <script src="elementary.js"></script>
+  <script src="mass_balances.js"></script>
 
-  <!--call backend & frontend functions-->
+  <!--execute backend & frontend functions-->
   <script>
     function init(){
       /*
        * call backend functions
        */
+
+      //1. reset all outputs to zero
       (function reset_all_outputs(){
         for(var out in Outputs){
           Outputs[out].influent=0;
@@ -26,6 +31,7 @@
         }
       })();
 
+      //2. make incompatible technologies inactive
       (function disable_impossible_options(){
         //if bod removal is false
         //  disable nitrification 
@@ -40,17 +46,16 @@
           getInput('Des',true).value=false;
           getInput('BiP',true).value=false;
           getInput('ChP',true).value=false;
-        }
-        else{
+        }else{
+          getInput('Fra',true).value=true; //if bod active, fra active
           getInput('SST',true).value=true; //if bod active, sst active
-          getInput('Fra',true).value=true; //if bod active, sst active
         }
 
-        //only one P removal technology allowed
+        //only one of the two P removal technologies is allowed
         if(getInput('BiP',true).value){ getInput('ChP',true).value=false }
         if(getInput('ChP',true).value){ getInput('BiP',true).value=false }
 
-        //denitri only if nitri
+        //denitri is possible only if nitri
         if(getInput('Nit',true).value==false){
           getInput('Des',true).value=false;
         }
@@ -72,25 +77,22 @@
         input_codes=uniq(input_codes);
 
         //recalculate current inputs array
-        Inputs_current_combination=[];
         input_codes.filter(code=>{return !getInputById(code).isParameter}).forEach(code=>{
           Inputs_current_combination.push(getInputById(code));
         });
 
         //recalculate design inputs array
-        Design=[];
         input_codes.filter(code=>{return getInputById(code).isParameter}).forEach(code=>{
           Design.push(getInputById(code));
         });
       })();
 
-      Variables = [ ]; //empty variables object (refilled in 'compute_elementary_flows')
-      
-      /* Call Main backend function */
+      /* Call main backend function */
+      //after this function Variables & Outputs have all useful results
       compute_elementary_flows();
 
       /*
-       * call frontend functions
+       * call frontend functions to populate views
        */
       (function updateViews(){
         //update number of inputs and variables
@@ -107,22 +109,21 @@
           while(table.rows.length>0){table.deleteRow(-1);}
           Technologies_selected
             .filter(tec=>{return !tec.notActivable})
-            .forEach(tec=> {
-
-            var newRow=table.insertRow(-1);
-            //tec name
-            newRow.insertCell(-1).innerHTML=tec.descr;
-            //checkbox
-            var checked = getInput(tec.id,true).value ? "checked" : "";
-            newRow.insertCell(-1).outerHTML="<td style=text-align:center><input type=checkbox "+checked+" onchange=\"toggleTech('"+tec.id+"')\" tech='"+tec.id+"'>";
-            //implementation link
-            if(Technologies[tec.id]){
-              newRow.insertCell(-1).innerHTML="<small><center>"+
-                "<a href='techs/"+Technologies[tec.id].File+"' title='see javascript implementation'>"+
-                "equations"+
-                "</a></cente></small>"+
-                "";
-            }
+            .forEach(tec=>{
+              var newRow=table.insertRow(-1);
+              //tec name
+              newRow.insertCell(-1).innerHTML=tec.descr;
+              //checkbox
+              var checked = getInput(tec.id,true).value ? "checked" : "";
+              newRow.insertCell(-1).outerHTML="<td style=text-align:center><input type=checkbox "+checked+" onchange=\"toggleTech('"+tec.id+"')\" tech='"+tec.id+"'>";
+              //implementation link
+              if(Technologies[tec.id]){
+                newRow.insertCell(-1).innerHTML="<small><center>"+
+                  "<a href='techs/"+Technologies[tec.id].File+"' title='see javascript implementation'>"+
+                  "equations"+
+                  "</a></cente></small>"+
+                  "";
+              }
           });
         })();
 
@@ -131,15 +132,17 @@
           var table=document.querySelector('table#inputs');
           while(table.rows.length>1){table.deleteRow(-1)}
 
+          //add an input object to table
           function process_input(i){
             var newRow=table.insertRow(-1);
             var advanced_indicator = i.color ? "<div class=circle style='background:"+i.color+"' title='Advanced knowledge required to modify this input'></div>" : "";
 
+            //if input is not in current combination change its color
             if(0==Inputs_current_combination.concat(Design).indexOf(i)+1){
               newRow.style.color='#aaa';
             }
 
-            //Special case: if SRT && is_Nit_active, mark input as "inactive"
+            //special case: if SRT & is_Nit_active: mark input as "inactive"
             if(getInput("Nit",true).value && i.id=="SRT"){
               newRow.style.color='#aaa';
             }
@@ -151,13 +154,13 @@
             newRow.insertCell(-1).outerHTML="<td class=unit>"+i.unit.prettifyUnit();
           }
 
-          //update inputs (not parameters)
+          //update inputs (isParameter==false)
           table.insertRow(-1).insertCell(-1).outerHTML="<th colspan=3 align=left>Wastewater characteristics";
           Inputs.filter(i=>{return !i.isParameter}).forEach(i=>{
             process_input(i);
           });
 
-          //update inputs (design parameters)
+          //update inputs (isParameter==true)
           table.insertRow(-1).insertCell(-1).outerHTML="<th colspan=3 align=left>Design parameters";
           Inputs.filter(i=>{return i.isParameter}).forEach(i=>{
             process_input(i);
@@ -171,7 +174,7 @@
             var descr = getInputById(id).descr;
             document.getElementById(id).parentNode.parentNode.style.display='none';
             if(!inp.invisible){
-              Variables.push({id,value,unit,descr,tech:'inputs'});
+              Variables.push({id,value,unit,descr,tech:'Inp'});
             }
           });
         })();
@@ -195,8 +198,7 @@
           });
         })();
 
-        //update outputs
-        //deal with unit change first (default is kg/d)
+        //deal with outputs unit change first (default is kg/d)
         (function unit_change_outputs(){
           if(Options.currentUnit.value=="g/m3") {
             var Q=getInput('Q').value; //22700;
@@ -208,6 +210,8 @@
             }
           }
         })();
+
+        //update outputs
         (function(){
           var table=document.querySelector('table#outputs');
           while(table.rows.length>2){table.deleteRow(-1)}
@@ -247,7 +251,7 @@
         }
       })();
 
-      //set "Scroll to" links visibility
+      //set "scroll to" links visibility
       (function(){
         function set_scroll_link_visibility(tec){
           var el=document.querySelector('#variable_scrolling a[tech='+tec+']')
@@ -261,64 +265,18 @@
       })();
 
       //MASS BALANCES (end part)
-      (function do_mass_balances(){
-        function setBalance(element,influent,water,air,sludge){
-          [
-            {phase:'influent',value:influent},
-            {phase:'water',value:water},
-            {phase:'air',value:air},
-            {phase:'sludge',value:sludge},
-          ].forEach(ob=>{
-            var color = ob.value ? "":"#aaa";
-            document.querySelector('#mass_balances #'+element+' td[phase='+ob.phase+']').innerHTML=format(ob.value/1000,false,color);
-          });
+      do_mass_balances();
 
-          //actual balance: output/input should be aprox 1
-          var percent = influent==0 ? 0 : Math.abs(100*(1-(water+air+sludge)/influent));
-          var el=document.querySelector('#mass_balances #'+element+' td[phase=balance]')
-          el.innerHTML = format(percent,2)+" %";
-          //red warning if percent is greater than 5%
-          if(percent>3){el.style.color='red'}else{el.style.color='green'}
-        }
-
-        /*C,N,P,S balances*/
-        var table=document.querySelector('table#mass_balances');
-        //Carbon balance
-          var influent = Outputs.COD.influent;
-          var water    = Outputs.COD.effluent.water;
-          var air      = Outputs.CO2.effluent.air;
-          var sludge   = Outputs.COD.effluent.sludge;
-          setBalance('C',influent,water,air,sludge);
-        //Nitrogen balance
-          var influent = Outputs.TKN.influent;
-          var water    = Outputs.TKN.effluent.water  + Outputs.NOx.effluent.water;
-          var air      = Outputs.N2.effluent.air     + Outputs.N2O.effluent.air;
-          var sludge   = Outputs.TKN.effluent.sludge + Outputs.NOx.effluent.sludge;
-          setBalance('N',influent,water,air,sludge);
-        //Phosphorus balance
-          var influent = Outputs.TP.influent;
-          var water    = Outputs.TP.effluent.water;
-          var air      = Outputs.TP.effluent.air;
-          var sludge   = Outputs.TP.effluent.sludge;
-          setBalance('P',influent,water,air,sludge);
-        //Sulfur balance
-          var influent = Outputs.TS.influent;
-          var water    = Outputs.TS.effluent.water;
-          var air      = Outputs.TS.effluent.air;
-          var sludge   = Outputs.TS.effluent.sludge;
-          setBalance('S',influent,water,air,sludge);
-      })();
-
-      //update ouputs selected unit views
+      //update ouputs "<span class=currentUnit>" elements that show the selected unit
       Options.currentUnit.update();
     }
   </script>
 
-  <!--user options object (only for this page)-->
+  <!--user options object-->
   <script>
     //options
     var Options={
-      /*the user can select the unit displayed for outputs*/
+      /*the user can select the Outputs displayed unit */
       currentUnit:{
         value:"kg/d",
         update:function(){
@@ -328,7 +286,7 @@
           }
         }
       },
-      /*developer: new options go here*/
+      /*for further user-options: new options should go here*/
     }
   </script>
 </head><body onload="init()">
@@ -405,7 +363,7 @@
       <a tech=BiP href=# onclick="scroll2tec(this);return false">BiP</a>
       <a tech=ChP href=# onclick="scroll2tec(this);return false">ChP</a>
       <script>
-        //add a title attribute for the scroll links
+        //add <a title=description> for the scroll links
         (function(){
           var els=document.querySelectorAll('#variable_scrolling a[tech]');
           for(var i=0;i<els.length;i++){
@@ -416,7 +374,7 @@
     </div>
 
     <!--Variables-->
-    <table id=variables border=1><tr>
+    <table id=variables><tr>
       <th>Tech
       <th>Variable
       <th>Result
@@ -455,7 +413,7 @@
 
     <!--table mass balances-->
     <div>
-      <p>3.2. Mass balances</p>
+      <p>3.2. Mass balances <small>(<a href="mass_balances.js">equations</a>)</small></p>
 
       <table id=mass_balances border=1 style=font-size:smaller>
         <tr>
@@ -586,9 +544,8 @@
 <p><div style=font-size:smaller>
   <b>Development issues (<a href=mailto:lbosch@icra.cat target=_blank>lbosch@icra.cat</a>):</b>
   <ul>
-    <li>TS (Sulfur) effluent equations unknown.
-      <issue class="help_wanted"></issue>
-    <li>CH<sub>4</sub> effluent equations unknown.
-      <issue class="help_wanted"></issue>
+    <li>CH<sub>4</sub> (Methane) equations unknown.  <issue class="help_wanted"></issue>
+    <li>TS (Sulfur) effluent unknown.  <issue class="help_wanted"></issue>
+    <li>S (Sulfur) mass balance equations unknown.  <issue class="help_wanted"></issue>
   </ul>
 </div></p>
