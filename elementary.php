@@ -435,17 +435,25 @@
     <!--table mass balances-->
     <div>
       <p>3.2. Mass balances</p>
+
       <table id=mass_balances border=1 style=font-size:smaller>
         <tr>
           <th rowspan=2>Element<th rowspan=2>Influent<br><small>(<span class=currentUnit>kg/d</span>)</small><th colspan=3>Effluent <small>(<span class=currentUnit>kg/d</span>)</small>
           <th rowspan=2>|Error|<br><small>(%)</small>
         <tr>
           <th>Water<th>Air<th>Sludge  
-        <tr id=C><th>C <td phase=influent>Q·COD <td phase=water>1:1     <td phase=air>2:2     <td phase=sludge>1:3     <td phase=balance>A-B-C-D
-        <tr id=N><th>N <td phase=influent>Q·TKN <td phase=water>4:1+5:1 <td phase=air>6:2+7:2 <td phase=sludge>4:3+5:3 <td phase=balance>A-B-C-D
-        <tr id=P><th>P <td phase=influent>Q·TP  <td phase=water>8:1     <td phase=air>-       <td phase=sludge>8:3     <td phase=balance>A-B-C-D
-        <tr id=S><th>S <td phase=influent>Q·TS  <td phase=water>9:1     <td phase=air>-       <td phase=sludge>9:3     <td phase=balance>A-B-C-D
+        <tr id=C><th>COD <td phase=influent>Q·COD <td phase=water>1:1     <td phase=air>2:2     <td phase=sludge>1:3     <td phase=balance>A-B-C-D
+        <tr id=N><th>N   <td phase=influent>Q·TKN <td phase=water>4:1+5:1 <td phase=air>6:2+7:2 <td phase=sludge>4:3+5:3 <td phase=balance>A-B-C-D
+        <tr id=P><th>P   <td phase=influent>Q·TP  <td phase=water>8:1     <td phase=air>-       <td phase=sludge>8:3     <td phase=balance>A-B-C-D
+        <tr id=S><th>S   <td phase=influent>Q·TS  <td phase=water>9:1     <td phase=air>-       <td phase=sludge>9:3     <td phase=balance>A-B-C-D
       </table>
+
+      <!--developer note-->
+      <p>
+        <small>
+        Note: grouping rows from table 3.1 to create table 3.2 is under revision <issue class=help_wanted></issue>
+        </small>
+      </p>
     </div>
 
     <!--summary tables-->
@@ -557,8 +565,6 @@
 <p><div style=font-size:smaller>
   <b>Development issues (<a href=mailto:lbosch@icra.cat target=_blank>lbosch</a>):</b>
   <ul>
-    <li>How to handle inputs for ChemP when BioP is active? Is Chem [P]<sub>input</sub> = Bio [P]<sub>output</sub> ?
-      <issue class="help_wanted"></issue>
     <li>TS (Sulfur) effluent equations unknown.
       <issue class="help_wanted"></issue>
     <li>CH<sub>4</sub> effluent equations unknown.

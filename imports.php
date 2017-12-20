@@ -6,9 +6,6 @@
 <meta name="description" content="ecoinvent">
 
 <!--link-->
-<!--
-<link rel="icon" href="img/favicon.ico" type="image/x-icon">
--->
 <link rel=stylesheet href=css.css>
 
 <!--javascript-->
@@ -32,8 +29,7 @@
 <!--css-->
 <style>
 	body {
-		font-family:'Comic Sans MS',cursive,sans-serif;/*joke*/
-		font-family:Charter,serif;
+    font-family:Charter,serif;
 		margin:0 auto;
 		max-width:80em;
 		overflow-y:scroll;
@@ -51,9 +47,6 @@
 	}
 	.unit {
 		font-size:11px;
-	}
-	.help {
-		cursor:help;
 	}
 </style>
 
