@@ -18,7 +18,7 @@
     <p><b>Web parts</b></p>
     <ul>
       <li>
-        Single plant model
+        Single plant model (<em>under development</em>)
         <ul>
           <li><a href=elementary.php  >Elementary flows (from Metcalf &amp; Eddy)</a>
           <li><a href=construction.php>Construction materials</a>
