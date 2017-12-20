@@ -7,36 +7,45 @@ function do_mass_balances(){
   /*C,N,P,S balances*/
   var table=document.querySelector('table#mass_balances');
 
-  //shorten "Outputs" to "O"
-  var O = Outputs;
+  //balances
+  var COD = Outputs.COD;
+  var CO2 = Outputs.CO2;
+  var CH4 = Outputs.CH4;
+  var NOx = Outputs.NOx;
+  var N2  = Outputs.N2;
+  var N2O = Outputs.N2O;
+  var TKN = Outputs.TKN;
+  var TP  = Outputs.TP;
+  var TS  = Outputs.TS;
 
   /*Equations*/
-  //1. COD balance
-  var inf = O.COD.influent;
-  var wat = O.COD.effluent.water;
-  var air = O.COD.effluent.air;
-  var slu = O.COD.effluent.sludge;
+
+  //1. COD BALANCE
+  var inf = COD.influent;
+  var wat = COD.effluent.water;
+  var air = CO2.effluent.air; //note CO2 instead of COD
+  var slu = COD.effluent.sludge;
   setBalance('C',inf,wat,air,slu);
 
-  //2. Nitrogen balance
-  var inf = O.TKN.influent;
-  var wat = O.TKN.effluent.water  + O.NOx.effluent.water;
-  var air = O.N2.effluent.air     + O.N2O.effluent.air;
-  var slu = O.TKN.effluent.sludge + O.NOx.effluent.sludge;
+  //2. NITROGEN BALANCE
+  var inf = TKN.influent;
+  var wat = TKN.effluent.water  + NOx.effluent.water;
+  var air = N2.effluent.air     + N2O.effluent.air;
+  var slu = TKN.effluent.sludge + NOx.effluent.sludge;
   setBalance('N',inf,wat,air,slu);
 
-  //3. Phosphorus balance
-  var inf = O.TP.influent;
-  var wat = O.TP.effluent.water;
-  var air = O.TP.effluent.air;
-  var slu = O.TP.effluent.sludge;
+  //3. PHOSPHORUS BALANCE
+  var inf = TP.influent;
+  var wat = TP.effluent.water;
+  var air = TP.effluent.air;
+  var slu = TP.effluent.sludge;
   setBalance('P',inf,wat,air,slu);
 
-  //4. Sulfur balance
-  var inf = O.TS.influent;
-  var wat = O.TS.effluent.water;
-  var air = O.TS.effluent.air;
-  var slu = O.TS.effluent.sludge;
+  //4. SULFUR BALANCE
+  var inf = TS.influent;
+  var wat = TS.effluent.water;
+  var air = TS.effluent.air;
+  var slu = TS.effluent.sludge;
   setBalance('S',inf,wat,air,slu);
   //end
 

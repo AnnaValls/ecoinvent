@@ -196,13 +196,16 @@ function compute_elementary_flows() {
   //Outputs.COD
   Outputs.COD.influent        = Q*COD;
   Outputs.COD.effluent.water  = sCODe + Qe*VSSe*1.42;
-  Outputs.COD.effluent.air    = (function(){
-    if(is_Des_active){
-      return Result.Des.OTRf.value*24*1000; //OTRf is kg/h
-    }else{
-      return Result.BOD.OTRf.value*24*1000; //OTRf is kg/h
-    }
-  })();
+  Outputs.COD.effluent.air    = 0;
+  /* TBD: COD.air equation
+    Outputs.COD.effluent.air    = (function(){
+      if(is_Des_active){
+        return Result.Des.OTRf.value*24*1000; //OTRf is kg/h
+      }else{
+        return Result.BOD.OTRf.value*24*1000; //OTRf is kg/h
+      }
+    })();
+  */
   Outputs.COD.effluent.sludge = (function(){
     var A = P_X_bio*1000;
     var B = Qwas*sCODe/Q;
