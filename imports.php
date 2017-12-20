@@ -8,17 +8,22 @@
 <!--link-->
 <link rel=stylesheet href=css.css>
 
-<!--javascript-->
-<script src="utils.js"></script><!--metcalf figures and tables-->
+<!--javascript main structures/functions-->
 <script src="format.js"></script><!--utils for number formatting-->
+<script src="utils.js"></script><!--metcalf figures and tables-->
 <script src="dataModel/constants.js"></script>
 <script src="dataModel/inputs.js"></script>
 <script src="dataModel/technologies.js"></script>
-<script src="dataModel/combinations.js"></script>
+<script src="dataModel/variables.js"></script>
 <script src="dataModel/outputs.js"></script>
+<script src="dataModel/methods.js"></script>
+
+<!--just descriptive objects-->
+<script src="dataModel/combinations.js"></script>
 <script src="dataModel/terms.js"></script><!--units and descriptions-->
 
 <!--metcalf technologies-->
+<script src="techs/fractionation.js"></script>
 <script src="techs/bod_removal_only.js"></script>
 <script src="techs/sst_sizing.js"></script>
 <script src="techs/nitrification.js"></script>
@@ -48,6 +53,9 @@
 	.unit {
 		font-size:11px;
 	}
+  .help{
+    cursor:default;
+  }
 </style>
 
 <!--end imports.php-->

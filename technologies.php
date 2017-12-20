@@ -22,8 +22,7 @@
 		//fill technologies table
 		(function(){
 			var t=document.querySelector('#technologies');
-			for(var tec in Technologies)
-			{
+			for(var tec in Technologies) {
 				var el=Technologies[tec];
 				var newRow=t.insertRow(-1);
 				newRow.insertCell(-1).innerHTML=tec;
@@ -57,20 +56,16 @@
 		//fill technologies table
 		(function(){
 			var t=document.querySelector('#combinations');
-			Combinations.forEach(com=>
-			{
+			Combinations.forEach(com=> {
 				var newRow=t.insertRow(-1);
 				newRow.insertCell(-1).innerHTML=com.join('+');
-				newRow.insertCell(-1).innerHTML=(function()
-				{
+				newRow.insertCell(-1).innerHTML=(function() {
 					var inputs = [ ];
-					com.forEach(tec=>
-					{
+					com.forEach(tec=> {
 						inputs=inputs.concat(Technologies[tec].Inputs);
 					});
 					var ret=[];
-					uniq(inputs).forEach(i=>
-					{
+					uniq(inputs).forEach(i=> {
 						ret.push("<span class=help title='"+getInputById(i).descr+"'>"+i+"</span>")
 					});
 					return uniq(inputs).length+": "+ret.join(', ');

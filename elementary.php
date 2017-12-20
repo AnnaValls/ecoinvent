@@ -1,6 +1,5 @@
 <?php
 /* 
-  Description of this php page
   backend is in 'elementary.js' (data structures + technology appliying)
   views and frontend is implemented here
 */
@@ -9,26 +8,8 @@
   <?php include'imports.php'?>
   <title>Elementary Flows</title>
 
-  <!--backend functionality here-->
+  <!--backend-->
   <script src="elementary.js"></script>
-
-  <!--user options object (only for this page)-->
-  <script>
-    //options
-    var Options={
-      /*the user can select the unit displayed for outputs*/
-      currentUnit:{
-        value:"kg/d",
-        update:function(){
-          var els=document.querySelectorAll('span.currentUnit');
-          for(var i=0;i<els.length;i++){
-            els[i].innerHTML=this.value.prettifyUnit();
-          }
-        }
-      },
-      /*developer: new options go here*/
-    }
-  </script>
 
   <!--call backend & frontend functions-->
   <script>
@@ -53,6 +34,7 @@
         //  disable bioP
         //  disable chemP
         if(getInput('BOD',true).value==false){
+          getInput('Fra',true).value=false;
           getInput('SST',true).value=false;
           getInput('Nit',true).value=false;
           getInput('Des',true).value=false;
@@ -61,6 +43,7 @@
         }
         else{
           getInput('SST',true).value=true; //if bod active, sst active
+          getInput('Fra',true).value=true; //if bod active, sst active
         }
 
         //only one P removal technology allowed
@@ -73,7 +56,11 @@
         }
       })();
 
-      //find current inputs from the technology combination
+      //{}: Inputs are divided in (1) wastewater inputs and (2) design inputs
+      var Inputs_current_combination=[]; //inputs ww     filled in frontend
+      var Design=[];                     //inputs design filled in frontend
+
+      //find current inputs from the technology combination to create the input table
       (function set_current_inputs(){
         var current_combination=Technologies_selected.map(tec=>{return tec.id}).filter(tec=>{return getInput(tec,true).value});
         var input_codes=[];
@@ -118,8 +105,10 @@
         (function(){
           var table=document.querySelector('table#inputs_tech');
           while(table.rows.length>0){table.deleteRow(-1);}
-          Technologies_selected.forEach(tec=> {
-            if(tec.id=="SST") return; //SST always on
+          Technologies_selected
+            .filter(tec=>{return !tec.notActivable})
+            .forEach(tec=> {
+
             var newRow=table.insertRow(-1);
             //tec name
             newRow.insertCell(-1).innerHTML=tec.descr;
@@ -167,6 +156,7 @@
           Inputs.filter(i=>{return !i.isParameter}).forEach(i=>{
             process_input(i);
           });
+
           //update inputs (design parameters)
           table.insertRow(-1).insertCell(-1).outerHTML="<th colspan=3 align=left>Design parameters";
           Inputs.filter(i=>{return i.isParameter}).forEach(i=>{
@@ -206,6 +196,18 @@
         })();
 
         //update outputs
+        //deal with unit change first (default is kg/d)
+        (function unit_change_outputs(){
+          if(Options.currentUnit.value=="g/m3") {
+            var Q=getInput('Q').value; //22700;
+            for(var out in Outputs){
+              Outputs[out].influent        /= Q/1000;
+              Outputs[out].effluent.water  /= Q/1000;
+              Outputs[out].effluent.air    /= Q/1000;
+              Outputs[out].effluent.sludge /= Q/1000;
+            }
+          }
+        })();
         (function(){
           var table=document.querySelector('table#outputs');
           while(table.rows.length>2){table.deleteRow(-1)}
@@ -311,6 +313,24 @@
       Options.currentUnit.update();
     }
   </script>
+
+  <!--user options object (only for this page)-->
+  <script>
+    //options
+    var Options={
+      /*the user can select the unit displayed for outputs*/
+      currentUnit:{
+        value:"kg/d",
+        update:function(){
+          var els=document.querySelectorAll('span.currentUnit');
+          for(var i=0;i<els.length;i++){
+            els[i].innerHTML=this.value.prettifyUnit();
+          }
+        }
+      },
+      /*developer: new options go here*/
+    }
+  </script>
 </head><body onload="init()">
 <?php include'navbar.php'?>
 
@@ -377,6 +397,7 @@
         }
       </script>
       Scroll to &rarr;
+      <a tech=Fra href=# onclick="scroll2tec(this);return false">Fra</a>
       <a tech=BOD href=# onclick="scroll2tec(this);return false">BOD</a>
       <a tech=Nit href=# onclick="scroll2tec(this);return false">Nit</a>
       <a tech=SST href=# onclick="scroll2tec(this);return false">SST</a>
@@ -421,7 +442,7 @@
 
     <!--table effluent phases-->
     <div>
-      <p>3.1. Effluent</p>
+      <p>3.1. Effluent <small>(<a href="elementary.js">equations</a>)</small></p>
       <table id=outputs border=1 style=font-size:smaller>
         <tr>
           <th rowspan=2>Compound
@@ -563,7 +584,7 @@
 
 <!--TODO development-->
 <p><div style=font-size:smaller>
-  <b>Development issues (<a href=mailto:lbosch@icra.cat target=_blank>lbosch</a>):</b>
+  <b>Development issues (<a href=mailto:lbosch@icra.cat target=_blank>lbosch@icra.cat</a>):</b>
   <ul>
     <li>TS (Sulfur) effluent equations unknown.
       <issue class="help_wanted"></issue>

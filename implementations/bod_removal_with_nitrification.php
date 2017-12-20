@@ -450,14 +450,16 @@
 		//end
 
 		//(1) perform bod removal only
+    var r0=fractionation(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio);
 		var r1=bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb,Pressure,Df,C_L);
 
 		//show results for part A
-		showResult('part_A_bCOD',         r1.bCOD.value);
-		showResult('part_A_nbCOD',        r1.nbCOD.value);
-		showResult('part_A_nbsCODe',      r1.nbsCODe.value);
-		showResult('part_A_nbVSS',        r1.nbVSS.value);
-		showResult('part_A_iTSS',         r1.iTSS.value);
+		showResult('part_A_bCOD',         r0.bCOD.value);
+		showResult('part_A_nbCOD',        r0.nbCOD.value);
+		showResult('part_A_nbsCODe',      r0.nbsCODe.value);
+		showResult('part_A_nbVSS',        r0.nbVSS.value);
+		showResult('part_A_iTSS',         r0.iTSS.value);
+
 		showResult('part_A_mu_mT',        r1.mu_mT.value);
 		showResult('part_A_P_X_bio',      r1.P_X_bio.value);
 		showResult('part_A_P_X_VSS',      r1.P_X_VSS.value);

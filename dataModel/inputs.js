@@ -1,24 +1,27 @@
 /*
  * Lists of all possible inputs for all technologies
  *
- * Notation to remember:
+ * 1) Notation has been changed:
  *   TSS_was = X_R
  *   NO3_eff = NOx_e
  *
- * the "color" field is for frontend (orange and red means 'advanced knowledge required')
+ * 2) The "color" field is for frontend (orange and red means 'advanced knowledge required')
  *
  */
 var Inputs = [
 
-//bod removal
 {id:"Q",          value:22700, unit:"m3/d",                   descr:"Flowrate"},
 {id:"T",          value:12,    unit:"ºC",                     descr:"Temperature"},
+
+//fractionation
 {id:"COD",        value:300,   unit:"g/m3",                   descr:"Total chemical oxygen demand"},
 {id:"sCOD",       value:132,   unit:"g/m3",                   descr:"Soluble COD"},
 {id:"BOD",        value:140,   unit:"g/m3",                   descr:"Total 5d biochemical oxygen demand"},
 {id:"sBOD",       value:70,    unit:"g/m3",                   descr:"Soluble BOD"},
 {id:"TSS",        value:70,    unit:"g/m3",                   descr:"Total suspended solids"},
 {id:"VSS",        value:60,    unit:"g/m3",                   descr:"Volatile suspended solids"},
+
+//bod removal
 {id:"MLSS_X_TSS", value:3000,  unit:"g/m3", isParameter:true, descr:"Mixed liquor suspended solids"},
 {id:"DO",         value:2.0,   unit:"mg/L", isParameter:true, descr:"DO in aeration basin (generally: 1.5 to 2) (symbol in book is C_L)"},
 
@@ -44,7 +47,8 @@ var Inputs = [
 {id:"TSS_removal_w_Fe",  value:75,   unit:"%",    isParameter:true, descr:"% TSS removal with iron addition"},
 {id:"C_PO4_inf",         value:5,    unit:"g/m3", descr:"Influent PO4(3-)"},
 {id:"C_PO4_eff",         value:0.1,  unit:"g/m3", isParameter:true, descr:"Effluent design PO4(3-)"},
-//Sulfur (not used)
+
+//Sulfur (not used for now TODO)
 {id:"TS", value:0, unit:"g_S/m3", descr:"Total Sulfur in influent" },
 
 //orange and red inputs

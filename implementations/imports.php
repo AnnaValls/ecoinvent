@@ -11,6 +11,7 @@
 <!--technologies-->
 <script src="../dataModel/constants.js"></script>
 
+<script src="../techs/fractionation.js"></script>
 <script src="../techs/bod_removal_only.js"></script>
 <script src="../techs/sst_sizing.js"></script>
 <script src="../techs/nitrification.js"></script>

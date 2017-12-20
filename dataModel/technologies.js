@@ -12,10 +12,27 @@
  */
 
 var Technologies = {
+  "Fra":{
+    Name:"Fractionation",
+    File:"fractionation.js",
+    Implemented_in:"bod_removal_with_nitrification.php",
+    value:false,
+    notActivable:true,
+    Inputs:[
+      "BOD",
+      "sBOD",
+      "COD",
+      "sCOD",
+      "TSS",
+      "VSS",
+      "bCOD_BOD_ratio",
+    ],
+  },
 	"BOD":{
 		Name:"BOD removal",
 		File:"bod_removal_only.js",
 		Implemented_in:"bod_removal_with_nitrification.php",
+    value:true,
 		Inputs:[ 
 			"Q", 
 			"T", 
@@ -38,6 +55,7 @@ var Technologies = {
 		Name:"Nitrification",
 		File:"nitrification.js",
 		Implemented_in:"bod_removal_with_nitrification.php",
+    value:false,
 		Inputs:[ 
 			"Q",
 			"T",
@@ -61,22 +79,11 @@ var Technologies = {
 			"DO",
 		],
 	},
-	"SST":{
-		Name:"SST sizing",
-		File:"sst_sizing.js",
-		Implemented_in:"bod_removal_with_nitrification.php",
-		Inputs:[ 
-			"Q", 
-			"MLSS_X_TSS",
-			"X_R",
-			"SOR",
-			"clarifiers",
-		],
-	},
 	"Des":{
 		Name:"Denitrification",
 		File:"n_removal.js",
 		Implemented_in:"N_removal.php",
+    value:false,
 		Inputs:[ 
 			"Q", "T", "BOD", "Ne",
 			"rbCOD", 
@@ -92,6 +99,7 @@ var Technologies = {
 		Name:"Biological P removal",
 		File:"bio_P_removal.js",
 		Implemented_in:"bio_P_removal.php",
+    value:false,
 		Inputs:[ 
 			"Q", 
 			"T", 
@@ -106,6 +114,7 @@ var Technologies = {
 		Name:"Chemical P removal",
 		File:"chem_P_removal.js",
 		Implemented_in:"chem_P_removal.php",
+    value:false,
 		Inputs:[ 
 			"Q", 
 			"TSS", 
@@ -119,4 +128,40 @@ var Technologies = {
 			"days"
 		],
 	},
+  "SST":{
+    Name:"SST sizing",
+    File:"sst_sizing.js",
+    Implemented_in:"bod_removal_with_nitrification.php",
+    value:false,
+    notActivable:true,
+    Inputs:[ 
+      "Q", 
+      "MLSS_X_TSS",
+      "X_R",
+      "SOR",
+      "clarifiers",
+    ],
+  },
 }
+
+var Technologies_selected = [];
+/*
+ fix for making it an array like:
+ var Technologies_selected=[
+   {id:"Fra", value:false, descr:"Fractionation"       }, //not a "real" technology, it turns automatically on with BOD removal
+   {id:"BOD", value:true,  descr:"BOD removal"         },
+   {id:"Nit", value:false, descr:"Nitrification"       },
+   {id:"SST", value:false, descr:"SST sizing"          }, //not a "real" technology, it turns automatically on with BOD removal
+   {id:"Des", value:false, descr:"Denitrification"     },
+   {id:"BiP", value:false, descr:"Biological P removal"},
+   {id:"ChP", value:false, descr:"Chemical P removal"  },
+ ];
+*/
+(function(){
+  for(var id in Technologies){
+    var value=Technologies[id].value;
+    var descr=Technologies[id].Name;
+    var notActivable=Technologies[id].notActivable;
+    Technologies_selected.push({id,value,notActivable,descr});
+  }
+})();
