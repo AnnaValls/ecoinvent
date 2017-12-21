@@ -1,13 +1,11 @@
 /*
- * calculate the mass balances 
+ * Calculate the mass balances 
  * from the Outputs data structure
  *
  */
 function do_mass_balances(){
-  /*C,N,P,S balances*/
-  var table=document.querySelector('table#mass_balances');
 
-  //balances
+  //effluent compounds used for the balances
   var COD = Outputs.COD;
   var CO2 = Outputs.CO2;
   var CH4 = Outputs.CH4;
@@ -18,20 +16,19 @@ function do_mass_balances(){
   var TP  = Outputs.TP;
   var TS  = Outputs.TS;
 
-  /*Equations*/
-
+  /*EQUATIONS*/
   //1. COD BALANCE
   var inf = COD.influent;
   var wat = COD.effluent.water;
-  var air = CO2.effluent.air; //note CO2 instead of COD
+  var air = COD.effluent.air     + CO2.effluent.air; //TBD (try OTRf in CO2.air)
   var slu = COD.effluent.sludge;
   setBalance('C',inf,wat,air,slu);
 
   //2. NITROGEN BALANCE
   var inf = TKN.influent;
-  var wat = TKN.effluent.water  + NOx.effluent.water;
-  var air = N2.effluent.air     + N2O.effluent.air;
-  var slu = TKN.effluent.sludge + NOx.effluent.sludge;
+  var wat = TKN.effluent.water  + NOx.effluent.water  + N2.effluent.water  + N2O.effluent.water;
+  var air = TKN.effluent.air    + NOx.effluent.air    + N2.effluent.air    + N2O.effluent.air;
+  var slu = TKN.effluent.sludge + NOx.effluent.sludge + N2.effluent.sludge + N2O.effluent.sludge;
   setBalance('N',inf,wat,air,slu);
 
   //3. PHOSPHORUS BALANCE
