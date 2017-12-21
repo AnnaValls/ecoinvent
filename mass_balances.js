@@ -8,13 +8,13 @@ function do_mass_balances(){
   //effluent compounds used for the balances
   var COD = Outputs.COD;
   var CO2 = Outputs.CO2;
-  var CH4 = Outputs.CH4;
+  var CH4 = Outputs.CH4; //not used TBD
   var NOx = Outputs.NOx;
   var N2  = Outputs.N2;
   var N2O = Outputs.N2O;
   var TKN = Outputs.TKN;
   var TP  = Outputs.TP;
-  var TS  = Outputs.TS;
+  var TS  = Outputs.TS; //not used TBD
 
   /*EQUATIONS*/
   //1. COD BALANCE
