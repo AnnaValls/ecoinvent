@@ -1,6 +1,7 @@
 /*
  * Calculate the mass balances 
  * from the Outputs data structure
+ * which is already calculated (in the file elementary.js)
  *
  */
 function do_mass_balances(){

@@ -430,7 +430,8 @@
       <!--developer note-->
       <p>
         <small>
-        Note: grouping rows from table 3.1 to create table 3.2 is under revision <issue class=help_wanted></issue>
+        Note: grouping rows from table 3.1 to create table 3.2 is under revision (file: <a href=mass_balances.js>mass_balances.js</a>)
+        <issue class=help_wanted></issue>
         </small>
       </p>
     </div>
