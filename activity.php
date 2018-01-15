@@ -15,8 +15,10 @@
 <?php include'navbar.php'?>
 <div id=root>
 <h1>Create an Activity</h1>
-  <!--status-->
-  <h4>status: developing user interface (before backend)</h4>
+
+<!--status-->
+<b>status</b>: not finished (not working) as 2018/01/15
+
 <hr>
 
 <!--create activity menu-->

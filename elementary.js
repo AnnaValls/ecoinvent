@@ -178,9 +178,9 @@ function compute_elementary_flows() {
   /* 
    * OUTPUTS by phase (water, air, sludge)
    *
-   * ***********************************************************************************************
-   * * IMPORTANT: ALL OUTPUTS MUST BE IN [G/D]: THEY ARE CONVERTED TO [KG/D] OR [G/M3] IN FRONTEND *
-   * ***********************************************************************************************
+   ***********************************************************************************************
+   * IMPORTANT: ALL OUTPUTS MUST BE IN [G/D]: THEY ARE CONVERTED TO [KG/D] OR [G/M3] IN FRONTEND *
+   ***********************************************************************************************
    *
    * | TECHNOLOGY            | IN/ACTIVE var | RESULTS OBJECT |
    * |-----------------------+---------------+----------------|

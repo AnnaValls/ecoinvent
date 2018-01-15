@@ -20,60 +20,78 @@
       <li>
         Single plant model (<em>under development</em>)
         <ul>
-          <li><a href=elementary.php  >Elementary flows (from Metcalf &amp; Eddy)</a>
-          <li><a href=construction.php>Construction materials</a>
+          <li><a href=elementary.php        >Elementary flows (from Metcalf &amp; Eddy)</a>
+          <li><a href=inputs.php            >All inputs</a>
+          <li><a href=outputs.php           >All outputs</a>
+          <li><a href=technologies.php      >All technologies</a>
+          <li><a href=dataModel/constants.js>All constants</a>
+          <li><a href=construction.php      >Construction materials</a>
         </ul>
       <li>
         Multiple plant analysis (<em>under development</em>)
         <ul>
           <li><a href="activity.php">Create an Activity</a>
-          <li><a href="activity/referenceData.php">Reference Data</a>
+          <li><a href="activity/referenceData.php">Reference Data (list of ubications)</a>
         </ul>
-      <li>
-        Appendix (all model parts)
-        <ul>
-          <li><a href=inputs.php            >All inputs</a>
-          <li><a href=outputs.php           >All outputs</a>
-          <li><a href=technologies.php      >All technologies</a>
-          <li><a href=dataModel/constants.js>All constants</a>
-          <li><a href=terms.php             >All terms</a>
-        </ul>
-      <li><a href=ecospold.php    >Generate results file (ecospold format)</a>
-      <li><a href="README.md">README (tasks)</a>
-      <li><a href=future>Future implementations (for 'n' plants)</a>
+      <li><a href=ecospold.php>Generate results file (ecospold format)</a>
+      <li>Appendix: <a href=terms.php>Summary of terms</a>
     </ul>
   </div><hr>
 
   <!--implementations-->
   <div>
-    <p><b>Metcalf &amp; Eddy, Wastewater Engineering, 5th ed., 2014, technologies implemented:</b></p>
+    <p><b>Metcalf &amp; Eddy, Wastewater Engineering: technologies implemented from exercises</b></p>
     <table border=1>
-      <tr><th>Technology<th>Coding status
+      <tr><th>Technology<th>M&amp;E edition<th>Coding status<th>Code
       <tr>
-        <td>0. <a href="implementations/bod_removal_only.php">BOD removal example</a>
-        <td>Done
+        <td>1. <a href="implementations/bod_removal_with_nitrification.php">Fractionation</a>
+        <td>5th (p. 756)
+        <td>Tested &amp; working
+        <td><a href="techs/fractionation.js">fractionation.js</a>
       <tr>
-        <td>1. <a href="implementations/bod_removal_with_nitrification.php">BOD removal w/ &amp; w/o nitrification</a>
-        <td>Done
+        <td>2. <a href="implementations/bod_removal_with_nitrification.php">BOD removal only</a>
+        <td>5th (p. 756)
+        <td>Tested &amp; working
+        <td><a href="techs/bod_removal_only.js">bod_removal_only.js</a>
       <tr>
-        <td>2. <a href="implementations/N_removal.php">N removal</a>
-        <td>Done
+        <td>3. <a href="implementations/bod_removal_with_nitrification.php">Nitrification</a>
+        <td>5th (p. 762)
+        <td>Tested &amp; working
+        <td><a href="techs/nitrification.js">nitrification.js</a>
       <tr>
-        <td>3. <a href="implementations/bio_P_removal.php">P removal (biologically)</a>
-        <td>Done
+        <td>4. <a href="implementations/bod_removal_with_nitrification.php">SST sizing</a>
+        <td>5th (p. 767)
+        <td>Tested &amp; working
+        <td><a href="techs/sst_sizing.js">sst_sizing.js</a>
       <tr>
-        <td>4. <a href="implementations/chem_P_removal.php">P removal (chemically)</a>
-        <td>Done
+        <td>5. <a href="implementations/N_removal.php">N removal</a>
+        <td>5th (p. 810)
+        <td>Tested &amp; working
+        <td><a href="techs/n_removal.js">n_removal.js</a>
       <tr>
-        <td>5. <a href="implementations/ekama_sizing.php">Reactor sizing (optim. cost) [G. Ekama]</a>
-        <td>Done
+        <td>6. <a href="implementations/bio_P_removal.php">P removal (biologically)</a>
+        <td>5th (p. 880)
+        <td>Tested &amp; working
+        <td><a href="techs/bio_P_removal.js">bio_P_removal.js</a>
+      <tr>
+        <td>7. <a href="implementations/chem_P_removal.php">P removal (chemically)</a>
+        <td>5th (p. 484)
+        <td>Tested &amp; working
+        <td><a href="techs/chem_P_removal.js">chem_P_removal.js</a>
     </table>
   </div><hr>
 
   <!--other things-->
   <div>
-    <p><b>Other things:</b></p>
+    <p><b>Other things</b></p>
     <ul>
+      <li><a href=future>Future implementations (for 'n' plants)</a>
+      <li><a href="README.md">README (tasks)</a>
+      <li>
+        <td><a href="implementations/bod_removal_only.php">BOD removal (simple example)</a>
+        <td>M&amp;E 4th (p. 707)
+      <li>
+        <td><a href="implementations/ekama_sizing.php">Reactor sizing (optim. cost) [G. Ekama]</a>
       <li><a href=docs>Documents</a>
       <li>
         <a target=_blank href="https://docs.google.com/spreadsheets/d/1DiBhDCjxGyw2-umImIfHiZOzY5LJF_psGiD4fEf7Wgk/edit?usp=sharing">
@@ -81,9 +99,12 @@
         </a>
       </li>
       <li>Source code: <a href=//github.com/holalluis/ecoinvent>github.com/holalluis/ecoinvent</a>
-      <li>Guillaume's github (for ecoSpold): 
-        <a href="//github.com/ecoinvent/wastewater_treatment_tool">github.com/ecoinvent/wastewater_treatment_tool</a>
+      <li>Guillaume's github (ecoSpold): 
         <ul>
+          <li>
+            <a href="//github.com/ecoinvent/wastewater_treatment_tool">
+              github.com/ecoinvent/wastewater_treatment_tool
+            </a>
           <li>
             <a href="https://github.com/ecoinvent/wastewater_treatment_tool/blob/master/Generating%20ecoSPold%20files%20for%20WWT.ipynb">
               ecospold notebook
