@@ -212,26 +212,25 @@ function compute_elementary_flows() {
     // | denitrification  | 5.88%  |
     // | nitrification    | 5.89%  |
     // | bod removal only | 10.32% |
+
+    //debug info
     console.log("CARBONACEOUS DEMAND DISCUSSION");
     var Oxygen_credit = 2.86*Q*(NOx-NO3_eff);
     console.log("  O2 credit: "+Oxygen_credit/1000+" kg/d");
     var QNOx457 = 4.57*Q*NOx;
     console.log("  4.57·Q·NOx: "+QNOx457/1000+" kg/d");
 
+    //in all 3 equations: P_X_bio = Q*YH*(S0-S)/(1+bHT*SRT) + fd*bHT*Q*YH*(S0-S)*SRT/(1+bHT*SRT)
     if(is_Des_active){
       return Result.Des.OTRf.value*24*1000 - 4.57*Q*NOx + 2.86*Q*(NOx-NO3_eff); //from kg/h to g/d
-      //  OTRf                            = Q*(S0-S) - 1.42*P_X_bio_VSS_without_nitrifying + 4.57*Q*NOx - Oxygen_credit;
-      //  P_X_bio_VSS_without_nitrifying  = Q*YH*(S0-S)/(1+bHT*SRT) + fd*bHT*Q*YH*(S0-S)*SRT/(1+bHT*SRT)
-      //  Oxygen_credit                   = 2.86*Q*(NOx-Ne);
-    }
-    else if(is_Nit_active){ //error: 5.89%
+      //  OTRf          = Q*(S0-S) - 1.42*P_X_bio + 4.57*Q*NOx - Oxygen_credit;
+      //  Oxygen_credit = 2.86*Q*(NOx-Ne);
+    }else if(is_Nit_active){
       return Result.Nit.OTRf.value*24*1000 - 4.57*Q*NOx; //from kg/h to g/d
-      //  OTRf                            = Q*(S0-S) - 1.42*P_X_bio_VSS_without_nitrifying + 4.57*Q*NOx
-      //  P_X_bio_VSS_without_nitrifying  = Q*YH*(S0-S)/(1+bHT*SRT) + fd*bHT*Q*YH*(S0-S)*SRT/(1+bHT*SRT)
-    }else if(is_BOD_active){ //error: 10.32%
+      //  OTRf          = Q*(S0-S) - 1.42*P_X_bio + 4.57*Q*NOx
+    }else if(is_BOD_active){
       return Result.BOD.OTRf.value*24*1000; //from kg/h to g/d
-      //  OTRf                            = Q*(S0-S) - 1.42*P_X_bio
-      //  P_X_bio                         = Q*YH*(S0-S)/(1+bHT*SRT) + fd*bHT*Q*YH*(S0-S)*SRT/(1+bHT*SRT)
+      //  OTRf          = Q*(S0-S) - 1.42*P_X_bio
     }
   })();
 
