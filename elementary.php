@@ -46,9 +46,11 @@
           getInput('Des',true).value=false;
           getInput('BiP',true).value=false;
           getInput('ChP',true).value=false;
+          getInput('Met',true).value=false;
         }else{
           getInput('Fra',true).value=true; //if bod active, fra active
           getInput('SST',true).value=true; //if bod active, sst active
+          getInput('Met',true).value=true; //if bod active, met active
         }
 
         //only one of the two P removal technologies is allowed
@@ -362,6 +364,7 @@
       <a tech=Des href=# onclick="scroll2tec(this);return false">Des</a>
       <a tech=BiP href=# onclick="scroll2tec(this);return false">BiP</a>
       <a tech=ChP href=# onclick="scroll2tec(this);return false">ChP</a>
+      <a tech=Met href=# onclick="scroll2tec(this);return false">Met</a>
       <script>
         //add <a title=description> for the scroll links
         (function(){
@@ -548,9 +551,7 @@
     <li>CH<sub>4</sub> (Methane) equations unknown.  <issue class="help_wanted"></issue>
     <li>TS (Sulfur) effluent unknown.  <issue class="help_wanted"></issue>
     <li>S (Sulfur) mass balance equations unknown.  <issue class="help_wanted"></issue>
-  </ul>
-
-  <hr>
+  </ul> <hr>
 
   <p>
     <b>Note</b>:

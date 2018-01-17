@@ -42,42 +42,47 @@
   <div>
     <p><b>Metcalf &amp; Eddy, Wastewater Engineering: technologies implemented from exercises</b></p>
     <table border=1>
-      <tr><th>Technology<th>M&amp;E edition<th>Coding status<th>Code
+      <tr><th>Technology<th>Source<th>Coding status<th>Code
       <tr>
         <td>1. <a href="implementations/bod_removal_with_nitrification.php">Fractionation</a>
-        <td>5th (p. 756)
+        <td>M&amp;E 5th ed (p. 756)
         <td>Tested &amp; working
         <td><a href="techs/fractionation.js">fractionation.js</a>
       <tr>
         <td>2. <a href="implementations/bod_removal_with_nitrification.php">BOD removal only</a>
-        <td>5th (p. 756)
+        <td>M&amp;E 5th ed (p. 756)
         <td>Tested &amp; working
         <td><a href="techs/bod_removal_only.js">bod_removal_only.js</a>
       <tr>
         <td>3. <a href="implementations/bod_removal_with_nitrification.php">Nitrification</a>
-        <td>5th (p. 762)
+        <td>M&amp;E 5th ed (p. 762)
         <td>Tested &amp; working
         <td><a href="techs/nitrification.js">nitrification.js</a>
       <tr>
         <td>4. <a href="implementations/bod_removal_with_nitrification.php">SST sizing</a>
-        <td>5th (p. 767)
+        <td>M&amp;E 5th ed (p. 767)
         <td>Tested &amp; working
         <td><a href="techs/sst_sizing.js">sst_sizing.js</a>
       <tr>
         <td>5. <a href="implementations/N_removal.php">N removal</a>
-        <td>5th (p. 810)
+        <td>M&amp;E 5th ed (p. 810)
         <td>Tested &amp; working
         <td><a href="techs/n_removal.js">n_removal.js</a>
       <tr>
         <td>6. <a href="implementations/bio_P_removal.php">P removal (biologically)</a>
-        <td>5th (p. 880)
+        <td>M&amp;E 5th ed (p. 880)
         <td>Tested &amp; working
         <td><a href="techs/bio_P_removal.js">bio_P_removal.js</a>
       <tr>
         <td>7. <a href="implementations/chem_P_removal.php">P removal (chemically)</a>
-        <td>5th (p. 484)
+        <td>M&amp;E 5th ed (p. 484)
         <td>Tested &amp; working
         <td><a href="techs/chem_P_removal.js">chem_P_removal.js</a>
+      <tr>
+        <td>8. Metals
+        <td>G. Doka
+        <td>Tested &amp; working
+        <td><a href="techs/metals_doka.js">metals_doka.js</a>
     </table>
   </div><hr>
 
@@ -85,6 +90,7 @@
   <div>
     <p><b>Other things</b></p>
     <ul>
+      <li><a href="techs/fractionation_ekama.js">fractionation (G. Ekama)</a>
       <li><a href=future>Future implementations (for 'n' plants)</a>
       <li><a href="README.md">README (tasks)</a>
       <li>

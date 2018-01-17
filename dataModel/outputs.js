@@ -12,4 +12,18 @@ var Outputs={
   "N2O":{influent:0, effluent:{water:0, air:0, sludge:0}},
   "TP" :{influent:0, effluent:{water:0, air:0, sludge:0}},
   "TS" :{influent:0, effluent:{water:0, air:0, sludge:0}},
+
+  "Al" :{influent:0, effluent:{water:0, air:0, sludge:0}},
+  "As" :{influent:0, effluent:{water:0, air:0, sludge:0}},
+  "Cd" :{influent:0, effluent:{water:0, air:0, sludge:0}},
+  "Cr" :{influent:0, effluent:{water:0, air:0, sludge:0}},
+  "Co" :{influent:0, effluent:{water:0, air:0, sludge:0}},
+  "Cu" :{influent:0, effluent:{water:0, air:0, sludge:0}},
+  "Pb" :{influent:0, effluent:{water:0, air:0, sludge:0}},
+  "Mn" :{influent:0, effluent:{water:0, air:0, sludge:0}},
+  "Hg" :{influent:0, effluent:{water:0, air:0, sludge:0}},
+  "Ni" :{influent:0, effluent:{water:0, air:0, sludge:0}},
+  "Ag" :{influent:0, effluent:{water:0, air:0, sludge:0}},
+  "Sn" :{influent:0, effluent:{water:0, air:0, sludge:0}},
+  "Zn" :{influent:0, effluent:{water:0, air:0, sludge:0}},
 };

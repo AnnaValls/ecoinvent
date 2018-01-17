@@ -30,6 +30,7 @@
 <script src="techs/n_removal.js"></script>
 <script src="techs/bio_P_removal.js"></script>
 <script src="techs/chem_P_removal.js"></script>
+<script src="techs/metals_doka.js"></script>
 
 <!--css-->
 <style>

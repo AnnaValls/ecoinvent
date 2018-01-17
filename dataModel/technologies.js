@@ -142,6 +142,28 @@ var Technologies = {
       "clarifiers",
     ],
   },
+  "Met":{
+    Name:"Metals",
+    File:"metals_doka.js",
+    Implemented_in:"",
+    value:false,
+    notActivable:true,
+    Inputs:[ 
+      "Al",
+      "As",
+      "Cd",
+      "Cr",
+      "Co",
+      "Cu",
+      "Pb",
+      "Mn",
+      "Hg",
+      "Ni",
+      "Ag",
+      "Sn",
+      "Zn",
+    ],
+  },
 }
 
 var Technologies_selected = [];

@@ -21,8 +21,8 @@ function compute_elementary_flows() {
     return;
   }
 
-  //new empty object to store results for each technology
-  var Result = { Fra:{}, BOD:{}, Nit:{}, SST:{}, Des:{}, BiP:{}, ChP:{} }; 
+  //empty object to store results for each technology
+  var Result = { Fra:{}, BOD:{}, Nit:{}, SST:{}, Des:{}, BiP:{}, ChP:{}, Met:{} }; 
 
   //get all ww characteristics
   var Q              = getInput('Q').value; //22700
@@ -38,6 +38,21 @@ function compute_elementary_flows() {
   var Alkalinity     = getInput('Alkalinity').value; //140
   var TP             = getInput('TP').value; //6
   var TS             = getInput('TS').value; //0 for now
+
+  //influent metals (also ww characteristics)
+  var Al = getInput('Al').value;
+  var As = getInput('As').value;
+  var Cd = getInput('Cd').value;
+  var Cr = getInput('Cr').value;
+  var Co = getInput('Co').value;
+  var Cu = getInput('Cu').value;
+  var Pb = getInput('Pb').value;
+  var Mn = getInput('Mn').value;
+  var Hg = getInput('Hg').value;
+  var Ni = getInput('Ni').value;
+  var Ag = getInput('Ag').value;
+  var Sn = getInput('Sn').value;
+  var Zn = getInput('Zn').value;
 
   //get all design parameters
   var SRT                  = getInput('SRT').value; //5
@@ -160,6 +175,10 @@ function compute_elementary_flows() {
   }
   //end technologies from metcalf and eddy
 
+  /*6. Metals*/
+  Result.Met=metals_doka(Al,As,Cd,Cr,Co,Cu,Pb,Mn,Hg,Ni,Ag,Sn,Zn);
+  addResults('Met',Result.Met);
+
   /*
    * Calc total volumes:
    *  V_total = V_aerobic + V_anoxic + V_anaerobic
@@ -191,6 +210,7 @@ function compute_elementary_flows() {
    * | denitrification    | is_Des_active | Result.Des     |
    * | bio P removal      | is_BiP_active | Result.BiP     |
    * | chemical P removal | is_ChP_active | Result.ChP     |
+   * | metals             | N/A           | Result.Met     |
    */
 
   //Outputs.COD
@@ -350,6 +370,12 @@ function compute_elementary_flows() {
   Outputs.TS.effluent.water  = 0;
   Outputs.TS.effluent.air    = 0;
   Outputs.TS.effluent.sludge = 0;
+
+  //METALS
+  Outputs.Al.influent        = Q*Al;
+  Outputs.Al.effluent.water  = Q*Result.Met.Al_water.value;
+  Outputs.Al.effluent.air    = 0;
+  Outputs.Al.effluent.sludge = Q*Result.Met.Al_sludge.value;
 
   //fill summary tables (section 3.3) (TODO move to frontend: refactoring needed)
   (function fill_summary_tables(){

@@ -36,11 +36,11 @@ var Inputs = [
 {id:"NO3_eff", value:6,  unit:"g/m3", isParameter:true, descr:"Effluent design NO3 concentration"},
 
 //sst
-{id:"clarifiers", value:3,    unit:"clarifiers", isParameter:true, descr:"Number of clarifiers that will be used"},
+{id:"clarifiers", value:3, unit:"clarifiers", isParameter:true, descr:"Number of clarifiers that will be used"},
 
 //bio P
-{id:"VFA",             value:15,  unit:"g/m3",   descr:"Volatile Fatty Acids (Acetate)"},
-{id:"TP",              value:6,   unit:"g_P/m3", descr:"Total phosphorus"},
+{id:"VFA", value:15, unit:"g/m3",   descr:"Volatile Fatty Acids (Acetate)"},
+{id:"TP",  value:6,  unit:"g_P/m3", descr:"Total phosphorus"},
 
 //chem P
 {id:"TSS_removal_wo_Fe", value:60,   unit:"%",    isParameter:true, descr:"% TSS removal without iron addition"},
@@ -48,10 +48,26 @@ var Inputs = [
 {id:"C_PO4_inf",         value:5,    unit:"g/m3", descr:"Influent PO4(3-)"},
 {id:"C_PO4_eff",         value:0.1,  unit:"g/m3", isParameter:true, descr:"Effluent design PO4(3-)"},
 
-//Sulfur (not used for now TODO)
+//Sulfur (not used for now)
 {id:"TS", value:0, unit:"g_S/m3", descr:"Total Sulfur in influent" },
 
-//orange and red inputs
+//metals
+{id:"Al", value:1, unit:"g/m3", descr:"Aluminium"},
+{id:"As", value:1, unit:"g/m3", descr:"Arsenic"},
+{id:"Cd", value:1, unit:"g/m3", descr:"Cadmium"},
+{id:"Cr", value:1, unit:"g/m3", descr:"Chromium"},
+{id:"Co", value:1, unit:"g/m3", descr:"Cobalt"},
+{id:"Cu", value:1, unit:"g/m3", descr:"Copper"},
+{id:"Pb", value:1, unit:"g/m3", descr:"Lead"},
+{id:"Mn", value:1, unit:"g/m3", descr:"Manganese"},
+{id:"Hg", value:1, unit:"g/m3", descr:"Mercury"},
+{id:"Ni", value:1, unit:"g/m3", descr:"Nickel"},
+{id:"Ag", value:1, unit:"g/m3", descr:"Silver"},
+{id:"Sn", value:1, unit:"g/m3", descr:"Tin"},
+{id:"Zn", value:1, unit:"g/m3", descr:"Zinc"},
+
+
+//orange and red inputs (advanced knowledge required)
 {id:"bCOD_BOD_ratio",       value:1.6,   unit:"g/g",        color:"red",                      descr:"bCOD/BOD ratio"},
 {id:"zb",                   value:500,   unit:"m",          color:"orange", isParameter:true, descr:"Site elevation above sea level (Affects O2 solubility)"},
 {id:"Pressure",             value:95600, unit:"Pa",         color:"orange", isParameter:true, descr:"Pressure at site elevation"},
@@ -65,6 +81,7 @@ var Inputs = [
 {id:"FeCl3_solution",       value:37,    unit:"%",          color:"red",    isParameter:true, descr:"Ferric chloride solution (%)"},
 {id:"FeCl3_unit_weight",    value:1.35,  unit:"kg/L",       color:"red",    isParameter:true, descr:"Ferric chloride unit weight"},
 {id:"days",                 value:15,    unit:"d",          color:"red",    isParameter:true, descr:"Time for the supply to be stored at the treatment facility" },
+
 
 ];
 
