@@ -371,13 +371,23 @@ function compute_elementary_flows() {
   Outputs.TS.effluent.air    = 0;
   Outputs.TS.effluent.sludge = 0;
 
-  //METALS
-  Outputs.Al.influent        = Q*Al;
-  Outputs.Al.effluent.water  = Q*Result.Met.Al_water.value;
-  Outputs.Al.effluent.air    = 0;
-  Outputs.Al.effluent.sludge = Q*Result.Met.Al_sludge.value;
+  //Outputs METALS
+  Outputs.Al.influent=Q*Al;Outputs.Al.effluent.water=Q*Result.Met.Al_water.value;Outputs.Al.effluent.sludge=Q*Result.Met.Al_sludge.value;
+  Outputs.As.influent=Q*As;Outputs.As.effluent.water=Q*Result.Met.As_water.value;Outputs.As.effluent.sludge=Q*Result.Met.As_sludge.value;
+  Outputs.Cd.influent=Q*Cd;Outputs.Cd.effluent.water=Q*Result.Met.Cd_water.value;Outputs.Cd.effluent.sludge=Q*Result.Met.Cd_sludge.value;
+  Outputs.Cr.influent=Q*Cr;Outputs.Cr.effluent.water=Q*Result.Met.Cr_water.value;Outputs.Cr.effluent.sludge=Q*Result.Met.Cr_sludge.value;
+  Outputs.Co.influent=Q*Co;Outputs.Co.effluent.water=Q*Result.Met.Co_water.value;Outputs.Co.effluent.sludge=Q*Result.Met.Co_sludge.value;
+  Outputs.Cu.influent=Q*Cu;Outputs.Cu.effluent.water=Q*Result.Met.Cu_water.value;Outputs.Cu.effluent.sludge=Q*Result.Met.Cu_sludge.value;
+  Outputs.Pb.influent=Q*Pb;Outputs.Pb.effluent.water=Q*Result.Met.Pb_water.value;Outputs.Pb.effluent.sludge=Q*Result.Met.Pb_sludge.value;
+  Outputs.Mn.influent=Q*Mn;Outputs.Mn.effluent.water=Q*Result.Met.Mn_water.value;Outputs.Mn.effluent.sludge=Q*Result.Met.Mn_sludge.value;
+  Outputs.Hg.influent=Q*Hg;Outputs.Hg.effluent.water=Q*Result.Met.Hg_water.value;Outputs.Hg.effluent.sludge=Q*Result.Met.Hg_sludge.value;
+  Outputs.Ni.influent=Q*Ni;Outputs.Ni.effluent.water=Q*Result.Met.Ni_water.value;Outputs.Ni.effluent.sludge=Q*Result.Met.Ni_sludge.value;
+  Outputs.Ag.influent=Q*Ag;Outputs.Ag.effluent.water=Q*Result.Met.Ag_water.value;Outputs.Ag.effluent.sludge=Q*Result.Met.Ag_sludge.value;
+  Outputs.Sn.influent=Q*Sn;Outputs.Sn.effluent.water=Q*Result.Met.Sn_water.value;Outputs.Sn.effluent.sludge=Q*Result.Met.Sn_sludge.value;
+  Outputs.Zn.influent=Q*Zn;Outputs.Zn.effluent.water=Q*Result.Met.Zn_water.value;Outputs.Zn.effluent.sludge=Q*Result.Met.Zn_sludge.value;
 
-  //fill summary tables (section 3.3) (TODO move to frontend: refactoring needed)
+
+  //fill summary tables (section 3.3) (move to frontend: refactoring needed in the future)
   (function fill_summary_tables(){
     //fill a element id from div#summary with a Result[tec][field].value 
     function fill(id,tec,field){
