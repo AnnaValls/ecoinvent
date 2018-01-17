@@ -80,7 +80,7 @@ function bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,NOx,NO3_eff){
   }
 }
 
-/*debugging*/
+/*test*/
 (function(){
   var debug=false;
   if(debug==false)return;

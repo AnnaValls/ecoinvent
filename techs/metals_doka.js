@@ -68,7 +68,7 @@ function metals_doka(Al,As,Cd,Cr,Co,Cu,Pb,Mn,Hg,Ni,Ag,Sn,Zn){
   };
 };
 
-/*debugging*/
+/*test*/
 (function(){
   var debug=false;
   if(debug==false)return;

@@ -100,7 +100,7 @@ function bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_
   };
 };
 
-/*debugging*/
+/*test*/
 (function(){
   var debug=false;
   if(debug==false)return;

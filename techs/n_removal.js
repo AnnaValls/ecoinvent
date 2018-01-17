@@ -252,7 +252,7 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
   }
 }
 
-/*debugging*/
+/*test*/
 (function(){
   var debug=false;
   if(debug==false)return;

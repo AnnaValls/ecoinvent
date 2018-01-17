@@ -37,7 +37,7 @@ function fractionation(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio){
   };
 };
 
-/*debugging*/
+/*test*/
 (function(){
   var debug=false;
   if(debug==false)return;
