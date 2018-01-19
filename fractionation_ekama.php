@@ -51,7 +51,7 @@
   <div>
     <p>Outputs</p>
     <table id=outputs border=1>
-      <tr><td>COD <td id=pCOD>0
+      <tr><td>pCOD <td id=pCOD>0
       <tr><td>US<td id=US>0
       <tr><td>BS<td id=BS>0
       <tr><td>UP<td id=UP>0
