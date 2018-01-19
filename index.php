@@ -90,7 +90,7 @@
   <div>
     <p><b>Other things</b></p>
     <ul>
-      <li><a href="techs/fractionation_ekama.js">fractionation (G. Ekama)</a>
+      <li><a href="fractionation_ekama.php">Fractionation (G. Ekama) implementation</a>
       <li><a href=future>Future implementations (for 'n' plants)</a>
       <li><a href="README.md">README (tasks)</a>
       <li>
@@ -105,7 +105,7 @@
         </a>
       </li>
       <li>Source code: <a href=//github.com/holalluis/ecoinvent>github.com/holalluis/ecoinvent</a>
-      <li>Guillaume's github (ecoSpold): 
+      <li>Guillaume's github (ecoSpold):
         <ul>
           <li>
             <a href="//github.com/ecoinvent/wastewater_treatment_tool">
