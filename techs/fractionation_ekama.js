@@ -1,10 +1,10 @@
-/** 
+/**
   * Technology: Fractionation of the influent (G. Ekama version)
   * status: under development
   *
-  * COD =     
+  * COD =
   *   BS + US = sCOD
-  *   -+-+-+- 
+  *   -+-+-+-
   *   BP + UP = pCOD
   *   "    "
   *   bCOD uCOD
