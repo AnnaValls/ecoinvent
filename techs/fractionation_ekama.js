@@ -73,8 +73,8 @@ function fractionation_ekama(COD,sCOD,fSus,fSup,BOD,sBOD,TSS,VSS){
   if(debug==false)return;
   var COD  = 300;
   var sCOD = 132;
-  var fSus = 0.07;
-  var fSup = 0.15;
+  var fSus = 0.066667;
+  var fSup = 0.186667;
   var BOD  = 140;
   var sBOD = 70;
   var TSS  = 70;
