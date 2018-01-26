@@ -1,11 +1,11 @@
-/* 
- * Technology: BOD removal only 
+/*
+ * Technology: BOD removal only
  * Metcalf & Eddy, Wastewater Engineering, 5th ed., 2014:
  * pages 756-768
  */
 function bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb,Pressure,Df,C_L){
   /*
-    Inputs          example values 
+    Inputs          example values
     --------------------------------
     BOD             140    g/m3
     sBOD            70     g/m3
@@ -32,9 +32,9 @@ function bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_
   /*SOLUTION*/
 
   //apply fractionation
-  var Fra =     fractionation(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio);
-  var bCOD =    Fra.bCOD.value;
-  var nbVSS =   Fra.nbVSS.value;
+  var Fra   = fractionation(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio);
+  var bCOD  = Fra.bCOD.value;
+  var nbVSS = Fra.nbVSS.value;
 
   //part A: bod removal without nitrification
   var S0 = bCOD; //g/m3
@@ -59,7 +59,7 @@ function bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_
   var Y_obs_TSS = P_X_TSS/bCOD_removed*bCOD_BOD_ratio; //g_TSS/g_BOD
   var Y_obs_VSS = P_X_TSS/bCOD_removed*(X_VSS_V/X_TSS_V)*bCOD_BOD_ratio; //g_VSS/g_BOD
   //7
-  var NOx=0; //g/m3
+  var NOx = 0; //g/m3
   var R0 = (Q*(S0-S)/1000 -1.42*P_X_bio)/24 + 0; // kg_O2/h note: NOx is zero here
   //8
   var C_T = air_solubility_of_oxygen(T,0); //mg_O2/L -> elevation=0 TableE-1, Appendix E, implemented in "utils.js"
@@ -119,6 +119,7 @@ function bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_
   var Pressure       = 95600;
   var Df             = 4.4;
   var C_L            = 2.0;
-  var result = bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb,Pressure,Df,C_L);
-  console.log(result);
+  console.log(
+    bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb,Pressure,Df,C_L)
+  );
 })();

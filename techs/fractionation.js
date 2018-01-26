@@ -1,29 +1,30 @@
 /* 
  * Technology: Fractionation of the influent
  * Metcalf & Eddy, Wastewater Engineering, 5th ed., 2014:
+ * page 756
  */
 
 function fractionation(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio){
   /*
-    | Inputs         | example values 
-    |----------------+----------------
-    | BOD            | 140    g/m3
-    | sBOD           | 70     g/m3
-    | COD            | 300    g/m3
-    | sCOD           | 132    g/m3
-    | TSS            | 70     g/m3
-    | VSS            | 60     g/m3
-    | bCOD_BOD_ratio | 1.6    g bCOD/g BOD
+    | Inputs         | example values |
+    |----------------+----------------+
+    | BOD            | 140 g/m3       |
+    | sBOD           |  70 g/m3       |
+    | COD            | 300 g/m3       |
+    | sCOD           | 132 g/m3       |
+    | TSS            |  70 g/m3       |
+    | VSS            |  60 g/m3       |
+    | bCOD_BOD_ratio | 1.6 gbCOD/gBOD |
   */
 
   /*SOLUTION*/
-  var bCOD = bCOD_BOD_ratio * BOD; //g/m3
-  var nbCOD = COD - bCOD; //g/m3
-  var nbsCODe = sCOD - bCOD_BOD_ratio*sBOD; //g/m3
-  var nbpCOD = COD - bCOD - nbsCODe; //g/m3
-  var VSS_COD = (COD-sCOD)/VSS; //g_COD/g_VSS
-  var nbVSS = nbpCOD/VSS_COD; //g/m3
-  var iTSS = TSS - VSS; //g/m3
+  var bCOD    = bCOD_BOD_ratio*BOD;         //224 g/m3
+  var nbCOD   = COD - bCOD;                 // 76 g/m3
+  var nbsCODe = sCOD - bCOD_BOD_ratio*sBOD; // 20 g/m3
+  var nbpCOD  = COD - bCOD - nbsCODe;       // 56 g/m3
+  var VSS_COD = (COD-sCOD)/VSS;             //2.8 g_COD/g_VSS
+  var nbVSS   = nbpCOD/VSS_COD;             // 20 g/m3
+  var iTSS    = TSS - VSS;                  // 10 g/m3
 
   //return results object
   return {
@@ -48,6 +49,7 @@ function fractionation(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio){
   var TSS            = 70;
   var VSS            = 60;
   var bCOD_BOD_ratio = 1.6;
-  var result = fractionation(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio);
-  console.log(result);
+  console.log(
+    fractionation(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio)
+  );
 })();
