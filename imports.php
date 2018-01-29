@@ -41,6 +41,9 @@
 		overflow-y:scroll;
 		margin-bottom:50px;
 	}
+  th {
+    background:#eee;
+  }
 	#root {
 		margin-left:8px;
 	}
@@ -56,6 +59,10 @@
 	}
   .help{
     cursor:default;
+  }
+  input[type=number]{
+    text-align:right;
+    width:80px;
   }
 </style>
 
