@@ -132,7 +132,7 @@
           zb                   : getInput('zb').value, //500
           Pressure             : getInput('Pressure').value, //95600
           Df                   : getInput('Df').value, //4.4
-          C_L                  : getInput('DO').value, //2.0 warning: name changed to "DO"
+          DO                   : getInput('DO').value, //2.0 warning: name changed to "DO"
           SF                   : getInput('SF').value, //1.5
           Ne                   : getInput('Ne').value, //0.50
           sBODe                : getInput('sBODe').value, //3

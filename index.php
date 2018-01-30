@@ -31,7 +31,6 @@
         Multiple plant analysis (<em>under development</em>)
         <ul>
           <li><a href="marginal.php">Marginal approach</a>
-          <li><a href="activity.php">Create an Activity</a>
           <li><a href="activity/referenceData.php">Reference Data (list of ubications)</a>
         </ul>
       <li><a href=ecospold.php>Generate results file (ecospold format)</a>
