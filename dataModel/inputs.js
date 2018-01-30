@@ -68,19 +68,19 @@ var Inputs = [
 
 
 //orange and red inputs (advanced knowledge required)
-{id:"bCOD_BOD_ratio",       value:1.6,   unit:"g/g",        color:"red",                      descr:"bCOD/BOD ratio"},
-{id:"zb",                   value:500,   unit:"m",          color:"orange", isParameter:true, descr:"Site elevation above sea level (Affects O2 solubility)"},
-{id:"Pressure",             value:95600, unit:"Pa",         color:"orange", isParameter:true, descr:"Pressure at site elevation"},
-{id:"Df",                   value:4.4,   unit:"m",          color:"orange", isParameter:true, descr:"Liquid depth for aeration basin minus distance between tank bottom and point of air release for the  diffusers.  For  example:  4.9  m  -  0.5  m = 4.4 m"},
-{id:"TSSe",                 value:1,     unit:"g/m3",       color:"orange", isParameter:true, descr:"Effluent design Total suspended solids"},
-{id:"X_R",                  value:8000,  unit:"g/m3",       color:"orange", isParameter:true, descr:"Return sludge mass concentration"},
-{id:"SRT",                  value:5,     unit:"d",          color:"red",    isParameter:true, descr:"Solids Retention Time"},
-{id:"SF",                   value:1.5,   unit:"&empty;",    color:"red",    isParameter:true, descr:"Peak to average TKN load : Safety factor for compute a design SRT (= SF·SRT_theoretical), (where  SRT_theoretical  =  1/µAOB)",  },
-{id:"Anoxic_mixing_energy", value:5,     unit:"kW/1000_m3", color:"red",    isParameter:true, descr:"Mixing energy for anoxic reactor"},
-{id:"SOR",                  value:24,    unit:"m3/m2·d",    color:"red",    isParameter:true, descr:"Hydraulic application rate"},
-{id:"FeCl3_solution",       value:37,    unit:"%",          color:"red",    isParameter:true, descr:"Ferric chloride solution (%)"},
-{id:"FeCl3_unit_weight",    value:1.35,  unit:"kg/L",       color:"red",    isParameter:true, descr:"Ferric chloride unit weight"},
-{id:"days",                 value:15,    unit:"d",          color:"red",    isParameter:true, descr:"Time for the supply to be stored at the treatment facility" },
+{id:"bCOD_BOD_ratio",       value:1.6,   unit:"g_bCOD/g_BOD", color:"red",                      descr:"bCOD/BOD ratio"},
+{id:"zb",                   value:500,   unit:"m",            color:"orange", isParameter:true, descr:"Site elevation above sea level (Affects O2 solubility)"},
+{id:"Pressure",             value:95600, unit:"Pa",           color:"orange", isParameter:true, descr:"Pressure at site elevation"},
+{id:"Df",                   value:4.4,   unit:"m",            color:"orange", isParameter:true, descr:"Liquid depth for aeration basin minus distance between tank bottom and point of air release for the  diffusers.  For  example:  4.9  m  -  0.5  m = 4.4 m"},
+{id:"TSSe",                 value:1,     unit:"g/m3",         color:"orange", isParameter:true, descr:"Effluent design Total suspended solids"},
+{id:"X_R",                  value:8000,  unit:"g/m3",         color:"orange", isParameter:true, descr:"Return sludge mass concentration"},
+{id:"SRT",                  value:5,     unit:"d",            color:"red",    isParameter:true, descr:"Solids Retention Time"},
+{id:"SF",                   value:1.5,   unit:"&empty;",      color:"red",    isParameter:true, descr:"Peak to average TKN load : Safety factor for compute a design SRT (= SF·SRT_theoretical), (where  SRT_theoretical  =  1/µAOB)",  },
+{id:"Anoxic_mixing_energy", value:5,     unit:"kW/1000_m3",   color:"red",    isParameter:true, descr:"Mixing energy for anoxic reactor"},
+{id:"SOR",                  value:24,    unit:"m3/m2·d",      color:"red",    isParameter:true, descr:"Hydraulic application rate"},
+{id:"FeCl3_solution",       value:37,    unit:"%",            color:"red",    isParameter:true, descr:"Ferric chloride solution (%)"},
+{id:"FeCl3_unit_weight",    value:1.35,  unit:"kg/L",         color:"red",    isParameter:true, descr:"Ferric chloride unit weight"},
+{id:"days",                 value:15,    unit:"d",            color:"red",    isParameter:true, descr:"Time for the supply to be stored at the treatment facility" },
 
 
 ];
@@ -88,11 +88,11 @@ var Inputs = [
 //getter function
 function getInputById(id) {
 	var ret=Inputs.filter(el=>{return id==el.id});
-	if(ret.length==0){ 
-		console.error('Input id "'+id+'" not found'); 
+	if(ret.length==0){
+		console.error('Input id "'+id+'" not found');
 		return false;
 	}
-	else if(ret.length>1){ 
+	else if(ret.length>1){
 		console.error('Input id is not unique. Please report this problem');
 		return false;
 	}
