@@ -2,6 +2,7 @@
 Expected web tool finish: October 31 2017
 
 ## BACKEND TASKS
+  * [ ][TODO] integrate ekama's fractionation system to the rest of the code.
   * [1][DONE] be able to calculate 'n' systems (= run 'n' models in parallel)
   * [ ][PAUSED] ECOSPOLD generation
     1. check for equivalent library in javascript as jinja2 for python

@@ -90,15 +90,14 @@
   <div>
     <p><b>Other things</b></p>
     <ul>
+      <li><a href="README.md">README</a>
       <li><a href="fractionation_ekama.php">Fractionation (G. Ekama) implementation</a>
-      <li><a href=future>Future implementations (for 'n' plants)</a>
-      <li><a href="README.md">README (tasks)</a>
       <li>
         <td><a href="implementations/bod_removal_only.php">BOD removal (simple example)</a>
         <td>M&amp;E 4th (p. 707)
       <li>
         <td><a href="implementations/ekama_sizing.php">Reactor sizing (optim. cost) [G. Ekama]</a>
-      <li><a href=docs>Documents</a>
+      <li><a href=docs>Documents sent by email</a>
       <li>
         <a target=_blank href="https://docs.google.com/spreadsheets/d/1DiBhDCjxGyw2-umImIfHiZOzY5LJF_psGiD4fEf7Wgk/edit?usp=sharing">
           Google Drive document
