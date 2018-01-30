@@ -68,7 +68,7 @@
 					uniq(inputs).forEach(i=> {
 						ret.push("<span class=help title='"+getInputById(i).descr+"'>"+i+"</span>")
 					});
-					return uniq(inputs).length+": "+ret.join(', ');
+					return "("+uniq(inputs).length+") &rarr; "+ret.join(', ');
 				})();
 			});
 		})();

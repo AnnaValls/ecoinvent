@@ -5,7 +5,6 @@
  *
  */
 function do_mass_balances(){
-
   //effluent compounds used for the balances
   var COD = Outputs.COD;
   var CO2 = Outputs.CO2;
@@ -65,7 +64,7 @@ function do_mass_balances(){
     el.innerHTML = format(percent,2)+" %";
 
     //add red warning if percent is greater than X %
-    var X=5;
+    var X=10;
     if(percent>X){el.style.color='red'}else{el.style.color='green'}
   }
   //end do_mass_balances

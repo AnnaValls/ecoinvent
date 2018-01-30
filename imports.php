@@ -6,7 +6,7 @@
 <meta name="description" content="ecoinvent">
 
 <!--link-->
-<link rel=stylesheet href=css.css>
+<link rel=stylesheet href="css.css">
 
 <!--javascript main structures/functions-->
 <script src="format.js"></script><!--utils for number formatting-->
@@ -55,7 +55,7 @@
 		flex-wrap:wrap;
 	}
 	.unit {
-		font-size:11px;
+		font-size:smaller;
 	}
   .help{
     cursor:default;

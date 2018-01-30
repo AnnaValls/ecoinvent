@@ -11,6 +11,9 @@
     .help:hover {
       text-decoration:underline;
     }
+    #inputs tr td:nth-child(2){
+      text-align:right;
+    }
   </style>
 </head><body>
 <?php include'navbar.php'?>
@@ -35,7 +38,7 @@
         <th>Input
         <th>Default value
         <th>Unit
-        <th><a href=technologies.php>Technologies</a> that require it
+        <th>Technologies that require it
 		</table>
 		<script>
 			//fill inputs table
@@ -57,12 +60,7 @@
 					newRow.title=input.descr;
 					newRow.insertCell(-1).innerHTML=input.id;
 					newRow.insertCell(-1).innerHTML=input.value;
-					newRow.insertCell(-1).outerHTML="<td class=unit>"+input.unit
-						.replace('m3','m<sup>3</sup>')
-						.replace('m2','m<sup>2</sup>')
-						.replace('O2','O<sub>2</sub>')
-						.replace('O3','O<sub>3</sub>')
-						.replace(/_/g,' ') ;
+					newRow.insertCell(-1).outerHTML="<td class=unit>"+input.unit.prettifyUnit();
 					newRow.insertCell(-1).innerHTML=(function(){
 						var techs=inputRequiredBy(input.id);
 						return techs.toString().replace(/,/g,', ');
@@ -73,9 +71,9 @@
 	</div>
 
 	<!--legend-->
-	<div style="margin-left:20px">
+	<div style="margin-left:8px">
 		<table id=legend border=1>
-			<tr><th colspan=2>Legend
+			<tr><th colspan=2>Technologies legend
 		</table>
 		<script>
 			//fill legend table

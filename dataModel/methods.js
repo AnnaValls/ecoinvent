@@ -29,6 +29,8 @@ function setInput(id,newValue,isTechnology){
   if(!isTechnology)newValue=parseFloat(newValue);
   //actual modifying the value of the input
   getInput(id,isTechnology).value=newValue;
+
+  //FRONTEND
   //redraw screen
   init();
   //focus again the <input> element after init()

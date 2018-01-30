@@ -4,12 +4,19 @@ issue{
   padding:1px;
   border-radius:0.2em;
   border:1px solid #ccc;
+  font-size:smaller;
 }
 issue.help_wanted{
   background:lightgreen;
 }
 issue.help_wanted:before{
   content:"help wanted";
+}
+issue.under_dev{
+  background:orange;
+}
+issue.under_dev:before{
+  content:"under development";
 }
 
 /*keyboard keys*/

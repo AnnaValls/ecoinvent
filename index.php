@@ -18,14 +18,14 @@
     <p><b>Web parts</b></p>
     <ul>
       <li>
-        Single plant model (<em>under development</em>)
+        Single plant model
         <ul>
           <li><a href=elementary.php        >Elementary flows (from Metcalf &amp; Eddy)</a>
           <li><a href=inputs.php            >All inputs</a>
           <li><a href=outputs.php           >All outputs</a>
           <li><a href=technologies.php      >All technologies</a>
           <li><a href=dataModel/constants.js>All constants</a>
-          <li><a href=construction.php      >Construction materials</a>
+          <li><a href=construction.php      >Construction materials</a> (<em>TBD</em>)
         </ul>
       <li>
         Multiple plant analysis (<em>under development</em>)

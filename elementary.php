@@ -1,11 +1,10 @@
 <?php
-/* 
-  ELEMENTARY FLOWS (SINGLE PLANT MODEL)
-  -------------------------------------
-  - The backend is in 'elementary.js' (data structures + technology appliying)
-  - The views and frontend is implemented here
-*/
-?>
+  /*
+    ELEMENTARY FLOWS (SINGLE PLANT MODEL)
+    -------------------------------------
+    - The backend is in 'elementary.js' (data structures + technology appliying)
+    - The views and frontend is implemented here
+*/?>
 <!doctype html><html><head>
   <?php include'imports.php'?>
   <title>Elementary Flows</title>
@@ -89,9 +88,118 @@
         });
       })();
 
-      /* Call main backend function */
-      //after this function Variables & Outputs have all useful results
-      compute_elementary_flows();
+      /* Main backend function "compute_elementary_flows" */
+      //it will fill "Variables" & "Outputs" data structures
+      (function(){
+        var Input_set={
+          //technologies activated
+          is_BOD_active : getInput("BOD",true).value,
+          is_Nit_active : getInput("Nit",true).value,
+          is_Des_active : getInput("Des",true).value,
+          is_BiP_active : getInput("BiP",true).value,
+          is_ChP_active : getInput("ChP",true).value,
+          //ww characteristics
+          Q              : getInput('Q').value, //22700
+          T              : getInput('T').value, //12
+          COD            : getInput('COD').value, //300
+          sCOD           : getInput('sCOD').value, //132
+          BOD            : getInput('BOD').value, //140
+          sBOD           : getInput('sBOD').value, //70
+          bCOD_BOD_ratio : getInput('bCOD_BOD_ratio').value, //1.6
+          TSS            : getInput('TSS').value, //70
+          VSS            : getInput('VSS').value, //60
+          TKN            : getInput('TKN').value, //35
+          Alkalinity     : getInput('Alkalinity').value, //140
+          TP             : getInput('TP').value, //6
+          TS             : getInput('TS').value, //0 for now
+          //influent metals
+          Al : getInput('Al').value,
+          As : getInput('As').value,
+          Cd : getInput('Cd').value,
+          Cr : getInput('Cr').value,
+          Co : getInput('Co').value,
+          Cu : getInput('Cu').value,
+          Pb : getInput('Pb').value,
+          Mn : getInput('Mn').value,
+          Hg : getInput('Hg').value,
+          Ni : getInput('Ni').value,
+          Ag : getInput('Ag').value,
+          Sn : getInput('Sn').value,
+          Zn : getInput('Zn').value,
+          //design parameters
+          SRT                  : getInput('SRT').value, //5
+          MLSS_X_TSS           : getInput('MLSS_X_TSS').value, //3000
+          zb                   : getInput('zb').value, //500
+          Pressure             : getInput('Pressure').value, //95600
+          Df                   : getInput('Df').value, //4.4
+          C_L                  : getInput('DO').value, //2.0 warning: name changed to "DO"
+          SF                   : getInput('SF').value, //1.5
+          Ne                   : getInput('Ne').value, //0.50
+          sBODe                : getInput('sBODe').value, //3
+          TSSe                 : getInput('TSSe').value, //10
+          Anoxic_mixing_energy : getInput('Anoxic_mixing_energy').value, //5
+          NO3_eff              : getInput('NO3_eff').value, //6
+          SOR                  : getInput('SOR').value, //24
+          X_R                  : getInput('X_R').value, //8000
+          clarifiers           : getInput('clarifiers').value, //3
+          TSS_removal_wo_Fe    : getInput('TSS_removal_wo_Fe').value, //60
+          TSS_removal_w_Fe     : getInput('TSS_removal_w_Fe').value, //75
+          C_PO4_eff            : getInput('C_PO4_eff').value, //0.1
+          FeCl3_solution       : getInput('FeCl3_solution').value, //37
+          FeCl3_unit_weight    : getInput('FeCl3_unit_weight').value, //1.35
+          days                 : getInput('days').value, //15
+          //these three inputs had an equation but they are now inputs again
+          rbCOD                : getInput('rbCOD').value, //80 g/m3
+          VFA                  : getInput('VFA').value, //15 g/m3
+          //var C_PO4_inf      : getInput('C_PO4_inf').value, //5 g/m3
+        };
+        var Result=compute_elementary_flows(Input_set);
+
+        //fill summary tables (section 3.3)
+        (function fill_summary_tables(){
+          //write el.innerHTML in #summary with a Result[tec][field].value
+          function fill(id,tec,field){
+            //id:    DOM element id <string>
+            //tec:   technology alias
+            //field: variable id
+            var value = Result[tec][field] ? Result[tec][field].value : 0;
+            var el=document.querySelector('div#summary #'+id);
+            if(value==0){
+              el.innerHTML=0;
+              el.parentNode.style.color='#aaa';
+              return;
+            }else el.parentNode.style.color='';
+            var unit = Result[tec][field] ? Result[tec][field].unit  : "";
+            if(el)
+              el.innerHTML=format(value)+" "+unit.prettifyUnit();
+          }
+          //fill design summary elements
+          (function(){
+            var i=Input_set;
+            if(!i.is_BOD_active){ return; }
+            //calc auxiliary technology results
+            fill('V_aer',                     (i.is_Nit_active?'Nit':'BOD'),                       'V');
+            fill('V_nox',                     'Des',                                               'V_nox');
+            fill('V_ana',                     'BiP',                                               'V');
+            fill('V_total',                   'lcorominas',                                        'V_total');
+            fill('Area',                      'SST',                                               'Area');
+            fill('Qwas',                      'lcorominas',                                        'Qwas');
+            fill('SRT',                       'lcorominas',                                        'SRT');
+            fill('QR',                        'SST',                                               'QR');
+            fill('alkalinity_added',          'Nit',                                               'alkalinity_added');
+            fill('Mass_of_alkalinity_needed', 'Des',                                               'Mass_of_alkalinity_needed');
+            fill('FeCl3_volume',              'ChP',                                               'FeCl3_volume');
+            fill('storage_req_15_d',          'ChP',                                               'storage_req_15_d');
+            fill('air_flowrate',              i.is_Des_active?'Des':(i.is_Nit_active?'Nit':'BOD'), 'air_flowrate');
+            fill('OTRf',                      i.is_Des_active?'Des':(i.is_Nit_active?'Nit':'BOD'), 'OTRf');
+            fill('SOTR',                      i.is_Des_active?'Des':(i.is_Nit_active?'Nit':'BOD'), 'SOTR');
+            fill('SAE',                       'lcorominas',                                        'SAE');
+            fill('O2_power',                  'lcorominas',                                        'O2_power');
+            fill('SDNR',                      'Des',                                               'SDNR');
+            fill('Power',                     'Des',                                               'Power');
+          })();
+        })();
+      })();
 
       /*
        * call frontend functions to populate views
@@ -429,14 +537,6 @@
         <tr id=P><th>P   <td phase=influent>Q·TP  <td phase=water>8:1     <td phase=air>-       <td phase=sludge>8:3     <td phase=balance>A-B-C-D
         <tr id=S><th>S   <td phase=influent>Q·TS  <td phase=water>9:1     <td phase=air>-       <td phase=sludge>9:3     <td phase=balance>A-B-C-D
       </table>
-
-      <!--developer note-->
-      <p>
-        <small>
-        Note: grouping rows from table 3.1 to create table 3.2 is under revision (file: <a href=mass_balances.js>mass_balances.js</a>)
-        <issue class=help_wanted></issue>
-        </small>
-      </p>
     </div>
 
     <!--summary tables-->
@@ -552,11 +652,5 @@
     <li>TS (Sulfur) effluent unknown.  <issue class="help_wanted"></issue>
     <li>S (Sulfur) mass balance equations unknown.  <issue class="help_wanted"></issue>
   </ul> <hr>
-
-  <p>
-    <b>Note</b>:
-    If the tool has been updated recently it may not work due to the browser keeping development files in a place called "the cache". 
-    To make sure you flush the old files and have the latest ones, click here:<br>
-    <button onclick="window.location.reload(true)">Clear cache</button>
-  </p>
+  <?php include'btn_reset_cache.php'?>
 </div></p>

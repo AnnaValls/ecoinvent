@@ -54,5 +54,6 @@
 		print_io('Des',N_removal,'n_removal.js');
 		print_io('BiP',bio_P_removal,'bio_P_removal.js');
 		print_io('ChP',chem_P_removal,'chem_P_removal.js');
+    print_io('Met',metals_doka,'metals_doka.js');
 	</script>
 </div>
