@@ -26,11 +26,8 @@ Expected web tool finish: October 31 2017
   * [ ][TO DO] some constants without description (file "dataModel/constants.js")
 
 ## FRONTEND TASKS
-  - [TO DO][low priority] substitute images for text in the example implementations
+* substitute images for text in the example implementations
 
-## future (=cannot be done in parallel, or should be more discussed to understand it completely)
-  - [TO DO] add master data to web files or call from an ecoinvent dedicated repository
-
-
------------------------------
-vim: set filetype=markdown:
+## future
+* (=cannot be done in parallel, or should be more discussed to understand it completely)
+* add master data to web files or call from an ecoinvent dedicated repository
