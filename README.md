@@ -2,7 +2,7 @@
 Expected web tool finish: October 31 2017
 
 ## BACKEND TASKS
-  * [1][NOW] be able to calculate 'n' systems (= run 'n' models in parallel)
+  * [1][DONE] be able to calculate 'n' systems (= run 'n' models in parallel)
   * [ ][PAUSED] ECOSPOLD generation
     1. check for equivalent library in javascript as jinja2 for python
       - [DONE]: angular.js is an equivalent
@@ -29,8 +29,6 @@ Expected web tool finish: October 31 2017
   - [TO DO][low priority] substitute images for text in the example implementations
 
 ## future (=cannot be done in parallel, or should be more discussed to understand it completely)
-  - [TO DO] energy and chemicals consumed for single plant 
-  - [TO DO] master data should be in the web, it has options for the user
   - [TO DO] add master data to web files or call from an ecoinvent dedicated repository
 
 
