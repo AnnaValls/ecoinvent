@@ -10,6 +10,7 @@
   <script src="elementary.js"></script>
   <script>
     function init(){
+      disable_checkboxes();
       mix_influents();
       getInputSets();
       call_elementary_flows();
@@ -21,6 +22,9 @@
       width:100%;
       font-size:smaller;
     }
+    #root #results td[phase]:hover{
+      text-decoration:underline;
+    }
   </style>
 </head><body onload="init()">
 <?php include'navbar.php'?>
@@ -30,16 +34,17 @@
 <!--subtitle-->
 <div>
   <p>
-    Here you can simulate and study the contribution of influent 1 to the
-    effluent created by of the sum of influent 1 and 2.
+    Here you can simulate and study the contribution of an influent to the
+    effluent created by of the sum of two influents.
   </p>
+  <p><small>Tip: mouse over any variable to see a little description</small></p>
 </div><hr>
 
 <!--main-->
 <div class=flex>
   <!--1. influents to mix-->
   <div>
-    <p>1. Enter the two influents to be mixed:</p>
+    <p>1. Enter two influents to be mixed:</p>
     <table id=inputs border=0>
       <tr>
         <th>Input
@@ -49,7 +54,7 @@
         <th>Unit
       <tr>
     </table>
-  </div> <hr>
+  </div><hr>
 
   <!--2. techs and design parameters-->
   <div>
@@ -61,41 +66,46 @@
       <p>3. Enter design parameters:</p>
       <table id=design_parameters></table>
     </div>
-  </div> <hr>
+  </div><hr>
 
   <!--3. results-->
   <div>
     <p>
       4. Results
       <div style=font-size:smaller>
-        Select results:
-        <select id=select_results_displayed>
-          <option value=Contribution> Contribution of Influent 1 (%)
-          <option value=Outputs2 disabled> Influent 2 (kg/d)
-          <option value=Outputs3 disabled> Influent 1+2 (kg/d)
+        Display:
+        <select onchange="Options.displayed_results.set(this.value)">
+          <option value="%"   > Contribution (%) of Influent 1
+          <option value="kg/d"> Total influent (kg/d)
+          <option value="g/m3"> Total influent (g/m3)
         </select>
       </div>
     </p>
+
     <table id=results border=1>
-      <tr><th colspan=5>Contribution of Influent 1 to the total effluent
       <tr>
         <th rowspan=2>Compound
-        <th rowspan=2>Influent
-        <th colspan=3>Effluent
+        <th rowspan=2>Influent<br><small>(<span class=currentUnit>%</span>)</small>
+        <th colspan=3>Effluent <small>(<span class=currentUnit>%</span>)</small>
       <tr>
       <th>Water<th>Air<th>Sludge
     </table>
 
-    <p>5. Sludge production</p>
+    <p>5. Design summary</p>
     <table border=1>
-      <tr>
-        <td><issue class=under_dev></issue>
+      <tr><td>total sludge produced
+      <tr><td>total reactor volume
+      <tr><td>settler total area needed
+      <tr><td>recirculation flow
+      <tr><td><issue class=under_dev></issue>
     </table>
 
-    <p>6. Chemicals used</p>
+    <p>6. Technosphere</p>
     <table border=1>
-      <tr>
-        <td><issue class=under_dev></issue>
+      <tr><td>alkalinity to maintain pH
+      <tr><td>FeCl3 for Chemical P removal
+      <tr><td>kg concrete
+      <tr><td><issue class=under_dev></issue>
     </table>
   </div>
 </div><hr>
@@ -174,10 +184,10 @@
         var newRow=t.insertRow(-1);
         newRow.id=o;
         newRow.insertCell(-1).innerHTML=o;
-        newRow.insertCell(-1).outerHTML="<td phase=influent>0%</td>";
-        newRow.insertCell(-1).outerHTML="<td phase=water   >0%</td>";
-        newRow.insertCell(-1).outerHTML="<td phase=air     >0%</td>";
-        newRow.insertCell(-1).outerHTML="<td phase=sludge  >0%</td>";
+        newRow.insertCell(-1).outerHTML="<td class=number phase=influent>0%</td>";
+        newRow.insertCell(-1).outerHTML="<td class=number phase=water   >0%</td>";
+        newRow.insertCell(-1).outerHTML="<td class=number phase=air     >0%</td>";
+        newRow.insertCell(-1).outerHTML="<td class=number phase=sludge  >0%</td>";
       }
     })();
   })();
@@ -188,15 +198,11 @@
   //total flow (inf1+inf2)
   var total_Q=0;
 
+  //get influents 1 and 2 from DOM and mix them
   function mix_influents(){
-    mix_input('Q');
-    mix_input('T');
-    mix_input('COD');
-
     Inputs.filter(i=>{return !i.isParameter}).forEach(i=>{
       mix_input(i.id);
     });
-
     function mix_input(id){
       var input1=document.querySelector('#inputs tr[id='+id+'] input[inf="1"]');
       var input2=document.querySelector('#inputs tr[id='+id+'] input[inf="2"]');
@@ -219,10 +225,12 @@
     }
   }
 
+  //new input sets: will store all inputs to compute elementary flows (=simulation)
   var Input_set1={};
   var Input_set2={};
   var Input_set3={};
 
+  //fill input sets
   function getInputSets(){
     //get ww characteristics
     Inputs.filter(i=>{return !i.isParameter}).forEach(i=>{
@@ -240,7 +248,6 @@
       Input_set2[i.id]=dp;
       Input_set3[i.id]=dp;
     });
-
     //fill input sets
     (function(){
       var is_BOD_active = document.querySelector('#technologies tr[id=is_BOD_active] input[type=checkbox]').checked;
@@ -270,72 +277,133 @@
       console.log(Input_set3);
       */
     })();
-  };
+  }
 
-  //call elementary flows
-  /*
-    the key objects are:
-      Input_set{N}
-      Result{N}
-      Outputs{N}
-
-      N=1 means influent 1
-      N=2 means influent 2
-      N=3 means influent 1+2
+  /** Compute elementary flows 2 times
+    * The key objects are:
+    * - Input_set{N}
+    * - Result{N}
+    * - Outputs{N}
+    * where N is:
+    *   N=1 means influent 1
+    *   N=2 means influent 2
+    *   N=3 means influent 1+2
   */
   function call_elementary_flows(){
     /*Influent 2*/
     var Result2  = compute_elementary_flows(Input_set2);
     var Outputs2 = JSON.parse(JSON.stringify(Outputs)); //clone Outputs object
-    /*
-    console.log(Input_set2);
-    console.log(Result2);
-    console.log(Outputs2);
-    */
-    /*Mixed influents*/
+    /*Mixed influents (1+2)*/
     var Result3 = compute_elementary_flows(Input_set3);
     var Outputs3 = JSON.parse(JSON.stringify(Outputs));
-    /*
-    console.log(Input_set3);
-    console.log(Result3);
-    console.log(Outputs3);
-    */
 
-    //Contribution of Influent 1 in percentages
+    //Calculate Contribution of Influent 1 in percentages
     var Contribution = JSON.parse(JSON.stringify(Outputs)); //we'll store the percentages here
     (function calculate_contribution(){
       //we need 22 outputs * (1 influent + 3 effluent phases) = 88 calculations
       Object.keys(Outputs).forEach(k=>{
-        Contribution[k].influent = 100 - 100 * Outputs2[k].influent / Outputs3[k].influent || 0;
+        Contribution[k].influent = 100*(1 - Outputs2[k].influent/Outputs3[k].influent) || 0;
         ['water','air','sludge'].forEach(p=>{
-          Contribution[k].effluent[p] = 100 - 100 * Outputs2[k].effluent[p] / Outputs3[k].effluent[p] || 0;
+          Contribution[k].effluent[p] = 100*(1 - Outputs2[k].effluent[p]/Outputs3[k].effluent[p]) || 0;
         });
       });
-      /*
-      console.log(Contribution);
-      */
+      //console.log(Contribution);
     })();
 
-    //show calculations
+    //FRONTEND: show contribution
     Object.keys(Contribution).forEach(k=>{
+      /*INFLUENT*/
       //DOM handle
       var h=document.querySelector('#results tr[id='+k+'] td[phase=influent]');
       var contrib=Contribution[k].influent;
-      h.innerHTML=format(contrib)+"%";
-      h.style.color= contrib ? "":"#aaa";
-      //title
-      h.title=(function(){
-        var str="of "+format(Outputs3[k].influent/1000)+" kg/d";
-        return str;
+      h.style.color=contrib?"":"#aaa";
+      switch(Options.displayed_results.value){
+        case "kg/d":
+          h.innerHTML=format(Outputs3[k].influent/1000);
+          break;
+        case "g/m3":
+          h.innerHTML=format(Outputs3[k].influent/Input_set3.Q);
+          break;
+        default:
+          h.innerHTML=format(contrib)+"%";
+          break;
+      }
+      //set title
+      (function(){
+        h.title=""+
+          format(Outputs3[k].influent/1000-Outputs2[k].influent/1000)+
+          " of "+
+          format(Outputs3[k].influent/1000)+
+          " (kg/d)";
       })();
+      /*EFFLUENT PHASES*/
       ['water','air','sludge'].forEach(p=>{
         //DOM handle
         var h=document.querySelector('#results tr[id='+k+'] td[phase='+p+']');
         var contrib=Contribution[k].effluent[p];
-        h.innerHTML=format(contrib)+"%";
         h.style.color= contrib ? "":"#aaa";
+        switch(Options.displayed_results.value){
+          case "kg/d":
+            h.innerHTML=format(Outputs3[k].effluent[p]/1000);
+            break;
+          case "g/m3":
+            h.innerHTML=format(Outputs3[k].effluent[p]/Input_set3.Q);
+            break;
+          default:
+            h.innerHTML=format(contrib)+"%";
+            break;
+        }
+        //set title
+        (function(){
+          h.title=""+
+            format(Outputs3[k].effluent[p]/1000-Outputs2[k].effluent[p]/1000)+
+            " of "+
+            format(Outputs3[k].effluent[p]/1000)+
+            " (kg/d)";
+        })();
       });
     });
-  };
+  }
+
+  //deactivate impossible tech combinations
+  function disable_checkboxes(){
+    var is_BOD_active = document.querySelector('#technologies tr[id=is_BOD_active] input[type=checkbox]').checked;
+    var is_Nit_active = document.querySelector('#technologies tr[id=is_Nit_active] input[type=checkbox]').checked;
+    var is_Des_active = document.querySelector('#technologies tr[id=is_Des_active] input[type=checkbox]').checked;
+    var is_BiP_active = document.querySelector('#technologies tr[id=is_BiP_active] input[type=checkbox]').checked;
+    var is_ChP_active = document.querySelector('#technologies tr[id=is_ChP_active] input[type=checkbox]').checked;
+    function set_checkbox_disabled(tec,disabled){
+      var el=document.querySelector('#technologies tr[id=is_'+tec+'_active] input[type=checkbox]');
+      el.disabled=disabled;
+      if(disabled){el.checked=false;}
+      el.parentNode.parentNode.style.color=disabled?'#aaa':"";
+    }
+    set_checkbox_disabled('Nit', !is_BOD_active);
+    set_checkbox_disabled('Des', (!is_BOD_active || !is_Nit_active));
+    set_checkbox_disabled('BiP', (!is_BOD_active || is_ChP_active));
+    set_checkbox_disabled('ChP', (!is_BOD_active || is_BiP_active));
+  }
 </script>
 
+<!--user options object-->
+<script>
+  //options
+  var Options={
+    /*user can select displayed results */
+    displayed_results:{
+      value:"%", //possible values: {%, kg/d, g/m3}
+      set:function(newValue){
+        this.value=newValue;
+        this.update();
+        init();
+      },
+      update:function(){
+        var els=document.querySelectorAll('.currentUnit');
+        for(var i=0;i<els.length;i++){
+          els[i].innerHTML=this.value.prettifyUnit();
+        }
+      }
+    },
+    /*for further user-options: new options should go here*/
+  }
+</script>

@@ -12,7 +12,6 @@ var Outputs={
   "N2O":{influent:0, effluent:{water:0, air:0, sludge:0}},
   "TP" :{influent:0, effluent:{water:0, air:0, sludge:0}},
   "TS" :{influent:0, effluent:{water:0, air:0, sludge:0}},
-
   "Al" :{influent:0, effluent:{water:0, air:0, sludge:0}},
   "As" :{influent:0, effluent:{water:0, air:0, sludge:0}},
   "Cd" :{influent:0, effluent:{water:0, air:0, sludge:0}},

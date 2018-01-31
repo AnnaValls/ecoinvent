@@ -328,6 +328,13 @@
           for(var output in Outputs) {
             var newRow=table.insertRow(-1);
             newRow.insertCell(-1).innerHTML=output.prettifyUnit();
+            //influent
+            (function(){
+              var value = Outputs[output].influent;
+              var color = value ? "" : "#aaa";
+              newRow.insertCell(-1).outerHTML="<td class=number>"+format(value/1000,false,color);
+            })();
+            //effluent
             ['water','air','sludge'].forEach(phase=>{
               var value = Outputs[output].effluent[phase];
               var color = value ? "" : "#aaa";
@@ -515,6 +522,7 @@
       <table id=outputs border=1 style=font-size:smaller>
         <tr>
           <th rowspan=2>Compound
+          <th rowspan=2>Influent <small>(<span class=currentUnit>kg/d</span>)</small>
           <th colspan=3>Effluent <small>(<span class=currentUnit>kg/d</span>)</small>
         <tr>
           <th>Water<th>Air<th>Sludge
