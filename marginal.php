@@ -84,9 +84,11 @@
       <div style=font-size:smaller>
         Display:
         <select onchange="Options.displayed_results.set(this.value)">
-          <option value="%"   > Contribution (%) of Influent 1
-          <option value="kg/d"> Total influent (kg/d)
-          <option value="g/m3"> Total influent (g/m3)
+          <option value="con_%"   > Contribution   (%)    of Influent 1
+          <option value="con_kg/d"> Contribution   (kg/d) of Influent 1
+          <option value="tot_kg/d"> Total influent (kg/d)
+          <option value="con_g/m3"> Contribution   (g/m3) of Influent 1
+          <option value="tot_g/m3"> Total influent (g/m3)
         </select>
       </div>
     </p>
@@ -327,15 +329,11 @@
       var contrib=Contribution[k].influent;
       h.style.color=contrib?"":"#aaa";
       switch(Options.displayed_results.value){
-        case "kg/d":
-          h.innerHTML=format(Outputs3[k].influent/1000);
-          break;
-        case "g/m3":
-          h.innerHTML=format(Outputs3[k].influent/Input_set3.Q);
-          break;
-        default:
-          h.innerHTML=format(contrib)+"%";
-          break;
+        case "con_kg/d": h.innerHTML=format(Outputs3[k].influent/1000 - Outputs2[k].influent/1000); break;
+        case "con_g/m3": h.innerHTML=format((Outputs3[k].influent - Outputs2[k].influent)/Input_set3.Q); break;
+        case "tot_kg/d": h.innerHTML=format(Outputs3[k].influent/1000); break;
+        case "tot_g/m3": h.innerHTML=format(Outputs3[k].influent/Input_set3.Q); break;
+        default: h.innerHTML=format(contrib)+"%"; break;
       }
       //set title
       (function(){
@@ -352,15 +350,11 @@
         var contrib=Contribution[k].effluent[p];
         h.style.color= contrib ? "":"#aaa";
         switch(Options.displayed_results.value){
-          case "kg/d":
-            h.innerHTML=format(Outputs3[k].effluent[p]/1000);
-            break;
-          case "g/m3":
-            h.innerHTML=format(Outputs3[k].effluent[p]/Input_set3.Q);
-            break;
-          default:
-            h.innerHTML=format(contrib)+"%";
-            break;
+          case "con_kg/d": h.innerHTML=format(Outputs3[k].effluent[p]/1000 - Outputs2[k].effluent[p]/1000); break;
+          case "con_g/m3": h.innerHTML=format((Outputs3[k].effluent[p] - Outputs2[k].effluent[p])/Input_set3.Q); break;
+          case "tot_kg/d": h.innerHTML=format(Outputs3[k].effluent[p]/1000); break;
+          case "tot_g/m3": h.innerHTML=format(Outputs3[k].effluent[p]/Input_set3.Q); break;
+          default: h.innerHTML=format(contrib)+"%"; break;
         }
         //set title
         (function(){
@@ -400,7 +394,7 @@
   var Options={
     /*user can select displayed results */
     displayed_results:{
-      value:"%", //possible values: {%, kg/d, g/m3}
+      value:"con_%", //possible values: { "con_%" | {"con"|"tot"}_{"kg/d"|"g/m3"}}
       set:function(newValue){
         this.value=newValue;
         this.update();
@@ -409,7 +403,7 @@
       update:function(){
         var els=document.querySelectorAll('.currentUnit');
         for(var i=0;i<els.length;i++){
-          els[i].innerHTML=this.value.prettifyUnit();
+          els[i].innerHTML=this.value.substring(4).prettifyUnit();
         }
       }
     },
