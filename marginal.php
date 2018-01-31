@@ -10,6 +10,15 @@
   <script src="elementary.js"></script>
   <script>
     function init(){
+      //1. reset all outputs to zero
+      (function reset_all_outputs(){
+        for(var out in Outputs){
+          Outputs[out].influent=0;
+          Outputs[out].effluent.water=0;
+          Outputs[out].effluent.air=0;
+          Outputs[out].effluent.sludge=0;
+        }
+      })();
       disable_checkboxes();
       mix_influents();
       getInputSets();
