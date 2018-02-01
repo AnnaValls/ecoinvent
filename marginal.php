@@ -107,27 +107,31 @@
     </table>
 
     <p>5. Design summary</p>
-    <table border=1>
-      <tr><td>total sludge produced
-      <tr><td>total reactor volume
-      <tr><td>settler total area needed
-      <tr><td>recirculation flow
-      <tr><td><issue class=under_dev></issue>
+      <issue class=under_dev></issue>
+    <table border=1 id=design_summary>
+      <tr><td>Total sludge produced    <td class=number id="P_X_TSS">0<td class=unit>kg/d
+      <tr><td>Total reactor volume     <td class=number id="V_total">0<td class=unit>m<sup>3</sup>
+      <tr><td>Settler total area needed<td class=number id="Area">   0<td class=unit>m<sup>2</sup>
+      <tr><td>Recirculation flow       <td class=number id="QR">     0<td class=unit>m<sup>3</sup>/d
     </table>
 
     <p>6. Technosphere</p>
-    <table border=1>
-      <tr><td>alkalinity to maintain pH
-      <tr><td>FeCl3 for Chemical P removal
-      <tr><td>kg concrete
-      <tr><td><issue class=under_dev></issue>
+      <issue class=under_dev></issue>
+    <table border=1 id=technosphere>
+      <tr><td rowspan=3>Alkalinity to maintain pH
+        <tr><td>Nitrification   <td class=number id="alkalinity_added">0<td class=unit>kg/d as NaHCO<sub>3</sub>
+        <tr><td>Denitrification <td class=number id="Mass_of_alkalinity_needed">0<td class=unit>kg/d as CaCO<sub>3</sub>
+      <tr><td rowspan=3>FeCl<sub>3</sub> for Chemical P removal
+        <tr><td>Volume per day          <td class=number id="FeCl3_volume">0<td class=unit>L/d
+        <tr><td>Volume storage required <td class=number id="storage_req_15_d">0<td class=unit>m<sup>3</sup>
+      <tr><td colspan=4>Kg concrete (<issue>TBD</issue>)
     </table>
   </div>
 </div><hr>
 <?php include'btn_reset_cache.php'?>
 <!--end page-->
 
-<!--frontend-->
+<!--frontend initial values-->
 <script>
   //populate DOM with initial values
   (function(){
@@ -210,6 +214,25 @@
 
 <!--backend-->
 <script>
+  //deactivate impossible tech combinations
+  function disable_checkboxes(){
+    var is_BOD_active = document.querySelector('#technologies tr[id=is_BOD_active] input[type=checkbox]').checked;
+    var is_Nit_active = document.querySelector('#technologies tr[id=is_Nit_active] input[type=checkbox]').checked;
+    var is_Des_active = document.querySelector('#technologies tr[id=is_Des_active] input[type=checkbox]').checked;
+    var is_BiP_active = document.querySelector('#technologies tr[id=is_BiP_active] input[type=checkbox]').checked;
+    var is_ChP_active = document.querySelector('#technologies tr[id=is_ChP_active] input[type=checkbox]').checked;
+    function set_checkbox_disabled(tec,disabled){
+      var el=document.querySelector('#technologies tr[id=is_'+tec+'_active] input[type=checkbox]');
+      el.disabled=disabled;
+      if(disabled){el.checked=false;}
+      el.parentNode.parentNode.style.color=disabled?'#aaa':"";
+    }
+    set_checkbox_disabled('Nit', !is_BOD_active);
+    set_checkbox_disabled('Des', (!is_BOD_active || !is_Nit_active));
+    set_checkbox_disabled('BiP', (!is_BOD_active || is_ChP_active));
+    set_checkbox_disabled('ChP', (!is_BOD_active || is_BiP_active));
+  }
+
   //total flow (inf1+inf2)
   var total_Q=0;
 
@@ -370,25 +393,12 @@
         })();
       });
     });
-  }
 
-  //deactivate impossible tech combinations
-  function disable_checkboxes(){
-    var is_BOD_active = document.querySelector('#technologies tr[id=is_BOD_active] input[type=checkbox]').checked;
-    var is_Nit_active = document.querySelector('#technologies tr[id=is_Nit_active] input[type=checkbox]').checked;
-    var is_Des_active = document.querySelector('#technologies tr[id=is_Des_active] input[type=checkbox]').checked;
-    var is_BiP_active = document.querySelector('#technologies tr[id=is_BiP_active] input[type=checkbox]').checked;
-    var is_ChP_active = document.querySelector('#technologies tr[id=is_ChP_active] input[type=checkbox]').checked;
-    function set_checkbox_disabled(tec,disabled){
-      var el=document.querySelector('#technologies tr[id=is_'+tec+'_active] input[type=checkbox]');
-      el.disabled=disabled;
-      if(disabled){el.checked=false;}
-      el.parentNode.parentNode.style.color=disabled?'#aaa':"";
-    }
-    set_checkbox_disabled('Nit', !is_BOD_active);
-    set_checkbox_disabled('Des', (!is_BOD_active || !is_Nit_active));
-    set_checkbox_disabled('BiP', (!is_BOD_active || is_ChP_active));
-    set_checkbox_disabled('ChP', (!is_BOD_active || is_BiP_active));
+    //FRONTEND: design parameters and technosphere
+    (function(){
+      //#design_parameters
+      //#technosphere
+    })();
   }
 </script>
 
