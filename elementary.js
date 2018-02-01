@@ -310,7 +310,7 @@ function compute_elementary_flows(Input_set){
   })();
 
   //Outputs.NOx
-  Outputs.NOx.influent       = Q*NOx;
+  Outputs.NOx.influent       = 0;
   Outputs.NOx.effluent.water = (function(){
     if     (is_Nit_active==false){return 0;}
     else if(is_Des_active){       return Qe*NO3_eff;}

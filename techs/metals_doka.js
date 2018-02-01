@@ -1,12 +1,13 @@
-/* 
+/*
  * Technology: Metals in WWTPs effluents
  * From G. Doka document table 4.19
+ * page 25
  */
 
 function metals_doka(Al,As,Cd,Cr,Co,Cu,Pb,Mn,Hg,Ni,Ag,Sn,Zn){
   /*
-    | Inputs | example values 
-    |--------+----------------
+    | Inputs | example values
+    |--------+---------------
     | Al     | 1 g/m3
     | As     | 1 g/m3
     | Cd     | 1 g/m3

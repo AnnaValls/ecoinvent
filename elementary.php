@@ -406,6 +406,47 @@
       /*for further user-options: new options should go here*/
     }
   </script>
+
+  <!--CSS-->
+  <style>
+    #root hr{
+      margin:0px auto;
+    }
+    #root th{
+      background:#eee;
+    }
+    #root input[type=number]{
+      text-align:right;
+    }
+    #root #mass_balances [phase]{
+      text-align:right;
+    }
+    #root .help:hover{
+      text-decoration:underline;
+    }
+    #root #inputs, #root #variables {
+      font-size:smaller;
+    }
+    #root .circle{
+      text-align:center;
+      border-radius:17px;
+      width:17px;
+    }
+    #root #summary > ul {
+      font-size:smaller;
+    }
+    #root #summary ul ul{
+      padding-left:20px;
+    }
+    #root table#inputs_tech,
+    #root table#inputs,
+    #root table#variables,
+    #root table#outputs,
+    #root table#mass_balances {
+      width:100%;
+      border-collapse:collapse;
+    }
+  </style>
 </head><body onload="init()">
 <?php include'navbar.php'?>
 
@@ -446,11 +487,11 @@
 
   <!--2. Variables (intermediate step between inputs and outputs)-->
   <div style=width:360px>
-    <p>
-      <b><u>2. Variables calculated: <span id=variable_amount>0</span></u></b>
-    </p>
+    <p><b>
+      <u>2. Variables calculated: <span id=variable_amount>0</span></u>
+    </b></p>
 
-    <!--links for scrolling-->
+    <!--links for scrolling variables-->
     <div id=variable_scrolling style=font-size:smaller>
       <script>
         //frontend function: scroll to variables of a technology
@@ -499,7 +540,7 @@
       <th>Unit
     </table>
 
-    <!--link go to top--><div style=font-size:smaller><a href=#>&uarr; top</a></div>
+    <!--link go to top--><div><small><a href='#'>&uarr; top</a></small></div>
   </div><hr>
 
   <!--3. Outputs-->
@@ -508,7 +549,7 @@
 
     <!--menu to change output units (kg/d or g/m3)-->
     <div style=font-size:smaller>
-      Select units: 
+      Select units:
       <label>
         <input type=radio name=currentUnit value="kg/d" onclick="Options.currentUnit.value=this.value;init()" checked> kg/d
       </label><label>
@@ -533,17 +574,17 @@
     <!--table mass balances-->
     <div>
       <p>3.2. Mass balances <small>(<a href="mass_balances.js">equations</a>)</small></p>
-
       <table id=mass_balances border=1 style=font-size:smaller>
         <tr>
-          <th rowspan=2>Element<th rowspan=2>Influent<br><small>(<span class=currentUnit>kg/d</span>)</small><th colspan=3>Effluent <small>(<span class=currentUnit>kg/d</span>)</small>
+          <th rowspan=2>Element <th rowspan=2>Influent<br><small>(<span class=currentUnit>kg/d</span>)</small>
+          <th colspan=3>Effluent <small>(<span class=currentUnit>kg/d</span>)</small>
           <th rowspan=2>|Error|<br><small>(%)</small>
         <tr>
-          <th>Water<th>Air<th>Sludge  
-        <tr id=C><th>COD <td phase=influent>Q·COD <td phase=water>1:1     <td phase=air>2:2     <td phase=sludge>1:3     <td phase=balance>A-B-C-D
-        <tr id=N><th>N   <td phase=influent>Q·TKN <td phase=water>4:1+5:1 <td phase=air>6:2+7:2 <td phase=sludge>4:3+5:3 <td phase=balance>A-B-C-D
-        <tr id=P><th>P   <td phase=influent>Q·TP  <td phase=water>8:1     <td phase=air>-       <td phase=sludge>8:3     <td phase=balance>A-B-C-D
-        <tr id=S><th>S   <td phase=influent>Q·TS  <td phase=water>9:1     <td phase=air>-       <td phase=sludge>9:3     <td phase=balance>A-B-C-D
+          <th>Water<th>Air<th>Sludge
+        <tr id=C><th>COD<td phase=influent><td phase=water><td phase=air><td phase=sludge><td phase=balance>
+        <tr id=N><th>N  <td phase=influent><td phase=water><td phase=air><td phase=sludge><td phase=balance>
+        <tr id=P><th>P  <td phase=influent><td phase=water><td phase=air><td phase=sludge><td phase=balance>
+        <tr id=S><th>S  <td phase=influent><td phase=water><td phase=air><td phase=sludge><td phase=balance>
       </table>
     </div>
 
@@ -611,54 +652,13 @@
   </div>
 </div><hr>
 
-<!--CSS-->
-<style>
-  #root hr{
-    margin:0px auto;
-  }
-  #root th{
-    background:#eee;
-  }
-  #root input[type=number]{
-    text-align:right;
-  }
-  #root #mass_balances [phase]{
-    text-align:right;
-  }
-  #root .help:hover{
-    text-decoration:underline;
-  }
-  #root #inputs, #root #variables {
-    font-size:smaller;
-  }
-  #root .circle{
-    text-align:center;
-    border-radius:17px;
-    width:17px;
-  }
-  #root #summary > ul {
-    font-size:smaller;
-  }
-  #root #summary ul ul{
-    padding-left:20px;
-  }
-  #root table#inputs_tech,
-  #root table#inputs,
-  #root table#variables,
-  #root table#outputs,
-  #root table#mass_balances {
-    width:100%;
-    border-collapse:collapse;
-  }
-</style>
-
 <!--TODO development-->
 <p><div style=font-size:smaller>
-  <b>Development issues (<a href=mailto:lbosch@icra.cat target=_blank>lbosch@icra.cat</a>):</b>
+  <b>Development issues:</b>
   <ul>
     <li>CH<sub>4</sub> (Methane) equations unknown.  <issue class="help_wanted"></issue>
     <li>TS (Sulfur) effluent unknown.  <issue class="help_wanted"></issue>
     <li>S (Sulfur) mass balance equations unknown.  <issue class="help_wanted"></issue>
-  </ul> <hr>
+  </ul><hr>
   <?php include'btn_reset_cache.php'?>
 </div></p>

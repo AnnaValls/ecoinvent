@@ -1,11 +1,11 @@
-/* 
+/*
  * Technology: Biological P removal
  * Metcalf & Eddy, Wastewater Engineering, 5th ed., 2014:
  * page 880
  */
 function bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,NOx,NO3_eff){
   /*
-    Inputs           example values 
+    Inputs           example values
     --------------------------------
     Q                4000  m3/d
     bCOD             250   g/m3
@@ -40,6 +40,7 @@ function bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,NOx,NO3_eff){
   var bHT = bH*Math.pow(1.04,T-20); //0.088 1/d
   var bnT = bn*Math.pow(1.029,T-20); //0.135 1/d
   var P_X_bio = Q*YH*bCOD/(1+bHT*SRT) + fd*bHT*Q*YH*bCOD*SRT/(1+bHT*SRT) + Q*Yn*NOx/(1+bnT*SRT); //334,134 g/d
+
   //P_X_bio = 334134; //TODO in metcalf is wrong
   var P_removal_synthesis = 0.015*P_X_bio; //5012 g/d
   var P_removal_synthesis_n = P_removal_synthesis/Q; //1.2 g/m3
@@ -72,7 +73,7 @@ function bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,NOx,NO3_eff){
     P_removal_synthesis:   {value:P_removal_synthesis,         unit:"g/d",      descr:"P removal (synthesis)"},
     P_removal_synthesis_n: {value:P_removal_synthesis_n,       unit:"g/m3",     descr:"P removal (synthesis) normalized to flowrate"},
     Effluent_P:            {value:Effluent_P,                  unit:"g/m3",     descr:"Effluent P (influent-P_EBPR-P_synth)"},
-    P_X_TSS:               {value:P_X_TSS,                     unit:"g/d",      descr:"Total sludge production"},
+    P_X_TSS:               {value:P_X_TSS/1000,                unit:"kg/d",     descr:"Total sludge production"}, //unit changed here (!)
     P_removal_gday:        {value:P_removal_gday,              unit:"g/d",      descr:"P_removal (g/day)"},
     P_in_waste_sludge:     {value:P_in_waste_sludge,           unit:"%",        descr:"P_in_waste_sludge"},
     P_removal:             {value:P_removal,                   unit:"g/m3",     descr:"Total P removal"},

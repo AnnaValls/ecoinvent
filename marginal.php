@@ -34,6 +34,10 @@
     #root #results td[phase]:hover{
       text-decoration:underline;
     }
+    #root #technologies input[type=checkbox]{
+      display:block;
+      margin:auto;
+    }
   </style>
 </head><body onload="init()">
 <?php include'navbar.php'?>
@@ -78,7 +82,7 @@
   </div><hr>
 
   <!--3. results-->
-  <div>
+  <div style=width:360px>
     <p>
       4. Results
       <div style=font-size:smaller>
