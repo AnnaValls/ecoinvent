@@ -52,19 +52,19 @@ var Inputs = [
 {id:"TS", value:0, unit:"g_S/m3", descr:"Total Sulfur in influent" },
 
 //metals
-{id:"Al", value:1, unit:"g/m3", descr:"Aluminium"},
-{id:"As", value:1, unit:"g/m3", descr:"Arsenic"},
-{id:"Cd", value:1, unit:"g/m3", descr:"Cadmium"},
-{id:"Cr", value:1, unit:"g/m3", descr:"Chromium"},
-{id:"Co", value:1, unit:"g/m3", descr:"Cobalt"},
-{id:"Cu", value:1, unit:"g/m3", descr:"Copper"},
-{id:"Pb", value:1, unit:"g/m3", descr:"Lead"},
-{id:"Mn", value:1, unit:"g/m3", descr:"Manganese"},
-{id:"Hg", value:1, unit:"g/m3", descr:"Mercury"},
-{id:"Ni", value:1, unit:"g/m3", descr:"Nickel"},
-{id:"Ag", value:1, unit:"g/m3", descr:"Silver"},
-{id:"Sn", value:1, unit:"g/m3", descr:"Tin"},
-{id:"Zn", value:1, unit:"g/m3", descr:"Zinc"},
+{id:"Al", value:1.0379, unit:"g/m3", descr:"Aluminium"},
+{id:"As", value:0.0009, unit:"g/m3", descr:"Arsenic"},
+{id:"Cd", value:0.0003, unit:"g/m3", descr:"Cadmium"},
+{id:"Cr", value:0.0122, unit:"g/m3", descr:"Chromium"},
+{id:"Co", value:0.0016, unit:"g/m3", descr:"Cobalt"},
+{id:"Cu", value:0.0374, unit:"g/m3", descr:"Copper"},
+{id:"Pb", value:0.0086, unit:"g/m3", descr:"Lead"},
+{id:"Mn", value:0.0530, unit:"g/m3", descr:"Manganese"},
+{id:"Hg", value:0.0002, unit:"g/m3", descr:"Mercury"},
+{id:"Ni", value:0.0066, unit:"g/m3", descr:"Nickel"},
+{id:"Ag", value:0.0000, unit:"g/m3", descr:"Silver"},
+{id:"Sn", value:0.0034, unit:"g/m3", descr:"Tin"},
+{id:"Zn", value:0.1094, unit:"g/m3", descr:"Zinc"},
 
 
 //orange and red inputs (advanced knowledge required)
