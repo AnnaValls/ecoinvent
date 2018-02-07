@@ -57,7 +57,7 @@
 <div class=flex>
   <!--1. influents to mix-->
   <div>
-    <p>1. Enter two influents to be mixed:</p>
+    <p><b>1. Enter two influents to be mixed:</b></p>
     <table id=inputs border=0>
       <tr>
         <th>Input
@@ -72,19 +72,20 @@
   <!--2. techs and design parameters-->
   <div>
     <div>
-      <p>2. Activate removal technologies:</p>
+      <p><b>2. Activate removal technologies:</b></p>
       <table id=technologies border=1></table>
     </div>
     <div>
-      <p>3. Enter design parameters:</p>
+      <p><b>3. Enter design parameters:</b></p>
       <table id=design_parameters></table>
     </div>
   </div><hr>
 
   <!--3. results-->
   <div style=width:360px>
+    <p><b>4. Results: contribution of Influent 1</b></p>
     <p>
-      4. Results
+      4.1. Influent and Effluent
       <div style=font-size:smaller>
         Display:
         <select onchange="Options.displayed_results.set(this.value)">
@@ -106,8 +107,7 @@
       <th>Water<th>Air<th>Sludge
     </table>
 
-    <p>5. Design summary</p>
-      <issue class=under_dev></issue>
+    <p>4.2. Design summary</p>
     <table border=1 id=design_summary>
       <tr><td>Total sludge produced    <td class=number id="P_X_TSS">0<td class=unit>kg/d
       <tr><td>Total reactor volume     <td class=number id="V_total">0<td class=unit>m<sup>3</sup>
@@ -115,8 +115,7 @@
       <tr><td>Recirculation flow       <td class=number id="QR">     0<td class=unit>m<sup>3</sup>/d
     </table>
 
-    <p>6. Technosphere</p>
-      <issue class=under_dev></issue>
+    <p>4.3. Technosphere</p>
     <table border=1 id=technosphere>
       <tr><td rowspan=3>Alkalinity to maintain pH
         <tr><td>Nitrification   <td class=number id="alkalinity_added">0<td class=unit>kg/d as NaHCO<sub>3</sub>
@@ -125,6 +124,7 @@
         <tr><td>Volume per day          <td class=number id="FeCl3_volume">0<td class=unit>L/d
         <tr><td>Volume storage required <td class=number id="storage_req_15_d">0<td class=unit>m<sup>3</sup>
       <tr><td colspan=4>Kg concrete (<issue>TBD</issue>)
+      <issue class=under_dev></issue>
     </table>
   </div>
 </div><hr>
@@ -348,7 +348,9 @@
       //console.log(Contribution);
     })();
 
-    //FRONTEND: show contribution
+    /*FRONTEND: contribution and design parameters + technosphere*/
+
+    //frontend 1/2: show contribution
     Object.keys(Contribution).forEach(k=>{
       /*INFLUENT*/
       //DOM handle
@@ -394,10 +396,34 @@
       });
     });
 
-    //FRONTEND: design parameters and technosphere
+    //frontend 2/2: design parameters and technosphere
     (function(){
       //#design_parameters
-      //#technosphere
+      function display_result(tec,variable){
+        var h=document.getElementById(variable);
+        var v=variable;
+
+        //check if required variable exists
+        var exists = (Result2 && Result2[tec] && Result2[tec][v]) ? true : false;
+        h.parentNode.style.color = exists ? "":"#aaa";
+        if(!exists){
+          h.innerHTML=0;
+          return;
+        }
+
+        var rtv3 = Result3[tec][v].value;
+        var rtv2 = Result2[tec][v].value;
+        h.innerHTML=format(rtv3-rtv2)+" <small>of</small> "+format(rtv3)+" ("+format(100-100*rtv2/rtv3)+"%)";
+      }
+      display_result('summary','P_X_TSS');
+      display_result('summary','V_total');
+      display_result('SST','Area');
+      display_result('SST','QR');
+      //#technospher
+      display_result('Nit','alkalinity_added');
+      display_result('Des','Mass_of_alkalinity_needed');
+      display_result('ChP','FeCl3_volume');
+      display_result('ChP','storage_req_15_d');
     })();
   }
 </script>

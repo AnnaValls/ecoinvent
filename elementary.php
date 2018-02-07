@@ -181,10 +181,10 @@
             fill('V_aer',                     (i.is_Nit_active?'Nit':'BOD'),                       'V');
             fill('V_nox',                     'Des',                                               'V_nox');
             fill('V_ana',                     'BiP',                                               'V');
-            fill('V_total',                   'lcorominas',                                        'V_total');
+            fill('V_total',                   'summary',                                        'V_total');
             fill('Area',                      'SST',                                               'Area');
-            fill('Qwas',                      'lcorominas',                                        'Qwas');
-            fill('SRT',                       'lcorominas',                                        'SRT');
+            fill('Qwas',                      'summary',                                        'Qwas');
+            fill('SRT',                       'summary',                                        'SRT');
             fill('QR',                        'SST',                                               'QR');
             fill('alkalinity_added',          'Nit',                                               'alkalinity_added');
             fill('Mass_of_alkalinity_needed', 'Des',                                               'Mass_of_alkalinity_needed');
@@ -193,8 +193,8 @@
             fill('air_flowrate',              i.is_Des_active?'Des':(i.is_Nit_active?'Nit':'BOD'), 'air_flowrate');
             fill('OTRf',                      i.is_Des_active?'Des':(i.is_Nit_active?'Nit':'BOD'), 'OTRf');
             fill('SOTR',                      i.is_Des_active?'Des':(i.is_Nit_active?'Nit':'BOD'), 'SOTR');
-            fill('SAE',                       'lcorominas',                                        'SAE');
-            fill('O2_power',                  'lcorominas',                                        'O2_power');
+            fill('SAE',                       'summary',                                        'SAE');
+            fill('O2_power',                  'summary',                                        'O2_power');
             fill('SDNR',                      'Des',                                               'SDNR');
             fill('Power',                     'Des',                                               'Power');
           })();

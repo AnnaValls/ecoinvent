@@ -195,15 +195,18 @@ function compute_elementary_flows(Input_set){
   var SOTR = is_Des_active ? Result.Des.SOTR.value : (is_Nit_active ? Result.Nit.SOTR.value : Result.BOD.SOTR.value);
   var SAE  = 4; //kgO2/kWh TBD
 
+  var P_X_TSS = is_BiP_active ? Result.BiP.P_X_TSS.value : (is_Nit_active ? Result.Nit.P_X_TSS.value : Result.BOD.P_X_TSS.value); 
+
   //manually add equations from lcorominas pdf to Result
-  Result.lcorominas={
+  Result.summary={
     'V_total': {value:V_total,  unit:"m3",        descr:"Total reactor volume"},
     'Qwas':    {value:Qwas,     unit:"m3/d",      descr:"Wastage flow"},
     'SRT':     {value:SRT,      unit:"d",         descr:getInputById('SRT').descr},
     'SAE':     {value:SAE,      unit:"kg_O2/kWh", descr:"Conversion from kgO2 to kWh"},
     'O2_power':{value:SOTR/SAE, unit:"kW",        descr:"Power needed for aeration (=SOTR/SAE)"},
+    'P_X_TSS': {value:P_X_TSS,  unit:"kg/d",      descr:"Total sludge produced per day"},
   };
-  addResults('lcorominas',Result.lcorominas);
+  addResults('summary',Result.summary);
 
   /**
     * OUTPUTS by phase (water, air, sludge)
