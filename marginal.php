@@ -9,7 +9,7 @@
   <title>Marginal approach</title>
   <script src="elementary.js"></script>
   <script>
-    function init(){
+    function init() {
       //1. reset all outputs to zero
       (function reset_all_outputs(){
         for(var out in Outputs){
@@ -43,14 +43,15 @@
 <?php include'navbar.php'?>
 <div id=root>
 <h1>Marginal approach</h1>
-
 <!--subtitle-->
 <div>
   <p>
-    Here you can simulate and study the contribution of an influent to the
+    Here you can study the contribution of an influent to the
     effluent created by of the sum of two influents.
   </p>
-  <p><small>Tip: mouse over any variable to see a little description</small></p>
+  <p>
+    <small>Tip: mouse over any variable to see a little description</small>
+  </p>
 </div><hr>
 
 <!--main-->
@@ -98,6 +99,7 @@
       </div>
     </p>
 
+    <!--effluent-->
     <table id=results border=1>
       <tr>
         <th rowspan=2>Compound
@@ -107,6 +109,7 @@
       <th>Water<th>Air<th>Sludge
     </table>
 
+    <!--design summary-->
     <p>4.2. Design summary</p>
     <table border=1 id=design_summary>
       <tr><td>Total sludge produced    <td class=number id="P_X_TSS">0<td class=unit>kg/d
@@ -115,16 +118,17 @@
       <tr><td>Recirculation flow       <td class=number id="QR">     0<td class=unit>m<sup>3</sup>/d
     </table>
 
+    <!--technosphere-->
     <p>4.3. Technosphere</p>
     <table border=1 id=technosphere>
-      <tr><td rowspan=3>Alkalinity to maintain pH
+      <tr><td rowspan=3>Alkalinity<br>to maintain pH
         <tr><td>Nitrification   <td class=number id="alkalinity_added">0<td class=unit>kg/d as NaHCO<sub>3</sub>
         <tr><td>Denitrification <td class=number id="Mass_of_alkalinity_needed">0<td class=unit>kg/d as CaCO<sub>3</sub>
-      <tr><td rowspan=3>FeCl<sub>3</sub> for Chemical P removal
+      <tr><td rowspan=3>FeCl<sub>3</sub> for<br>Chemical P removal
         <tr><td>Volume per day          <td class=number id="FeCl3_volume">0<td class=unit>L/d
         <tr><td>Volume storage required <td class=number id="storage_req_15_d">0<td class=unit>m<sup>3</sup>
-      <tr><td colspan=4>Kg concrete (<issue>TBD</issue>)
-      <issue class=help_wanted></issue>
+      <tr><td colspan=4>Kg concrete
+      <issue class=help_wanted> (TBD)</issue>
     </table>
   </div>
 </div><hr>
@@ -369,7 +373,9 @@
         case "con_g/m3": h.innerHTML=format((Outputs3[k].influent - Outputs2[k].influent)/Input_set3.Q); break;
         case "tot_kg/d": h.innerHTML=format(Outputs3[k].influent/1000); break;
         case "tot_g/m3": h.innerHTML=format(Outputs3[k].influent/Input_set3.Q); break;
-        default: h.innerHTML=format(contrib)+"%"; break;
+        default: h.innerHTML=format(contrib)+"<small>%</small>"; break;
+        //test: add a little progress bar
+        //default: h.innerHTML=format(contrib)+"<small>%</small><br><progress value='"+contrib+"' max=100>"; break;
       }
       //set title
       (function(){
@@ -390,7 +396,7 @@
           case "con_g/m3": h.innerHTML=format((Outputs3[k].effluent[p] - Outputs2[k].effluent[p])/Input_set3.Q); break;
           case "tot_kg/d": h.innerHTML=format(Outputs3[k].effluent[p]/1000); break;
           case "tot_g/m3": h.innerHTML=format(Outputs3[k].effluent[p]/Input_set3.Q); break;
-          default: h.innerHTML=format(contrib)+"%"; break;
+          default: h.innerHTML=format(contrib)+"<small>%</small>"; break;
         }
         //set title
         (function(){

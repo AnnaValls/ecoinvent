@@ -2,7 +2,7 @@
 <div id=navbar
   onclick="window.location='index.php'"
 	title="Home page">
-	<b>Ecoinvent</b> wastewater web tool
+	<b>Ecoinvent</b> wastewater tool
 	<i>(under development)</i>
 	<style>
 		#navbar {
