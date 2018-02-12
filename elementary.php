@@ -98,6 +98,7 @@
           is_Des_active : getInput("Des",true).value,
           is_BiP_active : getInput("BiP",true).value,
           is_ChP_active : getInput("ChP",true).value,
+
           //ww characteristics
           Q              : getInput('Q').value, //22700
           T              : getInput('T').value, //12
@@ -112,20 +113,44 @@
           Alkalinity     : getInput('Alkalinity').value, //140
           TP             : getInput('TP').value, //6
           TS             : getInput('TS').value, //0 for now
+
           //influent metals
+          Ag : getInput('Ag').value,
           Al : getInput('Al').value,
           As : getInput('As').value,
+          B  : getInput('B').value,
+          Ba : getInput('Ba').value,
+          Be : getInput('Be').value,
+          Br : getInput('Br').value,
+          Ca : getInput('Ca').value,
           Cd : getInput('Cd').value,
-          Cr : getInput('Cr').value,
+          Cl : getInput('Cl').value,
           Co : getInput('Co').value,
+          Cr : getInput('Cr').value,
           Cu : getInput('Cu').value,
-          Pb : getInput('Pb').value,
-          Mn : getInput('Mn').value,
+          F  : getInput('F').value,
+          Fe : getInput('Fe').value,
           Hg : getInput('Hg').value,
+          I  : getInput('I').value,
+          K  : getInput('K').value,
+          Mg : getInput('Mg').value,
+          Mn : getInput('Mn').value,
+          Mo : getInput('Mo').value,
+          Na : getInput('Na').value,
           Ni : getInput('Ni').value,
-          Ag : getInput('Ag').value,
+          Pb : getInput('Pb').value,
+          Sb : getInput('Sb').value,
+          Sc : getInput('Sc').value,
+          Se : getInput('Se').value,
+          Si : getInput('Si').value,
           Sn : getInput('Sn').value,
+          Sr : getInput('Sr').value,
+          Ti : getInput('Ti').value,
+          Tl : getInput('Tl').value,
+          V  : getInput('V').value,
+          W  : getInput('W').value,
           Zn : getInput('Zn').value,
+
           //design parameters
           SRT                  : getInput('SRT').value, //5
           MLSS_X_TSS           : getInput('MLSS_X_TSS').value, //3000
@@ -266,7 +291,13 @@
 
           //update inputs (isParameter==false)
           table.insertRow(-1).insertCell(-1).outerHTML="<th colspan=3 align=left>Wastewater characteristics";
-          Inputs.filter(i=>{return !i.isParameter}).forEach(i=>{
+          Inputs.filter(i=>{return !i.isParameter && !i.isMetal}).forEach(i=>{
+            process_input(i);
+          });
+
+          //update inputs (isMetal==true)
+          table.insertRow(-1).insertCell(-1).outerHTML="<th colspan=3 align=left>Metals";
+          Inputs.filter(i=>{return i.isMetal}).forEach(i=>{
             process_input(i);
           });
 
@@ -328,6 +359,7 @@
           for(var output in Outputs) {
             var newRow=table.insertRow(-1);
             newRow.insertCell(-1).innerHTML=output.prettifyUnit();
+            newRow.title=Outputs[output].descr;
             //influent
             (function(){
               var value = Outputs[output].influent;
@@ -465,7 +497,7 @@
     </div>
     <!--enter ww characteristics-->
     <div>
-      <p>1.2. Enter inputs
+      <p>1.2. Enter influent inputs
         <small>(required: <span id=input_amount>0</span>)</small>
       </p>
 

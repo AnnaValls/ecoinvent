@@ -85,7 +85,7 @@
   <div style=width:360px>
     <p><b>4. Results: contribution of Influent 1</b></p>
     <p>
-      4.1. Influent and Effluent
+      4.1. Effluent
       <div style=font-size:smaller>
         Display:
         <select onchange="Options.displayed_results.set(this.value)">
@@ -124,7 +124,7 @@
         <tr><td>Volume per day          <td class=number id="FeCl3_volume">0<td class=unit>L/d
         <tr><td>Volume storage required <td class=number id="storage_req_15_d">0<td class=unit>m<sup>3</sup>
       <tr><td colspan=4>Kg concrete (<issue>TBD</issue>)
-      <issue class=under_dev></issue>
+      <issue class=help_wanted></issue>
     </table>
   </div>
 </div><hr>
@@ -138,7 +138,13 @@
     //populate input tables
     (function(){
       var t=document.querySelector('table#inputs');
-      Inputs.filter(i=>{return !i.isParameter}).forEach(i=>{
+      Inputs.filter(i=>{return !i.isParameter && !i.isMetal}).forEach(i=>{
+        process_input(i);
+      });
+      Inputs.filter(i=>{return i.isMetal}).forEach(i=>{
+        process_input(i);
+      });
+      function process_input(i){
         var newRow=t.insertRow(-1);
         //row attrs
         newRow.id=i.id;
@@ -153,7 +159,7 @@
         newRow.insertCell(-1).outerHTML="<td style=text-align:right><span mixed>0</span></td>";
         //col 5: unit
         newRow.insertCell(-1).outerHTML="<td style=font-size:smaller>"+i.unit.prettifyUnit()+"</td>";
-      });
+      }
     })();
 
     //populate technologies table (activable)
@@ -202,6 +208,7 @@
       for(var o in Outputs){
         var newRow=t.insertRow(-1);
         newRow.id=o;
+        newRow.title=Outputs[o].descr;
         newRow.insertCell(-1).innerHTML=o;
         newRow.insertCell(-1).outerHTML="<td class=number phase=influent>0%</td>";
         newRow.insertCell(-1).outerHTML="<td class=number phase=water   >0%</td>";

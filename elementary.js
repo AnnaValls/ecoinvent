@@ -27,19 +27,42 @@ function compute_elementary_flows(Input_set){
     var TP             = is.TP;
     var TS             = is.TS;
     //influent metals
+    var Ag = is.Ag;
     var Al = is.Al;
     var As = is.As;
+    var B =  is.B;
+    var Ba = is.Ba;
+    var Be = is.Be;
+    var Br = is.Br;
+    var Ca = is.Ca;
     var Cd = is.Cd;
-    var Cr = is.Cr;
+    var Cl = is.Cl;
     var Co = is.Co;
+    var Cr = is.Cr;
     var Cu = is.Cu;
-    var Pb = is.Pb;
-    var Mn = is.Mn;
+    var F  = is.F;
+    var Fe = is.Fe;
     var Hg = is.Hg;
+    var I  = is.I;
+    var K  = is.K;
+    var Mg = is.Mg;
+    var Mn = is.Mn;
+    var Mo = is.Mo;
+    var Na = is.Na;
     var Ni = is.Ni;
-    var Ag = is.Ag;
+    var Pb = is.Pb;
+    var Sb = is.Sb;
+    var Sc = is.Sc;
+    var Se = is.Se;
+    var Si = is.Si;
     var Sn = is.Sn;
+    var Sr = is.Sr;
+    var Ti = is.Ti;
+    var Tl = is.Tl;
+    var V  = is.V;
+    var W  = is.W;
     var Zn = is.Zn;
+
     //design parameters
     var SRT                  = is.SRT;
     var MLSS_X_TSS           = is.MLSS_X_TSS;
@@ -174,7 +197,7 @@ function compute_elementary_flows(Input_set){
   //end technologies from metcalf and eddy
 
   /*6. Metals (from G. Doka)*/
-  Result.Met=metals_doka(Al,As,Cd,Cr,Co,Cu,Pb,Mn,Hg,Ni,Ag,Sn,Zn);
+  Result.Met=metals_doka(Ag,Al,As,B,Ba,Be,Br,Ca,Cd,Cl,Co,Cr,Cu,F,Fe,Hg,I,K,Mg,Mn,Mo,Na,Ni,Pb,Sb,Sc,Se,Si,Sn,Sr,Ti,Tl,V,W,Zn);
   addResults('Met',Result.Met);
 
   /*
@@ -380,19 +403,77 @@ function compute_elementary_flows(Input_set){
   Outputs.TS.effluent.sludge = 0;
 
   //Outputs METALS
+  Outputs.Ag.influent=Q*Ag;Outputs.Ag.effluent.water=Q*Result.Met.Ag_water.value;Outputs.Ag.effluent.sludge=Q*Result.Met.Ag_sludge.value;
   Outputs.Al.influent=Q*Al;Outputs.Al.effluent.water=Q*Result.Met.Al_water.value;Outputs.Al.effluent.sludge=Q*Result.Met.Al_sludge.value;
   Outputs.As.influent=Q*As;Outputs.As.effluent.water=Q*Result.Met.As_water.value;Outputs.As.effluent.sludge=Q*Result.Met.As_sludge.value;
+  Outputs.Ba.influent=Q*Ba;Outputs.Ba.effluent.water=Q*Result.Met.Ba_water.value;Outputs.Ba.effluent.sludge=Q*Result.Met.Ba_sludge.value;
+  Outputs.Be.influent=Q*Be;Outputs.Be.effluent.water=Q*Result.Met.Be_water.value;Outputs.Be.effluent.sludge=Q*Result.Met.Be_sludge.value;
+  Outputs.Br.influent=Q*Br;Outputs.Br.effluent.water=Q*Result.Met.Br_water.value;Outputs.Br.effluent.sludge=Q*Result.Met.Br_sludge.value;
+  Outputs.Ca.influent=Q*Ca;Outputs.Ca.effluent.water=Q*Result.Met.Ca_water.value;Outputs.Ca.effluent.sludge=Q*Result.Met.Ca_sludge.value;
   Outputs.Cd.influent=Q*Cd;Outputs.Cd.effluent.water=Q*Result.Met.Cd_water.value;Outputs.Cd.effluent.sludge=Q*Result.Met.Cd_sludge.value;
-  Outputs.Cr.influent=Q*Cr;Outputs.Cr.effluent.water=Q*Result.Met.Cr_water.value;Outputs.Cr.effluent.sludge=Q*Result.Met.Cr_sludge.value;
+  Outputs.Cl.influent=Q*Cl;Outputs.Cl.effluent.water=Q*Result.Met.Cl_water.value;Outputs.Cl.effluent.sludge=Q*Result.Met.Cl_sludge.value;
   Outputs.Co.influent=Q*Co;Outputs.Co.effluent.water=Q*Result.Met.Co_water.value;Outputs.Co.effluent.sludge=Q*Result.Met.Co_sludge.value;
+  Outputs.Cr.influent=Q*Cr;Outputs.Cr.effluent.water=Q*Result.Met.Cr_water.value;Outputs.Cr.effluent.sludge=Q*Result.Met.Cr_sludge.value;
   Outputs.Cu.influent=Q*Cu;Outputs.Cu.effluent.water=Q*Result.Met.Cu_water.value;Outputs.Cu.effluent.sludge=Q*Result.Met.Cu_sludge.value;
-  Outputs.Pb.influent=Q*Pb;Outputs.Pb.effluent.water=Q*Result.Met.Pb_water.value;Outputs.Pb.effluent.sludge=Q*Result.Met.Pb_sludge.value;
-  Outputs.Mn.influent=Q*Mn;Outputs.Mn.effluent.water=Q*Result.Met.Mn_water.value;Outputs.Mn.effluent.sludge=Q*Result.Met.Mn_sludge.value;
+  Outputs.Fe.influent=Q*Fe;Outputs.Fe.effluent.water=Q*Result.Met.Fe_water.value;Outputs.Fe.effluent.sludge=Q*Result.Met.Fe_sludge.value;
   Outputs.Hg.influent=Q*Hg;Outputs.Hg.effluent.water=Q*Result.Met.Hg_water.value;Outputs.Hg.effluent.sludge=Q*Result.Met.Hg_sludge.value;
+  Outputs.Mg.influent=Q*Mg;Outputs.Mg.effluent.water=Q*Result.Met.Mg_water.value;Outputs.Mg.effluent.sludge=Q*Result.Met.Mg_sludge.value;
+  Outputs.Mn.influent=Q*Mn;Outputs.Mn.effluent.water=Q*Result.Met.Mn_water.value;Outputs.Mn.effluent.sludge=Q*Result.Met.Mn_sludge.value;
+  Outputs.Mo.influent=Q*Mo;Outputs.Mo.effluent.water=Q*Result.Met.Mo_water.value;Outputs.Mo.effluent.sludge=Q*Result.Met.Mo_sludge.value;
+  Outputs.Na.influent=Q*Na;Outputs.Na.effluent.water=Q*Result.Met.Na_water.value;Outputs.Na.effluent.sludge=Q*Result.Met.Na_sludge.value;
   Outputs.Ni.influent=Q*Ni;Outputs.Ni.effluent.water=Q*Result.Met.Ni_water.value;Outputs.Ni.effluent.sludge=Q*Result.Met.Ni_sludge.value;
-  Outputs.Ag.influent=Q*Ag;Outputs.Ag.effluent.water=Q*Result.Met.Ag_water.value;Outputs.Ag.effluent.sludge=Q*Result.Met.Ag_sludge.value;
+  Outputs.Pb.influent=Q*Pb;Outputs.Pb.effluent.water=Q*Result.Met.Pb_water.value;Outputs.Pb.effluent.sludge=Q*Result.Met.Pb_sludge.value;
+  Outputs.Sb.influent=Q*Sb;Outputs.Sb.effluent.water=Q*Result.Met.Sb_water.value;Outputs.Sb.effluent.sludge=Q*Result.Met.Sb_sludge.value;
+  Outputs.Sc.influent=Q*Sc;Outputs.Sc.effluent.water=Q*Result.Met.Sc_water.value;Outputs.Sc.effluent.sludge=Q*Result.Met.Sc_sludge.value;
+  Outputs.Se.influent=Q*Se;Outputs.Se.effluent.water=Q*Result.Met.Se_water.value;Outputs.Se.effluent.sludge=Q*Result.Met.Se_sludge.value;
+  Outputs.Si.influent=Q*Si;Outputs.Si.effluent.water=Q*Result.Met.Si_water.value;Outputs.Si.effluent.sludge=Q*Result.Met.Si_sludge.value;
   Outputs.Sn.influent=Q*Sn;Outputs.Sn.effluent.water=Q*Result.Met.Sn_water.value;Outputs.Sn.effluent.sludge=Q*Result.Met.Sn_sludge.value;
+  Outputs.Sr.influent=Q*Sr;Outputs.Sr.effluent.water=Q*Result.Met.Sr_water.value;Outputs.Sr.effluent.sludge=Q*Result.Met.Sr_sludge.value;
+  Outputs.Ti.influent=Q*Ti;Outputs.Ti.effluent.water=Q*Result.Met.Ti_water.value;Outputs.Ti.effluent.sludge=Q*Result.Met.Ti_sludge.value;
+  Outputs.Tl.influent=Q*Tl;Outputs.Tl.effluent.water=Q*Result.Met.Tl_water.value;Outputs.Tl.effluent.sludge=Q*Result.Met.Tl_sludge.value;
   Outputs.Zn.influent=Q*Zn;Outputs.Zn.effluent.water=Q*Result.Met.Zn_water.value;Outputs.Zn.effluent.sludge=Q*Result.Met.Zn_sludge.value;
+
+  Outputs.B.influent=Q*B; Outputs.B.effluent.water=Q*Result.Met.B_water.value; Outputs.B.effluent.sludge=Q*Result.Met.B_sludge.value;
+  Outputs.F.influent=Q*F; Outputs.F.effluent.water=Q*Result.Met.F_water.value; Outputs.F.effluent.sludge=Q*Result.Met.F_sludge.value;
+  Outputs.I.influent=Q*I; Outputs.I.effluent.water=Q*Result.Met.I_water.value; Outputs.I.effluent.sludge=Q*Result.Met.I_sludge.value;
+  Outputs.K.influent=Q*K; Outputs.K.effluent.water=Q*Result.Met.K_water.value; Outputs.K.effluent.sludge=Q*Result.Met.K_sludge.value;
+  Outputs.V.influent=Q*V; Outputs.V.effluent.water=Q*Result.Met.V_water.value; Outputs.V.effluent.sludge=Q*Result.Met.V_sludge.value;
+  Outputs.W.influent=Q*W; Outputs.W.effluent.water=Q*Result.Met.W_water.value; Outputs.W.effluent.sludge=Q*Result.Met.W_sludge.value;
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
   /*utilities*/
   //fx: utility to add a technology result to the Variables object
