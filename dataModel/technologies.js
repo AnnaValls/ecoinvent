@@ -16,7 +16,7 @@ var Technologies = {
     Name:"Fractionation",
     File:"fractionation.js",
     Implemented_in:"bod_removal_with_nitrification.php",
-    value:false,
+    value:true,
     notActivable:true,
     Inputs:[
       "BOD",

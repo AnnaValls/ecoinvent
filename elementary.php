@@ -358,7 +358,7 @@
           while(table.rows.length>2){table.deleteRow(-1)}
           for(var output in Outputs) {
             var newRow=table.insertRow(-1);
-            newRow.insertCell(-1).innerHTML=output.prettifyUnit();
+            newRow.insertCell(-1).outerHTML="<th>"+output.prettifyUnit();
             newRow.title=Outputs[output].descr;
             //influent
             (function(){

@@ -112,23 +112,25 @@
     <!--design summary-->
     <p>4.2. Design summary</p>
     <table border=1 id=design_summary>
-      <tr><td>Total sludge produced    <td class=number id="P_X_TSS">0<td class=unit>kg/d
-      <tr><td>Total reactor volume     <td class=number id="V_total">0<td class=unit>m<sup>3</sup>
-      <tr><td>Settler total area needed<td class=number id="Area">   0<td class=unit>m<sup>2</sup>
-      <tr><td>Recirculation flow       <td class=number id="QR">     0<td class=unit>m<sup>3</sup>/d
+      <tr><th>Total sludge produced    <td class=number id="P_X_TSS">0<td class=unit>kg/d
+      <tr><th>Total reactor volume     <td class=number id="V_total">0<td class=unit>m<sup>3</sup>
+      <tr><th>Settler total area needed<td class=number id="Area">   0<td class=unit>m<sup>2</sup>
+      <tr><th>Recirculation flow       <td class=number id="QR">     0<td class=unit>m<sup>3</sup>/d
     </table>
 
     <!--technosphere-->
     <p>4.3. Technosphere</p>
     <table border=1 id=technosphere>
-      <tr><td rowspan=3>Alkalinity<br>to maintain pH
+      <tr><th rowspan=3>Alkalinity<br>to maintain pH
         <tr><td>Nitrification   <td class=number id="alkalinity_added">0<td class=unit>kg/d as NaHCO<sub>3</sub>
         <tr><td>Denitrification <td class=number id="Mass_of_alkalinity_needed">0<td class=unit>kg/d as CaCO<sub>3</sub>
-      <tr><td rowspan=3>FeCl<sub>3</sub> for<br>Chemical P removal
+      <tr><th rowspan=3>FeCl<sub>3</sub> for<br>Chemical P removal
         <tr><td>Volume per day          <td class=number id="FeCl3_volume">0<td class=unit>L/d
         <tr><td>Volume storage required <td class=number id="storage_req_15_d">0<td class=unit>m<sup>3</sup>
-      <tr><td colspan=4>Kg concrete
-      <issue class=help_wanted> (TBD)</issue>
+      <tr><th colspan=2>Concrete
+          <issue class=help_wanted> (TBD)</issue>
+        <td>?
+        <td class=unit>kg
     </table>
   </div>
 </div><hr>
@@ -213,7 +215,7 @@
         var newRow=t.insertRow(-1);
         newRow.id=o;
         newRow.title=Outputs[o].descr;
-        newRow.insertCell(-1).innerHTML=o;
+        newRow.insertCell(-1).outerHTML="<th>"+o;
         newRow.insertCell(-1).outerHTML="<td class=number phase=influent>0%</td>";
         newRow.insertCell(-1).outerHTML="<td class=number phase=water   >0%</td>";
         newRow.insertCell(-1).outerHTML="<td class=number phase=air     >0%</td>";

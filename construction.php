@@ -20,7 +20,7 @@
 				//new row
 				var newRow=t.insertRow(-1);
 				//insert material name
-				newRow.insertCell(-1).innerHTML=material
+				newRow.insertCell(-1).outerHTML="<th class=material_name>"+material
 				//go over equations and insert values
 				for(var equation in Construction[material]){
 					var newCell=newRow.insertCell(-1)
@@ -54,6 +54,11 @@
 			document.querySelector('input#capacity').select();
 		}
 	</script>
+  <style>
+    .material_name {
+      font-weight:normal;
+    }
+  </style>
 </head><body onload=init()>
 <?php include'navbar.php'?>
 <div id=root>
@@ -61,9 +66,9 @@
 
 <!--input capacity of the plant-->
 <div>
-	Capacity of the plant 
+	Capacity of the plant
 	<input id=capacity value="20000" min=1500 max=21000 onchange="updateTable()" type=number>
-	(m<sup>3</sup>/d) 
+	(m<sup>3</sup>/d)
 	(min:1500, max:21000)
 </div><hr>
 
@@ -83,7 +88,7 @@
 </table><hr>
 
 <h4>
-	Reference: 
+	Reference:
 	<a target=_blank href="../docs/construction/WR-S-17-01921.pdf">
 		Table 4, Morera et al (2017): Up-to-date and modular construction inventories for Life Cycle Assessment of small to medium wastewater treatment plants (page 22)
 	</a>
@@ -105,6 +110,7 @@
 	}
 	td:nth-child(n+2){
 		text-align:right;
+    font-size:smaller;
 	}
 	tr:first-child {
 		border-top:1px solid #ccc;

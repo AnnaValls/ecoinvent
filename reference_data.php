@@ -1,24 +1,26 @@
-<!doctype html>
-<html><head> 
-  <meta charset=utf-8>
+<!doctype html><html><head>
+  <?php include'imports.php'?>
   <title>Reference Data</title>
 </head><body>
+<?php include'navbar.php'?>
 
 <h1>WWTP Reference Data</h1>
 
 <p>
-  Current list of WWTP configurations (by country) used for evaluating activities:
+  List of WWTP average influents by country:
   <br>
   <p>
   <small>
-    <b>note</b>: to add more configurations, create a pull request <a href="//github.com/holalluis/ecoinvent/tree/master/activity/referenceData">here</a>
+    <b>note</b>: list of countries and input values needed.
+    <issue class=help_wanted></issue>
+    <a href="//github.com/holalluis/ecoinvent/tree/master/reference_data">The list is readable here</a>
   </small>
   </p>
 </p>
 
 <ul>
 <?php
-  $folder="referenceData";
+  $folder="reference_data";
   $ls=scandir($folder);
 
   //loop all files in $folder

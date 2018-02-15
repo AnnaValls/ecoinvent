@@ -21,9 +21,9 @@
         Single plant model
         <ul>
           <li><a href=elementary.php        >Elementary flows (from Metcalf &amp; Eddy)</a>
+          <li><a href=technologies.php      >All technologies</a>
           <li><a href=inputs.php            >All inputs</a>
           <li><a href=outputs.php           >All outputs</a>
-          <li><a href=technologies.php      >All technologies</a>
           <li><a href=dataModel/constants.js>All constants</a>
           <li><a href=construction.php      >Construction materials</a> (<em>TBD</em>)
         </ul>
@@ -31,10 +31,10 @@
         Multiple plant analysis (<em>under development</em>)
         <ul>
           <li><a href="marginal.php">Marginal approach</a>
-          <li><a href="activity/referenceData.php">Reference Data (list of ubications)</a>
+          <li><a href="reference_data.php">Average influents by country ("Reference data")</a>
         </ul>
-      <li><a href=ecospold.php>Generate results file (ecospold format)</a>
-      <li>Appendix: <a href=terms.php>Summary of terms</a>
+      <li><a href="load_influent.php">Generate input file (json format)</a>
+      <li><a href=ecospold.php>Generate output file (ecospold format)</a>
     </ul>
   </div><hr>
 
@@ -91,6 +91,7 @@
     <p><b>Other things</b></p>
     <ul>
       <li><a href="README.md">README</a>
+      <li><a href=terms.php>Summary of terms</a>
       <li><a href="fractionation_ekama.php">Fractionation (G. Ekama) implementation</a>
       <li>
         <td><a href="implementations/bod_removal_only.php">BOD removal (simple example)</a>
