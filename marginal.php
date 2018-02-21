@@ -30,6 +30,7 @@
     #root table {
       width:100%;
       font-size:smaller;
+      border-collapse:collapse;
     }
     #root #results td[phase]:hover{
       text-decoration:underline;
@@ -122,11 +123,11 @@
     <p>4.3. Technosphere</p>
     <table border=1 id=technosphere>
       <tr><th rowspan=3>Alkalinity<br>to maintain pH
-        <tr><td>Nitrification   <td class=number id="alkalinity_added">0<td class=unit>kg/d as NaHCO<sub>3</sub>
-        <tr><td>Denitrification <td class=number id="Mass_of_alkalinity_needed">0<td class=unit>kg/d as CaCO<sub>3</sub>
+        <tr><th>Nitrification   <td class=number id="alkalinity_added">0<td class=unit>kg/d as NaHCO<sub>3</sub>
+        <tr><th>Denitrification <td class=number id="Mass_of_alkalinity_needed">0<td class=unit>kg/d as CaCO<sub>3</sub>
       <tr><th rowspan=3>FeCl<sub>3</sub> for<br>Chemical P removal
-        <tr><td>Volume per day          <td class=number id="FeCl3_volume">0<td class=unit>L/d
-        <tr><td>Volume storage required <td class=number id="storage_req_15_d">0<td class=unit>m<sup>3</sup>
+        <tr><th>Volume per day          <td class=number id="FeCl3_volume">0<td class=unit>L/d
+        <tr><th>Volume storage required <td class=number id="storage_req_15_d">0<td class=unit>m<sup>3</sup>
       <tr><th colspan=2>Concrete
           <issue class=help_wanted> (TBD)</issue>
         <td>?
@@ -174,7 +175,7 @@
       var t=document.getElementById('technologies');
       //default state for technologies
       var Techs_selected={
-        "BOD":true,
+        "BOD":false,
         "Nit":false,
         "Des":false,
         "BiP":false,

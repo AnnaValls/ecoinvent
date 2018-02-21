@@ -439,41 +439,6 @@ function compute_elementary_flows(Input_set){
   Outputs.K.influent=Q*K; Outputs.K.effluent.water=Q*Result.Met.K_water.value; Outputs.K.effluent.sludge=Q*Result.Met.K_sludge.value;
   Outputs.V.influent=Q*V; Outputs.V.effluent.water=Q*Result.Met.V_water.value; Outputs.V.effluent.sludge=Q*Result.Met.V_sludge.value;
   Outputs.W.influent=Q*W; Outputs.W.effluent.water=Q*Result.Met.W_water.value; Outputs.W.effluent.sludge=Q*Result.Met.W_sludge.value;
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
 
   /*utilities*/
   //fx: utility to add a technology result to the Variables object
