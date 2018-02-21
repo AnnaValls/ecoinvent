@@ -33,7 +33,7 @@
           <li><a href="marginal.php">Marginal approach</a>
           <li><a href="reference_data.php">Average influents by country ("Reference data")</a>
         </ul>
-      <li><a href="load_influent.php">Generate input file (json format)</a>
+      <li><a href="generate_influent.php">Generate ifluent file (json format)</a>
       <li><a href=ecospold.php>Generate output file (ecospold format)</a>
     </ul>
   </div><hr>

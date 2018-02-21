@@ -55,7 +55,7 @@ function do_mass_balances(){
       {phase:'sludge',   value:sludge},
     ].forEach(obj=>{
       var color = obj.value ? "":"#aaa";
-      document.querySelector('#mass_balances #'+element+' td[phase='+obj.phase+']').innerHTML=format(obj.value/1000,false,color);
+      document.querySelector('#mass_balances #'+element+' td[phase='+obj.phase+']').innerHTML=format(obj.value,false,color);
     });
 
     //calculate balance: output/input should be aprox 1

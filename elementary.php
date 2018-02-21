@@ -1,25 +1,21 @@
-<?php
-  /*
-    ELEMENTARY FLOWS (SINGLE PLANT MODEL)
-    -------------------------------------
-    - The backend is in 'elementary.js' (data structures + technology appliying)
-    - The views and frontend is implemented here
+<?php /*
+  ELEMENTARY FLOWS (SINGLE PLANT MODEL)
+  -------------------------------------
+  - The backend is in 'elementary.js' (data structures + technology appliying)
+  - The views and frontend is implemented here
 */?>
 <!doctype html><html><head>
   <?php include'imports.php'?>
   <title>Elementary Flows</title>
 
-  <!--backend definitions: elementary flows and mass balances-->
+  <!--load backend: elementary flows and mass balances-->
   <script src="elementary.js"></script>
   <script src="mass_balances.js"></script>
 
-  <!--execute backend & frontend functions-->
+  <!--init-->
   <script>
+    //"init" is fired each time an input changes
     function init(){
-      /*
-       * call backend functions
-       */
-
       //1. reset all outputs to zero
       (function reset_all_outputs(){
         for(var out in Outputs){
@@ -33,11 +29,12 @@
       //2. make incompatible technologies inactive
       (function disable_impossible_options(){
         //if bod removal is false
-        //  disable nitrification 
+        //  disable nitrification
         //  disable sst sizing
         //  disable denitri
         //  disable bioP
         //  disable chemP
+        //  disable metals
         if(getInput('BOD',true).value==false){
           getInput('Fra',true).value=false;
           getInput('SST',true).value=false;
@@ -61,32 +58,72 @@
           getInput('Des',true).value=false;
         }
       })();
-
-      //{}: Inputs are divided in (1) wastewater inputs and (2) design inputs
-      var Inputs_current_combination=[]; //inputs ww     filled in frontend
-      var Design=[];                     //inputs design filled in frontend
+      //3. disable technology checkboxes accordingly
+      (function(){
+        function set_checkbox_disabled(tech,newValue){
+          var el=document.querySelector('#inputs_tech input[tech='+tech+']')
+          el.disabled=newValue;
+          if(newValue){
+            el.checked=false;
+          }
+          el.parentNode.parentNode.style.color= newValue ? '#aaa' : '';
+        }
+        if(getInput('BOD',true).value==false) {
+          set_checkbox_disabled('Nit',true);
+          set_checkbox_disabled('Des',true);
+          set_checkbox_disabled('BiP',true);
+          set_checkbox_disabled('ChP',true);
+        }else{
+          set_checkbox_disabled('Nit',false);
+          set_checkbox_disabled('BiP',false);
+          set_checkbox_disabled('ChP',false);
+        }
+        if(getInput('Nit',true).value==false){
+          set_checkbox_disabled('Des',true);
+        }else{
+          set_checkbox_disabled('Des',false);
+        }
+        if(getInput('BiP',true).value==true){
+          set_checkbox_disabled('ChP',true);
+        }
+        if(getInput('ChP',true).value==true){
+          set_checkbox_disabled('BiP',true);
+        }
+      })();
 
       //find current inputs from the technology combination to create the input table
+      var Inputs_current_combination=[];
       (function set_current_inputs(){
-        var current_combination=Technologies_selected.map(tec=>{return tec.id}).filter(tec=>{return getInput(tec,true).value});
         var input_codes=[];
-        current_combination.forEach(tec=>{
-          if(!Technologies[tec])return;
-          input_codes=input_codes.concat(Technologies[tec].Inputs)
-        });
 
+        //technologies active array
+        Technologies_selected
+          .map(tec=>{return tec.id})
+          .filter(tec=>{return getInput(tec,true).value})
+          .forEach(tec=>{
+            if(!Technologies[tec])return;
+            input_codes=input_codes.concat(Technologies[tec].Inputs)
+          });
+
+        //remove duplicates
         input_codes=uniq(input_codes);
 
         //recalculate current inputs array
-        input_codes.filter(code=>{return !getInputById(code).isParameter}).forEach(code=>{
-          Inputs_current_combination.push(getInputById(code));
+        input_codes.forEach(code=>{
+          Inputs_current_combination.push(code);
         });
-
-        //recalculate design inputs array
-        input_codes.filter(code=>{return getInputById(code).isParameter}).forEach(code=>{
-          Design.push(getInputById(code));
-        });
+        //console.log(Inputs_current_combination);
       })();
+
+      //frontend set the color of inputs (grey:not needed, black:needed);
+      Inputs.forEach(i=>{
+        var h=document.getElementById(i.id).parentNode.parentNode;
+        if(Inputs_current_combination.indexOf(i.id)+1){
+          h.style.color="";
+        }else{
+          h.style.color="#aaa";
+        }
+      });
 
       /* Main backend function "compute_elementary_flows" */
       //it will fill "Variables" & "Outputs" data structures
@@ -157,7 +194,7 @@
           zb                   : getInput('zb').value, //500
           Pressure             : getInput('Pressure').value, //95600
           Df                   : getInput('Df').value, //4.4
-          DO                   : getInput('DO').value, //2.0 warning: name changed to "DO"
+          DO                   : getInput('DO').value, //2.0 warning: name changed to "DO" from C_L
           SF                   : getInput('SF').value, //1.5
           Ne                   : getInput('Ne').value, //0.50
           sBODe                : getInput('sBODe').value, //3
@@ -227,107 +264,24 @@
       })();
 
       /*
-       * call frontend functions to populate views
+       * update frontend with calculated values
        */
       (function updateViews(){
         //update number of inputs and variables
         document.querySelector('#input_amount').innerHTML=(function(){
-          var a=Inputs_current_combination.concat(Design).length;
+          var a=Inputs_current_combination.length;
           var b=Inputs.length;
           return a+" of "+b;
         })();
         document.querySelector('#variable_amount').innerHTML=Variables.length;
 
-        //update technologies table
-        (function(){
-          var table=document.querySelector('table#inputs_tech');
-          while(table.rows.length>0){table.deleteRow(-1);}
-          Technologies_selected
-            .filter(tec=>{return !tec.notActivable})
-            .forEach(tec=>{
-              var newRow=table.insertRow(-1);
-              //tec name
-              newRow.insertCell(-1).innerHTML=tec.descr;
-              //checkbox
-              var checked = getInput(tec.id,true).value ? "checked" : "";
-              newRow.insertCell(-1).outerHTML="<td style=text-align:center><input type=checkbox "+checked+" onchange=\"toggleTech('"+tec.id+"')\" tech='"+tec.id+"'>";
-              //implementation link
-              if(Technologies[tec.id]){
-                newRow.insertCell(-1).innerHTML="<small><center>"+
-                  "<a href='techs/"+Technologies[tec.id].File+"' title='see javascript implementation'>"+
-                  "equations"+
-                  "</a></cente></small>"+
-                  "";
-              }
-          });
-        })();
-
-        //update inputs table
-        (function(){
-          var table=document.querySelector('table#inputs');
-          while(table.rows.length>1){table.deleteRow(-1)}
-
-          //add an input object to table
-          function process_input(i){
-            var newRow=table.insertRow(-1);
-            var advanced_indicator = i.color ? "<div class=circle style='background:"+i.color+"' title='Advanced knowledge required to modify this input'></div>" : "";
-
-            //if input is not in current combination change its color
-            if(0==Inputs_current_combination.concat(Design).indexOf(i)+1){
-              newRow.style.color='#aaa';
-            }
-
-            //special case: if SRT & is_Nit_active: mark input as "inactive"
-            if(getInput("Nit",true).value && i.id=="SRT"){
-              newRow.style.color='#aaa';
-            }
-
-            //insert cells
-            newRow.title=i.descr;
-            newRow.insertCell(-1).outerHTML="<td class='flex help' style='justify-content:space-between'>"+i.id + advanced_indicator;
-            newRow.insertCell(-1).innerHTML="<input id='"+i.id+"' value='"+i.value+"' type=number step=any onchange=setInput('"+i.id+"',this.value) min=0>"
-            newRow.insertCell(-1).outerHTML="<td class=unit>"+i.unit.prettifyUnit();
-          }
-
-          //update inputs (isParameter==false)
-          table.insertRow(-1).insertCell(-1).outerHTML="<th colspan=3 align=left>Wastewater characteristics";
-          Inputs.filter(i=>{return !i.isParameter && !i.isMetal}).forEach(i=>{
-            process_input(i);
-          });
-
-          //update inputs (isMetal==true)
-          table.insertRow(-1).insertCell(-1).outerHTML="<th colspan=3 align=left>Metals";
-          Inputs.filter(i=>{return i.isMetal}).forEach(i=>{
-            process_input(i);
-          });
-
-          //update inputs (isParameter==true)
-          table.insertRow(-1).insertCell(-1).outerHTML="<th colspan=3 align=left>Design parameters";
-          Inputs.filter(i=>{return i.isParameter}).forEach(i=>{
-            process_input(i);
-          });
-
-          //hide not active inputs and add them to variables
-          Inputs_to_be_hidden.forEach(inp=>{
-            var id    = inp.id;
-            var value = inp.value;
-            var unit  = getInputById(id).unit;
-            var descr = getInputById(id).descr;
-            document.getElementById(id).parentNode.parentNode.style.display='none';
-            if(!inp.invisible){
-              Variables.push({id,value,unit,descr,tech:'Inp'});
-            }
-          });
-        })();
-
-        //update variables table
+        //create variables table
         (function(){
           var table=document.querySelector('table#variables');
           while(table.rows.length>1){table.deleteRow(-1)}
           if(Variables.length==0){
             table.insertRow(-1).insertCell(-1).outerHTML="<td colspan=4><i>~Activate some technologies first";
           }
-
           Variables.forEach(i=>{
             var tech_name = Technologies[i.tech] ? Technologies[i.tech].Name : i.tech;
             var newRow=table.insertRow(-1);
@@ -339,65 +293,45 @@
           });
         })();
 
-        //deal with outputs unit change first (default is kg/d)
+        //deal with outputs selected unit before updating outputs (default is kg/d)
+        //initially they are in g/d
         (function unit_change_outputs(){
           if(Options.currentUnit.value=="g/m3") {
-            var Q=getInput('Q').value; //22700;
+            var Q=getInput('Q').value; //flowrate;
             for(var out in Outputs){
-              Outputs[out].influent        /= Q/1000;
-              Outputs[out].effluent.water  /= Q/1000;
-              Outputs[out].effluent.air    /= Q/1000;
-              Outputs[out].effluent.sludge /= Q/1000;
+              Outputs[out].influent        /= Q;
+              Outputs[out].effluent.water  /= Q;
+              Outputs[out].effluent.air    /= Q;
+              Outputs[out].effluent.sludge /= Q;
+            }
+          }else{
+            for(var out in Outputs){
+              Outputs[out].influent        /= 1000;
+              Outputs[out].effluent.water  /= 1000;
+              Outputs[out].effluent.air    /= 1000;
+              Outputs[out].effluent.sludge /= 1000;
             }
           }
         })();
 
         //update outputs
         (function(){
-          var table=document.querySelector('table#outputs');
-          while(table.rows.length>2){table.deleteRow(-1)}
+          var t=document.querySelector('#outputs');
           for(var output in Outputs) {
-            var newRow=table.insertRow(-1);
-            newRow.insertCell(-1).outerHTML="<th>"+output.prettifyUnit();
-            newRow.title=Outputs[output].descr;
+            var tr=t.querySelector('#'+output);
             //influent
-            (function(){
-              var value = Outputs[output].influent;
-              var color = value ? "" : "#aaa";
-              newRow.insertCell(-1).outerHTML="<td class=number>"+format(value/1000,false,color);
-            })();
+            var value = Outputs[output].influent;
+            var color = value ? '':'#aaa';
+            tr.querySelector('td[phase=influent]').innerHTML=format(value,false,color);
             //effluent
             ['water','air','sludge'].forEach(phase=>{
               var value = Outputs[output].effluent[phase];
-              var color = value ? "" : "#aaa";
-              newRow.insertCell(-1).outerHTML="<td class=number>"+format(value/1000,false,color);
+              var color = value ? '':'#aaa';
+              tr.querySelector('td[phase='+phase+']').innerHTML=format(value,false,color);
             });
           }
         })();
-      })();
 
-      //disable checkboxes for impossible technology combinations
-      (function(){
-        function disable_checkbox(tech){
-          var el=document.querySelector('#inputs_tech input[tech='+tech+']')
-          el.disabled=true;
-          el.parentNode.parentNode.style.color='#aaa';
-        }
-        if(getInput('BOD',true).value==false) {
-          disable_checkbox('Nit');
-          disable_checkbox('Des');
-          disable_checkbox('BiP');
-          disable_checkbox('ChP');
-        }
-        if(getInput('Nit',true).value==false) {
-          disable_checkbox('Des');
-        }
-        if(getInput('BiP',true).value==true) {
-          disable_checkbox('ChP');
-        }
-        if(getInput('ChP',true).value==true) {
-          disable_checkbox('BiP');
-        }
       })();
 
       //set "scroll to" links visibility
@@ -435,7 +369,7 @@
           }
         }
       },
-      /*for further user-options: new options should go here*/
+      /*further user-options here*/
     }
   </script>
 
@@ -490,6 +424,59 @@
   <!--1. Inputs-->
   <div>
     <p><b><u>1. User Inputs</u></b></p>
+
+    <!--load influent file component-->
+    <div style=font-size:smaller>
+      You can load an influent file here:
+      <div>
+        <input id=loadFile type=file accept=".json" onchange="loadFile(event)">
+        <script>
+          function loadFile(evt) {
+              var file=evt.target.files[0];
+              var reader=new FileReader();
+              reader.onload=function() {
+                var saved_file;
+                try{
+                  saved_file=JSON.parse(reader.result);
+                  console.log(saved_file);
+                  (function(){
+                    //technologies
+                    Object.keys(saved_file.techs).forEach(key=>{
+                      console.log(key)
+                      var newValue=saved_file.techs[key].value;
+                      document.querySelector('#inputs_tech input[tech='+key+']').checked=newValue;
+                      getInput(key,true).value=newValue;
+                    });
+                    //inputs
+                    Object.keys(saved_file.inputs).forEach(key=>{
+                      console.log(key)
+                      var newValue=saved_file.inputs[key].value;
+                      document.querySelector('#inputs #'+key).value=newValue;
+                      getInput(key,false).value=newValue;
+                    });
+                  })();
+                  init();
+                }catch(e){alert(e)}
+              }
+              try{
+                reader.readAsText(file);
+              }catch(e){alert(e)}
+
+              //Show "loaded successfully"
+              var div=document.createElement('p');
+              div.style.background="lightgreen";
+              div.style.fontFamily="monospace";
+              div.style.padding="3px 5px";
+              div.innerHTML="File loaded correctly <button onclick=this.parentNode.parentNode.removeChild(this.parentNode)>ok</button>";
+              document.querySelector("#loadFile").parentNode.appendChild(div);
+          }
+        </script>
+      </div>
+      <p>
+      Or manually enter the influent (and save it to a file) <a href="#saveToFile">below &darr;</a>
+      </p>
+    </div>
+
     <!--enter technologies-->
     <div>
       <p>1.1. Activate technologies of your plant</p>
@@ -506,14 +493,53 @@
         <tr><th>Input<th>Value<th>Unit
       </table>
 
-      <!--go to top link-->
-      <div style=font-size:smaller><a href=#>&uarr; top</a></div>
+      <!--save as json file component-->
+      <div>
+        <button id=saveToFile onclick="saveToFile()"
+          style="
+            width:100%;
+            font-size:18px;
+            margin-top:5px;
+          "
+        >Save influent as...</button>
+        <script>
+          /*Generate a json/text file*/
+          function saveToFile() {
+            var saved_file = {
+              techs:{
+              },
+              inputs:{
+              },
+            }
+            Technologies_selected.filter(t=>{return !t.notActivable}).forEach(t=>{
+              saved_file.techs[t.id]={
+                descr:t.descr,
+                value:t.value,
+              };
+            });
+            Inputs.forEach(i=>{
+              saved_file.inputs[i.id]={
+                descr:i.descr,
+                value:i.value,
+                unit:i.unit,
+              };
+            });
+            var link=document.createElement('a');
+            link.href="data:text/json;charset=utf-8,"+JSON.stringify(saved_file,null,'  ');
+            link.download="influent-"+(new Date().toISOString().substring(2,19).replace('T','_'))+".json";
+            link.click();
+          }
+        </script>
+      </div>
 
       <!--hints-->
       <p style=font-size:smaller>
         Hint: modify inputs using the <kbd>&uarr;</kbd> and <kbd>&darr;</kbd> keys.<br>
         Hint: mouse over inputs and variables to see a description.
       </p>
+
+      <!--go to top link-->
+      <div style=font-size:smaller><a href=#>&uarr; top</a></div>
     </div>
   </div><hr>
 
@@ -678,7 +704,7 @@
 
     <!--link to generate an outputs ecospold file-->
     <div style=margin-top:10px>
-      <p>3.5. <a href=ecospold.php>Save results as ecoSpold file </a>
+      <p>3.5. <a href=ecospold.php>Save results as ecoSpold file<br>(<issue>under development</issue>)</a>
       </p>
     </div>
   </div>
@@ -694,3 +720,82 @@
   </ul><hr>
   <?php include'btn_reset_cache.php'?>
 </div></p>
+
+<script>
+  //POPULATE PAGE DEFAULT VALUES
+  //this function only fires at the beggining
+  (function(){
+    //populate technologies table
+    (function(){
+      var t=document.querySelector('table#inputs_tech');
+      Technologies_selected
+        .filter(tec=>{return !tec.notActivable})
+        .forEach(tec=>{
+          var newRow=t.insertRow(-1);
+          //tec name
+          newRow.insertCell(-1).innerHTML=tec.descr;
+          //checkbox
+          var checked = getInput(tec.id,true).value ? "checked" : "";
+          newRow.insertCell(-1).outerHTML="<td style=text-align:center><input type=checkbox "+checked+" onchange=\"toggleTech('"+tec.id+"')\" tech='"+tec.id+"'>";
+          //implementation link
+          if(Technologies[tec.id]){
+            newRow.insertCell(-1).innerHTML="<small><center>"+
+              "<a href='techs/"+Technologies[tec.id].File+"' title='see javascript implementation'>"+
+              "equations"+
+              "</a></cente></small>"+
+              "";
+          }
+      });
+    })();
+
+    //populate input table
+    (function(){
+      var table=document.querySelector('table#inputs');
+
+      //add a row to table
+      function process_input(i){
+        var newRow=table.insertRow(-1);
+        var advanced_indicator = i.color ? "<div class=circle style='background:"+i.color+"' title='Advanced knowledge required to modify this input'></div>" : "";
+        //insert cells
+        newRow.title=i.descr;
+        newRow.insertCell(-1).outerHTML="<td class='flex help' style='justify-content:space-between'>"+i.id + advanced_indicator;
+        newRow.insertCell(-1).innerHTML="<input id='"+i.id+"' value='"+i.value+"' type=number step=any onchange=setInput('"+i.id+"',this.value) min=0>"
+        newRow.insertCell(-1).outerHTML="<td class=unit>"+i.unit.prettifyUnit();
+      }
+
+      //populate inputs (isParameter==false)
+      table.insertRow(-1).insertCell(-1).outerHTML="<th colspan=3 align=left>Wastewater characteristics";
+      Inputs.filter(i=>{return !i.isParameter && !i.isMetal}).forEach(i=>{
+        process_input(i);
+      });
+
+      //populate metals (isMetal==true)
+      table.insertRow(-1).insertCell(-1).outerHTML="<th colspan=3 align=left>Metals";
+      Inputs.filter(i=>{return i.isMetal}).forEach(i=>{
+        process_input(i);
+      });
+
+      //populate design parameters (isParameter==true)
+      table.insertRow(-1).insertCell(-1).outerHTML="<th colspan=3 align=left>Design parameters";
+      Inputs.filter(i=>{return i.isParameter}).forEach(i=>{
+        process_input(i);
+      });
+    })();
+
+    //populate outputs
+    (function(){
+      var table=document.querySelector('#outputs');
+      for(var output in Outputs) {
+        var newRow=table.insertRow(-1);
+        newRow.id=output;
+        newRow.title=Outputs[output].descr;
+        //output id
+        newRow.insertCell(-1).outerHTML="<th>"+output.prettifyUnit();
+        //influent and effluent defaults as 0
+        ['influent','water','air','sludge'].forEach(phase=>{
+          newRow.insertCell(-1).outerHTML="<td phase="+phase+" class=number><span style=color:#aaa>0";
+        });
+      }
+    })();
+  })();
+</script>

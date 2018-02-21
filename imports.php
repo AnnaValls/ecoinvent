@@ -60,10 +60,6 @@
   .help{
     cursor:default;
   }
-  input[type=number]{
-    text-align:right;
-    width:80px;
-  }
 </style>
 
 <!--end imports.php-->

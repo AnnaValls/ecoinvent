@@ -1,6 +1,6 @@
-<?php
-  /*
-   * description
+<?php /*
+  * description
+  *   generate influent file
 */?>
 <!doctype html><html><head>
   <?php include'imports.php'?>
@@ -10,7 +10,7 @@
       //
     }
 
-    //frontend fx
+    //frontend: populate table "t" with input "i"
     function process_input(t,i){
       var newRow=t.insertRow(-1);
       newRow.title=i.descr;
@@ -112,4 +112,4 @@
     <p>5. Generate file</p>
     <button style="display:block;margin:auto;font-size:20px">Generate influent file (JSON)</button>
   </div>
-</div><hr>
+</div>

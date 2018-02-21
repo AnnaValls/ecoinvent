@@ -46,11 +46,11 @@
 <!--subtitle-->
 <div>
   <p>
-    Here you can study the contribution of an influent to the
-    effluent created by of the sum of two influents.
+    Here you can study the marginal contribution of an influent to the
+    effluent resulting from the sum of two influents.
   </p>
   <p>
-    <small>Tip: mouse over any variable to see a little description</small>
+    <small>Note: mouse over any variable to see a little description</small>
   </p>
 </div><hr>
 
@@ -86,7 +86,7 @@
   <div style=width:360px>
     <p><b>4. Results: contribution of Influent 1</b></p>
     <p>
-      4.1. Effluent
+      4.1. Effluent resulting from Influent 1 + Influent 2
       <div style=font-size:smaller>
         Display:
         <select onchange="Options.displayed_results.set(this.value)">
