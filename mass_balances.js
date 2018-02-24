@@ -63,9 +63,11 @@ function do_mass_balances(){
     var el=document.querySelector('#mass_balances #'+element+' td[phase=balance]')
     el.innerHTML = format(percent,2)+" %";
 
-    //add red warning if percent is greater than X %
-    var X=10;
-    if(percent>X){el.style.color='red'}else{el.style.color='green'}
+    //add red warning if percent is greater than X
+    (function(){
+      var X=10;
+      el.style.color = percent>X ? 'red':'green';
+    })();
   }
   //end do_mass_balances
 };

@@ -32,7 +32,7 @@ var Technologies = {
 		Name:"BOD removal",
 		File:"bod_removal_only.js",
 		Implemented_in:"bod_removal_with_nitrification.php",
-    value:false,
+    value:true,
 		Inputs:[
 			"Q",
 			"T",
@@ -147,7 +147,6 @@ var Technologies = {
     File:"metals_doka.js",
     Implemented_in:"",
     value:false,
-    notActivable:true,
     Inputs:[
       "Ag",
       "Al",

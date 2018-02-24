@@ -36,7 +36,6 @@
         //  disable chemP
         //  disable metals
         if(getInput('BOD',true).value==false){
-          getInput('Fra',true).value=false;
           getInput('SST',true).value=false;
           getInput('Nit',true).value=false;
           getInput('Des',true).value=false;
@@ -46,7 +45,6 @@
         }else{
           getInput('Fra',true).value=true; //if bod active, fra active
           getInput('SST',true).value=true; //if bod active, sst active
-          getInput('Met',true).value=true; //if bod active, met active
         }
 
         //only one of the two P removal technologies is allowed
@@ -73,10 +71,12 @@
           set_checkbox_disabled('Des',true);
           set_checkbox_disabled('BiP',true);
           set_checkbox_disabled('ChP',true);
+          set_checkbox_disabled('Met',true);
         }else{
           set_checkbox_disabled('Nit',false);
           set_checkbox_disabled('BiP',false);
           set_checkbox_disabled('ChP',false);
+          set_checkbox_disabled('Met',false);
         }
         if(getInput('Nit',true).value==false){
           set_checkbox_disabled('Des',true);
@@ -135,6 +135,7 @@
           is_Des_active : getInput("Des",true).value,
           is_BiP_active : getInput("BiP",true).value,
           is_ChP_active : getInput("ChP",true).value,
+          is_Met_active : getInput("Met",true).value,
 
           //ww characteristics
           Q              : getInput('Q').value, //22700
@@ -240,13 +241,13 @@
             var i=Input_set;
             if(!i.is_BOD_active){ return; }
             //calc auxiliary technology results
-            fill('V_aer',                     (i.is_Nit_active?'Nit':'BOD'),                       'V');
+            fill('V_aer',                     (i.is_Nit_active?'Nit':'BOD'),                       'V_aer');
             fill('V_nox',                     'Des',                                               'V_nox');
-            fill('V_ana',                     'BiP',                                               'V');
-            fill('V_total',                   'summary',                                        'V_total');
+            fill('V_ana',                     'BiP',                                               'V_ana');
+            fill('V_total',                   'summary',                                           'V_total');
             fill('Area',                      'SST',                                               'Area');
-            fill('Qwas',                      'summary',                                        'Qwas');
-            fill('SRT',                       'summary',                                        'SRT');
+            fill('Qwas',                      'summary',                                           'Qwas');
+            fill('SRT',                       'summary',                                           'SRT');
             fill('QR',                        'SST',                                               'QR');
             fill('alkalinity_added',          'Nit',                                               'alkalinity_added');
             fill('Mass_of_alkalinity_needed', 'Des',                                               'Mass_of_alkalinity_needed');
@@ -255,8 +256,8 @@
             fill('air_flowrate',              i.is_Des_active?'Des':(i.is_Nit_active?'Nit':'BOD'), 'air_flowrate');
             fill('OTRf',                      i.is_Des_active?'Des':(i.is_Nit_active?'Nit':'BOD'), 'OTRf');
             fill('SOTR',                      i.is_Des_active?'Des':(i.is_Nit_active?'Nit':'BOD'), 'SOTR');
-            fill('SAE',                       'summary',                                        'SAE');
-            fill('O2_power',                  'summary',                                        'O2_power');
+            fill('SAE',                       'summary',                                           'SAE');
+            fill('O2_power',                  'summary',                                           'O2_power');
             fill('SDNR',                      'Des',                                               'SDNR');
             fill('Power',                     'Des',                                               'Power');
           })();
@@ -280,13 +281,13 @@
           var table=document.querySelector('table#variables');
           while(table.rows.length>1){table.deleteRow(-1)}
           if(Variables.length==0){
-            table.insertRow(-1).insertCell(-1).outerHTML="<td colspan=4><i>~Activate some technologies first";
+            table.insertRow(-1).insertCell(-1).outerHTML="<td colspan=4 style=text-align:center><em>~Activate some technologies first";
           }
           Variables.forEach(i=>{
             var tech_name = Technologies[i.tech] ? Technologies[i.tech].Name : i.tech;
             var newRow=table.insertRow(-1);
             newRow.setAttribute('tech',i.tech);
-            newRow.insertCell(-1).outerHTML="<td class=help title='"+tech_name+"'>"+i.tech;
+            newRow.insertCell(-1).outerHTML="<td class=help title='"+tech_name+"' style='font-family:monospace'>"+i.tech;
             newRow.insertCell(-1).outerHTML="<td class=help title='"+i.descr.replace(/_/g,' ')+"'>"+i.id;
             newRow.insertCell(-1).outerHTML="<td class=number>"+format(i.value);
             newRow.insertCell(-1).outerHTML="<td class=unit>"+i.unit.prettifyUnit();
@@ -417,7 +418,14 @@
 <?php include'navbar.php'?>
 
 <div id=root>
-<h1>Elementary Flows (single plant model)</h1><hr>
+<h1>Elementary Flows (single plant model)</h1>
+
+<!--hints-->
+<p style=font-size:smaller>
+  Note: modify inputs using the <kbd>&uarr;</kbd> and <kbd>&darr;</kbd> keys.<br>
+  Note: mouse over inputs and variables to see a description.
+</p>
+<hr>
 
 <!--INPUTS AND OUTPUTS VIEW SCAFFOLD-->
 <div class=flex>
@@ -427,9 +435,8 @@
 
     <!--load influent file component-->
     <div style=font-size:smaller>
-      You can load an influent file here:
+      Load an influent file:
       <div>
-        <input id=loadFile type=file accept=".json" onchange="loadFile(event)">
         <script>
           function loadFile(evt) {
               var file=evt.target.files[0];
@@ -438,18 +445,15 @@
                 var saved_file;
                 try{
                   saved_file=JSON.parse(reader.result);
-                  console.log(saved_file);
                   (function(){
                     //technologies
                     Object.keys(saved_file.techs).forEach(key=>{
-                      console.log(key)
                       var newValue=saved_file.techs[key].value;
                       document.querySelector('#inputs_tech input[tech='+key+']').checked=newValue;
                       getInput(key,true).value=newValue;
                     });
                     //inputs
                     Object.keys(saved_file.inputs).forEach(key=>{
-                      console.log(key)
                       var newValue=saved_file.inputs[key].value;
                       document.querySelector('#inputs #'+key).value=newValue;
                       getInput(key,false).value=newValue;
@@ -462,44 +466,32 @@
                 reader.readAsText(file);
               }catch(e){alert(e)}
 
-              //Show "loaded successfully"
-              var div=document.createElement('p');
-              div.style.background="lightgreen";
-              div.style.fontFamily="monospace";
-              div.style.padding="3px 5px";
-              div.innerHTML="File loaded correctly <button onclick=this.parentNode.parentNode.removeChild(this.parentNode)>ok</button>";
-              document.querySelector("#loadFile").parentNode.appendChild(div);
+              //show "loaded successfully"
+              (function(){
+                var div=document.createElement('p');
+                div.style.background="lightgreen";
+                div.style.fontFamily="monospace";
+                div.style.padding="3px 5px";
+                div.innerHTML="File loaded correctly <button onclick=this.parentNode.parentNode.removeChild(this.parentNode)>ok</button>";
+                document.querySelector("#loadFile").parentNode.appendChild(div);
+                div.querySelector('button').focus();
+                setTimeout(function(){div.parentNode.removeChild(div)},5000);
+              })();
           }
         </script>
+        <input id=loadFile type=file accept=".json" onchange="loadFile(event)"
+          style="
+            width:100%;
+          "
+        >
       </div>
-      <p>
-      Or manually enter the influent (and save it to a file) <a href="#saveToFile">below &darr;</a>
-      </p>
-    </div>
-
-    <!--enter technologies-->
-    <div>
-      <p>1.1. Activate technologies of your plant</p>
-      <table id=inputs_tech border=1></table>
-    </div>
-    <!--enter ww characteristics-->
-    <div>
-      <p>1.2. Enter influent inputs
-        <small>(required: <span id=input_amount>0</span>)</small>
-      </p>
-
-      <!--inputs table-->
-      <table id=inputs border=1>
-        <tr><th>Input<th>Value<th>Unit
-      </table>
 
       <!--save as json file component-->
-      <div>
+      <p>
+        Save an influent file:
         <button id=saveToFile onclick="saveToFile()"
           style="
             width:100%;
-            font-size:18px;
-            margin-top:5px;
           "
         >Save influent as...</button>
         <script>
@@ -524,19 +516,39 @@
                 unit:i.unit,
               };
             });
+            var datestring=(new Date()).toISOString().replace(/-/g,'').replace(/:/g,'').substring(2,13);
+            //console.log(datestring);
             var link=document.createElement('a');
             link.href="data:text/json;charset=utf-8,"+JSON.stringify(saved_file,null,'  ');
-            link.download="influent-"+(new Date().toISOString().substring(2,19).replace('T','_'))+".json";
+            link.download="inf"+datestring+"UTC.json";
             link.click();
           }
         </script>
-      </div>
-
-      <!--hints-->
-      <p style=font-size:smaller>
-        Hint: modify inputs using the <kbd>&uarr;</kbd> and <kbd>&darr;</kbd> keys.<br>
-        Hint: mouse over inputs and variables to see a description.
       </p>
+    </div>
+
+    <!--enter technologies-->
+    <div>
+      <p>1.1. Activate technologies of your plant</p>
+      <table id=inputs_tech border=1></table>
+    </div>
+
+    <!--enter ww characteristics-->
+    <div>
+      <p>1.2. Enter influent inputs
+        <small>(required: <span id=input_amount>0</span>)</small>
+      </p>
+
+      <!--inputs table-->
+      <table id=inputs border=1>
+        <tr><th>Input<th>Value<th>Unit
+        <style>
+          #inputs input[type=number]{
+            border:none;
+            width:80px;
+          }
+        </style>
+      </table>
 
       <!--go to top link-->
       <div style=font-size:smaller><a href=#>&uarr; top</a></div>
@@ -617,7 +629,7 @@
 
     <!--table effluent phases-->
     <div>
-      <p>3.1. Effluent <small>(<a href="elementary.js">equations</a>)</small></p>
+      <p>3.1. Effluent <small>(<a href="see.php?path=.&file=elementary.js" target=_blank>equations</a>)</small></p>
       <table id=outputs border=1 style=font-size:smaller>
         <tr>
           <th rowspan=2>Compound
@@ -631,7 +643,7 @@
 
     <!--table mass balances-->
     <div>
-      <p>3.2. Mass balances <small>(<a href="mass_balances.js">equations</a>)</small></p>
+      <p>3.2. Mass balances <small>(<a href="see.php?path=.&file=mass_balances.js" target=_blank>equations</a>)</small></p>
       <table id=mass_balances border=1 style=font-size:smaller>
         <tr>
           <th rowspan=2>Element <th rowspan=2>Influent<br><small>(<span class=currentUnit>kg/d</span>)</small>
@@ -701,23 +713,11 @@
         </li>
       </ul>
     </div>
-
-    <!--link to generate an outputs ecospold file-->
-    <div style=margin-top:10px>
-      <p>3.5. <a href=ecospold.php>Save results as ecoSpold file<br>(<issue>under development</issue>)</a>
-      </p>
-    </div>
   </div>
 </div><hr>
 
 <!--TODO development-->
 <p><div style=font-size:smaller>
-  <b>Development issues:</b>
-  <ul>
-    <li>CH<sub>4</sub> (Methane) equations unknown.  <issue class="help_wanted"></issue>
-    <li>TS (Sulfur) effluent unknown.  <issue class="help_wanted"></issue>
-    <li>S (Sulfur) mass balance equations unknown.  <issue class="help_wanted"></issue>
-  </ul><hr>
   <?php include'btn_reset_cache.php'?>
 </div></p>
 
@@ -728,6 +728,25 @@
     //populate technologies table
     (function(){
       var t=document.querySelector('table#inputs_tech');
+      //not activable by user
+      Technologies_selected
+        .filter(tec=>{return tec.notActivable})
+        .forEach(tec=>{
+          var newRow=t.insertRow(-1);
+          //tec name
+          newRow.insertCell(-1).innerHTML=tec.descr;
+          //disabled checkbox
+          newRow.insertCell(-1).outerHTML="<td style=text-align:center><input type=checkbox checked disabled>";
+          //implementation link
+          if(Technologies[tec.id]){
+            newRow.insertCell(-1).innerHTML="<small><center>"+
+              "<a href='see.php?path=techs&file="+Technologies[tec.id].File+"' title='see javascript implementation' target=_blank>"+
+              "equations"+
+              "</a></cente></small>"+
+              "";
+          }
+      });
+      //activable by user
       Technologies_selected
         .filter(tec=>{return !tec.notActivable})
         .forEach(tec=>{
@@ -740,7 +759,7 @@
           //implementation link
           if(Technologies[tec.id]){
             newRow.insertCell(-1).innerHTML="<small><center>"+
-              "<a href='techs/"+Technologies[tec.id].File+"' title='see javascript implementation'>"+
+              "<a href='see.php?path=techs&file="+Technologies[tec.id].File+"' title='see javascript implementation' target=_blank>"+
               "equations"+
               "</a></cente></small>"+
               "";
@@ -753,8 +772,10 @@
       var table=document.querySelector('table#inputs');
 
       //add a row to table
-      function process_input(i){
+      function process_input(i,display){
+        display=display||"";
         var newRow=table.insertRow(-1);
+        newRow.style.display=display;
         var advanced_indicator = i.color ? "<div class=circle style='background:"+i.color+"' title='Advanced knowledge required to modify this input'></div>" : "";
         //insert cells
         newRow.title=i.descr;
@@ -769,33 +790,133 @@
         process_input(i);
       });
 
-      //populate metals (isMetal==true)
-      table.insertRow(-1).insertCell(-1).outerHTML="<th colspan=3 align=left>Metals";
-      Inputs.filter(i=>{return i.isMetal}).forEach(i=>{
-        process_input(i);
-      });
-
       //populate design parameters (isParameter==true)
       table.insertRow(-1).insertCell(-1).outerHTML="<th colspan=3 align=left>Design parameters";
       Inputs.filter(i=>{return i.isParameter}).forEach(i=>{
         process_input(i);
+      });
+
+      //populate metals (isMetal==true)
+      (function(){
+        var newRow=table.insertRow(-1);
+        var newCell=document.createElement('th');
+        newRow.appendChild(newCell);
+        newCell.colSpan=3;
+        newCell.style.textAlign='left';
+        //add <button>+/-</button> Metals
+        newCell.appendChild((function(){
+          var btn=document.createElement('button');
+          btn.innerHTML='→';
+          btn.addEventListener('click',function(){
+            console.log(this.innerHTML);
+            this.innerHTML=(this.innerHTML=='→')?'↓':'→';
+            Inputs.filter(i=>{return i.isMetal}).forEach(i=>{
+              var h=document.querySelector('#inputs #'+i.id).parentNode.parentNode;
+              h.style.display=h.style.display=='none'?'':'none';
+            });
+          });
+          return btn;
+        })());
+        newCell.appendChild((function(){
+          var span=document.createElement('span');
+          span.innerHTML=' Metals';
+          return span;
+        })());
+      })();
+      Inputs.filter(i=>{return i.isMetal}).forEach(i=>{
+        process_input(i,'none');
       });
     })();
 
     //populate outputs
     (function(){
       var table=document.querySelector('#outputs');
-      for(var output in Outputs) {
+      function populate_output(key,display){
+        display=display||"";
         var newRow=table.insertRow(-1);
-        newRow.id=output;
-        newRow.title=Outputs[output].descr;
+        newRow.style.display=display;
+        var output=Outputs[key];
+        newRow.id=key;
+        newRow.title=output.descr;
         //output id
-        newRow.insertCell(-1).outerHTML="<th>"+output.prettifyUnit();
+        newRow.insertCell(-1).outerHTML="<th style='font-weight:normal;'>"+key.prettifyUnit();
         //influent and effluent defaults as 0
         ['influent','water','air','sludge'].forEach(phase=>{
           newRow.insertCell(-1).outerHTML="<td phase="+phase+" class=number><span style=color:#aaa>0";
         });
       }
+
+      //normal outputs
+      (function(){
+        var newRow=table.insertRow(-1);
+        var newCell=document.createElement('th');
+        newRow.appendChild(newCell);
+        newCell.colSpan=5;
+        newCell.style.textAlign='left';
+        //add <button>+/-</button> Metals
+        newCell.appendChild((function(){
+          var btn=document.createElement('button');
+          btn.innerHTML='↓';
+          btn.addEventListener('click',function(){
+            this.innerHTML=(this.innerHTML=='→')?'↓':'→';
+            Object.keys(Outputs).filter(i=>{return !getInputById(i).isMetal}).forEach(i=>{
+              var h=document.querySelector('#outputs #'+i);
+              h.style.display=h.style.display=='none'?'':'none';
+            });
+          });
+          return btn;
+        })());
+        newCell.appendChild((function(){
+          var span=document.createElement('span');
+          span.innerHTML=' Main compounds';
+          return span;
+        })());
+      })();
+      Object.keys(Outputs)
+        .filter(key=>{return !getInputById(key).isMetal})
+        .forEach(key=>{
+          populate_output(key);
+      });
+
+      //metals
+      (function(){
+        var newRow=table.insertRow(-1);
+        var newCell=document.createElement('th');
+        newRow.appendChild(newCell);
+        newCell.colSpan=5;
+        newCell.style.textAlign='left';
+        //add <button>+/-</button> Metals
+        newCell.appendChild((function(){
+          var btn=document.createElement('button');
+          btn.innerHTML='→';
+          btn.addEventListener('click',function(){
+            this.innerHTML=(this.innerHTML=='→')?'↓':'→';
+            Inputs.filter(i=>{return i.isMetal}).forEach(i=>{
+              var h=document.querySelector('#outputs #'+i.id);
+              h.style.display=h.style.display=='none'?'':'none';
+            });
+          });
+          return btn;
+        })());
+        newCell.appendChild((function(){
+          var span=document.createElement('span');
+          span.innerHTML=' Metals';
+          return span;
+        })());
+      })();
+      Object.keys(Outputs)
+        .filter(key=>{return getInputById(key).isMetal})
+        .forEach(key=>{
+          populate_output(key,'none');
+      });
     })();
+
+    //lcorominas requested hiding these inputs from frontend.
+    [
+      'C_PO4_inf', //already calculated in elementary.js
+      'sBODe',     //not useful for anything
+    ].forEach(id=>{
+      document.querySelector('#inputs #'+id).parentNode.parentNode.style.display='none';
+    });
   })();
 </script>

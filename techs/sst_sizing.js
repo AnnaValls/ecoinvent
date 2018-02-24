@@ -1,4 +1,4 @@
-/*  
+/*
  * Technology: sst sizing
  * Metcalf & Eddy, Wastewater Engineering, 5th ed., 2014:
  * page 767
@@ -19,12 +19,18 @@ function sst_sizing(Q,SOR,X_R,clarifiers,MLSS_X_TSS){
   */
 
   /*SOLUTION*/
-  var RAS = MLSS_X_TSS/(X_R - MLSS_X_TSS); //unitless (return sludge recycle ratio)
+  var RAS = MLSS_X_TSS/(X_R - MLSS_X_TSS) || 0; //unitless (return sludge recycle ratio)
+  RAS=Math.max(0,RAS);//avoid negative
+  RAS=isFinite(RAS)?RAS:0;//avoid infinite
+
   var QR = Q*RAS; //m3/d (Q return)
-  var Area = Q/SOR; //m2
-  var area_per_clarifier = Area/clarifiers; //m2/clarifier
+  var Area = Q/SOR ||0; //m2
+  Area=isFinite(Area)?Area:0;
+
+  var area_per_clarifier = Area/clarifiers ||0; //m2/clarifier
   var clarifier_diameter = Math.sqrt(area_per_clarifier*4/Math.PI); //meters
-  var Solids_loading = (1+RAS)*Q*MLSS_X_TSS/1000/(Area*24); //kg MLSS/m2·h
+  var Solids_loading = (1+RAS)*Q*MLSS_X_TSS/1000/(Area*24) ||0; //kg MLSS/m2·h
+  Solids_loading = isFinite(Solids_loading) ? Solids_loading : 0;
 
   return {
     RAS:                 {value:RAS,                 unit:"&empty;",       descr:"Return sludge recycle ratio"},

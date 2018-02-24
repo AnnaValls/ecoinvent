@@ -1,5 +1,5 @@
 /* 
- * Technology: N removal
+ * Technology: N removal or Denitrification ("Des")
  * Metcalf & Eddy, Wastewater Engineering, 5th ed., 2014:
  * page 810
  */
@@ -38,10 +38,12 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
   var bHT=bH*Math.pow(1.04,T - 20); //1/d
 
   //1 -- determine active biomass concentration (eq. 7-42)
-  var Xb = Q*Aerobic_SRT*YH*bCOD/(1 + bHT*Aerobic_SRT)/Aeration_basin_volume; //1267 g/m3
+  var Xb = Q*Aerobic_SRT*YH*bCOD/(1 + bHT*Aerobic_SRT)/Aeration_basin_volume ||0; //1267 g/m3
 
   //2 -- determine IR ratio
-  var IR = NOx/Ne - 1 - RAS; //3.2 (unitless)
+  var IR = (NOx/Ne - 1 - RAS) ||0; //3.2 (unitless)
+  IR=Math.max(0,IR);
+  IR=isFinite(IR)?IR:0;
 
   //3 -- determine the amount of NO3-N fed to the anoxic tank
   var Flowrate_to_anoxic_tank = Q*(IR + RAS); //82,260 m3/d
@@ -74,18 +76,15 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
       console.log('New iteration -- V_nox sizing (iteration: '+iterations+')');
 
       //recalculate tau from V_nox
-      tau = V_nox/Q;
-      console.log('  V_nox: '+V_nox+' m3');
-      console.log('  tau: '+tau+' days');
+      tau = V_nox/Q ||0;
+      tau = Math.max(0,tau);
 
-      //check if tau is positive
-      if(tau<0){
-        console.error('tau cannot be negative. unexpected error. please report');
-        break;
-      }
+      console.log('  V_nox: '+V_nox+' m3');
+      console.log('  tau:   '+tau+' days');
 
       //5 -- determine F/Mb using (eq. 8-56)
-      FM_b = Q*BOD/(V_nox*Xb); //g/g·d
+      FM_b = Q*BOD/(V_nox*Xb) ||0; //g/g·d
+      FM_b=isFinite(FM_b)?FM_b:0;
       console.log("F/Mb = "+FM_b);
 
       //6 -- determine SDNR using (eq. 8-57)
@@ -103,7 +102,7 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
         ];
 
         //compute the fraction of rbCOD to find b0 and b1 in the table 8-22
-        var Fraction_of_rbCOD = Math.max(0,Math.min(50,Math.floor(100*rbCOD/bCOD))); //min:0, max:50 (for the lookup table)
+        var Fraction_of_rbCOD = Math.max(0,Math.min(50, Math.floor((100*rbCOD/bCOD)||0))); //min:0, max:50 (for the lookup table)
 
         //round the fraction of rbCOD to 0, 10, 20, 30, 40 or 50.
         Fraction_of_rbCOD -= Fraction_of_rbCOD%10; 
@@ -139,7 +138,7 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
       }
 
       //7 -- overall SDNR based on MLVSS
-      SDNR = SDNR_adj*Xb/MLVSS; //g/g·d
+      SDNR = SDNR_adj*Xb/MLVSS ||0; //g/g·d
 
       //8 -- amount of NO3-N that can be reduced (eq. 8-51)
       NO_r = V_nox*SDNR_adj*Xb; //g/d
@@ -148,7 +147,7 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
       //NO_r should be greater than NO_x feed because NO_r is the amount of NO3-N that can be reduced by the system
       //and NOx_feed is the NO3-N that goes into
       //(if difference is negative => NOx_feed > NO_r)
-      difference_NOr_NOx = (1 - NOx_feed/NO_r)*100;
+      difference_NOr_NOx = (1 - NOx_feed/NO_r||0)*100;
       //debugging info
       console.log("NOx_feed vs NO_r - difference: "+difference_NOr_NOx+" %");
 
@@ -177,6 +176,7 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
         //decrease V_nox
         V_nox-=delta_V_nox;
       }
+      V_nox=Math.max(0,V_nox);
     }
   })();//end loop for finding V_nox volume (m3)
 
@@ -210,7 +210,7 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
   var Pb = Pa*Math.exp(-g*M*(zb-0)/(R*(273.15+T))); //pressure at plant site (m)
   var SOTR = (OTRf/alpha/F)*(C_inf_20/(beta*C_T/C_s_20*Pb/Pa*C_inf_20-C_L))*(Math.pow(1.024,20-T)); //kg/h
   var kg_O2_per_m3_air = density_of_air(T,Pressure)*0.2318; //oxygen in air by weight is 23.18%, by volume is 20.99%
-  var air_flowrate = SOTR/(E*60*kg_O2_per_m3_air);
+  var air_flowrate = SOTR/(E*60*kg_O2_per_m3_air) ||0;
 
   //10
   var Alkalinity_used = 7.14*NOx; //g/m3
@@ -231,7 +231,7 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
     tau:                        {value:tau,                        unit:"d",              descr:"tau detention time"},
     V_nox:                      {value:V_nox,                      unit:"m3",             descr:"Anoxic volume"},
     FM_b:                       {value:FM_b,                       unit:"g/g·d",          descr:"F/Mb"},
-    Fraction_of_rbCOD:          {value:100*rbCOD/bCOD,             unit:"%",              descr:"Fraction_of_rbCOD"},
+    Fraction_of_rbCOD:          {value:100*rbCOD/bCOD||0,          unit:"%",              descr:"Fraction_of_rbCOD"},
     b0:                         {value:b0,                         unit:"g/g·d",          descr:"b0 (needed for SDNR)"},
     b1:                         {value:b1,                         unit:"g/g·d",          descr:"b1 (needed for SDNR)"},
     SDNR_b:                     {value:SDNR_b,                     unit:"g/g·d",          descr:"SDNR_b"},

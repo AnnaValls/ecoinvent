@@ -6,7 +6,7 @@
 			var name = Technologies[tech].Name;
 			document.write("<table border=1 class=tech><tr><th colspan=2>");
 			document.write("<a href='implementations/"+Technologies[tech].Implemented_in+"'>"+name+"</a>")
-      document.write("<tr><th colspan=2><a href='techs/"+file+"'>equations</a>");
+      document.write("<tr><th colspan=2><a href='see.php?path=techs&file="+file+"'>equations</a>");
 			var out = (function(){
 				var ret=[];
 				var Result = func();

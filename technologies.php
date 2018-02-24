@@ -28,7 +28,7 @@
         var newRow=t.insertRow(-1);
         newRow.insertCell(-1).innerHTML=tec;
         newRow.insertCell(-1).innerHTML=el.Name;
-        newRow.insertCell(-1).innerHTML="<a href='techs/"+el.File+"'>"+el.File+"</a>";
+        newRow.insertCell(-1).innerHTML="<a href='see.php?path=techs&file="+el.File+"'>"+el.File+"</a>";
         newRow.insertCell(-1).innerHTML=( ()=>{
           var str=[]
           el.Inputs.forEach(i=>{

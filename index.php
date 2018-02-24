@@ -24,7 +24,7 @@
           <li><a href=technologies.php      >All technologies</a>
           <li><a href=inputs.php            >All inputs</a>
           <li><a href=outputs.php           >All outputs</a>
-          <li><a href=dataModel/constants.js>All constants</a>
+          <li><a href=see.php?path=dataModel&file=constants.js>All constants</a>
           <li><a href=construction.php      >Construction materials</a> (<em>TBD</em>)
         </ul>
       <li>
@@ -33,7 +33,6 @@
           <li><a href="marginal.php">Marginal approach</a>
           <li><a href="reference_data.php">Average influents by country ("Reference data")</a>
         </ul>
-      <li><a href="generate_influent.php">Generate ifluent file (json format)</a>
       <li><a href=ecospold.php>Generate output file (ecospold format)</a>
     </ul>
   </div><hr>
@@ -47,42 +46,42 @@
         <td>1. <a href="implementations/bod_removal_with_nitrification.php">Fractionation</a>
         <td>M&amp;E 5th ed (p. 756)
         <td>Tested &amp; working
-        <td><a href="techs/fractionation.js">fractionation.js</a>
+        <td><a href="see.php?path=techs&file=fractionation.js">fractionation.js</a>
       <tr>
         <td>2. <a href="implementations/bod_removal_with_nitrification.php">BOD removal only</a>
         <td>M&amp;E 5th ed (p. 756)
         <td>Tested &amp; working
-        <td><a href="techs/bod_removal_only.js">bod_removal_only.js</a>
+        <td><a href="see.php?path=techs&file=bod_removal_only.js">bod_removal_only.js</a>
       <tr>
         <td>3. <a href="implementations/bod_removal_with_nitrification.php">Nitrification</a>
         <td>M&amp;E 5th ed (p. 762)
         <td>Tested &amp; working
-        <td><a href="techs/nitrification.js">nitrification.js</a>
+        <td><a href="see.php?path=techs&file=nitrification.js">nitrification.js</a>
       <tr>
         <td>4. <a href="implementations/bod_removal_with_nitrification.php">SST sizing</a>
         <td>M&amp;E 5th ed (p. 767)
         <td>Tested &amp; working
-        <td><a href="techs/sst_sizing.js">sst_sizing.js</a>
+        <td><a href="see.php?path=techs&file=sst_sizing.js">sst_sizing.js</a>
       <tr>
         <td>5. <a href="implementations/N_removal.php">N removal</a>
         <td>M&amp;E 5th ed (p. 810)
         <td>Tested &amp; working
-        <td><a href="techs/n_removal.js">n_removal.js</a>
+        <td><a href="see.php?path=techs&file=n_removal.js">n_removal.js</a>
       <tr>
         <td>6. <a href="implementations/bio_P_removal.php">P removal (biologically)</a>
         <td>M&amp;E 5th ed (p. 880)
         <td>Tested &amp; working
-        <td><a href="techs/bio_P_removal.js">bio_P_removal.js</a>
+        <td><a href="see.php?path=techs&file=bio_P_removal.js">bio_P_removal.js</a>
       <tr>
         <td>7. <a href="implementations/chem_P_removal.php">P removal (chemically)</a>
         <td>M&amp;E 5th ed (p. 484)
         <td>Tested &amp; working
-        <td><a href="techs/chem_P_removal.js">chem_P_removal.js</a>
+        <td><a href="see.php?path=techs&file=chem_P_removal.js">chem_P_removal.js</a>
       <tr>
         <td>8. Metals
         <td>G. Doka
         <td>Tested &amp; working
-        <td><a href="techs/metals_doka.js">metals_doka.js</a>
+        <td><a href="see.php?path=techs&file=metals_doka.js">metals_doka.js</a>
     </table>
   </div><hr>
 

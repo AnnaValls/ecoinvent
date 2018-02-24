@@ -37,7 +37,7 @@ function chem_P_removal(Q,TSS,TSS_removal_wo_Fe,TSS_removal_w_Fe,TP,C_PO4_inf,C_
   //4
   var percent_Fe_in_FeCl3 = 100*M_Fe/162.3; //%
   var amount_FeCl3_solution = Fe_dose/percent_Fe_in_FeCl3*100; //kg/d
-  var FeCl3_volume = amount_FeCl3_solution/(FeCl3_solution/100*FeCl3_unit_weight); //L/d 
+  var FeCl3_volume = amount_FeCl3_solution/(FeCl3_solution/100*FeCl3_unit_weight) ||0; //L/d 
   var storage_req_15_d = FeCl3_volume/1000*days; //m3
   //5
   var Additional_sludge = 0.15*TSS*Q/1000; //kg/d   (? 0.15)

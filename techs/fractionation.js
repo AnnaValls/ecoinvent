@@ -22,8 +22,13 @@ function fractionation(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio){
   var nbCOD   = Math.max(COD - bCOD, 0);                 // 76 g/m3
   var nbsCODe = Math.max(sCOD - bCOD_BOD_ratio*sBOD, 0); // 20 g/m3
   var nbpCOD  = Math.max(COD - bCOD - nbsCODe, 0);       // 56 g/m3
+
   var VSS_COD = (COD-sCOD)/VSS || 0;                     //2.8 g_COD/g_VSS
+  VSS_COD = isFinite(VSS_COD) ? VSS_COD : 0;             //avoid infinity when VSS==0
+
   var nbVSS   = nbpCOD/VSS_COD || 0;                     // 20 g/m3
+  nbVSS = isFinite(nbVSS) ? nbVSS : 0;                   //avoid infinity when VSS_COD==0
+
   var iTSS    = Math.max(TSS - VSS, 0);                  // 10 g/m3
 
   //return results object

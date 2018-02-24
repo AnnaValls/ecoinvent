@@ -28,13 +28,13 @@ function bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,NOx,NO3_eff){
   var Q_rbCOD = Q*rbCOD; //300,000 g/d
   var RQ_NO3_N = 0.50*Q*NO3_eff; //12,000 g/d
   var rbCOD_used_by_NO3 = rbCOD_NO3_ratio * RQ_NO3_N; //62,400 g/d
-  var rbCOD_available = Q_rbCOD - rbCOD_used_by_NO3; //237,600 g/d
+  var rbCOD_available = Math.max(0, Q_rbCOD - rbCOD_used_by_NO3); //237,600 g/d
 
   //2
-  var VFA_rbCOD_ratio = VFA / rbCOD; //0.20 no unit (0.15 in biowin)
-  var rbCOD_P_ratio = get_rbCOD_P_ratio(VFA_rbCOD_ratio); //15: implemented fig 8-38 at "utils.js"
-  var rbCOD_available_normalized = rbCOD_available/Q; //59.4 g/m3
-  var P_removal_EBPR = rbCOD_available_normalized/rbCOD_P_ratio; //4 g/m3 (page 881)
+  var VFA_rbCOD_ratio = VFA/rbCOD ||0; //0.20 no unit (0.15 in biowin)
+  var rbCOD_P_ratio = get_rbCOD_P_ratio(VFA_rbCOD_ratio); //15. implemented fig 8-38 at "utils.js"
+  var rbCOD_available_normalized = rbCOD_available/Q ||0; //59.4 g/m3
+  var P_removal_EBPR = rbCOD_available_normalized/rbCOD_P_ratio ||0; //4 g/m3 (page 881)
 
   //3 removal by other heterotrophic bacteria
   var bHT = bH*Math.pow(1.04,T-20); //0.088 1/d
@@ -43,7 +43,7 @@ function bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,NOx,NO3_eff){
 
   //P_X_bio = 334134; //TODO in metcalf is wrong
   var P_removal_synthesis = 0.015*P_X_bio; //5012 g/d
-  var P_removal_synthesis_n = P_removal_synthesis/Q; //1.2 g/m3
+  var P_removal_synthesis_n = P_removal_synthesis/Q ||0; //1.2 g/m3
 
   //4
   var Effluent_P = TP - P_removal_EBPR - P_removal_synthesis_n; //0.80 g/m3
@@ -52,7 +52,7 @@ function bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,NOx,NO3_eff){
   var P_X_TSS = P_X_bio/0.85 + Q*nbVSS + Q*(iTSS); //433,099 g/d
   //P_X_TSS = 433099; //TODO in metcalf is wrong
   var P_removal_gday = (TP - Effluent_P)*Q; //20,800 g/d
-  var P_in_waste_sludge = 100*P_removal_gday/P_X_TSS; //4.8 %
+  var P_in_waste_sludge = 100*P_removal_gday/P_X_TSS ||0; //4.8 %
 
   /*part B 1 skipped, not relevant */
   var P_removal = P_removal_EBPR + P_removal_synthesis_n; //5 g/m3
@@ -77,7 +77,7 @@ function bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,NOx,NO3_eff){
     P_removal_gday:        {value:P_removal_gday,              unit:"g/d",      descr:"P_removal (g/day)"},
     P_in_waste_sludge:     {value:P_in_waste_sludge,           unit:"%",        descr:"P_in_waste_sludge"},
     P_removal:             {value:P_removal,                   unit:"g/m3",     descr:"Total P removal"},
-    V:                     {value:V_anaerobic,                 unit:"m3",       descr:"Anaerobic volume"},
+    V_ana:                 {value:V_anaerobic,                 unit:"m3",       descr:"Anaerobic volume"},
   }
 }
 

@@ -47,9 +47,9 @@
 	#root {
 		margin-left:8px;
 	}
-	.number {
-		text-align:right;
-	}
+  input[type=number], .number {
+    text-align:right;
+  }
 	.flex {
 		display:flex;
 		flex-wrap:wrap;

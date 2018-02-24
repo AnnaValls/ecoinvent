@@ -12,6 +12,8 @@ function compute_elementary_flows(Input_set){
     var is_Des_active = is.is_Des_active;
     var is_BiP_active = is.is_BiP_active;
     var is_ChP_active = is.is_ChP_active;
+    var is_Met_active = is.is_Met_active;
+
     //ww characteristics
     var Q              = is.Q;
     var T              = is.T;
@@ -26,6 +28,7 @@ function compute_elementary_flows(Input_set){
     var Alkalinity     = is.Alkalinity;
     var TP             = is.TP;
     var TS             = is.TS;
+
     //influent metals
     var Ag = is.Ag;
     var Al = is.Al;
@@ -94,13 +97,6 @@ function compute_elementary_flows(Input_set){
   //reset Variables object
   Variables=[];
 
-  //starting point: bod removal has to be always active. If not: do nothing
-  if(is_BOD_active==false){
-    console.log('BOD REMOVAL IS INACTIVE: nothing will be calculated');
-    Inputs_to_be_hidden=[];
-    return;
-  }
-
   //new empty object to store each technology results
   var Result={Fra:{},BOD:{},Nit:{},SST:{},Des:{},BiP:{},ChP:{},Met:{}};
 
@@ -108,6 +104,12 @@ function compute_elementary_flows(Input_set){
   /*0. SOLVE FRACTIONATION */
   Result.Fra=fractionation(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio);
   addResults('Fra',Result.Fra);
+
+  //bod removal has to be always active. If not: do nothing
+  if(is_BOD_active==false){
+    console.log('BOD REMOVAL IS INACTIVE: nothing will be calculated');
+    return;
+  }
 
   /*1. SOLVE BOD REMOVAL*/
   Result.BOD=bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb,Pressure,Df,C_L);
@@ -123,14 +125,10 @@ function compute_elementary_flows(Input_set){
   var bHT     = Result.BOD.bHT.value;     //1/d
 
   //lcorominas equations block 1
-  var nbpON   = 0.064*nbVSS;             //g/m3
-  var nbsON   = 0.3;                     //g/m3
-  var TKN_N2O = 0.001*TKN;               //g/m3
-  var bTKN    = TKN-nbpON-nbsON-TKN_N2O; //g/m3
-
-  //block 1 - equations for actual inputs
-  //var rbCOD = sCOD - nbsCODe; //g/m3 (input!)
-  //var VFA   = 0.15 * rbCOD;   //g/m3 (input!)
+  var nbpON   = Math.min(TKN, 0.064*nbVSS);           //g/m3
+  var nbsON   = Math.min(TKN, 0.3);                   //g/m3
+  var TKN_N2O = 0.001*TKN;                            //g/m3
+  var bTKN    = Math.max(0, TKN-nbpON-nbsON-TKN_N2O); //g/m3
 
   /*2. SOLVE NITRIFICATION*/
   if(is_Nit_active){
@@ -151,21 +149,13 @@ function compute_elementary_flows(Input_set){
   SRT = is_Nit_active ? Result.Nit.SRT_design.value : SRT; //d
 
   //lcorominas - equations block 2
-  var VSSe      = TSSe*0.85;                 //g/m3
-  var sCODe     = Q*(nbsCODe+S);             //g/d
-  var nbpP      = 0.025*nbVSS;               //g/m3
-  var aP        = TP - nbpP;                 //g/m3 == PO4_in
-  var aPchem    = aP - 0.015*P_X_bio*1000/Q; //g/m3 == PO4_in
-  var C_PO4_inf = aPchem;                    //g/m3 (input!)
+  var VSSe      = TSSe*0.85;     //g/m3
+  var sCODe     = Q*(nbsCODe+S); //g/d
 
-  //lcorominas requested hiding these inputs from frontend.
-  //I've moved them to Variables
-  Inputs_to_be_hidden=[
-    //{id:'rbCOD',      value:rbCOD      },
-    //{id:'VFA',        value:VFA        },
-    {id:'C_PO4_inf',  value:C_PO4_inf, },
-    {id:'sBODe',      value:sBODe,     invisible:true},
-  ];
+  var nbpP      = Math.min(TP, 0.025*nbVSS); //g/m3
+  var aP        = Math.max( 0, TP - nbpP);   //g/m3 == PO4_in
+  var aPchem    = Math.max( 0, (aP - 0.015*P_X_bio*1000/Q)) ||0; //g/m3 == PO4_in
+  var C_PO4_inf = aPchem; //g/m3 (input!)
 
   /*3. SOLVE SST*/
   Result.SST=sst_sizing(Q,SOR,X_R,clarifiers,MLSS_X_TSS);
@@ -175,7 +165,7 @@ function compute_elementary_flows(Input_set){
   if(is_Nit_active && is_Des_active){
     var MLVSS                 = Result.Nit.MLVSS.value;      //2370 g/m3
     var Aerobic_SRT           = Result.Nit.SRT_design.value; //21 d
-    var Aeration_basin_volume = Result.Nit.V.value;          //13410 m3
+    var Aeration_basin_volume = Result.Nit.V_aer.value;          //13410 m3
     var Aerobic_T             = Result.Nit.tau.value;        //14.2 h
     var RAS                   = Result.SST.RAS.value;        //0.6 unitless
     var R0                    = Result.Nit.OTRf.value;       //275.9 kg O2/h
@@ -197,37 +187,57 @@ function compute_elementary_flows(Input_set){
   //end technologies from metcalf and eddy
 
   /*6. Metals (from G. Doka)*/
-  Result.Met=metals_doka(Ag,Al,As,B,Ba,Be,Br,Ca,Cd,Cl,Co,Cr,Cu,F,Fe,Hg,I,K,Mg,Mn,Mo,Na,Ni,Pb,Sb,Sc,Se,Si,Sn,Sr,Ti,Tl,V,W,Zn);
-  addResults('Met',Result.Met);
+  if(is_Met_active){
+    Result.Met=metals_doka(Ag,Al,As,B,Ba,Be,Br,Ca,Cd,Cl,Co,Cr,Cu,F,Fe,Hg,I,K,Mg,Mn,Mo,Na,Ni,Pb,Sb,Sc,Se,Si,Sn,Sr,Ti,Tl,V,W,Zn);
+    addResults('Met',Result.Met);
+  }
 
   /*
    * Calc total volumes:
-   *  V_total = V_aerobic + V_anoxic + V_anaerobic
+   * V_total = V_aerobic + V_anoxic + V_anaerobic
    */
-  var V_total = is_Nit_active ? Result.Nit.V.value : Result.BOD.V.value; //aerobic m3
+  var V_total = is_Nit_active ? Result.Nit.V_aer.value : Result.BOD.V_aer.value; //aerobic m3
   if(is_Des_active){ V_total += Result.Des.V_nox.value } //anoxic m3
-  if(is_BiP_active){ V_total += Result.BiP.V.value } //anaerobic m3
+  if(is_BiP_active){ V_total += Result.BiP.V_ana.value } //anaerobic m3
 
   //Qwas: lcorominas equation wastage flowrate
   //Qe: lcorominas equation Q(effluent) flowrate
   //sTKNe (used only in TKN effluent)
-  var Qwas = (V_total*MLSS_X_TSS/SRT - Q*TSSe)/(X_R - TSSe); //m3/d
+  var Qwas = (V_total*MLSS_X_TSS/SRT - Q*TSSe)/(X_R - TSSe) ||0; //m3/d
+  Qwas = isFinite(Qwas) ? Qwas : 0;
+
   var Qe = Q - Qwas; //m3/d
   var sTKNe = Qe*(Ne + nbsON); //g/d
 
   var SOTR = is_Des_active ? Result.Des.SOTR.value : (is_Nit_active ? Result.Nit.SOTR.value : Result.BOD.SOTR.value);
   var SAE  = 4; //kgO2/kWh TBD
 
-  var P_X_TSS = is_BiP_active ? Result.BiP.P_X_TSS.value : (is_Nit_active ? Result.Nit.P_X_TSS.value : Result.BOD.P_X_TSS.value); 
+  var P_X_TSS = is_BiP_active ? Result.BiP.P_X_TSS.value : (is_Nit_active ? Result.Nit.P_X_TSS.value : Result.BOD.P_X_TSS.value);
 
   //manually add equations from lcorominas pdf to Result
   Result.summary={
-    'V_total': {value:V_total,  unit:"m3",        descr:"Total reactor volume"},
-    'Qwas':    {value:Qwas,     unit:"m3/d",      descr:"Wastage flow"},
-    'SRT':     {value:SRT,      unit:"d",         descr:getInputById('SRT').descr},
-    'SAE':     {value:SAE,      unit:"kg_O2/kWh", descr:"Conversion from kgO2 to kWh"},
-    'O2_power':{value:SOTR/SAE, unit:"kW",        descr:"Power needed for aeration (=SOTR/SAE)"},
-    'P_X_TSS': {value:P_X_TSS,  unit:"kg/d",      descr:"Total sludge produced per day"},
+    'Qwas':    {value:Qwas,        unit:"m3/d",      descr:"Wastage flow"},
+    'Qe':      {value:Qe,          unit:"m3/d",      descr:"Qe = Q - Qwas"},
+
+    'nbpON':   {value:nbpON,       unit:"g/m3",      descr:"nonbiodegradable particulate ON"},
+    'nbsON':   {value:nbsON,       unit:"g/m3",      descr:"nonbiodegradable soluble ON"},
+    'TKN_N2O': {value:TKN_N2O,     unit:"g/m3",      descr:"TKN N2O (0.1% of TKN)"},
+    'bTKN':    {value:bTKN,        unit:"g/m3",      descr:"biodegradable TKN"},
+    'sTKNe':   {value:sTKNe,       unit:"g/m3",      descr:"Soluble TKN effluent"},
+
+    'VSSe':      {value:VSSe,        unit:"g/m3",      descr:"Volatile Suspended Solids at effluent"},
+    'VSSe*0.12': {value:VSSe*0.12,   unit:"g/m3",      descr:"??? ask L corominas"}, //TODO
+    'sCODe':     {value:sCODe,       unit:"g/d",       descr:"Soluble COD at effluent"},
+
+    'nbpP':    {value:nbpP,        unit:"g/m3",      descr:"Nonbiodegradable particulate P"},
+    'aP':      {value:aP,          unit:"g/m3",      descr:"Available P"},
+    'aPchem':  {value:aPchem,      unit:"g/m3",      descr:"Available P for chemicals"},
+
+    'V_total': {value:V_total,     unit:"m3",        descr:"Total reactor volume (aerobic+anoxic+anaerobic)"},
+    'SRT':     {value:SRT,         unit:"d",         descr:getInputById('SRT').descr},
+    'SAE':     {value:SAE,         unit:"kg_O2/kWh", descr:"Energy needed to aerate 1 kgO2"},
+    'O2_power':{value:SOTR/SAE||0, unit:"kW",        descr:"Power needed for aeration (=SOTR/SAE)"},
+    'P_X_TSS': {value:P_X_TSS,     unit:"kg/d",      descr:"Total sludge produced per day"},
   };
   addResults('summary',Result.summary);
 
@@ -287,7 +297,7 @@ function compute_elementary_flows(Input_set){
   })();
   Outputs.COD.effluent.sludge = (function(){
     var A = P_X_bio*1000;
-    var B = Qwas*sCODe/Q;
+    var B = Qwas*sCODe/Q ||0;
     var C = Q*nbpCOD;
     var D = Qe*VSSe*1.42;
     return A+B+C-D;
@@ -308,7 +318,7 @@ function compute_elementary_flows(Input_set){
   Outputs.CH4.influent       = 0;
   Outputs.CH4.effluent.water = 0;
   Outputs.CH4.air            = (function(){
-    var is_Anaer_treatment = false; 
+    var is_Anaer_treatment = false;
     if(is_Anaer_treatment){
       return 0.95*Q*bCOD;
     }else{
@@ -321,7 +331,7 @@ function compute_elementary_flows(Input_set){
   Outputs.TKN.influent = Q*TKN;
   Outputs.TKN.effluent.water = (function(){
     if(is_Nit_active){
-      return Qe*Ne + Qe*nbsON + Qe*VSSe*0.12;
+      return Qe*(Ne + nbsON + VSSe*0.12);
     }else{
       return Q*(TKN - nbpON - TKN_N2O) + Qe*VSSe*0.12 - 0.12*P_X_bio*1000;
     }
@@ -329,7 +339,7 @@ function compute_elementary_flows(Input_set){
   Outputs.TKN.effluent.air    = 0;
   Outputs.TKN.effluent.sludge = (function(){
     var A = 0.12*P_X_bio*1000;
-    var B = Qwas*sTKNe/Qe;
+    var B = Qwas*sTKNe/Qe ||0;
     var C = Q*nbpON;
     var D = Qe*VSSe*0.12;
     return A+B+C-D;
@@ -375,7 +385,7 @@ function compute_elementary_flows(Input_set){
     }else if(is_BiP_active  && is_ChP_active==false){
       return Q*(Result.BiP.Effluent_P.value - nbpP) + Qe*VSSe*0.015;
     }else if(is_BiP_active==false && is_ChP_active){
-      return Q*C_PO4_eff + Qe*VSSe*0.015 + Qe*VSSe*(C_PO4_eff-C_PO4_inf)/(P_X_VSS*1000);
+      return (Q*C_PO4_eff + Qe*VSSe*0.015 + Qe*VSSe*(C_PO4_eff-C_PO4_inf)/(P_X_VSS*1000)) ||0;
     }else{
       return 0; //chem+bio p removal not seen in practice (G. Ekama)
     }
@@ -403,42 +413,45 @@ function compute_elementary_flows(Input_set){
   Outputs.TS.effluent.sludge = 0;
 
   //Outputs METALS
-  Outputs.Ag.influent=Q*Ag;Outputs.Ag.effluent.water=Q*Result.Met.Ag_water.value;Outputs.Ag.effluent.sludge=Q*Result.Met.Ag_sludge.value;
-  Outputs.Al.influent=Q*Al;Outputs.Al.effluent.water=Q*Result.Met.Al_water.value;Outputs.Al.effluent.sludge=Q*Result.Met.Al_sludge.value;
-  Outputs.As.influent=Q*As;Outputs.As.effluent.water=Q*Result.Met.As_water.value;Outputs.As.effluent.sludge=Q*Result.Met.As_sludge.value;
-  Outputs.Ba.influent=Q*Ba;Outputs.Ba.effluent.water=Q*Result.Met.Ba_water.value;Outputs.Ba.effluent.sludge=Q*Result.Met.Ba_sludge.value;
-  Outputs.Be.influent=Q*Be;Outputs.Be.effluent.water=Q*Result.Met.Be_water.value;Outputs.Be.effluent.sludge=Q*Result.Met.Be_sludge.value;
-  Outputs.Br.influent=Q*Br;Outputs.Br.effluent.water=Q*Result.Met.Br_water.value;Outputs.Br.effluent.sludge=Q*Result.Met.Br_sludge.value;
-  Outputs.Ca.influent=Q*Ca;Outputs.Ca.effluent.water=Q*Result.Met.Ca_water.value;Outputs.Ca.effluent.sludge=Q*Result.Met.Ca_sludge.value;
-  Outputs.Cd.influent=Q*Cd;Outputs.Cd.effluent.water=Q*Result.Met.Cd_water.value;Outputs.Cd.effluent.sludge=Q*Result.Met.Cd_sludge.value;
-  Outputs.Cl.influent=Q*Cl;Outputs.Cl.effluent.water=Q*Result.Met.Cl_water.value;Outputs.Cl.effluent.sludge=Q*Result.Met.Cl_sludge.value;
-  Outputs.Co.influent=Q*Co;Outputs.Co.effluent.water=Q*Result.Met.Co_water.value;Outputs.Co.effluent.sludge=Q*Result.Met.Co_sludge.value;
-  Outputs.Cr.influent=Q*Cr;Outputs.Cr.effluent.water=Q*Result.Met.Cr_water.value;Outputs.Cr.effluent.sludge=Q*Result.Met.Cr_sludge.value;
-  Outputs.Cu.influent=Q*Cu;Outputs.Cu.effluent.water=Q*Result.Met.Cu_water.value;Outputs.Cu.effluent.sludge=Q*Result.Met.Cu_sludge.value;
-  Outputs.Fe.influent=Q*Fe;Outputs.Fe.effluent.water=Q*Result.Met.Fe_water.value;Outputs.Fe.effluent.sludge=Q*Result.Met.Fe_sludge.value;
-  Outputs.Hg.influent=Q*Hg;Outputs.Hg.effluent.water=Q*Result.Met.Hg_water.value;Outputs.Hg.effluent.sludge=Q*Result.Met.Hg_sludge.value;
-  Outputs.Mg.influent=Q*Mg;Outputs.Mg.effluent.water=Q*Result.Met.Mg_water.value;Outputs.Mg.effluent.sludge=Q*Result.Met.Mg_sludge.value;
-  Outputs.Mn.influent=Q*Mn;Outputs.Mn.effluent.water=Q*Result.Met.Mn_water.value;Outputs.Mn.effluent.sludge=Q*Result.Met.Mn_sludge.value;
-  Outputs.Mo.influent=Q*Mo;Outputs.Mo.effluent.water=Q*Result.Met.Mo_water.value;Outputs.Mo.effluent.sludge=Q*Result.Met.Mo_sludge.value;
-  Outputs.Na.influent=Q*Na;Outputs.Na.effluent.water=Q*Result.Met.Na_water.value;Outputs.Na.effluent.sludge=Q*Result.Met.Na_sludge.value;
-  Outputs.Ni.influent=Q*Ni;Outputs.Ni.effluent.water=Q*Result.Met.Ni_water.value;Outputs.Ni.effluent.sludge=Q*Result.Met.Ni_sludge.value;
-  Outputs.Pb.influent=Q*Pb;Outputs.Pb.effluent.water=Q*Result.Met.Pb_water.value;Outputs.Pb.effluent.sludge=Q*Result.Met.Pb_sludge.value;
-  Outputs.Sb.influent=Q*Sb;Outputs.Sb.effluent.water=Q*Result.Met.Sb_water.value;Outputs.Sb.effluent.sludge=Q*Result.Met.Sb_sludge.value;
-  Outputs.Sc.influent=Q*Sc;Outputs.Sc.effluent.water=Q*Result.Met.Sc_water.value;Outputs.Sc.effluent.sludge=Q*Result.Met.Sc_sludge.value;
-  Outputs.Se.influent=Q*Se;Outputs.Se.effluent.water=Q*Result.Met.Se_water.value;Outputs.Se.effluent.sludge=Q*Result.Met.Se_sludge.value;
-  Outputs.Si.influent=Q*Si;Outputs.Si.effluent.water=Q*Result.Met.Si_water.value;Outputs.Si.effluent.sludge=Q*Result.Met.Si_sludge.value;
-  Outputs.Sn.influent=Q*Sn;Outputs.Sn.effluent.water=Q*Result.Met.Sn_water.value;Outputs.Sn.effluent.sludge=Q*Result.Met.Sn_sludge.value;
-  Outputs.Sr.influent=Q*Sr;Outputs.Sr.effluent.water=Q*Result.Met.Sr_water.value;Outputs.Sr.effluent.sludge=Q*Result.Met.Sr_sludge.value;
-  Outputs.Ti.influent=Q*Ti;Outputs.Ti.effluent.water=Q*Result.Met.Ti_water.value;Outputs.Ti.effluent.sludge=Q*Result.Met.Ti_sludge.value;
-  Outputs.Tl.influent=Q*Tl;Outputs.Tl.effluent.water=Q*Result.Met.Tl_water.value;Outputs.Tl.effluent.sludge=Q*Result.Met.Tl_sludge.value;
-  Outputs.Zn.influent=Q*Zn;Outputs.Zn.effluent.water=Q*Result.Met.Zn_water.value;Outputs.Zn.effluent.sludge=Q*Result.Met.Zn_sludge.value;
-
-  Outputs.B.influent=Q*B; Outputs.B.effluent.water=Q*Result.Met.B_water.value; Outputs.B.effluent.sludge=Q*Result.Met.B_sludge.value;
-  Outputs.F.influent=Q*F; Outputs.F.effluent.water=Q*Result.Met.F_water.value; Outputs.F.effluent.sludge=Q*Result.Met.F_sludge.value;
-  Outputs.I.influent=Q*I; Outputs.I.effluent.water=Q*Result.Met.I_water.value; Outputs.I.effluent.sludge=Q*Result.Met.I_sludge.value;
-  Outputs.K.influent=Q*K; Outputs.K.effluent.water=Q*Result.Met.K_water.value; Outputs.K.effluent.sludge=Q*Result.Met.K_sludge.value;
-  Outputs.V.influent=Q*V; Outputs.V.effluent.water=Q*Result.Met.V_water.value; Outputs.V.effluent.sludge=Q*Result.Met.V_sludge.value;
-  Outputs.W.influent=Q*W; Outputs.W.effluent.water=Q*Result.Met.W_water.value; Outputs.W.effluent.sludge=Q*Result.Met.W_sludge.value;
+  (function(){
+  })();
+  if(is_Met_active){
+    Outputs.Ag.influent=Q*Ag; Outputs.Ag.effluent.water=Q*Result.Met.Ag_water.value; Outputs.Ag.effluent.sludge=Q*Result.Met.Ag_sludge.value;
+    Outputs.Al.influent=Q*Al; Outputs.Al.effluent.water=Q*Result.Met.Al_water.value; Outputs.Al.effluent.sludge=Q*Result.Met.Al_sludge.value;
+    Outputs.As.influent=Q*As; Outputs.As.effluent.water=Q*Result.Met.As_water.value; Outputs.As.effluent.sludge=Q*Result.Met.As_sludge.value;
+    Outputs.Ba.influent=Q*Ba; Outputs.Ba.effluent.water=Q*Result.Met.Ba_water.value; Outputs.Ba.effluent.sludge=Q*Result.Met.Ba_sludge.value;
+    Outputs.Be.influent=Q*Be; Outputs.Be.effluent.water=Q*Result.Met.Be_water.value; Outputs.Be.effluent.sludge=Q*Result.Met.Be_sludge.value;
+    Outputs.Br.influent=Q*Br; Outputs.Br.effluent.water=Q*Result.Met.Br_water.value; Outputs.Br.effluent.sludge=Q*Result.Met.Br_sludge.value;
+    Outputs.Ca.influent=Q*Ca; Outputs.Ca.effluent.water=Q*Result.Met.Ca_water.value; Outputs.Ca.effluent.sludge=Q*Result.Met.Ca_sludge.value;
+    Outputs.Cd.influent=Q*Cd; Outputs.Cd.effluent.water=Q*Result.Met.Cd_water.value; Outputs.Cd.effluent.sludge=Q*Result.Met.Cd_sludge.value;
+    Outputs.Cl.influent=Q*Cl; Outputs.Cl.effluent.water=Q*Result.Met.Cl_water.value; Outputs.Cl.effluent.sludge=Q*Result.Met.Cl_sludge.value;
+    Outputs.Co.influent=Q*Co; Outputs.Co.effluent.water=Q*Result.Met.Co_water.value; Outputs.Co.effluent.sludge=Q*Result.Met.Co_sludge.value;
+    Outputs.Cr.influent=Q*Cr; Outputs.Cr.effluent.water=Q*Result.Met.Cr_water.value; Outputs.Cr.effluent.sludge=Q*Result.Met.Cr_sludge.value;
+    Outputs.Cu.influent=Q*Cu; Outputs.Cu.effluent.water=Q*Result.Met.Cu_water.value; Outputs.Cu.effluent.sludge=Q*Result.Met.Cu_sludge.value;
+    Outputs.Fe.influent=Q*Fe; Outputs.Fe.effluent.water=Q*Result.Met.Fe_water.value; Outputs.Fe.effluent.sludge=Q*Result.Met.Fe_sludge.value;
+    Outputs.Hg.influent=Q*Hg; Outputs.Hg.effluent.water=Q*Result.Met.Hg_water.value; Outputs.Hg.effluent.sludge=Q*Result.Met.Hg_sludge.value;
+    Outputs.Mg.influent=Q*Mg; Outputs.Mg.effluent.water=Q*Result.Met.Mg_water.value; Outputs.Mg.effluent.sludge=Q*Result.Met.Mg_sludge.value;
+    Outputs.Mn.influent=Q*Mn; Outputs.Mn.effluent.water=Q*Result.Met.Mn_water.value; Outputs.Mn.effluent.sludge=Q*Result.Met.Mn_sludge.value;
+    Outputs.Mo.influent=Q*Mo; Outputs.Mo.effluent.water=Q*Result.Met.Mo_water.value; Outputs.Mo.effluent.sludge=Q*Result.Met.Mo_sludge.value;
+    Outputs.Na.influent=Q*Na; Outputs.Na.effluent.water=Q*Result.Met.Na_water.value; Outputs.Na.effluent.sludge=Q*Result.Met.Na_sludge.value;
+    Outputs.Ni.influent=Q*Ni; Outputs.Ni.effluent.water=Q*Result.Met.Ni_water.value; Outputs.Ni.effluent.sludge=Q*Result.Met.Ni_sludge.value;
+    Outputs.Pb.influent=Q*Pb; Outputs.Pb.effluent.water=Q*Result.Met.Pb_water.value; Outputs.Pb.effluent.sludge=Q*Result.Met.Pb_sludge.value;
+    Outputs.Sb.influent=Q*Sb; Outputs.Sb.effluent.water=Q*Result.Met.Sb_water.value; Outputs.Sb.effluent.sludge=Q*Result.Met.Sb_sludge.value;
+    Outputs.Sc.influent=Q*Sc; Outputs.Sc.effluent.water=Q*Result.Met.Sc_water.value; Outputs.Sc.effluent.sludge=Q*Result.Met.Sc_sludge.value;
+    Outputs.Se.influent=Q*Se; Outputs.Se.effluent.water=Q*Result.Met.Se_water.value; Outputs.Se.effluent.sludge=Q*Result.Met.Se_sludge.value;
+    Outputs.Si.influent=Q*Si; Outputs.Si.effluent.water=Q*Result.Met.Si_water.value; Outputs.Si.effluent.sludge=Q*Result.Met.Si_sludge.value;
+    Outputs.Sn.influent=Q*Sn; Outputs.Sn.effluent.water=Q*Result.Met.Sn_water.value; Outputs.Sn.effluent.sludge=Q*Result.Met.Sn_sludge.value;
+    Outputs.Sr.influent=Q*Sr; Outputs.Sr.effluent.water=Q*Result.Met.Sr_water.value; Outputs.Sr.effluent.sludge=Q*Result.Met.Sr_sludge.value;
+    Outputs.Ti.influent=Q*Ti; Outputs.Ti.effluent.water=Q*Result.Met.Ti_water.value; Outputs.Ti.effluent.sludge=Q*Result.Met.Ti_sludge.value;
+    Outputs.Tl.influent=Q*Tl; Outputs.Tl.effluent.water=Q*Result.Met.Tl_water.value; Outputs.Tl.effluent.sludge=Q*Result.Met.Tl_sludge.value;
+    Outputs.Zn.influent=Q*Zn; Outputs.Zn.effluent.water=Q*Result.Met.Zn_water.value; Outputs.Zn.effluent.sludge=Q*Result.Met.Zn_sludge.value;
+    Outputs.B.influent =Q*B;  Outputs.B.effluent.water =Q*Result.Met.B_water.value;  Outputs.B.effluent.sludge =Q*Result.Met.B_sludge.value;
+    Outputs.F.influent =Q*F;  Outputs.F.effluent.water =Q*Result.Met.F_water.value;  Outputs.F.effluent.sludge =Q*Result.Met.F_sludge.value;
+    Outputs.I.influent =Q*I;  Outputs.I.effluent.water =Q*Result.Met.I_water.value;  Outputs.I.effluent.sludge =Q*Result.Met.I_sludge.value;
+    Outputs.K.influent =Q*K;  Outputs.K.effluent.water =Q*Result.Met.K_water.value;  Outputs.K.effluent.sludge =Q*Result.Met.K_sludge.value;
+    Outputs.V.influent =Q*V;  Outputs.V.effluent.water =Q*Result.Met.V_water.value;  Outputs.V.effluent.sludge =Q*Result.Met.V_sludge.value;
+    Outputs.W.influent =Q*W;  Outputs.W.effluent.water =Q*Result.Met.W_water.value;  Outputs.W.effluent.sludge =Q*Result.Met.W_sludge.value;
+  }
 
   /*utilities*/
   //fx: utility to add a technology result to the Variables object
@@ -468,9 +481,3 @@ function compute_elementary_flows(Input_set){
 
   return Result;
 }
-
-/*
- * Auxiliar Data Structures
- */
-//[]: for storing input ids (strings) that have equations in lcorominas pdf equations
-var Inputs_to_be_hidden=[]; //declared here to be visible by frontend
