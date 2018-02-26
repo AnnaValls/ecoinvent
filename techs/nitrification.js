@@ -39,8 +39,8 @@ function nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pr
   /*SOLUTION*/
 
   //apply fractionation
-  var Fra =   fractionation(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio);
-  var bCOD =  Fra.bCOD.value;
+  var bCOD  = bCOD_BOD_ratio*BOD;
+  var Fra   = fractionation(BOD,sBOD,COD,bCOD,sCOD,TSS,VSS);
   var nbVSS = Fra.nbVSS.value;
 
   //9 start nitrification

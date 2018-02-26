@@ -32,8 +32,8 @@ function bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_
   /*SOLUTION*/
 
   //apply fractionation
-  var Fra   = fractionation(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio);
-  var bCOD  = Fra.bCOD.value;
+  var bCOD  = bCOD_BOD_ratio*BOD;
+  var Fra   = fractionation(BOD,sBOD,COD,bCOD,sCOD,TSS,VSS);
   var nbVSS = Fra.nbVSS.value;
 
   //part A: bod removal without nitrification

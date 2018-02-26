@@ -15,6 +15,7 @@ var Inputs = [
 
 //fractionation
 {id:"COD",        value:300,   unit:"g/m3",                   descr:"Total chemical oxygen demand"},
+{id:"bCOD",       value:224,   unit:"g/m3",                   descr:"Biodegradable COD"},
 {id:"sCOD",       value:132,   unit:"g/m3",                   descr:"Soluble COD"},
 {id:"BOD",        value:140,   unit:"g/m3",                   descr:"Total 5d biochemical oxygen demand"},
 {id:"sBOD",       value:70,    unit:"g/m3",                   descr:"Soluble BOD"},
@@ -87,7 +88,6 @@ var Inputs = [
 {id:"Zn",  value:0.1094,  unit:"g/m3", isMetal:true, descr:"Influent Zinc"       },
 
 //orange and red inputs (advanced knowledge required)
-{id:"bCOD_BOD_ratio",       value:1.6,   unit:"g_bCOD/g_BOD", color:"red",                      descr:"bCOD/BOD ratio"},
 {id:"zb",                   value:500,   unit:"m",            color:"orange", isParameter:true, descr:"Site elevation above sea level (Affects O2 solubility)"},
 {id:"Pressure",             value:95600, unit:"Pa",           color:"orange", isParameter:true, descr:"Pressure at site elevation"},
 {id:"Df",                   value:4.4,   unit:"m",            color:"orange", isParameter:true, descr:"Liquid depth for aeration basin minus distance between tank bottom and point of air release for the  diffusers.  For  example:  4.9  m  -  0.5  m = 4.4 m"},

@@ -18,10 +18,10 @@ function compute_elementary_flows(Input_set){
     var Q              = is.Q;
     var T              = is.T;
     var COD            = is.COD;
+    var bCOD           = is.bCOD;
     var sCOD           = is.sCOD;
     var BOD            = is.BOD;
     var sBOD           = is.sBOD;
-    var bCOD_BOD_ratio = is.bCOD_BOD_ratio;
     var TSS            = is.TSS;
     var VSS            = is.VSS;
     var TKN            = is.TKN;
@@ -102,7 +102,7 @@ function compute_elementary_flows(Input_set){
 
   //APPLY TECHNOLOGIES + lcorominas equations
   /*0. SOLVE FRACTIONATION */
-  Result.Fra=fractionation(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio);
+  Result.Fra=fractionation(BOD,sBOD,COD,bCOD,sCOD,TSS,VSS);
   addResults('Fra',Result.Fra);
 
   //bod removal has to be always active. If not: do nothing
@@ -111,12 +111,13 @@ function compute_elementary_flows(Input_set){
     return;
   }
 
+  var bCOD_BOD_ratio = Result.Fra.bCOD_BOD_ratio.value;    //g/g
+
   /*1. SOLVE BOD REMOVAL*/
   Result.BOD=bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb,Pressure,Df,C_L);
   addResults('BOD',Result.BOD);
 
   //get variables for lcorominas pdf equations block 1
-  var bCOD    = Result.Fra.bCOD.value;    //g/m3
   var nbsCODe = Result.Fra.nbsCODe.value; //g/m3
   var nbpCOD  = Result.Fra.nbpCOD.value;  //g/m3
   var nbVSS   = Result.Fra.nbVSS.value;   //g/m3

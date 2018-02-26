@@ -141,10 +141,10 @@
           Q              : getInput('Q').value, //22700
           T              : getInput('T').value, //12
           COD            : getInput('COD').value, //300
+          bCOD           : getInput('bCOD').value, //224
           sCOD           : getInput('sCOD').value, //132
           BOD            : getInput('BOD').value, //140
           sBOD           : getInput('sBOD').value, //70
-          bCOD_BOD_ratio : getInput('bCOD_BOD_ratio').value, //1.6
           TSS            : getInput('TSS').value, //70
           VSS            : getInput('VSS').value, //60
           TKN            : getInput('TKN').value, //35

@@ -22,10 +22,10 @@ var Technologies = {
       "BOD",
       "sBOD",
       "COD",
+      "bCOD",
       "sCOD",
       "TSS",
       "VSS",
-      "bCOD_BOD_ratio",
     ],
   },
 	"BOD":{
