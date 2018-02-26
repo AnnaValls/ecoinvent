@@ -397,9 +397,9 @@ function compute_elementary_flows(Input_set){
     var D = Qe*VSSe*0.015;
     if(is_BiP_active==false && is_ChP_active==false){
       return (0.015*P_X_bio*1000) + B + C - D;
-    }else if(is_BiP_active  && is_ChP_active==false){ 
+    }else if(is_BiP_active  && is_ChP_active==false){
       return Q*Result.BiP.P_removal.value + B + C - D;
-    }else if(is_BiP_active==false && is_ChP_active){ 
+    }else if(is_BiP_active==false && is_ChP_active){
       return (0.015*P_X_bio*1000) + Q*(aPchem - C_PO4_eff) + B + C - D
     }else{
       return 0; //chem+bio p removal not seen in practice (G. Ekama)

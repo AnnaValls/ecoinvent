@@ -288,7 +288,13 @@
             var newRow=table.insertRow(-1);
             newRow.setAttribute('tech',i.tech);
             newRow.insertCell(-1).outerHTML="<td class=help title='"+tech_name+"' style='font-family:monospace'>"+i.tech;
-            newRow.insertCell(-1).outerHTML="<td class=help title='"+i.descr.replace(/_/g,' ')+"'>"+i.id;
+            //link to source code
+
+            var path = Technologies[i.tech] ? "techs" : ".";
+            var file = Technologies[i.tech] ? Technologies[i.tech].File : "elementary.js";
+            var link="<a href='see.php?path="+path+"&file="+file+"&remark="+i.id+"' target=_blank>"+i.id+"</a>";
+
+            newRow.insertCell(-1).outerHTML="<td class=help title='"+i.descr.replace(/_/g,' ')+"'>"+link;
             newRow.insertCell(-1).outerHTML="<td class=number>"+format(i.value);
             newRow.insertCell(-1).outerHTML="<td class=unit>"+i.unit.prettifyUnit();
           });
@@ -332,7 +338,6 @@
             });
           }
         })();
-
       })();
 
       //set "scroll to" links visibility
@@ -839,7 +844,9 @@
         newRow.id=key;
         newRow.title=output.descr;
         //output id
-        newRow.insertCell(-1).outerHTML="<th style='font-weight:normal;'>"+key.prettifyUnit();
+        //link to source code
+        var link="<a href='see.php?file=elementary.js&remark=Outputs."+key+"' target=_blank>"+key.prettifyUnit()+"</a>";
+        newRow.insertCell(-1).outerHTML="<th style='font-weight:normal;'>"+link;
         //influent and effluent defaults as 0
         ['influent','water','air','sludge'].forEach(phase=>{
           newRow.insertCell(-1).outerHTML="<td phase="+phase+" class=number><span style=color:#aaa>0";
