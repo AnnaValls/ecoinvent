@@ -289,11 +289,10 @@
             newRow.setAttribute('tech',i.tech);
             newRow.insertCell(-1).outerHTML="<td class=help title='"+tech_name+"' style='font-family:monospace'>"+i.tech;
             //link to source code
-
             var path = Technologies[i.tech] ? "techs" : ".";
             var file = Technologies[i.tech] ? Technologies[i.tech].File : "elementary.js";
             var link="<a href='see.php?path="+path+"&file="+file+"&remark="+i.id+"' target=_blank>"+i.id+"</a>";
-
+            //new cells
             newRow.insertCell(-1).outerHTML="<td class=help title='"+i.descr.replace(/_/g,' ')+"'>"+link;
             newRow.insertCell(-1).outerHTML="<td class=number>"+format(i.value);
             newRow.insertCell(-1).outerHTML="<td class=unit>"+i.unit.prettifyUnit();
