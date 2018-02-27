@@ -27,7 +27,6 @@ function compute_elementary_flows(Input_set){
     var TKN            = is.TKN;
     var Alkalinity     = is.Alkalinity;
     var TP             = is.TP;
-    var TS             = is.TS;
 
     //influent metals
     var Ag = is.Ag;
@@ -156,6 +155,8 @@ function compute_elementary_flows(Input_set){
   var nbpP      = Math.min(TP, 0.025*nbVSS); //g/m3
   var aP        = Math.max( 0, TP - nbpP);   //g/m3 == PO4_in
   var aPchem    = Math.max( 0, (aP - 0.015*P_X_bio*1000/Q)) ||0; //g/m3 == PO4_in
+
+  //this is in an input
   var C_PO4_inf = aPchem; //g/m3 (input!)
 
   /*3. SOLVE SST*/
@@ -166,7 +167,7 @@ function compute_elementary_flows(Input_set){
   if(is_Nit_active && is_Des_active){
     var MLVSS                 = Result.Nit.MLVSS.value;      //2370 g/m3
     var Aerobic_SRT           = Result.Nit.SRT_design.value; //21 d
-    var Aeration_basin_volume = Result.Nit.V_aer.value;          //13410 m3
+    var Aeration_basin_volume = Result.Nit.V_aer.value;      //13410 m3
     var Aerobic_T             = Result.Nit.tau.value;        //14.2 h
     var RAS                   = Result.SST.RAS.value;        //0.6 unitless
     var R0                    = Result.Nit.OTRf.value;       //275.9 kg O2/h
@@ -406,12 +407,6 @@ function compute_elementary_flows(Input_set){
       return 0; //chem+bio p removal not seen in practice (G. Ekama)
     }
   })();
-
-  //Outputs.TS
-  Outputs.TS.influent        = Q*TS;
-  Outputs.TS.effluent.water  = 0;
-  Outputs.TS.effluent.air    = 0;
-  Outputs.TS.effluent.sludge = 0;
 
   //Outputs METALS
   (function(){

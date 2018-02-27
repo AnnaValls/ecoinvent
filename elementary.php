@@ -150,7 +150,6 @@
           TKN            : getInput('TKN').value, //35
           Alkalinity     : getInput('Alkalinity').value, //140
           TP             : getInput('TP').value, //6
-          TS             : getInput('TS').value, //0 for now
 
           //influent metals
           Ag : getInput('Ag').value,
@@ -294,7 +293,10 @@
             var link="<a href='see.php?path="+path+"&file="+file+"&remark="+i.id+"' target=_blank>"+i.id+"</a>";
             //new cells
             newRow.insertCell(-1).outerHTML="<td class=help title='"+i.descr.replace(/_/g,' ')+"'>"+link;
-            newRow.insertCell(-1).outerHTML="<td class=number>"+format(i.value);
+
+            //color if zero
+            var color=i.value ? "" : "style=background:yellow";
+            newRow.insertCell(-1).outerHTML="<td class=number "+color+">"+format(i.value);
             newRow.insertCell(-1).outerHTML="<td class=unit>"+i.unit.prettifyUnit();
           });
         })();
@@ -479,7 +481,7 @@
                 div.innerHTML="File loaded correctly <button onclick=this.parentNode.parentNode.removeChild(this.parentNode)>ok</button>";
                 document.querySelector("#loadFile").parentNode.appendChild(div);
                 div.querySelector('button').focus();
-                setTimeout(function(){div.parentNode.removeChild(div)},5000);
+                setTimeout(function(){if(div.parentNode){div.parentNode.removeChild(div)}},5000);
               })();
           }
         </script>
@@ -541,6 +543,19 @@
     <div>
       <p>1.2. Enter influent inputs
         <small>(required: <span id=input_amount>0</span>)</small>
+      </p>
+
+      <!--set all inputs to zero-->
+      <p>
+        <button style="width:100%"
+          onclick="(function(){
+            var inputs=document.querySelectorAll('#inputs input');
+            for(var i=0;i<inputs.length;i++){
+              inputs[i].value=0;
+              getInput(inputs[i].id).value=0;
+            }
+            init();
+          })()">Set all inputs to zero</button>
       </p>
 
       <!--inputs table-->
@@ -658,7 +673,6 @@
         <tr id=C><th>COD<td phase=influent><td phase=water><td phase=air><td phase=sludge><td phase=balance>
         <tr id=N><th>N  <td phase=influent><td phase=water><td phase=air><td phase=sludge><td phase=balance>
         <tr id=P><th>P  <td phase=influent><td phase=water><td phase=air><td phase=sludge><td phase=balance>
-        <tr id=S><th>S  <td phase=influent><td phase=water><td phase=air><td phase=sludge><td phase=balance>
       </table>
     </div>
 
@@ -789,13 +803,63 @@
       }
 
       //populate inputs (isParameter==false)
-      table.insertRow(-1).insertCell(-1).outerHTML="<th colspan=3 align=left>Wastewater characteristics";
+      (function(){
+        var newRow=table.insertRow(-1);
+        var newCell=document.createElement('th');
+        newRow.appendChild(newCell);
+        newCell.colSpan=3;
+        newCell.style.textAlign='left';
+        //add <button>+/-</button> Metals
+        newCell.appendChild((function(){
+          var btn=document.createElement('button');
+          btn.innerHTML='↓';
+          btn.addEventListener('click',function(){
+            console.log(this.innerHTML);
+            this.innerHTML=(this.innerHTML=='→')?'↓':'→';
+            Inputs.filter(i=>{return !i.isParameter && !i.isMetal}).forEach(i=>{
+              var h=document.querySelector('#inputs #'+i.id).parentNode.parentNode;
+              h.style.display=h.style.display=='none'?'':'none';
+            });
+          });
+          return btn;
+        })());
+        newCell.appendChild((function(){
+          var span=document.createElement('span');
+          span.innerHTML=' Wastewater characteristics';
+          return span;
+        })());
+      })();
       Inputs.filter(i=>{return !i.isParameter && !i.isMetal}).forEach(i=>{
         process_input(i);
       });
 
       //populate design parameters (isParameter==true)
-      table.insertRow(-1).insertCell(-1).outerHTML="<th colspan=3 align=left>Design parameters";
+      (function(){
+        var newRow=table.insertRow(-1);
+        var newCell=document.createElement('th');
+        newRow.appendChild(newCell);
+        newCell.colSpan=3;
+        newCell.style.textAlign='left';
+        //add <button>+/-</button> Metals
+        newCell.appendChild((function(){
+          var btn=document.createElement('button');
+          btn.innerHTML='↓';
+          btn.addEventListener('click',function(){
+            console.log(this.innerHTML);
+            this.innerHTML=(this.innerHTML=='→')?'↓':'→';
+            Inputs.filter(i=>{return i.isParameter}).forEach(i=>{
+              var h=document.querySelector('#inputs #'+i.id).parentNode.parentNode;
+              h.style.display=h.style.display=='none'?'':'none';
+            });
+          });
+          return btn;
+        })());
+        newCell.appendChild((function(){
+          var span=document.createElement('span');
+          span.innerHTML=' Design parameters';
+          return span;
+        })());
+      })();
       Inputs.filter(i=>{return i.isParameter}).forEach(i=>{
         process_input(i);
       });
@@ -918,11 +982,14 @@
     })();
 
     //lcorominas requested hiding these inputs from frontend.
+    //but these inputs should not be hidden
+    /*
     [
-      'C_PO4_inf', //already calculated in elementary.js
-      'sBODe',     //not useful for anything
+      //'C_PO4_inf', //already calculated in elementary.js
+      //'sBODe',     //used in nitrification.js
     ].forEach(id=>{
       document.querySelector('#inputs #'+id).parentNode.parentNode.style.display='none';
     });
+    */
   })();
 </script>

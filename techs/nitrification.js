@@ -140,7 +140,10 @@ function nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pr
 
   //15
   var FM = Q*BOD/MLVSS/V ||0; //kg/kg·d
+  FM = isFinite(FM) ? FM : 0; //avoid infinite
+
   var BOD_loading = Q*BOD/V/1000 ||0; //kg/m3·d
+  BOD_loading = isFinite(BOD_loading) ? BOD_loading : 0; //avoid infinite
 
   //16
   var bCOD_removed = Q*(S0-S)/1000; //kg/d
@@ -162,16 +165,18 @@ function nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pr
   var SOTR = (OTRf/alpha/F)*(C_inf_20/(beta*C_T/C_s_20*Pb/Pa*C_inf_20-C_L))*(Math.pow(1.024,20-T)); //kg/h
   var kg_O2_per_m3_air = density_of_air(T,Pressure)*0.2318 //oxygen in air by weight is 23.18%, by volume is 20.99%
   var air_flowrate = SOTR/(E*60*kg_O2_per_m3_air) ||0; //m3/min
+  air_flowrate = isFinite(air_flowrate) ? air_flowrate : 0; //avoid infinite
 
   //19 alkalinity
   var alkalinity_to_be_added = 0;
   (function(){
-    var alkalinity_used_for_nitrification = 7.14*NOx;                       // g/m3 used as CaCO3 (7.14 is g CaCO3/g NH4-N)
+    var alkalinity_used_for_nitrification = 7.14*NOx; // g/m3 used as CaCO3 (7.14 is g CaCO3/g NH4-N)
     //70 g/m3 is the residual alkalinity to maintain pH in the range 6.8-7.0;
     //70 = influent_alk - alk_used + alk_to_be_added
     alkalinity_to_be_added=70-Alkalinity+alkalinity_used_for_nitrification; // g/m3 as CaCO3
     alkalinity_to_be_added*=Q/1000;                                         // kg/d as CaCO3
     alkalinity_to_be_added*=(84/50);                                        // kg/d as NaHCO3
+    alkalinity_to_be_added=Math.max(0, alkalinity_to_be_added); //Avoid negative
   })();
 
   //20 estimate effluent BOD

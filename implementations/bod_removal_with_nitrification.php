@@ -312,13 +312,13 @@
 				<tr><td>BOD             <td><input type=number id=input_BOD value=140> g/m<sup>3</sup>
 				<tr><td>sBOD            <td><input type=number id=input_sBOD value=70> g/m<sup>3</sup>
 				<tr><td>COD	            <td><input type=number id=input_COD value=300> g/m<sup>3</sup>
+        <tr><td>bCOD            <td><input type=number id=input_bCOD value=224> g/m<sup>3</sup>
 				<tr><td>sCOD            <td><input type=number id=input_sCOD value=132> g/m<sup>3</sup>
 				<tr><td>TSS	            <td><input type=number id=input_TSS value=70> g/m<sup>3</sup>
 				<tr><td>VSS	            <td><input type=number id=input_VSS value=60> g/m<sup>3</sup>
 				<tr><td>TKN             <td><input type=number id=input_TKN value=35> g/m<sup>3</sup>
 				<tr><td>NH<sub>4</sub>-N<td><input type=number id=input_NH4_N value=25> g/m<sup>3</sup>
 				<tr><td>Alkalinity      <td><input type=number id=input_Alkalinity value=140> as CaCO<sub>3</sub>
-				<tr><td>bCOD/BOD ratio  <td><input type=number id=input_bCOD_BOD_ratio value=1.6> &empty;
 				<tr><td><b>Design parameters</b>
 				<tr><td>SRT                         <td><input type=number id=parameter_SRT value=5> d
 				<tr><td>MLSS<sub>X,TSS</sub>        <td><input type=number id=parameter_MLSS_X_TSS value=3000> g/m<sup>3</sup>
@@ -367,7 +367,7 @@
 		<li><div>Results</div>
 			<table id=results>
 				<tr><th colspan=3>BOD removal only
-				<tr><td>bCOD                <td class=number><span id=part_A_bCOD>?</span><td>g/m<sup>3</sup>
+				<tr><td>bCOD_BOD_ratio      <td class=number><span id=part_A_bCOD_BOD_ratio>?</span><td>g/g
 				<tr><td>nbCOD               <td class=number><span id=part_A_nbCOD>?</span><td>g/m<sup>3</sup>
 				<tr><td>nbsCODe             <td class=number><span id=part_A_nbsCODe>?</span><td>g/m<sup>3</sup>
 				<tr><td>nbVSS               <td class=number><span id=part_A_nbVSS>?</span><td>g/m<sup>3</sup>
@@ -435,10 +435,10 @@
 		var BOD            = getInput('input_BOD'); //140
 		var sBOD           = getInput('input_sBOD'); //70
 		var COD            = getInput('input_COD'); //300
+    var bCOD           = getInput('input_bCOD'); //224
 		var sCOD           = getInput('input_sCOD'); //132
 		var TSS            = getInput('input_TSS'); //70
 		var VSS            = getInput('input_VSS'); //60
-		var bCOD_BOD_ratio = getInput('input_bCOD_BOD_ratio'); //1.6
 		var Q              = getInput('input_Q'); //22700
 		var T              = getInput('input_T'); //12
 		var SRT            = getInput('parameter_SRT'); //5
@@ -450,15 +450,15 @@
 		//end
 
 		//(1) perform bod removal only
-    var r0=fractionation(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio);
-		var r1=bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb,Pressure,Df,C_L);
+    var r0=fractionation(BOD,sBOD,COD,bCOD,sCOD,TSS,VSS);
+		var r1=bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,r0.bCOD_BOD_ratio.value,Q,T,SRT,MLSS_X_TSS,zb,Pressure,Df,C_L);
 
 		//show results for part A
-		showResult('part_A_bCOD',         r0.bCOD.value);
-		showResult('part_A_nbCOD',        r0.nbCOD.value);
-		showResult('part_A_nbsCODe',      r0.nbsCODe.value);
-		showResult('part_A_nbVSS',        r0.nbVSS.value);
-		showResult('part_A_iTSS',         r0.iTSS.value);
+		showResult('part_A_bCOD_BOD_ratio', r0.bCOD_BOD_ratio.value);
+		showResult('part_A_nbCOD',          r0.nbCOD.value);
+		showResult('part_A_nbsCODe',        r0.nbsCODe.value);
+		showResult('part_A_nbVSS',          r0.nbVSS.value);
+		showResult('part_A_iTSS',           r0.iTSS.value);
 
 		showResult('part_A_mu_mT',        r1.mu_mT.value);
 		showResult('part_A_P_X_bio',      r1.P_X_bio.value);
@@ -466,7 +466,7 @@
 		showResult('part_A_P_X_TSS',      r1.P_X_TSS.value);
 		showResult('part_A_X_VSS_V',      r1.X_VSS_V.value);
 		showResult('part_A_X_TSS_V',      r1.X_TSS_V.value);
-		showResult('part_A_V',            r1.V.value);
+		showResult('part_A_V',            r1.V_aer.value);
 		showResult('part_A_tau',          r1.tau.value);
 		showResult('part_A_MLVSS',        r1.MLVSS.value);
 		showResult('part_A_FM',           r1.FM.value);
@@ -491,7 +491,7 @@
 		var TSSe       = getInput('parameter_TSSe');   //10 mg/L
 
 		//(2) perform nitrification
-		var r2=nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pressure,Df,MLSS_X_TSS,Ne,sBODe,TSSe,Alkalinity,C_L);
+		var r2=nitrification(BOD,r0.bCOD_BOD_ratio.value,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pressure,Df,MLSS_X_TSS,Ne,sBODe,TSSe,Alkalinity,C_L);
 
 		//show results for part B
 		showResult('part_B_mu_AOB',                 r2.mu_AOB.value);
@@ -503,7 +503,7 @@
 		showResult('part_B_P_X_TSS',                r2.P_X_TSS.value);
 		showResult('part_B_X_VSS_V',                r2.X_VSS_V.value);
 		showResult('part_B_X_TSS_V',                r2.X_TSS_V.value);
-		showResult('part_B_V',                      r2.V.value);
+		showResult('part_B_V',                      r2.V_aer.value);
 		showResult('part_B_tau',                    r2.tau.value);
 		showResult('part_B_MLVSS',                  r2.MLVSS.value);
 		showResult('part_B_FM',                     r2.FM.value);

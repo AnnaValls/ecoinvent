@@ -29,8 +29,8 @@ var Inputs = [
 
 //nitrification
 {id:"TKN",        value:35,   unit:"g_N/m3",                         descr:"Total Kjedahl nitrogen"},
-{id:"Ne",         value:0.50, unit:"g/m3",         isParameter:true, descr:"Effluent design NH4"},
 {id:"sBODe",      value:3,    unit:"g/m3",         isParameter:true, descr:"Effluent design Soluble BOD"},
+{id:"Ne",         value:0.50, unit:"g/m3",         isParameter:true, descr:"Effluent design NH4"},
 {id:"Alkalinity", value:140,  unit:"g/m3_as_CaCO3",                  descr:"Influent alkalinity"},
 
 //N removal
@@ -46,9 +46,6 @@ var Inputs = [
 {id:"TSS_removal_w_Fe",  value:75,   unit:"%",    isParameter:true, descr:"% TSS removal with iron addition"},
 {id:"C_PO4_inf",         value:5,    unit:"g/m3", descr:"Influent PO4(3-)"},
 {id:"C_PO4_eff",         value:0.1,  unit:"g/m3", isParameter:true, descr:"Effluent design PO4(3-)"},
-
-//Sulfur (not used for now)
-{id:"TS", value:0, unit:"g_S/m3", descr:"Total Sulfur in influent" },
 
 //metals
 {id:"Ag",  value:0.0000,  unit:"g/m3", isMetal:true, descr:"Influent Silver"     },

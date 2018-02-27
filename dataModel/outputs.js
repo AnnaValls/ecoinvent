@@ -11,7 +11,6 @@ var Outputs={
   "N2" :{influent:0, effluent:{water:0, air:0, sludge:0}, descr:"Effluent Nitrogen gas"            },
   "N2O":{influent:0, effluent:{water:0, air:0, sludge:0}, descr:"Effluent Nitrous oxide"           },
   "TP" :{influent:0, effluent:{water:0, air:0, sludge:0}, descr:"Effluent Total Phosphorus"        },
-  "TS" :{influent:0, effluent:{water:0, air:0, sludge:0}, descr:"Effluent Total Sulfur"            },
 
   //metals
   "Ag" :{influent:0, effluent:{water:0, air:0, sludge:0}, descr:"Effluent Silver"    },

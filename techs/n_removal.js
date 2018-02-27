@@ -1,11 +1,11 @@
-/* 
+/*
  * Technology: N removal or Denitrification ("Des")
  * Metcalf & Eddy, Wastewater Engineering, 5th ed., 2014:
  * page 810
  */
 function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_basin_volume,Aerobic_T,Anoxic_mixing_energy,RAS,Ro,NO3_eff,Df,zb,C_L,Pressure){
   /*
-    | Inputs                 | example values | unit 
+    | Inputs                 | example values | unit
     |------------------------+----------------+-----------------------------
     | Q                      | 22700          | m3/d
     | T                      | 12             | ºC
@@ -31,9 +31,6 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
 
   /*SOLUTION*/
 
-  //name change for effluent N
-  var Ne=NO3_eff; 
-
   //correct bH by temperature
   var bHT=bH*Math.pow(1.04,T - 20); //1/d
 
@@ -41,20 +38,22 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
   var Xb = Q*Aerobic_SRT*YH*bCOD/(1 + bHT*Aerobic_SRT)/Aeration_basin_volume ||0; //1267 g/m3
 
   //2 -- determine IR ratio
+  //name change for effluent NO3
+  var Ne=NO3_eff;
   var IR = (NOx/Ne - 1 - RAS) ||0; //3.2 (unitless)
-  IR=Math.max(0,IR);
+  //IR=Math.max(0,IR); IR could be negative
   IR=isFinite(IR)?IR:0;
 
   //3 -- determine the amount of NO3-N fed to the anoxic tank
   var Flowrate_to_anoxic_tank = Q*(IR + RAS); //82,260 m3/d
   var NOx_feed = Flowrate_to_anoxic_tank*Ne; //517,560 g/d
 
-  //4 -- determine the anoxic volume ("V_nox=tau*Q"). 
+  //4 -- determine the anoxic volume ("V_nox=tau*Q").
   //First approximation for tau (detention time) is 20% of Aerobic tau.
-  //next section is for finding an appropiate tau that satisfies NOx_feed ~ NO_r  
+  //next section is for finding an appropiate tau that satisfies NOx_feed ~ NO_r
   //this is useful for finding a correct reactor volume (since "V_nox=tau*Q")
 
-  //initialize some variables 
+  //initialize some variables
   var tau,V_nox,FM_b,b0=0,b1=0,SDNR_b,SDNR_T,SDNR_adj,SDNR,NO_r;
   var difference_NOr_NOx;
 
@@ -63,12 +62,12 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
     tau = 0.20*Aerobic_T/24; //d
 
     //approximation of V_nox
-    V_nox = tau*Q; //m3
+    V_nox = Math.max(0, tau*Q); //m3
 
     //now we have V_nox: we can calculate NO_r and compare it to NOx_feed, and repeat this process until they are similar
 
     //counters for iterations
-    var iterations=0; 
+    var iterations=0;
     var max_iterations=100;
 
     //loop until tau makes NO_r similar to NOx_feed (between 0% and 20%)
@@ -105,7 +104,7 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
         var Fraction_of_rbCOD = Math.max(0,Math.min(50, Math.floor((100*rbCOD/bCOD)||0))); //min:0, max:50 (for the lookup table)
 
         //round the fraction of rbCOD to 0, 10, 20, 30, 40 or 50.
-        Fraction_of_rbCOD -= Fraction_of_rbCOD%10; 
+        Fraction_of_rbCOD -= Fraction_of_rbCOD%10;
         //console.log("Fraction of rbCOD (rounded): "+Fraction_of_rbCOD+"%");
 
         //fetch b0 and b1 from the table. it will work always because Fraction is 0,10,20,30,40 or 50
@@ -162,9 +161,9 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
       //"the difference should be between 0% and 20%" (page 812, section 8)
       //  if it's under 0%, we should increase V_nox (increase tau), so the system can remove at least "NOx_feed"
       //  if it's over 20%, we should decrease V_nox (decrease tau).
-      var delta_V_nox=25; //m3 (make iterations in steps of 'delta' m3 (increase/decrease depending on difference))
+      var delta_V_nox=0.10*V_nox; //m3 (make iterations in steps of 'delta' m3 (increase/decrease depending on difference))
       var accepted_max_difference=5; //% I'm trying 5% instead of 20%. This is the max percentage that NO_r can be above NOx_feed
-      
+
       if(0 <= difference_NOr_NOx && difference_NOr_NOx <= accepted_max_difference){
         //exit the loop: we are ok
         console.log("Difference[NOr][NOx] is acceptable ("+difference_NOr_NOx+" %)")
@@ -176,7 +175,6 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
         //decrease V_nox
         V_nox-=delta_V_nox;
       }
-      V_nox=Math.max(0,V_nox);
     }
   })();//end loop for finding V_nox volume (m3)
 
@@ -211,12 +209,13 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
   var SOTR = (OTRf/alpha/F)*(C_inf_20/(beta*C_T/C_s_20*Pb/Pa*C_inf_20-C_L))*(Math.pow(1.024,20-T)); //kg/h
   var kg_O2_per_m3_air = density_of_air(T,Pressure)*0.2318; //oxygen in air by weight is 23.18%, by volume is 20.99%
   var air_flowrate = SOTR/(E*60*kg_O2_per_m3_air) ||0;
+  air_flowrate = isFinite(air_flowrate) ? air_flowrate : 0; //avoid infinite
 
   //10
   var Alkalinity_used = 7.14*NOx; //g/m3
   var Alkalinity_produced = 3.57*(NOx-Ne); //g/m3
   var Alk_to_be_added = 70 - Alkalinity + Alkalinity_used - Alkalinity_produced; //g/m3
-  var Mass_of_alkalinity_needed = Alk_to_be_added * Q /1000; //kg/d as CaCO3
+  var Mass_of_alkalinity_needed = Math.max(0, Alk_to_be_added*Q/1000); //kg/d as CaCO3
 
   //11
   var Power = V_nox * Anoxic_mixing_energy / 1000; //kW
@@ -239,7 +238,7 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
     SDNR_adj:                   {value:SDNR_adj,                   unit:"g/g·d",          descr:"SDNR_adj (applied recycle correction)"},
     SDNR:                       {value:SDNR,                       unit:"g/g·d",          descr:"Overall SDNR based on MLVSS"},
     NO_r:                       {value:NO_r,                       unit:"g/d",            descr:"Amount of NO3-N that can be reduced"},
-    difference_NOr_NOx:         {value:difference_NOr_NOx,         unit:"%",              descr:"Difference between NO_r and NOx_feed (should be between 0% and 20%)"},
+    difference_NOr_NOx:         {value:difference_NOr_NOx,         unit:"%",              descr:"Difference between NO_r and NOx_feed (acceptable is between 0% and 20%)"},
     C_T:                        {value:C_T,                        unit:"mg_O2/L",        descr:"Saturated_DO_at_sea_level_and_operating_tempreature"},
     Pb:                         {value:Pb,                         unit:"m",              descr:"Pressure_at_the_plant_site_based_on_elevation,_m"},
     C_inf_20:                   {value:C_inf_20,                   unit:"mg_O2/L",        descr:"Saturated_DO_value_at_sea_level_and_20ºC_for_diffused_aeartion"},
@@ -248,7 +247,7 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
     kg_O2_per_m3_air:           {value:kg_O2_per_m3_air,           unit:"kg_O2/m3",       descr:"kg_O2_per_m3_air"},
     air_flowrate:               {value:air_flowrate,               unit:"m3/min",         descr:"Air_flowrate"},
     Mass_of_alkalinity_needed:  {value:Mass_of_alkalinity_needed,  unit:"kg/d_as_CaCO3",  descr:"Mass_of_alkalinity_needed"},
-    Power:                      {value:Power,                      unit:"kW",             descr:"Anoxic zone mixing energy"},
+    Power:                      {value:Power,                      unit:"kW",             descr:"Anoxic zone mixing power needed"},
   }
 }
 

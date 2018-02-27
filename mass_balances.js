@@ -37,13 +37,6 @@ function do_mass_balances(){
   var air = TP.effluent.air;
   var slu = TP.effluent.sludge;
   mass_balance('P',inf,wat,air,slu);
-
-  //4. SULFUR BALANCE
-  var inf = TS.influent;
-  var wat = TS.effluent.water;
-  var air = TS.effluent.air;
-  var slu = TS.effluent.sludge;
-  mass_balance('S',inf,wat,air,slu);
   //end
 
   //utilities
