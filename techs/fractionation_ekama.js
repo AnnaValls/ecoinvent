@@ -27,6 +27,14 @@ function fractionation_ekama(COD,sCOD,fSus,fSup,BOD,sBOD,TSS,VSS){
     * | fSup   |  15 %          | (nbpCOD/COD)
     *
   */
+  /*
+    COD
+      - bCOD = bsCOD + bpCOD
+      - uCOD = usCOD + upCOD
+
+      - sCOD = bsCOD + usCOD
+      - pCOD = bpCOD + upCOD
+  */
 
   /*SOLUTION*/
   var pCOD = COD - sCOD; //551 g/m3 (BP+UP)

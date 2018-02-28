@@ -58,7 +58,7 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
   var difference_NOr_NOx;
 
   (function(){
-    //first approximation: tau is 20% of the Aerobic tau (page 811)
+    //first approximation: anoxic tau is 20% of the Aerobic tau (page 811)
     tau = 0.20*Aerobic_T/24; //d
 
     //approximation of V_nox

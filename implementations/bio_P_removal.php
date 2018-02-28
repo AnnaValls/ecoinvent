@@ -225,9 +225,10 @@
 		var SRT             = 8;
 		var NOx             = 28;
 		var NO3_eff         = 6;                         //case   a
+    var tau_aer         = 0.75; //h
 
 		//solve
-		var r = bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,NOx,NO3_eff);
+		var r = bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,NOx,NO3_eff,tau_aer);
 
 		//show results
 		showResult('result_Q_rbCOD',                    r.Q_rbCOD.value);

@@ -38,3 +38,4 @@ const E      = 0.35;  //oxygen transfer efficiency
 const bn              =  0.17;  //1/d
 const P_content_het_X =  0.015; //g_P/g_X
 const rbCOD_NO3_ratio =  5.2;   //g rbCOD/g NO3 -- page 879 (2.86/(1-1.42*0.32))
+

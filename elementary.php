@@ -546,7 +546,7 @@
       </p>
 
       <!--set all inputs to zero-->
-      <p>
+      <p style=margin-top:0>
         <button style="width:100%"
           onclick="(function(){
             var inputs=document.querySelectorAll('#inputs input');

@@ -73,11 +73,11 @@ function compute_elementary_flows(Input_set){
     var Df                   = is.Df;
     var C_L                  = is.DO; //caution of name change
     var SF                   = is.SF;
-    var Ne                   = is.Ne;
+    var Ne                   = is.Ne; //NH4 effluent
     var sBODe                = is.sBODe;
     var TSSe                 = is.TSSe;
     var Anoxic_mixing_energy = is.Anoxic_mixing_energy;
-    var NO3_eff              = is.NO3_eff;
+    var NO3_eff              = is.NO3_eff; //NO3 effluent
     var SOR                  = is.SOR;
     var X_R                  = is.X_R;
     var clarifiers           = is.clarifiers;
@@ -149,8 +149,8 @@ function compute_elementary_flows(Input_set){
   SRT = is_Nit_active ? Result.Nit.SRT_design.value : SRT; //d
 
   //lcorominas - equations block 2
-  var VSSe      = TSSe*0.85;     //g/m3
-  var sCODe     = Q*(nbsCODe+S); //g/d
+  var VSSe      = TSSe*0.85; //g/m3
+  var sCODe     = nbsCODe+S; //g/m3
 
   var nbpP      = Math.min(TP, 0.025*nbVSS); //g/m3
   var aP        = Math.max( 0, TP - nbpP);   //g/m3 == PO4_in
@@ -177,7 +177,8 @@ function compute_elementary_flows(Input_set){
 
   /*5. SOLVE BIO P*/
   if(is_BiP_active){
-    Result.BiP=bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,NOx,NO3_eff);
+    var tau_aer = is_Nit_active ? Result.Nit.tau.value : Result.BOD.tau.value; //h TODO check if this should be 0.75 h always or not
+    Result.BiP=bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,NOx,NO3_eff,tau_aer);
     addResults('BiP',Result.BiP);
   }
 
@@ -227,9 +228,9 @@ function compute_elementary_flows(Input_set){
     'bTKN':    {value:bTKN,        unit:"g/m3",      descr:"biodegradable TKN"},
     'sTKNe':   {value:sTKNe,       unit:"g/m3",      descr:"Soluble TKN effluent"},
 
-    'VSSe':      {value:VSSe,        unit:"g/m3",      descr:"Volatile Suspended Solids at effluent"},
-    'VSSe*0.12': {value:VSSe*0.12,   unit:"g/m3",      descr:"??? ask L corominas"}, //TODO
-    'sCODe':     {value:sCODe,       unit:"g/d",       descr:"Soluble COD at effluent"},
+    'VSSe':      {value:VSSe,      unit:"g/m3",      descr:"Volatile Suspended Solids at effluent"},
+    'VSSe*0.12': {value:VSSe*0.12, unit:"g/m3",      descr:"??? ask L corominas"}, //TODO
+    'sCODe':     {value:sCODe,     unit:"g/m3",      descr:"Soluble COD at effluent"},
 
     'nbpP':    {value:nbpP,        unit:"g/m3",      descr:"Nonbiodegradable particulate P"},
     'aP':      {value:aP,          unit:"g/m3",      descr:"Available P"},
@@ -264,7 +265,7 @@ function compute_elementary_flows(Input_set){
 
   //Outputs.COD
   Outputs.COD.influent       = Q*COD;
-  Outputs.COD.effluent.water = sCODe + Qe*VSSe*1.42;
+  Outputs.COD.effluent.water = Q*sCODe + Qe*VSSe*1.42;
   Outputs.COD.effluent.air   = (function(){
     /*
      * CARBONACEOUS DEMAND
@@ -298,10 +299,10 @@ function compute_elementary_flows(Input_set){
     }
   })();
   Outputs.COD.effluent.sludge = (function(){
-    var A = P_X_bio*1000;
-    var B = Qwas*sCODe/Q ||0;
-    var C = Q*nbpCOD;
-    var D = Qe*VSSe*1.42;
+    var A = P_X_bio*1000;    //g/d
+    var B = Qwas*sCODe;      //g/d
+    var C = Q*nbpCOD;        //g/d
+    var D = Qe*VSSe*1.42;    //g/d
     return A+B+C-D;
   })();
 

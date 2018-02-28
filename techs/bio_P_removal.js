@@ -3,7 +3,7 @@
  * Metcalf & Eddy, Wastewater Engineering, 5th ed., 2014:
  * page 880
  */
-function bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,NOx,NO3_eff){
+function bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,NOx,NO3_eff,tau_aer){
   /*
     Inputs           example values
     --------------------------------
@@ -18,10 +18,11 @@ function bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,NOx,NO3_eff){
     SRT              8     d
     NOx              28    g/m3
     NO3_eff          6     g/m3
+    tau_aer          0.75  h
     --------------------------------
   */
 
-  var V_anaerobic = 0.75 * Q / 24; //709.4 m3 (tau=0.75h from exercise statement)
+  var V_anaerobic = tau_aer * Q / 24; //709.4 m3 (tau=0.75h in exercise statement)
 
   /*SOLUTION*/
   //1
@@ -84,6 +85,7 @@ function bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,NOx,NO3_eff){
 /*test*/
 (function(){
   var debug=false;
+  var debug=true;
   if(debug==false)return;
   var Q                = 4000;
   var bCOD             = 250;
@@ -96,6 +98,7 @@ function bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,NOx,NO3_eff){
   var SRT              = 8;
   var NOx              = 28;
   var NO3_eff          = 6;
-  var result = bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,NOx,NO3_eff);
+  var tau_aer          = 0.75;
+  var result = bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,NOx,NO3_eff,tau_aer);
   console.log(result);
 })();
