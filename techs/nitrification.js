@@ -3,7 +3,7 @@
   * Metcalf & Eddy, Wastewater Engineering, 5th ed., 2014:
   * page 762
 */
-function nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pressure,Df,MLSS_X_TSS,Ne,sBODe,TSSe,Alkalinity,C_L){
+function nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pressure,Df,MLSS_X_TSS,Ne,sBODe,TSSe,Alkalinity,DO){
   /*
     Inputs          example values
     --------------------------------
@@ -26,9 +26,10 @@ function nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pr
     sBODe           3      g/m3 (design)
     TSSe            10     g/m3 (design)
     Alkalinity      140    g/m3 as CaCO3
-    C_L             2.0    mg/L
+    DO              2.0    mg/L
     --------------------------------
   */
+  var C_L=DO;//name change requested. Dissolved oxygen (DO) in the book is C_L
 
   //parameters for aeration
   var alpha = 0.65; //8.b
@@ -191,17 +192,17 @@ function nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pr
     SRT_design:        {value:SRT_design,              unit:"d",               descr:"SRT_design"},
     bHT:               {value:bHT,                     unit:"1/d",             descr:"bH corrected by temperature"},
     mu_mT:             {value:mu_mT,                   unit:"1/d",             descr:"µ_m corrected by temperatureT"},
-    S:                 {value:S,                       unit:"g/m3",            descr:"[S]"},
+    S:                 {value:S,                       unit:"g/m3",            descr:"Effluent substrate concentration"},
     NOx:               {value:NOx,                     unit:"g/m3",            descr:"NOx amount of nitrogen oxidized to nitrate"},
-    P_X_bio_VSS:       {value:P_X_bio_VSS,             unit:"kg/d",            descr:"Biomass production"},
-    P_X_VSS:           {value:P_X_VSS,                 unit:"kg/d",            descr:"P_X_VSS"},
-    P_X_TSS:           {value:P_X_TSS,                 unit:"kg/d",            descr:"P_X_TSS"},
-    X_VSS_V:           {value:X_VSS_V,                 unit:"kg",              descr:"X_VSS_V"},
-    X_TSS_V:           {value:X_TSS_V,                 unit:"kg",              descr:"X_TSS_V"},
+    P_X_bio:           {value:P_X_bio_VSS,             unit:"kg/d",            descr:"Biomass production"},
+    P_X_VSS:           {value:P_X_VSS,                 unit:"kg/d",            descr:"Net waste activated sludge produced each day"},
+    P_X_TSS:           {value:P_X_TSS,                 unit:"kg/d",            descr:"Total sludge produced each day"},
+    X_VSS_V:           {value:X_VSS_V,                 unit:"kg",              descr:"Mass of VSS"},
+    X_TSS_V:           {value:X_TSS_V,                 unit:"kg",              descr:"Mass of TSS"},
     V_aer:             {value:V,                       unit:"m3",              descr:"Aeration tank volume (aerobic)"},
     tau:               {value:tau,                     unit:"h",               descr:"Aeration tank detention time"},
     MLVSS:             {value:MLVSS,                   unit:"g/m3",            descr:"MLVSS"},
-    FM:                {value:FM,                      unit:"kg/kg·d",         descr:"F/M"},
+    FM:                {value:FM,                      unit:"kg/kg·d",         descr:"Food to biomass ratio (gBOD or bsCOD / g VSS·d)"},
     BOD_loading:       {value:BOD_loading,             unit:"kg/m3·d",         descr:"BOD_loading"},
     bCOD_removed:      {value:bCOD_removed,            unit:"kg/d",            descr:"bCOD_removed"},
     Y_obs_TSS:         {value:Y_obs_TSS,               unit:"g_TSS/g_BOD",     descr:"Observed yield Y_obs_TSS"},
@@ -241,7 +242,7 @@ function nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pr
   var sBODe           = 3;
   var TSSe            = 10;
   var Alkalinity      = 140;
-  var C_L             = 2.0;
-  var result = nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pressure,Df,MLSS_X_TSS,Ne,sBODe,TSSe,Alkalinity,C_L);
+  var DO              = 2.0;
+  var result = nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pressure,Df,MLSS_X_TSS,Ne,sBODe,TSSe,Alkalinity,DO);
   console.log(result);
 })();

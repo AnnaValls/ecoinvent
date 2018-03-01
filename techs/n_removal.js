@@ -3,7 +3,7 @@
  * Metcalf & Eddy, Wastewater Engineering, 5th ed., 2014:
  * page 810
  */
-function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_basin_volume,Aerobic_T,Anoxic_mixing_energy,RAS,Ro,NO3_eff,Df,zb,C_L,Pressure){
+function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_basin_volume,Aerobic_T,Anoxic_mixing_energy,RAS,Ro,NO3_eff,Df,zb,DO,Pressure){
   /*
     | Inputs                 | example values | unit
     |------------------------+----------------+-----------------------------
@@ -24,10 +24,15 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
     | NO3_eff                | 6              | g/m3 (nitrate at effluent)
     | Df                     | 4.4            | m
     | zb                     | 500            | m
-    | C_L                    | 2.0            | mg/L
+    | DO                     | 2.0            | mg/L
     | Pressure               | 95600          | Pa
     |------------------------+----------------+-----------------------------
   */
+  //name changes requested:
+  //- Dissolved oxygen (DO) in the book is C_L
+  //- effluent NO3 (NO3_eff), in the book is Ne
+  var C_L=DO;
+  var Ne=NO3_eff;
 
   /*SOLUTION*/
 
@@ -38,8 +43,6 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
   var Xb = Q*Aerobic_SRT*YH*bCOD/(1 + bHT*Aerobic_SRT)/Aeration_basin_volume ||0; //1267 g/m3
 
   //2 -- determine IR ratio
-  //name change for effluent NO3
-  var Ne=NO3_eff;
   var IR = (NOx/Ne - 1 - RAS) ||0; //3.2 (unitless)
   //IR=Math.max(0,IR); IR could be negative
   IR=isFinite(IR)?IR:0;
@@ -272,8 +275,8 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
   var NO3_eff                = 6;
   var Df                     = 4.4;
   var zb                     = 500;
-  var C_L                    = 2.0;
+  var DO                     = 2.0;
   var Pressure               = 95600;
-  var result = N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_basin_volume,Aerobic_T,Anoxic_mixing_energy,RAS,Ro,NO3_eff,Df,zb,C_L,Pressure);
+  var result = N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_basin_volume,Aerobic_T,Anoxic_mixing_energy,RAS,Ro,NO3_eff,Df,zb,DO,Pressure);
   console.log(result);
 })();

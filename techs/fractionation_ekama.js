@@ -26,14 +26,11 @@ function fractionation_ekama(COD,sCOD,fSus,fSup,BOD,sBOD,TSS,VSS){
     * | fSus   |   7 %          | (nbsCOD/COD)
     * | fSup   |  15 %          | (nbpCOD/COD)
     *
-  */
-  /*
-    COD
-      - bCOD = bsCOD + bpCOD
-      - uCOD = usCOD + upCOD
-
-      - sCOD = bsCOD + usCOD
-      - pCOD = bpCOD + upCOD
+    * | BOD    | 140 g/m3       |
+    * | sBOD   |  70 g/m3       |
+    * | TSS    |  70 g/m3       |
+    * | VSS    |  60 g/m3       |
+    *
   */
 
   /*SOLUTION*/
@@ -42,6 +39,8 @@ function fractionation_ekama(COD,sCOD,fSus,fSup,BOD,sBOD,TSS,VSS){
   var BS   = sCOD - US;  //146 g/m3
   var UP   = fSup*COD;   //113 g/m3
   var BP   = pCOD - UP;  //438 g/m3
+
+  var BOD = BOD; //waiting for George Ekama answer to "is there a way to compute BOD from COD fractions"
 
   //adapt to metcalf & eddy notation
   var bsCOD    = BS;

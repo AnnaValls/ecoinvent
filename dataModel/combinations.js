@@ -1,15 +1,23 @@
 
 /*Possible Technology combinations*/
 var Combinations=[
-	["BOD","Fra","SST","Met"],
-	["BOD","Fra","SST","Met","Nit"],
-	["BOD","Fra","SST","Met","Nit","Des"],
-	["BOD","Fra","SST","Met","Nit","Des","BiP"],
-	["BOD","Fra","SST","Met","Nit","Des","ChP"],
-  ["BOD","Fra","SST","Met","Nit","BiP"],
-  ["BOD","Fra","SST","Met","Nit","ChP"],
-	["BOD","Fra","SST","Met","BiP"],
-	["BOD","Fra","SST","Met","ChP"],
+  [],
+  ['BOD'],
+  ['BOD','Nit'],
+  ['BOD','BiP'],
+  ['BOD','ChP'],
+  ['BOD','Met'],
+  ['BOD','Nit','Des'],
+  ['BOD','Nit','BiP'],
+  ['BOD','Nit','ChP'],
+  ['BOD','Nit','Met'],
+  ['BOD','BiP','Met'],
+  ['BOD','ChP','Met'],
+  ['BOD','Nit','Des','BiP'],
+  ['BOD','Nit','Des','ChP'],
+  ['BOD','Nit','Des','Met'],
+  ['BOD','Nit','Des','BiP','Met'],
+  ['BOD','Nit','Des','ChP','Met'],
 ];
 
 // util: remove duplicate elements in arrays

@@ -3,7 +3,7 @@
  * Metcalf & Eddy, Wastewater Engineering, 5th ed., 2014:
  * pages 756-768
  */
-function bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb,Pressure,Df,C_L){
+function bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb,Pressure,Df,DO){
   /*
     Inputs          example values
     --------------------------------
@@ -21,9 +21,10 @@ function bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_
     zb              500    m
     Pressure        95600  Pa
     Df              4.4    m
-    C_L             2.0    mg/L
+    DO              2.0    mg/L
     --------------------------------
   */
+  var C_L=DO;//name change requested. Dissolved oxygen (DO) in the book is C_L
 
   //aeration parameters
   var alpha = 0.50; //8.b
@@ -90,16 +91,16 @@ function bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_
   return {
     mu_mT:             {value:mu_mT,             unit:"1/d",          descr:"µ_corrected_by_temperature"},
     bHT:               {value:bHT,               unit:"1/d",          descr:"b_corrected_by_temperature"},
-    S:                 {value:S,                 unit:"g/m3",         descr:"[S]"}, //TODO description
+    S:                 {value:S,                 unit:"g/m3",         descr:"Effluent substrate concentration"},
     P_X_bio:           {value:P_X_bio,           unit:"kg/d",         descr:"Biomass_production"},
-    P_X_VSS:           {value:P_X_VSS,           unit:"kg/d",         descr:"P_X_VSS"}, //TODO description
-    P_X_TSS:           {value:P_X_TSS,           unit:"kg/d",         descr:"P_X_TSS"}, //TODO description
+    P_X_VSS:           {value:P_X_VSS,           unit:"kg/d",         descr:"Net waste activated sludge produced each day"},
+    P_X_TSS:           {value:P_X_TSS,           unit:"kg/d",         descr:"Total sludge produced each day"},
     X_VSS_V:           {value:X_VSS_V,           unit:"kg",           descr:"Mass of VSS"},
     X_TSS_V:           {value:X_TSS_V,           unit:"kg",           descr:"Mass of TSS"},
     V_aer:             {value:V,                 unit:"m3",           descr:"Aeration_tank_Volume_(aerobic)"},
     tau:               {value:tau,               unit:"h",            descr:"&tau;_aeration_tank_detention_time"},
-    MLVSS:             {value:MLVSS,             unit:"g/m3",         descr:"MLVSS"}, //TODO description
-    FM:                {value:FM,                unit:"kg/kg·d",      descr:"F/M"}, //TODO description
+    MLVSS:             {value:MLVSS,             unit:"g/m3",         descr:"Mixed Liquor Volatile Suspended Solids"},
+    FM:                {value:FM,                unit:"kg/kg·d",      descr:"Food to biomass ratio (gBOD or bsCOD / g VSS·d)"},
     BOD_loading:       {value:BOD_loading,       unit:"kg/m3·d",      descr:"Volumetric_BOD_loading"},
     bCOD_removed:      {value:bCOD_removed,      unit:"kg/d",         descr:"bCOD_removed"},
     Y_obs_TSS:         {value:Y_obs_TSS,         unit:"g_TSS/g_BOD",  descr:"Observed_Yield_Y_obs_TSS"},
@@ -133,8 +134,8 @@ function bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_
   var zb             = 500;
   var Pressure       = 95600;
   var Df             = 4.4;
-  var C_L            = 2.0;
+  var DO             = 2.0;
   console.log(
-    bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb,Pressure,Df,C_L)
+    bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb,Pressure,Df,DO)
   );
 })();

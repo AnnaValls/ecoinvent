@@ -31,8 +31,10 @@
         newRow.insertCell(-1).innerHTML="<a href='see.php?path=techs&file="+el.File+"'>"+el.File+"</a>";
         newRow.insertCell(-1).innerHTML=( ()=>{
           var str=[]
-          el.Inputs.forEach(i=>{
-            str.push("<span class=help title='"+getInputById(i).descr+"'>"+i+"</span>")
+          el.Inputs.forEach(key=>{
+            if(Inputs.map(i=>{return i.id}).indexOf(key)+1){
+              str.push("<span class=help title='"+getInputById(key).descr+"'>"+key+"</span>")
+            }
           });
           return str.join(', ');
         })();
@@ -55,12 +57,12 @@
     <tr><th>Combination<th colspan=2><a href=inputs.php>Inputs</a> required
   </table>
   <script>
-    //fill technologies table
+    //fill combinations table
     (function(){
       function combination_content(com){
         var inputs = [ ];
         com.forEach(tec=> {
-          inputs=inputs.concat(Technologies[tec].Inputs);
+          inputs=inputs.concat(Technologies[tec].Inputs.filter(i=>{return Inputs.map(inp=>{return inp.id}).indexOf(i)+1}));
         });
         var ret=[];
         uniq(inputs).forEach(i=> {
@@ -72,8 +74,13 @@
         }
       }
       var t=document.querySelector('#combinations');
+
       Combinations.forEach(com=> {
         var newRow=t.insertRow(-1);
+        com=Technologies_selected
+          .filter(t=>{return t.notActivable})
+          .map(t=>{return t.id})
+          .concat(com);
         newRow.insertCell(-1).innerHTML=com.join('+');
         var cc=combination_content(com);
         newRow.insertCell(-1).innerHTML=cc.length;

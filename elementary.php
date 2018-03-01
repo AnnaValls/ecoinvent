@@ -240,25 +240,26 @@
             var i=Input_set;
             if(!i.is_BOD_active){ return; }
             //calc auxiliary technology results
-            fill('V_aer',                     (i.is_Nit_active?'Nit':'BOD'),                       'V_aer');
-            fill('V_nox',                     'Des',                                               'V_nox');
-            fill('V_ana',                     'BiP',                                               'V_ana');
-            fill('V_total',                   'summary',                                           'V_total');
-            fill('Area',                      'SST',                                               'Area');
-            fill('Qwas',                      'summary',                                           'Qwas');
-            fill('SRT',                       'summary',                                           'SRT');
-            fill('QR',                        'SST',                                               'QR');
-            fill('alkalinity_added',          'Nit',                                               'alkalinity_added');
-            fill('Mass_of_alkalinity_needed', 'Des',                                               'Mass_of_alkalinity_needed');
-            fill('FeCl3_volume',              'ChP',                                               'FeCl3_volume');
-            fill('storage_req_15_d',          'ChP',                                               'storage_req_15_d');
-            fill('air_flowrate',              i.is_Des_active?'Des':(i.is_Nit_active?'Nit':'BOD'), 'air_flowrate');
-            fill('OTRf',                      i.is_Des_active?'Des':(i.is_Nit_active?'Nit':'BOD'), 'OTRf');
-            fill('SOTR',                      i.is_Des_active?'Des':(i.is_Nit_active?'Nit':'BOD'), 'SOTR');
-            fill('SAE',                       'summary',                                           'SAE');
-            fill('O2_power',                  'summary',                                           'O2_power');
-            fill('SDNR',                      'Des',                                               'SDNR');
-            fill('Power',                     'Des',                                               'Power');
+            fill('P_X_TSS',                   'summary',                     'P_X_TSS');
+            fill('V_aer',                     (i.is_Nit_active?'Nit':'BOD'), 'V_aer');
+            fill('V_nox',                     'Des',                         'V_nox');
+            fill('V_ana',                     'BiP',                         'V_ana');
+            fill('V_total',                   'summary',                     'V_total');
+            fill('Area',                      'SST',                         'Area');
+            fill('Qwas',                      'summary',                     'Qwas');
+            fill('SRT',                       'summary',                     'SRT');
+            fill('QR',                        'SST',                         'QR');
+            fill('alkalinity_added',          'Nit',                         'alkalinity_added');
+            fill('Mass_of_alkalinity_needed', 'Des',                         'Mass_of_alkalinity_needed');
+            fill('FeCl3_volume',              'ChP',                         'FeCl3_volume');
+            fill('storage_req_15_d',          'ChP',                         'storage_req_15_d');
+            fill('air_flowrate',              i.is_Des_active?'Des':(i.is_Nit_active?'Nit':'BOD'),  'air_flowrate');
+            fill('OTRf',                      i.is_Des_active?'Des':(i.is_Nit_active?'Nit':'BOD'),  'OTRf');
+            fill('SOTR',                      i.is_Des_active?'Des':(i.is_Nit_active?'Nit':'BOD'),  'SOTR');
+            fill('SAE',                       'summary',                                            'SAE');
+            fill('O2_power',                  'summary',                                            'O2_power');
+            fill('SDNR',                      'Des',                                                'SDNR');
+            fill('Power',                     'Des',                                                'Power');
           })();
         })();
       })();
@@ -292,7 +293,7 @@
             var file = Technologies[i.tech] ? Technologies[i.tech].File : "elementary.js";
             var link="<a href='see.php?path="+path+"&file="+file+"&remark="+i.id+"' target=_blank>"+i.id+"</a>";
             //new cells
-            newRow.insertCell(-1).outerHTML="<td class=help title='"+i.descr.replace(/_/g,' ')+"'>"+link;
+            newRow.insertCell(-1).outerHTML="<td class=help title='"+i.descr.replace(/_/g,' ')+"' style='font-family:monospace'>"+link;
 
             //color if zero
             var color=i.value ? "" : "style=background:yellow";
@@ -680,6 +681,11 @@
     <div id=summary>
       <p>3.3. Design summary</p>
       <ul>
+        <li>Total sludge production: <span id=P_X_TSS>0</span>
+          <ul>
+            <li> N content, etc, here <issue class=help_wanted></issue>
+          </ul>
+
         <li>Total reactor volume: <span id=V_total>0</span>
           <ul>
             <li>V<sub>aerobic</sub>: <span id=V_aer>0</span>

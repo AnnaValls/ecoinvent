@@ -29,6 +29,7 @@ var Inputs = [
 
 //nitrification
 {id:"TKN",        value:35,   unit:"g_N/m3",                         descr:"Total Kjedahl nitrogen"},
+//{id:"NH4-N",      value:25,   unit:"g_N/m3",                         descr:"Ammonia influent (nitrogen)"}, NOT USED TBD
 {id:"sBODe",      value:3,    unit:"g/m3",         isParameter:true, descr:"Effluent design Soluble BOD"},
 {id:"Ne",         value:0.50, unit:"g/m3",         isParameter:true, descr:"Effluent design NH4"},
 {id:"Alkalinity", value:140,  unit:"g/m3_as_CaCO3",                  descr:"Influent alkalinity"},
@@ -92,7 +93,7 @@ var Inputs = [
 {id:"TSSe",                 value:1,     unit:"g/m3",         color:"orange", isParameter:true, descr:"Effluent design Total suspended solids"},
 {id:"SRT",                  value:5,     unit:"d",            color:"red",    isParameter:true, descr:"Solids Retention Time"},
 {id:"SOR",                  value:24,    unit:"m3/m2·d",      color:"red",    isParameter:true, descr:"Hydraulic application rate"},
-{id:"SF",                   value:1.5,   unit:"&empty;",      color:"red",    isParameter:true, descr:"Peak to average TKN load : Safety factor for compute a design SRT (= SF·SRT_theoretical), (where  SRT_theoretical  =  1/µAOB)",  },
+{id:"SF",                   value:1.5,   unit:"&empty;",      color:"red",    isParameter:true, descr:"Peak to average TKN load : nitrification Safety factor for computing a design SRT (= SF·SRT_theoretical), (where  SRT_theoretical  =  1/µAOB)",  },
 {id:"Anoxic_mixing_energy", value:5,     unit:"kW/1000_m3",   color:"red",    isParameter:true, descr:"Mixing energy for anoxic reactor"},
 {id:"FeCl3_solution",       value:37,    unit:"%",            color:"red",    isParameter:true, descr:"Ferric chloride solution (%)"},
 {id:"FeCl3_unit_weight",    value:1.35,  unit:"kg/L",         color:"red",    isParameter:true, descr:"Ferric chloride unit weight"},

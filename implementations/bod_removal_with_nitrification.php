@@ -398,7 +398,7 @@
 				<tr><td>SRT theoretical         <td class=number><span id=part_B_SRT_theoretical>?</span><td>d
 				<tr><td>SRT design              <td class=number><span id=part_B_SRT_design>?</span><td>d
 				<tr><td>NO<sub>x</sub>          <td class=number><span id=part_B_NOx>?</span><td>g/m<sup>3</sup>
-				<tr><td>P<sub>X,Bio,VSS</sub>   <td class=number><span id=part_B_P_X_bio_VSS>?</span><td>kg VSS/d
+				<tr><td>P<sub>X,Bio,VSS</sub>   <td class=number><span id=part_B_P_X_bio>?</span><td>kg VSS/d
 				<tr><td>P<sub>X,VSS</sub>       <td class=number><span id=part_B_P_X_VSS>?</span><td>kg/d
 				<tr><td>P<sub>X,TSS</sub>       <td class=number><span id=part_B_P_X_TSS>?</span><td>kg/d
 				<tr><td>X<sub>VSS</sub>V        <td class=number><span id=part_B_X_VSS_V>?</span><td>kg
@@ -498,7 +498,7 @@
 		showResult('part_B_SRT_theoretical',        r2.SRT_theoretical.value);
 		showResult('part_B_SRT_design',             r2.SRT_design.value);
 		showResult('part_B_NOx',                    r2.NOx.value);
-		showResult('part_B_P_X_bio_VSS',            r2.P_X_bio_VSS.value);
+		showResult('part_B_P_X_bio',                r2.P_X_bio.value);
 		showResult('part_B_P_X_VSS',                r2.P_X_VSS.value);
 		showResult('part_B_P_X_TSS',                r2.P_X_TSS.value);
 		showResult('part_B_X_VSS_V',                r2.X_VSS_V.value);

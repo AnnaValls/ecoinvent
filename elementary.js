@@ -71,7 +71,7 @@ function compute_elementary_flows(Input_set){
     var zb                   = is.zb;
     var Pressure             = is.Pressure;
     var Df                   = is.Df;
-    var C_L                  = is.DO; //caution of name change
+    var DO                   = is.DO;
     var SF                   = is.SF;
     var Ne                   = is.Ne; //NH4 effluent
     var sBODe                = is.sBODe;
@@ -113,7 +113,7 @@ function compute_elementary_flows(Input_set){
   var bCOD_BOD_ratio = Result.Fra.bCOD_BOD_ratio.value;    //g/g
 
   /*1. SOLVE BOD REMOVAL*/
-  Result.BOD=bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb,Pressure,Df,C_L);
+  Result.BOD=bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb,Pressure,Df,DO);
   addResults('BOD',Result.BOD);
 
   //get variables for lcorominas pdf equations block 1
@@ -134,23 +134,23 @@ function compute_elementary_flows(Input_set){
   if(is_Nit_active){
     //to correct NOx and P_X_bio from Metcalf use bTKN instead of TKN
     //         nitrification(----------------------------------------------TKN----------------------------------------------------------)
-    Result.Nit=nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,bTKN,SF,zb,Pressure,Df,MLSS_X_TSS,Ne,sBODe,TSSe,Alkalinity,C_L);
+    Result.Nit=nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,bTKN,SF,zb,Pressure,Df,MLSS_X_TSS,Ne,sBODe,TSSe,Alkalinity,DO);
     addResults('Nit',Result.Nit);
   }
 
   //get variables after nitrification for equations block 2
-  var S       = is_Nit_active ? Result.Nit.S.value           : Result.BOD.S.value;       //g/m3
-  var NOx     = is_Nit_active ? Result.Nit.NOx.value         : 0;                        //g/m3
-  var P_X_bio = is_Nit_active ? Result.Nit.P_X_bio_VSS.value : Result.BOD.P_X_bio.value; //kg/d
-  var P_X_VSS = is_Nit_active ? Result.Nit.P_X_VSS.value     : Result.BOD.P_X_VSS.value; //kg/d
-  var b_AOB_T = is_Nit_active ? Result.Nit.b_AOB_T.value     : 0;                        //1/d
+  var S       = is_Nit_active ? Result.Nit.S.value       : Result.BOD.S.value;       //g/m3
+  var NOx     = is_Nit_active ? Result.Nit.NOx.value     : 0;                        //g/m3
+  var P_X_bio = is_Nit_active ? Result.Nit.P_X_bio.value : Result.BOD.P_X_bio.value; //kg/d
+  var P_X_VSS = is_Nit_active ? Result.Nit.P_X_VSS.value : Result.BOD.P_X_VSS.value; //kg/d
+  var b_AOB_T = is_Nit_active ? Result.Nit.b_AOB_T.value : 0;                        //1/d
 
   //get SRT from Nit results if Nit is active
   SRT = is_Nit_active ? Result.Nit.SRT_design.value : SRT; //d
 
   //lcorominas - equations block 2
   var VSSe      = TSSe*0.85; //g/m3
-  var sCODe     = nbsCODe+S; //g/m3
+  var sCODe     = nbsCODe+S; //g/m3 (used only in COD effluent (water and sludge))
 
   var nbpP      = Math.min(TP, 0.025*nbVSS); //g/m3
   var aP        = Math.max( 0, TP - nbpP);   //g/m3 == PO4_in
@@ -171,13 +171,13 @@ function compute_elementary_flows(Input_set){
     var Aerobic_T             = Result.Nit.tau.value;        //14.2 h
     var RAS                   = Result.SST.RAS.value;        //0.6 unitless
     var R0                    = Result.Nit.OTRf.value;       //275.9 kg O2/h
-    Result.Des=N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_basin_volume,Aerobic_T,Anoxic_mixing_energy,RAS,R0,NO3_eff,Df,zb,C_L,Pressure);
+    Result.Des=N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_basin_volume,Aerobic_T,Anoxic_mixing_energy,RAS,R0,NO3_eff,Df,zb,DO,Pressure);
     addResults('Des',Result.Des);
   }
 
   /*5. SOLVE BIO P*/
   if(is_BiP_active){
-    var tau_aer = is_Nit_active ? Result.Nit.tau.value : Result.BOD.tau.value; //h TODO check if this should be 0.75 h always or not
+    var tau_aer = 0.75; //h -- tau must be between 0.50 and 1.00 h;
     Result.BiP=bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,NOx,NO3_eff,tau_aer);
     addResults('BiP',Result.BiP);
   }
@@ -205,17 +205,17 @@ function compute_elementary_flows(Input_set){
 
   //Qwas: lcorominas equation wastage flowrate
   //Qe: lcorominas equation Q(effluent) flowrate
-  //sTKNe (used only in TKN effluent)
   var Qwas = (V_total*MLSS_X_TSS/SRT - Q*TSSe)/(X_R - TSSe) ||0; //m3/d
   Qwas = isFinite(Qwas) ? Qwas : 0;
 
   var Qe = Q - Qwas; //m3/d
-  var sTKNe = Qe*(Ne + nbsON); //g/d
+  var sTKNe = Ne + nbsON; //g/d -- sTKNe (used only in TKN effluent)
 
   var SOTR = is_Des_active ? Result.Des.SOTR.value : (is_Nit_active ? Result.Nit.SOTR.value : Result.BOD.SOTR.value);
   var SAE  = 4; //kgO2/kWh TBD
 
-  var P_X_TSS = is_BiP_active ? Result.BiP.P_X_TSS.value : (is_Nit_active ? Result.Nit.P_X_TSS.value : Result.BOD.P_X_TSS.value);
+  var P_X_bio = is_BiP_active ? Result.BiP.P_X_bio.value : (is_Nit_active ? Result.Nit.P_X_bio.value : Result.BOD.P_X_bio.value); //kg/d
+  var P_X_TSS = is_BiP_active ? Result.BiP.P_X_TSS.value : (is_Nit_active ? Result.Nit.P_X_TSS.value : Result.BOD.P_X_TSS.value); //kg/d
 
   //manually add equations from lcorominas pdf to Result
   Result.summary={
@@ -227,20 +227,26 @@ function compute_elementary_flows(Input_set){
     'TKN_N2O': {value:TKN_N2O,     unit:"g/m3",      descr:"TKN N2O (0.1% of TKN)"},
     'bTKN':    {value:bTKN,        unit:"g/m3",      descr:"biodegradable TKN"},
     'sTKNe':   {value:sTKNe,       unit:"g/m3",      descr:"Soluble TKN effluent"},
-
-    'VSSe':      {value:VSSe,      unit:"g/m3",      descr:"Volatile Suspended Solids at effluent"},
-    'VSSe*0.12': {value:VSSe*0.12, unit:"g/m3",      descr:"??? ask L corominas"}, //TODO
-    'sCODe':     {value:sCODe,     unit:"g/m3",      descr:"Soluble COD at effluent"},
-
+    'sCODe':   {value:sCODe,       unit:"g/m3",      descr:"Soluble COD at effluent"},
     'nbpP':    {value:nbpP,        unit:"g/m3",      descr:"Nonbiodegradable particulate P"},
     'aP':      {value:aP,          unit:"g/m3",      descr:"Available P"},
     'aPchem':  {value:aPchem,      unit:"g/m3",      descr:"Available P for chemicals"},
+
+    'P_X_TSS': {value:P_X_TSS,     unit:"kg/d",      descr:"Total sludge produced per day"},
+    'P_X_bio': {value:P_X_bio,     unit:"kg/d",      descr:"Biomass produced per day"},
+    'VSSe':      {value:VSSe,      unit:"g/m3",      descr:"Volatile Suspended Solids at effluent"},
+
+    'COD_in_VSSe__(1.42)':  {value:VSSe*1.42,     unit:"g_O2/m3", descr:"content of COD in VSSe    (1.42  gO2/gVSSe)"},
+    'N___in_VSSe__(0.12)':  {value:VSSe*0.12,     unit:"g_N/m3",  descr:"content of N   in VSSe    (0.12  gN/gVSSe)"},
+    'P___in_VSSe__(0.015)': {value:VSSe*0.015,    unit:"g_P/m3",  descr:"content of P   in VSSe    (0.12  gP/gVSSe"},
+    'COD_in_PXbio_(1.42)':  {value:P_X_bio*1.42,  unit:"g_O2/m3", descr:"content of COD in biomass (1.42  gO2/gX)"},
+    'N___in_PXbio_(0.12)':  {value:P_X_bio*0.12,  unit:"g_N/m3",  descr:"content of N   in biomass (0.12  gN/gX)"},
+    'P___in_PXbio_(0.015)': {value:P_X_bio*0.015, unit:"g_P/m3",  descr:"content of P   in biomass (0.015 gP/gX)"},
 
     'V_total': {value:V_total,     unit:"m3",        descr:"Total reactor volume (aerobic+anoxic+anaerobic)"},
     'SRT':     {value:SRT,         unit:"d",         descr:getInputById('SRT').descr},
     'SAE':     {value:SAE,         unit:"kg_O2/kWh", descr:"Energy needed to aerate 1 kgO2"},
     'O2_power':{value:SOTR/SAE||0, unit:"kW",        descr:"Power needed for aeration (=SOTR/SAE)"},
-    'P_X_TSS': {value:P_X_TSS,     unit:"kg/d",      descr:"Total sludge produced per day"},
   };
   addResults('summary',Result.summary);
 
@@ -265,7 +271,7 @@ function compute_elementary_flows(Input_set){
 
   //Outputs.COD
   Outputs.COD.influent       = Q*COD;
-  Outputs.COD.effluent.water = Q*sCODe + Qe*VSSe*1.42;
+  Outputs.COD.effluent.water = Qe*sCODe + Qe*VSSe*1.42;
   Outputs.COD.effluent.air   = (function(){
     /*
      * CARBONACEOUS DEMAND
@@ -342,7 +348,7 @@ function compute_elementary_flows(Input_set){
   Outputs.TKN.effluent.air    = 0;
   Outputs.TKN.effluent.sludge = (function(){
     var A = 0.12*P_X_bio*1000;
-    var B = Qwas*sTKNe/Qe ||0;
+    var B = Qwas*sTKNe;
     var C = Q*nbpON;
     var D = Qe*VSSe*0.12;
     return A+B+C-D;
