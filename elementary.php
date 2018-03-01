@@ -681,38 +681,6 @@
     <div id=summary>
       <p>3.3. Design summary</p>
       <ul>
-        <li>Total sludge production: <span id=P_X_TSS>0</span>
-          <ul>
-            <li> N content, etc, here <issue class=help_wanted></issue>
-          </ul>
-
-        <li>Total reactor volume: <span id=V_total>0</span>
-          <ul>
-            <li>V<sub>aerobic</sub>: <span id=V_aer>0</span>
-            <li>V<sub>anoxic</sub>: <span id=V_nox>0</span>
-            <li>V<sub>anaerobic</sub>: <span id=V_ana>0</span>
-          </ul>
-        <li>Settler Total Area needed: <span id=Area>0</span>
-        <li>Wastage flow (Q<sub>was</sub>): <span id=Qwas>0</span>
-        <li>Solids Retention Time (SRT): <span id=SRT>0</span>
-        <li>Recirculation flow (Q<sub>R</sub>): <span id=QR></span>
-      </ul>
-
-      <p>3.4. Technosphere</p>
-      <ul>
-        <li>Alkalinity to maintain pH
-          <ul>
-            <li>Nitrification: <span id=alkalinity_added>0</span>
-            <li>Denitrification: <span id=Mass_of_alkalinity_needed>0</span>
-          </ul>
-        </li>
-        <li>FeCl<sub>3</sub> for Chemical P removal
-          <ul>
-            <li>Volume per day: <span id=FeCl3_volume>0</span>
-            <li>Volume storage required: <span id=storage_req_15_d>0</span>
-          </ul>
-        </li>
-        <li>Kg concrete: go <a href="construction.php">here</a>
         <li>Aeration
           <ul>
             <li>Air flowrate: <span id=air_flowrate>0</span>
@@ -731,6 +699,41 @@
               <ul>
                 <li>SDNR: <span id=SDNR>0</span>
                 <li>Power required: <span id=Power>0</span>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li>Kg concrete: go <a href="construction.php">here</a>
+        <li>Total sludge production: <span id=P_X_TSS>0</span>
+          <ul>
+            <li> N content, etc, here <issue class=help_wanted></issue>
+          </ul>
+        <li>Total reactor volume: <span id=V_total>0</span>
+          <ul>
+            <li>V<sub>aerobic</sub>: <span id=V_aer>0</span>
+            <li>V<sub>anoxic</sub>: <span id=V_nox>0</span>
+            <li>V<sub>anaerobic</sub>: <span id=V_ana>0</span>
+          </ul>
+        <li>Settler Total Area needed: <span id=Area>0</span>
+        <li>Wastage flow (Q<sub>was</sub>): <span id=Qwas>0</span>
+        <li>Solids Retention Time (SRT): <span id=SRT>0</span>
+        <li>Recirculation flow (Q<sub>R</sub>): <span id=QR></span>
+      </ul>
+
+      <p>3.4. Technosphere</p>
+      <ul>
+        <li>Chemicals
+          <ul>
+            <li>Alkalinity to maintain pH
+              <ul>
+                <li>Nitrification: <span id=alkalinity_added>0</span>
+                <li>Denitrification: <span id=Mass_of_alkalinity_needed>0</span>
+              </ul>
+            </li>
+            <li>FeCl<sub>3</sub> for Chemical P removal
+              <ul>
+                <li>Volume per day: <span id=FeCl3_volume>0</span>
+                <li>Volume storage required: <span id=storage_req_15_d>0</span>
               </ul>
             </li>
           </ul>
