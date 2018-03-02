@@ -678,7 +678,7 @@
           <li>BOD loading:                       <span id=BOD_loading>0</span>
           <li>Total sludge production:           <span id=P_X_TSS>0</span>
             <ul>
-              <li> N content, etc, here
+              <li> <em>N content, etc, here</em>
                 <issue class=under_dev></issue>
                 <issue class=help_wanted></issue>
             </ul>
@@ -704,18 +704,19 @@
               <li>Diameter:                      <span id=clarifier_diameter>0</span>
             </ul>
           </li>
-          <li>Kg concrete: go <a href="construction.php">here</a> 
-            <ul>
-              <li>Reactor <issue class=under_dev></issue>
-              <li>Settler <issue class=under_dev></issue>
-            </ul>
-          </li>
           <li>Reactor volume
             <ul>
               <li>V<sub>aer</sub>:               <span id=V_aer>0</span>
               <li>V<sub>nox</sub>:               <span id=V_nox>0</span>
               <li>V<sub>ana</sub>:               <span id=V_ana>0</span>
               <li>V<sub>total</sub>:             <span id=V_total>0</span>
+            </ul>
+          </li>
+          <li>Concrete (see <a href="construction.php">construction</a>)
+            <ul>
+              <li>Reactor: <span id=concrete_reactor>0</span>
+              <li>Settler: <span id=concrete_settler>0</span>
+                <issue class=under_dev>0</issue>
             </ul>
           </li>
         </ul>
@@ -727,7 +728,11 @@
           <li>Chemicals
             <ul>
               <li>
-                Polymers <issue class=under_dev></issue>
+                Dewatering
+                <ul>
+                  <li>Copolymer of acrylamide 0.48%:
+                  <span id=Dewatering_polymer>0</span>
+                </ul>
               </li>
               <li>Alkalinity to maintain pH ~ 7.0
                 <ul>
@@ -756,7 +761,12 @@
               </li>
               <li>Dewatering:                  <span id=dewatering_power>0</span>
               <li>Other:                       <span id=other_power>0</span>
-              <li>Total:                       <span id=total_power>0</span>
+              <li>Total energy
+                <ul>
+                  <li>Expressed as power needed:   <span id=total_power>0</span>
+                  <li>Expressed as energy per day: <span id=total_daily_energy>0</span>
+                  <li>Expressed as energy per m3:  <span id=total_energy_per_m3>0</span>
+                </ul>
             </ul>
           </li>
         </ul>

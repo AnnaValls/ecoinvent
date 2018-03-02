@@ -180,8 +180,7 @@ function compute_elementary_flows(Input_set){
     Result.Des=N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_basin_volume,Aerobic_T,Anoxic_mixing_energy,RAS,R0,NO3_eff,Df,zb,DO,Pressure);
     addResults('Des',Result.Des);
   }
-  
-  var Flowrate_to_anoxic_tank = is_Des_active ? Result.Des.Flowrate_to_anoxic_tank.value : 0;
+  var IR = is_Des_active ? Result.Des.IR.value : 0;
 
   /*5. SOLVE BIO P*/
   if(is_BiP_active){
@@ -264,31 +263,31 @@ function compute_elementary_flows(Input_set){
   //energy related variables (could go inside a new Result.energy object)
 
   //1. AERATION power
-  var SAE            = 4; //kgO2/kWh TBD look for more exact value
+  var SAE            = 4; //kgO2/kWh TBD confirm value (I don't remember where I took it from)
   var aeration_power = OTRf/SAE ||0; //kW
 
   //2. MIXING power (anoxic, denitrification)
-  var mixing_power = select_value('Power', ['Des']); //kW
+  var mixing_power = select_value('Power',['Des']); //kW
 
   //3. PUMPING power
-  var PE_Qr   = 1; //external
-  var PE_Qint = 1; //internal (anoxic, denitri)
-  var PE_Qw   = 1; //wastage
-
+  var PE_Qr   = 0.008; //kWh/m3 -- external recirculation factor
+  var PE_Qint = 0.004; //kWh/m3 -- internal recirculation (anoxic, denitri) factor
+  var PE_Qw   = 0.050; //kWh/m3 -- wastage factor
   var Pumping = {
-    external: Q*RAS*PE_Qr,
-    internal: Flowrate_to_anoxic_tank*PE_Qint,
-    wastage : Qwas*PE_Qw,
+    external: Q*RAS*PE_Qr,  //kWh/d
+    internal: Q*IR*PE_Qint, //kWh/d
+    wastage : Qwas*PE_Qw,   //kWh/d
     total:function(){return this.external+this.internal+this.wastage},
   }
 
-  var pumping_power_external = Pumping.external;
-  var pumping_power_internal = Pumping.internal;
-  var pumping_power_wastage  = Pumping.wastage;
-  var pumping_power          = Pumping.total();
+  var pumping_power_external = Pumping.external/24; //kW
+  var pumping_power_internal = Pumping.internal/24; //kW
+  var pumping_power_wastage  = Pumping.wastage/24;  //kW
+  var pumping_power          = Pumping.total()/24;  //kW
 
-  //4. DEWATERING power. the factor "20" is kWh per tone dry matter
-  var dewatering_power = P_X_TSS/1000 * 20 / 24; //kW
+  //4. DEWATERING power
+  var dewatering_factor = 20; //kWh/tDM (tone dry matter)
+  var dewatering_power = P_X_TSS/1000 * dewatering_factor / 24; //kW
 
   //5. OTHER power: assumption is that pumping+aeration+dewatering+mixing is 80%, so other is 20% of total
   var other_power = 0.25*(aeration_power + mixing_power + pumping_power + dewatering_power);
@@ -311,11 +310,33 @@ function compute_elementary_flows(Input_set){
   };
   addResults('energy',Result.energy);
 
-
   /*Variables needed for SUMMARY TABLE*/
-  /*
-   * i.e. --> var tau = select_value('tau',['Des','Nit','BOD']);
-   */
+
+  /*polymer for dewatering (chemical)*/
+  var Dewatering_polymer = 0.22*P_X_TSS; //kg polymer/d -- (0.22 is kg polymer/kg sludge)
+
+  /*CONCRETE*/
+  var Concrete={
+    density:3, //t/m3
+    reactor:function(volume,h,w,ww,wg){
+      h=h   ||7;   //m -- depth of tank
+      w=w   ||9;   //m -- width of tank
+      ww=ww ||0.3; //m -- width of wall
+      wg=wg ||0.5; //m -- width of basement plate
+      return this.density*(
+        2*(volume/(h*w) + w)*h*ww + volume/(h*w)*w*wg
+      ); //m3 concrete
+    },
+    settler:function(volume,h,w,ww,wg){
+      h=h   ||7;   //m -- depth of tank
+      ww=ww ||0.3; //m -- width of wall
+      wg=wg ||0.5; //m -- width of basement plate
+      return this.density*(
+        2*Math.PI*Math.sqrt(volume/(Math.PI*h))*h*ww + volume/h*wg
+      ); //m3 concrete
+    },
+  }
+
   Result.summary={
     'SRT':                        {value:SRT,                        unit:"d",               descr:getInputById('SRT').descr},
     'tau':                        {value:tau,                        unit:"h",               descr:""},
@@ -340,6 +361,9 @@ function compute_elementary_flows(Input_set){
     'Mass_of_alkalinity_needed':  {value:Mass_of_alkalinity_needed,  unit:"kg/d_as_CaCO3",   descr:""},
     'FeCl3_volume':               {value:FeCl3_volume,               unit:"L/d",             descr:""},
     'storage_req_15_d':           {value:storage_req_15_d,           unit:"m3",              descr:""},
+    'Dewatering_polymer':         {value:Dewatering_polymer,         unit:"kg/d",            descr:""},
+    'concrete_reactor':           {value:Concrete.reactor(V_total),  unit:"m3",              descr:""},
+    'concrete_settler':           {value:Concrete.settler(0),        unit:"m3",              descr:""},
 
     'aeration_power':             {value:aeration_power,             unit:"kW",              descr:"Power needed for aeration (=OTRf/SAE)"},
     'mixing_power':               {value:mixing_power,               unit:"kW",              descr:"Power needed for anoxic mixing"},
@@ -350,6 +374,8 @@ function compute_elementary_flows(Input_set){
     'dewatering_power':           {value:dewatering_power,           unit:"kW",              descr:"Power needed for dewatering"},
     'other_power':                {value:other_power,                unit:"kW",              descr:"Power needed for 'other' (20% of total)"},
     'total_power':                {value:total_power,                unit:"kW",              descr:"Total power needed"},
+    'total_daily_energy':         {value:total_power*24,             unit:"kWh/d",           descr:"Total daily energy needed"},
+    'total_energy_per_m3':        {value:total_power*24/Q||0,        unit:"kWh/m3",          descr:"Total energy needed per m3"},
   };
   //addResults('summary',Result.summary);
   //===============================================================================================
