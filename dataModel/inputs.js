@@ -10,43 +10,42 @@
  */
 var Inputs = [
 
-{id:"Q",          value:22700, unit:"m3/d",                   descr:"Flowrate"},
-{id:"T",          value:12,    unit:"ºC",                     descr:"Temperature"},
+{id:"Q",          value:22700, unit:"m3/d",  descr:"Flowrate"},
+{id:"T",          value:12,    unit:"ºC",    descr:"Temperature"},
 
 //fractionation
-{id:"COD",        value:300,   unit:"g/m3",                   descr:"Total chemical oxygen demand"},
-{id:"bCOD",       value:224,   unit:"g/m3",                   descr:"Biodegradable COD"},
-{id:"sCOD",       value:132,   unit:"g/m3",                   descr:"Soluble COD"},
-{id:"BOD",        value:140,   unit:"g/m3",                   descr:"Total 5d biochemical oxygen demand"},
-{id:"sBOD",       value:70,    unit:"g/m3",                   descr:"Soluble BOD"},
-{id:"TSS",        value:70,    unit:"g/m3",                   descr:"Total suspended solids"},
-{id:"VSS",        value:60,    unit:"g/m3",                   descr:"Volatile suspended solids"},
+{id:"COD",        value:300,   unit:"g/m3 as O2",  descr:"Total chemical oxygen demand"},
+{id:"bCOD",       value:224,   unit:"g/m3 as O2",  descr:"Biodegradable COD"},
+{id:"sCOD",       value:132,   unit:"g/m3 as O2",  descr:"Soluble COD"},
+{id:"BOD",        value:140,   unit:"g/m3 as O2",  descr:"Total 5d biochemical oxygen demand"},
+{id:"sBOD",       value:70,    unit:"g/m3 as O2",  descr:"Soluble BOD"},
+{id:"TSS",        value:70,    unit:"g/m3",        descr:"Total suspended solids"},
+{id:"VSS",        value:60,    unit:"g/m3",        descr:"Volatile suspended solids"},
 
 //bod removal
-{id:"MLSS_X_TSS", value:3000,  unit:"g/m3", isParameter:true, descr:"Mixed liquor suspended solids"},
-{id:"DO",         value:2.0,   unit:"mg/L", isParameter:true, descr:"DO in aeration basin (generally: 1.5 to 2) (symbol in book is C_L)"},
-{id:"clarifiers", value:3, unit:"clarifiers", isParameter:true, descr:"Number of clarifiers that will be used"},
+{id:"MLSS_X_TSS", value:3000,  unit:"g/m3",       isParameter:true, descr:"Mixed liquor suspended solids"},
+{id:"DO",         value:2.0,   unit:"g/m3 as O2", isParameter:true, descr:"DO in aeration basin (generally: 1.5 to 2) (notation in book is 'C_L')"},
+{id:"clarifiers", value:3,     unit:"clarifiers", isParameter:true, descr:"Number of clarifiers that will be used"},
 
 //nitrification
-{id:"TKN",        value:35,   unit:"g_N/m3",                         descr:"Total Kjedahl nitrogen"},
-//{id:"NH4-N",      value:25,   unit:"g_N/m3",                         descr:"Ammonia influent (nitrogen)"}, NOT USED TBD
-{id:"sBODe",      value:3,    unit:"g/m3",         isParameter:true, descr:"Effluent design Soluble BOD"},
-{id:"Ne",         value:0.50, unit:"g/m3",         isParameter:true, descr:"Effluent design NH4"},
+{id:"TKN",        value:35,   unit:"g/m3 as N",                      descr:"Total Kjedahl nitrogen"},
+{id:"sBODe",      value:3,    unit:"g/m3 as O2",         isParameter:true, descr:"Effluent design Soluble BOD"},
+{id:"NH4_eff",    value:0.50, unit:"g/m3 as N",         isParameter:true, descr:"Effluent design NH4"},
 {id:"Alkalinity", value:140,  unit:"g/m3_as_CaCO3",                  descr:"Influent alkalinity"},
 
 //N removal
-{id:"rbCOD",   value:80, unit:"g/m3",                   descr:"Readily biodegradable COD"},
-{id:"NO3_eff", value:6,  unit:"g/m3", isParameter:true, descr:"Effluent design NO3 concentration"},
+{id:"rbCOD",   value:80, unit:"g/m3 as O2",                   descr:"Readily biodegradable COD"},
+{id:"NO3_eff", value:6,  unit:"g/m3 as N", isParameter:true, descr:"Effluent design NO3 concentration"},
 
 //bio P
 {id:"VFA", value:15, unit:"g/m3",   descr:"Volatile Fatty Acids (Acetate)"},
-{id:"TP",  value:6,  unit:"g_P/m3", descr:"Total phosphorus"},
+{id:"TP",  value:6,  unit:"g/m3 as P", descr:"Total phosphorus"},
 
 //chem P
-{id:"TSS_removal_wo_Fe", value:60,   unit:"%",    isParameter:true, descr:"% TSS removal without iron addition"},
-{id:"TSS_removal_w_Fe",  value:75,   unit:"%",    isParameter:true, descr:"% TSS removal with iron addition"},
-{id:"C_PO4_inf",         value:5,    unit:"g/m3", descr:"Influent PO4(3-)"},
-{id:"C_PO4_eff",         value:0.1,  unit:"g/m3", isParameter:true, descr:"Effluent design PO4(3-)"},
+{id:"TSS_removal_wo_Fe", value:60,   unit:"%",         isParameter:true, descr:"% TSS removal without iron addition"},
+{id:"TSS_removal_w_Fe",  value:75,   unit:"%",         isParameter:true, descr:"% TSS removal with iron addition"},
+{id:"C_PO4_inf",         value:5,    unit:"g/m3 as P",                   descr:"Influent PO4(3-)"},
+{id:"C_PO4_eff",         value:0.1,  unit:"g/m3 as P", isParameter:true, descr:"Effluent design PO4(3-)"},
 
 //metals
 {id:"Ag",  value:0.0000,  unit:"g/m3", isMetal:true, descr:"Influent Silver"     },

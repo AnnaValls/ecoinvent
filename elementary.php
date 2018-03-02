@@ -194,9 +194,9 @@
           zb                   : getInput('zb').value, //500
           Pressure             : getInput('Pressure').value, //95600
           Df                   : getInput('Df').value, //4.4
-          DO                   : getInput('DO').value, //2.0 warning: name changed to "DO" from C_L
+          DO                   : getInput('DO').value, //2.0
           SF                   : getInput('SF').value, //1.5
-          Ne                   : getInput('Ne').value, //0.50
+          NH4_eff              : getInput('NH4_eff').value, //0.50
           sBODe                : getInput('sBODe').value, //3
           TSSe                 : getInput('TSSe').value, //10
           Anoxic_mixing_energy : getInput('Anoxic_mixing_energy').value, //5
@@ -219,48 +219,28 @@
 
         //fill summary tables (section 3.3)
         (function fill_summary_tables(){
-          //write el.innerHTML in #summary with a Result[tec][field].value
-          function fill(id,tec,field){
-            //id:    DOM element id <string>
-            //tec:   technology alias
-            //field: variable id
-            var value = Result[tec][field] ? Result[tec][field].value : 0;
-            var el=document.querySelector('div#summary #'+id);
-            if(value==0){
-              el.innerHTML=0;
-              el.parentNode.style.color='#aaa';
+          //get all variable codes from summary table
+          var codes=(function(){
+            var codes=[];
+            var spans=document.querySelectorAll('#summary span[id]');
+            for(var i=0;i<spans.length;i++){
+              codes.push(spans[i].id);
+            }
+            return codes;
+          })();
+          codes.forEach(id=>{ //id: DOM element id <string>
+            var value = Result.summary[id] ? Result.summary[id].value : 0;
+            var el=document.querySelector('#summary #'+id);
+
+            var unit = Result.summary[id] ? Result.summary[id].unit  : "";
+            el.innerHTML=format(value)+" <small>"+unit.prettifyUnit()+"</small>";
+
+            if(!value){
+              el.parentNode.style.color= isNaN(value) ? 'red' : '#aaa';
               return;
             }else el.parentNode.style.color='';
-            var unit = Result[tec][field] ? Result[tec][field].unit  : "";
-            if(el)
-              el.innerHTML=format(value)+" "+unit.prettifyUnit();
-          }
-          //fill design summary elements
-          (function(){
-            var i=Input_set;
-            if(!i.is_BOD_active){ return; }
-            //calc auxiliary technology results
-            fill('P_X_TSS',                   'summary',                     'P_X_TSS');
-            fill('V_aer',                     (i.is_Nit_active?'Nit':'BOD'), 'V_aer');
-            fill('V_nox',                     'Des',                         'V_nox');
-            fill('V_ana',                     'BiP',                         'V_ana');
-            fill('V_total',                   'summary',                     'V_total');
-            fill('Area',                      'SST',                         'Area');
-            fill('Qwas',                      'summary',                     'Qwas');
-            fill('SRT',                       'summary',                     'SRT');
-            fill('QR',                        'SST',                         'QR');
-            fill('alkalinity_added',          'Nit',                         'alkalinity_added');
-            fill('Mass_of_alkalinity_needed', 'Des',                         'Mass_of_alkalinity_needed');
-            fill('FeCl3_volume',              'ChP',                         'FeCl3_volume');
-            fill('storage_req_15_d',          'ChP',                         'storage_req_15_d');
-            fill('air_flowrate',              i.is_Des_active?'Des':(i.is_Nit_active?'Nit':'BOD'),  'air_flowrate');
-            fill('OTRf',                      i.is_Des_active?'Des':(i.is_Nit_active?'Nit':'BOD'),  'OTRf');
-            fill('SOTR',                      i.is_Des_active?'Des':(i.is_Nit_active?'Nit':'BOD'),  'SOTR');
-            fill('SAE',                       'summary',                                            'SAE');
-            fill('O2_power',                  'summary',                                            'O2_power');
-            fill('SDNR',                      'Des',                                                'SDNR');
-            fill('Power',                     'Des',                                                'Power');
-          })();
+
+          });
         })();
       })();
 
@@ -284,21 +264,29 @@
             table.insertRow(-1).insertCell(-1).outerHTML="<td colspan=4 style=text-align:center><em>~Activate some technologies first";
           }
           Variables.forEach(i=>{
-            var tech_name = Technologies[i.tech] ? Technologies[i.tech].Name : i.tech;
             var newRow=table.insertRow(-1);
-            newRow.setAttribute('tech',i.tech);
-            newRow.insertCell(-1).outerHTML="<td class=help title='"+tech_name+"' style='font-family:monospace'>"+i.tech;
-            //link to source code
-            var path = Technologies[i.tech] ? "techs" : ".";
-            var file = Technologies[i.tech] ? Technologies[i.tech].File : "elementary.js";
-            var link="<a href='see.php?path="+path+"&file="+file+"&remark="+i.id+"' target=_blank>"+i.id+"</a>";
-            //new cells
-            newRow.insertCell(-1).outerHTML="<td class=help title='"+i.descr.replace(/_/g,' ')+"' style='font-family:monospace'>"+link;
 
-            //color if zero
-            var color=i.value ? "" : "style=background:yellow";
-            newRow.insertCell(-1).outerHTML="<td class=number "+color+">"+format(i.value);
-            newRow.insertCell(-1).outerHTML="<td class=unit>"+i.unit.prettifyUnit();
+            //tech name
+            (function(){
+              var tech_name = Technologies[i.tech] ? Technologies[i.tech].Name : i.tech;
+              newRow.setAttribute('tech',i.tech);
+              newRow.insertCell(-1).outerHTML="<td class=help title='"+tech_name+"' style='font-family:monospace'>"+i.tech;
+            })();
+
+            //variable name and link to source code
+            (function(){
+              var path = Technologies[i.tech] ? "techs" : ".";
+              var file = Technologies[i.tech] ? Technologies[i.tech].File : "elementary.js";
+              var link="<a href='see.php?path="+path+"&file="+file+"&remark="+i.id+"' target=_blank>"+i.id+"</a>";
+              newRow.insertCell(-1).outerHTML="<td class=help title='"+i.descr.replace(/_/g,' ')+"' style='font-family:monospace'>"+link;
+            })();
+
+            //color remark if value==zero
+            (function(){
+              var color=i.value ? "" : "style=background:yellow";
+              newRow.insertCell(-1).outerHTML="<td class=number "+color+">"+format(i.value);
+              newRow.insertCell(-1).outerHTML="<td class=unit>"+i.unit.prettifyUnit();
+            })();
           });
         })();
 
@@ -429,8 +417,9 @@
 
 <!--hints-->
 <p style=font-size:smaller>
-  Note: modify inputs using the <kbd>&uarr;</kbd> and <kbd>&darr;</kbd> keys.<br>
   Note: mouse over inputs and variables to see a description.
+  <br>
+  Note: modify inputs using the <kbd>&uarr;</kbd> and <kbd>&darr;</kbd> keys.
 </p>
 <hr>
 
@@ -649,7 +638,7 @@
 
     <!--table effluent phases-->
     <div>
-      <p>3.1. Effluent <small>(<a href="see.php?path=.&file=elementary.js" target=_blank>equations</a>)</small></p>
+      <p>3.1. Effluent</p>
       <table id=outputs border=1 style=font-size:smaller>
         <tr>
           <th rowspan=2>Compound
@@ -679,66 +668,96 @@
 
     <!--summary tables-->
     <div id=summary>
-      <p>3.3. Design summary</p>
-      <ul>
-        <li>Aeration
-          <ul>
-            <li>Air flowrate: <span id=air_flowrate>0</span>
-            <li>OTRf: <span id=OTRf>0</span>
-            <li>SOTR: <span id=SOTR>0</span>
-            <li>SAE: <span id=SAE>0</span>
-              <div>
-                <small>
-                  (note: Fine bubble systems have SAE ranges 
-                  <br>
-                  of between 3.6 and 4.8 kgO<sub>2</sub>/kWh)
-                </small>
-              </div>
-            <li>Power required (SOTR/SAE): <span id=O2_power>0</span>
-            <li>For Denitrirication
-              <ul>
-                <li>SDNR: <span id=SDNR>0</span>
-                <li>Power required: <span id=Power>0</span>
-              </ul>
-            </li>
-          </ul>
-        </li>
-        <li>Kg concrete: go <a href="construction.php">here</a>
-        <li>Total sludge production: <span id=P_X_TSS>0</span>
-          <ul>
-            <li> N content, etc, here <issue class=help_wanted></issue>
-          </ul>
-        <li>Total reactor volume: <span id=V_total>0</span>
-          <ul>
-            <li>V<sub>aerobic</sub>: <span id=V_aer>0</span>
-            <li>V<sub>anoxic</sub>: <span id=V_nox>0</span>
-            <li>V<sub>anaerobic</sub>: <span id=V_ana>0</span>
-          </ul>
-        <li>Settler Total Area needed: <span id=Area>0</span>
-        <li>Wastage flow (Q<sub>was</sub>): <span id=Qwas>0</span>
-        <li>Solids Retention Time (SRT): <span id=SRT>0</span>
-        <li>Recirculation flow (Q<sub>R</sub>): <span id=QR></span>
-      </ul>
+      <!--DESIGN SUMMARY-->
+      <p>3.3. Design summary
+        <em style=display:block;font-size:smaller>The following variables have been selected from table 2</em>
+        <ul>
+          <li>Solids Retention Time (SRT):       <span id=SRT>0</span>
+          <li>Hydraulic detention time (&tau;):  <span id=tau>0</span>
+          <li>MLVSS:                             <span id=MLVSS>0</span>
+          <li>BOD loading:                       <span id=BOD_loading>0</span>
+          <li>Total sludge production:           <span id=P_X_TSS>0</span>
+            <ul>
+              <li> N content, etc, here 
+                <issue class=under_dev></issue>
+                <issue class=help_wanted></issue>
+            </ul>
+          </li>
+          <li>Observed yield
+            <ul>
+              <li>Y_obs_TSS:                     <span id=Y_obs_TSS>0</span>
+              <li>Y_obs_VSS:                     <span id=Y_obs_VSS>0</span>
+            </ul>
+          </li>
+          <li>Aeration
+            <ul>
+              <li>Air flowrate:                  <span id=air_flowrate>0</span>
+              <li>O<sub>2</sub> required (OTRf): <span id=OTRf>0</span>
+              <li>SOTR:                          <span id=SOTR>0</span>
+              <li>SDNR (denitrification):        <span id=SDNR>0</span>
+            </ul>
+          </li>
+          <li>RAS ratio:                         <span id=RAS>0</span>
+          <li>Clarifiers
+            <ul>
+              <li>Amount:                        <span id=clarifiers>0</span>
+              <li>Diameter:                      <span id=clarifier_diameter>0</span>
+            </ul>
+          </li>
+          <li>Kg concrete: go <a href="construction.php">here</a> 
+            <ul>
+              <li>Reactor <issue class=under_dev></issue>
+              <li>Settler <issue class=under_dev></issue>
+            </ul>
+          </li>
+          <li>Reactor volume
+            <ul>
+              <li>V<sub>aer</sub>:               <span id=V_aer>0</span>
+              <li>V<sub>nox</sub>:               <span id=V_nox>0</span>
+              <li>V<sub>ana</sub>:               <span id=V_ana>0</span>
+              <li>V<sub>total</sub>:             <span id=V_total>0</span>
+            </ul>
+          </li>
+        </ul>
+      </p>
 
-      <p>3.4. Technosphere</p>
-      <ul>
-        <li>Chemicals
-          <ul>
-            <li>Alkalinity to maintain pH
-              <ul>
-                <li>Nitrification: <span id=alkalinity_added>0</span>
-                <li>Denitrification: <span id=Mass_of_alkalinity_needed>0</span>
-              </ul>
-            </li>
-            <li>FeCl<sub>3</sub> for Chemical P removal
-              <ul>
-                <li>Volume per day: <span id=FeCl3_volume>0</span>
-                <li>Volume storage required: <span id=storage_req_15_d>0</span>
-              </ul>
-            </li>
-          </ul>
-        </li>
-      </ul>
+      <!--TECH SPHERE-->
+      <p>3.4. Technosphere
+        <ul>
+          <li>Chemicals
+            <ul>
+              <li>Alkalinity to maintain pH ~ 7.0
+                <ul>
+                  <li>For Nitrification:       <span id=alkalinity_added>0</span>
+                  <li>For Denitrification:     <span id=Mass_of_alkalinity_needed>0</span>
+                </ul>
+              </li>
+              <li>FeCl<sub>3</sub> used for chemical P removal
+                <ul>
+                  <li>Volume per day:          <span id=FeCl3_volume>0</span>
+                  <li>Volume storage required: <span id=storage_req_15_d>0</span>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>Energy for:
+            <ul>
+              <li>Aeration:                    <span id=aeration_power>0</span>
+              <li>Anoxic Mixing:               <span id=mixing_power>0</span>
+              <li>Pumping
+                <ul>
+                  <li>External recirculation:  <span id=pumping_power_external>0</span>
+                  <li>Internal recirculation:  <span id=pumping_power_internal>0</span>
+                  <li>Wastage  recirculation:  <span id=pumping_power_wastage> 0</span>
+                </ul>
+              </li>
+              <li>Dewatering:                  <span id=dewatering_power>0</span>
+              <li>Other:                       <span id=other_power>0</span>
+              <li>Total:                       <span id=total_power>0</span>
+            </ul>
+          </li>
+        </ul>
+      </p>
     </div>
   </div>
 </div><hr>
@@ -823,7 +842,6 @@
           var btn=document.createElement('button');
           btn.innerHTML='↓';
           btn.addEventListener('click',function(){
-            console.log(this.innerHTML);
             this.innerHTML=(this.innerHTML=='→')?'↓':'→';
             Inputs.filter(i=>{return !i.isParameter && !i.isMetal}).forEach(i=>{
               var h=document.querySelector('#inputs #'+i.id).parentNode.parentNode;
@@ -854,7 +872,6 @@
           var btn=document.createElement('button');
           btn.innerHTML='↓';
           btn.addEventListener('click',function(){
-            console.log(this.innerHTML);
             this.innerHTML=(this.innerHTML=='→')?'↓':'→';
             Inputs.filter(i=>{return i.isParameter}).forEach(i=>{
               var h=document.querySelector('#inputs #'+i.id).parentNode.parentNode;
@@ -885,7 +902,6 @@
           var btn=document.createElement('button');
           btn.innerHTML='→';
           btn.addEventListener('click',function(){
-            console.log(this.innerHTML);
             this.innerHTML=(this.innerHTML=='→')?'↓':'→';
             Inputs.filter(i=>{return i.isMetal}).forEach(i=>{
               var h=document.querySelector('#inputs #'+i.id).parentNode.parentNode;

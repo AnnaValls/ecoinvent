@@ -3,7 +3,7 @@
   * Metcalf & Eddy, Wastewater Engineering, 5th ed., 2014:
   * page 762
 */
-function nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pressure,Df,MLSS_X_TSS,Ne,sBODe,TSSe,Alkalinity,DO){
+function nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pressure,Df,MLSS_X_TSS,NH4_eff,sBODe,TSSe,Alkalinity,DO){
   /*
     Inputs          example values
     --------------------------------
@@ -22,13 +22,14 @@ function nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pr
     Pressure        95600  Pa
     Df              4.4    m
     MLSS_X_TSS      3000   g/m3 (design)
-    Ne              0.50   g/m3 [NH4 at effluent] (design)
+    NH4_eff         0.50   g/m3 [NH4 at effluent] (design)
     sBODe           3      g/m3 (design)
     TSSe            10     g/m3 (design)
     Alkalinity      140    g/m3 as CaCO3
     DO              2.0    mg/L
     --------------------------------
   */
+  var Ne=NH4_eff;//name change requested. NH4_eff in the book is Ne
   var C_L=DO;//name change requested. Dissolved oxygen (DO) in the book is C_L
 
   //parameters for aeration
@@ -193,7 +194,7 @@ function nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pr
     bHT:               {value:bHT,                     unit:"1/d",             descr:"bH corrected by temperature"},
     mu_mT:             {value:mu_mT,                   unit:"1/d",             descr:"µ_m corrected by temperatureT"},
     S:                 {value:S,                       unit:"g/m3",            descr:"Effluent substrate concentration"},
-    NOx:               {value:NOx,                     unit:"g/m3",            descr:"NOx amount of nitrogen oxidized to nitrate"},
+    NOx:               {value:NOx,                     unit:"g/m3_as_N",       descr:"NOx amount of nitrogen oxidized to nitrate"},
     P_X_bio:           {value:P_X_bio_VSS,             unit:"kg/d",            descr:"Biomass production"},
     P_X_VSS:           {value:P_X_VSS,                 unit:"kg/d",            descr:"Net waste activated sludge produced each day"},
     P_X_TSS:           {value:P_X_TSS,                 unit:"kg/d",            descr:"Total sludge produced each day"},
@@ -215,7 +216,7 @@ function nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pr
     kg_O2_per_m3_air:  {value:kg_O2_per_m3_air,        unit:"kg_O2/m3",        descr:"kg_O2_per_m3_air"},
     air_flowrate:      {value:air_flowrate,            unit:"m3/min",          descr:"air_flowrate"},
     alkalinity_added:  {value:alkalinity_to_be_added,  unit:"kg/d_as_NaHCO3",  descr:"alkalinity_to_be_added"},
-    BOD_eff:           {value:BOD_eff,                 unit:"g/m3",            descr:"BOD_effluent estimation"},
+    BOD_eff:           {value:BOD_eff,                 unit:"g/m3_as_O2",      descr:"BOD_effluent estimation"},
   };
 }
 
@@ -238,11 +239,11 @@ function nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pr
   var Pressure        = 95600;
   var Df              = 4.4;
   var MLSS_X_TSS      = 3000;
-  var Ne              = 0.50;
+  var NH4_eff         = 0.50;
   var sBODe           = 3;
   var TSSe            = 10;
   var Alkalinity      = 140;
   var DO              = 2.0;
-  var result = nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pressure,Df,MLSS_X_TSS,Ne,sBODe,TSSe,Alkalinity,DO);
+  var result = nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pressure,Df,MLSS_X_TSS,NH4_eff,sBODe,TSSe,Alkalinity,DO);
   console.log(result);
 })();

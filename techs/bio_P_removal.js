@@ -60,25 +60,25 @@ function bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,NOx,NO3_eff,tau_aer)
   /*end solution*/
 
   return {
-    Q_rbCOD:               {value:Q_rbCOD,                     unit:"g/d",      descr:"rbCOD in influent"},
-    RQ_NO3_N:              {value:RQ_NO3_N,                    unit:"g/d",      descr:"NO3-N fed to the anaerobic contact zone"},
-    rbCOD_used_by_NO3:     {value:rbCOD_used_by_NO3,           unit:"g/d",      descr:"rbCOD_used_by_NO3-N"},
-    rbCOD_available:       {value:rbCOD_available,             unit:"g/d",      descr:"rbCOD_available"},
-    rbCOD_available_norm:  {value:rbCOD_available_normalized,  unit:"g/m3",     descr:"rbCOD_available_normalized"},
-    VFA_rbCOD_ratio:       {value:VFA_rbCOD_ratio,             unit:"&empty;",  descr:"influent_VFA/rbCOD_ratio"},
-    rbCOD_P_ratio:         {value:rbCOD_P_ratio,               unit:"&empty;",  descr:"rbCOD/P ratio"},
-    P_removal_EBPR:        {value:P_removal_EBPR,              unit:"g/m3",     descr:"P removal by EBPR"},
-    bHT:                   {value:bHT,                         unit:"1/d",      descr:"bH corrected by temperature"},
-    bnT:                   {value:bnT,                         unit:"1/d",      descr:"bn corrected by temperature"},
-    P_X_bio:               {value:P_X_bio/1000,                unit:"kg/d",     descr:"Biomass production"},
-    P_removal_synthesis:   {value:P_removal_synthesis,         unit:"g/d",      descr:"P removal (synthesis)"},
-    P_removal_synthesis_n: {value:P_removal_synthesis_n,       unit:"g/m3",     descr:"P removal (synthesis) normalized to flowrate"},
-    Effluent_P:            {value:Effluent_P,                  unit:"g/m3",     descr:"Effluent P (influent-P_EBPR-P_synth)"},
-    P_X_TSS:               {value:P_X_TSS/1000,                unit:"kg/d",     descr:"Total sludge production"}, //unit changed here (!)
-    P_removal_gday:        {value:P_removal_gday,              unit:"g/d",      descr:"P_removal (g/day)"},
-    P_in_waste_sludge:     {value:P_in_waste_sludge,           unit:"%",        descr:"P_in_waste_sludge"},
-    P_removal:             {value:P_removal,                   unit:"g/m3",     descr:"Total P removal"},
-    V_ana:                 {value:V_anaerobic,                 unit:"m3",       descr:"Anaerobic volume"},
+    Q_rbCOD:               {value:Q_rbCOD,                     unit:"g/d_as_O2",   descr:"rbCOD in influent"},
+    RQ_NO3_N:              {value:RQ_NO3_N,                    unit:"g/d_as_N",    descr:"NO3-N fed to the anaerobic contact zone"},
+    rbCOD_used_by_NO3:     {value:rbCOD_used_by_NO3,           unit:"g/d_as_O2",   descr:"rbCOD_used_by_NO3-N"},
+    rbCOD_available:       {value:rbCOD_available,             unit:"g/d_as_O2",   descr:"rbCOD_available"},
+    rbCOD_available_norm:  {value:rbCOD_available_normalized,  unit:"g/m3_as_O2",  descr:"rbCOD_available_normalized"},
+    VFA_rbCOD_ratio:       {value:VFA_rbCOD_ratio,             unit:"&empty;",     descr:"influent_VFA/rbCOD_ratio"},
+    rbCOD_P_ratio:         {value:rbCOD_P_ratio,               unit:"&empty;",     descr:"rbCOD/P ratio"},
+    P_removal_EBPR:        {value:P_removal_EBPR,              unit:"g/m3_as_P",   descr:"P removal by EBPR"},
+    bHT:                   {value:bHT,                         unit:"1/d",         descr:"bH corrected by temperature"},
+    bnT:                   {value:bnT,                         unit:"1/d",         descr:"bn corrected by temperature"},
+    P_X_bio:               {value:P_X_bio/1000,                unit:"kg/d",        descr:"Biomass production"},
+    P_removal_synthesis:   {value:P_removal_synthesis,         unit:"g/d_as_P",    descr:"P removal (synthesis)"},
+    P_removal_synthesis_n: {value:P_removal_synthesis_n,       unit:"g/m3_as_P",   descr:"P removal (synthesis) normalized to flowrate"},
+    Effluent_P:            {value:Effluent_P,                  unit:"g/m3_as_P",   descr:"Effluent P (influent-P_EBPR-P_synth)"},
+    P_X_TSS:               {value:P_X_TSS/1000,                unit:"kg/d",        descr:"Total sludge production"}, //unit changed here (!)
+    P_removal_gday:        {value:P_removal_gday,              unit:"g/d_as_P",    descr:"P_removal (g/day)"},
+    P_in_waste_sludge:     {value:P_in_waste_sludge,           unit:"%",           descr:"P_in_waste_sludge"},
+    P_removal:             {value:P_removal,                   unit:"g/m3_as_P",   descr:"Total P removal"},
+    V_ana:                 {value:V_anaerobic,                 unit:"m3",          descr:"Anaerobic volume"},
   }
 }
 
