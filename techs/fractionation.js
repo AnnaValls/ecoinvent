@@ -31,7 +31,7 @@ function fractionation(BOD,sBOD,COD,bCOD,sCOD,TSS,VSS,TKN,NH4_eff,TP){
   var nbsCODe = Math.max(sCOD - bCOD_BOD_ratio*sBOD, 0); // 20 g/m3
   var nbpCOD  = Math.max(COD - bCOD - nbsCODe, 0);       // 56 g/m3
 
-  var VSS_COD = (COD-sCOD)/VSS || 0;                     //2.8 g_COD/g_VSS
+  var VSS_COD = (COD-sCOD)/VSS || 0;                     //2.8 g_pCOD/g_VSS
   VSS_COD     = isFinite(VSS_COD) ? VSS_COD : 0;         //avoid infinity when VSS==0
 
   var nbVSS   = nbpCOD/VSS_COD || 0;                     // 20 g/m3
@@ -47,8 +47,8 @@ function fractionation(BOD,sBOD,COD,bCOD,sCOD,TSS,VSS,TKN,NH4_eff,TP){
   var sTKNe   = NH4_eff + nbsON;                      //g/m3 -- sTKNe (used only in TKN effluent)
 
   //3. TP fractions
-  var nbpP   = Math.min(TP, 0.025*nbVSS); //g/m3
-  var aP     = Math.max( 0, TP - nbpP);   //g/m3 == PO4_in
+  var nbpP = Math.min(TP, 0.015*nbVSS); //g/m3
+  var aP   = Math.max( 0, TP - nbpP);   //g/m3 == PO4_in
 
   //return results object
   return {

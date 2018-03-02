@@ -93,6 +93,10 @@ function compute_elementary_flows(Input_set){
     var C_PO4_inf = is.C_PO4_inf; //this value is later changed
   //end-process-inputs
 
+  NH4_eff   = Math.min(NH4_eff,  TKN);
+  NO3_eff   = Math.min(NO3_eff,  TKN);
+  C_PO4_eff = Math.min(C_PO4_eff,  TP);
+
   //reset Variables object
   Variables=[];
 
@@ -157,7 +161,8 @@ function compute_elementary_flows(Input_set){
 
   //lcorominas - equations block 2
   var aPchem = Math.max( 0, (aP - 0.015*P_X_bio*1000/Q)) ||0; //g/m3 == PO4_in
-  var C_PO4_inf = aPchem; //g/m3 (warning this is an input!)
+  aPchem = Math.min(TP, aPchem); //g/m3 == PO4_in
+  var C_PO4_inf = aPchem; //g/m3 (warning this is an input!) //TBD
 
   /*3. SOLVE SST*/
   Result.SST=sst_sizing(Q,SOR,X_R,clarifiers,MLSS_X_TSS);
@@ -271,11 +276,12 @@ function compute_elementary_flows(Input_set){
   var PE_Qw   = 1; //wastage
 
   var Pumping = {
-    external: Q*RAS * PE_Qr,
-    internal: Flowrate_to_anoxic_tank * PE_Qint,
-    wastage : Qwas * PE_Qw,
+    external: Q*RAS*PE_Qr,
+    internal: Flowrate_to_anoxic_tank*PE_Qint,
+    wastage : Qwas*PE_Qw,
     total:function(){return this.external+this.internal+this.wastage},
   }
+
   var pumping_power_external = Pumping.external;
   var pumping_power_internal = Pumping.internal;
   var pumping_power_wastage  = Pumping.wastage;
@@ -369,7 +375,7 @@ function compute_elementary_flows(Input_set){
 
     //Outputs.COD
     Outputs.COD.influent       = Q*COD;
-    Outputs.COD.effluent.water = Qe*sCODe + Qe*VSSe*1.42;
+    Outputs.COD.effluent.water = Q*sCODe + Q*VSSe*1.42;
     Outputs.COD.effluent.air   = (function(){
       /*
       * CARBONACEOUS DEMAND
@@ -406,7 +412,7 @@ function compute_elementary_flows(Input_set){
       var A = 1.42*P_X_bio*1000; //g O2/d
       var B = Qwas*sCODe;        //g O2/d
       var C = Q*nbpCOD;          //g O2/d
-      var D = Qe*1.42*VSSe;      //g O2/d
+      var D = Q*1.42*VSSe;       //g O2/d
       return A+B+C-D;
     })();
 
@@ -438,9 +444,9 @@ function compute_elementary_flows(Input_set){
     Outputs.TKN.influent = Q*TKN;
     Outputs.TKN.effluent.water = (function(){
       if(is_Nit_active){
-        return Qe*(NH4_eff + nbsON + VSSe*0.12);
+        return Q*(NH4_eff + nbsON + VSSe*0.12);
       }else{
-        return Q*(TKN - nbpON - TKN_N2O) + Qe*VSSe*0.12 - 0.12*P_X_bio*1000;
+        return Q*(TKN - nbpON - TKN_N2O) + Q*VSSe*0.12 - 0.12*P_X_bio*1000;
       }
     })();
     Outputs.TKN.effluent.air    = 0;
@@ -448,7 +454,7 @@ function compute_elementary_flows(Input_set){
       var A = 0.12*P_X_bio*1000;
       var B = Qwas*sTKNe;
       var C = Q*nbpON;
-      var D = Qe*VSSe*0.12;
+      var D = Q*VSSe*0.12;
       return A+B+C-D;
     })();
 
@@ -456,8 +462,8 @@ function compute_elementary_flows(Input_set){
     Outputs.NOx.influent       = 0;
     Outputs.NOx.effluent.water = (function(){
       if     (is_Nit_active==false){return 0;}
-      else if(is_Des_active){       return Qe*NO3_eff;}
-      else if(is_Des_active==false){return Q*bTKN - Qe*NH4_eff - 0.12*P_X_bio*1000;}
+      else if(is_Des_active){       return Q*NO3_eff;}
+      else if(is_Des_active==false){return Q*bTKN - Q*NH4_eff - 0.12*P_X_bio*1000;}
     })();
     Outputs.NOx.effluent.air = (function(){return 0})();
     Outputs.NOx.effluent.sludge = (function(){
@@ -488,11 +494,11 @@ function compute_elementary_flows(Input_set){
     Outputs.TP.influent = Q*TP;
     Outputs.TP.effluent.water = (function(){
       if(is_BiP_active==false && is_ChP_active==false){
-        return Q*aPchem + Qe*VSSe*0.015;
+        return Q*aPchem + Q*VSSe*0.015;
       }else if(is_BiP_active  && is_ChP_active==false){
-        return Q*(Result.BiP.Effluent_P.value - nbpP) + Qe*VSSe*0.015;
+        return Q*(Result.BiP.Effluent_P.value - nbpP) + Q*VSSe*0.015;
       }else if(is_BiP_active==false && is_ChP_active){
-        return (Q*C_PO4_eff + Qe*VSSe*0.015 + Qe*VSSe*(C_PO4_eff-C_PO4_inf)/(P_X_VSS*1000)) ||0;
+        return (Q*C_PO4_eff + Q*VSSe*0.015 + Q*VSSe*(C_PO4_eff-C_PO4_inf)/(P_X_VSS*1000)) ||0;
       }else{
         return 0; //chem+bio p removal not seen in practice (G. Ekama)
       }
@@ -501,7 +507,7 @@ function compute_elementary_flows(Input_set){
     Outputs.TP.effluent.sludge = (function(){
       var B = Qwas*C_PO4_eff;
       var C = Q*nbpP;
-      var D = Qe*VSSe*0.015;
+      var D = Q*VSSe*0.015;
       if(is_BiP_active==false && is_ChP_active==false){
         return (0.015*P_X_bio*1000) + B + C - D;
       }else if(is_BiP_active  && is_ChP_active==false){

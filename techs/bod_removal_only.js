@@ -41,8 +41,10 @@ function bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_
   var S0 = bCOD; //g/m3
   var mu_mT = mu_m * Math.pow(1.07, T - 20); //1/d
   var bHT = bH * Math.pow(1.04, T - 20);  //1/d
+
   var S = Ks*(1+bHT*SRT)/(SRT*(mu_mT-bHT)-1); //g/m3
-  S=Math.max(0,S); //avoid negative S
+  S=Math.min(S,COD); //keep the smaller value
+  S=Math.max(0,S);   //avoid negative S
 
   var P_X_bio = (Q*YH*(S0 - S) / (1 + bHT*SRT) + (fd*bHT*Q*YH*(S0 - S)*SRT) / (1 + bHT*SRT))/1000; //kg/d
   P_X_bio=Math.max(0,P_X_bio);

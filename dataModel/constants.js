@@ -16,7 +16,10 @@ const M_P    = 30.974; //g/mol (P molecular weight)
 
 //bod removal related (Table 8-14, page 755)
 const YH     = 0.45; //gVSS/g substrate oxidized for COD oxidation
+
+/* make Ks=0 for assuming all biodeg organics are utilized**/
 const Ks     = 8;    //mg/L -- for COD oxidation
+
 const mu_m   = 6;    //1/d  -- for COD oxidation
 const bH     = 0.12; //1/d  -- for COD oxidation
 const fd     = 0.15; //unitless
