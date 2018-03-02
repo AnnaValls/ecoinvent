@@ -25,7 +25,7 @@
           <li><a href=inputs.php            >All inputs</a>
           <li><a href=outputs.php           >All outputs</a>
           <li><a href=see.php?path=dataModel&file=constants.js>All constants</a>
-          <li><a href=construction.php      >Construction materials</a> (<em>TBD</em>)
+          <li><a href=construction.php      >Construction materials</a>
         </ul>
       <li>
         Multiple plant analysis (<em>under development</em>)

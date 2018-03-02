@@ -201,8 +201,8 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
   //
   // FORMULA: alpha = kLa[wastewater] / kLa[tap_water]
   //
-  var alpha = 0.65; //ask George Ekama for this value. TODO
-  var beta = 0.95; //value 0.95 is ok
+  var alpha = 0.65; //same value as for nitrification (confirmed by g. ekama)
+  var beta  = 0.95; //value 0.95 is ok
 
   //page 761
   var C_T = air_solubility_of_oxygen(T,0); //elevation is 0 meters - TableE-1, Appendix E, implemented in "utils.js"

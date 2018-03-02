@@ -678,7 +678,7 @@
           <li>BOD loading:                       <span id=BOD_loading>0</span>
           <li>Total sludge production:           <span id=P_X_TSS>0</span>
             <ul>
-              <li> N content, etc, here 
+              <li> N content, etc, here
                 <issue class=under_dev></issue>
                 <issue class=help_wanted></issue>
             </ul>
@@ -726,6 +726,9 @@
         <ul>
           <li>Chemicals
             <ul>
+              <li>
+                Polymers <issue class=under_dev></issue>
+              </li>
               <li>Alkalinity to maintain pH ~ 7.0
                 <ul>
                   <li>For Nitrification:       <span id=alkalinity_added>0</span>
@@ -762,7 +765,7 @@
   </div>
 </div><hr>
 
-<!--TODO development-->
+<!--note for development-->
 <p><div style=font-size:smaller>
   <?php include'btn_reset_cache.php'?>
 </div></p>

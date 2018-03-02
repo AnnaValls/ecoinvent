@@ -404,7 +404,7 @@
         <tr><th>Volume per day          <td class=number id="FeCl3_volume">0<td class=unit>L/d
         <tr><th>Volume storage required <td class=number id="storage_req_15_d">0<td class=unit>m<sup>3</sup>
       <tr><th colspan=2>Concrete
-          <issue class=help_wanted> (TBD)</issue>
+          <issue class=under_dev></issue>
         <td>?
         <td class=unit>kg
     </table>
