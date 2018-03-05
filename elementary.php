@@ -724,7 +724,10 @@
 
       <!--TECH SPHERE-->
       <p>3.4. Technosphere
-        <ul>
+        <button onclick="(function(){
+          //TODO
+        })()">&darr;</button>
+        <ul id=technosphere>
           <li>Chemicals
             <ul>
               <li>

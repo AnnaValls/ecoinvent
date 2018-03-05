@@ -313,7 +313,7 @@ function compute_elementary_flows(Input_set){
   /*Variables needed for SUMMARY TABLE*/
 
   /*polymer for dewatering (chemical)*/
-  var Dewatering_polymer = 0.22*P_X_TSS; //kg polymer/d -- (0.22 is kg polymer/kg sludge)
+  var Dewatering_polymer = 0.01*P_X_TSS; //kg polymer/d -- (0.01 is kg polymer/kg sludge)
 
   /*CONCRETE*/
   var Concrete={
