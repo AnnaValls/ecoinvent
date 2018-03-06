@@ -77,6 +77,9 @@ function fractionation(BOD,sBOD,COD,bCOD,sCOD,TSS,VSS,TKN,NH4_eff,TP){
     nbCOD:          {value:nbCOD,          unit:"g/m3_as_O2",   descr:"Nonbiodegradable_COD"},
 
     COD:            {value:COD,            unit:"g/m3_as_O2",   descr:"Total_COD"},
+    BOD:            {value:BOD,            unit:"g/m3_as_O2",   descr:"Total_BOD"},
+    VSS:            {value:VSS,            unit:"g/m3_as_O2",   descr:"VSS"},
+    TSS:            {value:TSS,            unit:"g/m3_as_O2",   descr:"TSS"},
 
     VSS_COD:        {value:VSS_COD,        unit:"g_pCOD/g_VSS", descr:"pCOD/VSS ratio"},
     nbVSS:          {value:nbVSS,          unit:"g/m3",         descr:"Nonbiodegradable_VSS"},

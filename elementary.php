@@ -192,6 +192,7 @@
           //design parameters
           removal_bp           : getInput('removal_bp').value,  //%
           removal_nbp          : getInput('removal_nbp').value, //%
+          removal_iss          : getInput('removal_iss').value, //%
           SRT                  : getInput('SRT').value, //5
           MLSS_X_TSS           : getInput('MLSS_X_TSS').value, //3000
           zb                   : getInput('zb').value, //500

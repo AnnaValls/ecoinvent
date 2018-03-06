@@ -15,16 +15,17 @@ var Inputs = [
 
 //fractionation
 {id:"BOD",        value:140,   unit:"g/m3 as O2",  descr:"Total 5d biochemical oxygen demand"},
-{id:"sBOD",       value:70,    unit:"g/m3 as O2",  descr:"Soluble BOD"},
 {id:"COD",        value:300,   unit:"g/m3 as O2",  descr:"Total chemical oxygen demand"},
-{id:"bCOD",       value:224,   unit:"g/m3 as O2",  descr:"Biodegradable COD (a typical value is: bCOD=1.6·BOD)"},
+{id:"sBOD",       value:70,    unit:"g/m3 as O2",  descr:"Soluble BOD"},
 {id:"sCOD",       value:132,   unit:"g/m3 as O2",  descr:"Soluble COD"},
-{id:"TSS",        value:70,    unit:"g/m3",        descr:"Total suspended solids"},
 {id:"VSS",        value:60,    unit:"g/m3",        descr:"Volatile suspended solids"},
+{id:"TSS",        value:70,    unit:"g/m3",        descr:"Total suspended solids"},
+{id:"bCOD",       value:224,   unit:"g/m3 as O2",  descr:"Biodegradable COD (a typical value is: bCOD=1.6·BOD)"},
 
 //primary settler
-{id:"removal_bp",   value:40,  unit:"%",  isParameter:true,  descr:"Primary settler  bpCOD removal rate"},
-{id:"removal_nbp",  value:40,  unit:"%",  isParameter:true,  descr:"Primary settler nbpCOD removal rate"},
+{id:"removal_bp",   value:40,  unit:"%",  isParameter:true,  descr:"Primary settler  bpCOD removal rate (25 to 60% for municipal wastewater)"},
+{id:"removal_nbp",  value:60,  unit:"%",  isParameter:true,  descr:"Primary settler nbpCOD removal rate (40 to 80% for municipal wastewater)"},
+{id:"removal_iss",  value:70,  unit:"%",  isParameter:true,  descr:"Primary settler   iTSS removal rate (50 to 90% for municipal wastewater)"},
 
 //bod removal
 {id:"MLSS_X_TSS", value:3000,  unit:"g/m3",       isParameter:true, descr:"Mixed liquor suspended solids"},
@@ -38,7 +39,7 @@ var Inputs = [
 {id:"Alkalinity", value:140,  unit:"g/m3_as_CaCO3",                  descr:"Influent alkalinity"},
 
 //N removal
-{id:"rbCOD",   value:80, unit:"g/m3 as O2",                   descr:"Readily biodegradable COD"},
+{id:"rbCOD",   value:80, unit:"g/m3 as O2",                  descr:"Readily biodegradable COD (bsCOD=complex+VFA)"},
 {id:"NO3_eff", value:6,  unit:"g/m3 as N", isParameter:true, descr:"Effluent design NO3 concentration"},
 
 //bio P

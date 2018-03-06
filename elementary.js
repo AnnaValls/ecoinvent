@@ -70,6 +70,7 @@ function compute_elementary_flows(Input_set){
     //design parameters
     var removal_bp  = is.removal_bp;
     var removal_nbp = is.removal_nbp;
+    var removal_iss = is.removal_iss;
     var SRT                  = is.SRT;
     var MLSS_X_TSS           = is.MLSS_X_TSS;
     var zb                   = is.zb;
@@ -121,26 +122,41 @@ function compute_elementary_flows(Input_set){
   //apply primary settler + fractionation again
   if(is_Pri_active){
     //get pCOD fractions from first fractionation
-    var bpCOD  = Result.Fra.bpCOD.value;  //g/m3
-    var nbpCOD = Result.Fra.nbpCOD.value; //g/m3
+    var bpCOD          = Result.Fra.bpCOD.value;  //g/m3
+    var nbpCOD         = Result.Fra.nbpCOD.value; //g/m3
+    var pCOD           = Result.Fra.pCOD.value;    //g/m3
+    var iTSS           = Result.Fra.iTSS.value; //g/m3
+
+    var bCOD_BOD_ratio = Result.Fra.bCOD_BOD_ratio.value; //g/g
+    var VSS_COD        = Result.Fra.VSS_COD.value; //g_pCOD/g_VSS
 
     //apply primary settler    ----pCOD---- ------removal-rates-----
-    Result.Pri=primary_settler(bpCOD,nbpCOD,removal_bp,removal_nbp);
+    Result.Pri=primary_settler(bpCOD,nbpCOD,iTSS,removal_bp,removal_nbp,removal_iss);
     addResults('Pri',Result.Pri);
 
     //get removed pCOD (g/m3)
-    bpCOD_removed  = Result.Pri.bpCOD_removed.value; //g/m3
-    nbpCOD_removed = Result.Pri.nbpCOD_removed.value; //g/m3
+    var bpCOD_removed  = Result.Pri.bpCOD_removed.value; //g/m3
+    var nbpCOD_removed = Result.Pri.nbpCOD_removed.value; //g/m3
+    var pCOD_removed   = Result.Pri.pCOD_removed.value; //g/m3
+    var iTSS_removed   = Result.Pri.iTSS_removed.value; //g/m3
 
     //modify inputs to recalculate fractionation
     bCOD -= bpCOD_removed;
     COD  -= (bpCOD_removed + nbpCOD_removed);
+    pCOD -= pCOD_removed;
+    iTSS -= iTSS_removed;
+
+    //adjust BOD, TSS and VSS again TODO
+    BOD  = bCOD_BOD_ratio==0 ? 0 : bCOD/bCOD_BOD_ratio;
+    VSS  = VSS_COD==0        ? 0 : pCOD/VSS_COD;
+    TSS  = VSS+iTSS;
 
     //RECALCULATE FRACTIONATION
     Result.Fra=fractionation(BOD,sBOD,COD,bCOD,sCOD,TSS,VSS,TKN,NH4_eff,TP);
+
   }else{
     //call it just to see "0 g/m3 removed"
-    Result.Pri=primary_settler(0,0,0,0);
+    Result.Pri=primary_settler(0,0,0,0,0,0);
     addResults('Pri',Result.Pri);
   }
   addResults('Fra',Result.Fra);
