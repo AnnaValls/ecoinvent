@@ -130,6 +130,7 @@
       (function(){
         var Input_set={
           //technologies activated
+          is_Pri_active : getInput("Pri",true).value,
           is_BOD_active : getInput("BOD",true).value,
           is_Nit_active : getInput("Nit",true).value,
           is_Des_active : getInput("Des",true).value,
@@ -138,18 +139,18 @@
           is_Met_active : getInput("Met",true).value,
 
           //ww characteristics
-          Q              : getInput('Q').value, //22700
-          T              : getInput('T').value, //12
-          COD            : getInput('COD').value, //300
-          bCOD           : getInput('bCOD').value, //224
-          sCOD           : getInput('sCOD').value, //132
-          BOD            : getInput('BOD').value, //140
-          sBOD           : getInput('sBOD').value, //70
-          TSS            : getInput('TSS').value, //70
-          VSS            : getInput('VSS').value, //60
-          TKN            : getInput('TKN').value, //35
-          Alkalinity     : getInput('Alkalinity').value, //140
-          TP             : getInput('TP').value, //6
+          Q          : getInput('Q').value, //22700
+          T          : getInput('T').value, //12
+          COD        : getInput('COD').value, //300
+          bCOD       : getInput('bCOD').value, //224
+          sCOD       : getInput('sCOD').value, //132
+          BOD        : getInput('BOD').value, //140
+          sBOD       : getInput('sBOD').value, //70
+          TSS        : getInput('TSS').value, //70
+          VSS        : getInput('VSS').value, //60
+          TKN        : getInput('TKN').value, //35
+          Alkalinity : getInput('Alkalinity').value, //140
+          TP         : getInput('TP').value, //6
 
           //influent metals
           Ag : getInput('Ag').value,
@@ -189,6 +190,8 @@
           Zn : getInput('Zn').value,
 
           //design parameters
+          removal_bp           : getInput('removal_bp').value,  //%
+          removal_nbp          : getInput('removal_nbp').value, //%
           SRT                  : getInput('SRT').value, //5
           MLSS_X_TSS           : getInput('MLSS_X_TSS').value, //3000
           zb                   : getInput('zb').value, //500
@@ -210,6 +213,7 @@
           FeCl3_solution       : getInput('FeCl3_solution').value, //37
           FeCl3_unit_weight    : getInput('FeCl3_unit_weight').value, //1.35
           days                 : getInput('days').value, //15
+
           //these three inputs had an equation but they are now inputs again
           rbCOD                : getInput('rbCOD').value, //80 g/m3
           VFA                  : getInput('VFA').value, //15 g/m3
@@ -263,8 +267,13 @@
           if(Variables.length==0){
             table.insertRow(-1).insertCell(-1).outerHTML="<td colspan=4 style=text-align:center><em>~Activate some technologies first";
           }
-          Variables.forEach(i=>{
+
+          Variables.forEach((i,ii)=>{
             var newRow=table.insertRow(-1);
+
+            if(ii>0 && (Variables[ii-1].tech != i.tech)){
+              newRow.style.borderTop="1px solid #ccc";
+            }
 
             //tech name
             (function(){
@@ -283,11 +292,12 @@
 
             //color remark if value==zero
             (function(){
-              var color=i.value ? "" : "style=background:yellow";
+              var color=i.value ? "" : "style='background:linear-gradient(to left,yellow,white)'";
               newRow.insertCell(-1).outerHTML="<td class=number "+color+">"+format(i.value);
               newRow.insertCell(-1).outerHTML="<td class=unit>"+i.unit.prettifyUnit();
             })();
           });
+
         })();
 
         //deal with outputs selected unit before updating outputs (default is kg/d)
@@ -574,8 +584,7 @@
     <div id=variable_scrolling style=font-size:smaller>
       <script>
         //frontend function: scroll to variables of a technology
-        function scroll2tec(a){
-          var tec=a.getAttribute('tech');
+        function scroll2tec(tec){
           var els=document.querySelectorAll('#variables tr[tech='+tec+']');
           els[0].scrollIntoView();
           //create a mini animation of changing colors
@@ -592,14 +601,15 @@
         }
       </script>
       Scroll to &rarr;
-      <a tech=Fra href=# onclick="scroll2tec(this);return false">Fra</a>
-      <a tech=BOD href=# onclick="scroll2tec(this);return false">BOD</a>
-      <a tech=Nit href=# onclick="scroll2tec(this);return false">Nit</a>
-      <a tech=SST href=# onclick="scroll2tec(this);return false">SST</a>
-      <a tech=Des href=# onclick="scroll2tec(this);return false">Des</a>
-      <a tech=BiP href=# onclick="scroll2tec(this);return false">BiP</a>
-      <a tech=ChP href=# onclick="scroll2tec(this);return false">ChP</a>
-      <a tech=Met href=# onclick="scroll2tec(this);return false">Met</a>
+      <a          href=# onclick="scroll2tec('Pri');                    return false">Pri</a>
+      <a tech=Fra href=# onclick="scroll2tec(this.getAttribute('tech'));return false">Fra</a>
+      <a tech=BOD href=# onclick="scroll2tec(this.getAttribute('tech'));return false">BOD</a>
+      <a tech=Nit href=# onclick="scroll2tec(this.getAttribute('tech'));return false">Nit</a>
+      <a tech=SST href=# onclick="scroll2tec(this.getAttribute('tech'));return false">SST</a>
+      <a tech=Des href=# onclick="scroll2tec(this.getAttribute('tech'));return false">Des</a>
+      <a tech=BiP href=# onclick="scroll2tec(this.getAttribute('tech'));return false">BiP</a>
+      <a tech=ChP href=# onclick="scroll2tec(this.getAttribute('tech'));return false">ChP</a>
+      <a tech=Met href=# onclick="scroll2tec(this.getAttribute('tech'));return false">Met</a>
       <script>
         //add <a title=description> for the scroll links
         (function(){
@@ -675,12 +685,15 @@
           <li>Solids Retention Time (SRT):       <span id=SRT>0</span>
           <li>Hydraulic detention time (&tau;):  <span id=tau>0</span>
           <li>MLVSS:                             <span id=MLVSS>0</span>
-          <li>BOD loading:                       <span id=BOD_loading>0</span>
+          <!-- <li>BOD loading:                       <span id=BOD_loading>0</span> -->
           <li>Total sludge production:           <span id=P_X_TSS>0</span>
             <ul>
-              <li> <em>N content, etc, here</em>
+              <li>f_O: <span id=sludge_f_O>0</span>
+              <li>f_H: <span id=sludge_f_H>0</span>
+              <li>
                 <issue class=under_dev></issue>
                 <issue class=help_wanted></issue>
+              </li>
             </ul>
           </li>
           <li>Observed yield
@@ -712,11 +725,12 @@
               <li>V<sub>total</sub>:             <span id=V_total>0</span>
             </ul>
           </li>
-          <li>Concrete (see <a href="construction.php">construction</a>)
+          <li>Concrete (see <a href="construction.php" target=_blank>construction</a>)
             <ul>
               <li>Reactor: <span id=concrete_reactor>0</span>
               <li>Settler: <span id=concrete_settler>0</span>
-                <issue class=under_dev>0</issue>
+                <issue class=under_dev></issue>
+                <issue class=help_wanted></issue>
             </ul>
           </li>
         </ul>
@@ -790,25 +804,7 @@
     //populate technologies table
     (function(){
       var t=document.querySelector('table#inputs_tech');
-      //not activable by user
-      Technologies_selected
-        .filter(tec=>{return tec.notActivable})
-        .forEach(tec=>{
-          var newRow=t.insertRow(-1);
-          //tec name
-          newRow.insertCell(-1).innerHTML=tec.descr;
-          //disabled checkbox
-          newRow.insertCell(-1).outerHTML="<td style=text-align:center><input type=checkbox checked disabled>";
-          //implementation link
-          if(Technologies[tec.id]){
-            newRow.insertCell(-1).innerHTML="<small><center>"+
-              "<a href='see.php?path=techs&file="+Technologies[tec.id].File+"' title='see javascript implementation' target=_blank>"+
-              "equations"+
-              "</a></cente></small>"+
-              "";
-          }
-      });
-      //activable by user
+      //only technologies activable by user
       Technologies_selected
         .filter(tec=>{return !tec.notActivable})
         .forEach(tec=>{

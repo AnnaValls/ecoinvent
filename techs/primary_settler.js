@@ -1,13 +1,18 @@
 /**
   * Remove a fraction of the two particulate fractions of COD (biodeg + nonbiodeg)
-  * TODO not implemented
+  *
   */
-function primary_settler(bpCOD, nbpCOD, fraction_bp, fraction_nbp){
-  var new_bpCOD  = fraction_bp  * bpCOD;
-  var new_nbpCOD = fraction_nbp * nbpCOD;
+function primary_settler(bpCOD, nbpCOD, removal_bp, removal_nbp){
+
+  //apply removal rates to pCOD fractions (%)
+  var bpCOD_removed   = 0.01*removal_bp  * bpCOD;
+  var nbpCOD_removed  = 0.01*removal_nbp * nbpCOD;
+  var pCOD_removed    = bpCOD_removed + nbpCOD_removed;
+
   return {
-    bpCOD:  {value:new_bpCOD,  unit:"g/m3_as_O2", descr:"Biodegradable_particulate_COD"},
-    nbpCOD: {value:new_nbpCOD, unit:"g/m3_as_O2", descr:"Nonbiodegradable_particulate_COD"},
+    bpCOD_removed:   {value:bpCOD_removed,   unit:"g/m3_as_O2",  descr:"Removed_bpCOD_by_primary_settler"},
+    nbpCOD_removed:  {value:nbpCOD_removed,  unit:"g/m3_as_O2",  descr:"Removed_nbpCOD_by_primary_settler"},
+    pCOD_removed:    {value:pCOD_removed,    unit:"g/m3_as_O2",  descr:"Removed_pCOD_by_primary_settler"},
   }
 }
 
@@ -15,11 +20,11 @@ function primary_settler(bpCOD, nbpCOD, fraction_bp, fraction_nbp){
 (function(){
   var debug=false;
   if(debug==false)return;
-  var bpCOD        = 112;
-  var nbpCOD       = 56;
-  var fraction_bp  = 0.5;
-  var fraction_nbp = 0.5;
+  var bpCOD       = 112;
+  var nbpCOD      = 56;
+  var removal_bp  = 50;
+  var removal_nbp = 50;
   console.log(
-    primary_settler(bpCOD, nbpCOD, fraction_bp, fraction_nbp)
+    primary_settler(bpCOD, nbpCOD, removal_bp, removal_nbp)
   );
 })();

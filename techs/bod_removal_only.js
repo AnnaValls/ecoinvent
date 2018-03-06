@@ -3,14 +3,12 @@
  * Metcalf & Eddy, Wastewater Engineering, 5th ed., 2014:
  * pages 756-768
  */
-function bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb,Pressure,Df,DO){
+function bod_removal_only(BOD,nbVSS,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb,Pressure,Df,DO){
   /*
     Inputs          example values
     --------------------------------
     BOD             140    g/m3
-    sBOD            70     g/m3
-    COD             300    g/m3
-    sCOD            132    g/m3
+    nbVSS           20     g/m3
     TSS             70     g/m3
     VSS             60     g/m3
     bCOD_BOD_ratio  1.6    g bCOD/g BOD
@@ -22,7 +20,6 @@ function bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_
     Pressure        95600  Pa
     Df              4.4    m
     DO              2.0    mg/L
-    --------------------------------
   */
   var C_L=DO;//name change requested. Dissolved oxygen (DO) in the book is C_L
 
@@ -32,18 +29,16 @@ function bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_
 
   /*SOLUTION*/
 
-  //apply fractionation
+  //calculate bCOD
   var bCOD  = bCOD_BOD_ratio*BOD;
-  var Fra   = fractionation(BOD,sBOD,COD,bCOD,sCOD,TSS,VSS);
-  var nbVSS = Fra.nbVSS.value;
 
   //part A: bod removal without nitrification
-  var S0 = bCOD; //g/m3
   var mu_mT = mu_m * Math.pow(1.07, T - 20); //1/d
   var bHT = bH * Math.pow(1.04, T - 20);  //1/d
 
-  var S = Ks*(1+bHT*SRT)/(SRT*(mu_mT-bHT)-1); //g/m3
-  S=Math.min(S,COD); //keep the smaller value
+  var S0 = bCOD; //g/m3
+  var S  = Ks*(1+bHT*SRT)/(SRT*(mu_mT-bHT)-1); //g/m3
+  S=Math.min(S,S0); //keep the smaller value
   S=Math.max(0,S);   //avoid negative S
 
   var P_X_bio = (Q*YH*(S0 - S) / (1 + bHT*SRT) + (fd*bHT*Q*YH*(S0 - S)*SRT) / (1 + bHT*SRT))/1000; //kg/d
@@ -93,7 +88,7 @@ function bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_
   return {
     mu_mT:             {value:mu_mT,             unit:"1/d",          descr:"µ_corrected_by_temperature"},
     bHT:               {value:bHT,               unit:"1/d",          descr:"b_corrected_by_temperature"},
-    S:                 {value:S,                 unit:"g/m3",         descr:"Effluent substrate concentration"},
+    S:                 {value:S,                 unit:"g/m3",         descr:"Effluent substrate (bCOD) concentration"},
     P_X_bio:           {value:P_X_bio,           unit:"kg/d",         descr:"Biomass_production"},
     P_X_VSS:           {value:P_X_VSS,           unit:"kg/d",         descr:"Net waste activated sludge produced each day"},
     P_X_TSS:           {value:P_X_TSS,           unit:"kg/d",         descr:"Total sludge produced each day"},
@@ -102,8 +97,8 @@ function bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_
     V_aer:             {value:V,                 unit:"m3",           descr:"Aeration_tank_Volume_(aerobic)"},
     tau:               {value:tau,               unit:"h",            descr:"&tau;_aeration_tank_detention_time"},
     MLVSS:             {value:MLVSS,             unit:"g/m3",         descr:"Mixed Liquor Volatile Suspended Solids"},
-    FM:                {value:FM,                unit:"kg/kg·d",      descr:"Food to biomass ratio (gBOD or bsCOD / g VSS·d)"},
-    BOD_loading:       {value:BOD_loading,       unit:"kg/m3·d",      descr:"Volumetric_BOD_loading"},
+    //FM:                {value:FM,                unit:"kg/kg·d",      descr:"Food to biomass ratio (gBOD or bsCOD / g VSS·d)"},
+    //BOD_loading:       {value:BOD_loading,       unit:"kg/m3·d",      descr:"Volumetric_BOD_loading"},
     bCOD_removed:      {value:bCOD_removed,      unit:"kg/d",         descr:"bCOD_removed"},
     Y_obs_TSS:         {value:Y_obs_TSS,         unit:"g_TSS/g_BOD",  descr:"Observed_Yield_Y_obs_TSS"},
     Y_obs_VSS:         {value:Y_obs_VSS,         unit:"g_VSS/g_BOD",  descr:"Observed_Yield_Y_obs_VSS"},
@@ -123,9 +118,7 @@ function bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_
   var debug=false;
   if(debug==false)return;
   var BOD            = 140;
-  var sBOD           = 70;
-  var COD            = 300;
-  var sCOD           = 132;
+  var nbVSS          = 20;
   var TSS            = 70;
   var VSS            = 60;
   var bCOD_BOD_ratio = 1.6;
@@ -138,6 +131,6 @@ function bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_
   var Df             = 4.4;
   var DO             = 2.0;
   console.log(
-    bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb,Pressure,Df,DO)
+    bod_removal_only(BOD,nbVSS,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb,Pressure,Df,DO)
   );
 })();

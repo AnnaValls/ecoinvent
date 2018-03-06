@@ -6,7 +6,9 @@
 function compute_elementary_flows(Input_set){
   //process-inputs
     var is=Input_set; //shorten name
+
     //technologies activated
+    var is_Pri_active = is.is_Pri_active;
     var is_BOD_active = is.is_BOD_active;
     var is_Nit_active = is.is_Nit_active;
     var is_Des_active = is.is_Des_active;
@@ -29,43 +31,45 @@ function compute_elementary_flows(Input_set){
     var TP         = is.TP;
 
     //influent metals
-    var Ag = is.Ag;
-    var Al = is.Al;
-    var As = is.As;
-    var B =  is.B;
-    var Ba = is.Ba;
-    var Be = is.Be;
-    var Br = is.Br;
-    var Ca = is.Ca;
-    var Cd = is.Cd;
-    var Cl = is.Cl;
-    var Co = is.Co;
-    var Cr = is.Cr;
-    var Cu = is.Cu;
-    var F  = is.F;
-    var Fe = is.Fe;
-    var Hg = is.Hg;
-    var I  = is.I;
-    var K  = is.K;
-    var Mg = is.Mg;
-    var Mn = is.Mn;
-    var Mo = is.Mo;
-    var Na = is.Na;
-    var Ni = is.Ni;
-    var Pb = is.Pb;
-    var Sb = is.Sb;
-    var Sc = is.Sc;
-    var Se = is.Se;
-    var Si = is.Si;
-    var Sn = is.Sn;
-    var Sr = is.Sr;
-    var Ti = is.Ti;
-    var Tl = is.Tl;
-    var V  = is.V;
-    var W  = is.W;
-    var Zn = is.Zn;
+      var Ag = is.Ag;
+      var Al = is.Al;
+      var As = is.As;
+      var B =  is.B;
+      var Ba = is.Ba;
+      var Be = is.Be;
+      var Br = is.Br;
+      var Ca = is.Ca;
+      var Cd = is.Cd;
+      var Cl = is.Cl;
+      var Co = is.Co;
+      var Cr = is.Cr;
+      var Cu = is.Cu;
+      var F  = is.F;
+      var Fe = is.Fe;
+      var Hg = is.Hg;
+      var I  = is.I;
+      var K  = is.K;
+      var Mg = is.Mg;
+      var Mn = is.Mn;
+      var Mo = is.Mo;
+      var Na = is.Na;
+      var Ni = is.Ni;
+      var Pb = is.Pb;
+      var Sb = is.Sb;
+      var Sc = is.Sc;
+      var Se = is.Se;
+      var Si = is.Si;
+      var Sn = is.Sn;
+      var Sr = is.Sr;
+      var Ti = is.Ti;
+      var Tl = is.Tl;
+      var V  = is.V;
+      var W  = is.W;
+      var Zn = is.Zn;
 
     //design parameters
+    var removal_bp  = is.removal_bp;
+    var removal_nbp = is.removal_nbp;
     var SRT                  = is.SRT;
     var MLSS_X_TSS           = is.MLSS_X_TSS;
     var zb                   = is.zb;
@@ -93,24 +97,72 @@ function compute_elementary_flows(Input_set){
     var C_PO4_inf = is.C_PO4_inf; //this value is later changed
   //end-process-inputs
 
+  //make that effluent designed cannot be higher than influent observed concentrations
   NH4_eff   = Math.min(NH4_eff,  TKN);
   NO3_eff   = Math.min(NO3_eff,  TKN);
   C_PO4_eff = Math.min(C_PO4_eff,  TP);
 
   //reset Variables object
   Variables=[];
-
   /*
     new empty object to store each technology results
       + "other" (for some values not related to any tech)
       + "summary" (for selected variables results oriented)
   */
-  var Result={Fra:{},BOD:{},Nit:{},SST:{},Des:{},BiP:{},ChP:{},Met:{},other:{},summary:{}};
+  var Result={Fra:{},Pri:{},BOD:{},Nit:{},SST:{},Des:{},BiP:{},ChP:{},Met:{},other:{},summary:{}};
 
-  //APPLY TECHNOLOGIES + lcorominas equations
-  /*0. SOLVE FRACTIONATION */
+  /*APPLY TECHNOLOGIES + lcorominas equations*/
+
+  /*0. SOLVE FRACTIONATION AND PRIMARY SETTLER */
+
+  //first fractionation
   Result.Fra=fractionation(BOD,sBOD,COD,bCOD,sCOD,TSS,VSS,TKN,NH4_eff,TP);
+
+  //apply primary settler + fractionation again
+  if(is_Pri_active){
+    //get pCOD fractions from first fractionation
+    var bpCOD  = Result.Fra.bpCOD.value;  //g/m3
+    var nbpCOD = Result.Fra.nbpCOD.value; //g/m3
+
+    //apply primary settler    ----pCOD---- ------removal-rates-----
+    Result.Pri=primary_settler(bpCOD,nbpCOD,removal_bp,removal_nbp);
+    addResults('Pri',Result.Pri);
+
+    //get removed pCOD (g/m3)
+    bpCOD_removed  = Result.Pri.bpCOD_removed.value; //g/m3
+    nbpCOD_removed = Result.Pri.nbpCOD_removed.value; //g/m3
+
+    //modify inputs to recalculate fractionation
+    bCOD -= bpCOD_removed;
+    COD  -= (bpCOD_removed + nbpCOD_removed);
+
+    //RECALCULATE FRACTIONATION
+    Result.Fra=fractionation(BOD,sBOD,COD,bCOD,sCOD,TSS,VSS,TKN,NH4_eff,TP);
+  }else{
+    //call it just to see "0 g/m3 removed"
+    Result.Pri=primary_settler(0,0,0,0);
+    addResults('Pri',Result.Pri);
+  }
   addResults('Fra',Result.Fra);
+
+  //get fractionated values
+  var bCOD_BOD_ratio = Result.Fra.bCOD_BOD_ratio.value; //g/g
+  var nbCOD          = Result.Fra.nbCOD.value;   //g/m3
+  var pCOD           = Result.Fra.pCOD.value;    //g/m3
+  var bsCOD          = Result.Fra.bsCOD.value;   //g/m3
+  var nbsCODe        = Result.Fra.nbsCODe.value; //g/m3
+  var bpCOD          = Result.Fra.bpCOD.value;   //g/m3
+  var nbpCOD         = Result.Fra.nbpCOD.value;  //g/m3
+  var VSS_COD        = Result.Fra.VSS_COD.value; //g_pCOD/g_VSS
+  var nbVSS          = Result.Fra.nbVSS.value;   //g/m3
+  var iTSS           = Result.Fra.iTSS.value;    //g/m3
+  var nbpON          = Result.Fra.nbpON.value;   //g/m3
+  var nbsON          = Result.Fra.nbsON.value;   //g/m3
+  var TKN_N2O        = Result.Fra.TKN_N2O.value; //g/m3
+  var bTKN           = Result.Fra.bTKN.value;    //g/m3
+  var sTKNe          = Result.Fra.sTKNe.value;   //g/m3 -- sTKNe (used only in TKN effluent)
+  var nbpP           = Result.Fra.nbpP.value;    //g/m3
+  var aP             = Result.Fra.aP.value;      //g/m3
 
   //bod removal has to be always active. If not: do nothing
   if(is_BOD_active==false){
@@ -118,34 +170,19 @@ function compute_elementary_flows(Input_set){
     return Result;
   }
 
-  var bCOD_BOD_ratio = Result.Fra.bCOD_BOD_ratio.value; //g/g
-
   /*1. SOLVE BOD REMOVAL*/
-  Result.BOD=bod_removal_only(BOD,sBOD,COD,sCOD,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb,Pressure,Df,DO);
+  Result.BOD=bod_removal_only(BOD,nbVSS,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb,Pressure,Df,DO);
   addResults('BOD',Result.BOD);
 
   //get variables for lcorominas pdf equations block 1
-  var nbsCODe = Result.Fra.nbsCODe.value; //g/m3
-  var nbpCOD  = Result.Fra.nbpCOD.value;  //g/m3
-  var nbVSS   = Result.Fra.nbVSS.value;   //g/m3
-  var iTSS    = Result.Fra.iTSS.value;    //10 g/m3
-  var S0      = bCOD;                     //g/m3
-  var bHT     = Result.BOD.bHT.value;     //1/d
-
-  //lcorominas equations block 1
-  var nbpON   = Result.Fra.nbpON.value;   //g/m3
-  var nbsON   = Result.Fra.nbsON.value;   //g/m3
-  var TKN_N2O = Result.Fra.TKN_N2O.value; //g/m3
-  var bTKN    = Result.Fra.bTKN.value;    //g/m3
-  var sTKNe   = Result.Fra.sTKNe.value; //g/m3 -- sTKNe (used only in TKN effluent)
-  var nbpP    = Result.Fra.nbpP.value;  //g/m3
-  var aP      = Result.Fra.aP.value;    //g/m3
+  var bHT = Result.BOD.bHT.value;     //1/d
+  var S0  = bCOD;                     //g/m3
 
   /*2. SOLVE NITRIFICATION*/
   if(is_Nit_active){
     //to correct NOx and P_X_bio from Metcalf use bTKN instead of TKN
-    //         nitrification(----------------------------------------------TKN----------------------------------------------------------)
-    Result.Nit=nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,bTKN,SF,zb,Pressure,Df,MLSS_X_TSS,NH4_eff,sBODe,TSSe,Alkalinity,DO);
+    //         nitrification(--------------------------------------TKN----------------------------------------------------------)
+    Result.Nit=nitrification(BOD,bCOD_BOD_ratio,nbVSS,TSS,VSS,Q,T,bTKN,SF,zb,Pressure,Df,MLSS_X_TSS,NH4_eff,sBODe,TSSe,Alkalinity,DO);
     addResults('Nit',Result.Nit);
   }
 
@@ -157,7 +194,9 @@ function compute_elementary_flows(Input_set){
   var b_AOB_T = is_Nit_active ? Result.Nit.b_AOB_T.value : 0;                        //1/d
 
   //get SRT from Nit results if Nit is active
-  SRT = is_Nit_active ? Result.Nit.SRT_design.value : SRT; //d
+  if(is_Nit_active){
+    SRT=Result.Nit.SRT_design.value;//d
+  }
 
   //lcorominas - equations block 2
   var aPchem = Math.max( 0, (aP - 0.015*P_X_bio*1000/Q)) ||0; //g/m3 == PO4_in
@@ -184,7 +223,7 @@ function compute_elementary_flows(Input_set){
 
   /*5. SOLVE BIO P*/
   if(is_BiP_active){
-    var tau_aer = 0.75; //h -- tau must be between 0.50 and 1.00 h;
+    var tau_aer = 0.75; //h -- "tau must be between 0.50 and 1.00 h (M&E)"
     Result.BiP=bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,NOx,NO3_eff,tau_aer);
     addResults('BiP',Result.BiP);
   }
@@ -218,12 +257,12 @@ function compute_elementary_flows(Input_set){
   var Qe = Q - Qwas; //m3/d
 
   //VSSe and sCODe
-  var VSSe   = Math.min(COD, TSSe*0.85); //g/m3
-  var sCODe  = nbsCODe+S; //g/m3 (used only in COD effluent (water and sludge))
+  var VSSe  = Math.min(COD, TSSe*0.85); //g/m3
+  var sCODe = nbsCODe+S; //g/m3 (used only in COD effluent (water and sludge))
 
   var tau                       = select_value('tau',                       ['Des','Nit','BOD']);
   var MLVSS                     = select_value('MLVSS',                     ['Nit','BOD']);
-  var BOD_loading               = select_value('BOD_loading',               ['Nit','BOD']);
+  //var BOD_loading               = select_value('BOD_loading',               ['Nit','BOD']);
   var P_X_bio                   = select_value('P_X_bio',                   ['BiP','Nit','BOD']);
   var P_X_TSS                   = select_value('P_X_TSS',                   ['BiP','Nit','BOD']);
   var Y_obs_TSS                 = select_value('Y_obs_TSS',                 ['Nit','BOD'])
@@ -245,7 +284,7 @@ function compute_elementary_flows(Input_set){
     'Qe':      {value:Qe,      unit:"m3/d", descr:"Qe = Q - Qwas"},
     'VSSe':    {value:VSSe,    unit:"g/m3", descr:"Volatile Suspended Solids at effluent"},
 
-    //useful things
+    //useful values to see
     'COD_in_VSSe__(1.42)':  {value:VSSe*1.42,     unit:"g_O2/m3", descr:"content of COD in VSSe    (1.42  gO2/gVSSe)"},
     'N___in_VSSe__(0.12)':  {value:VSSe*0.12,     unit:"g_N/m3",  descr:"content of N   in VSSe    (0.12  gN/gVSSe)"},
     'P___in_VSSe__(0.015)': {value:VSSe*0.015,    unit:"g_P/m3",  descr:"content of P   in VSSe    (0.12  gP/gVSSe"},
@@ -253,7 +292,7 @@ function compute_elementary_flows(Input_set){
     'N___in_PXbio_(0.12)':  {value:P_X_bio*0.12,  unit:"kg_N/d",  descr:"content of N   in biomass (0.12  gN/gX)"},
     'P___in_PXbio_(0.015)': {value:P_X_bio*0.015, unit:"kg_P/d",  descr:"content of P   in biomass (0.015 gP/gX)"},
 
-    //these two cannot be in fractionation because they use PXbio
+    //these two cannot be in fractionation because they use PXbio in its equation
     'sCODe':   {value:sCODe,       unit:"g/m3",      descr:"Soluble COD at effluent"},
     'aPchem':  {value:aPchem,      unit:"g/m3",      descr:"Available P for chemicals"},
   };
@@ -261,9 +300,12 @@ function compute_elementary_flows(Input_set){
 
   /*ENERGY*/
   //energy related variables (could go inside a new Result.energy object)
+  //TODO: pack these equations into a new technology file
 
   //1. AERATION power
-  var SAE            = 4; //kgO2/kWh TBD confirm value (I don't remember where I took it from)
+  var SAE = 4; //kgO2/kWh TBD confirm value (I don't remember where I took it from)
+  //TBD we should have kg_air/kWh to relate the power with air_flowrate (m3/min)
+
   var aeration_power = OTRf/SAE ||0; //kW
 
   //2. MIXING power (anoxic, denitrification)
@@ -279,7 +321,6 @@ function compute_elementary_flows(Input_set){
     wastage : Qwas*PE_Qw,   //kWh/d
     total:function(){return this.external+this.internal+this.wastage},
   }
-
   var pumping_power_external = Pumping.external/24; //kW
   var pumping_power_internal = Pumping.internal/24; //kW
   var pumping_power_wastage  = Pumping.wastage/24;  //kW
@@ -290,7 +331,7 @@ function compute_elementary_flows(Input_set){
   var dewatering_power = P_X_TSS/1000 * dewatering_factor / 24; //kW
 
   //5. OTHER power: assumption is that pumping+aeration+dewatering+mixing is 80%, so other is 20% of total
-  var other_power = 0.25*(aeration_power + mixing_power + pumping_power + dewatering_power);
+  var other_power = 0.25*(aeration_power+mixing_power+pumping_power+dewatering_power);
 
   //6. TOTAL power
   var total_power = aeration_power + mixing_power + pumping_power + dewatering_power + other_power;
@@ -327,23 +368,59 @@ function compute_elementary_flows(Input_set){
         2*(volume/(h*w) + w)*h*ww + volume/(h*w)*w*wg
       ); //m3 concrete
     },
-    settler:function(volume,h,w,ww,wg){
-      h=h   ||7;   //m -- depth of tank
-      ww=ww ||0.3; //m -- width of wall
-      wg=wg ||0.5; //m -- width of basement plate
+    settler:function(area,h,w,ww,wg){
+      h=h   ||4;     //m  -- depth of tank
+      ww=ww ||0.3;   //m  -- width of wall
+      wg=wg ||0.5;   //m  -- width of basement plate
+      volume=area*h; //m3 -- volume of settler
       return this.density*(
         2*Math.PI*Math.sqrt(volume/(Math.PI*h))*h*ww + volume/h*wg
       ); //m3 concrete
     },
   }
 
+  /*Sludge elementary composition [C,H,O,N,S,P] */
+  var Sludge_comp={
+    /*
+      Dear  Lluis,
+      If the COD/VSS (f_CV=1.42), C/VSS (f_C=0.51), N/VSS (f_N=0.12) and P/VSS (f_P=0.015) are known 
+      then the O/VSS (F_O) And H/VSS (f_H) can be calcylated with che following equations:
+
+      f_O = 16/18 ( 1- f_CV/8 - 8/12 f_C – 17/14 f_N – 26/31 f_P) 
+
+      f_H = 2/18 ( 1+ f_CV - 44/12 f_C +  10/14 f_N – 71/31 f_P)
+
+      So for f_CV = 1.42; f_C = 0.51 , f_N=0.12 and f_P = 0.015, 
+      f_O=0.288 and f_H=0.067.
+
+      We can include S in this but there is no need. There are no S 
+      transformations taking place in he AS system anyway.
+      The elements from Cl down in the table below are inorganics and so should 
+      not be expressed with respect to the VSS (as in the table).
+      They should be calculated as % of the ISS (TSS-VSS) because the make up 
+      the ash content of the sludge.
+      George
+    */
+    f_CV:1.42,
+    f_C :0.51,
+    f_N :0.12,
+    f_P :0.015,
+    f_O:function(){return 16/18*(1 - this.f_CV/8 -  8/12*this.f_C - 17/14*this.f_N - 26/31*this.f_P);},
+    f_H:function(){return  2/18*(1 + this.f_CV   - 44/12*this.f_C - 10/14*this.f_N - 71/31*this.f_P);},
+  };
+
   Result.summary={
     'SRT':                        {value:SRT,                        unit:"d",               descr:getInputById('SRT').descr},
     'tau':                        {value:tau,                        unit:"h",               descr:""},
     'MLVSS':                      {value:MLVSS,                      unit:"g/m3",            descr:""},
-    'BOD_loading':                {value:BOD_loading,                unit:"kg/m3·d",         descr:""},
+    //'BOD_loading':                {value:BOD_loading,                unit:"kg/m3·d",         descr:""},
+
+    //sludge
     'P_X_TSS':                    {value:P_X_TSS,                    unit:"kg_TSS/d",        descr:"Total_sludge_produced_per_day"},
     'P_X_bio':                    {value:P_X_bio,                    unit:"kg_VSS/d",        descr:"Biomass_produced_per_day"},
+    'sludge_f_O':               {value:Sludge_comp.f_O(),        unit:"g_O/VSS",              descr:""},
+    'sludge_f_H':               {value:Sludge_comp.f_H(),        unit:"g_H/VSS",              descr:""},
+
     'Y_obs_TSS':                  {value:Y_obs_TSS,                  unit:"g_TSS/g_BOD",     descr:""},
     'Y_obs_VSS':                  {value:Y_obs_VSS,                  unit:"g_VSS/g_BOD",     descr:""},
     'air_flowrate':               {value:air_flowrate,               unit:"m3/min",          descr:""},
@@ -353,17 +430,22 @@ function compute_elementary_flows(Input_set){
     'RAS':                        {value:RAS,                        unit:"&empty;",         descr:""},
     'clarifiers':                 {value:clarifiers,                 unit:"clarifiers",      descr:""},
     'clarifier_diameter':         {value:clarifier_diameter,         unit:"m",               descr:""},
+
+
     'V_aer':                      {value:V_aer,                      unit:"m3",              descr:""},
     'V_nox':                      {value:V_nox,                      unit:"m3",              descr:""},
     'V_ana':                      {value:V_ana,                      unit:"m3",              descr:""},
     'V_total':                    {value:V_total,                    unit:"m3",              descr:"Total_reactor_volume_(aerobic+anoxic+anaerobic)"},
+
     'alkalinity_added':           {value:alkalinity_added,           unit:"kg/d_as_NaHCO3",  descr:""},
     'Mass_of_alkalinity_needed':  {value:Mass_of_alkalinity_needed,  unit:"kg/d_as_CaCO3",   descr:""},
     'FeCl3_volume':               {value:FeCl3_volume,               unit:"L/d",             descr:""},
     'storage_req_15_d':           {value:storage_req_15_d,           unit:"m3",              descr:""},
     'Dewatering_polymer':         {value:Dewatering_polymer,         unit:"kg/d",            descr:""},
-    'concrete_reactor':           {value:Concrete.reactor(V_total),  unit:"m3",              descr:""},
-    'concrete_settler':           {value:Concrete.settler(0),        unit:"m3",              descr:""},
+
+    //concrete
+    'concrete_reactor':           {value:Concrete.reactor(V_total),  unit:"m3 concrete",              descr:""},
+    'concrete_settler':           {value:Concrete.settler(0),        unit:"m3 concrete",              descr:""},
 
     'aeration_power':             {value:aeration_power,             unit:"kW",              descr:"Power needed for aeration (=OTRf/SAE)"},
     'mixing_power':               {value:mixing_power,               unit:"kW",              descr:"Power needed for anoxic mixing"},
@@ -377,7 +459,9 @@ function compute_elementary_flows(Input_set){
     'total_daily_energy':         {value:total_power*24,             unit:"kWh/d",           descr:"Total daily energy needed"},
     'total_energy_per_m3':        {value:total_power*24/Q||0,        unit:"kWh/m3",          descr:"Total energy needed per m3"},
   };
-  //addResults('summary',Result.summary);
+
+  //addResults('summary',Result.summary); //if added, they will be visible in the "Variables" table
+
   //===============================================================================================
 
   //OUTPUTS effluent
@@ -401,7 +485,7 @@ function compute_elementary_flows(Input_set){
 
     //Outputs.COD
     Outputs.COD.influent       = Q*COD;
-    Outputs.COD.effluent.water = Q*sCODe + Q*VSSe*1.42;
+    Outputs.COD.effluent.water = Qe*sCODe + Q*VSSe*1.42;
     Outputs.COD.effluent.air   = (function(){
       /*
       * CARBONACEOUS DEMAND
@@ -438,7 +522,7 @@ function compute_elementary_flows(Input_set){
       var A = 1.42*P_X_bio*1000; //g O2/d
       var B = Qwas*sCODe;        //g O2/d
       var C = Q*nbpCOD;          //g O2/d
-      var D = Q*1.42*VSSe;       //g O2/d
+      var D = Q*1.42*VSSe;      //g O2/d
       return A+B+C-D;
     })();
 
@@ -470,9 +554,9 @@ function compute_elementary_flows(Input_set){
     Outputs.TKN.influent = Q*TKN;
     Outputs.TKN.effluent.water = (function(){
       if(is_Nit_active){
-        return Q*(NH4_eff + nbsON + VSSe*0.12);
+        return Qe*(NH4_eff + nbsON + VSSe*0.12);
       }else{
-        return Q*(TKN - nbpON - TKN_N2O) + Q*VSSe*0.12 - 0.12*P_X_bio*1000;
+        return Q*(TKN - nbpON - TKN_N2O) + Qe*VSSe*0.12 - 0.12*P_X_bio*1000;
       }
     })();
     Outputs.TKN.effluent.air    = 0;
@@ -480,7 +564,7 @@ function compute_elementary_flows(Input_set){
       var A = 0.12*P_X_bio*1000;
       var B = Qwas*sTKNe;
       var C = Q*nbpON;
-      var D = Q*VSSe*0.12;
+      var D = Qe*VSSe*0.12;
       return A+B+C-D;
     })();
 
@@ -488,8 +572,8 @@ function compute_elementary_flows(Input_set){
     Outputs.NOx.influent       = 0;
     Outputs.NOx.effluent.water = (function(){
       if     (is_Nit_active==false){return 0;}
-      else if(is_Des_active){       return Q*NO3_eff;}
-      else if(is_Des_active==false){return Q*bTKN - Q*NH4_eff - 0.12*P_X_bio*1000;}
+      else if(is_Des_active){       return Qe*NO3_eff;}
+      else if(is_Des_active==false){return Qe*bTKN - Qe*NH4_eff - 0.12*P_X_bio*1000;}
     })();
     Outputs.NOx.effluent.air = (function(){return 0})();
     Outputs.NOx.effluent.sludge = (function(){

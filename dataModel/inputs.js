@@ -14,13 +14,17 @@ var Inputs = [
 {id:"T",          value:12,    unit:"ºC",    descr:"Temperature"},
 
 //fractionation
-{id:"COD",        value:300,   unit:"g/m3 as O2",  descr:"Total chemical oxygen demand"},
-{id:"bCOD",       value:224,   unit:"g/m3 as O2",  descr:"Biodegradable COD"},
-{id:"sCOD",       value:132,   unit:"g/m3 as O2",  descr:"Soluble COD"},
 {id:"BOD",        value:140,   unit:"g/m3 as O2",  descr:"Total 5d biochemical oxygen demand"},
 {id:"sBOD",       value:70,    unit:"g/m3 as O2",  descr:"Soluble BOD"},
+{id:"COD",        value:300,   unit:"g/m3 as O2",  descr:"Total chemical oxygen demand"},
+{id:"bCOD",       value:224,   unit:"g/m3 as O2",  descr:"Biodegradable COD (a typical value is: bCOD=1.6·BOD)"},
+{id:"sCOD",       value:132,   unit:"g/m3 as O2",  descr:"Soluble COD"},
 {id:"TSS",        value:70,    unit:"g/m3",        descr:"Total suspended solids"},
 {id:"VSS",        value:60,    unit:"g/m3",        descr:"Volatile suspended solids"},
+
+//primary settler
+{id:"removal_bp",   value:40,  unit:"%",  isParameter:true,  descr:"Primary settler  bpCOD removal rate"},
+{id:"removal_nbp",  value:40,  unit:"%",  isParameter:true,  descr:"Primary settler nbpCOD removal rate"},
 
 //bod removal
 {id:"MLSS_X_TSS", value:3000,  unit:"g/m3",       isParameter:true, descr:"Mixed liquor suspended solids"},
@@ -87,7 +91,10 @@ var Inputs = [
 //orange and red inputs (advanced knowledge required)
 {id:"zb",                   value:500,   unit:"m",            color:"orange", isParameter:true, descr:"Site elevation above sea level (Affects O2 solubility)"},
 {id:"Pressure",             value:95600, unit:"Pa",           color:"orange", isParameter:true, descr:"Pressure at site elevation"},
+
 {id:"Df",                   value:4.4,   unit:"m",            color:"orange", isParameter:true, descr:"Liquid depth for aeration basin minus distance between tank bottom and point of air release for the  diffusers.  For  example:  4.9  m  -  0.5  m = 4.4 m"},
+{id:"h_settler",            value:4,     unit:"m",            color:"orange", isParameter:true, descr:"Height of settler"},
+
 {id:"X_R",                  value:8000,  unit:"g/m3",         color:"orange", isParameter:true, descr:"Return sludge mass concentration"},
 {id:"TSSe",                 value:1,     unit:"g/m3",         color:"orange", isParameter:true, descr:"Effluent design Total suspended solids"},
 {id:"SRT",                  value:5,     unit:"d",            color:"red",    isParameter:true, descr:"Solids Retention Time"},

@@ -3,15 +3,13 @@
   * Metcalf & Eddy, Wastewater Engineering, 5th ed., 2014:
   * page 762
 */
-function nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pressure,Df,MLSS_X_TSS,NH4_eff,sBODe,TSSe,Alkalinity,DO){
+function nitrification(BOD,bCOD_BOD_ratio,nbVSS,TSS,VSS,Q,T,TKN,SF,zb,Pressure,Df,MLSS_X_TSS,NH4_eff,sBODe,TSSe,Alkalinity,DO){
   /*
     Inputs          example values
     --------------------------------
     BOD             140    g/m3
     bCOD_BOD_ratio  1.6    g bCOD/g BOD
-    sBOD            70     g/m3
-    COD             300    g/m3
-    sCOD            132    g/m3
+    nbVSS           20     g/m3
     TSS             70     g/m3
     VSS             60     g/m3
     Q               22700  m3/d
@@ -40,10 +38,8 @@ function nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pr
 
   /*SOLUTION*/
 
-  //apply fractionation
+  //calculate bCOD
   var bCOD  = bCOD_BOD_ratio*BOD;
-  var Fra   = fractionation(BOD,sBOD,COD,bCOD,sCOD,TSS,VSS);
-  var nbVSS = Fra.nbVSS.value;
 
   //9 start nitrification
   var mu_max_AOB_T = mu_max_AOB * Math.pow(1.072,T-20); //1/d
@@ -61,13 +57,14 @@ function nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pr
   //11
   var bHT = bH * Math.pow(1.04, T - 20);  //1/d
   var mu_mT = mu_m * Math.pow(1.07, T - 20); //1/d
+
+  var S0 = bCOD;
   var S = Ks * (1+bHT*SRT_design) / (SRT_design*(mu_mT-bHT)-1) ||0; //g/m3
   S=Math.max(0,S);
 
-  var NOx = 0.80 * TKN; //aproximation for nitrate, prior to iteration (80% of TKN)
+  var NOx = 0.80 * TKN; //first aproximation for nitrate, prior to iteration (80% of TKN)
 
   //biomass first approximation with first NOx concentration aproximation
-  var S0 = bCOD;
   var P_X_bio_VSS = (Q*YH*(S0-S)/(1+bHT*SRT_design) + fd*bHT*Q*YH*(S0-S)*SRT_design/(1+bHT*SRT_design) + Q*Yn*NOx/(1+b_AOB_T*SRT_design)) ||0;
   P_X_bio_VSS/=1000; //kg/d
 
@@ -203,8 +200,8 @@ function nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pr
     V_aer:             {value:V,                       unit:"m3",              descr:"Aeration tank volume (aerobic)"},
     tau:               {value:tau,                     unit:"h",               descr:"Aeration tank detention time"},
     MLVSS:             {value:MLVSS,                   unit:"g/m3",            descr:"MLVSS"},
-    FM:                {value:FM,                      unit:"kg/kg·d",         descr:"Food to biomass ratio (gBOD or bsCOD / g VSS·d)"},
-    BOD_loading:       {value:BOD_loading,             unit:"kg/m3·d",         descr:"BOD_loading"},
+    //FM:                {value:FM,                      unit:"kg/kg·d",         descr:"Food to biomass ratio (gBOD or bsCOD / g VSS·d)"},
+    //BOD_loading:       {value:BOD_loading,             unit:"kg/m3·d",         descr:"BOD_loading"},
     bCOD_removed:      {value:bCOD_removed,            unit:"kg/d",            descr:"bCOD_removed"},
     Y_obs_TSS:         {value:Y_obs_TSS,               unit:"g_TSS/g_BOD",     descr:"Observed yield Y_obs_TSS"},
     Y_obs_VSS:         {value:Y_obs_VSS,               unit:"g_VSS/g_BOD",     descr:"Observed yield Y_obs_VSS"},
@@ -226,9 +223,7 @@ function nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pr
   if(debug==false)return;
   var BOD             = 140;
   var bCOD_BOD_ratio  = 1.6;
-  var sBOD            = 70;
-  var COD             = 300;
-  var sCOD            = 132;
+  var nbVSS           = 20;
   var TSS             = 70;
   var VSS             = 60;
   var Q               = 22700;
@@ -244,6 +239,6 @@ function nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pr
   var TSSe            = 10;
   var Alkalinity      = 140;
   var DO              = 2.0;
-  var result = nitrification(BOD,bCOD_BOD_ratio,sBOD,COD,sCOD,TSS,VSS,Q,T,TKN,SF,zb,Pressure,Df,MLSS_X_TSS,NH4_eff,sBODe,TSSe,Alkalinity,DO);
+  var result = nitrification(BOD,bCOD_BOD_ratio,nbVSS,TSS,VSS,Q,T,TKN,SF,zb,Pressure,Df,MLSS_X_TSS,NH4_eff,sBODe,TSSe,Alkalinity,DO);
   console.log(result);
 })();

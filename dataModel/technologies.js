@@ -20,6 +20,13 @@ var Technologies = {
     notActivable:true,
     Inputs:getParamNames(fractionation), //["BOD","sBOD","COD","bCOD","sCOD","TSS","VSS"]
   },
+  "Pri":{
+    Name:"Primary settler <small><issue class=under_dev></issue></small>",
+    File:"primary_settler.js",
+    Implemented_in:"",
+    value:true,
+    Inputs:getParamNames(primary_settler),
+  },
 	"BOD":{
 		Name:"BOD removal",
 		File:"bod_removal_only.js",
@@ -56,7 +63,7 @@ var Technologies = {
     Inputs:getParamNames(chem_P_removal),
 	},
   "SST":{
-    Name:"SST sizing",
+    Name:"Secondary settler sizing",
     File:"sst_sizing.js",
     Implemented_in:"bod_removal_with_nitrification.php",
     value:false,
