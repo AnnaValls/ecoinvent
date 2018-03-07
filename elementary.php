@@ -792,6 +792,7 @@
               <li>Pumping:                     <span id=pumping_power>0</span>
                 <ul>
                   <li>Influent pumping:        <span id=pumping_power_influent>0</span>
+                    <issue class=under_dev></issue>
                   <li>External recirculation:  <span id=pumping_power_external>0</span>
                   <li>Internal recirculation:  <span id=pumping_power_internal>0</span>
                   <li>Wastage  recirculation:  <span id=pumping_power_wastage> 0</span>
