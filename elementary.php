@@ -190,6 +190,7 @@
           Zn : getInput('Zn').value,
 
           //design parameters
+          influent_H           : getInput('influent_H').value,  //m
           removal_bp           : getInput('removal_bp').value,  //%
           removal_nbp          : getInput('removal_nbp').value, //%
           removal_iss          : getInput('removal_iss').value, //%
@@ -567,6 +568,18 @@
           })()">Set all inputs to zero</button>
       </p>
 
+      <!--open estimations module button-->
+      <p style=margin-top:0>
+        <button
+          style="width:100%"
+          onclick="window.open('estimations.php')">
+            Open estimations module
+            <br><issue class=under_dev></issue>
+            <br><issue class=help_wanted></issue>
+        </button>
+      </p>
+
+
       <!--inputs table-->
       <table id=inputs border=1>
         <tr><th>Input<th>Value<th>Unit
@@ -792,7 +805,6 @@
               <li>Pumping:                     <span id=pumping_power>0</span>
                 <ul>
                   <li>Influent pumping:        <span id=pumping_power_influent>0</span>
-                    <issue class=under_dev></issue>
                   <li>External recirculation:  <span id=pumping_power_external>0</span>
                   <li>Internal recirculation:  <span id=pumping_power_internal>0</span>
                   <li>Wastage  recirculation:  <span id=pumping_power_wastage> 0</span>

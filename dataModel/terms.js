@@ -28,7 +28,7 @@ var Terms={
 	"bsON":{      unit:"g/m3", descr:"Biodegradable soluble ON"},
 	"nbsON":{     unit:"g/m3", descr:"Nonbiodegradable soluble ON"},
 	"TP":{        unit:"g/m3", descr:"Total P"},
-	"PO4":{       unit:"g/m3", descr:"Orthphosphate"},
+	"PO4":{       unit:"g/m3", descr:"Orthophosphate"},
 	"bpP":{       unit:"g/m3", descr:"Biodegradable particulate P"},
 	"nbpP":{      unit:"g/m3", descr:"Nonbiodegradable particulate P"},
 	"bsP":{       unit:"g/m3", descr:"Biodegradable soluble P"},

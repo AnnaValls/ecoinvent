@@ -22,6 +22,9 @@ var Inputs = [
 {id:"VSS",        value:60,    unit:"g/m3",        descr:"Volatile suspended solids"},
 {id:"TSS",        value:70,    unit:"g/m3",        descr:"Total suspended solids"},
 
+//influent pumping
+{id:"influent_H",  value:10,   unit:"m",  isParameter:true,  descr:"Influent pumping water lift height and friction head in m"},
+
 //primary settler
 {id:"removal_bp",  value:40,   unit:"%",  isParameter:true,  descr:"Primary settler  bpCOD removal rate (25 to 60% for municipal wastewater)"},
 {id:"removal_nbp", value:60,   unit:"%",  isParameter:true,  descr:"Primary settler nbpCOD removal rate (40 to 80% for municipal wastewater)"},
@@ -100,7 +103,7 @@ var Inputs = [
 {id:"X_R",                  value:8000,  unit:"g/m3",       color:"orange", isParameter:true, descr:"Return sludge mass concentration"},
 {id:"TSSe",                 value:1,     unit:"g/m3",       color:"orange", isParameter:true, descr:"Effluent design total suspended solids"},
 {id:"SRT",                  value:5,     unit:"d",          color:"red",    isParameter:true, descr:"Solids Retention Time"},
-{id:"SOR",                  value:24,    unit:"m3/m2·d",    color:"red",    isParameter:true, descr:"Hydraulic application rate"},
+{id:"SOR",                  value:24,    unit:"m3/m2·d",    color:"red",    isParameter:true, descr:"Surface Overflow Rate or Hydraulic application rate"},
 {id:"SF",                   value:1.5,   unit:"&empty;",    color:"red",    isParameter:true, descr:"Peak to average TKN load: nitrification safety factor (sf) for computing the design SRT (=SF·1/µAOB)",  },
 {id:"Anoxic_mixing_energy", value:5,     unit:"kW/1000_m3", color:"red",    isParameter:true, descr:"Mixing energy for anoxic reactor (denitrification)"},
 {id:"FeCl3_solution",       value:37,    unit:"%",          color:"red",    isParameter:true, descr:"Ferric chloride solution (%) (for chemical P removal)"},

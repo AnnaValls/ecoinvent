@@ -68,9 +68,10 @@ function compute_elementary_flows(Input_set){
       var Zn = is.Zn;
 
     //design parameters
-    var removal_bp  = is.removal_bp;
-    var removal_nbp = is.removal_nbp;
-    var removal_iss = is.removal_iss;
+    var influent_H           = is.influent_H;
+    var removal_bp           = is.removal_bp;
+    var removal_nbp          = is.removal_nbp;
+    var removal_iss          = is.removal_iss;
     var SRT                  = is.SRT;
     var MLSS_X_TSS           = is.MLSS_X_TSS;
     var zb                   = is.zb;
@@ -154,6 +155,7 @@ function compute_elementary_flows(Input_set){
 
     //RECALCULATE FRACTIONATION
     Result.Fra=fractionation(BOD,sBOD,COD,bCOD,sCOD,TSS,VSS,TKN,NH4_eff,TP);
+
   }else{
     //call it just to see "0 g/m3 removed"
     Result.Pri=primary_settler(0,0,0,0,0,0,0);
@@ -334,8 +336,8 @@ function compute_elementary_flows(Input_set){
     internal: Q*IR*PE_Qint, //kWh/d
     wastage : Qwas*PE_Qw,   //kWh/d
     influent:function(){
-      var rho = 1000; //kg/m3 (density)
-      var H   = 10;   //m     (head)
+      var rho = 1000;       //kg/m3 (density)
+      var H   = influent_H; //m     (head)
       return rho*g*Q*H/1000/(24*3600); //kW -- divided by 1000 to have kW (from W) and m3/d converted to m3/s
       /*
         Influent pumping power P = rho.g.Q.H where (P in in Watts)

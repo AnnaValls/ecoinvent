@@ -51,11 +51,9 @@ function fractionation(BOD,sBOD,COD,bCOD,sCOD,TSS,VSS,TKN,NH4_eff,TP){
   //end of COD fractions
 
   //TSS and VSS
-  var VSS_COD = (COD-sCOD)/VSS || 0;                     //2.8 g_pCOD/g_VSS
-  VSS_COD     = isFinite(VSS_COD) ? VSS_COD : 0;         //avoid infinity when VSS==0
-  var nbVSS   = nbpCOD/VSS_COD || 0;                     // 20 g/m3
-  nbVSS       = isFinite(nbVSS) ? nbVSS : 0;             //avoid infinity when VSS_COD==0
-  var iTSS    = Math.max(TSS - VSS, 0);                  // 10 g/m3
+  var VSS_COD = VSS    ==0 ? 0 : pCOD/VSS;       //2.8 g_pCOD/g_VSS
+  var nbVSS   = VSS_COD==0 ? 0 : nbpCOD/VSS_COD; // 20 g/m3
+  var iTSS    = Math.max(TSS - VSS, 0);          // 10 g/m3
 
   //2. TKN fractions
   var nbpON   = Math.min(TKN, 0.064*nbVSS);           //g/m3
@@ -75,7 +73,9 @@ function fractionation(BOD,sBOD,COD,bCOD,sCOD,TSS,VSS,TKN,NH4_eff,TP){
     COD_BOD_ratio:  {value:COD_BOD_ratio,  unit:"g_COD/g_BOD",  descr:"COD/BOD_ratio"},
     fSus:           {value:fSus,           unit:"%",            descr:"USO/COD_fraction"},
     fSup:           {value:fSup,           unit:"%",            descr:"UPO/COD_fraction"},
+    VSS_COD:        {value:VSS_COD,        unit:"g_pCOD/g_VSS", descr:"pCOD/VSS ratio"},
 
+    //COD and BOD
     COD:            {value:COD,            unit:"g/m3_as_O2",   descr:"Total_COD"},
     BOD:            {value:BOD,            unit:"g/m3_as_O2",   descr:"Total_BOD"},
 
@@ -91,18 +91,24 @@ function fractionation(BOD,sBOD,COD,bCOD,sCOD,TSS,VSS,TKN,NH4_eff,TP){
     bCOD:           {value:bCOD,           unit:"g/m3_as_O2",   descr:"Biodegradable_COD"},
     nbCOD:          {value:nbCOD,          unit:"g/m3_as_O2",   descr:"Nonbiodegradable_COD"},
 
+    //suspended solids
     VSS:            {value:VSS,            unit:"g/m3",         descr:"VSS"},
     TSS:            {value:TSS,            unit:"g/m3",         descr:"TSS"},
-    VSS_COD:        {value:VSS_COD,        unit:"g_pCOD/g_VSS", descr:"pCOD/VSS ratio"},
     nbVSS:          {value:nbVSS,          unit:"g/m3",         descr:"Nonbiodegradable_VSS"},
     iTSS:           {value:iTSS,           unit:"g/m3",         descr:"Inert TSS"},
+
+    //Nitrogen
+    TKN:            {value:TKN,            unit:"g/m3_as_N",    descr:"Total Kjedahl nitrogen"},
     nbpON:          {value:nbpON,          unit:"g/m3_as_N",    descr:"Nonbiodegradable particulate ON"},
     nbsON:          {value:nbsON,          unit:"g/m3_as_N",    descr:"Nonbiodegradable soluble ON"},
     TKN_N2O:        {value:TKN_N2O,        unit:"g/m3_as_N",    descr:"TKN N2O (0.1% of TKN)"},
     bTKN:           {value:bTKN,           unit:"g/m3_as_N",    descr:"Niodegradable TKN"},
     sTKNe:          {value:sTKNe,          unit:"g/m3_as_N",    descr:"Soluble TKN effluent"},
+
+    //Phosphorus
+    TP:             {value:TP,             unit:"g/m3_as_P",    descr:"Total phosphorus"},
     nbpP:           {value:nbpP,           unit:"g/m3_as_P",    descr:"Nonbiodegradable particulate P"},
-    aP:             {value:aP,             unit:"g/m3_as_P",    descr:"Available P"},
+    aP:             {value:aP,             unit:"g/m3_as_P",    descr:"Available P (TP-nbpP)"},
   };
 };
 
