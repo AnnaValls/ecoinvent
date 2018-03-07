@@ -167,15 +167,15 @@ function nitrification(BOD,bCOD_BOD_ratio,nbVSS,TSS,VSS,Q,T,TKN,SF,zb,Pressure,D
   air_flowrate = isFinite(air_flowrate) ? air_flowrate : 0; //avoid infinite
 
   //19 alkalinity
-  var alkalinity_to_be_added = 0;
+  var alkalinity_added = 0;
   (function(){
     var alkalinity_used_for_nitrification = 7.14*NOx; // g/m3 used as CaCO3 (7.14 is g CaCO3/g NH4-N)
     //70 g/m3 is the residual alkalinity to maintain pH in the range 6.8-7.0;
-    //70 = influent_alk - alk_used + alk_to_be_added
-    alkalinity_to_be_added=70-Alkalinity+alkalinity_used_for_nitrification; // g/m3 as CaCO3
-    alkalinity_to_be_added*=Q/1000;                                         // kg/d as CaCO3
-    alkalinity_to_be_added*=(84/50);                                        // kg/d as NaHCO3
-    alkalinity_to_be_added=Math.max(0, alkalinity_to_be_added); //Avoid negative
+    //70 = influent_alk - alk_used + alk_added
+    alkalinity_added=70-Alkalinity+alkalinity_used_for_nitrification; // g/m3 as CaCO3
+    alkalinity_added*=Q/1000;                                         // kg/d as CaCO3
+    alkalinity_added*=(84/50);                                        // kg/d as NaHCO3 (CONVERT FROM CaCO3 TO NaHCO3)
+    alkalinity_added=Math.max(0, alkalinity_added);             // Avoid negative
   })();
 
   //20 estimate effluent BOD
@@ -183,37 +183,37 @@ function nitrification(BOD,bCOD_BOD_ratio,nbVSS,TSS,VSS,Q,T,TKN,SF,zb,Pressure,D
   /*end solution*/
 
   return {
-    mu_max_AOB_T:      {value:mu_max_AOB_T,            unit:"1/d",             descr:"µ_max_AOB corrected by temperature"},
-    b_AOB_T:           {value:b_AOB_T,                 unit:"1/d",             descr:"b_AOB corrected by temperature"},
-    mu_AOB:            {value:mu_AOB,                  unit:"1/d",             descr:"µ_AOB Ammonia Oxidizing Bacteria"},
-    SRT_theoretical:   {value:SRT_theoretical,         unit:"d",               descr:"SRT_theoretical"},
-    SRT_design:        {value:SRT_design,              unit:"d",               descr:"SRT_design"},
-    bHT:               {value:bHT,                     unit:"1/d",             descr:"bH corrected by temperature"},
-    mu_mT:             {value:mu_mT,                   unit:"1/d",             descr:"µ_m corrected by temperatureT"},
-    S:                 {value:S,                       unit:"g/m3",            descr:"Effluent substrate concentration"},
-    NOx:               {value:NOx,                     unit:"g/m3_as_N",       descr:"NOx amount of nitrogen oxidized to nitrate"},
-    P_X_bio:           {value:P_X_bio_VSS,             unit:"kg/d",            descr:"Biomass production"},
-    P_X_VSS:           {value:P_X_VSS,                 unit:"kg/d",            descr:"Net waste activated sludge produced each day"},
-    P_X_TSS:           {value:P_X_TSS,                 unit:"kg/d",            descr:"Total sludge produced each day"},
-    X_VSS_V:           {value:X_VSS_V,                 unit:"kg",              descr:"Mass of VSS"},
-    X_TSS_V:           {value:X_TSS_V,                 unit:"kg",              descr:"Mass of TSS"},
-    V_aer:             {value:V,                       unit:"m3",              descr:"Aeration tank volume (aerobic)"},
-    tau:               {value:tau,                     unit:"h",               descr:"Aeration tank detention time"},
-    MLVSS:             {value:MLVSS,                   unit:"g/m3",            descr:"MLVSS"},
-    //FM:                {value:FM,                      unit:"kg/kg·d",         descr:"Food to biomass ratio (gBOD or bsCOD / g VSS·d)"},
-    //BOD_loading:       {value:BOD_loading,             unit:"kg/m3·d",         descr:"BOD_loading"},
-    bCOD_removed:      {value:bCOD_removed,            unit:"kg/d",            descr:"bCOD_removed"},
-    Y_obs_TSS:         {value:Y_obs_TSS,               unit:"g_TSS/g_BOD",     descr:"Observed yield Y_obs_TSS"},
-    Y_obs_VSS:         {value:Y_obs_VSS,               unit:"g_VSS/g_BOD",     descr:"Observed yield Y_obs_VSS"},
-    C_T:               {value:C_T,                     unit:"mg_O2/L",         descr:"Saturated_DO_at_sea_level_and_operating_tempreature"},
-    OTRf:              {value:OTRf,                    unit:"kg_O2/h",         descr:"O2 demand"},
-    C_inf_20:          {value:C_inf_20,                unit:"mg_O2/L",         descr:"Saturated_DO_value_at_sea_level_and_20ºC_for_diffused_aeartion"},
-    Pb:                {value:Pb,                      unit:"m",               descr:"Pressure at site elevation"},
-    SOTR:              {value:SOTR,                    unit:"kg_O2/h",         descr:"Standard Oxygen Transfer Rate"},
-    kg_O2_per_m3_air:  {value:kg_O2_per_m3_air,        unit:"kg_O2/m3",        descr:"kg_O2_per_m3_air"},
-    air_flowrate:      {value:air_flowrate,            unit:"m3/min",          descr:"air_flowrate"},
-    alkalinity_added:  {value:alkalinity_to_be_added,  unit:"kg/d_as_NaHCO3",  descr:"alkalinity_to_be_added"},
-    BOD_eff:           {value:BOD_eff,                 unit:"g/m3_as_O2",      descr:"BOD_effluent estimation"},
+    mu_max_AOB_T:     {value:mu_max_AOB_T,           unit:"1/d",           descr:"µ_max_AOB corrected by temperature"},
+    b_AOB_T:          {value:b_AOB_T,                unit:"1/d",           descr:"b_AOB corrected by temperature"},
+    mu_AOB:           {value:mu_AOB,                 unit:"1/d",           descr:"µ_AOB Ammonia Oxidizing Bacteria"},
+    SRT_theoretical:  {value:SRT_theoretical,        unit:"d",             descr:"SRT_theoretical"},
+    SRT_design:       {value:SRT_design,             unit:"d",             descr:"SRT_design"},
+    bHT:              {value:bHT,                    unit:"1/d",           descr:"bH corrected by temperature"},
+    mu_mT:            {value:mu_mT,                  unit:"1/d",           descr:"µ_m corrected by temperatureT"},
+    S:                {value:S,                      unit:"g/m3",          descr:"Effluent substrate concentration"},
+    NOx:              {value:NOx,                    unit:"g/m3_as_N",     descr:"NOx amount of nitrogen oxidized to nitrate"},
+    P_X_bio:          {value:P_X_bio_VSS,            unit:"kg/d",          descr:"Biomass production"},
+    P_X_VSS:          {value:P_X_VSS,                unit:"kg/d",          descr:"Net waste activated sludge produced each day"},
+    P_X_TSS:          {value:P_X_TSS,                unit:"kg/d",          descr:"Total sludge produced each day"},
+    X_VSS_V:          {value:X_VSS_V,                unit:"kg",            descr:"Mass of VSS"},
+    X_TSS_V:          {value:X_TSS_V,                unit:"kg",            descr:"Mass of TSS"},
+    V_aer:            {value:V,                      unit:"m3",            descr:"Aeration tank volume (aerobic)"},
+    tau:              {value:tau,                    unit:"h",             descr:"Aeration tank detention time"},
+    MLVSS:            {value:MLVSS,                  unit:"g/m3",          descr:"MLVSS"},
+    //FM:               {value:FM,                     unit:"kg/kg·d",       descr:"Food to biomass ratio (gBOD or bsCOD / g VSS·d)"},
+    //BOD_loading:      {value:BOD_loading,            unit:"kg/m3·d",       descr:"BOD_loading"},
+    bCOD_removed:     {value:bCOD_removed,           unit:"kg/d",          descr:"bCOD_removed"},
+    Y_obs_TSS:        {value:Y_obs_TSS,              unit:"g_TSS/g_BOD",   descr:"Observed yield Y_obs_TSS"},
+    Y_obs_VSS:        {value:Y_obs_VSS,              unit:"g_VSS/g_BOD",   descr:"Observed yield Y_obs_VSS"},
+    C_T:              {value:C_T,                    unit:"mg_O2/L",       descr:"Saturated_DO_at_sea_level_and_operating_tempreature"},
+    OTRf:             {value:OTRf,                   unit:"kg_O2/h",       descr:"O2 demand"},
+    C_inf_20:         {value:C_inf_20,               unit:"mg_O2/L",       descr:"Saturated_DO_value_at_sea_level_and_20ºC_for_diffused_aeartion"},
+    Pb:               {value:Pb,                     unit:"m",             descr:"Pressure at site elevation"},
+    SOTR:             {value:SOTR,                   unit:"kg_O2/h",       descr:"Standard Oxygen Transfer Rate"},
+    kg_O2_per_m3_air: {value:kg_O2_per_m3_air,       unit:"kg_O2/m3",      descr:"kg_O2_per_m3_air"},
+    air_flowrate:     {value:air_flowrate,           unit:"m3/min",         descr:"air_flowrate"},
+    alkalinity_added: {value:alkalinity_added,       unit:"kg/d_as_NaHCO3", descr:"alkalinity_to_be_added"},
+    BOD_eff:          {value:BOD_eff,                unit:"g/m3_as_O2",     descr:"BOD_effluent estimation"},
   };
 }
 

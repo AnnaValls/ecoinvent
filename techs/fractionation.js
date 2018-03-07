@@ -33,6 +33,16 @@ function fractionation(BOD,sBOD,COD,bCOD,sCOD,TSS,VSS,TKN,NH4_eff,TP){
   //1.2 George Ekama fractions
   var fSus = COD==0 ? 0 : 100*(nbsCODe/COD); // USO fraction (%)
   var fSup = COD==0 ? 0 : 100*(nbpCOD/COD);  // UPO fraction (%)
+  /*
+    TODO raw nbpCOD/COD: between 8% and 25% à warning: out of range:
+    if you get values outside of the range… it is likely that the COD/BOD ratio
+    is wrong… normally COD/BOD we would expect for raw WW like 1.8 to 2.1; and for
+    settled WW like 1.7 to 2; either change the total COD or the BOD so that these
+    values fall within range;
+    Settled à nbpCOD/totalCOD must be equal or greater than 0 and less than 10%
+    Raw à nbsCOD/totalCOD from 0 to 10%
+    settled à nbsCOD/totalCOD from 0 to 15%
+  */
 
   //other COD fractions (not in M&E book)
   var pCOD    = Math.max(COD - sCOD, 0);
@@ -60,27 +70,29 @@ function fractionation(BOD,sBOD,COD,bCOD,sCOD,TSS,VSS,TKN,NH4_eff,TP){
 
   //return results object
   return {
-    bCOD_BOD_ratio: {value:bCOD_BOD_ratio, unit:"g_bCOD/g_BOD", descr:"bCOD/BOD ratio"},
-    COD_BOD_ratio:  {value:COD_BOD_ratio,  unit:"g_COD/g_BOD",  descr:"COD/BOD ratio"},
+    //ratios
+    bCOD_BOD_ratio: {value:bCOD_BOD_ratio, unit:"g_bCOD/g_BOD", descr:"bCOD/BOD_ratio"},
+    COD_BOD_ratio:  {value:COD_BOD_ratio,  unit:"g_COD/g_BOD",  descr:"COD/BOD_ratio"},
+    fSus:           {value:fSus,           unit:"%",            descr:"USO/COD_fraction"},
+    fSup:           {value:fSup,           unit:"%",            descr:"UPO/COD_fraction"},
 
-    fSus :{value:fSus, unit:"%", descr:"USO/COD fraction"},
-    fSup :{value:fSup, unit:"%", descr:"UPO/COD fraction"},
+    COD:            {value:COD,            unit:"g/m3_as_O2",   descr:"Total_COD"},
+    BOD:            {value:BOD,            unit:"g/m3_as_O2",   descr:"Total_BOD"},
 
-    bsCOD:          {value:bsCOD,          unit:"g/m3_as_O2",   descr:"Biodegradable_soluble_COD"},
+    //COD fractions (b/nb & s/p)
+    bsCOD:          {value:bsCOD,          unit:"g/m3_as_O2",   descr:"Biodegradable_soluble_COD_(=rbCOD)"},
     nbsCODe:        {value:nbsCODe,        unit:"g/m3_as_O2",   descr:"Nonbiodegradable_soluble_COD_effluent"},
     bpCOD:          {value:bpCOD,          unit:"g/m3_as_O2",   descr:"Biodegradable_particulate_COD"},
     nbpCOD:         {value:nbpCOD,         unit:"g/m3_as_O2",   descr:"Nonbiodegradable_particulate_COD"},
 
+    //COD fractions (s/p/b/nb)
     sCOD:           {value:sCOD,           unit:"g/m3_as_O2",   descr:"Soluble_COD"},
     pCOD:           {value:pCOD,           unit:"g/m3_as_O2",   descr:"Particulate_COD"},
     bCOD:           {value:bCOD,           unit:"g/m3_as_O2",   descr:"Biodegradable_COD"},
     nbCOD:          {value:nbCOD,          unit:"g/m3_as_O2",   descr:"Nonbiodegradable_COD"},
 
-    COD:            {value:COD,            unit:"g/m3_as_O2",   descr:"Total_COD"},
-    BOD:            {value:BOD,            unit:"g/m3_as_O2",   descr:"Total_BOD"},
-    VSS:            {value:VSS,            unit:"g/m3_as_O2",   descr:"VSS"},
-    TSS:            {value:TSS,            unit:"g/m3_as_O2",   descr:"TSS"},
-
+    VSS:            {value:VSS,            unit:"g/m3",         descr:"VSS"},
+    TSS:            {value:TSS,            unit:"g/m3",         descr:"TSS"},
     VSS_COD:        {value:VSS_COD,        unit:"g_pCOD/g_VSS", descr:"pCOD/VSS ratio"},
     nbVSS:          {value:nbVSS,          unit:"g/m3",         descr:"Nonbiodegradable_VSS"},
     iTSS:           {value:iTSS,           unit:"g/m3",         descr:"Inert TSS"},

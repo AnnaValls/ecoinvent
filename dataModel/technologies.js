@@ -21,7 +21,8 @@ var Technologies = {
     Inputs:getParamNames(fractionation), //["BOD","sBOD","COD","bCOD","sCOD","TSS","VSS"]
   },
   "Pri":{
-    Name:"Primary settler <small><issue class=under_dev></issue></small>",
+    //Name:"Primary settler <small><issue class=under_dev></issue></small>",
+    Name:"Primary settler",
     File:"primary_settler.js",
     Implemented_in:"",
     value:true,

@@ -1,23 +1,30 @@
-
 /*development tags*/
 issue{
   padding:1px;
   border-radius:0.2em;
   border:1px solid #ccc;
   font-size:smaller;
+  color:black;
 }
-issue.help_wanted{
-  background:lightgreen;
+issue[title]{
+  cursor:help;
 }
-issue.help_wanted:before{
-  content:"help wanted";
-}
-issue.under_dev{
-  background:orange;
-}
-issue.under_dev:before{
-  content:"under development";
-}
+
+/*item under development*/
+issue.under_dev{ background:orange; }
+issue.under_dev:before{ content:"under development"; }
+
+/*item which implementation is unknown*/
+issue.help_wanted{ background:lightgreen; }
+issue.help_wanted:before{ content:"help wanted"; }
+
+/*item which implementation has been requested to someone*/
+issue.help_requested{ background:lightgreen; }
+issue.help_requested:before{ content:"help requested to "; }
+
+/*item which implementation has been requested to someone*/
+issue.help_provided{ background:lightgreen; }
+issue.help_provided:before{ content:"help provided by "; }
 
 /*keyboard keys*/
 kbd {

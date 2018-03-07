@@ -198,6 +198,7 @@
           zb                   : getInput('zb').value, //500
           Pressure             : getInput('Pressure').value, //95600
           Df                   : getInput('Df').value, //4.4
+          h_settler            : getInput('h_settler').value, //4 m
           DO                   : getInput('DO').value, //2.0
           SF                   : getInput('SF').value, //1.5
           NH4_eff              : getInput('NH4_eff').value, //0.50
@@ -431,6 +432,13 @@
   Note: mouse over inputs and variables to see a description.
   <br>
   Note: modify inputs using the <kbd>&uarr;</kbd> and <kbd>&darr;</kbd> keys.
+</p>
+
+<!--diagram-->
+<p style="font-size:smaller;text-align:center">
+  <a href="img/plant-diagram.jpg" target=_blank>See plant diagram image (provisional)</a>
+  <issue class=under_dev></issue>
+  <issue class=help_wanted></issue>
 </p>
 <hr>
 
@@ -679,24 +687,44 @@
 
     <!--summary tables-->
     <div id=summary>
+
+      <script>
+        //frontend buttons for folding/unfolding sections of div#summary
+        function toggleView(btn,id){
+          var el=document.querySelector('#summary').querySelector('#'+id);
+          el.style.display = el.style.display=='none' ? '':'none';
+          btn.innerHTML= btn.innerHTML=='↓' ? '&rarr;':'&darr;'
+        }
+      </script>
+
+      <!--SLUDGE PRODUCTION-->
+      <p>3.3. 
+        <button onclick="toggleView(this,'sludge_production')">&darr;</button>
+        Sludge production
+
+        <ul id=sludge_production>
+          <li>P_X_TSS: <span id=P_X_TSS>0</span>
+          <li>P_X_VSS: <span id=P_X_VSS>0</span>
+            <ul>
+              <li>sludge C: <span id=sludge_C>0</span>
+              <li>sludge H: <span id=sludge_H>0</span>
+              <li>sludge O: <span id=sludge_O>0</span>
+              <li>sludge N: <span id=sludge_N>0</span>
+              <li>sludge P: <span id=sludge_P>0</span>
+            </ul>
+          </li>
+        </ul>
+      </p>
+
       <!--DESIGN SUMMARY-->
-      <p>3.3. Design summary
-        <em style=display:block;font-size:smaller>The following variables have been selected from table 2</em>
-        <ul>
+      <p>3.4. 
+        <button onclick="toggleView(this,'design_summary')">&darr;</button>
+        Design summary
+        <ul id=design_summary>
           <li>Solids Retention Time (SRT):       <span id=SRT>0</span>
           <li>Hydraulic detention time (&tau;):  <span id=tau>0</span>
           <li>MLVSS:                             <span id=MLVSS>0</span>
           <!-- <li>BOD loading:                       <span id=BOD_loading>0</span> -->
-          <li>Total sludge production:           <span id=P_X_TSS>0</span>
-            <ul>
-              <li>f_O: <span id=sludge_f_O>0</span>
-              <li>f_H: <span id=sludge_f_H>0</span>
-              <li>
-                <issue class=under_dev></issue>
-                <issue class=help_wanted></issue>
-              </li>
-            </ul>
-          </li>
           <li>Observed yield
             <ul>
               <li>Y_obs_TSS:                     <span id=Y_obs_TSS>0</span>
@@ -705,9 +733,9 @@
           </li>
           <li>Aeration
             <ul>
-              <li>Air flowrate:                  <span id=air_flowrate>0</span>
-              <li>O<sub>2</sub> required (OTRf): <span id=OTRf>0</span>
+              <li>OTRf (O<sub>2</sub> required): <span id=OTRf>0</span>
               <li>SOTR:                          <span id=SOTR>0</span>
+              <li>Air flowrate:                  <span id=air_flowrate>0</span>
               <li>SDNR (denitrification):        <span id=SDNR>0</span>
             </ul>
           </li>
@@ -728,31 +756,22 @@
           </li>
           <li>Concrete (see <a href="construction.php" target=_blank>construction</a>)
             <ul>
-              <li>Reactor: <span id=concrete_reactor>0</span>
-              <li>Settler: <span id=concrete_settler>0</span>
-                <issue class=under_dev></issue>
-                <issue class=help_wanted></issue>
+              <li>Reactor:      <span id=concrete_reactor>0</span>
+              <li>Secondary ST: <span id=concrete_settler>0</span>
             </ul>
           </li>
         </ul>
       </p>
 
       <!--TECH SPHERE-->
-      <p>3.4. Technosphere
-        <button onclick="(function(){
-          //TODO
-        })()">&darr;</button>
+      <p>3.5. 
+        <button onclick="toggleView(this,'technosphere')">&darr;</button>
+        Technosphere
         <ul id=technosphere>
           <li>Chemicals
             <ul>
-              <li>
-                Dewatering
-                <ul>
-                  <li>Copolymer of acrylamide 0.48%:
-                  <span id=Dewatering_polymer>0</span>
-                </ul>
-              </li>
-              <li>Alkalinity to maintain pH ~ 7.0
+              <li>Dewatering polymer acrylamide 0.48%: <span id=Dewatering_polymer>0</span>
+              <li>Alkalinity to maintain pH ≈ 7.0
                 <ul>
                   <li>For Nitrification:       <span id=alkalinity_added>0</span>
                   <li>For Denitrification:     <span id=Mass_of_alkalinity_needed>0</span>
@@ -766,12 +785,13 @@
               </li>
             </ul>
           </li>
-          <li>Energy for:
+          <li>Energy for
             <ul>
               <li>Aeration:                    <span id=aeration_power>0</span>
               <li>Anoxic Mixing:               <span id=mixing_power>0</span>
-              <li>Pumping
+              <li>Pumping:                     <span id=pumping_power>0</span>
                 <ul>
+                  <li>Influent pumping:        <span id=pumping_power_influent>0</span>
                   <li>External recirculation:  <span id=pumping_power_external>0</span>
                   <li>Internal recirculation:  <span id=pumping_power_internal>0</span>
                   <li>Wastage  recirculation:  <span id=pumping_power_wastage> 0</span>
@@ -779,6 +799,8 @@
               </li>
               <li>Dewatering:                  <span id=dewatering_power>0</span>
               <li>Other:                       <span id=other_power>0</span>
+                <issue class=under_dev></issue>
+                <issue class=help_wanted></issue>
               <li>Total energy
                 <ul>
                   <li>Expressed as power needed:   <span id=total_power>0</span>

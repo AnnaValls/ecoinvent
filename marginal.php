@@ -300,7 +300,7 @@
     effluent resulting from the sum of two influents.
   </p>
   <p>
-    <small>Note: mouse over any variable to see a little description</small>
+    <small>Note: mouse over variables to see a little description</small>
   </p>
 </div><hr style=margin:0>
 

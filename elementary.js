@@ -76,6 +76,7 @@ function compute_elementary_flows(Input_set){
     var zb                   = is.zb;
     var Pressure             = is.Pressure;
     var Df                   = is.Df;
+    var h_settler            = is.h_settler;
     var DO                   = is.DO;
     var SF                   = is.SF;
     var NH4_eff              = is.NH4_eff;
@@ -124,21 +125,21 @@ function compute_elementary_flows(Input_set){
     //get pCOD fractions from first fractionation
     var bpCOD          = Result.Fra.bpCOD.value;  //g/m3
     var nbpCOD         = Result.Fra.nbpCOD.value; //g/m3
-    var pCOD           = Result.Fra.pCOD.value;    //g/m3
-    var iTSS           = Result.Fra.iTSS.value; //g/m3
+    var pCOD           = Result.Fra.pCOD.value;   //g/m3
+    var iTSS           = Result.Fra.iTSS.value;   //g/m3
 
     var bCOD_BOD_ratio = Result.Fra.bCOD_BOD_ratio.value; //g/g
     var VSS_COD        = Result.Fra.VSS_COD.value; //g_pCOD/g_VSS
 
     //apply primary settler    ----pCOD---- ------removal-rates-----
-    Result.Pri=primary_settler(bpCOD,nbpCOD,iTSS,removal_bp,removal_nbp,removal_iss);
+    Result.Pri=primary_settler(Q,bpCOD,nbpCOD,iTSS,removal_bp,removal_nbp,removal_iss);
     addResults('Pri',Result.Pri);
 
     //get removed pCOD (g/m3)
-    var bpCOD_removed  = Result.Pri.bpCOD_removed.value; //g/m3
+    var bpCOD_removed  = Result.Pri.bpCOD_removed.value;  //g/m3
     var nbpCOD_removed = Result.Pri.nbpCOD_removed.value; //g/m3
-    var pCOD_removed   = Result.Pri.pCOD_removed.value; //g/m3
-    var iTSS_removed   = Result.Pri.iTSS_removed.value; //g/m3
+    var pCOD_removed   = Result.Pri.pCOD_removed.value;   //g/m3
+    var iTSS_removed   = Result.Pri.iTSS_removed.value;   //g/m3
 
     //modify inputs to recalculate fractionation
     bCOD -= bpCOD_removed;
@@ -146,17 +147,16 @@ function compute_elementary_flows(Input_set){
     pCOD -= pCOD_removed;
     iTSS -= iTSS_removed;
 
-    //adjust BOD, TSS and VSS again TODO
-    BOD  = bCOD_BOD_ratio==0 ? 0 : bCOD/bCOD_BOD_ratio;
-    VSS  = VSS_COD==0        ? 0 : pCOD/VSS_COD;
-    TSS  = VSS+iTSS;
+    //adjust BOD, VSS and TSS again
+    BOD = bCOD_BOD_ratio==0 ? 0 : bCOD/bCOD_BOD_ratio;
+    VSS = VSS_COD==0        ? 0 : pCOD/VSS_COD;
+    TSS = VSS + iTSS;
 
     //RECALCULATE FRACTIONATION
     Result.Fra=fractionation(BOD,sBOD,COD,bCOD,sCOD,TSS,VSS,TKN,NH4_eff,TP);
-
   }else{
     //call it just to see "0 g/m3 removed"
-    Result.Pri=primary_settler(0,0,0,0,0,0);
+    Result.Pri=primary_settler(0,0,0,0,0,0,0);
     addResults('Pri',Result.Pri);
   }
   addResults('Fra',Result.Fra);
@@ -319,9 +319,7 @@ function compute_elementary_flows(Input_set){
   //TODO: pack these equations into a new technology file
 
   //1. AERATION power
-  var SAE = 4; //kgO2/kWh TBD confirm value (I don't remember where I took it from)
-  //TBD we should have kg_air/kWh to relate the power with air_flowrate (m3/min)
-
+  var SAE            = 4;            //kgO2/kWh (taken from Oliver Schraa's aeration book)
   var aeration_power = OTRf/SAE ||0; //kW
 
   //2. MIXING power (anoxic, denitrification)
@@ -335,12 +333,35 @@ function compute_elementary_flows(Input_set){
     external: Q*RAS*PE_Qr,  //kWh/d
     internal: Q*IR*PE_Qint, //kWh/d
     wastage : Qwas*PE_Qw,   //kWh/d
-    total:function(){return this.external+this.internal+this.wastage},
-  }
+    influent:function(){
+      var rho = 1000; //kg/m3 (density)
+      var H   = 10;   //m     (head)
+      return rho*g*Q*H/1000/(24*3600); //kW -- divided by 1000 to have kW (from W) and m3/d converted to m3/s
+      /*
+        Influent pumping power P = rho.g.Q.H where (P in in Watts)
+        rho is density of water = 1000 kg/m^3
+        g = gravitation constant = 9.81 m/s^2
+        Q is flow in m^3/s
+        H is water lift height and friction head in m.
+        You can use a standard lift height of 10 m. 
+        User can change it if they have a better height.
+        With Archimedian screw pumps I think the friction head 
+        is probably about 10% of the static head.
+        P excludes losses in gear box and electrical 
+        inefficiency. So for electrical power consumption 
+        these losses increase the power consumption. 
+        Archimedian screw pumps draw power proportional to the flux of water 
+        lifted, i.e draw low power at low flow and high power at high flow. This means 
+        you can use the average dry wearther flow as the kWh/d because the power 
+        balanaces out over a 24h day.
+      */
+    },//kW
+  };
+  var pumping_power_influent = Pumping.influent();  //kW
   var pumping_power_external = Pumping.external/24; //kW
   var pumping_power_internal = Pumping.internal/24; //kW
   var pumping_power_wastage  = Pumping.wastage/24;  //kW
-  var pumping_power          = Pumping.total()/24;  //kW
+  var pumping_power = pumping_power_influent + pumping_power_external + pumping_power_internal + pumping_power_wastage;
 
   //4. DEWATERING power
   var dewatering_factor = 20; //kWh/tDM (tone dry matter)
@@ -353,17 +374,19 @@ function compute_elementary_flows(Input_set){
   var total_power = aeration_power + mixing_power + pumping_power + dewatering_power + other_power;
 
   Result.energy={
-    'SAE':                     {value:SAE,                     unit:"kg_O2/kWh",  descr:"kg     O2      that       can            be                aerated            with       1  kWh  of  energy"},
-    'aeration_power':          {value:aeration_power,          unit:"kW",         descr:"Power  needed  for        aeration       (=OTRf/SAE)"},
-    'mixing_power':            {value:mixing_power,            unit:"kW",         descr:"Power  needed  for        anoxic         mixing"},
-    'pumping_power_external':  {value:pumping_power_external,  unit:"kW",         descr:"Power  needed  for        pumping        (external         recirculation)"},
-    'pumping_power_internal':  {value:pumping_power_internal,  unit:"kW",         descr:"Power  needed  for        pumping        (internal         recirculation)"},
-    'pumping_power_wastage':   {value:pumping_power_wastage,   unit:"kW",         descr:"Power  needed  for        pumping        (wastage          recirculation)"},
-    'pumping_power':           {value:pumping_power,           unit:"kW",         descr:"Power  needed  for        pumping        (ext+int+was)"},
-    'dewatering_power':        {value:dewatering_power,        unit:"kW",         descr:"Power  needed  for        dewatering"},
-    'other_power':             {value:other_power,             unit:"kW",         descr:"Power  needed  for        'other'        (20%              of                 total)"},
-    'total_power':             {value:total_power,             unit:"kW",         descr:"Total  power   needed"},
-    'total_daily_energy':      {value:total_power*24,          unit:"kWh/d",      descr:"Total  daily   energy     needed"},
+    'SAE':                     {value:SAE,                     unit:"kg_O2/kWh",  descr:"kg O2 that can be aerated with 1 kWh of energy"},
+    'aeration_power':          {value:aeration_power,          unit:"kW",         descr:"Power needed for aeration (=OTRf/SAE)"},
+    'mixing_power':            {value:mixing_power,            unit:"kW",         descr:"Power needed for anoxic mixing"},
+    'pumping_power_influent':  {value:pumping_power_influent,  unit:"kW",         descr:"Power needed for pumping influent"},
+    'pumping_power_external':  {value:pumping_power_external,  unit:"kW",         descr:"Power needed for pumping (external recirculation)"},
+    'pumping_power_internal':  {value:pumping_power_internal,  unit:"kW",         descr:"Power needed for pumping (internal recirculation)"},
+    'pumping_power_wastage':   {value:pumping_power_wastage,   unit:"kW",         descr:"Power needed for pumping (wastage recirculation)"},
+    'pumping_power':           {value:pumping_power,           unit:"kW",         descr:"Power needed for pumping (ext+int+was)"},
+    'dewatering_power':        {value:dewatering_power,        unit:"kW",         descr:"Power needed for dewatering"},
+    'other_power':             {value:other_power,             unit:"kW",         descr:"Power needed for 'other' (20% of total)"},
+    'total_power':             {value:total_power,             unit:"kW",         descr:"Total power needed"},
+    'total_daily_energy':      {value:total_power*24,          unit:"kWh/d",      descr:"Total daily energy needed"},
+    'total_energy_per_m3':     {value:total_power*24/Q||0,     unit:"kWh/m3",     descr:"Total energy needed per m3"},
   };
   addResults('energy',Result.energy);
 
@@ -384,46 +407,59 @@ function compute_elementary_flows(Input_set){
         2*(volume/(h*w) + w)*h*ww + volume/(h*w)*w*wg
       ); //m3 concrete
     },
-    settler:function(area,h,w,ww,wg){
+    settler:function(volume,h,w,ww,wg){
       h=h   ||4;     //m  -- depth of tank
       ww=ww ||0.3;   //m  -- width of wall
       wg=wg ||0.5;   //m  -- width of basement plate
-      volume=area*h; //m3 -- volume of settler
       return this.density*(
         2*Math.PI*Math.sqrt(volume/(Math.PI*h))*h*ww + volume/h*wg
       ); //m3 concrete
     },
-  }
+  };
+
+  //volume of secondary settlers/clarifiers
+  var V_settler = h_settler * Result.SST.Area.value;
 
   /*Sludge elementary composition [C,H,O,N,S,P] */
-  var Sludge_comp={
+  //TODO create a new technology (not activable by the user)
+  var Sludge={
     /*
       Dear  Lluis,
-      If the COD/VSS (f_CV=1.42), C/VSS (f_C=0.51), N/VSS (f_N=0.12) and P/VSS (f_P=0.015) are known 
+      If the COD/VSS (f_CV=1.42), C/VSS (f_C=0.51), N/VSS (f_N=0.12) and P/VSS (f_P=0.015) are known
       then the O/VSS (F_O) And H/VSS (f_H) can be calcylated with che following equations:
 
-      f_O = 16/18 ( 1- f_CV/8 - 8/12 f_C – 17/14 f_N – 26/31 f_P) 
+      f_O = 16/18 ( 1- f_CV/8 - 8/12 f_C – 17/14 f_N – 26/31 f_P)
 
       f_H = 2/18 ( 1+ f_CV - 44/12 f_C +  10/14 f_N – 71/31 f_P)
 
-      So for f_CV = 1.42; f_C = 0.51 , f_N=0.12 and f_P = 0.015, 
+      So for f_CV = 1.42; f_C = 0.51 , f_N=0.12 and f_P = 0.015,
       f_O=0.288 and f_H=0.067.
 
-      We can include S in this but there is no need. There are no S 
+      We can include S in this but there is no need. There are no S
       transformations taking place in he AS system anyway.
-      The elements from Cl down in the table below are inorganics and so should 
+      The elements from Cl down in the table below are inorganics and so should
       not be expressed with respect to the VSS (as in the table).
-      They should be calculated as % of the ISS (TSS-VSS) because the make up 
+      They should be calculated as % of the ISS (TSS-VSS) because the make up
       the ash content of the sludge.
       George
     */
-    f_CV:1.42,
-    f_C :0.51,
-    f_N :0.12,
-    f_P :0.015,
-    f_O:function(){return 16/18*(1 - this.f_CV/8 -  8/12*this.f_C - 17/14*this.f_N - 26/31*this.f_P);},
-    f_H:function(){return  2/18*(1 + this.f_CV   - 44/12*this.f_C - 10/14*this.f_N - 71/31*this.f_P);},
+    f_CV: 1.42,  //g_COD/g_VSS
+    f_C:  0.51,  //g_C  /g_VSS
+    f_N:  0.12,  //g_N  /g_VSS
+    f_P:  0.015, //g_P  /g_VSS
+    f_O:function(){return 16/18*(1 - this.f_CV/8 -  8/12*this.f_C - 17/14*this.f_N - 26/31*this.f_P)}, //g_O/g_VSS
+    f_H:function(){return  2/18*(1 + this.f_CV   - 44/12*this.f_C + 10/14*this.f_N - 71/31*this.f_P)}, //g_H/g_VSS
   };
+  /*
+  console.log(Sludge.f_O());
+  console.log(Sludge.f_H());
+  */
+
+  var sludge_C = Sludge.f_C*P_X_VSS;   //kg_C/d
+  var sludge_H = Sludge.f_H()*P_X_VSS; //kg_H/d
+  var sludge_O = Sludge.f_O()*P_X_VSS; //kg_O/d
+  var sludge_N = Sludge.f_N*P_X_VSS;   //kg_N/d
+  var sludge_P = Sludge.f_P*P_X_VSS;   //kg_P/d
 
   Result.summary={
     'SRT':                        {value:SRT,                        unit:"d",               descr:getInputById('SRT').descr},
@@ -432,39 +468,46 @@ function compute_elementary_flows(Input_set){
     //'BOD_loading':                {value:BOD_loading,                unit:"kg/m3·d",         descr:""},
 
     //sludge
-    'P_X_TSS':                    {value:P_X_TSS,                    unit:"kg_TSS/d",        descr:"Total_sludge_produced_per_day"},
-    'P_X_bio':                    {value:P_X_bio,                    unit:"kg_VSS/d",        descr:"Biomass_produced_per_day"},
-    'sludge_f_O':               {value:Sludge_comp.f_O(),        unit:"g_O/VSS",              descr:""},
-    'sludge_f_H':               {value:Sludge_comp.f_H(),        unit:"g_H/VSS",              descr:""},
+    'P_X_TSS':  {value:P_X_TSS,  unit:"kg_TSS/d", descr:"Total_sludge_produced_per_day"},
+    'P_X_VSS':  {value:P_X_VSS,  unit:"kg_VSS/d", descr:"Volatile suspended solids produced per day"},
+
+    'sludge_C': {value:sludge_C, unit:"kg_C/d",   descr:""},
+    'sludge_H': {value:sludge_H, unit:"kg_H/d",   descr:""},
+    'sludge_O': {value:sludge_O, unit:"kg_O/d",   descr:""},
+    'sludge_N': {value:sludge_N, unit:"kg_N/d",   descr:""},
+    'sludge_P': {value:sludge_P, unit:"kg_P/d",   descr:""},
 
     'Y_obs_TSS':                  {value:Y_obs_TSS,                  unit:"g_TSS/g_BOD",     descr:""},
     'Y_obs_VSS':                  {value:Y_obs_VSS,                  unit:"g_VSS/g_BOD",     descr:""},
+
     'air_flowrate':               {value:air_flowrate,               unit:"m3/min",          descr:""},
     'OTRf':                       {value:OTRf,                       unit:"kg_O2/h",         descr:""},
     'SOTR':                       {value:SOTR,                       unit:"kg_O2/h",         descr:""},
+
     'SDNR':                       {value:SDNR,                       unit:"g/g·d",           descr:""},
     'RAS':                        {value:RAS,                        unit:"&empty;",         descr:""},
     'clarifiers':                 {value:clarifiers,                 unit:"clarifiers",      descr:""},
     'clarifier_diameter':         {value:clarifier_diameter,         unit:"m",               descr:""},
-
 
     'V_aer':                      {value:V_aer,                      unit:"m3",              descr:""},
     'V_nox':                      {value:V_nox,                      unit:"m3",              descr:""},
     'V_ana':                      {value:V_ana,                      unit:"m3",              descr:""},
     'V_total':                    {value:V_total,                    unit:"m3",              descr:"Total_reactor_volume_(aerobic+anoxic+anaerobic)"},
 
-    'alkalinity_added':           {value:alkalinity_added,           unit:"kg/d_as_NaHCO3",  descr:""},
-    'Mass_of_alkalinity_needed':  {value:Mass_of_alkalinity_needed,  unit:"kg/d_as_CaCO3",   descr:""},
+    'alkalinity_added':           Result.Nit.alkalinity_added,
+    'Mass_of_alkalinity_needed':  Result.Des.Mass_of_alkalinity_needed,
+
     'FeCl3_volume':               {value:FeCl3_volume,               unit:"L/d",             descr:""},
     'storage_req_15_d':           {value:storage_req_15_d,           unit:"m3",              descr:""},
     'Dewatering_polymer':         {value:Dewatering_polymer,         unit:"kg/d",            descr:""},
 
     //concrete
-    'concrete_reactor':           {value:Concrete.reactor(V_total),  unit:"m3 concrete",              descr:""},
-    'concrete_settler':           {value:Concrete.settler(0),        unit:"m3 concrete",              descr:""},
+    'concrete_reactor':           {value:Concrete.reactor(V_total),             unit:"m3 concrete",    descr:""},
+    'concrete_settler':           {value:Concrete.settler(V_settler,h_settler), unit:"m3 concrete",    descr:""},
 
     'aeration_power':             {value:aeration_power,             unit:"kW",              descr:"Power needed for aeration (=OTRf/SAE)"},
     'mixing_power':               {value:mixing_power,               unit:"kW",              descr:"Power needed for anoxic mixing"},
+    'pumping_power_influent':     {value:pumping_power_influent,     unit:"kW",              descr:"Power needed for pumping influent"},
     'pumping_power_external':     {value:pumping_power_external,     unit:"kW",              descr:"Power needed for pumping (external recirculation)"},
     'pumping_power_internal':     {value:pumping_power_internal,     unit:"kW",              descr:"Power needed for pumping (internal recirculation)"},
     'pumping_power_wastage':      {value:pumping_power_wastage,      unit:"kW",              descr:"Power needed for pumping (wastage recirculation)"},
@@ -501,7 +544,7 @@ function compute_elementary_flows(Input_set){
 
     //Outputs.COD
     Outputs.COD.influent       = Q*COD;
-    Outputs.COD.effluent.water = Qe*sCODe + Q*VSSe*1.42;
+    Outputs.COD.effluent.water = Qe*sCODe + Qe*VSSe*1.42;
     Outputs.COD.effluent.air   = (function(){
       /*
       * CARBONACEOUS DEMAND
@@ -509,12 +552,7 @@ function compute_elementary_flows(Input_set){
       //this expression (from aeration paper lcorominas found) makes mass balance close
       //return Q*(1-YH)*(S0-S) + Q*YH*(S0-S)*bHT*SRT/(1+bHT*SRT)*(1-fd) - 4.49*NOx;
       // COD equations for carbonaceous demand to be revised
-      //
-      // | technology       | error  |
-      // |------------------+--------|
-      // | denitrification  | 5.88%  |
-      // | nitrification    | 5.89%  |
-      // | bod removal only | 10.32% |
+
       //debug info
       //console.log("CARBONACEOUS DEMAND DISCUSSION");
       var Oxygen_credit = 2.86*Q*(NOx-NO3_eff);
@@ -538,7 +576,7 @@ function compute_elementary_flows(Input_set){
       var A = 1.42*P_X_bio*1000; //g O2/d
       var B = Qwas*sCODe;        //g O2/d
       var C = Q*nbpCOD;          //g O2/d
-      var D = Q*1.42*VSSe;      //g O2/d
+      var D = Qe*1.42*VSSe;     //g O2/d
       return A+B+C-D;
     })();
 
@@ -589,7 +627,9 @@ function compute_elementary_flows(Input_set){
     Outputs.NOx.effluent.water = (function(){
       if     (is_Nit_active==false){return 0;}
       else if(is_Des_active){       return Qe*NO3_eff;}
-      else if(is_Des_active==false){return Qe*bTKN - Qe*NH4_eff - 0.12*P_X_bio*1000;}
+      else if(is_Des_active==false){return Qe*NOx}
+      //TODO else if(is_Des_active==false){return Qe*bTKN - Qe*NH4_eff - 0.12*P_X_bio*1000;}
+
     })();
     Outputs.NOx.effluent.air = (function(){return 0})();
     Outputs.NOx.effluent.sludge = (function(){
