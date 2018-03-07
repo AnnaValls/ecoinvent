@@ -3,17 +3,15 @@
  * Metcalf & Eddy, Wastewater Engineering, 5th ed., 2014:
  * page 484
  */
-function chem_P_removal(Q,TSS,TSS_removal_wo_Fe,TSS_removal_w_Fe,TP,C_PO4_inf,C_PO4_eff,FeCl3_solution,FeCl3_unit_weight,days){
+function chem_P_removal(Q,TSS,TP,PO4,PO4_eff,FeCl3_solution,FeCl3_unit_weight,days){
   /*
-    Inputs             example values 
+    Inputs             example values
     --------------------------------
     Q                  3800  m3/d
     TSS                220   mg/L
-    TSS_removal_wo_Fe  60    %     [not used!] TODO
-    TSS_removal_w_Fe   75    %     [not used!] TODO
     TP                 7     mg/L
-    C_PO4_inf          5     mg/L
-    C_PO4_eff          0.1   mg/L
+    PO4          5     mg/L
+    PO4_eff          0.1   mg/L
     FeCl3_solution     37    %
     FeCl3_unit_weight  1.35  kg/L
     days               15    days
@@ -21,7 +19,7 @@ function chem_P_removal(Q,TSS,TSS_removal_wo_Fe,TSS_removal_w_Fe,TP,C_PO4_inf,C_
   */
 
   /*parameters*/
-  var Fe_P_mole_ratio                  = get_Fe_P_mole_ratio(C_PO4_eff); //3.3 mole/mole (Fig 6-13, page 484, see "utils.js")
+  var Fe_P_mole_ratio                  = get_Fe_P_mole_ratio(PO4_eff); //3.3 mole/mole (Fig 6-13, page 484, see "utils.js")
   var Raw_sludge_specific_gravity      = 1.03;
   var Raw_sludge_moisture_content      = 94;
   var Chemical_sludge_specific_gravity = 1.05
@@ -29,9 +27,9 @@ function chem_P_removal(Q,TSS,TSS_removal_wo_Fe,TSS_removal_w_Fe,TP,C_PO4_inf,C_
 
   /*SOLUTION*/
   //1
-  var Fe_III_dose = Fe_P_mole_ratio*(C_PO4_inf-C_PO4_eff)*M_Fe/M_P; //mg/L
+  var Fe_III_dose = Fe_P_mole_ratio*(PO4-PO4_eff)*M_Fe/M_P; //mg/L
   //2
-  var primary_eff_P = TP - (C_PO4_inf - C_PO4_eff); //mg/L
+  var primary_eff_P = TP - (PO4 - PO4_eff); //mg/L
   //3
   var Fe_dose = Q*Fe_III_dose/1000; //kg/d
   //4
@@ -42,7 +40,7 @@ function chem_P_removal(Q,TSS,TSS_removal_wo_Fe,TSS_removal_w_Fe,TP,C_PO4_inf,C_
   //5
   var Additional_sludge = 0.15*TSS*Q/1000; //kg/d   (? 0.15)
   var Fe_dose_M = Fe_III_dose/1000/M_Fe; //M (mol/L)
-  var P_removed = (C_PO4_inf - C_PO4_eff)/1000/M_P; //M(mol/L)
+  var P_removed = (PO4 - PO4_eff)/1000/M_P; //M(mol/L)
   var FeH2PO4OH_sludge = P_removed*251*1000; //mg/L (251 is FeH2PO4OH molecular weight)
   var Excess_Fe_added = Fe_dose_M - 1.6*P_removed; //M (mol/L) (? 1.6)
   var FeOH3_sludge = Excess_Fe_added*(106.8)*1000; //mg/L (106.8 is FeCl3 molecular weight)
@@ -87,15 +85,13 @@ function chem_P_removal(Q,TSS,TSS_removal_wo_Fe,TSS_removal_w_Fe,TP,C_PO4_inf,C_
   var debug=false;
   if(debug==false)return;
   var Q                  = 3800
-  var TSS                = 220 
-  var TSS_removal_wo_Fe  = 60  
-  var TSS_removal_w_Fe   = 75  
-  var TP                 = 7   
-  var C_PO4_inf          = 5   
-  var C_PO4_eff          = 0.1 
-  var FeCl3_solution     = 37  
+  var TSS                = 220
+  var TP                 = 7
+  var PO4                = 5
+  var PO4_eff            = 0.1
+  var FeCl3_solution     = 37
   var FeCl3_unit_weight  = 1.35
-  var days               = 15  
-  var result = chem_P_removal(Q,TSS,TSS_removal_wo_Fe,TSS_removal_w_Fe,TP,C_PO4_inf,C_PO4_eff,FeCl3_solution,FeCl3_unit_weight,days);
+  var days               = 15
+  var result = chem_P_removal(Q,TSS,TP,PO4,PO4_eff,FeCl3_solution,FeCl3_unit_weight,days);
   console.log(result);
 })();

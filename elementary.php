@@ -138,19 +138,23 @@
           is_ChP_active : getInput("ChP",true).value,
           is_Met_active : getInput("Met",true).value,
 
-          //ww characteristics
-          Q          : getInput('Q').value, //22700
-          T          : getInput('T').value, //12
-          COD        : getInput('COD').value, //300
-          bCOD       : getInput('bCOD').value, //224
-          sCOD       : getInput('sCOD').value, //132
-          BOD        : getInput('BOD').value, //140
-          sBOD       : getInput('sBOD').value, //70
-          TSS        : getInput('TSS').value, //70
-          VSS        : getInput('VSS').value, //60
-          TKN        : getInput('TKN').value, //35
+          //ww characteristics                       default values
+          Q          : getInput('Q').value,          //22700
+          T          : getInput('T').value,          //12
+          BOD        : getInput('BOD').value,        //140
+          sBOD       : getInput('sBOD').value,       //70
+          COD        : getInput('COD').value,        //300
+          sCOD       : getInput('sCOD').value,       //132
+          bCOD       : getInput('bCOD').value,       //224
+          rbCOD      : getInput('rbCOD').value,      //80
+          VFA        : getInput('VFA').value,        //15
+          VSS        : getInput('VSS').value,        //60
+          TSS        : getInput('TSS').value,        //70
+          TKN        : getInput('TKN').value,        //35
+          NH4        : getInput('NH4').value,        //25
+          TP         : getInput('TP').value,         //6
+          PO4        : getInput('PO4').value,        //5
           Alkalinity : getInput('Alkalinity').value, //140
-          TP         : getInput('TP').value, //6
 
           //influent metals
           Ag : getInput('Ag').value,
@@ -210,17 +214,11 @@
           SOR                  : getInput('SOR').value, //24
           X_R                  : getInput('X_R').value, //8000
           clarifiers           : getInput('clarifiers').value, //3
-          TSS_removal_wo_Fe    : getInput('TSS_removal_wo_Fe').value, //60
-          TSS_removal_w_Fe     : getInput('TSS_removal_w_Fe').value, //75
-          C_PO4_eff            : getInput('C_PO4_eff').value, //0.1
+          PO4_eff              : getInput('PO4_eff').value, //0.1
           FeCl3_solution       : getInput('FeCl3_solution').value, //37
           FeCl3_unit_weight    : getInput('FeCl3_unit_weight').value, //1.35
           days                 : getInput('days').value, //15
 
-          //these three inputs had an equation but they are now inputs again
-          rbCOD                : getInput('rbCOD').value, //80 g/m3
-          VFA                  : getInput('VFA').value, //15 g/m3
-          //var C_PO4_inf      : getInput('C_PO4_inf').value, //5 g/m3
         };
         var Result=compute_elementary_flows(Input_set);
 
@@ -274,7 +272,13 @@
           Variables.forEach((i,ii)=>{
             var newRow=table.insertRow(-1);
 
+            //draw a border if new tech
             if(ii>0 && (Variables[ii-1].tech != i.tech)){
+              newRow.style.borderTop="1px solid #ccc";
+            }
+
+            //draw a border (for fractionation)
+            if(['BOD','COD','TSS','TKN','TP'].indexOf(i.id)+1){
               newRow.style.borderTop="1px solid #ccc";
             }
 
@@ -426,22 +430,28 @@
 <?php include'navbar.php'?>
 
 <div id=root>
-<h1>Elementary Flows (single plant model)</h1>
 
-<!--hints-->
-<p style=font-size:smaller>
-  Note: mouse over inputs and variables to see a description.
-  <br>
-  Note: modify inputs using the <kbd>&uarr;</kbd> and <kbd>&darr;</kbd> keys.
-</p>
-
-<!--diagram-->
-<p style="font-size:smaller;text-align:center">
-  <a href="img/plant-diagram.jpg" target=_blank>See plant diagram image (provisional)</a>
-  <issue class=under_dev></issue>
-  <issue class=help_wanted></issue>
-</p>
-<hr>
+<!--title div-->
+<div class=flex style="justify-content:space-between">
+  <!--title and subtitle-->
+  <div>
+    <h1>Elementary Flows (single plant model)</h1>
+    <!--hints-->
+    <p style=font-size:smaller>
+      Note: mouse over inputs and variables to see a description.
+      <br>
+      Note: modify inputs using the <kbd>&uarr;</kbd> and <kbd>&darr;</kbd> keys.
+    </p>
+  </div>
+  <!--diagram-->
+  <div style="font-size:smaller;padding-top:5px">
+    Handy info for development
+    <ul>
+      <li><a href="img/plant-diagram.jpg"      target=_blank>See plant diagram image</a>
+      <li><a href="fractionation_diagrams.php" target=_blank>See fractionation diagrams</a>
+    </ul>
+  </div>
+</div><hr>
 
 <!--INPUTS AND OUTPUTS VIEW SCAFFOLD-->
 <div class=flex>
@@ -568,18 +578,6 @@
           })()">Set all inputs to zero</button>
       </p>
 
-      <!--open estimations module button-->
-      <p style=margin-top:0>
-        <button
-          style="width:100%"
-          onclick="window.open('estimations.php')">
-            Open estimations module
-            <br><issue class=under_dev></issue>
-            <br><issue class=help_wanted></issue>
-        </button>
-      </p>
-
-
       <!--inputs table-->
       <table id=inputs border=1>
         <tr><th>Input<th>Value<th>Unit
@@ -593,6 +591,19 @@
 
       <!--go to top link-->
       <div style=font-size:smaller><a href=#>&uarr; top</a></div>
+
+      <!--open estimations module button-->
+      <p style=margin-top:0>
+        <button
+          style="width:100%"
+          onclick="window.open('estimations.php')">
+            Open estimations module
+            <br>
+            <issue class=under_dev></issue>
+            <issue class=help_wanted></issue>
+        </button>
+      </p>
+
     </div>
   </div><hr>
 
@@ -711,11 +722,16 @@
       </script>
 
       <!--SLUDGE PRODUCTION-->
-      <p>3.3. 
+      <p>3.3.
         <button onclick="toggleView(this,'sludge_production')">&darr;</button>
         Sludge production
 
         <ul id=sludge_production>
+          <li>Primary settler sludge: <span id=Pri_sludge>0</span>
+            <ul>
+              <li><issue class=under_dev></issue>
+              <li><issue class=help_wanted></issue>
+            </ul>
           <li>P_X_TSS: <span id=P_X_TSS>0</span>
           <li>P_X_VSS: <span id=P_X_VSS>0</span>
             <ul>
@@ -812,8 +828,10 @@
               </li>
               <li>Dewatering:                  <span id=dewatering_power>0</span>
               <li>Other:                       <span id=other_power>0</span>
-                <issue class=under_dev></issue>
-                <issue class=help_wanted></issue>
+                <ul>
+                  <li><issue class=under_dev></issue>
+                  <li><issue class=help_requested>L. Corominas</issue>
+                </ul>
               <li>Total energy
                 <ul>
                   <li>Expressed as power needed:   <span id=total_power>0</span>
@@ -1058,7 +1076,7 @@
     //but these inputs should not be hidden
     /*
     [
-      //'C_PO4_inf', //already calculated in elementary.js
+      //'PO4', //already calculated in elementary.js
       //'sBODe',     //used in nitrification.js
     ].forEach(id=>{
       document.querySelector('#inputs #'+id).parentNode.parentNode.style.display='none';

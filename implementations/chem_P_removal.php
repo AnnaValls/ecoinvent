@@ -205,11 +205,9 @@
 			<table>
 				<tr><td>Q                                                      <td><input type=number id=input_Q                 value=3800> m<sup>3</sup>/d
 				<tr><td>TSS                                                    <td><input type=number id=input_TSS               value=220 > mg/L
-				<tr><td>TSS<sub>rem w/o Fe</sub>                               <td><input type=number id=input_TSS_removal_wo_Fe value=60  > %
-				<tr><td>TSS<sub>rem w/ Fe</sub>                                <td><input type=number id=input_TSS_removal_w_Fe  value=75  > %
 				<tr><td>[P]<sub>influent</sub>                                 <td><input type=number id=input_TP                value=7   > mg/L
-				<tr><td>[PO<sub>4</sub>]<sub>influent</sub>                    <td><input type=number id=input_C_PO4_inf         value=5   > mg/L
-				<tr><td>[PO<sub>4</sub>]<sub>effluent</sub>                    <td><input type=number id=input_C_PO4_eff         value=0.1 > mg/L
+				<tr><td>[PO<sub>4</sub>]<sub>influent</sub>                    <td><input type=number id=input_PO4         value=5   > mg/L
+				<tr><td>[PO<sub>4</sub>]<sub>effluent</sub>                    <td><input type=number id=input_PO4_eff         value=0.1 > mg/L
 				<tr><td>FeCl<sub>3</sub> solution                              <td><input type=number id=input_FeCl3_solution    value=37  > %
 				<tr><td>FeCl<sub>3</sub> unit weight                           <td><input type=number id=input_FeCl3_unit_weight value=1.35> kg/L
 				<tr><td>Time for supply to be<br>stored at the treatment facility <td><input type=number id=input_days              value=15  > days
@@ -268,17 +266,15 @@
 		//inputs
 		var Q                 = getInput('input_Q');
 		var TSS               = getInput('input_TSS');
-		var TSS_removal_wo_Fe = getInput('input_TSS_removal_wo_Fe');
-		var TSS_removal_w_Fe  = getInput('input_TSS_removal_w_Fe');
 		var TP                = getInput('input_TP');
-		var C_PO4_inf         = getInput('input_C_PO4_inf');
-		var C_PO4_eff         = getInput('input_C_PO4_eff');
+		var PO4         = getInput('input_PO4');
+		var PO4_eff         = getInput('input_PO4_eff');
 		var FeCl3_solution    = getInput('input_FeCl3_solution');
 		var FeCl3_unit_weight = getInput('input_FeCl3_unit_weight');
 		var days              = getInput('input_days');
 
 		//solve
-		var r = chem_P_removal(Q,TSS,TSS_removal_wo_Fe,TSS_removal_w_Fe,TP,C_PO4_inf,C_PO4_eff,FeCl3_solution,FeCl3_unit_weight,days);
+		var r = chem_P_removal(Q,TSS,TP,PO4,PO4_eff,FeCl3_solution,FeCl3_unit_weight,days);
 
 		//show results
 		showResult('result_Fe_III_dose',                     r.Fe_III_dose.value);

@@ -5,7 +5,7 @@
  *
  */
 
-function fractionation(BOD,sBOD,COD,bCOD,sCOD,TSS,VSS,TKN,NH4_eff,TP){
+function fractionation(BOD,sBOD,COD,bCOD,sCOD,TSS,VSS,TKN,NH4,NH4_eff,TP,PO4){
   /*
     | Inputs         | example values |
     |----------------+----------------+
@@ -25,15 +25,19 @@ function fractionation(BOD,sBOD,COD,bCOD,sCOD,TSS,VSS,TKN,NH4_eff,TP){
   var bCOD_BOD_ratio = BOD==0 ? 0 : bCOD/BOD; //1.6 g bCOD/g BOD
   var COD_BOD_ratio  = BOD==0 ? 0 : COD/BOD;  //usually 1.9-2.0 g COD/g BOD
 
+  //pBOD
+  var pBOD = Math.max(0, BOD - sBOD); //70 g/m3
+
   //1. COD fractions
   var nbCOD   = Math.max(COD - bCOD, 0);                 // 76 g/m3
   var nbsCODe = Math.max(sCOD - bCOD_BOD_ratio*sBOD, 0); // 20 g/m3
   var nbpCOD  = Math.max(COD - bCOD - nbsCODe, 0);       // 56 g/m3
 
-  //1.2 George Ekama fractions
+  //1.2 George Ekama fractions (USO, UPO)
   var fSus = COD==0 ? 0 : 100*(nbsCODe/COD); // USO fraction (%)
   var fSup = COD==0 ? 0 : 100*(nbpCOD/COD);  // UPO fraction (%)
   /*
+    George mail:
     TODO raw nbpCOD/COD: between 8% and 25% à warning: out of range:
     if you get values outside of the range… it is likely that the COD/BOD ratio
     is wrong… normally COD/BOD we would expect for raw WW like 1.8 to 2.1; and for
@@ -44,18 +48,20 @@ function fractionation(BOD,sBOD,COD,bCOD,sCOD,TSS,VSS,TKN,NH4_eff,TP){
     settled à nbsCOD/totalCOD from 0 to 15%
   */
 
-  //other COD fractions (not in M&E book)
-  var pCOD    = Math.max(COD - sCOD, 0);
-  var bsCOD   = Math.max(COD - pCOD - nbsCODe, 0);
-  var bpCOD   = Math.max(COD - nbCOD - bsCOD, 0);
+  //more COD fractions (not in M&E book)
+  var pCOD  = Math.max(0, COD - sCOD);
+  var bsCOD = Math.max(0, COD - pCOD - nbsCODe);
+  var bpCOD = Math.max(0, COD - nbCOD - bsCOD);
   //end of COD fractions
 
   //TSS and VSS
-  var VSS_COD = VSS    ==0 ? 0 : pCOD/VSS;       //2.8 g_pCOD/g_VSS
-  var nbVSS   = VSS_COD==0 ? 0 : nbpCOD/VSS_COD; // 20 g/m3
-  var iTSS    = Math.max(TSS - VSS, 0);          // 10 g/m3
+  var VSS_COD = VSS     ==0 ? 0 : pCOD/VSS;       //2.8 g_pCOD/g_VSS
+  var nbVSS   = VSS_COD ==0 ? 0 : nbpCOD/VSS_COD; // 20 g/m3
+  var iTSS    = Math.max(0, TSS - VSS);           // 10 g/m3
 
   //2. TKN fractions
+  var ON      = Math.max(0,   TKN-NH4);
+  //TODO review these
   var nbpON   = Math.min(TKN, 0.064*nbVSS);           //g/m3
   var nbsON   = Math.min(TKN, 0.3);                   //g/m3
   var TKN_N2O = 0.001*TKN;                            //g/m3
@@ -75,9 +81,17 @@ function fractionation(BOD,sBOD,COD,bCOD,sCOD,TSS,VSS,TKN,NH4_eff,TP){
     fSup:           {value:fSup,           unit:"%",            descr:"UPO/COD_fraction"},
     VSS_COD:        {value:VSS_COD,        unit:"g_pCOD/g_VSS", descr:"pCOD/VSS ratio"},
 
-    //COD and BOD
-    COD:            {value:COD,            unit:"g/m3_as_O2",   descr:"Total_COD"},
+    //BOD
     BOD:            {value:BOD,            unit:"g/m3_as_O2",   descr:"Total_BOD"},
+    sBOD:           {value:sBOD,           unit:"g/m3_as_O2",   descr:"Soluble_BOD"},
+    pBOD:           {value:pBOD,           unit:"g/m3_as_O2",   descr:"Particulate_BOD"},
+
+    //COD fractions (s/p/b/nb)
+    COD:            {value:COD,            unit:"g/m3_as_O2",   descr:"Total_COD"},
+    bCOD:           {value:bCOD,           unit:"g/m3_as_O2",   descr:"Biodegradable_COD"},
+    nbCOD:          {value:nbCOD,          unit:"g/m3_as_O2",   descr:"Nonbiodegradable_COD"},
+    sCOD:           {value:sCOD,           unit:"g/m3_as_O2",   descr:"Soluble_COD"},
+    pCOD:           {value:pCOD,           unit:"g/m3_as_O2",   descr:"Particulate_COD"},
 
     //COD fractions (b/nb & s/p)
     bsCOD:          {value:bsCOD,          unit:"g/m3_as_O2",   descr:"Biodegradable_soluble_COD_(=rbCOD)"},
@@ -85,20 +99,15 @@ function fractionation(BOD,sBOD,COD,bCOD,sCOD,TSS,VSS,TKN,NH4_eff,TP){
     bpCOD:          {value:bpCOD,          unit:"g/m3_as_O2",   descr:"Biodegradable_particulate_COD"},
     nbpCOD:         {value:nbpCOD,         unit:"g/m3_as_O2",   descr:"Nonbiodegradable_particulate_COD"},
 
-    //COD fractions (s/p/b/nb)
-    sCOD:           {value:sCOD,           unit:"g/m3_as_O2",   descr:"Soluble_COD"},
-    pCOD:           {value:pCOD,           unit:"g/m3_as_O2",   descr:"Particulate_COD"},
-    bCOD:           {value:bCOD,           unit:"g/m3_as_O2",   descr:"Biodegradable_COD"},
-    nbCOD:          {value:nbCOD,          unit:"g/m3_as_O2",   descr:"Nonbiodegradable_COD"},
-
     //suspended solids
-    VSS:            {value:VSS,            unit:"g/m3",         descr:"VSS"},
     TSS:            {value:TSS,            unit:"g/m3",         descr:"TSS"},
+    VSS:            {value:VSS,            unit:"g/m3",         descr:"VSS"},
     nbVSS:          {value:nbVSS,          unit:"g/m3",         descr:"Nonbiodegradable_VSS"},
     iTSS:           {value:iTSS,           unit:"g/m3",         descr:"Inert TSS"},
 
     //Nitrogen
     TKN:            {value:TKN,            unit:"g/m3_as_N",    descr:"Total Kjedahl nitrogen"},
+    ON:             {value:ON,             unit:"g/m3_as_N",    descr:"Organic N"},
     nbpON:          {value:nbpON,          unit:"g/m3_as_N",    descr:"Nonbiodegradable particulate ON"},
     nbsON:          {value:nbsON,          unit:"g/m3_as_N",    descr:"Nonbiodegradable soluble ON"},
     TKN_N2O:        {value:TKN_N2O,        unit:"g/m3_as_N",    descr:"TKN N2O (0.1% of TKN)"},
@@ -124,9 +133,11 @@ function fractionation(BOD,sBOD,COD,bCOD,sCOD,TSS,VSS,TKN,NH4_eff,TP){
   var TSS     = 70;
   var VSS     = 60;
   var TKN     = 35;
+  var NH4     = 25;
   var NH4_eff = 0.5;
   var TP      = 6;
+  var PO4     = 5;
   console.log(
-    fractionation(BOD,sBOD,COD,bCOD,sCOD,TSS,VSS,TKN,NH4_eff,TP)
+    fractionation(BOD,sBOD,COD,bCOD,sCOD,TSS,VSS,TKN,NH4,NH4_eff,TP,PO4)
   );
 })();

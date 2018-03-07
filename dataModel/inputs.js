@@ -19,8 +19,18 @@ var Inputs = [
 {id:"COD",        value:300,   unit:"g/m3_as_O2",  descr:"Total chemical oxygen demand"},
 {id:"sCOD",       value:132,   unit:"g/m3_as_O2",  descr:"Soluble COD"},
 {id:"bCOD",       value:224,   unit:"g/m3_as_O2",  descr:"Biodegradable COD (a typical value is: bCOD=1.6·BOD)"},
+
+{id:"rbCOD",      value:80,    unit:"g/m3_as_O2",  descr:"Readily biodegradable COD (bsCOD=complex+VFA)"},
+{id:"VFA",        value:15,    unit:"g/m3_as_O2",  descr:"Volatile Fatty Acids (Acetate)"},
+
 {id:"VSS",        value:60,    unit:"g/m3",        descr:"Volatile suspended solids"},
 {id:"TSS",        value:70,    unit:"g/m3",        descr:"Total suspended solids"},
+
+{id:"TKN",        value:35,    unit:"g/m3_as_N",   descr:"Total Kjedahl nitrogen"},
+{id:"NH4",        value:25,    unit:"g/m3_as_N",   descr:"Ammonia influent"},
+
+{id:"TP",         value:6,  unit:"g/m3_as_P",  descr:"Total phosphorus"},
+{id:"PO4",        value:5,   unit:"g/m3_as_P",                   descr:"Influent PO4(3-)"},
 
 //influent pumping
 {id:"influent_H",  value:10,   unit:"m",  isParameter:true,  descr:"Influent pumping water lift height and friction head in m"},
@@ -36,24 +46,15 @@ var Inputs = [
 {id:"clarifiers", value:3,     unit:"clarifiers", isParameter:true, descr:"Number of clarifiers that will be used"},
 
 //nitrification
-{id:"TKN",        value:35,    unit:"g/m3_as_N",                       descr:"Total Kjedahl nitrogen"},
 {id:"Alkalinity", value:140,   unit:"g/m3_as_CaCO3",                   descr:"Influent alkalinity"},
 {id:"sBODe",      value:3,     unit:"g/m3_as_O2",    isParameter:true, descr:"Effluent design Soluble BOD"},
 {id:"NH4_eff",    value:0.50,  unit:"g/m3_as_N",     isParameter:true, descr:"Effluent design NH4"},
 
 //N removal
-{id:"rbCOD",   value:80, unit:"g/m3_as_O2",                  descr:"Readily biodegradable COD (bsCOD=complex+VFA)"},
 {id:"NO3_eff", value:6,  unit:"g/m3_as_N", isParameter:true, descr:"Effluent design NO3 concentration"},
 
-//bio P
-{id:"VFA", value:15, unit:"g/m3_as_O2", descr:"Volatile Fatty Acids (Acetate)"},
-{id:"TP",  value:6,  unit:"g/m3_as_P",  descr:"Total phosphorus"},
-
 //chem P
-{id:"C_PO4_inf",         value:5,   unit:"g/m3_as_P",                   descr:"Influent PO4(3-)"},
-{id:"C_PO4_eff",         value:0.1, unit:"g/m3_as_P", isParameter:true, descr:"Effluent design PO4(3-)"},
-{id:"TSS_removal_wo_Fe", value:60,  unit:"%",         isParameter:true, descr:"% TSS removal without iron addition"},
-{id:"TSS_removal_w_Fe",  value:75,  unit:"%",         isParameter:true, descr:"% TSS removal with iron addition"},
+{id:"PO4_eff",           value:0.1, unit:"g/m3_as_P", isParameter:true, descr:"Effluent design PO4(3-)"},
 
 //metals
 {id:"Ag", value:0.0000, unit:"g/m3", isMetal:true, descr:"Influent Silver"     },

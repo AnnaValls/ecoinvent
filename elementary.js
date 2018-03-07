@@ -19,16 +19,20 @@ function compute_elementary_flows(Input_set){
     //ww characteristics
     var Q          = is.Q;
     var T          = is.T;
-    var COD        = is.COD;
-    var bCOD       = is.bCOD;
-    var sCOD       = is.sCOD;
     var BOD        = is.BOD;
     var sBOD       = is.sBOD;
+    var COD        = is.COD;
+    var sCOD       = is.sCOD;
+    var bCOD       = is.bCOD;
+    var rbCOD      = is.rbCOD;
+    var VFA        = is.VFA;
     var TSS        = is.TSS;
     var VSS        = is.VSS;
     var TKN        = is.TKN;
-    var Alkalinity = is.Alkalinity;
+    var NH4        = is.NH4;
     var TP         = is.TP;
+    var PO4        = is.PO4;
+    var Alkalinity = is.Alkalinity;
 
     //influent metals
       var Ag = is.Ag;
@@ -88,22 +92,17 @@ function compute_elementary_flows(Input_set){
     var SOR                  = is.SOR;
     var X_R                  = is.X_R;
     var clarifiers           = is.clarifiers;
-    var TSS_removal_wo_Fe    = is.TSS_removal_wo_Fe;
-    var TSS_removal_w_Fe     = is.TSS_removal_w_Fe;
-    var C_PO4_eff            = is.C_PO4_eff;
+    var PO4_eff              = is.PO4_eff;
     var FeCl3_solution       = is.FeCl3_solution;
     var FeCl3_unit_weight    = is.FeCl3_unit_weight;
     var days                 = is.days;
     //these three inputs had an equation but they are now inputs again
-    var rbCOD = is.rbCOD;
-    var VFA   = is.VFA;
-    var C_PO4_inf = is.C_PO4_inf; //this value is later changed
   //end-process-inputs
 
   //make that effluent designed cannot be higher than influent observed concentrations
   NH4_eff   = Math.min(NH4_eff,  TKN);
   NO3_eff   = Math.min(NO3_eff,  TKN);
-  C_PO4_eff = Math.min(C_PO4_eff,  TP);
+  PO4_eff = Math.min(PO4_eff,  TP);
 
   //reset Variables object
   Variables=[];
@@ -119,7 +118,7 @@ function compute_elementary_flows(Input_set){
   /*0. SOLVE FRACTIONATION AND PRIMARY SETTLER */
 
   //first fractionation
-  Result.Fra=fractionation(BOD,sBOD,COD,bCOD,sCOD,TSS,VSS,TKN,NH4_eff,TP);
+  Result.Fra=fractionation(BOD,sBOD,COD,bCOD,sCOD,TSS,VSS,TKN,NH4,NH4_eff,TP,PO4)
 
   //apply primary settler + fractionation again
   if(is_Pri_active){
@@ -154,7 +153,7 @@ function compute_elementary_flows(Input_set){
     TSS = VSS + iTSS;
 
     //RECALCULATE FRACTIONATION
-    Result.Fra=fractionation(BOD,sBOD,COD,bCOD,sCOD,TSS,VSS,TKN,NH4_eff,TP);
+    Result.Fra=fractionation(BOD,sBOD,COD,bCOD,sCOD,TSS,VSS,TKN,NH4,NH4_eff,TP,PO4)
 
   }else{
     //call it just to see "0 g/m3 removed"
@@ -219,7 +218,7 @@ function compute_elementary_flows(Input_set){
   //lcorominas - equations block 2
   var aPchem = Math.max( 0, (aP - 0.015*P_X_bio*1000/Q)) ||0; //g/m3 == PO4_in
   aPchem = Math.min(TP, aPchem); //g/m3 == PO4_in
-  var C_PO4_inf = aPchem; //g/m3 (warning this is an input!) //TBD
+  var PO4 = aPchem; //g/m3 (warning this is an input!) //TBD
 
   /*3. SOLVE SST*/
   Result.SST=sst_sizing(Q,SOR,X_R,clarifiers,MLSS_X_TSS);
@@ -248,7 +247,7 @@ function compute_elementary_flows(Input_set){
 
   /*5. SOLVE CHEM P*/
   if(is_ChP_active){
-    Result.ChP=chem_P_removal(Q,TSS,TSS_removal_wo_Fe,TSS_removal_w_Fe,TP,C_PO4_inf,C_PO4_eff,FeCl3_solution,FeCl3_unit_weight,days);
+    Result.ChP=chem_P_removal(Q,TSS,TP,PO4,PO4_eff,FeCl3_solution,FeCl3_unit_weight,days);
     addResults('ChP',Result.ChP);
   }
   //end technologies from metcalf and eddy
@@ -666,14 +665,14 @@ function compute_elementary_flows(Input_set){
       }else if(is_BiP_active  && is_ChP_active==false){
         return Q*(Result.BiP.Effluent_P.value - nbpP) + Q*VSSe*0.015;
       }else if(is_BiP_active==false && is_ChP_active){
-        return (Q*C_PO4_eff + Q*VSSe*0.015 + Q*VSSe*(C_PO4_eff-C_PO4_inf)/(P_X_VSS*1000)) ||0;
+        return (Q*PO4_eff + Q*VSSe*0.015 + Q*VSSe*(PO4_eff-PO4)/(P_X_VSS*1000)) ||0;
       }else{
         return 0; //chem+bio p removal not seen in practice (G. Ekama)
       }
     })();
     Outputs.TP.effluent.air = 0;
     Outputs.TP.effluent.sludge = (function(){
-      var B = Qwas*C_PO4_eff;
+      var B = Qwas*PO4_eff;
       var C = Q*nbpP;
       var D = Q*VSSe*0.015;
       if(is_BiP_active==false && is_ChP_active==false){
@@ -681,7 +680,7 @@ function compute_elementary_flows(Input_set){
       }else if(is_BiP_active  && is_ChP_active==false){
         return Q*Result.BiP.P_removal.value + B + C - D;
       }else if(is_BiP_active==false && is_ChP_active){
-        return (0.015*P_X_bio*1000) + Q*(aPchem - C_PO4_eff) + B + C - D
+        return (0.015*P_X_bio*1000) + Q*(aPchem - PO4_eff) + B + C - D
       }else{
         return 0; //chem+bio p removal not seen in practice (G. Ekama)
       }

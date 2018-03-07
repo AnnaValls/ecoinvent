@@ -10,7 +10,7 @@
   "Soluble P removal by Al and Fe addition. (Adapted from Szabo et al. 2008)"
   note: implemented only for Fe(III) addition
 */
-function get_Fe_P_mole_ratio(C_PO4_eff){
+function get_Fe_P_mole_ratio(PO4_eff){
   /* Input:  Residual soluble P concentration (C_P_residual), [mg/L]
    *  -> range: 0.01, 0.1, 1, 10 (log scale)
    * Output: Fe to initial soluble P ratio, [mole/mole]
@@ -20,11 +20,11 @@ function get_Fe_P_mole_ratio(C_PO4_eff){
   console.log("--------");
 
   //rename input to "inp"
-  var inp = C_PO4_eff || 0;
+  var inp = PO4_eff || 0;
 
   //min and max values are: 0.01 and 10
   inp=Math.min(10,Math.max(0.01,inp));
-  console.log("C_PO4_eff: "+inp);
+  console.log("PO4_eff: "+inp);
 
   var Figure=[
     {inp:0.01,out:8.00},
