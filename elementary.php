@@ -448,6 +448,7 @@
     Handy info for development
     <ul>
       <li><a href="img/plant-diagram.jpg"      target=_blank>See plant diagram image</a>
+      <li><a href="terms.php"                  target=_blank>See summary of terms</a>
       <li><a href="fractionation_diagrams.php" target=_blank>See fractionation diagrams</a>
     </ul>
   </div>
@@ -681,7 +682,10 @@
 
     <!--table effluent phases-->
     <div>
-      <p>3.1. Effluent</p>
+      <p>3.1.
+        <button onclick="toggleView(this,'outputs')">&darr;</button>
+        Influent &mdash; Effluent
+      </p>
       <table id=outputs border=1 style=font-size:smaller>
         <tr>
           <th rowspan=2>Compound
@@ -695,7 +699,9 @@
 
     <!--table mass balances-->
     <div>
-      <p>3.2. Mass balances <small>(<a href="see.php?path=.&file=mass_balances.js" target=_blank>equations</a>)</small></p>
+      <p>3.2.
+        <button onclick="toggleView(this,'mass_balances')">&darr;</button>
+        Mass balances <small>(<a href="see.php?path=.&file=mass_balances.js" target=_blank>equations</a>)</small></p>
       <table id=mass_balances border=1 style=font-size:smaller>
         <tr>
           <th rowspan=2>Element <th rowspan=2>Influent<br><small>(<span class=currentUnit>kg/d</span>)</small>
@@ -715,7 +721,7 @@
       <script>
         //frontend buttons for folding/unfolding sections of div#summary
         function toggleView(btn,id){
-          var el=document.querySelector('#summary').querySelector('#'+id);
+          var el=document.querySelector('#'+id);
           el.style.display = el.style.display=='none' ? '':'none';
           btn.innerHTML= btn.innerHTML=='↓' ? '&rarr;':'&darr;'
         }
@@ -723,7 +729,7 @@
 
       <!--SLUDGE PRODUCTION-->
       <p>3.3.
-        <button onclick="toggleView(this,'sludge_production')">&darr;</button>
+        <button onclick="toggleView(this,'summary #sludge_production')">&darr;</button>
         Sludge production
 
         <ul id=sludge_production>
