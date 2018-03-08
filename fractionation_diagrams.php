@@ -20,7 +20,7 @@
 </head><body>
 <?php include'navbar.php'?>
 <div id=root>
-<h1>Fractionation diagrams</h1>
+<h1>Fractionation diagrams</h1><hr>
 
 <!--COD-->
 <div class=flex>

@@ -386,6 +386,15 @@
     }
   </script>
 
+  <script>
+    //frontend buttons for folding/unfolding sections of div#summary
+    function toggleView(btn,id){
+      var el=document.querySelector('#'+id);
+      el.style.display = el.style.display=='none' ? '':'none';
+      btn.innerHTML= btn.innerHTML=='↓' ? '&rarr;':'&darr;'
+    }
+  </script>
+
   <!--CSS-->
   <style>
     #root hr{
@@ -425,6 +434,9 @@
       width:100%;
       border-collapse:collapse;
     }
+    #root button.toggleView {
+      width:27px;
+    }
   </style>
 </head><body onload="init()">
 <?php include'navbar.php'?>
@@ -444,7 +456,7 @@
     </p>
   </div>
   <!--diagram-->
-  <div style="font-size:smaller;padding-top:5px">
+  <div style="font-size:smaller;padding-top:5px;margin-right:5px">
     Handy info for development
     <ul>
       <li><a href="img/plant-diagram.jpg"      target=_blank>See plant diagram image</a>
@@ -460,123 +472,153 @@
   <div>
     <p><b><u>1. User Inputs</u></b></p>
 
-    <!--load influent file component-->
-    <div style=font-size:smaller>
-      Load an influent file:
-      <div>
-        <script>
-          function loadFile(evt) {
-              var file=evt.target.files[0];
-              var reader=new FileReader();
-              reader.onload=function() {
-                var saved_file;
-                try{
-                  saved_file=JSON.parse(reader.result);
+    <!--File/Edit-->
+    <div style="background:#eee">
+
+      <!--File-->
+      <button class=toggleView onclick="toggleView(this,'load_and_save')">&rarr;</button>
+      <small>File</small>
+      <ul id=load_and_save style="display:none;margin-top:0">
+          <!--load-->
+          <li>
+            <script>
+              function loadFile(evt){
+                  var file=evt.target.files[0];
+                  var reader=new FileReader();
+                  reader.onload=function() {
+                    var saved_file;
+                    try{
+                      saved_file=JSON.parse(reader.result);
+                      (function(){
+                        //technologies
+                        Object.keys(saved_file.techs).forEach(key=>{
+                          var newValue=saved_file.techs[key].value;
+                          document.querySelector('#inputs_tech input[tech='+key+']').checked=newValue;
+                          getInput(key,true).value=newValue;
+                        });
+                        //inputs
+                        Object.keys(saved_file.inputs).forEach(key=>{
+                          var newValue=saved_file.inputs[key].value;
+                          document.querySelector('#inputs #'+key).value=newValue;
+                          getInput(key,false).value=newValue;
+                        });
+                      })();
+                      init();
+                    }catch(e){alert(e)}
+                  }
+                  try{
+                    reader.readAsText(file);
+                  }catch(e){alert(e)}
+
+                  //show "loaded successfully"
                   (function(){
-                    //technologies
-                    Object.keys(saved_file.techs).forEach(key=>{
-                      var newValue=saved_file.techs[key].value;
-                      document.querySelector('#inputs_tech input[tech='+key+']').checked=newValue;
-                      getInput(key,true).value=newValue;
-                    });
-                    //inputs
-                    Object.keys(saved_file.inputs).forEach(key=>{
-                      var newValue=saved_file.inputs[key].value;
-                      document.querySelector('#inputs #'+key).value=newValue;
-                      getInput(key,false).value=newValue;
-                    });
+                    var div=document.createElement('p');
+                    div.style.background="lightgreen";
+                    div.style.fontFamily="monospace";
+                    div.style.padding="3px 5px";
+                    div.innerHTML="File loaded correctly <button onclick=this.parentNode.parentNode.removeChild(this.parentNode)>ok</button>";
+                    document.querySelector("#loadFile").parentNode.appendChild(div);
+                    div.querySelector('button').focus();
+                    setTimeout(function(){if(div.parentNode){div.parentNode.removeChild(div)}},5000);
                   })();
-                  init();
-                }catch(e){alert(e)}
               }
-              try{
-                reader.readAsText(file);
-              }catch(e){alert(e)}
+            </script>
+            <button onclick="document.getElementById('loadFile').click()">Load file</button>
+            <input id=loadFile type=file accept=".json" onchange="loadFile(event)" style="display:none">
+          </li>
+          <!--save as json file component-->
+          <li>
+            <button id=saveToFile onclick="saveToFile()" style="">Save file</button>
+            <script>
+              /*Generate a json/text file*/
+              function saveToFile() {
+                var saved_file = {
+                  techs:{
+                  },
+                  inputs:{
+                  },
+                }
+                Technologies_selected.filter(t=>{return !t.notActivable}).forEach(t=>{
+                  saved_file.techs[t.id]={
+                    descr:t.descr,
+                    value:t.value,
+                  };
+                });
+                Inputs.forEach(i=>{
+                  saved_file.inputs[i.id]={
+                    descr:i.descr,
+                    value:i.value,
+                    unit:i.unit,
+                  };
+                });
+                var datestring=(new Date()).toISOString().replace(/-/g,'').replace(/:/g,'').substring(2,13);
+                //console.log(datestring);
+                var link=document.createElement('a');
+                link.href="data:text/json;charset=utf-8,"+JSON.stringify(saved_file,null,'  ');
+                link.download="inf"+datestring+"UTC.json";
+                link.click();
+              }
+            </script>
+          </li>
+      </ul>
 
-              //show "loaded successfully"
-              (function(){
-                var div=document.createElement('p');
-                div.style.background="lightgreen";
-                div.style.fontFamily="monospace";
-                div.style.padding="3px 5px";
-                div.innerHTML="File loaded correctly <button onclick=this.parentNode.parentNode.removeChild(this.parentNode)>ok</button>";
-                document.querySelector("#loadFile").parentNode.appendChild(div);
-                div.querySelector('button').focus();
-                setTimeout(function(){if(div.parentNode){div.parentNode.removeChild(div)}},5000);
-              })();
-          }
-        </script>
-        <input id=loadFile type=file accept=".json" onchange="loadFile(event)"
-          style="
-            width:100%;
-          "
-        >
-      </div>
+      <!--Edit-->
+      <button class=toggleView onclick="toggleView(this,'edit')">&rarr;</button>
+      <small>Edit</small>
+      <ul id=edit style=display:none;margin-top:0>
+        <!--set all inputs to zero-->
+        <li>
+          <button style=""
+            onclick="(function(){
+              var inputs=document.querySelectorAll('#inputs input');
+              for(var i=0;i<inputs.length;i++){
+                inputs[i].value=0;
+                getInput(inputs[i].id).value=0;
+              }
+              init();
+            })()">Set all inputs to zero</button>
+        </li>
 
-      <!--save as json file component-->
-      <p>
-        Save an influent file:
-        <button id=saveToFile onclick="saveToFile()"
-          style="
-            width:100%;
-          "
-        >Save influent as...</button>
-        <script>
-          /*Generate a json/text file*/
-          function saveToFile() {
-            var saved_file = {
-              techs:{
-              },
-              inputs:{
-              },
-            }
-            Technologies_selected.filter(t=>{return !t.notActivable}).forEach(t=>{
-              saved_file.techs[t.id]={
-                descr:t.descr,
-                value:t.value,
-              };
-            });
-            Inputs.forEach(i=>{
-              saved_file.inputs[i.id]={
-                descr:i.descr,
-                value:i.value,
-                unit:i.unit,
-              };
-            });
-            var datestring=(new Date()).toISOString().replace(/-/g,'').replace(/:/g,'').substring(2,13);
-            //console.log(datestring);
-            var link=document.createElement('a');
-            link.href="data:text/json;charset=utf-8,"+JSON.stringify(saved_file,null,'  ');
-            link.download="inf"+datestring+"UTC.json";
-            link.click();
-          }
-        </script>
-      </p>
+        <!--open estimations module button-->
+        <li style=margin-top:0>
+          <button
+            onclick="window.open('estimations.php')">
+              Open estimations module
+          </button>
+          <ul>
+            <li><issue class=under_dev></issue>
+            <li><issue class=help_requested>G. Ekama &amp; Y. Comeau</issue>
+          </ul>
+        </li>
+      </ul>
     </div>
 
     <!--enter technologies-->
     <div>
-      <p>1.1. Activate technologies of your plant</p>
-      <table id=inputs_tech border=1></table>
+      <p>
+        1.1.
+        Activate technologies of your plant
+      </p>
+      <table id=inputs_tech border=1>
+        <!--fractionation as a not activable technology-->
+        <!--
+        <tr title="Fractionation is not deactivable">
+          <td>Fractionation
+          <td><center><input type=checkbox disabled=true checked></center>
+          <td><small><center><a href="see.php?path=techs&file=fractionation.js" target=_blank>equations</a></center>
+        </tr>
+        -->
+      </table>
+      <style>
+      </style>
     </div>
 
     <!--enter ww characteristics-->
     <div>
-      <p>1.2. Enter influent inputs
+      <p>
+        1.2.
+        Enter influent inputs
         <small>(required: <span id=input_amount>0</span>)</small>
-      </p>
-
-      <!--set all inputs to zero-->
-      <p style=margin-top:0>
-        <button style="width:100%"
-          onclick="(function(){
-            var inputs=document.querySelectorAll('#inputs input');
-            for(var i=0;i<inputs.length;i++){
-              inputs[i].value=0;
-              getInput(inputs[i].id).value=0;
-            }
-            init();
-          })()">Set all inputs to zero</button>
       </p>
 
       <!--inputs table-->
@@ -593,18 +635,6 @@
       <!--go to top link-->
       <div style=font-size:smaller><a href=#>&uarr; top</a></div>
 
-      <!--open estimations module button-->
-      <p style=margin-top:0>
-        <button
-          style="width:100%"
-          onclick="window.open('estimations.php')">
-            Open estimations module
-            <br>
-            <issue class=under_dev></issue>
-            <issue class=help_wanted></issue>
-        </button>
-      </p>
-
     </div>
   </div><hr>
 
@@ -612,6 +642,7 @@
   <div style=width:360px>
     <p><b>
       <u>2. Variables calculated: <span id=variable_amount>0</span></u>
+      <button class=toggleView onclick="toggleView(this,'variables')">&darr;</button>
     </b></p>
 
     <!--links for scrolling variables-->
@@ -635,7 +666,7 @@
         }
       </script>
       Scroll to &rarr;
-      <a          href=# onclick="scroll2tec('Pri');                    return false">Pri</a>
+      <a          href=# onclick="scroll2tec('Pri');                    return false" title="Primary settler">Pri</a>
       <a tech=Fra href=# onclick="scroll2tec(this.getAttribute('tech'));return false">Fra</a>
       <a tech=BOD href=# onclick="scroll2tec(this.getAttribute('tech'));return false">BOD</a>
       <a tech=Nit href=# onclick="scroll2tec(this.getAttribute('tech'));return false">Nit</a>
@@ -683,7 +714,7 @@
     <!--table effluent phases-->
     <div>
       <p>3.1.
-        <button onclick="toggleView(this,'outputs')">&darr;</button>
+        <button class=toggleView onclick="toggleView(this,'outputs')">&darr;</button>
         Influent &mdash; Effluent
       </p>
       <table id=outputs border=1 style=font-size:smaller>
@@ -700,7 +731,7 @@
     <!--table mass balances-->
     <div>
       <p>3.2.
-        <button onclick="toggleView(this,'mass_balances')">&darr;</button>
+        <button class=toggleView onclick="toggleView(this,'mass_balances')">&darr;</button>
         Mass balances <small>(<a href="see.php?path=.&file=mass_balances.js" target=_blank>equations</a>)</small></p>
       <table id=mass_balances border=1 style=font-size:smaller>
         <tr>
@@ -717,26 +748,16 @@
 
     <!--summary tables-->
     <div id=summary>
-
-      <script>
-        //frontend buttons for folding/unfolding sections of div#summary
-        function toggleView(btn,id){
-          var el=document.querySelector('#'+id);
-          el.style.display = el.style.display=='none' ? '':'none';
-          btn.innerHTML= btn.innerHTML=='↓' ? '&rarr;':'&darr;'
-        }
-      </script>
-
       <!--SLUDGE PRODUCTION-->
       <p>3.3.
-        <button onclick="toggleView(this,'summary #sludge_production')">&darr;</button>
+        <button class=toggleView onclick="toggleView(this,'summary #sludge_production')">&darr;</button>
         Sludge production
 
         <ul id=sludge_production>
           <li>Primary settler sludge: <span id=Pri_sludge>0</span>
             <ul>
               <li><issue class=under_dev></issue>
-              <li><issue class=help_wanted></issue>
+              <li><issue class=help_requested>G. Ekama &amp; Y. Comeau</issue>
             </ul>
           <li>P_X_TSS: <span id=P_X_TSS>0</span>
           <li>P_X_VSS: <span id=P_X_VSS>0</span>
@@ -752,8 +773,8 @@
       </p>
 
       <!--DESIGN SUMMARY-->
-      <p>3.4. 
-        <button onclick="toggleView(this,'design_summary')">&darr;</button>
+      <p>3.4.
+        <button class=toggleView onclick="toggleView(this,'design_summary')">&darr;</button>
         Design summary
         <ul id=design_summary>
           <li>Solids Retention Time (SRT):       <span id=SRT>0</span>
@@ -799,8 +820,8 @@
       </p>
 
       <!--TECH SPHERE-->
-      <p>3.5. 
-        <button onclick="toggleView(this,'technosphere')">&darr;</button>
+      <p>3.5.
+        <button class=toggleView onclick="toggleView(this,'technosphere')">&darr;</button>
         Technosphere
         <ul id=technosphere>
           <li>Chemicals
@@ -879,7 +900,7 @@
             newRow.insertCell(-1).innerHTML="<small><center>"+
               "<a href='see.php?path=techs&file="+Technologies[tec.id].File+"' title='see javascript implementation' target=_blank>"+
               "equations"+
-              "</a></cente></small>"+
+              "</a></center></small>"+
               "";
           }
       });

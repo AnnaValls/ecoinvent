@@ -4,19 +4,32 @@
 <!doctype html><html><head>
   <?php include'imports.php'?>
   <title>Estimations</title>
-</head><body onload>
+</head><body>
 <?php include'navbar.php'?>
+
 <div id=root>
 <h1>Estimations</h1>
-<issue class=under_dev></issue>
-<hr>
-
 <p>
   Check the boxes of the inputs you have and click here
   <button>OK</button>
 </p>
+<div>
+  <issue class=under_dev></issue>
+</div>
+<hr>
 
-<table id=inputs border=1></table>
+
+<!--inputs table-->
+<div>
+  <table id=inputs border=1></table>
+  <style>
+    #root #inputs {
+      font-size:small;
+      font-family:monospace;
+    }
+  </style>
+</div>
+
 <script>
   //populate inputs
   (function(){
