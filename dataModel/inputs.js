@@ -10,27 +10,24 @@
  */
 var Inputs = [
 
-{id:"Q",          value:22700, unit:"m3/d",  descr:"Flowrate"},
-{id:"T",          value:12,    unit:"ºC",    descr:"Temperature"},
+//Q and T
+{id:"Q",     value:22700, unit:"m3/d",  descr:"Flowrate"},
+{id:"T",     value:12,    unit:"ºC",    descr:"Temperature"},
 
 //fractionation
-{id:"BOD",        value:140,   unit:"g/m3_as_O2",  descr:"Total 5d biochemical oxygen demand"},
-{id:"sBOD",       value:70,    unit:"g/m3_as_O2",  descr:"Soluble BOD"},
-{id:"COD",        value:300,   unit:"g/m3_as_O2",  descr:"Total chemical oxygen demand"},
-{id:"sCOD",       value:132,   unit:"g/m3_as_O2",  descr:"Soluble COD"},
-{id:"bCOD",       value:224,   unit:"g/m3_as_O2",  descr:"Biodegradable COD (a typical value is: bCOD=1.6·BOD)"},
-
-{id:"rbCOD",      value:80,    unit:"g/m3_as_O2",  descr:"Readily biodegradable COD (bsCOD=complex+VFA)"},
-{id:"VFA",        value:15,    unit:"g/m3_as_O2",  descr:"Volatile Fatty Acids (Acetate)"},
-
-{id:"VSS",        value:60,    unit:"g/m3",        descr:"Volatile suspended solids"},
-{id:"TSS",        value:70,    unit:"g/m3",        descr:"Total suspended solids"},
-
-{id:"TKN",        value:35,    unit:"g/m3_as_N",   descr:"Total Kjedahl nitrogen"},
-{id:"NH4",        value:25,    unit:"g/m3_as_N",   descr:"Ammonia influent"},
-
-{id:"TP",         value:6,  unit:"g/m3_as_P",  descr:"Total phosphorus"},
-{id:"PO4",        value:5,   unit:"g/m3_as_P",                   descr:"Influent PO4(3-)"},
+{id:"BOD",   value:140, unit:"g/m3_as_O2", descr:"Total 5d biochemical oxygen demand"},
+{id:"sBOD",  value:70,  unit:"g/m3_as_O2", descr:"Soluble BOD"},
+{id:"COD",   value:300, unit:"g/m3_as_O2", descr:"Total chemical oxygen demand"},
+{id:"sCOD",  value:132, unit:"g/m3_as_O2", descr:"Soluble COD"},
+{id:"bCOD",  value:224, unit:"g/m3_as_O2", descr:"Biodegradable COD (a typical value is: bCOD=1.6·BOD)"},
+{id:"rbCOD", value:80,  unit:"g/m3_as_O2", descr:"Readily biodegradable COD (bsCOD=complex+VFA)"},
+{id:"VFA",   value:15,  unit:"g/m3_as_O2", descr:"Volatile Fatty Acids (Acetate)"},
+{id:"VSS",   value:60,  unit:"g/m3",       descr:"Volatile suspended solids"},
+{id:"TSS",   value:70,  unit:"g/m3",       descr:"Total suspended solids"},
+{id:"TKN",   value:35,  unit:"g/m3_as_N",  descr:"Total Kjedahl nitrogen"},
+{id:"NH4",   value:25,  unit:"g/m3_as_N",  descr:"Ammonia influent"},
+{id:"TP",    value:6,   unit:"g/m3_as_P",  descr:"Total phosphorus"},
+{id:"PO4",   value:5,   unit:"g/m3_as_P",  descr:"Ortophosphate influent"},
 
 //influent pumping
 {id:"influent_H",  value:10,   unit:"m",  isParameter:true,  descr:"Influent pumping water lift height and friction head in m"},
