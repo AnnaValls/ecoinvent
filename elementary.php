@@ -623,7 +623,9 @@
 
       <!--inputs table-->
       <table id=inputs border=1>
-        <tr><th>Input<th>Value<th>Unit
+        <!--
+        <tr><th>Input<th>Value<th>Unit</th>
+        -->
         <style>
           #inputs input[type=number]{
             border:none;
@@ -642,7 +644,6 @@
   <div style=width:360px>
     <p><b>
       <u>2. Variables calculated: <span id=variable_amount>0</span></u>
-      <button class=toggleView onclick="toggleView(this,'variables')">&darr;</button>
     </b></p>
 
     <!--links for scrolling variables-->
@@ -916,9 +917,10 @@
         var newRow=table.insertRow(-1);
         newRow.style.display=display;
         var advanced_indicator = i.color ? "<div class=circle style='background:"+i.color+"' title='Advanced knowledge required to modify this input'></div>" : "";
+
         //insert cells
         newRow.title=i.descr;
-        newRow.insertCell(-1).outerHTML="<td class='flex help' style='justify-content:space-between'>"+i.id + advanced_indicator;
+        newRow.insertCell(-1).outerHTML="<td class=help><div class=flex style='justify-content:space-between'>"+i.id + advanced_indicator+"</div>";
         newRow.insertCell(-1).innerHTML="<input id='"+i.id+"' value='"+i.value+"' type=number step=any onchange=setInput('"+i.id+"',this.value) min=0>"
         newRow.insertCell(-1).outerHTML="<td class=unit>"+i.unit.prettifyUnit();
       }
