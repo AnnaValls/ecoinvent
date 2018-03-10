@@ -29,13 +29,12 @@ var Inputs = [
 {id:"TP",    value:6,   unit:"g/m3_as_P",  descr:"Total phosphorus"},
 {id:"PO4",   value:5,   unit:"g/m3_as_P",  descr:"Ortophosphate influent"},
 
-//influent pumping
-{id:"influent_H",  value:10,   unit:"m",  isParameter:true,  descr:"Influent pumping water lift height and friction head in m"},
-
 //primary settler
 {id:"removal_bp",  value:40,   unit:"%",  isParameter:true,  descr:"Primary settler  bpCOD removal rate (25 to 60% for municipal wastewater)"},
 {id:"removal_nbp", value:60,   unit:"%",  isParameter:true,  descr:"Primary settler nbpCOD removal rate (40 to 80% for municipal wastewater)"},
 {id:"removal_iss", value:70,   unit:"%",  isParameter:true,  descr:"Primary settler   iTSS removal rate (50 to 90% for municipal wastewater)"},
+{id:"removal_pON", value:66,   unit:"%",  isParameter:true,  descr:"Primary settler    pON removal rate (66% for municipal wastewater)"},
+{id:"removal_pOP", value:66,   unit:"%",  isParameter:true,  descr:"Primary settler    pOP removal rate (66% for municipal wastewater)"},
 
 //bod removal
 {id:"MLSS_X_TSS", value:3000,  unit:"g/m3",       isParameter:true, descr:"Mixed liquor suspended solids"},
@@ -107,6 +106,9 @@ var Inputs = [
 {id:"FeCl3_solution",       value:37,    unit:"%",          color:"red",    isParameter:true, descr:"Ferric chloride solution (%) (for chemical P removal)"},
 {id:"FeCl3_unit_weight",    value:1.35,  unit:"kg/L",       color:"red",    isParameter:true, descr:"Ferric chloride unit weight (for chemical P removal)"},
 {id:"days",                 value:15,    unit:"d",          color:"red",    isParameter:true, descr:"Time for the FeCl3 supply to be stored at the treatment facility (for chemical P removal)" },
+
+//influent pumping
+{id:"influent_H",  value:10,   unit:"m",  isParameter:true,  descr:"Influent pumping water lift height and friction head in m"},
 
 ];
 

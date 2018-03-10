@@ -26,13 +26,18 @@ function primary_settler(Q,bpCOD, nbpCOD, iTSS, removal_bp, removal_nbp, removal
     2/3rd of the raw WW Org P (TP minus OP) are removed by the PST.
 
   */
+  var pON_removed = 0;
+  var pOP_removed = 0;
 
   return {
     bpCOD_removed:     {value:bpCOD_removed,    unit:"g/m3_as_O2", descr:"Removed_bpCOD_by_primary_settler"},
     nbpCOD_removed:    {value:nbpCOD_removed,   unit:"g/m3_as_O2", descr:"Removed_nbpCOD_by_primary_settler"},
-    iTSS_removed:      {value:iTSS_removed,     unit:"g/m3",       descr:"Removed_iTSS_by_primary_settler"},
     pCOD_removed:      {value:pCOD_removed,     unit:"g/m3_as_O2", descr:"Removed_pCOD_by_primary_settler"},
     pCOD_removed_kg_d: {value:pCOD_removed_kgd, unit:"kg/d_as_O2", descr:"Removed_pCOD_by_primary_settler"},
+    iTSS_removed:      {value:iTSS_removed,     unit:"g/m3",       descr:"Removed_iTSS_by_primary_settler"},
+    //TBD pON and pOP
+    pON_removed:       {value:pON_removed,     unit:"g/m3",       descr:"Removed_pON_by_primary_settler"},
+    pOP_removed:       {value:pOP_removed,     unit:"g/m3",       descr:"Removed_pOP_by_primary_settler"},
   }
 }
 
