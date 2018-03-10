@@ -250,9 +250,9 @@ function compute_elementary_flows(Input_set){
     Result.ChP=chem_P_removal(Q,TSS,TP,PO4,PO4_eff,FeCl3_solution,FeCl3_unit_weight,days);
     addResults('ChP',Result.ChP);
   }
-  //end technologies from metcalf and eddy
+  //================================================END TECHNOLOGIES FROM METCALF AND EDDY
 
-  /*6. Metals (from G. Doka)*/
+  /*6. Metals (from G. Doka excel tool)*/
   if(is_Met_active){
     Result.Met=metals_doka(Ag,Al,As,B,Ba,Be,Br,Ca,Cd,Cl,Co,Cr,Cu,F,Fe,Hg,I,K,Mg,Mn,Mo,Na,Ni,Pb,Sb,Sc,Se,Si,Sn,Sr,Ti,Tl,V,W,Zn);
     addResults('Met',Result.Met);

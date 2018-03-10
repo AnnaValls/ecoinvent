@@ -246,7 +246,7 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
     Pb:                         {value:Pb,                         unit:"m",              descr:"Pressure_at_the_plant_site_based_on_elevation,_m"},
     C_inf_20:                   {value:C_inf_20,                   unit:"mg_O2/L",        descr:"Saturated_DO_value_at_sea_level_and_20ºC_for_diffused_aeartion"},
     OTRf:                       {value:OTRf,                       unit:"kg_O2/h",        descr:"O2_demand"},
-    SOTR:                       {value:SOTR,                       unit:"kg_O2/h",        descr:"Standard_Oxygen_Transfer_Rate"},
+    SOTR:                       {value:SOTR,                       unit:"kg_O2/h",        descr:"Standard_Oxygen_Transfer_Rate. The SOTR is the mass of oxygen transferred per unit time into a given volume of water and reported at standard conditions. The European literature also refers to this term as the oxygenation capacity (OC). Note that at standard conditions, the dissolved oxygen concentration is taken as zero thus providing the maximum driving force for transfer."},
     kg_O2_per_m3_air:           {value:kg_O2_per_m3_air,           unit:"kg_O2/m3",       descr:"kg_O2_per_m3_air"},
     air_flowrate:               {value:air_flowrate,               unit:"m3/min",         descr:"Air_flowrate"},
     Mass_of_alkalinity_needed:  {value:Mass_of_alkalinity_needed,  unit:"kg/d_as_CaCO3",  descr:"Mass_of_alkalinity_needed"},

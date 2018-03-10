@@ -455,7 +455,7 @@
       Note: modify inputs using the <kbd>&uarr;</kbd> and <kbd>&darr;</kbd> keys.
     </p>
   </div>
-  <!--diagram-->
+  <!--handy info-->
   <div style="font-size:smaller;padding-top:5px;margin-right:5px">
     Handy info for development
     <ul>
@@ -474,123 +474,126 @@
 
     <!--File/Edit-->
     <div style="background:#eee">
-
       <!--File-->
-      <button class=toggleView onclick="toggleView(this,'load_and_save')">&rarr;</button>
-      <small>File</small>
-      <ul id=load_and_save style="display:none;margin-top:0">
-          <!--load-->
-          <li>
-            <script>
-              function loadFile(evt){
-                  var file=evt.target.files[0];
-                  var reader=new FileReader();
-                  reader.onload=function() {
-                    var saved_file;
+      <div>
+        <button class=toggleView onclick="toggleView(this,'load_and_save')">&rarr;</button>
+        <small>File</small>
+        <ul id=load_and_save style="display:none;margin-top:0">
+            <!--load-->
+            <li>
+              <script>
+                function loadFile(evt){
+                    var file=evt.target.files[0];
+                    var reader=new FileReader();
+                    reader.onload=function() {
+                      var saved_file;
+                      try{
+                        saved_file=JSON.parse(reader.result);
+                        (function(){
+                          //technologies
+                          Object.keys(saved_file.techs).forEach(key=>{
+                            var newValue=saved_file.techs[key].value;
+                            document.querySelector('#inputs_tech input[tech='+key+']').checked=newValue;
+                            getInput(key,true).value=newValue;
+                          });
+                          //inputs
+                          Object.keys(saved_file.inputs).forEach(key=>{
+                            var newValue=saved_file.inputs[key].value;
+                            document.querySelector('#inputs #'+key).value=newValue;
+                            getInput(key,false).value=newValue;
+                          });
+                        })();
+                        init();
+                      }catch(e){alert(e)}
+                    }
                     try{
-                      saved_file=JSON.parse(reader.result);
-                      (function(){
-                        //technologies
-                        Object.keys(saved_file.techs).forEach(key=>{
-                          var newValue=saved_file.techs[key].value;
-                          document.querySelector('#inputs_tech input[tech='+key+']').checked=newValue;
-                          getInput(key,true).value=newValue;
-                        });
-                        //inputs
-                        Object.keys(saved_file.inputs).forEach(key=>{
-                          var newValue=saved_file.inputs[key].value;
-                          document.querySelector('#inputs #'+key).value=newValue;
-                          getInput(key,false).value=newValue;
-                        });
-                      })();
-                      init();
+                      reader.readAsText(file);
                     }catch(e){alert(e)}
-                  }
-                  try{
-                    reader.readAsText(file);
-                  }catch(e){alert(e)}
 
-                  //show "loaded successfully"
-                  (function(){
-                    var div=document.createElement('p');
-                    div.style.background="lightgreen";
-                    div.style.fontFamily="monospace";
-                    div.style.padding="3px 5px";
-                    div.innerHTML="File loaded correctly <button onclick=this.parentNode.parentNode.removeChild(this.parentNode)>ok</button>";
-                    document.querySelector("#loadFile").parentNode.appendChild(div);
-                    div.querySelector('button').focus();
-                    setTimeout(function(){if(div.parentNode){div.parentNode.removeChild(div)}},5000);
-                  })();
-              }
-            </script>
-            <button onclick="document.getElementById('loadFile').click()">Load file</button>
-            <input id=loadFile type=file accept=".json" onchange="loadFile(event)" style="display:none">
-          </li>
-          <!--save as json file component-->
-          <li>
-            <button id=saveToFile onclick="saveToFile()" style="">Save file</button>
-            <script>
-              /*Generate a json/text file*/
-              function saveToFile() {
-                var saved_file = {
-                  techs:{
-                  },
-                  inputs:{
-                  },
+                    //show "loaded successfully"
+                    (function(){
+                      var div=document.createElement('p');
+                      div.style.background="lightgreen";
+                      div.style.fontFamily="monospace";
+                      div.style.padding="3px 5px";
+                      div.innerHTML="File loaded correctly <button onclick=this.parentNode.parentNode.removeChild(this.parentNode)>ok</button>";
+                      document.querySelector("#loadFile").parentNode.appendChild(div);
+                      div.querySelector('button').focus();
+                      setTimeout(function(){if(div.parentNode){div.parentNode.removeChild(div)}},5000);
+                    })();
                 }
-                Technologies_selected.filter(t=>{return !t.notActivable}).forEach(t=>{
-                  saved_file.techs[t.id]={
-                    descr:t.descr,
-                    value:t.value,
-                  };
-                });
-                Inputs.forEach(i=>{
-                  saved_file.inputs[i.id]={
-                    descr:i.descr,
-                    value:i.value,
-                    unit:i.unit,
-                  };
-                });
-                var datestring=(new Date()).toISOString().replace(/-/g,'').replace(/:/g,'').substring(2,13);
-                //console.log(datestring);
-                var link=document.createElement('a');
-                link.href="data:text/json;charset=utf-8,"+JSON.stringify(saved_file,null,'  ');
-                link.download="inf"+datestring+"UTC.json";
-                link.click();
-              }
-            </script>
-          </li>
-      </ul>
+              </script>
+              <button onclick="document.getElementById('loadFile').click()">Load file</button>
+              <input id=loadFile type=file accept=".json" onchange="loadFile(event)" style="display:none">
+            </li>
+            <!--save as json file component-->
+            <li>
+              <button id=saveToFile onclick="saveToFile()" style="">Save file</button>
+              <script>
+                /*Generate a json/text file*/
+                function saveToFile() {
+                  var saved_file = {
+                    techs:{
+                    },
+                    inputs:{
+                    },
+                  }
+                  Technologies_selected.filter(t=>{return !t.notActivable}).forEach(t=>{
+                    saved_file.techs[t.id]={
+                      descr:t.descr,
+                      value:t.value,
+                    };
+                  });
+                  Inputs.forEach(i=>{
+                    saved_file.inputs[i.id]={
+                      descr:i.descr,
+                      value:i.value,
+                      unit:i.unit,
+                    };
+                  });
+                  var datestring=(new Date()).toISOString().replace(/-/g,'').replace(/:/g,'').substring(2,13);
+                  //console.log(datestring);
+                  var link=document.createElement('a');
+                  link.href="data:text/json;charset=utf-8,"+JSON.stringify(saved_file,null,'  ');
+                  link.download="inf"+datestring+"UTC.json";
+                  link.click();
+                }
+              </script>
+            </li>
+        </ul>
+      </div>
 
       <!--Edit-->
-      <button class=toggleView onclick="toggleView(this,'edit')">&rarr;</button>
-      <small>Edit</small>
-      <ul id=edit style=display:none;margin-top:0>
-        <!--set all inputs to zero-->
-        <li>
-          <button style=""
-            onclick="(function(){
-              var inputs=document.querySelectorAll('#inputs input');
-              for(var i=0;i<inputs.length;i++){
-                inputs[i].value=0;
-                getInput(inputs[i].id).value=0;
-              }
-              init();
-            })()">Set all inputs to zero</button>
-        </li>
+      <div>
+        <button class=toggleView onclick="toggleView(this,'edit')">&rarr;</button>
+        <small>Edit</small>
+        <ul id=edit style=display:none;margin-top:0>
+          <!--set all inputs to zero-->
+          <li>
+            <button style=""
+              onclick="(function(){
+                var inputs=document.querySelectorAll('#inputs input');
+                for(var i=0;i<inputs.length;i++){
+                  inputs[i].value=0;
+                  getInput(inputs[i].id).value=0;
+                }
+                init();
+              })()">Set all inputs to zero</button>
+          </li>
 
-        <!--open estimations module button-->
-        <li style=margin-top:0>
-          <button
-            onclick="window.open('estimations.php')">
-              Open estimations module
-          </button>
-          <ul>
-            <li><issue class=under_dev></issue>
-            <li><issue class=help_requested>G. Ekama &amp; Y. Comeau</issue>
-          </ul>
-        </li>
-      </ul>
+          <!--open estimations module button-->
+          <li style=margin-top:0>
+            <button
+              onclick="window.open('estimations.php')">
+                Open estimations module
+            </button>
+            <ul>
+              <li><issue class=under_dev></issue>
+              <li><issue class=help_requested>G. Ekama &amp; Y. Comeau</issue>
+            </ul>
+          </li>
+        </ul>
+      </div>
     </div>
 
     <!--enter technologies-->
@@ -630,17 +633,18 @@
           #inputs input[type=number]{
             border:none;
             width:80px;
+            display:block;
+            margin:auto;
           }
         </style>
       </table>
 
       <!--go to top link-->
       <div style=font-size:smaller><a href=#>&uarr; top</a></div>
-
     </div>
   </div><hr>
 
-  <!--2. Variables (intermediate step between inputs and outputs)-->
+  <!--2. Variables calculated-->
   <div style=width:360px>
     <p><b>
       <u>2. Variables calculated: <span id=variable_amount>0</span></u>
@@ -781,6 +785,7 @@
           <li>Solids Retention Time (SRT):       <span id=SRT>0</span>
           <li>Hydraulic detention time (&tau;):  <span id=tau>0</span>
           <li>MLVSS:                             <span id=MLVSS>0</span>
+          <li>RAS ratio:                         <span id=RAS>0</span>
           <!-- <li>BOD loading:                       <span id=BOD_loading>0</span> -->
           <li>Observed yield
             <ul>
@@ -796,7 +801,6 @@
               <li>SDNR (denitrification):        <span id=SDNR>0</span>
             </ul>
           </li>
-          <li>RAS ratio:                         <span id=RAS>0</span>
           <li>Clarifiers
             <ul>
               <li>Amount:                        <span id=clarifiers>0</span>
@@ -830,6 +834,7 @@
               <li>Dewatering polymer acrylamide 0.48%: <span id=Dewatering_polymer>0</span>
               <li>Alkalinity to maintain pH ≈ 7.0
                 <ul>
+                  <li><issue class=TBD>NaHCO3 or CaCO3</issue>
                   <li>For Nitrification:       <span id=alkalinity_added>0</span>
                   <li>For Denitrification:     <span id=Mass_of_alkalinity_needed>0</span>
                 </ul>
@@ -875,241 +880,239 @@
 </div><hr>
 
 <!--note for development-->
-<p><div style=font-size:smaller>
-  <?php include'btn_reset_cache.php'?>
-</div></p>
+<p><small><?php include'btn_reset_cache.php'?></small></p>
 
+<!--app init-->
 <script>
-  //POPULATE PAGE DEFAULT VALUES
-  //this function only fires at the beggining
+//populate page default values
+(function(){
+  //populate technologies table
   (function(){
-    //populate technologies table
-    (function(){
-      var t=document.querySelector('table#inputs_tech');
-      //only technologies activable by user
-      Technologies_selected
-        .filter(tec=>{return !tec.notActivable})
-        .forEach(tec=>{
-          var newRow=t.insertRow(-1);
-          //tec name
-          newRow.insertCell(-1).innerHTML=tec.descr;
-          //checkbox
-          var checked = getInput(tec.id,true).value ? "checked" : "";
-          newRow.insertCell(-1).outerHTML="<td style=text-align:center><input type=checkbox "+checked+" onchange=\"toggleTech('"+tec.id+"')\" tech='"+tec.id+"'>";
-          //implementation link
-          if(Technologies[tec.id]){
-            newRow.insertCell(-1).innerHTML="<small><center>"+
-              "<a href='see.php?path=techs&file="+Technologies[tec.id].File+"' title='see javascript implementation' target=_blank>"+
-              "equations"+
-              "</a></center></small>"+
-              "";
-          }
-      });
-    })();
-
-    //populate input table
-    (function(){
-      var table=document.querySelector('table#inputs');
-
-      //add a row to table
-      function process_input(i,display){
-        display=display||"";
-        var newRow=table.insertRow(-1);
-        newRow.style.display=display;
-        var advanced_indicator = i.color ? "<div class=circle style='background:"+i.color+"' title='Advanced knowledge required to modify this input'></div>" : "";
-
-        //insert cells
-        newRow.title=i.descr;
-        newRow.insertCell(-1).outerHTML="<td class=help><div class=flex style='justify-content:space-between'>"+i.id + advanced_indicator+"</div>";
-        newRow.insertCell(-1).innerHTML="<input id='"+i.id+"' value='"+i.value+"' type=number step=any onchange=setInput('"+i.id+"',this.value) min=0>"
-        newRow.insertCell(-1).outerHTML="<td class=unit>"+i.unit.prettifyUnit();
-      }
-
-      //populate inputs (isParameter==false)
-      (function(){
-        var newRow=table.insertRow(-1);
-        var newCell=document.createElement('th');
-        newRow.appendChild(newCell);
-        newCell.colSpan=3;
-        newCell.style.textAlign='left';
-        //add <button>+/-</button> Metals
-        newCell.appendChild((function(){
-          var btn=document.createElement('button');
-          btn.innerHTML='↓';
-          btn.addEventListener('click',function(){
-            this.innerHTML=(this.innerHTML=='→')?'↓':'→';
-            Inputs.filter(i=>{return !i.isParameter && !i.isMetal}).forEach(i=>{
-              var h=document.querySelector('#inputs #'+i.id).parentNode.parentNode;
-              h.style.display=h.style.display=='none'?'':'none';
-            });
-          });
-          return btn;
-        })());
-        newCell.appendChild((function(){
-          var span=document.createElement('span');
-          span.innerHTML=' Wastewater characteristics';
-          return span;
-        })());
-      })();
-      Inputs.filter(i=>{return !i.isParameter && !i.isMetal}).forEach(i=>{
-        process_input(i);
-      });
-
-      //populate design parameters (isParameter==true)
-      (function(){
-        var newRow=table.insertRow(-1);
-        var newCell=document.createElement('th');
-        newRow.appendChild(newCell);
-        newCell.colSpan=3;
-        newCell.style.textAlign='left';
-        //add <button>+/-</button> Metals
-        newCell.appendChild((function(){
-          var btn=document.createElement('button');
-          btn.innerHTML='↓';
-          btn.addEventListener('click',function(){
-            this.innerHTML=(this.innerHTML=='→')?'↓':'→';
-            Inputs.filter(i=>{return i.isParameter}).forEach(i=>{
-              var h=document.querySelector('#inputs #'+i.id).parentNode.parentNode;
-              h.style.display=h.style.display=='none'?'':'none';
-            });
-          });
-          return btn;
-        })());
-        newCell.appendChild((function(){
-          var span=document.createElement('span');
-          span.innerHTML=' Design parameters';
-          return span;
-        })());
-      })();
-      Inputs.filter(i=>{return i.isParameter}).forEach(i=>{
-        process_input(i);
-      });
-
-      //populate metals (isMetal==true)
-      (function(){
-        var newRow=table.insertRow(-1);
-        var newCell=document.createElement('th');
-        newRow.appendChild(newCell);
-        newCell.colSpan=3;
-        newCell.style.textAlign='left';
-        //add <button>+/-</button> Metals
-        newCell.appendChild((function(){
-          var btn=document.createElement('button');
-          btn.innerHTML='→';
-          btn.addEventListener('click',function(){
-            this.innerHTML=(this.innerHTML=='→')?'↓':'→';
-            Inputs.filter(i=>{return i.isMetal}).forEach(i=>{
-              var h=document.querySelector('#inputs #'+i.id).parentNode.parentNode;
-              h.style.display=h.style.display=='none'?'':'none';
-            });
-          });
-          return btn;
-        })());
-        newCell.appendChild((function(){
-          var span=document.createElement('span');
-          span.innerHTML=' Metals';
-          return span;
-        })());
-      })();
-      Inputs.filter(i=>{return i.isMetal}).forEach(i=>{
-        process_input(i,'none');
-      });
-    })();
-
-    //populate outputs
-    (function(){
-      var table=document.querySelector('#outputs');
-      function populate_output(key,display){
-        display=display||"";
-        var newRow=table.insertRow(-1);
-        newRow.style.display=display;
-        var output=Outputs[key];
-        newRow.id=key;
-        newRow.title=output.descr;
-        //output id
-        //link to source code
-        var link="<a href='see.php?file=elementary.js&remark=Outputs."+key+"' target=_blank>"+key.prettifyUnit()+"</a>";
-        newRow.insertCell(-1).outerHTML="<th style='font-weight:normal;'>"+link;
-        //influent and effluent defaults as 0
-        ['influent','water','air','sludge'].forEach(phase=>{
-          newRow.insertCell(-1).outerHTML="<td phase="+phase+" class=number><span style=color:#aaa>0";
-        });
-      }
-
-      //normal outputs
-      (function(){
-        var newRow=table.insertRow(-1);
-        var newCell=document.createElement('th');
-        newRow.appendChild(newCell);
-        newCell.colSpan=5;
-        newCell.style.textAlign='left';
-        //add <button>+/-</button> Metals
-        newCell.appendChild((function(){
-          var btn=document.createElement('button');
-          btn.innerHTML='↓';
-          btn.addEventListener('click',function(){
-            this.innerHTML=(this.innerHTML=='→')?'↓':'→';
-            Object.keys(Outputs).filter(i=>{return !getInputById(i).isMetal}).forEach(i=>{
-              var h=document.querySelector('#outputs #'+i);
-              h.style.display=h.style.display=='none'?'':'none';
-            });
-          });
-          return btn;
-        })());
-        newCell.appendChild((function(){
-          var span=document.createElement('span');
-          span.innerHTML=' Main compounds';
-          return span;
-        })());
-      })();
-      Object.keys(Outputs)
-        .filter(key=>{return !getInputById(key).isMetal})
-        .forEach(key=>{
-          populate_output(key);
-      });
-
-      //metals
-      (function(){
-        var newRow=table.insertRow(-1);
-        var newCell=document.createElement('th');
-        newRow.appendChild(newCell);
-        newCell.colSpan=5;
-        newCell.style.textAlign='left';
-        //add <button>+/-</button> Metals
-        newCell.appendChild((function(){
-          var btn=document.createElement('button');
-          btn.innerHTML='→';
-          btn.addEventListener('click',function(){
-            this.innerHTML=(this.innerHTML=='→')?'↓':'→';
-            Inputs.filter(i=>{return i.isMetal}).forEach(i=>{
-              var h=document.querySelector('#outputs #'+i.id);
-              h.style.display=h.style.display=='none'?'':'none';
-            });
-          });
-          return btn;
-        })());
-        newCell.appendChild((function(){
-          var span=document.createElement('span');
-          span.innerHTML=' Metals';
-          return span;
-        })());
-      })();
-      Object.keys(Outputs)
-        .filter(key=>{return getInputById(key).isMetal})
-        .forEach(key=>{
-          populate_output(key,'none');
-      });
-    })();
-
-    //lcorominas requested hiding these inputs from frontend.
-    //but these inputs should not be hidden
-    /*
-    [
-      //'PO4', //already calculated in elementary.js
-      //'sBODe',     //used in nitrification.js
-    ].forEach(id=>{
-      document.querySelector('#inputs #'+id).parentNode.parentNode.style.display='none';
+    var t=document.querySelector('table#inputs_tech');
+    //only technologies activable by user
+    Technologies_selected
+      .filter(tec=>{return !tec.notActivable})
+      .forEach(tec=>{
+        var newRow=t.insertRow(-1);
+        //tec name
+        newRow.insertCell(-1).innerHTML=tec.descr;
+        //checkbox
+        var checked = getInput(tec.id,true).value ? "checked" : "";
+        newRow.insertCell(-1).outerHTML="<td style=text-align:center><input type=checkbox "+checked+" onchange=\"toggleTech('"+tec.id+"')\" tech='"+tec.id+"'>";
+        //implementation link
+        if(Technologies[tec.id]){
+          newRow.insertCell(-1).innerHTML="<small><center>"+
+            "<a href='see.php?path=techs&file="+Technologies[tec.id].File+"' title='see javascript implementation' target=_blank>"+
+            "equations"+
+            "</a></center></small>"+
+            "";
+        }
     });
-    */
   })();
+
+  //populate input table
+  (function(){
+    var table=document.querySelector('table#inputs');
+
+    //add a row to table
+    function process_input(i,display){
+      display=display||"";
+      var newRow=table.insertRow(-1);
+      newRow.style.display=display;
+      var advanced_indicator = i.color ? "<div class=circle style='background:"+i.color+"' title='Advanced knowledge required to modify this input'></div>" : "";
+
+      //insert cells
+      newRow.title=i.descr;
+      newRow.insertCell(-1).outerHTML="<td class=help><div class=flex style='justify-content:space-between'>"+i.id + advanced_indicator+"</div>";
+      newRow.insertCell(-1).innerHTML="<input id='"+i.id+"' value='"+i.value+"' type=number step=any onchange=setInput('"+i.id+"',this.value) min=0>"
+      newRow.insertCell(-1).outerHTML="<td class=unit>"+i.unit.prettifyUnit();
+    }
+
+    //populate inputs (isParameter==false)
+    (function(){
+      var newRow=table.insertRow(-1);
+      var newCell=document.createElement('th');
+      newRow.appendChild(newCell);
+      newCell.colSpan=3;
+      newCell.style.textAlign='left';
+      //add <button>+/-</button> Metals
+      newCell.appendChild((function(){
+        var btn=document.createElement('button');
+        btn.innerHTML='↓';
+        btn.addEventListener('click',function(){
+          this.innerHTML=(this.innerHTML=='→')?'↓':'→';
+          Inputs.filter(i=>{return !i.isParameter && !i.isMetal}).forEach(i=>{
+            var h=document.querySelector('#inputs #'+i.id).parentNode.parentNode;
+            h.style.display=h.style.display=='none'?'':'none';
+          });
+        });
+        return btn;
+      })());
+      newCell.appendChild((function(){
+        var span=document.createElement('span');
+        span.innerHTML=' Wastewater characteristics';
+        return span;
+      })());
+    })();
+    Inputs.filter(i=>{return !i.isParameter && !i.isMetal}).forEach(i=>{
+      process_input(i);
+    });
+
+    //populate design parameters (isParameter==true)
+    (function(){
+      var newRow=table.insertRow(-1);
+      var newCell=document.createElement('th');
+      newRow.appendChild(newCell);
+      newCell.colSpan=3;
+      newCell.style.textAlign='left';
+      //add <button>+/-</button> Metals
+      newCell.appendChild((function(){
+        var btn=document.createElement('button');
+        btn.innerHTML='↓';
+        btn.addEventListener('click',function(){
+          this.innerHTML=(this.innerHTML=='→')?'↓':'→';
+          Inputs.filter(i=>{return i.isParameter}).forEach(i=>{
+            var h=document.querySelector('#inputs #'+i.id).parentNode.parentNode;
+            h.style.display=h.style.display=='none'?'':'none';
+          });
+        });
+        return btn;
+      })());
+      newCell.appendChild((function(){
+        var span=document.createElement('span');
+        span.innerHTML=' Design parameters';
+        return span;
+      })());
+    })();
+    Inputs.filter(i=>{return i.isParameter}).forEach(i=>{
+      process_input(i);
+    });
+
+    //populate metals (isMetal==true)
+    (function(){
+      var newRow=table.insertRow(-1);
+      var newCell=document.createElement('th');
+      newRow.appendChild(newCell);
+      newCell.colSpan=3;
+      newCell.style.textAlign='left';
+      //add <button>+/-</button> Metals
+      newCell.appendChild((function(){
+        var btn=document.createElement('button');
+        btn.innerHTML='→';
+        btn.addEventListener('click',function(){
+          this.innerHTML=(this.innerHTML=='→')?'↓':'→';
+          Inputs.filter(i=>{return i.isMetal}).forEach(i=>{
+            var h=document.querySelector('#inputs #'+i.id).parentNode.parentNode;
+            h.style.display=h.style.display=='none'?'':'none';
+          });
+        });
+        return btn;
+      })());
+      newCell.appendChild((function(){
+        var span=document.createElement('span');
+        span.innerHTML=' Metals';
+        return span;
+      })());
+    })();
+    Inputs.filter(i=>{return i.isMetal}).forEach(i=>{
+      process_input(i,'none');
+    });
+  })();
+
+  //populate outputs
+  (function(){
+    var table=document.querySelector('#outputs');
+    function populate_output(key,display){
+      display=display||"";
+      var newRow=table.insertRow(-1);
+      newRow.style.display=display;
+      var output=Outputs[key];
+      newRow.id=key;
+      newRow.title=output.descr;
+      //output id
+      //link to source code
+      var link="<a href='see.php?file=elementary.js&remark=Outputs."+key+"' target=_blank>"+key.prettifyUnit()+"</a>";
+      newRow.insertCell(-1).outerHTML="<th style='font-weight:normal;'>"+link;
+      //influent and effluent defaults as 0
+      ['influent','water','air','sludge'].forEach(phase=>{
+        newRow.insertCell(-1).outerHTML="<td phase="+phase+" class=number><span style=color:#aaa>0";
+      });
+    }
+
+    //normal outputs
+    (function(){
+      var newRow=table.insertRow(-1);
+      var newCell=document.createElement('th');
+      newRow.appendChild(newCell);
+      newCell.colSpan=5;
+      newCell.style.textAlign='left';
+      //add <button>+/-</button> Metals
+      newCell.appendChild((function(){
+        var btn=document.createElement('button');
+        btn.innerHTML='↓';
+        btn.addEventListener('click',function(){
+          this.innerHTML=(this.innerHTML=='→')?'↓':'→';
+          Object.keys(Outputs).filter(i=>{return !getInputById(i).isMetal}).forEach(i=>{
+            var h=document.querySelector('#outputs #'+i);
+            h.style.display=h.style.display=='none'?'':'none';
+          });
+        });
+        return btn;
+      })());
+      newCell.appendChild((function(){
+        var span=document.createElement('span');
+        span.innerHTML=' Main compounds';
+        return span;
+      })());
+    })();
+    Object.keys(Outputs)
+      .filter(key=>{return !getInputById(key).isMetal})
+      .forEach(key=>{
+        populate_output(key);
+    });
+
+    //metals
+    (function(){
+      var newRow=table.insertRow(-1);
+      var newCell=document.createElement('th');
+      newRow.appendChild(newCell);
+      newCell.colSpan=5;
+      newCell.style.textAlign='left';
+      //add <button>+/-</button> Metals
+      newCell.appendChild((function(){
+        var btn=document.createElement('button');
+        btn.innerHTML='→';
+        btn.addEventListener('click',function(){
+          this.innerHTML=(this.innerHTML=='→')?'↓':'→';
+          Inputs.filter(i=>{return i.isMetal}).forEach(i=>{
+            var h=document.querySelector('#outputs #'+i.id);
+            h.style.display=h.style.display=='none'?'':'none';
+          });
+        });
+        return btn;
+      })());
+      newCell.appendChild((function(){
+        var span=document.createElement('span');
+        span.innerHTML=' Metals';
+        return span;
+      })());
+    })();
+    Object.keys(Outputs)
+      .filter(key=>{return getInputById(key).isMetal})
+      .forEach(key=>{
+        populate_output(key,'none');
+    });
+  })();
+
+  //lcorominas requested hiding these inputs from frontend.
+  //but these inputs should not be hidden
+  /*
+  [
+    //'PO4', //already calculated in elementary.js
+    //'sBODe',     //used in nitrification.js
+  ].forEach(id=>{
+    document.querySelector('#inputs #'+id).parentNode.parentNode.style.display='none';
+  });
+  */
+})();
 </script>

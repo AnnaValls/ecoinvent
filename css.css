@@ -11,8 +11,12 @@ issue[title]{
 }
 
 /*item under development*/
-issue.under_dev{ background:orange; }
+issue.under_dev{ background:yellow; }
 issue.under_dev:before{ content:"under development"; }
+
+/*item to be discussed*/
+issue.TBD{ background:yellow; }
+issue.TBD:before{ content:"TBD: "; }
 
 /*item which implementation is unknown*/
 issue.help_wanted{ background:lightgreen; }
