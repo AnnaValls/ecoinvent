@@ -17,8 +17,10 @@ function fractionation(BOD,sBOD,COD,bCOD,sCOD,TSS,VSS,TKN,NH4,NH4_eff,TP,PO4){
     | TSS            |        70 g/m3 |
     | VSS            |        60 g/m3 |
     | TKN            |        35 g/m3 |
+    | NH4            |        25 g/m3 |
     | NH4_eff        |       0.5 g/m3 |
     | TP             |         6 g/m3 |
+    | PO4            |         5 g/m3 |
   */
 
   //0.ratios

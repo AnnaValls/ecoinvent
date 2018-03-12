@@ -3,6 +3,18 @@
   *
   */
 function primary_settler(Q,bpCOD,nbpCOD,iTSS,ON,OP, removal_bpCOD,removal_nbpCOD,removal_iTSS,removal_ON,removal_OP){
+  /*
+    |  Inputs     |  example  values  |
+    |-------------+-------------------|
+    |  Q          |  22700    m3/d    |
+    |  bpCOD      |  112      g/m3    |
+    |  nbpCOD     |  56       g/m3    |
+    |  iTSS       |  10       g/m3    |
+    |  ON         |  10       g/m3    |
+    |  OP         |  1        g/m3    |
+    |             |                   |
+    |  removal_x  |  ?        %       |  primary  settler  removal  rate  of  a  particulate  fraction
+  */
 
   //apply removal rates to pCOD fractions (%)
   var bpCOD_removed   = 0.01*removal_bpCOD  * bpCOD;  //g/m3
