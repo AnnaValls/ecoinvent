@@ -194,10 +194,12 @@
           Zn : getInput('Zn').value,
 
           //design parameters
-          influent_H           : getInput('influent_H').value,  //m
-          removal_bp           : getInput('removal_bp').value,  //%
-          removal_nbp          : getInput('removal_nbp').value, //%
-          removal_iss          : getInput('removal_iss').value, //%
+          removal_bpCOD        : getInput('removal_bpCOD').value,  //%
+          removal_nbpCOD       : getInput('removal_nbpCOD').value, //%
+          removal_iTSS         : getInput('removal_iTSS').value,   //%
+          removal_ON           : getInput('removal_ON').value,     //%
+          removal_OP           : getInput('removal_OP').value,     //%
+
           SRT                  : getInput('SRT').value, //5
           MLSS_X_TSS           : getInput('MLSS_X_TSS').value, //3000
           zb                   : getInput('zb').value, //500
@@ -218,7 +220,7 @@
           FeCl3_solution       : getInput('FeCl3_solution').value, //37
           FeCl3_unit_weight    : getInput('FeCl3_unit_weight').value, //1.35
           days                 : getInput('days').value, //15
-
+          influent_H           : getInput('influent_H').value,  //m
         };
         var Result=compute_elementary_flows(Input_set);
 
@@ -299,7 +301,7 @@
 
             //color remark if value==zero
             (function(){
-              var color=i.value ? "" : "style='background:linear-gradient(to left,yellow,white)'";
+              var color=i.value ? "" : "style='background:linear-gradient(to left,yellow,transparent)'";
               newRow.insertCell(-1).outerHTML="<td class=number "+color+">"+format(i.value);
               newRow.insertCell(-1).outerHTML="<td class=unit>"+i.unit.prettifyUnit();
             })();
@@ -436,6 +438,7 @@
     }
     #root button.toggleView {
       width:27px;
+      text-align:center;
     }
   </style>
 </head><body onload="init()">
@@ -533,10 +536,8 @@
                 /*Generate a json/text file*/
                 function saveToFile() {
                   var saved_file = {
-                    techs:{
-                    },
-                    inputs:{
-                    },
+                    techs:{ },
+                    inputs:{ },
                   }
                   Technologies_selected.filter(t=>{return !t.notActivable}).forEach(t=>{
                     saved_file.techs[t.id]={
@@ -551,11 +552,12 @@
                       unit:i.unit,
                     };
                   });
+                  //console.log(saved_file);
                   var datestring=(new Date()).toISOString().replace(/-/g,'').replace(/:/g,'').substring(2,13);
-                  //console.log(datestring);
                   var link=document.createElement('a');
                   link.href="data:text/json;charset=utf-8,"+JSON.stringify(saved_file,null,'  ');
                   link.download="inf"+datestring+"UTC.json";
+                  document.body.appendChild(link);//this line is required in firefox
                   link.click();
                 }
               </script>
@@ -645,7 +647,7 @@
   </div><hr>
 
   <!--2. Variables calculated-->
-  <div style=width:360px>
+  <div>
     <p><b>
       <u>2. Variables calculated: <span id=variable_amount>0</span></u>
     </b></p>
@@ -703,7 +705,7 @@
   </div><hr>
 
   <!--3. Outputs-->
-  <div style=width:360px>
+  <div>
     <p><b><u>3. Outputs</u></b></p>
 
     <!--menu to change output units (kg/d or g/m3)-->
@@ -831,12 +833,16 @@
         <ul id=technosphere>
           <li>Chemicals
             <ul>
-              <li>Dewatering polymer acrylamide 0.48%: <span id=Dewatering_polymer>0</span>
+              <li>Dewatering polymers
+                <ul>
+                  <li><em>Acrylamide 0.48%</em>: <span id=Dewatering_polymer>0</span>
+                </ul>
+              </li>
               <li>Alkalinity to maintain pH ≈ 7.0
                 <ul>
-                  <li><issue class=TBD>NaHCO3 or CaCO3</issue>
                   <li>For Nitrification:       <span id=alkalinity_added>0</span>
                   <li>For Denitrification:     <span id=Mass_of_alkalinity_needed>0</span>
+                  <li><issue class=TBD>NaHCO3 or CaCO3</issue>
                 </ul>
               </li>
               <li>FeCl<sub>3</sub> used for chemical P removal
@@ -867,9 +873,9 @@
                 </ul>
               <li>Total energy
                 <ul>
-                  <li>Expressed as power needed:   <span id=total_power>0</span>
-                  <li>Expressed as energy per day: <span id=total_daily_energy>0</span>
-                  <li>Expressed as energy per m3:  <span id=total_energy_per_m3>0</span>
+                  <li>As power needed:   <span id=total_power>0</span>
+                  <li>As energy per day: <span id=total_daily_energy>0</span>
+                  <li>As energy per m3:  <span id=total_energy_per_m3>0</span>
                 </ul>
             </ul>
           </li>

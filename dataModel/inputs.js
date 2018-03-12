@@ -11,30 +11,31 @@
 var Inputs = [
 
 //Q and T
-{id:"Q",     value:22700, unit:"m3/d",  descr:"Flowrate"},
-{id:"T",     value:12,    unit:"ºC",    descr:"Temperature"},
+{id:"Q", value:22700, unit:"m3/d",  descr:"Flowrate"},
+{id:"T", value:12,    unit:"ºC",    descr:"Temperature"},
 
 //fractionation
-{id:"BOD",   value:140, unit:"g/m3_as_O2", descr:"Total 5d biochemical oxygen demand"},
-{id:"sBOD",  value:70,  unit:"g/m3_as_O2", descr:"Soluble BOD"},
-{id:"COD",   value:300, unit:"g/m3_as_O2", descr:"Total chemical oxygen demand"},
-{id:"sCOD",  value:132, unit:"g/m3_as_O2", descr:"Soluble COD"},
-{id:"bCOD",  value:224, unit:"g/m3_as_O2", descr:"Biodegradable COD (a typical value is: bCOD=1.6·BOD)"},
-{id:"rbCOD", value:80,  unit:"g/m3_as_O2", descr:"Readily biodegradable COD (bsCOD=complex+VFA)"},
-{id:"VFA",   value:15,  unit:"g/m3_as_O2", descr:"Volatile Fatty Acids (Acetate)"},
-{id:"VSS",   value:60,  unit:"g/m3",       descr:"Volatile suspended solids"},
-{id:"TSS",   value:70,  unit:"g/m3",       descr:"Total suspended solids"},
-{id:"TKN",   value:35,  unit:"g/m3_as_N",  descr:"Total Kjedahl nitrogen"},
-{id:"NH4",   value:25,  unit:"g/m3_as_N",  descr:"Ammonia influent"},
-{id:"TP",    value:6,   unit:"g/m3_as_P",  descr:"Total phosphorus"},
-{id:"PO4",   value:5,   unit:"g/m3_as_P",  descr:"Ortophosphate influent"},
+{id:"BOD",        value:140, unit:"g/m3_as_O2",    descr:"Total 5d biochemical oxygen demand"},
+{id:"sBOD",       value:70,  unit:"g/m3_as_O2",    descr:"Soluble BOD"},
+{id:"COD",        value:300, unit:"g/m3_as_O2",    descr:"Total chemical oxygen demand"},
+{id:"sCOD",       value:132, unit:"g/m3_as_O2",    descr:"Soluble COD"},
+{id:"bCOD",       value:224, unit:"g/m3_as_O2",    descr:"Biodegradable COD (a typical value is: bCOD=1.6·BOD)"},
+{id:"rbCOD",      value:80,  unit:"g/m3_as_O2",    descr:"Readily biodegradable COD (bsCOD=complex+VFA)"},
+{id:"VFA",        value:15,  unit:"g/m3_as_O2",    descr:"Volatile Fatty Acids (Acetate)"},
+{id:"VSS",        value:60,  unit:"g/m3",          descr:"Volatile suspended solids"},
+{id:"TSS",        value:70,  unit:"g/m3",          descr:"Total suspended solids"},
+{id:"TKN",        value:35,  unit:"g/m3_as_N",     descr:"Total Kjedahl nitrogen"},
+{id:"NH4",        value:25,  unit:"g/m3_as_N",     descr:"Ammonia influent"},
+{id:"TP",         value:6,   unit:"g/m3_as_P",     descr:"Total phosphorus"},
+{id:"PO4",        value:5,   unit:"g/m3_as_P",     descr:"Ortophosphate influent"},
+{id:"Alkalinity", value:140, unit:"g/m3_as_CaCO3", descr:"Influent alkalinity"},
 
 //primary settler
-{id:"removal_bp",  value:40,   unit:"%",  isParameter:true,  descr:"Primary settler  bpCOD removal rate (25 to 60% for municipal wastewater)"},
-{id:"removal_nbp", value:60,   unit:"%",  isParameter:true,  descr:"Primary settler nbpCOD removal rate (40 to 80% for municipal wastewater)"},
-{id:"removal_iss", value:70,   unit:"%",  isParameter:true,  descr:"Primary settler   iTSS removal rate (50 to 90% for municipal wastewater)"},
-{id:"removal_pON", value:66,   unit:"%",  isParameter:true,  descr:"Primary settler    pON removal rate (66% for municipal wastewater)"},
-{id:"removal_pOP", value:66,   unit:"%",  isParameter:true,  descr:"Primary settler    pOP removal rate (66% for municipal wastewater)"},
+{id:"removal_bpCOD",  value:40, unit:"%", isParameter:true, descr:"Primary settler bpCOD removal rate (25 to 60% for municipal wastewater)"},
+{id:"removal_nbpCOD", value:60, unit:"%", isParameter:true, descr:"Primary settler nbpCOD removal rate (40 to 80% for municipal wastewater)"},
+{id:"removal_iTSS",   value:70, unit:"%", isParameter:true, descr:"Primary settler iTSS removal rate (50 to 90% for municipal wastewater)"},
+{id:"removal_ON",     value:66, unit:"%", isParameter:true, descr:"Primary settler ON removal rate (66% for municipal wastewater)"},
+{id:"removal_OP",     value:66, unit:"%", isParameter:true, descr:"Primary settler OP removal rate (66% for municipal wastewater)"},
 
 //bod removal
 {id:"MLSS_X_TSS", value:3000,  unit:"g/m3",       isParameter:true, descr:"Mixed liquor suspended solids"},
@@ -42,15 +43,14 @@ var Inputs = [
 {id:"clarifiers", value:3,     unit:"clarifiers", isParameter:true, descr:"Number of clarifiers that will be used"},
 
 //nitrification
-{id:"Alkalinity", value:140,   unit:"g/m3_as_CaCO3",                   descr:"Influent alkalinity"},
-{id:"sBODe",      value:3,     unit:"g/m3_as_O2",    isParameter:true, descr:"Effluent design Soluble BOD"},
-{id:"NH4_eff",    value:0.50,  unit:"g/m3_as_N",     isParameter:true, descr:"Effluent design NH4"},
+{id:"sBODe",   value:3,    unit:"g/m3_as_O2", isParameter:true, descr:"Effluent design Soluble BOD"},
+{id:"NH4_eff", value:0.50, unit:"g/m3_as_N",  isParameter:true, descr:"Effluent design NH4"},
 
 //N removal
-{id:"NO3_eff", value:6,  unit:"g/m3_as_N", isParameter:true, descr:"Effluent design NO3 concentration"},
+{id:"NO3_eff", value:6,   unit:"g/m3_as_N", isParameter:true, descr:"Effluent design NO3 concentration"},
 
 //chem P
-{id:"PO4_eff",           value:0.1, unit:"g/m3_as_P", isParameter:true, descr:"Effluent design PO4(3-)"},
+{id:"PO4_eff", value:0.1, unit:"g/m3_as_P", isParameter:true, descr:"Effluent design PO4(3-)"},
 
 //metals
 {id:"Ag", value:0.0000, unit:"g/m3", isMetal:true, descr:"Influent Silver"     },
@@ -108,7 +108,7 @@ var Inputs = [
 {id:"days",                 value:15,    unit:"d",          color:"red",    isParameter:true, descr:"Time for the FeCl3 supply to be stored at the treatment facility (for chemical P removal)" },
 
 //influent pumping
-{id:"influent_H",  value:10,   unit:"m",  isParameter:true,  descr:"Influent pumping water lift height and friction head in m"},
+{id:"influent_H",           value:10,    unit:"m",          color:"red",    isParameter:true, descr:"Influent pumping water lift height and friction head in m"},
 
 ];
 

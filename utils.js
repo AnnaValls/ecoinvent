@@ -154,7 +154,7 @@ function density_of_air(temperature,pressure) {
 */
 function air_solubility_of_oxygen(temperature,elevation){
   //input checks
-  console.log('Calculating Air solubility of oxygen (mg/L) f(T,zb)');
+  console.log('Calculating C_T (Air solubility of oxygen) (mg/L) as f(T,zb)');
   temperature=temperature||0;
   elevation=elevation||0;
   if(temperature<0) temperature=0;

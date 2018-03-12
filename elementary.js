@@ -72,10 +72,13 @@ function compute_elementary_flows(Input_set){
       var Zn = is.Zn;
 
     //design parameters
-    var influent_H           = is.influent_H;
-    var removal_bp           = is.removal_bp;
-    var removal_nbp          = is.removal_nbp;
-    var removal_iss          = is.removal_iss;
+
+    var removal_bpCOD        = is.removal_bpCOD;
+    var removal_nbpCOD       = is.removal_nbpCOD;
+    var removal_iTSS         = is.removal_iTSS;
+    var removal_ON           = is.removal_ON;
+    var removal_OP           = is.removal_OP;
+
     var SRT                  = is.SRT;
     var MLSS_X_TSS           = is.MLSS_X_TSS;
     var zb                   = is.zb;
@@ -96,6 +99,7 @@ function compute_elementary_flows(Input_set){
     var FeCl3_solution       = is.FeCl3_solution;
     var FeCl3_unit_weight    = is.FeCl3_unit_weight;
     var days                 = is.days;
+    var influent_H           = is.influent_H;
     //these three inputs had an equation but they are now inputs again
   //end-process-inputs
 
@@ -127,12 +131,14 @@ function compute_elementary_flows(Input_set){
     var nbpCOD         = Result.Fra.nbpCOD.value; //g/m3
     var pCOD           = Result.Fra.pCOD.value;   //g/m3
     var iTSS           = Result.Fra.iTSS.value;   //g/m3
+    var ON             = Result.Fra.ON.value;     //g/m3
+    var OP             = Result.Fra.OP.value;     //g/m3
 
     var bCOD_BOD_ratio = Result.Fra.bCOD_BOD_ratio.value; //g/g
     var VSS_COD        = Result.Fra.VSS_COD.value; //g_pCOD/g_VSS
 
     //apply primary settler    ----pCOD---- ------removal-rates-----
-    Result.Pri=primary_settler(Q,bpCOD,nbpCOD,iTSS,removal_bp,removal_nbp,removal_iss);
+    Result.Pri=primary_settler(Q,bpCOD,nbpCOD,iTSS,ON,OP,removal_bpCOD,removal_nbpCOD,removal_iTSS,removal_ON,removal_OP);
     addResults('Pri',Result.Pri);
 
     //get removed pCOD (g/m3)
@@ -140,12 +146,16 @@ function compute_elementary_flows(Input_set){
     var nbpCOD_removed = Result.Pri.nbpCOD_removed.value; //g/m3
     var pCOD_removed   = Result.Pri.pCOD_removed.value;   //g/m3
     var iTSS_removed   = Result.Pri.iTSS_removed.value;   //g/m3
+    var ON_removed     = Result.Pri.ON_removed.value;     //g/m3
+    var OP_removed     = Result.Pri.OP_removed.value;     //g/m3
 
     //modify inputs to recalculate fractionation
     bCOD -= bpCOD_removed;
     COD  -= (bpCOD_removed + nbpCOD_removed);
     pCOD -= pCOD_removed;
     iTSS -= iTSS_removed;
+    TKN  -= ON_removed;
+    TP   -= OP_removed;
 
     //adjust BOD, VSS and TSS again
     BOD = bCOD_BOD_ratio==0 ? 0 : bCOD/bCOD_BOD_ratio;
@@ -157,7 +167,8 @@ function compute_elementary_flows(Input_set){
 
   }else{
     //call it just to see "0 g/m3 removed"
-    Result.Pri=primary_settler(0,0,0,0,0,0,0);
+    //         primary_settler(Q,bpCOD,nbpCOD,iTSS,ON,OP,removal_bpCOD,removal_nbpCOD,removal_iTSS,removal_ON,removal_OP);
+    Result.Pri=primary_settler(0,    0,     0,   0, 0, 0,            0,             0,           0,         0,         0);
     addResults('Pri',Result.Pri);
   }
   addResults('Fra',Result.Fra);
@@ -365,8 +376,8 @@ function compute_elementary_flows(Input_set){
   var pumping_power = pumping_power_influent + pumping_power_external + pumping_power_internal + pumping_power_wastage;
 
   //4. DEWATERING power
-  var dewatering_factor = 20; //kWh/tDM (tone dry matter)
-  var dewatering_power = P_X_TSS/1000 * dewatering_factor / 24; //kW
+  var dewatering_factor = 20;                                //kWh/tDM (tone dry matter)
+  var dewatering_power  = P_X_TSS/1000*dewatering_factor/24; //kW
 
   //5. OTHER power: assumption is that pumping+aeration+dewatering+mixing is 80%, so other is 20% of total
   var other_power = 0.25*(aeration_power+mixing_power+pumping_power+dewatering_power);
