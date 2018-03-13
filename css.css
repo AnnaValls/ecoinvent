@@ -6,43 +6,41 @@ issue{
   font-size:smaller;
   color:black;
 }
-issue[title]{
-  cursor:help;
-}
+issue[title]{cursor:help;}
 
+/*ISSUE CLASSES*/
 /*item under development*/
 issue.under_dev{ background:yellow; }
 issue.under_dev:before{ content:"under development"; }
-
 /*item to be discussed*/
-issue.TBD{ background:yellow; }
-issue.TBD:before{ content:"TBD: "; }
-
+issue.TBD{        background:yellow;}
+issue.TBD:before{ content:"TBD: ";}
 /*item which implementation is unknown*/
-issue.help_wanted{ background:lightgreen; }
-issue.help_wanted:before{ content:"help wanted"; }
-
+issue.help_wanted{        background:lightgreen;}
+issue.help_wanted:before{ content:"help wanted";}
 /*item which implementation has been requested to someone*/
-issue.help_requested{ background:lightgreen; }
-issue.help_requested:before{ content:"help requested to "; }
-
+issue.help_requested{        background:lightgreen;}
+issue.help_requested:before{ content:"help requested to ";}
 /*item which implementation has been requested to someone*/
-issue.help_provided{ background:lightgreen; }
-issue.help_provided:before{ content:"help provided by "; }
+issue.help_provided{        background:lightgreen;}
+issue.help_provided:before{ content:"help provided by ";}
+/*item which cannot be done */
+issue.cannot_be_done{        background:#eee;}
+issue.cannot_be_done:before{ content:"cannot be done yet";}
 
 /*keyboard keys*/
-kbd {
-  display: inline-block;
-  margin: 0 .1em;
-  padding: .1em .6em;
-  font-family: Arial,"Helvetica Neue",Helvetica,sans-serif;
-  font-size: 11px;
-  line-height: 1.4;
-  color: #242729;
-  text-shadow: 0 1px 0 #FFF;
-  background-color: #e1e3e5;
-  border: 1px solid #adb3b9;
-  border-radius: 3px;
-  box-shadow: 0 1px 0 rgba(12,13,14,0.2), 0 0 0 2px #FFF inset;
-  white-space: nowrap;
+kbd{
+  display:inline-block;
+  margin:0 .1em;
+  padding:.1em .6em;
+  font-family:Arial,"Helvetica Neue",Helvetica,sans-serif;
+  font-size:11px;
+  line-height:1.4;
+  color:#242729;
+  text-shadow:0 1px 0 #FFF;
+  background-color:#e1e3e5;
+  border:1px solid #adb3b9;
+  border-radius:3px;
+  box-shadow:0 1px 0 rgba(12,13,14,0.2), 0 0 0 2px #FFF inset;
+  white-space:nowrap;
 }

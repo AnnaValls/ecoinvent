@@ -465,6 +465,7 @@
       <li><a href="img/plant-diagram.jpg"      target=_blank>See plant diagram image</a>
       <li><a href="terms.php"                  target=_blank>See summary of terms</a>
       <li><a href="fractionation_diagrams.php" target=_blank>See fractionation diagrams</a>
+      <li><button onclick="window.location='#todo_items'">Go down to <em>TO DO list</em> &darr;</button>
     </ul>
   </div>
 </div><hr>
@@ -472,8 +473,8 @@
 <!--INPUTS AND OUTPUTS VIEW SCAFFOLD-->
 <div class=flex>
   <!--1. Inputs-->
-  <div>
-    <p><b><u>1. User Inputs</u></b></p>
+  <div style="width:330px">
+    <p><b><u>1. User inputs</u></b></p>
 
     <!--File/Edit-->
     <div style="background:#eee">
@@ -647,7 +648,7 @@
   </div><hr>
 
   <!--2. Variables calculated-->
-  <div>
+  <div style="width:330px">
     <p><b>
       <u>2. Variables calculated: <span id=variable_amount>0</span></u>
     </b></p>
@@ -705,7 +706,7 @@
   </div><hr>
 
   <!--3. Outputs-->
-  <div>
+  <div style="width:330px">
     <p><b><u>3. Outputs</u></b></p>
 
     <!--menu to change output units (kg/d or g/m3)-->
@@ -880,7 +881,90 @@
             </ul>
           </li>
         </ul>
-      </p>
+      </p><hr>
+
+      <!--TODO-->
+      <div id=todo_items>
+        <p style=background:yellow;text-align:center>TO DO list + L. Bosch doubts</p>
+        <div>
+          <small>List created using Pascal e-mail (March-3rd)<br>"[WWT-ecoinvent] Notes from call with ecoinvent"</small>
+        </div>
+
+        <p style="font-size:smaller">
+          Note: if a requested item is tagged as <issue class=help_wanted></issue> is 
+          because L. Bosch has not understood either the concept itself or how to implement it.
+        </p>
+
+        <ul>
+          <li>Country data and averaging functions
+            <ul>
+              <li><issue class=help_wanted></issue>
+              <li style="font-size:smaller">A draft (or brief explanation) on how a user will interact with this item is needed.
+              <li style="font-size:smaller">Is anyone collecting the data for the core countries + global?
+              <li style="font-size:smaller">How the classes affect calculations?
+            </ul>
+          </li>
+
+          <li>Location of discharge
+            <ul>
+              <li><issue class=help_wanted></issue>
+              <li style="font-size:smaller">Should this be an input? How it affects calculations?
+            </ul>
+          </li>
+
+          <li>Hydraulic overload
+            <ul>
+              <li><issue class=help_wanted></issue>
+              <li style="font-size:smaller">Equations and explanation needed (inputs/outputs) (who knows them?)
+              <li style="font-size:smaller">I'm not sure how to start to implement this.
+            </ul>
+          </li>
+
+          <li>Uncertainty
+            <ul>
+              <li><issue class=help_wanted></issue>
+              <li style="font-size:smaller">I need to understand if it affects current calculations (if it is related to the metcalf&amp;eddy model), or if it's something fixed that is added to the ecospold file.
+              <li style="font-size:smaller">What is Pedigree outputs?
+            </ul>
+          </li>
+
+          <li>Untreated fraction
+            <ul>
+              <li><issue class=help_wanted></issue>
+              <li style="font-size:smaller">Who knows the equations (inputs/outputs)?
+              <li style="font-size:smaller">Who is generating the dataset?
+            </ul>
+          </li>
+
+          <li>Generate ecospold
+            <ul>
+              <li><issue class=help_wanted></issue>
+              <li><issue class=cannot_be_done></issue>
+              <li style="font-size:smaller">We should not focus on this unless the previous items are finished
+              <li style="font-size:smaller">Translation from python to javascript still not started
+            </ul>
+          </li>
+
+          <li>Show off data: 
+            <ul>
+              <li><issue class=help_wanted></issue>
+              <li style="font-size:smaller">Not sure what this item is.
+            </ul>
+          </li>
+
+          <li>Documentation
+            <ul>
+              <li><issue class=help_wanted></issue>
+              <li><issue class=cannot_be_done></issue>
+              <li style="font-size:smaller">We should not focus on this unless the previous items are finished
+              <li style="font-size:smaller">item: overall approach
+              <li style="font-size:smaller">item: how-to integrated in the tool
+              <li style="font-size:smaller">item: ecospold documentation
+            </ul>
+          </li>
+
+        </ul>
+      </div>
     </div>
   </div>
 </div><hr>
@@ -888,7 +972,7 @@
 <!--note for development-->
 <p><small><?php include'btn_reset_cache.php'?></small></p>
 
-<!--app init-->
+<!--app init: populate content default values-->
 <script>
 //populate page default values
 (function(){
