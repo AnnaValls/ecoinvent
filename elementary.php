@@ -887,12 +887,12 @@
       <div id=todo_items>
         <p style=background:yellow;text-align:center>TO DO list + L. Bosch doubts</p>
         <div>
-          <small>List created using Pascal e-mail (March-3rd)<br>"[WWT-ecoinvent] Notes from call with ecoinvent"</small>
+          <small>List created using Pascal e-mail (March-12th)<br>"[WWT-ecoinvent] Notes from call with ecoinvent"</small>
         </div>
 
         <p style="font-size:smaller">
-          Note: if a requested item is tagged as <issue class=help_wanted></issue> is 
-          because L. Bosch has not understood either the concept itself or how to implement it.
+          Note: if a requested item is tagged as <issue class=help_wanted></issue> is
+          because L. Bosch has not understood either the concept itself and/or how to implement it.
         </p>
 
         <ul>
@@ -945,7 +945,7 @@
             </ul>
           </li>
 
-          <li>Show off data: 
+          <li>Show off data:
             <ul>
               <li><issue class=help_wanted></issue>
               <li style="font-size:smaller">Not sure what this item is.
