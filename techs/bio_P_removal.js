@@ -24,6 +24,14 @@ function bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,NOx,NO3_eff,tau_aer)
 
   var V_anaerobic = tau_aer * Q / 24; //709.4 m3 (tau=0.75h in exercise statement)
 
+  //table 8-30, page 873: minimal influent ww ratios for achieving a soluble P concentration of less than 0.50 mg/L in EBPR systems
+  /* TODO
+    VFA:P    8
+    rbCOD:P  18
+    BOD:P    30
+    COD:P    60
+  */
+
   /*SOLUTION*/
   //1
   var Q_rbCOD = Q*rbCOD; //300,000 g/d
@@ -42,7 +50,7 @@ function bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,NOx,NO3_eff,tau_aer)
   var bnT = bn*Math.pow(1.029,T-20); //0.135 1/d
   var P_X_bio = Q*YH*bCOD/(1+bHT*SRT) + fd*bHT*Q*YH*bCOD*SRT/(1+bHT*SRT) + Q*Yn*NOx/(1+bnT*SRT); //334,134 g/d
 
-  //P_X_bio = 334134; //TODO in metcalf is wrong
+  //P_X_bio = 334134; //in metcalf book this number is wrong
   var P_removal_synthesis = 0.015*P_X_bio; //5012 g/d
   var P_removal_synthesis_n = P_removal_synthesis/Q ||0; //1.2 g/m3
 
@@ -51,7 +59,7 @@ function bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,NOx,NO3_eff,tau_aer)
 
   //5
   var P_X_TSS = P_X_bio/0.85 + Q*nbVSS + Q*(iTSS); //433,099 g/d
-  //P_X_TSS = 433099; //TODO in metcalf is wrong
+  //P_X_TSS = 433099; //in metcalf book this number is wrong
   var P_removal_gday = (TP - Effluent_P)*Q; //20,800 g/d
   var P_in_waste_sludge = 100*P_removal_gday/P_X_TSS ||0; //4.8 %
 

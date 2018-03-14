@@ -18,5 +18,7 @@ grep -e "TBD" -e "TODO" -e "TO DO" . -r \
 	--exclude-dir ".git" \
 	--exclude-dir "docs" \
 	--exclude "$0" \
-	--exclude "README.txt" | grep -v "base64" \
+	--exclude "README.txt" \
+  --exclude "css.css" \
+  | grep -v "base64" \
   | less

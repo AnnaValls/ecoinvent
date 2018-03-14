@@ -57,7 +57,9 @@ String.prototype.prettifyUnit=function(){
 		.replace('O2','O<sub>2</sub>')
 		.replace('N2','N<sub>2</sub>')
 		.replace('CH4','CH<sub>4</sub>')
-		.replace('NOx','NO<sub>x</sub>');
+    .replace('NH4','NH<sub>4</sub>')
+    .replace('PO4','PO<sub>4</sub>')
+    .replace('NOx','NO<sub>x</sub>');
 }
 
 //string to color

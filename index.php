@@ -20,12 +20,13 @@
       <li>
         Single plant model
         <ul>
-          <li><a href=elementary.php        >Elementary flows (from Metcalf &amp; Eddy)</a>
-          <li><a href=technologies.php      >All technologies</a>
-          <li><a href=inputs.php            >All inputs</a>
-          <li><a href=outputs.php           >All outputs</a>
-          <li><a href=see.php?path=dataModel&file=constants.js>All constants</a>
-          <li><a href=construction.php      >Construction materials</a>
+          <li><a href="elementary.php"                          >Elementary flows (from Metcalf &amp; Eddy)</a>
+          <li><a href="simplified_data_entry.php"               >Simplified data entry interface</a>
+          <li><a href="technologies.php"                        >All technologies</a>
+          <li><a href="inputs.php"                              >All inputs</a>
+          <li><a href="outputs.php"                             >All outputs</a>
+          <li><a href="see.php?path=dataModel&file=constants.js">All constants</a>
+          <li><a href="construction.php"                        >Construction materials</a>
         </ul>
       <li>
         Multiple plant analysis (<em>under development</em>)
@@ -100,10 +101,10 @@
       <li><a href=docs>Documents sent by email</a>
       <li>
         <a target=_blank href="https://docs.google.com/spreadsheets/d/1DiBhDCjxGyw2-umImIfHiZOzY5LJF_psGiD4fEf7Wgk/edit?usp=sharing">
-          Google Drive document
+          shared google drive document "ecoinvent wastewater treatment project"
         </a>
       </li>
-      <li>Source code: <a href=//github.com/holalluis/ecoinvent>github.com/holalluis/ecoinvent</a>
+      <li>Github: <a href=//github.com/holalluis/ecoinvent>github.com/holalluis/ecoinvent</a>
       <li>Guillaume's github (ecoSpold):
         <ul>
           <li>
@@ -112,7 +113,7 @@
             </a>
           <li>
             <a href="https://github.com/ecoinvent/wastewater_treatment_tool/blob/master/Generating%20ecoSPold%20files%20for%20WWT.ipynb">
-              ecospold notebook
+              August notebook (from P. Lesage)
             </a>
           </li>
         </ul>

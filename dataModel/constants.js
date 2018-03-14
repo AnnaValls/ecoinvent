@@ -18,20 +18,21 @@ const M_Fe   = 55.845; //g/mol (Fe molecular weight)
 const M_P    = 30.974; //g/mol (P molecular weight)
 
 //AS kinetic coefficients for Heterotrophic Bacteria at 20ºC
+//column COD oxidation
 //Table 8-14, page 755
-const mu_m   = 6;    //1/d          -- range: {3,    13.2}
-const Ks     = 8;    //g_bCOD/m3    -- range: {5,    40}
-const YH     = 0.45; //g_VSS/g_bCOD -- range: {0.3,  0.5}
-const bH     = 0.12; //1/d          -- range: {0.06, 0.20}
-const fd     = 0.15; //unitless     -- range: {0.08, 0.20}
+const mu_m   = 6;    //1/d
+const Ks     = 8;    //g_bCOD/m3
+const YH     = 0.45; //g_VSS/g_bCOD
+const bH     = 0.12; //1/d
+const fd     = 0.15; //unitless
 
 //AS nitrification kinetic coefficients at 20ºC
 //Table 8-14, page 755
-const mu_max_AOB = 0.90; //1/d           -- range: {0.20, 0.90}
-const K_NH4      = 0.50; //g_NH4-N/m3    -- range: {0.50, 1.00}
-const Yn         = 0.15; //g_VSS/g_NH4-N -- range: TODO
-const b_AOB      = 0.17; //1/d           -- range: TODO
-const K_o_AOB    = 0.50; //unitless      -- range: TODO
+const mu_max_AOB = 0.90; //1/d
+const K_NH4      = 0.50; //g_NH4-N/m3
+const Yn         = 0.15; //g_VSS/g_NH4-N
+const b_AOB      = 0.17; //1/d
+const K_o_AOB    = 0.50; //unitless
 
 //aeration related
 const C_s_20 = 9.09;  //8.b sat DO at sea level at 20ºC

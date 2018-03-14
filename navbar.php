@@ -4,9 +4,13 @@
 	title="Home page">
 	<b>Ecoinvent</b> wastewater tool
 
-	<i>(under development)</i>
+	<issue class=under_dev></issue>
+
   &mdash;
-  <em>We need to finalize before Mid-April 2018</em>
+
+  <small>
+    <em>We need to finalize before Mid-April 2018</em>
+  </small>
 
 	<style>
 		#navbar {

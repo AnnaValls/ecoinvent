@@ -2,8 +2,8 @@
 Expected web tool finish: October 31 2017
 
 ## BACKEND TASKS
-  * [ ][TODO] integrate ekama's fractionation system to the rest of the code.
-  * [1][DONE] be able to calculate 'n' systems (= run 'n' models in parallel)
+  * [ ][DONE] integrate ekama's fractionation system to the rest of the code.
+  * [ ][DONE] be able to calculate 'n' systems (= run 'n' models in parallel)
   * [ ][PAUSED] ECOSPOLD generation
     1. check for equivalent library in javascript as jinja2 for python
       - [DONE]: angular.js is an equivalent
@@ -24,7 +24,6 @@ Expected web tool finish: October 31 2017
     7. future: code in javascript
       generate data set id    (automatically) TODO
       generate activity index (automatically) TODO
-  * [ ][TO DO] some constants without description (file "dataModel/constants.js")
 
 ## FRONTEND TASKS
 * substitute images for text in the example implementations
