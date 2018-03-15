@@ -388,15 +388,6 @@
     }
   </script>
 
-  <script>
-    //frontend buttons for folding/unfolding sections of div#summary
-    function toggleView(btn,id){
-      var el=document.querySelector('#'+id);
-      el.style.display = el.style.display=='none' ? '':'none';
-      btn.innerHTML= btn.innerHTML=='↓' ? '&rarr;':'&darr;'
-    }
-  </script>
-
   <!--CSS-->
   <style>
     #root hr{
@@ -435,10 +426,6 @@
     #root table#mass_balances {
       width:100%;
       border-collapse:collapse;
-    }
-    #root button.toggleView {
-      width:27px;
-      text-align:center;
     }
   </style>
 </head><body onload="init()">

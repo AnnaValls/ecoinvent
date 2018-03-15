@@ -28,6 +28,12 @@ issue.help_provided:before{ content:"help provided by ";}
 issue.cannot_be_done{        background:#eee;}
 issue.cannot_be_done:before{ content:"cannot be done yet";}
 
+/*TOGGLE VIEW buttons*/
+button.toggleView {
+  width:27px;
+  text-align:center;
+}
+
 /*keyboard keys*/
 kbd{
   display:inline-block;
