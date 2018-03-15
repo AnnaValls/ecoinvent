@@ -963,6 +963,8 @@
 <script>
 //populate page default values
 (function(){
+  var url=new URL(window.location.href); //GET params inside
+
   //populate technologies table
   (function(){
     var t=document.querySelector('table#inputs_tech');
@@ -973,6 +975,13 @@
         var newRow=t.insertRow(-1);
         //tec name
         newRow.insertCell(-1).innerHTML=tec.descr;
+
+        //set the input value if it is specified in URL GET parameters
+        var get_parameter_value=url.searchParams.get('is_'+tec.id+'_active');
+        if(get_parameter_value!=null){
+          getInput(tec.id,true).value= get_parameter_value=="true";
+        }
+
         //checkbox
         var checked = getInput(tec.id,true).value ? "checked" : "";
         newRow.insertCell(-1).outerHTML="<td style=text-align:center><input type=checkbox "+checked+" onchange=\"toggleTech('"+tec.id+"')\" tech='"+tec.id+"'>";
@@ -991,12 +1000,19 @@
   (function(){
     var table=document.querySelector('table#inputs');
 
+
     //add a row to table
     function process_input(i,display){
       display=display||"";
       var newRow=table.insertRow(-1);
       newRow.style.display=display;
       var advanced_indicator = i.color ? "<div class=circle style='background:"+i.color+"' title='Advanced knowledge required to modify this input'></div>" : "";
+
+      //set the input value if it is specified in URL GET parameters
+      var get_parameter_value=url.searchParams.get(i.id);
+      if(get_parameter_value){
+        i.value=parseFloat(get_parameter_value);
+      }
 
       //insert cells
       newRow.title=i.descr;

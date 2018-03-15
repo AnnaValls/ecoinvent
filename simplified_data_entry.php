@@ -9,12 +9,6 @@
 </head><body>
 <?php include'navbar.php'?>
 
-<!--TODO-->
-<p>
-  User interface only
-  <issue class=under_dev></issue>
-</p>
-
 <div id=root>
 
 <h1>Simplified data entry</h1>
@@ -101,27 +95,70 @@
     </li>
 
     <li>
-      <button class=toggleView onclick="toggleView(this,'inputs')">&darr;</button>
+      <button class=toggleView onclick="toggleView(this,'inputs')">&rarr;</button>
       Wastewater composition
-      <table id=inputs></table>
+      <table id=inputs style=display:none></table>
     </li>
 
     <li>
       Next steps
-      <ul>
-        <li><button>Save</button> <small>saves the info in a file that can be uploaded in the future.</small>
-        <li><button>Calculate and display results</button>
-        <li><button>Calculate and generate ecoSPold</button>
-        <li><button>Advanced</button>
+      <ul id=next_steps>
+        <!--calculate and display results-->
+        <li>
+          <button onclick="(function(){
+            var url='elementary.php?'
+            //user technologies activated
+            Technologies_selected.filter(i=>{return !i.notActivable}).forEach(i=>{
+              url+='is_'+i.id+'_active='+document.querySelector('#techs #is_'+i.id+'_active').checked+'&';
+            });
+            //user inputs
+            Inputs.filter(i=>{return !i.isParameter}).forEach(i=>{
+              url+=i.id+'='+document.querySelector('#inputs #'+i.id).value+'&';
+            });
+            window.open(url);
+          })()">Calculate and display results</button>
+          <br><small>opens and runs 'single plant model' with current inputs</small>
+        </li>
+
+        <li>
+          <button onclick="alert('under_development')">Save file</button>
+          <br><small>saves the info in a file that can be uploaded in the future.</small>
+        </li>
+
+        <li>
+          <button onclick="alert('under_development')">Calculate and generate ecoSPold</button>
+          <br><small>will be implemented after ecospold generation</small>
+        </li>
+        <li><button onclick="alert('under_development')">Advanced</button>
           <div style="font-size:smaller">
             Modify advanced wastewater treatment parameters:
-            with Q1 loaded with wastewater as descibed in this sheet and Q2
-            loaded with default values for the WWTP technology of interest
-            and the corresponding region. For now, this should probably
-            only be available if model is for a single plant, and not for average treatment.
+            Only available if you are modelling a
+            single wastewater treatment plant.
           </div>
         </li>
+
+        <li>
+          <button onclick="alert('under_development')">View background data</button>
+          <br>
+          <small>
+            which would be associated with the "Show off data" item
+          </small>
+        </li>
+
+        <li>
+          <button onclick="alert('under_development')">Documentation</button>
+          <br>
+          <small>
+            associated with the "access to documentation" item.
+          </small>
+        </li>
       </ul>
+      <style>
+        ul#next_steps button {
+          padding:0.5em 1em;
+          font-size:14px;
+        }
+      </style>
     </li>
   </ol>
   <style>
