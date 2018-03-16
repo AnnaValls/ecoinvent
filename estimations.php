@@ -9,15 +9,16 @@
 
 <div id=root>
 <h1>Estimations</h1>
+<div>
+  <issue class=help_wanted></issue>
+  instructions not given to code this module, cannot implement
+</div>
+
 <p>
   Check the boxes of the inputs you have and click here
-  <button>OK</button>
+  <button onclick="alert('under_development')">OK</button>
 </p>
-<div>
-  <issue class=under_dev></issue>
-</div>
 <hr>
-
 
 <!--inputs table-->
 <div>

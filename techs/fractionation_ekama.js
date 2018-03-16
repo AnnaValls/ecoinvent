@@ -1,6 +1,6 @@
 /**
   * Technology: Fractionation of the influent (G. Ekama version)
-  * These equations are meant to overwrite the ones in "fractionation.js"
+  * All the equations in this file have been adapted in "fractionation.js"
   *
   *        /- BS: biodg & soluble ==  bsCOD -\
   *        |                                  |--> sCOD
@@ -25,7 +25,6 @@ function fractionation_ekama(COD,sCOD,fSus,fSup,BOD,sBOD,TSS,VSS){
     * | sCOD   | 199 g/m3       |
     * | fSus   |   7 %          | (nbsCOD/COD)
     * | fSup   |  15 %          | (nbpCOD/COD)
-    *
     * | BOD    | 140 g/m3       |
     * | sBOD   |  70 g/m3       |
     * | TSS    |  70 g/m3       |

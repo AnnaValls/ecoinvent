@@ -1,9 +1,10 @@
 # ECOINVENT WEB TOOL for wastewater
-Expected web tool finish: October 31 2017
+Expected web tool finish: october 31 2017
+new deadline:             mid-april 2018
 
 ## BACKEND TASKS
-  * [ ][DONE] integrate ekama's fractionation system to the rest of the code.
-  * [ ][DONE] be able to calculate 'n' systems (= run 'n' models in parallel)
+  * [ ][TODO] move energy, chemicals and sludge production to new files to group equations
+  ---
   * [ ][PAUSED] ECOSPOLD generation
     1. check for equivalent library in javascript as jinja2 for python
       - [DONE]: angular.js is an equivalent
@@ -24,7 +25,9 @@ Expected web tool finish: October 31 2017
     7. future: code in javascript
       generate data set id    (automatically) TODO
       generate activity index (automatically) TODO
-
+  ---
+  * [ ][DONE] integrate ekama's fractionation system to the rest of the code.
+  * [ ][DONE] be able to calculate 'n' systems (= run 'n' models in parallel)
 ## FRONTEND TASKS
 * substitute images for text in the example implementations
 

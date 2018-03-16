@@ -749,11 +749,7 @@
         Sludge production
 
         <ul id=sludge_production>
-          <li>Primary settler sludge: <span id=Pri_sludge>0</span>
-            <ul>
-              <li><issue class=under_dev></issue>
-              <li><issue class=help_requested>G. Ekama &amp; Y. Comeau</issue>
-            </ul>
+          <li>Primary settler sludge: <span id=TSS_removed_kgd>0</span>
           <li>P_X_TSS: <span id=P_X_TSS>0</span>
           <li>P_X_VSS: <span id=P_X_VSS>0</span>
             <ul>
@@ -828,9 +824,12 @@
               </li>
               <li>Alkalinity to maintain pH ≈ 7.0
                 <ul>
+                  <li>
+                    <issue class=help_wanted></issue>
+                    <issue class=TBD>in NaHCO<sub>3</sub> or CaCO<sub>3</sub>?</issue>
+                  </li>
                   <li>For Nitrification:       <span id=alkalinity_added>0</span>
                   <li>For Denitrification:     <span id=Mass_of_alkalinity_needed>0</span>
-                  <li><issue class=TBD>NaHCO3 or CaCO3</issue>
                 </ul>
               </li>
               <li>FeCl<sub>3</sub> used for chemical P removal
@@ -868,90 +867,83 @@
             </ul>
           </li>
         </ul>
-      </p><hr>
+      </p>
+    </div><hr>
 
-      <!--TODO-->
-      <div id=todo_items>
-        <p style=background:yellow;text-align:center>TO DO list + L. Bosch doubts</p>
-        <div>
-          <small>List created using Pascal e-mail (March-12th)<br>"[WWT-ecoinvent] Notes from call with ecoinvent"</small>
-        </div>
-
-        <p style="font-size:smaller">
-          Note: if a requested item is tagged as <issue class=help_wanted></issue> is
-          because L. Bosch has not understood either the concept itself and/or how to implement it.
-        </p>
-
-        <ul>
-          <li>Country data and averaging functions
-            <ul>
-              <li><issue class=help_wanted></issue>
-              <li style="font-size:smaller">A draft (or brief explanation) on how a user will interact with this item is needed.
-              <li style="font-size:smaller">Is anyone collecting the data for the core countries + global?
-              <li style="font-size:smaller">How the classes affect calculations?
-            </ul>
-          </li>
-
-          <li>Location of discharge
-            <ul>
-              <li><issue class=help_wanted></issue>
-              <li style="font-size:smaller">Should this be an input? How it affects calculations?
-            </ul>
-          </li>
-
-          <li>Hydraulic overload
-            <ul>
-              <li><issue class=help_wanted></issue>
-              <li style="font-size:smaller">Equations and explanation needed (inputs/outputs) (who knows them?)
-              <li style="font-size:smaller">I'm not sure how to start to implement this.
-            </ul>
-          </li>
-
-          <li>Uncertainty
-            <ul>
-              <li><issue class=help_wanted></issue>
-              <li style="font-size:smaller">I need to understand if it affects current calculations (if it is related to the metcalf&amp;eddy model), or if it's something fixed that is added to the ecospold file.
-              <li style="font-size:smaller">What is Pedigree outputs?
-            </ul>
-          </li>
-
-          <li>Untreated fraction
-            <ul>
-              <li><issue class=help_wanted></issue>
-              <li style="font-size:smaller">Who knows the equations (inputs/outputs)?
-              <li style="font-size:smaller">Who is generating the dataset?
-            </ul>
-          </li>
-
-          <li>Generate ecospold
-            <ul>
-              <li><issue class=help_wanted></issue>
-              <li><issue class=cannot_be_done></issue>
-              <li style="font-size:smaller">We should not focus on this unless the previous items are finished
-              <li style="font-size:smaller">Translation from python to javascript still not started
-            </ul>
-          </li>
-
-          <li>Show off data:
-            <ul>
-              <li><issue class=help_wanted></issue>
-              <li style="font-size:smaller">Not sure what this item is.
-            </ul>
-          </li>
-
-          <li>Documentation
-            <ul>
-              <li><issue class=help_wanted></issue>
-              <li><issue class=cannot_be_done></issue>
-              <li style="font-size:smaller">We should not focus on this unless the previous items are finished
-              <li style="font-size:smaller">item: overall approach
-              <li style="font-size:smaller">item: how-to integrated in the tool
-              <li style="font-size:smaller">item: ecospold documentation
-            </ul>
-          </li>
-
-        </ul>
+    <!--TODO-->
+    <div id=todo_items>
+      <p style=background:yellow;text-align:center>TO DO list + L. Bosch doubts</p>
+      <div>
+        <small>List created using Pascal e-mail (March-12th)<br>"[WWT-ecoinvent] Notes from call with ecoinvent"</small>
       </div>
+
+      <p style="font-size:smaller">
+        Note: if a requested item is tagged as <issue class=help_wanted></issue> is
+        because L. Bosch has not understood either the concept itself and/or how to implement it.
+      </p>
+
+      <ul>
+        <li>Country data and averaging functions
+          <ul>
+            <li><issue class=help_wanted></issue>
+            <li style="font-size:smaller">A draft (or brief explanation) on how a user will interact with this item is needed.
+            <li style="font-size:smaller">Is anyone collecting the data for the core countries + global?
+            <li style="font-size:smaller">How the classes affect calculations?
+          </ul>
+        </li>
+
+        <li>Hydraulic overload
+          <ul>
+            <li><issue class=help_wanted></issue>
+            <li style="font-size:smaller">Equations and explanation needed (inputs/outputs) (who knows them?)
+            <li style="font-size:smaller">I'm not sure how to start to implement this.
+          </ul>
+        </li>
+
+        <li>Uncertainty
+          <ul>
+            <li><issue class=help_wanted></issue>
+            <li style="font-size:smaller">I need to understand if it affects current calculations (if it is related to the metcalf&amp;eddy model), or if it's something fixed that is added to the ecospold file.
+            <li style="font-size:smaller">What is Pedigree outputs?
+          </ul>
+        </li>
+
+        <li>Untreated fraction
+          <ul>
+            <li><issue class=help_wanted></issue>
+            <li style="font-size:smaller">Who knows the equations (inputs/outputs)?
+            <li style="font-size:smaller">Who is generating the dataset?
+          </ul>
+        </li>
+
+        <li>Generate ecospold
+          <ul>
+            <li><issue class=help_wanted></issue>
+            <li><issue class=cannot_be_done></issue>
+            <li style="font-size:smaller">We should not focus on this unless the previous items are finished
+            <li style="font-size:smaller">Translation from python to javascript still not started
+          </ul>
+        </li>
+
+        <li>Show off data:
+          <ul>
+            <li><issue class=help_wanted></issue>
+            <li style="font-size:smaller">Not sure what this item is.
+          </ul>
+        </li>
+
+        <li>Documentation
+          <ul>
+            <li><issue class=help_wanted></issue>
+            <li><issue class=cannot_be_done></issue>
+            <li style="font-size:smaller">We should not focus on this unless the previous items are finished
+            <li style="font-size:smaller">item: overall approach
+            <li style="font-size:smaller">item: how-to integrated in the tool
+            <li style="font-size:smaller">item: ecospold documentation
+          </ul>
+        </li>
+
+      </ul>
     </div>
   </div>
 </div><hr>
@@ -961,251 +953,251 @@
 
 <!--app init: populate content default values-->
 <script>
-//populate page default values
-(function(){
-  var url=new URL(window.location.href); //GET params inside
-
-  //populate technologies table
+  //populate page default values
   (function(){
-    var t=document.querySelector('table#inputs_tech');
-    //only technologies activable by user
-    Technologies_selected
-      .filter(tec=>{return !tec.notActivable})
-      .forEach(tec=>{
-        var newRow=t.insertRow(-1);
-        //tec name
-        newRow.insertCell(-1).innerHTML=tec.descr;
+    var url=new URL(window.location.href); //GET params inside
+
+    //populate technologies table
+    (function(){
+      var t=document.querySelector('table#inputs_tech');
+      //only technologies activable by user
+      Technologies_selected
+        .filter(tec=>{return !tec.notActivable})
+        .forEach(tec=>{
+          var newRow=t.insertRow(-1);
+          //tec name
+          newRow.insertCell(-1).innerHTML=tec.descr;
+
+          //set the input value if it is specified in URL GET parameters
+          var get_parameter_value=url.searchParams.get('is_'+tec.id+'_active');
+          if(get_parameter_value!=null){
+            getInput(tec.id,true).value= get_parameter_value=="true";
+          }
+
+          //checkbox
+          var checked = getInput(tec.id,true).value ? "checked" : "";
+          newRow.insertCell(-1).outerHTML="<td style=text-align:center><input type=checkbox "+checked+" onchange=\"toggleTech('"+tec.id+"')\" tech='"+tec.id+"'>";
+          //implementation link
+          if(Technologies[tec.id]){
+            newRow.insertCell(-1).innerHTML="<small><center>"+
+              "<a href='see.php?path=techs&file="+Technologies[tec.id].File+"' title='see javascript implementation' target=_blank>"+
+              "equations"+
+              "</a></center></small>"+
+              "";
+          }
+      });
+    })();
+
+    //populate input table
+    (function(){
+      var table=document.querySelector('table#inputs');
+
+
+      //add a row to table
+      function process_input(i,display){
+        display=display||"";
+        var newRow=table.insertRow(-1);
+        newRow.style.display=display;
+        var advanced_indicator = i.color ? "<div class=circle style='background:"+i.color+"' title='Advanced knowledge required to modify this input'></div>" : "";
 
         //set the input value if it is specified in URL GET parameters
-        var get_parameter_value=url.searchParams.get('is_'+tec.id+'_active');
-        if(get_parameter_value!=null){
-          getInput(tec.id,true).value= get_parameter_value=="true";
+        var get_parameter_value=url.searchParams.get(i.id);
+        if(get_parameter_value){
+          i.value=parseFloat(get_parameter_value);
         }
 
-        //checkbox
-        var checked = getInput(tec.id,true).value ? "checked" : "";
-        newRow.insertCell(-1).outerHTML="<td style=text-align:center><input type=checkbox "+checked+" onchange=\"toggleTech('"+tec.id+"')\" tech='"+tec.id+"'>";
-        //implementation link
-        if(Technologies[tec.id]){
-          newRow.insertCell(-1).innerHTML="<small><center>"+
-            "<a href='see.php?path=techs&file="+Technologies[tec.id].File+"' title='see javascript implementation' target=_blank>"+
-            "equations"+
-            "</a></center></small>"+
-            "";
-        }
-    });
-  })();
-
-  //populate input table
-  (function(){
-    var table=document.querySelector('table#inputs');
-
-
-    //add a row to table
-    function process_input(i,display){
-      display=display||"";
-      var newRow=table.insertRow(-1);
-      newRow.style.display=display;
-      var advanced_indicator = i.color ? "<div class=circle style='background:"+i.color+"' title='Advanced knowledge required to modify this input'></div>" : "";
-
-      //set the input value if it is specified in URL GET parameters
-      var get_parameter_value=url.searchParams.get(i.id);
-      if(get_parameter_value){
-        i.value=parseFloat(get_parameter_value);
+        //insert cells
+        newRow.title=i.descr;
+        newRow.insertCell(-1).outerHTML="<td class=help><div class=flex style='justify-content:space-between'>"+i.id + advanced_indicator+"</div>";
+        newRow.insertCell(-1).innerHTML="<input id='"+i.id+"' value='"+i.value+"' type=number step=any onchange=setInput('"+i.id+"',this.value) min=0>"
+        newRow.insertCell(-1).outerHTML="<td class=unit>"+i.unit.prettifyUnit();
       }
 
-      //insert cells
-      newRow.title=i.descr;
-      newRow.insertCell(-1).outerHTML="<td class=help><div class=flex style='justify-content:space-between'>"+i.id + advanced_indicator+"</div>";
-      newRow.insertCell(-1).innerHTML="<input id='"+i.id+"' value='"+i.value+"' type=number step=any onchange=setInput('"+i.id+"',this.value) min=0>"
-      newRow.insertCell(-1).outerHTML="<td class=unit>"+i.unit.prettifyUnit();
-    }
-
-    //populate inputs (isParameter==false)
-    (function(){
-      var newRow=table.insertRow(-1);
-      var newCell=document.createElement('th');
-      newRow.appendChild(newCell);
-      newCell.colSpan=3;
-      newCell.style.textAlign='left';
-      //add <button>+/-</button> Metals
-      newCell.appendChild((function(){
-        var btn=document.createElement('button');
-        btn.innerHTML='↓';
-        btn.addEventListener('click',function(){
-          this.innerHTML=(this.innerHTML=='→')?'↓':'→';
-          Inputs.filter(i=>{return !i.isParameter && !i.isMetal}).forEach(i=>{
-            var h=document.querySelector('#inputs #'+i.id).parentNode.parentNode;
-            h.style.display=h.style.display=='none'?'':'none';
+      //populate inputs (isParameter==false)
+      (function(){
+        var newRow=table.insertRow(-1);
+        var newCell=document.createElement('th');
+        newRow.appendChild(newCell);
+        newCell.colSpan=3;
+        newCell.style.textAlign='left';
+        //add <button>+/-</button> Metals
+        newCell.appendChild((function(){
+          var btn=document.createElement('button');
+          btn.innerHTML='↓';
+          btn.addEventListener('click',function(){
+            this.innerHTML=(this.innerHTML=='→')?'↓':'→';
+            Inputs.filter(i=>{return !i.isParameter && !i.isMetal}).forEach(i=>{
+              var h=document.querySelector('#inputs #'+i.id).parentNode.parentNode;
+              h.style.display=h.style.display=='none'?'':'none';
+            });
           });
-        });
-        return btn;
-      })());
-      newCell.appendChild((function(){
-        var span=document.createElement('span');
-        span.innerHTML=' Wastewater characteristics';
-        return span;
-      })());
-    })();
-    Inputs.filter(i=>{return !i.isParameter && !i.isMetal}).forEach(i=>{
-      process_input(i);
-    });
-
-    //populate design parameters (isParameter==true)
-    (function(){
-      var newRow=table.insertRow(-1);
-      var newCell=document.createElement('th');
-      newRow.appendChild(newCell);
-      newCell.colSpan=3;
-      newCell.style.textAlign='left';
-      //add <button>+/-</button> Metals
-      newCell.appendChild((function(){
-        var btn=document.createElement('button');
-        btn.innerHTML='↓';
-        btn.addEventListener('click',function(){
-          this.innerHTML=(this.innerHTML=='→')?'↓':'→';
-          Inputs.filter(i=>{return i.isParameter}).forEach(i=>{
-            var h=document.querySelector('#inputs #'+i.id).parentNode.parentNode;
-            h.style.display=h.style.display=='none'?'':'none';
-          });
-        });
-        return btn;
-      })());
-      newCell.appendChild((function(){
-        var span=document.createElement('span');
-        span.innerHTML=' Design parameters';
-        return span;
-      })());
-    })();
-    Inputs.filter(i=>{return i.isParameter}).forEach(i=>{
-      process_input(i);
-    });
-
-    //populate metals (isMetal==true)
-    (function(){
-      var newRow=table.insertRow(-1);
-      var newCell=document.createElement('th');
-      newRow.appendChild(newCell);
-      newCell.colSpan=3;
-      newCell.style.textAlign='left';
-      //add <button>+/-</button> Metals
-      newCell.appendChild((function(){
-        var btn=document.createElement('button');
-        btn.innerHTML='→';
-        btn.addEventListener('click',function(){
-          this.innerHTML=(this.innerHTML=='→')?'↓':'→';
-          Inputs.filter(i=>{return i.isMetal}).forEach(i=>{
-            var h=document.querySelector('#inputs #'+i.id).parentNode.parentNode;
-            h.style.display=h.style.display=='none'?'':'none';
-          });
-        });
-        return btn;
-      })());
-      newCell.appendChild((function(){
-        var span=document.createElement('span');
-        span.innerHTML=' Metals';
-        return span;
-      })());
-    })();
-    Inputs.filter(i=>{return i.isMetal}).forEach(i=>{
-      process_input(i,'none');
-    });
-  })();
-
-  //populate outputs
-  (function(){
-    var table=document.querySelector('#outputs');
-    function populate_output(key,display){
-      display=display||"";
-      var newRow=table.insertRow(-1);
-      newRow.style.display=display;
-      var output=Outputs[key];
-      newRow.id=key;
-      newRow.title=output.descr;
-      //output id
-      //link to source code
-      var link="<a href='see.php?file=elementary.js&remark=Outputs."+key+"' target=_blank>"+key.prettifyUnit()+"</a>";
-      newRow.insertCell(-1).outerHTML="<th style='font-weight:normal;'>"+link;
-      //influent and effluent defaults as 0
-      ['influent','water','air','sludge'].forEach(phase=>{
-        newRow.insertCell(-1).outerHTML="<td phase="+phase+" class=number><span style=color:#aaa>0";
+          return btn;
+        })());
+        newCell.appendChild((function(){
+          var span=document.createElement('span');
+          span.innerHTML=' Wastewater characteristics';
+          return span;
+        })());
+      })();
+      Inputs.filter(i=>{return !i.isParameter && !i.isMetal}).forEach(i=>{
+        process_input(i);
       });
-    }
 
-    //normal outputs
-    (function(){
-      var newRow=table.insertRow(-1);
-      var newCell=document.createElement('th');
-      newRow.appendChild(newCell);
-      newCell.colSpan=5;
-      newCell.style.textAlign='left';
-      //add <button>+/-</button> Metals
-      newCell.appendChild((function(){
-        var btn=document.createElement('button');
-        btn.innerHTML='↓';
-        btn.addEventListener('click',function(){
-          this.innerHTML=(this.innerHTML=='→')?'↓':'→';
-          Object.keys(Outputs).filter(i=>{return !getInputById(i).isMetal}).forEach(i=>{
-            var h=document.querySelector('#outputs #'+i);
-            h.style.display=h.style.display=='none'?'':'none';
+      //populate metals (isMetal==true)
+      (function(){
+        var newRow=table.insertRow(-1);
+        var newCell=document.createElement('th');
+        newRow.appendChild(newCell);
+        newCell.colSpan=3;
+        newCell.style.textAlign='left';
+        //add <button>+/-</button> Metals
+        newCell.appendChild((function(){
+          var btn=document.createElement('button');
+          btn.innerHTML='→';
+          btn.addEventListener('click',function(){
+            this.innerHTML=(this.innerHTML=='→')?'↓':'→';
+            Inputs.filter(i=>{return i.isMetal}).forEach(i=>{
+              var h=document.querySelector('#inputs #'+i.id).parentNode.parentNode;
+              h.style.display=h.style.display=='none'?'':'none';
+            });
           });
-        });
-        return btn;
-      })());
-      newCell.appendChild((function(){
-        var span=document.createElement('span');
-        span.innerHTML=' Main compounds';
-        return span;
-      })());
-    })();
-    Object.keys(Outputs)
-      .filter(key=>{return !getInputById(key).isMetal})
-      .forEach(key=>{
-        populate_output(key);
-    });
+          return btn;
+        })());
+        newCell.appendChild((function(){
+          var span=document.createElement('span');
+          span.innerHTML=' Metals';
+          return span;
+        })());
+      })();
+      Inputs.filter(i=>{return i.isMetal}).forEach(i=>{
+        process_input(i,'none');
+      });
 
-    //metals
-    (function(){
-      var newRow=table.insertRow(-1);
-      var newCell=document.createElement('th');
-      newRow.appendChild(newCell);
-      newCell.colSpan=5;
-      newCell.style.textAlign='left';
-      //add <button>+/-</button> Metals
-      newCell.appendChild((function(){
-        var btn=document.createElement('button');
-        btn.innerHTML='→';
-        btn.addEventListener('click',function(){
-          this.innerHTML=(this.innerHTML=='→')?'↓':'→';
-          Inputs.filter(i=>{return i.isMetal}).forEach(i=>{
-            var h=document.querySelector('#outputs #'+i.id);
-            h.style.display=h.style.display=='none'?'':'none';
+      //populate design parameters (isParameter==true)
+      (function(){
+        var newRow=table.insertRow(-1);
+        var newCell=document.createElement('th');
+        newRow.appendChild(newCell);
+        newCell.colSpan=3;
+        newCell.style.textAlign='left';
+        //add <button>+/-</button> Metals
+        newCell.appendChild((function(){
+          var btn=document.createElement('button');
+          btn.innerHTML='↓';
+          btn.addEventListener('click',function(){
+            this.innerHTML=(this.innerHTML=='→')?'↓':'→';
+            Inputs.filter(i=>{return i.isParameter}).forEach(i=>{
+              var h=document.querySelector('#inputs #'+i.id).parentNode.parentNode;
+              h.style.display=h.style.display=='none'?'':'none';
+            });
           });
-        });
-        return btn;
-      })());
-      newCell.appendChild((function(){
-        var span=document.createElement('span');
-        span.innerHTML=' Metals';
-        return span;
-      })());
+          return btn;
+        })());
+        newCell.appendChild((function(){
+          var span=document.createElement('span');
+          span.innerHTML=' Design parameters';
+          return span;
+        })());
+      })();
+      Inputs.filter(i=>{return i.isParameter}).forEach(i=>{
+        process_input(i);
+      });
     })();
-    Object.keys(Outputs)
-      .filter(key=>{return getInputById(key).isMetal})
-      .forEach(key=>{
-        populate_output(key,'none');
+
+    //populate outputs
+    (function(){
+      var table=document.querySelector('#outputs');
+      function populate_output(key,display){
+        display=display||"";
+        var newRow=table.insertRow(-1);
+        newRow.style.display=display;
+        var output=Outputs[key];
+        newRow.id=key;
+        newRow.title=output.descr;
+        //output id
+        //link to source code
+        var link="<a href='see.php?file=elementary.js&remark=Outputs."+key+"' target=_blank>"+key.prettifyUnit()+"</a>";
+        newRow.insertCell(-1).outerHTML="<th style='font-weight:normal;'>"+link;
+        //influent and effluent defaults as 0
+        ['influent','water','air','sludge'].forEach(phase=>{
+          newRow.insertCell(-1).outerHTML="<td phase="+phase+" class=number><span style=color:#aaa>0";
+        });
+      }
+
+      //normal outputs
+      (function(){
+        var newRow=table.insertRow(-1);
+        var newCell=document.createElement('th');
+        newRow.appendChild(newCell);
+        newCell.colSpan=5;
+        newCell.style.textAlign='left';
+        //add <button>+/-</button> Metals
+        newCell.appendChild((function(){
+          var btn=document.createElement('button');
+          btn.innerHTML='↓';
+          btn.addEventListener('click',function(){
+            this.innerHTML=(this.innerHTML=='→')?'↓':'→';
+            Object.keys(Outputs).filter(i=>{return !getInputById(i).isMetal}).forEach(i=>{
+              var h=document.querySelector('#outputs #'+i);
+              h.style.display=h.style.display=='none'?'':'none';
+            });
+          });
+          return btn;
+        })());
+        newCell.appendChild((function(){
+          var span=document.createElement('span');
+          span.innerHTML=' Main compounds';
+          return span;
+        })());
+      })();
+      Object.keys(Outputs)
+        .filter(key=>{return !getInputById(key).isMetal})
+        .forEach(key=>{
+          populate_output(key);
+      });
+
+      //metals
+      (function(){
+        var newRow=table.insertRow(-1);
+        var newCell=document.createElement('th');
+        newRow.appendChild(newCell);
+        newCell.colSpan=5;
+        newCell.style.textAlign='left';
+        //add <button>+/-</button> Metals
+        newCell.appendChild((function(){
+          var btn=document.createElement('button');
+          btn.innerHTML='→';
+          btn.addEventListener('click',function(){
+            this.innerHTML=(this.innerHTML=='→')?'↓':'→';
+            Inputs.filter(i=>{return i.isMetal}).forEach(i=>{
+              var h=document.querySelector('#outputs #'+i.id);
+              h.style.display=h.style.display=='none'?'':'none';
+            });
+          });
+          return btn;
+        })());
+        newCell.appendChild((function(){
+          var span=document.createElement('span');
+          span.innerHTML=' Metals';
+          return span;
+        })());
+      })();
+      Object.keys(Outputs)
+        .filter(key=>{return getInputById(key).isMetal})
+        .forEach(key=>{
+          populate_output(key,'none');
+      });
+    })();
+
+    //lcorominas requested hiding these inputs from frontend.
+    //but these inputs should not be hidden
+    /*
+    [
+      //'PO4', //already calculated in elementary.js
+      //'sBODe',     //used in nitrification.js
+    ].forEach(id=>{
+      document.querySelector('#inputs #'+id).parentNode.parentNode.style.display='none';
     });
+    */
   })();
-
-  //lcorominas requested hiding these inputs from frontend.
-  //but these inputs should not be hidden
-  /*
-  [
-    //'PO4', //already calculated in elementary.js
-    //'sBODe',     //used in nitrification.js
-  ].forEach(id=>{
-    document.querySelector('#inputs #'+id).parentNode.parentNode.style.display='none';
-  });
-  */
-})();
 </script>

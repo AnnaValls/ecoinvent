@@ -31,11 +31,11 @@ var Inputs = [
 {id:"Alkalinity", value:140, unit:"g/m3_as_CaCO3", descr:"Influent alkalinity"},
 
 //primary settler
-{id:"removal_bpCOD",  value:40, unit:"%", isParameter:true, descr:"Primary settler bpCOD removal rate (25 to 60% for municipal wastewater)"},
-{id:"removal_nbpCOD", value:60, unit:"%", isParameter:true, descr:"Primary settler nbpCOD removal rate (40 to 80% for municipal wastewater)"},
-{id:"removal_iTSS",   value:70, unit:"%", isParameter:true, descr:"Primary settler iTSS removal rate (50 to 90% for municipal wastewater)"},
-{id:"removal_ON",     value:66, unit:"%", isParameter:true, descr:"Primary settler ON removal rate (66% for municipal wastewater)"},
-{id:"removal_OP",     value:66, unit:"%", isParameter:true, descr:"Primary settler OP removal rate (66% for municipal wastewater)"},
+{id:"removal_bpCOD",  value:40,   unit:"%", isParameter:true, descr:"Primary settler bpCOD removal rate (25 to 60% for municipal wastewater)"},
+{id:"removal_nbpCOD", value:60,   unit:"%", isParameter:true, descr:"Primary settler nbpCOD removal rate (40 to 80% for municipal wastewater)"},
+{id:"removal_ON",     value:66.6, unit:"%", isParameter:true, descr:"Primary settler ON removal rate (66% for municipal wastewater)"},
+{id:"removal_OP",     value:66.6, unit:"%", isParameter:true, descr:"Primary settler OP removal rate (66% for municipal wastewater)"},
+{id:"removal_iTSS",   value:70,   unit:"%", isParameter:true, descr:"Primary settler iTSS removal rate (50 to 90% for municipal wastewater)"},
 
 //bod removal
 {id:"MLSS_X_TSS", value:3000,  unit:"g/m3",       isParameter:true, descr:"Mixed liquor suspended solids"},

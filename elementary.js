@@ -122,7 +122,7 @@ function compute_elementary_flows(Input_set){
   /*0. SOLVE FRACTIONATION AND PRIMARY SETTLER */
 
   //first fractionation
-  Result.Fra=fractionation(BOD,sBOD,COD,bCOD,sCOD,TSS,VSS,TKN,NH4,NH4_eff,TP,PO4)
+  Result.Fra=fractionation(BOD,sBOD,COD,bCOD,sCOD,rbCOD,TSS,VSS,TKN,NH4,NH4_eff,TP,PO4)
 
   //apply primary settler + fractionation again
   if(is_Pri_active){
@@ -138,7 +138,7 @@ function compute_elementary_flows(Input_set){
     var VSS_COD        = Result.Fra.VSS_COD.value; //g_pCOD/g_VSS
 
     //apply primary settler    ----pCOD---- ------removal-rates-----
-    Result.Pri=primary_settler(Q,bpCOD,nbpCOD,iTSS,ON,OP,removal_bpCOD,removal_nbpCOD,removal_iTSS,removal_ON,removal_OP);
+    Result.Pri=primary_settler(Q,bpCOD,nbpCOD,iTSS,ON,OP,VSS_COD,removal_bpCOD,removal_nbpCOD,removal_iTSS,removal_ON,removal_OP);
     addResults('Pri',Result.Pri);
 
     //get removed pCOD (g/m3)
@@ -163,12 +163,12 @@ function compute_elementary_flows(Input_set){
     TSS = VSS + iTSS;
 
     //RECALCULATE FRACTIONATION
-    Result.Fra=fractionation(BOD,sBOD,COD,bCOD,sCOD,TSS,VSS,TKN,NH4,NH4_eff,TP,PO4)
+    Result.Fra=fractionation(BOD,sBOD,COD,bCOD,sCOD,rbCOD,TSS,VSS,TKN,NH4,NH4_eff,TP,PO4)
 
   }else{
     //call it just to see "0 g/m3 removed"
-    //         primary_settler(Q,bpCOD,nbpCOD,iTSS,ON,OP,removal_bpCOD,removal_nbpCOD,removal_iTSS,removal_ON,removal_OP);
-    Result.Pri=primary_settler(0,    0,     0,   0, 0, 0,            0,             0,           0,         0,         0);
+    //         primary_settler(Q,bpCOD,nbpCOD,iTSS,ON,OP,VSS_COD,removal_bpCOD,removal_nbpCOD,removal_iTSS,removal_ON,removal_OP);
+    Result.Pri=primary_settler(0,    0,     0,   0, 0, 0,      0,            0,             0,           0,         0,         0);
     addResults('Pri',Result.Pri);
   }
   addResults('Fra',Result.Fra);
@@ -291,6 +291,7 @@ function compute_elementary_flows(Input_set){
   var tau                       = select_value('tau',                       ['Des','Nit','BOD']);
   var MLVSS                     = select_value('MLVSS',                     ['Nit','BOD']);
   //var BOD_loading               = select_value('BOD_loading',               ['Nit','BOD']);
+  var TSS_removed_kgd           = select_value('TSS_removed_kgd',           ['Pri']);
   var P_X_bio                   = select_value('P_X_bio',                   ['BiP','Nit','BOD']);
   var P_X_TSS                   = select_value('P_X_TSS',                   ['BiP','Nit','BOD']);
   var Y_obs_TSS                 = select_value('Y_obs_TSS',                 ['Nit','BOD'])
@@ -306,7 +307,7 @@ function compute_elementary_flows(Input_set){
   var storage_req_15_d          = select_value('storage_req_15_d',          ['ChP']);
 
   Result.other={
-    //thnings calculated out of technologies
+    //things calculated out of technologies
     'V_total': {value:V_total, unit:"m3",   descr:"Total reactor volume (aerobic+anoxic+anaerobic)"},
     'Qwas':    {value:Qwas,    unit:"m3/d", descr:"Wastage flow"},
     'Qe':      {value:Qe,      unit:"m3/d", descr:"Qe = Q - Qwas"},
@@ -480,6 +481,7 @@ function compute_elementary_flows(Input_set){
     //'BOD_loading':                {value:BOD_loading,                unit:"kg/m3·d",         descr:""},
 
     //sludge
+    'TSS_removed_kgd': {value:TSS_removed_kgd,  unit:"kg_TSS/d", descr:"Primary_settler_sludge_produced_per_day"},
     'P_X_TSS':  {value:P_X_TSS,  unit:"kg_TSS/d", descr:"Total_sludge_produced_per_day"},
     'P_X_VSS':  {value:P_X_VSS,  unit:"kg_VSS/d", descr:"Volatile suspended solids produced per day"},
 

@@ -90,7 +90,7 @@
     </li>
 
     <li>
-      Wastewater treatment technology mix <br>
+      Wastewater treatment technologies of your plant/s <br>
       <table id=techs></table>
     </li>
 
@@ -115,14 +115,14 @@
             Inputs.filter(i=>{return !i.isParameter}).forEach(i=>{
               url+=i.id+'='+document.querySelector('#inputs #'+i.id).value+'&';
             });
-            window.open(url);
+            window.location=url;
           })()">Calculate and display results</button>
-          <br><small>opens and runs 'single plant model' with current inputs</small>
+          <br><small>Run 'single plant model' with current inputs provided</small>
         </li>
 
         <li>
           <button onclick="alert('under_development')">Save file</button>
-          <br><small>saves the info in a file that can be uploaded in the future.</small>
+          <br><small>Save the inputs provided in a file that can be uploaded in the future.</small>
         </li>
 
         <li>
@@ -132,7 +132,7 @@
         <li><button onclick="alert('under_development')">Advanced</button>
           <div style="font-size:smaller">
             Modify advanced wastewater treatment parameters:
-            Only available if you are modelling a
+            only available if you are modelling a
             single wastewater treatment plant.
           </div>
         </li>

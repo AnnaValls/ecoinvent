@@ -6,6 +6,7 @@
 <?php include'navbar.php'?>
 <div id=root>
 <h1>Home page</h1>
+
 <p style=max-width:50em>
   <p style=max-width:50em>
     This is a placeholder for drafting the user interface.
@@ -16,7 +17,7 @@
   <!--web parts-->
   <div>
     <p><b>Web parts</b></p>
-    <ul>
+    <ol>
       <li>
         Single plant model
         <ul>
@@ -35,7 +36,7 @@
           <li><a href="reference_data.php">Average influents by country ("Reference data")</a>
         </ul>
       <li><a href=ecospold.php>Generate output file (ecospold format)</a>
-    </ul>
+    </ol>
   </div><hr>
 
   <!--implementations-->
