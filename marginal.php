@@ -330,11 +330,13 @@
   <!--2. techs and design parameters-->
   <div style="max-width:445px;border-right:1px solid #ccc;padding:0 8px">
     <div>
-      <p><b>2. Activate removal technologies:</b></p>
+      <p><b>2. Define reference WWTP</b></p>
+
+      <p>2.1. Define treatment levels:</p>
       <table id=technologies border=1></table>
     </div>
     <div>
-      <p><b>3. Enter design parameters:</b></p>
+      <p>2.2. Enter design parameters:</p>
       <table id=design_parameters></table>
       <style>
         #design_parameters input[type=number] {
