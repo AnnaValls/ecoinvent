@@ -313,7 +313,9 @@
       <tr>
         <th>Input
         <th>Influent 1
+          <br>(activity wastewater)
         <th>Influent 2
+          <br>(reference wwtp)
         <th>Influent 1+2
         <th>Unit
       <tr>
