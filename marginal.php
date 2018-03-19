@@ -348,9 +348,9 @@
 
   <!--3. results-->
   <div style="padding-left:8px">
-    <p><b>4. Results: contribution of Influent 1</b></p>
+    <p><b>3. Results</b></p>
     <p>
-      4.1. Effluent resulting from Influent 1 + Influent 2
+      3.1. Effluent
       <!--menu to change output units (kg/d or g/m3)-->
       <!--menu to see percentage-->
       <table style=font-size:smaller>
@@ -390,7 +390,7 @@
     </style>
 
     <!--design summary-->
-    <p>4.2. Design summary</p>
+    <p>3.2. Design summary</p>
     <table border=1 id=design_summary>
       <tr><th>Total sludge produced    <td class=number id="P_X_TSS">0<td class=unit>kg/d
       <tr><th>Total reactor volume     <td class=number id="V_total">0<td class=unit>m<sup>3</sup>
@@ -399,7 +399,7 @@
     </table>
 
     <!--technosphere-->
-    <p>4.3. Technosphere</p>
+    <p>3.3. Technosphere</p>
     <table border=1 id=technosphere>
       <tr><th rowspan=3>Alkalinity<br>to maintain pH
         <tr><th>Nitrification   <td class=number id="alkalinity_added">0<td class=unit>kg/d as NaHCO<sub>3</sub>

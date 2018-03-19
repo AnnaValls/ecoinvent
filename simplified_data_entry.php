@@ -1,5 +1,5 @@
 <?php /*
-  //simplified user interface for inputs
+  simplified user interface for inputs
 */?>
 <!doctype html><html><head>
   <?php include'imports.php'?>
@@ -15,6 +15,7 @@
 
 <div>
   <ol id=data_entry>
+    <!--activity name-->
     <li>
       Wastewater source (activity name)<br>
       <input type=text placeholder="activity name" max=120 size=100>
@@ -57,18 +58,7 @@
       </div>
     </li>
 
-    <li>
-      Wastewater treatment plant capacity (PCE: per capita equivalents)<br>
-      <select>
-        <option>Class 1: over      100,000 PCE
-        <option>Class 2: 50,000 to 100,000 PCE
-        <option>Class 3: 10,000 to  50,000 PCE
-        <option>Class 4:  2,000 to  10,000 PCE
-        <option>Class 5:     30 to   2,000 PCE
-        <option>Average
-      </select>
-    </li>
-
+    <!--country-->
     <li>
       <div>
         Country where the wastewater is being emitted
@@ -78,6 +68,7 @@
       </div>
     </li>
 
+    <!--volume-->
     <li>
       Volume of water discharged<br>
       <input type=number value=0> m<sup>3</sup>
@@ -89,17 +80,52 @@
       </div>
     </li>
 
+    <!--capacity TBD-->
     <li>
-      Wastewater treatment technologies of your plant/s <br>
-      <table id=techs></table>
+      Wastewater treatment plant capacity (PCE: per capita equivalents)<br>
+      <div>
+        <issue class=help_wanted></issue>
+        <issue>No final decision taken</issue>
+      </div>
+      Possibilities:
+      <ul>
+        <li>
+          <select>
+            <option>Class 1: over      100,000 PCE
+            <option>Class 2: 50,000 to 100,000 PCE
+            <option>Class 3: 10,000 to  50,000 PCE
+            <option>Class 4:  2,000 to  10,000 PCE
+            <option>Class 5:     30 to   2,000 PCE
+            <option>Average
+          </select>
+        </li>
+        <li><input type=number value=0> PCE
+        <li>Automatically calculated in WW composition.
+          <br>
+          <code>
+            PCE = (Q m<sup>3</sup>/d)·(BOD g O<sub>2</sub>/m<sup>3</sup>)/(60 g O<sub>2</sub>/d·inhab)
+          </code>
+      </ul>
     </li>
 
+    <!--wwtp force-->
+    <li>
+      Wastewater treatment force<br>
+      <label><input type=radio name=wwtp_techs onchange="toggleView(false,'techs')" checked>Use country defaults</label> <br>
+      <label><input type=radio name=wwtp_techs onchange="toggleView(false,'techs')">Define a local WWT force</label>
+      <ul>
+        <table id=techs style="display:none"></table>
+      </ul>
+    </li>
+
+    <!--ww composition-->
     <li>
       <button class=toggleView onclick="toggleView(this,'inputs')">&rarr;</button>
       Wastewater composition
       <table id=inputs style=display:none></table>
     </li>
 
+    <!--next steps-->
     <li>
       Next steps
       <ul id=next_steps>

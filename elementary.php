@@ -750,6 +750,9 @@
 
         <ul id=sludge_production>
           <li>Primary settler sludge: <span id=TSS_removed_kgd>0</span>
+            <ul>
+              <li><issue class=help_wanted>: elementary composition needed (George is the person to ask)</issue>
+            </ul>
           <li>P_X_TSS: <span id=P_X_TSS>0</span>
           <li>P_X_VSS: <span id=P_X_VSS>0</span>
             <ul>
