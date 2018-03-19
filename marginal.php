@@ -315,7 +315,7 @@
         <th>Influent 1
           <br>(activity wastewater)
         <th>Influent 2
-          <br>(reference wwtp)
+          <br>(reference wastewater)
         <th>Influent 1+2
         <th>Unit
       <tr>
