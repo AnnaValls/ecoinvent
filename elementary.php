@@ -874,10 +874,6 @@
               </li>
               <li>Dewatering:                  <span id=dewatering_power>0</span>
               <li>Other:                       <span id=other_power>0</span>
-                <ul>
-                  <li><issue class=under_dev></issue>
-                  <li><issue class=help_requested>L. Corominas</issue>
-                </ul>
               <li>Total energy
                 <ul>
                   <li>As power needed:   <span id=total_power>0</span>

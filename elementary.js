@@ -377,16 +377,16 @@ function compute_elementary_flows(Input_set){
         g = gravitation constant = 9.81 m/s^2
         Q is flow in m^3/s
         H is water lift height and friction head in m.
-        You can use a standard lift height of 10 m. 
+        You can use a standard lift height of 10 m.
         User can change it if they have a better height.
-        With Archimedian screw pumps I think the friction head 
+        With Archimedian screw pumps I think the friction head
         is probably about 10% of the static head.
-        P excludes losses in gear box and electrical 
-        inefficiency. So for electrical power consumption 
-        these losses increase the power consumption. 
-        Archimedian screw pumps draw power proportional to the flux of water 
-        lifted, i.e draw low power at low flow and high power at high flow. This means 
-        you can use the average dry wearther flow as the kWh/d because the power 
+        P excludes losses in gear box and electrical
+        inefficiency. So for electrical power consumption
+        these losses increase the power consumption.
+        Archimedian screw pumps draw power proportional to the flux of water
+        lifted, i.e draw low power at low flow and high power at high flow. This means
+        you can use the average dry wearther flow as the kWh/d because the power
         balanaces out over a 24h day.
       */
     },//kW
@@ -401,8 +401,14 @@ function compute_elementary_flows(Input_set){
   var dewatering_factor = 20;                                //kWh/tDM (tone dry matter)
   var dewatering_power  = P_X_TSS/1000*dewatering_factor/24; //kW
 
-  //5. OTHER power: assumption is that pumping+aeration+dewatering+mixing is 80%, so other is 20% of total
-  var other_power = 0.25*(aeration_power+mixing_power+pumping_power+dewatering_power);
+  //5. OTHER power: regression equations from lcorominas
+  var other_power = (function(){
+    if(is_Pri_active){
+      return 0.0124*Q + 337.77; //kWh/d
+    }else{
+      return 0.0165*Q + 337.59; //kWh/d
+    }
+  })()/24; //converted to kW dividing by 24
 
   //6. TOTAL power
   var total_power = aeration_power + mixing_power + pumping_power + dewatering_power + other_power;
