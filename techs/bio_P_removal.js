@@ -3,7 +3,7 @@
  * Metcalf & Eddy, Wastewater Engineering, 5th ed., 2014:
  * page 880
  */
-function bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,NOx,NO3_eff,tau_aer){
+function bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,NOx,NO3_eff,tau_aer,RAS){
   /*
     Inputs           example values
     --------------------------------
@@ -35,7 +35,7 @@ function bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,NOx,NO3_eff,tau_aer)
   /*SOLUTION*/
   //1
   var Q_rbCOD = Q*rbCOD; //300,000 g/d
-  var RQ_NO3_N = 0.50*Q*NO3_eff; //12,000 g/d
+  var RQ_NO3_N = RAS*Q*NO3_eff; //12,000 g/d
   var rbCOD_used_by_NO3 = rbCOD_NO3_ratio * RQ_NO3_N; //62,400 g/d
   var rbCOD_available = Math.max(0, Q_rbCOD - rbCOD_used_by_NO3); //237,600 g/d
 
@@ -106,6 +106,7 @@ function bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,NOx,NO3_eff,tau_aer)
   var NOx              = 28;
   var NO3_eff          = 6;
   var tau_aer          = 0.75;
-  var result = bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,NOx,NO3_eff,tau_aer);
+  var RAS              = 0.5;
+  var result = bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,NOx,NO3_eff,tau_aer,RAS);
   console.log(result);
 })();

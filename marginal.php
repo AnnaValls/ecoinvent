@@ -1,7 +1,6 @@
-<?php
-  /*
-   * Marginal approach:
-   * Mix 2 influents to see the contribution of the first to the total effluent
+<?php /*
+  Marginal approach:
+  Mix 2 influents to see the contribution of the first to the total effluent
 */?>
 <!doctype html><html><head>
   <?php include'imports.php'?>
@@ -27,7 +26,7 @@
     }
   </script>
 
-  <!--backend-->
+  <!--marginal approach backend implementation-->
   <script>
     //deactivate impossible tech combinations
     function disable_checkboxes(){
@@ -298,9 +297,11 @@
   <p>
     Here you can study the marginal contribution of an influent to the
     effluent resulting from the sum of two influents.
+  </p><p>
+    <small>Note: mouse over variables to see a little description</small>
   </p>
   <p>
-    <small>Note: mouse over variables to see a little description</small>
+    <button>Generate ecospold with the results</button>
   </p>
 </div><hr style=margin:0>
 
@@ -308,16 +309,16 @@
 <div class=flex>
   <!--1. influents to mix-->
   <div style="max-width:445px;border-right:1px solid #ccc;padding-right:8px">
-    <p><b>1. Enter two influents to be mixed:</b></p>
+    <p><b>1. Wastewater characteristics:</b></p>
     <table id=inputs border=0>
       <tr>
-        <th>Input
+        <th>Inputs
         <th>Influent 1
-          <br>(activity wastewater)
+          <br><small>activity<br>wastewater</small>
         <th>Influent 2
-          <br>(reference wastewater)
+          <br><small>reference<br>wastewater</small>
         <th>Influent 1+2
-        <th>Unit
+        <th>Units
       <tr>
     </table>
     <style>
@@ -330,7 +331,7 @@
   <!--2. techs and design parameters-->
   <div style="max-width:445px;border-right:1px solid #ccc;padding:0 8px">
     <div>
-      <p><b>2. Define reference WWTP</b></p>
+      <p><b>2. Reference WWTP</b></p>
 
       <p>2.1. Define treatment levels:</p>
       <table id=technologies border=1></table>
@@ -359,11 +360,17 @@
             <input type=radio name=currentUnit value="kg/d" onclick="Options.displayed_results.set(this.value)" checked> kg/d
           <label>
             <input type=radio name=currentUnit value="g/m3" onclick="Options.displayed_results.set(this.value)"> g/m<sup>3</sup>
-        <tr><td>See contribution in percentage:
+        <tr><td>See activity contribution in %:
           <label>
             <input type=radio  name=percent onclick="Options.displayed_results.setPercent(false)" checked> No
           <label>
             <input type=radio  name=percent onclick="Options.displayed_results.setPercent(true)"> Yes
+        <tr><td>See activity contribution per m<sup>3</sup> of Influent 1:
+          <label>
+            <input type=radio  name=contr_per_Q1 onclick="" checked> No
+          <label>
+            <input type=radio  name=contr_per_Q1 onclick=""> Yes
+            <issue class=under_dev></issue>
       </table>
     </p>
 
@@ -469,6 +476,7 @@
         newRow.insertCell(-1).innerHTML=tec.Name;
         var checked = Techs_selected[i] ? "checked":"";
         newRow.insertCell(-1).innerHTML="<input type=checkbox "+checked+" onchange=init()>";
+        //TODO add disabled
       }
     })();
 
@@ -482,7 +490,7 @@
         //design parameter id
         newRow.insertCell(-1).innerHTML=i.id;
         //input element
-        newRow.insertCell(-1).innerHTML="<input type=number value='"+i.value+"' onchange=init()>";
+        newRow.insertCell(-1).innerHTML="<input disabled type=number value='"+i.value+"' onchange=init()>";
         //unit
         newRow.insertCell(-1).innerHTML="<small>"+i.unit.prettifyUnit()+"</small>";
       });

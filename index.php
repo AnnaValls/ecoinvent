@@ -6,7 +6,6 @@
 <?php include'navbar.php'?>
 <div id=root>
 <h1>Home page</h1>
-
 <p style=max-width:50em>
   <p style=max-width:50em>
     This is a placeholder for drafting the user interface.
@@ -43,46 +42,38 @@
   <div>
     <p><b>Metcalf &amp; Eddy, Wastewater Engineering: technologies implemented from exercises</b></p>
     <table border=1>
-      <tr><th>Technology<th>Source<th>Coding status<th>Code
+      <tr><th>Technology<th>Source<th>Code
       <tr>
         <td>1. <a href="implementations/bod_removal_with_nitrification.php">Fractionation</a>
         <td>M&amp;E 5th ed (p. 756)
-        <td>Tested &amp; working
         <td><a href="see.php?path=techs&file=fractionation.js">fractionation.js</a>
       <tr>
         <td>2. <a href="implementations/bod_removal_with_nitrification.php">BOD removal only</a>
         <td>M&amp;E 5th ed (p. 756)
-        <td>Tested &amp; working
         <td><a href="see.php?path=techs&file=bod_removal_only.js">bod_removal_only.js</a>
       <tr>
         <td>3. <a href="implementations/bod_removal_with_nitrification.php">Nitrification</a>
         <td>M&amp;E 5th ed (p. 762)
-        <td>Tested &amp; working
         <td><a href="see.php?path=techs&file=nitrification.js">nitrification.js</a>
       <tr>
         <td>4. <a href="implementations/bod_removal_with_nitrification.php">SST sizing</a>
         <td>M&amp;E 5th ed (p. 767)
-        <td>Tested &amp; working
         <td><a href="see.php?path=techs&file=sst_sizing.js">sst_sizing.js</a>
       <tr>
         <td>5. <a href="implementations/N_removal.php">N removal</a>
         <td>M&amp;E 5th ed (p. 810)
-        <td>Tested &amp; working
         <td><a href="see.php?path=techs&file=n_removal.js">n_removal.js</a>
       <tr>
         <td>6. <a href="implementations/bio_P_removal.php">P removal (biologically)</a>
         <td>M&amp;E 5th ed (p. 880)
-        <td>Tested &amp; working
         <td><a href="see.php?path=techs&file=bio_P_removal.js">bio_P_removal.js</a>
       <tr>
         <td>7. <a href="implementations/chem_P_removal.php">P removal (chemically)</a>
         <td>M&amp;E 5th ed (p. 484)
-        <td>Tested &amp; working
         <td><a href="see.php?path=techs&file=chem_P_removal.js">chem_P_removal.js</a>
       <tr>
         <td>8. Metals
         <td>G. Doka
-        <td>Tested &amp; working
         <td><a href="see.php?path=techs&file=metals_doka.js">metals_doka.js</a>
     </table>
   </div><hr>

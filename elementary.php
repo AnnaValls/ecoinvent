@@ -610,8 +610,8 @@
     <div>
       <p>
         1.2.
-        Enter influent inputs
-        <small>(required: <span id=input_amount>0</span>)</small>
+        Enter wastewater characteristics
+        <br><small>(required: <span id=input_amount>0</span>)</small>
       </p>
 
       <!--inputs table-->
@@ -631,11 +631,20 @@
 
       <!--go to top link-->
       <div style=font-size:smaller><a href=#>&uarr; top</a></div>
-    </div>
+    </div><hr>
+
+    <!--TBD-->
+    <p>
+      <button>Take current inputs to the marginal approach</button>
+      <br>
+      <small>Results of treating the industry wastewater</small>
+      <br>
+      <issue class=under_dev></issue>
+    </p>
   </div><hr>
 
   <!--2. Variables calculated-->
-  <div style="width:330px">
+  <div style="width:350px">
     <p><b>
       <u>2. Variables calculated: <span id=variable_amount>0</span></u>
     </b></p>
@@ -646,6 +655,8 @@
         //frontend function: scroll to variables of a technology
         function scroll2tec(tec){
           var els=document.querySelectorAll('#variables tr[tech='+tec+']');
+          if(els.length==0){return}
+
           els[0].scrollIntoView();
           //create a mini animation of changing colors
           for(var i=0;i<els.length;i++) {
@@ -670,6 +681,9 @@
       <a tech=BiP href=# onclick="scroll2tec(this.getAttribute('tech'));return false">BiP</a>
       <a tech=ChP href=# onclick="scroll2tec(this.getAttribute('tech'));return false">ChP</a>
       <a tech=Met href=# onclick="scroll2tec(this.getAttribute('tech'));return false">Met</a>
+      <a          href=# onclick="scroll2tec('other');                  return false">other</a>
+      <a          href=# onclick="scroll2tec('energy');                 return false">energy</a>
+
       <script>
         //add <a title=description> for the scroll links
         (function(){
@@ -751,17 +765,20 @@
         <ul id=sludge_production>
           <li>Primary settler sludge: <span id=TSS_removed_kgd>0</span>
             <ul>
-              <li><issue class=help_wanted>: elementary composition needed (George is the person to ask)</issue>
+              <li><issue class=help_wanted>: elementary composition needed<br>(George is the person to ask)</issue>
             </ul>
           <li>P_X_TSS: <span id=P_X_TSS>0</span>
           <li>P_X_VSS: <span id=P_X_VSS>0</span>
-            <ul>
-              <li>sludge C: <span id=sludge_C>0</span>
-              <li>sludge H: <span id=sludge_H>0</span>
-              <li>sludge O: <span id=sludge_O>0</span>
-              <li>sludge N: <span id=sludge_N>0</span>
-              <li>sludge P: <span id=sludge_P>0</span>
+            <ul style=font-family:monospace>
+              <li>C content: <span id=sludge_C>0</span>
+              <li>H content: <span id=sludge_H>0</span>
+              <li>O content: <span id=sludge_O>0</span>
+              <li>N content: <span id=sludge_N>0</span>
+              <li>P content: <span id=sludge_P>0</span>
             </ul>
+          </li>
+          <li>
+            FeCl<sub>3</sub> additional sludge: <span id=Total_excess_sludge>0</span>
           </li>
         </ul>
       </p>
@@ -921,10 +938,7 @@
 
         <li>Generate ecospold
           <ul>
-            <li><issue class=help_wanted></issue>
-            <li><issue class=cannot_be_done></issue>
-            <li style="font-size:smaller">We should not focus on this unless the previous items are finished
-            <li style="font-size:smaller">Translation from python to javascript still not started
+            <li><issue class=help_requested>Pascal</issue>
           </ul>
         </li>
 

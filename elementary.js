@@ -104,9 +104,9 @@ function compute_elementary_flows(Input_set){
   //end-process-inputs
 
   //make that effluent designed cannot be higher than influent observed concentrations
-  NH4_eff   = Math.min(NH4_eff,  TKN);
-  NO3_eff   = Math.min(NO3_eff,  TKN);
-  PO4_eff = Math.min(PO4_eff,  TP);
+  NH4_eff = Math.min(NH4_eff, TKN);
+  NO3_eff = Math.min(NO3_eff, TKN);
+  PO4_eff = Math.min(PO4_eff, TP);
 
   //reset Variables object
   Variables=[];
@@ -133,7 +133,6 @@ function compute_elementary_flows(Input_set){
     var iTSS           = Result.Fra.iTSS.value;   //g/m3
     var ON             = Result.Fra.ON.value;     //g/m3
     var OP             = Result.Fra.OP.value;     //g/m3
-
     var bCOD_BOD_ratio = Result.Fra.bCOD_BOD_ratio.value; //g/g
     var VSS_COD        = Result.Fra.VSS_COD.value; //g_pCOD/g_VSS
 
@@ -164,13 +163,18 @@ function compute_elementary_flows(Input_set){
 
     //RECALCULATE FRACTIONATION
     Result.Fra=fractionation(BOD,sBOD,COD,bCOD,sCOD,rbCOD,TSS,VSS,TKN,NH4,NH4_eff,TP,PO4)
-
   }else{
     //call it just to see "0 g/m3 removed"
     //         primary_settler(Q,bpCOD,nbpCOD,iTSS,ON,OP,VSS_COD,removal_bpCOD,removal_nbpCOD,removal_iTSS,removal_ON,removal_OP);
     Result.Pri=primary_settler(0,    0,     0,   0, 0, 0,      0,            0,             0,           0,         0,         0);
     addResults('Pri',Result.Pri);
   }
+
+  //exception regarding TKN_N2O
+  if(is_Nit_active==false){
+    Result.Fra.TKN_N2O.value=0;
+  }
+
   addResults('Fra',Result.Fra);
 
   //get fractionated values
@@ -188,9 +192,9 @@ function compute_elementary_flows(Input_set){
   var nbsON          = Result.Fra.nbsON.value;   //g/m3
   var TKN_N2O        = Result.Fra.TKN_N2O.value; //g/m3
   var bTKN           = Result.Fra.bTKN.value;    //g/m3
-  var sTKNe          = Result.Fra.sTKNe.value;   //g/m3 -- sTKNe (used only in TKN effluent)
-  var nbpP           = Result.Fra.nbpP.value;    //g/m3
-  var aP             = Result.Fra.aP.value;      //g/m3
+  var sTKNe          = Result.Fra.sTKNe.value;   //g/m3 | sTKNe = NH4_eff + nbsON | only used in TKN effluent sludge
+  var nbpOP          = Result.Fra.nbpOP.value;   //g/m3
+  var aP             = Result.Fra.aP.value;      //g/m3 | aP = TP - nbpOP         | only used to compute aPchem
 
   //bod removal has to be always active. If not: do nothing
   if(is_BOD_active==false){
@@ -226,11 +230,6 @@ function compute_elementary_flows(Input_set){
     SRT=Result.Nit.SRT_design.value;//d
   }
 
-  //lcorominas - equations block 2
-  var aPchem = Math.max( 0, (aP - 0.015*P_X_bio*1000/Q)) ||0; //g/m3 == PO4_in
-  aPchem = Math.min(TP, aPchem); //g/m3 == PO4_in
-  var PO4 = aPchem; //g/m3 (warning this is an input!) //TBD
-
   /*3. SOLVE SST*/
   Result.SST=sst_sizing(Q,SOR,X_R,clarifiers,MLSS_X_TSS);
   addResults('SST',Result.SST);
@@ -252,7 +251,7 @@ function compute_elementary_flows(Input_set){
   /*5. SOLVE BIO P*/
   if(is_BiP_active){
     var tau_aer = 0.75; //h -- "tau must be between 0.50 and 1.00 h (M&E)"
-    Result.BiP=bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,NOx,NO3_eff,tau_aer);
+    Result.BiP=bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,NOx,NO3_eff,tau_aer,RAS);
     addResults('BiP',Result.BiP);
   }
 
@@ -261,7 +260,7 @@ function compute_elementary_flows(Input_set){
     Result.ChP=chem_P_removal(Q,TSS,TP,PO4,PO4_eff,FeCl3_solution,FeCl3_unit_weight,days);
     addResults('ChP',Result.ChP);
   }
-  //================================================END TECHNOLOGIES FROM METCALF AND EDDY
+  //===END TECHNOLOGIES FROM METCALF AND EDDY=============================================
 
   /*6. Metals (from G. Doka excel tool)*/
   if(is_Met_active){
@@ -306,12 +305,32 @@ function compute_elementary_flows(Input_set){
   var FeCl3_volume              = select_value('FeCl3_volume',              ['ChP']);
   var storage_req_15_d          = select_value('storage_req_15_d',          ['ChP']);
 
+  //lcorominas - aPchem
+  var P_synth = 0.015*P_X_bio*1000/Q || 0; //g/m3
+  var aPchem  = aP - P_synth;              //g/m3
+
+  /*recalculate PO4_eff*/
+  if(is_BiP_active) {
+    //if Bio P removal: calculated
+    PO4_eff = Result.BiP.Effluent_P.value;
+  }
+  else if(is_ChP_active) {
+    //if Chem P removal: imposed in design
+    PO4_eff = PO4_eff; //"do nothing"
+  }
+  else {
+    //if NO P removal: calculated as PO4_eff = PO4 - P_synth
+    PO4_eff = PO4 - (0.015*P_X_bio*1000/Q || 0); //g/m3
+  }
+
+  //Pack all calculations outside technologies
   Result.other={
     //things calculated out of technologies
-    'V_total': {value:V_total, unit:"m3",   descr:"Total reactor volume (aerobic+anoxic+anaerobic)"},
-    'Qwas':    {value:Qwas,    unit:"m3/d", descr:"Wastage flow"},
-    'Qe':      {value:Qe,      unit:"m3/d", descr:"Qe = Q - Qwas"},
-    'VSSe':    {value:VSSe,    unit:"g/m3", descr:"Volatile Suspended Solids at effluent"},
+    "PO4_eff": {value:PO4_eff, unit:"g/m3_as_P", descr:"Effluent PO4"},
+    'V_total': {value:V_total, unit:"m3",        descr:"Total reactor volume (aerobic+anoxic+anaerobic)"},
+    'Qwas':    {value:Qwas,    unit:"m3/d",      descr:"Wastage flow"},
+    'Qe':      {value:Qe,      unit:"m3/d",      descr:"Qe = Q - Qwas"},
+    'VSSe':    {value:VSSe,    unit:"g/m3",      descr:"Volatile Suspended Solids at effluent"},
 
     //useful values to see
     'COD_in_VSSe__(1.42)':  {value:VSSe*1.42,     unit:"g_O2/m3", descr:"content of COD in VSSe    (1.42  gO2/gVSSe)"},
@@ -321,9 +340,11 @@ function compute_elementary_flows(Input_set){
     'N___in_PXbio_(0.12)':  {value:P_X_bio*0.12,  unit:"kg_N/d",  descr:"content of N   in biomass (0.12  gN/gX)"},
     'P___in_PXbio_(0.015)': {value:P_X_bio*0.015, unit:"kg_P/d",  descr:"content of P   in biomass (0.015 gP/gX)"},
 
-    //these two cannot be in fractionation because they use PXbio in its equation
-    'sCODe':   {value:sCODe,       unit:"g/m3",      descr:"Soluble COD at effluent"},
-    'aPchem':  {value:aPchem,      unit:"g/m3",      descr:"Available P for chemicals"},
+    //other
+    'sCODe':   {value:sCODe,   unit:"g/m3", descr:"Soluble COD at effluent"},
+    'aP':      {value:aP,      unit:"g/m3", descr:"Available P (=PO4 + bOP)"},
+    'P_synth': {value:P_synth, unit:"g/m3", descr:"P used for biomass synthesis"},
+    'aPchem':  {value:aPchem,  unit:"g/m3", descr:"Available P - P_synth"},
   };
   addResults('other',Result.other);
 
@@ -474,6 +495,9 @@ function compute_elementary_flows(Input_set){
   var sludge_N = Sludge.f_N*P_X_VSS;   //kg_N/d
   var sludge_P = Sludge.f_P*P_X_VSS;   //kg_P/d
 
+  //additional sludge from chemical P removal
+  var Total_excess_sludge = select_value('Total_excess_sludge', ['ChP']);
+
   Result.summary={
     'SRT':                        {value:SRT,                        unit:"d",               descr:getInputById('SRT').descr},
     'tau':                        {value:tau,                        unit:"h",               descr:""},
@@ -490,6 +514,8 @@ function compute_elementary_flows(Input_set){
     'sludge_O': {value:sludge_O, unit:"kg_O/d",   descr:""},
     'sludge_N': {value:sludge_N, unit:"kg_N/d",   descr:""},
     'sludge_P': {value:sludge_P, unit:"kg_P/d",   descr:""},
+
+    'Total_excess_sludge': {value:Total_excess_sludge, unit:"kg/d",   descr:"from Chemical P removal"},
 
     'Y_obs_TSS':                  {value:Y_obs_TSS,                  unit:"g_TSS/g_BOD",     descr:""},
     'Y_obs_VSS':                  {value:Y_obs_VSS,                  unit:"g_VSS/g_BOD",     descr:""},
@@ -590,7 +616,7 @@ function compute_elementary_flows(Input_set){
       var A = 1.42*P_X_bio*1000; //g O2/d
       var B = Qwas*sCODe;        //g O2/d
       var C = Q*nbpCOD;          //g O2/d
-      var D = Qe*1.42*VSSe;     //g O2/d
+      var D = Qe*1.42*VSSe;      //g O2/d
       return A+B+C-D;
     })();
 
@@ -622,7 +648,7 @@ function compute_elementary_flows(Input_set){
     Outputs.TKN.influent = Q*TKN;
     Outputs.TKN.effluent.water = (function(){
       if(is_Nit_active){
-        return Qe*(NH4_eff + nbsON + VSSe*0.12);
+        return Qe*(NH4_eff + VSSe*0.12) + Q*nbsON;
       }else{
         return Q*(TKN - nbpON - TKN_N2O) + Qe*VSSe*0.12 - 0.12*P_X_bio*1000;
       }
@@ -642,8 +668,6 @@ function compute_elementary_flows(Input_set){
       if     (is_Nit_active==false){return 0;}
       else if(is_Des_active){       return Qe*NO3_eff;}
       else if(is_Des_active==false){return Qe*NOx}
-      //TODO else if(is_Des_active==false){return Qe*bTKN - Qe*NH4_eff - 0.12*P_X_bio*1000;}
-
     })();
     Outputs.NOx.effluent.air = (function(){return 0})();
     Outputs.NOx.effluent.sludge = (function(){
@@ -670,32 +694,38 @@ function compute_elementary_flows(Input_set){
     Outputs.N2O.effluent.air    = Q*TKN_N2O;
     Outputs.N2O.effluent.sludge = 0;
 
-    //Outputs.TP
+    //Outputs.TP //TODO revise with lcorominas
     Outputs.TP.influent = Q*TP;
     Outputs.TP.effluent.water = (function(){
-      if(is_BiP_active==false && is_ChP_active==false){
-        return Q*aPchem + Q*VSSe*0.015;
-      }else if(is_BiP_active  && is_ChP_active==false){
-        return Q*(Result.BiP.Effluent_P.value - nbpP) + Q*VSSe*0.015;
-      }else if(is_BiP_active==false && is_ChP_active){
-        return (Q*PO4_eff + Q*VSSe*0.015 + Q*VSSe*(PO4_eff-PO4)/(P_X_VSS*1000)) ||0;
-      }else{
-        return 0; //chem+bio p removal not seen in practice (G. Ekama)
+      if(is_BiP_active==false && is_ChP_active==false){ //NO P removal
+        return Q*(aP - P_synth) + Qe*VSSe*0.015;
+      }
+      else if(is_BiP_active && is_ChP_active==false){   //bio P removal
+        return Q*(Result.BiP.Effluent_P.value - nbpOP) + Qe*VSSe*(0.015); //TBD lcorominas says this 0.015 should be recalculated
+      }
+      else if(is_BiP_active==false && is_ChP_active){   //chem P removal
+        return (Q*PO4_eff + Qe*VSSe*(PO4-PO4_eff)/(P_X_VSS*1000)) ||0;
+      }
+      else{ //both P removals are not seen in practice (G. Ekama)
+        return 0;
       }
     })();
     Outputs.TP.effluent.air = 0;
     Outputs.TP.effluent.sludge = (function(){
-      var B = Qwas*PO4_eff;
-      var C = Q*nbpP;
-      var D = Q*VSSe*0.015;
-      if(is_BiP_active==false && is_ChP_active==false){
-        return (0.015*P_X_bio*1000) + B + C - D;
-      }else if(is_BiP_active  && is_ChP_active==false){
+      var B = Qwas*PO4_eff; //g/d
+      var C = Q*nbpOP;      //g/d
+      var D = Qe*VSSe*0.015; //g/d
+      if(is_BiP_active==false && is_ChP_active==false){ //NO P removal
+        return 0.015*P_X_bio*1000 + B + C - D; //g/d
+      }
+      else if(is_BiP_active && is_ChP_active==false){   //bio P removal
         return Q*Result.BiP.P_removal.value + B + C - D;
-      }else if(is_BiP_active==false && is_ChP_active){
+      }
+      else if(is_BiP_active==false && is_ChP_active){  //chem P removal
         return (0.015*P_X_bio*1000) + Q*(aPchem - PO4_eff) + B + C - D
-      }else{
-        return 0; //chem+bio p removal not seen in practice (G. Ekama)
+      }
+      else{ //both P removals are not seen in practice (G. Ekama)
+        return 0;
       }
     })();
 

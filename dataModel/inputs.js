@@ -50,7 +50,7 @@ var Inputs = [
 {id:"NO3_eff", value:6,   unit:"g/m3_as_N", isParameter:true, descr:"Effluent design NO3 concentration"},
 
 //chem P
-{id:"PO4_eff", value:0.1, unit:"g/m3_as_P", isParameter:true, descr:"Effluent design PO4(3-)"},
+{id:"PO4_eff", value:0.1, unit:"g/m3_as_P", isParameter:true, descr:"Effluent design PO4(3-). It is only imposed in case we have Chemical P removal. Otherwise, it will be calculated"},
 
 //metals
 {id:"Ag", value:0.0000, unit:"g/m3", isMetal:true, descr:"Influent Silver"     },

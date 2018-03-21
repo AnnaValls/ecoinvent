@@ -13,6 +13,11 @@
 
 <h1>Simplified data entry</h1>
 
+<ul>
+  <li><button>Load</button>
+  <li><button>Save</button>
+</ul>
+
 <div>
   <ol id=data_entry>
     <!--activity name-->
@@ -20,11 +25,6 @@
       Wastewater source (activity name)<br>
       <input type=text placeholder="activity name" max=120 size=100>
 
-      <small>
-        Average:
-          <label><input type=radio name=average value=0 checked> No</label>
-          <label><input type=radio name=average value=1> Yes</label>
-      </small> |
       <small>
         <a href="#"
           onclick="(function(){
@@ -71,51 +71,13 @@
     <!--volume-->
     <li>
       Volume of water discharged<br>
-      <input type=number value=0> m<sup>3</sup>
+      <input type=number value=0> m<sup>3</sup>/year
       <div>
         <small>
         How to calculate this:
         (production_volume_of_activity_generating_wastewater · wastewater_per_unit_production)
         </small>
       </div>
-    </li>
-
-    <!--capacity TBD-->
-    <li>
-      Wastewater treatment plant capacity (PCE: per capita equivalents)<br>
-      <div>
-        <issue class=help_wanted></issue>
-        <issue>No final decision taken</issue>
-      </div>
-      Possibilities:
-      <ul>
-        <li>
-          <select>
-            <option>Class 1: over      100,000 PCE
-            <option>Class 2: 50,000 to 100,000 PCE
-            <option>Class 3: 10,000 to  50,000 PCE
-            <option>Class 4:  2,000 to  10,000 PCE
-            <option>Class 5:     30 to   2,000 PCE
-            <option>Average
-          </select>
-        </li>
-        <li><input type=number value=0> PCE
-        <li>Automatically calculated in WW composition.
-          <br>
-          <code>
-            PCE = (Q m<sup>3</sup>/d)·(BOD g O<sub>2</sub>/m<sup>3</sup>)/(60 g O<sub>2</sub>/d·inhab)
-          </code>
-      </ul>
-    </li>
-
-    <!--wwtp force-->
-    <li>
-      Wastewater treatment force<br>
-      <label><input type=radio name=wwtp_techs onchange="toggleView(false,'techs')" checked>Use country defaults</label> <br>
-      <label><input type=radio name=wwtp_techs onchange="toggleView(false,'techs')">Define a local WWT force</label>
-      <ul>
-        <table id=techs style="display:none"></table>
-      </ul>
     </li>
 
     <!--ww composition-->
@@ -125,66 +87,31 @@
       <table id=inputs style=display:none></table>
     </li>
 
-    <!--next steps-->
+    <!--wwtp plant-->
     <li>
-      Next steps
-      <ul id=next_steps>
-        <!--calculate and display results-->
-        <li>
-          <button onclick="(function(){
-            var url='elementary.php?'
-            //user technologies activated
-            Technologies_selected.filter(i=>{return !i.notActivable}).forEach(i=>{
-              url+='is_'+i.id+'_active='+document.querySelector('#techs #is_'+i.id+'_active').checked+'&';
-            });
-            //user inputs
-            Inputs.filter(i=>{return !i.isParameter}).forEach(i=>{
-              url+=i.id+'='+document.querySelector('#inputs #'+i.id).value+'&';
-            });
-            window.location=url;
-          })()">Calculate and display results</button>
-          <br><small>Run 'single plant model' with current inputs provided</small>
-        </li>
+      Wastewater treatment plant<br>
+      <label><input type=radio name=wwtp_techs checked>Use country defaults</label> <br>
+      <small>(this option takes the user to the page of running the model n times)</small>
+      <br>
+      <label><input type=radio name=wwtp_techs>Define a local plant</label>
+      <br>
+      <small>(goes to elementary flows)</small>
+    </li>
 
-        <li>
-          <button onclick="alert('under_development')">Save file</button>
-          <br><small>Save the inputs provided in a file that can be uploaded in the future.</small>
-        </li>
-
-        <li>
-          <button onclick="alert('under_development')">Calculate and generate ecoSPold</button>
-          <br><small>will be implemented after ecospold generation</small>
-        </li>
-        <li><button onclick="alert('under_development')">Advanced</button>
-          <div style="font-size:smaller">
-            Modify advanced wastewater treatment parameters:
-            only available if you are modelling a
-            single wastewater treatment plant.
-          </div>
-        </li>
-
-        <li>
-          <button onclick="alert('under_development')">View background data</button>
-          <br>
-          <small>
-            which would be associated with the "Show off data" item
-          </small>
-        </li>
-
-        <li>
-          <button onclick="alert('under_development')">Documentation</button>
-          <br>
-          <small>
-            associated with the "access to documentation" item.
-          </small>
-        </li>
-      </ul>
-      <style>
-        ul#next_steps button {
-          padding:0.5em 1em;
-          font-size:14px;
-        }
-      </style>
+    <!--next btn-->
+    <li id=next_btn>
+      <button onclick="(function(){
+        var url='elementary.php?'
+        //user technologies activated
+        Technologies_selected.filter(i=>{return !i.notActivable}).forEach(i=>{
+          url+='is_'+i.id+'_active='+document.querySelector('#techs #is_'+i.id+'_active').checked+'&';
+        });
+        //user inputs
+        Inputs.filter(i=>{return !i.isParameter}).forEach(i=>{
+          url+=i.id+'='+document.querySelector('#inputs #'+i.id).value+'&';
+        });
+        window.location=url;
+      })()">Next</button>
     </li>
   </ol>
   <style>
@@ -203,26 +130,21 @@
     //populate inputs
     (function(){
       var t=document.querySelector('#inputs');
-      Inputs.filter(i=>{return !i.isParameter}).forEach(i=>{
+      Inputs
+        //.filter(i=>{return true})
+        .filter(i=>{return !i.isParameter})
+        .forEach(i=>{
         var newRow=t.insertRow(-1);
         newRow.title=i.descr;
         newRow.insertCell(-1).innerHTML=i.id.prettifyUnit();
         newRow.insertCell(-1).innerHTML="<input id="+i.id+" type=number value="+i.value+">";
 
         //exception: units for Q are m3/year
-        if(i.id=="Q"){i.unit="m3/year"}
+        if(i.id=="Q"){
+          i.unit="m3/year";
+        }
 
         newRow.insertCell(-1).innerHTML="<small>"+i.unit.prettifyUnit()+"</small>";
-      });
-    })();
-
-    //populate technologies
-    (function(){
-      var t=document.querySelector('#techs');
-      Technologies_selected.filter(tec=>{return !tec.notActivable}).forEach(tec=>{
-        var newRow=t.insertRow(-1);
-        newRow.insertCell(-1).innerHTML=tec.descr;
-        newRow.insertCell(-1).innerHTML="<input type=checkbox id=is_"+tec.id+"_active>";
       });
     })();
 
@@ -233,8 +155,15 @@
         var option=document.createElement('option');
         option.innerHTML=g.name.replace(/_/g,' ')
         option.value=g.shortcut.replace(/_/g,' ');
+        if(g.id=="Global"){
+          option.selected=true; //TODO
+        }
         select.appendChild(option);
       });
     })();
   })();
 </script>
+
+<footer>
+  <div>Documentation</div>
+</footer>
