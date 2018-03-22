@@ -59,7 +59,8 @@ String.prototype.prettifyUnit=function(){
 		.replace('CH4','CH<sub>4</sub>')
     .replace('NH4','NH<sub>4</sub>')
     .replace('PO4','PO<sub>4</sub>')
-    .replace('NOx','NO<sub>x</sub>');
+    .replace('NOx','NO<sub>x</sub>')
+    .replace('Na2','Na<sub>2</sub>');
 }
 
 //string to color
@@ -89,10 +90,6 @@ function getParamNames(func) {
 //frontend buttons for folding/unfolding sections of div#summary
 function toggleView(btn,id){
   var el=document.querySelector('#'+id);
-  if(el){
-    el.style.display = el.style.display=='none' ? '':'none';
-  }
-  if(btn){
-    btn.innerHTML= btn.innerHTML=='↓' ? '&rarr;':'&darr;'
-  }
+  if(el){ el.style.display = el.style.display=='none' ? '':'none' }
+  if(btn){ btn.innerHTML= btn.innerHTML=='↓' ? '&rarr;':'&darr;' }
 }

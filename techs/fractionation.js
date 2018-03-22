@@ -79,8 +79,8 @@ function fractionation(BOD,sBOD,COD,bCOD,sCOD,rbCOD,TSS,VSS,TKN,NH4,NH4_eff,TP,P
 
   //3. TP fractions
   var OP    = Math.max(0, TP-PO4);
-  var nbsOP = 0; //seen from experience (G. Ekama)
   var nbpOP = Math.min(TP, 0.015*nbVSS); //g/m3
+  var nbsOP = 0; //zero: seen from experience (G. Ekama)
   var nbOP  = nbsOP + nbpOP;
   var bOP   = Math.max(0, OP - nbOP); //also bOP = aP - PO4
   var aP    = Math.max(0, TP - nbOP); //g/m3

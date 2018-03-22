@@ -220,6 +220,9 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
   var Alk_to_be_added = 70 - Alkalinity + Alkalinity_used - Alkalinity_produced; //g/m3
   var Mass_of_alkalinity_needed = Math.max(0, Alk_to_be_added*Q/1000); //kg/d as CaCO3
 
+  //106 g of Na2CO3 == 100 g of CaCO3
+  Mass_of_alkalinity_needed*=(106/100); // kg/d as Na2CO3 (CONVERT FROM CaCO3 TO Na2CO3)
+
   //11
   var Power = V_nox * Anoxic_mixing_energy / 1000; //kW
 
@@ -249,7 +252,7 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
     SOTR:                       {value:SOTR,                       unit:"kg_O2/h",        descr:"Standard_Oxygen_Transfer_Rate. The SOTR is the mass of oxygen transferred per unit time into a given volume of water and reported at standard conditions. The European literature also refers to this term as the oxygenation capacity (OC). Note that at standard conditions, the dissolved oxygen concentration is taken as zero thus providing the maximum driving force for transfer."},
     kg_O2_per_m3_air:           {value:kg_O2_per_m3_air,           unit:"kg_O2/m3",       descr:"kg_O2_per_m3_air"},
     air_flowrate:               {value:air_flowrate,               unit:"m3/min",         descr:"Air_flowrate"},
-    Mass_of_alkalinity_needed:  {value:Mass_of_alkalinity_needed,  unit:"kg/d_as_CaCO3",  descr:"Mass_of_alkalinity_needed"},
+    Mass_of_alkalinity_needed:  {value:Mass_of_alkalinity_needed,  unit:"kg/d_as_Na2CO3", descr:"Mass_of_alkalinity_needed"},
     Power:                      {value:Power,                      unit:"kW",             descr:"Anoxic zone mixing power needed"},
   }
 }

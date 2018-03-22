@@ -174,7 +174,11 @@ function nitrification(BOD,bCOD_BOD_ratio,nbVSS,TSS,VSS,Q,T,TKN,SF,zb,Pressure,D
     //70 = influent_alk - alk_used + alk_added
     alkalinity_added=70-Alkalinity+alkalinity_used_for_nitrification; // g/m3 as CaCO3
     alkalinity_added*=Q/1000;                                         // kg/d as CaCO3
-    alkalinity_added*=(84/50);                                        // kg/d as NaHCO3 (CONVERT FROM CaCO3 TO NaHCO3)
+    //alkalinity_added*=(84/50);                                        // kg/d as NaHCO3 (CONVERT FROM CaCO3 TO NaHCO3)
+
+    //106 g of Na2CO3 == 100 g of CaCO3
+    alkalinity_added*=(106/100);                                        // kg/d as Na2CO3 (CONVERT FROM CaCO3 TO Na2CO3)
+
     alkalinity_added=Math.max(0, alkalinity_added);             // Avoid negative
   })();
 
@@ -212,7 +216,7 @@ function nitrification(BOD,bCOD_BOD_ratio,nbVSS,TSS,VSS,Q,T,TKN,SF,zb,Pressure,D
     SOTR:             {value:SOTR,                   unit:"kg_O2/h",        descr:"Standard_Oxygen_Transfer_Rate. The SOTR is the mass of oxygen transferred per unit time into a given volume of water and reported at standard conditions. The European literature also refers to this term as the oxygenation capacity (OC). Note that at standard conditions, the dissolved oxygen concentration is taken as zero thus providing the maximum driving force for transfer."},
     kg_O2_per_m3_air: {value:kg_O2_per_m3_air,       unit:"kg_O2/m3",       descr:"kg_O2_per_m3_air"},
     air_flowrate:     {value:air_flowrate,           unit:"m3/min",         descr:"air_flowrate"},
-    alkalinity_added: {value:alkalinity_added,       unit:"kg/d_as_NaHCO3", descr:"alkalinity_to_be_added"},
+    alkalinity_added: {value:alkalinity_added,       unit:"kg/d_as_Na2CO3", descr:"alkalinity_to_be_added"},
     BOD_eff:          {value:BOD_eff,                unit:"g/m3_as_O2",     descr:"BOD_effluent estimation"},
   };
 }

@@ -103,7 +103,7 @@ var Inputs = [
 {id:"SOR",                  value:24,    unit:"m3/m2·d",    color:"red",    isParameter:true, descr:"Surface Overflow Rate or Hydraulic application rate"},
 {id:"SF",                   value:1.5,   unit:"&empty;",    color:"red",    isParameter:true, descr:"Peak to average TKN load: nitrification safety factor (sf) for computing the design SRT (=SF·1/µAOB)",  },
 {id:"Anoxic_mixing_energy", value:5,     unit:"kW/1000_m3", color:"red",    isParameter:true, descr:"Mixing energy for anoxic reactor (denitrification)"},
-{id:"FeCl3_solution",       value:37,    unit:"%",          color:"red",    isParameter:true, descr:"Ferric chloride solution (%) (for chemical P removal)"},
+{id:"FeCl3_solution",       value:40,    unit:"%",          color:"red",    isParameter:true, descr:"Ferric chloride solution (%) (for chemical P removal)"},
 {id:"FeCl3_unit_weight",    value:1.35,  unit:"kg/L",       color:"red",    isParameter:true, descr:"Ferric chloride unit weight (for chemical P removal)"},
 {id:"days",                 value:15,    unit:"d",          color:"red",    isParameter:true, descr:"Time for the FeCl3 supply to be stored at the treatment facility (for chemical P removal)" },
 

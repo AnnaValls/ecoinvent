@@ -84,7 +84,7 @@
     var Input_set2={};
     var Input_set3={};
 
-    //fill input sets
+    //get inputs from the screen
     function getInputSets(){
       //get ww characteristics
       Inputs.filter(i=>{return !i.isParameter}).forEach(i=>{
@@ -95,7 +95,7 @@
         Input_set2[i.id]=parseFloat(input2.value);
         Input_set3[i.id]=parseFloat(input3.getAttribute('value'));
       });
-      //get designn parameters
+      //get design parameters
       Inputs.filter(i=>{return i.isParameter}).forEach(i=>{
         var dp=parseFloat(document.querySelector('#design_parameters tr[id='+i.id+'] input').value);
         Input_set1[i.id]=dp;
@@ -104,6 +104,7 @@
       });
       //fill input sets
       (function(){
+        var is_Pri_active = document.querySelector('#technologies tr[id=is_Pri_active] input[type=checkbox]').checked;
         var is_BOD_active = document.querySelector('#technologies tr[id=is_BOD_active] input[type=checkbox]').checked;
         var is_Nit_active = document.querySelector('#technologies tr[id=is_Nit_active] input[type=checkbox]').checked;
         var is_Des_active = document.querySelector('#technologies tr[id=is_Des_active] input[type=checkbox]').checked;
@@ -111,6 +112,7 @@
         var is_ChP_active = document.querySelector('#technologies tr[id=is_ChP_active] input[type=checkbox]').checked;
         var is_Met_active = document.querySelector('#technologies tr[id=is_Met_active] input[type=checkbox]').checked;
 
+        Input_set1.is_Pri_active = is_Pri_active;
         Input_set1.is_BOD_active = is_BOD_active;
         Input_set1.is_Nit_active = is_Nit_active;
         Input_set1.is_Des_active = is_Des_active;
@@ -118,6 +120,7 @@
         Input_set1.is_ChP_active = is_ChP_active;
         Input_set1.is_Met_active = is_Met_active;
 
+        Input_set2.is_Pri_active = is_Pri_active;
         Input_set2.is_BOD_active = is_BOD_active;
         Input_set2.is_Nit_active = is_Nit_active;
         Input_set2.is_Des_active = is_Des_active;
@@ -125,6 +128,7 @@
         Input_set2.is_ChP_active = is_ChP_active;
         Input_set2.is_Met_active = is_Met_active;
 
+        Input_set3.is_Pri_active = is_Pri_active;
         Input_set3.is_BOD_active = is_BOD_active;
         Input_set3.is_Nit_active = is_Nit_active;
         Input_set3.is_Des_active = is_Des_active;
@@ -153,7 +157,7 @@
     function call_elementary_flows(){
       /*Influent 2*/
       var Result2  = compute_elementary_flows(Input_set2);
-      var Outputs2 = JSON.parse(JSON.stringify(Outputs)); //clone Outputs object
+      var Outputs2 = JSON.parse(JSON.stringify(Outputs));
       /*Mixed influents (1+2)*/
       var Result3 = compute_elementary_flows(Input_set3);
       var Outputs3 = JSON.parse(JSON.stringify(Outputs));
@@ -302,6 +306,7 @@
   </p>
   <p>
     <button>Generate ecospold with the results</button>
+    <issue class=under_dev></issue>
   </p>
 </div><hr style=margin:0>
 

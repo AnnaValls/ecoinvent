@@ -251,13 +251,17 @@ function compute_elementary_flows(Input_set){
   /*5. SOLVE BIO P*/
   if(is_BiP_active){
     var tau_aer = 0.75; //h -- "tau must be between 0.50 and 1.00 h (M&E)"
-    Result.BiP=bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,NOx,NO3_eff,tau_aer,RAS);
+
+    Result.BiP=bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP-nbpOP,T,SRT,NOx,NO3_eff,tau_aer,RAS);
+  //Result.BiP=bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP      ,T,SRT,NOx,NO3_eff,tau_aer,RAS);
+
     addResults('BiP',Result.BiP);
   }
 
   /*5. SOLVE CHEM P*/
   if(is_ChP_active){
-    Result.ChP=chem_P_removal(Q,TSS,TP,PO4,PO4_eff,FeCl3_solution,FeCl3_unit_weight,days);
+  //Result.ChP=chem_P_removal(Q,TSS,TP,PO4     ,PO4_eff,FeCl3_solution,FeCl3_unit_weight,days);
+    Result.ChP=chem_P_removal(Q,TSS,TP,TP-nbpOP,PO4_eff,FeCl3_solution,FeCl3_unit_weight,days);
     addResults('ChP',Result.ChP);
   }
   //===END TECHNOLOGIES FROM METCALF AND EDDY=============================================
@@ -319,8 +323,8 @@ function compute_elementary_flows(Input_set){
     PO4_eff = PO4_eff; //"do nothing"
   }
   else {
-    //if NO P removal: calculated as PO4_eff = PO4 - P_synth
-    PO4_eff = PO4 - (0.015*P_X_bio*1000/Q || 0); //g/m3
+    //if NO P removal: calculated as PO4_eff = aP - P_synth
+    PO4_eff = aP - P_synth; //g/m3
   }
 
   //Pack all calculations outside technologies
@@ -490,10 +494,6 @@ function compute_elementary_flows(Input_set){
     f_O:function(){return 16/18*(1 - this.f_CV/8 -  8/12*this.f_C - 17/14*this.f_N - 26/31*this.f_P)}, //g_O/g_VSS
     f_H:function(){return  2/18*(1 + this.f_CV   - 44/12*this.f_C + 10/14*this.f_N - 71/31*this.f_P)}, //g_H/g_VSS
   };
-  /*
-  console.log(Sludge.f_O());
-  console.log(Sludge.f_H());
-  */
 
   var sludge_C = Sludge.f_C*P_X_VSS;   //kg_C/d
   var sludge_H = Sludge.f_H()*P_X_VSS; //kg_H/d
@@ -592,13 +592,10 @@ function compute_elementary_flows(Input_set){
     Outputs.COD.influent       = Q*COD;
     Outputs.COD.effluent.water = Qe*sCODe + Qe*VSSe*1.42;
     Outputs.COD.effluent.air   = (function(){
-      /*
-      * CARBONACEOUS DEMAND
-      */
+      /* CARBONACEOUS DEMAND */
       //this expression (from aeration paper lcorominas found) makes mass balance close
       //return Q*(1-YH)*(S0-S) + Q*YH*(S0-S)*bHT*SRT/(1+bHT*SRT)*(1-fd) - 4.49*NOx;
       // COD equations for carbonaceous demand to be revised
-
       //debug info
       //console.log("CARBONACEOUS DEMAND DISCUSSION");
       var Oxygen_credit = 2.86*Q*(NOx-NO3_eff);
@@ -608,19 +605,19 @@ function compute_elementary_flows(Input_set){
       //in all 3 equations: P_X_bio = Q*YH*(S0-S)/(1+bHT*SRT) + fd*bHT*Q*YH*(S0-S)*SRT/(1+bHT*SRT)
       if(is_Des_active){
         return Result.Des.OTRf.value*24*1000 - 4.57*Q*NOx + 2.86*Q*(NOx-NO3_eff); //from kg/h to g/d
-        //  OTRf          = Q*(S0-S) - 1.42*P_X_bio + 4.57*Q*NOx - Oxygen_credit;
-        //  Oxygen_credit = 2.86*Q*(NOx-NH4_eff);
+        // OTRf          = Q*(S0-S) - 1.42*P_X_bio + 4.57*Q*NOx - Oxygen_credit;
+        // Oxygen_credit = 2.86*Q*(NOx-NH4_eff);
       }else if(is_Nit_active){
         return Result.Nit.OTRf.value*24*1000 - 4.57*Q*NOx; //from kg/h to g/d
-        //  OTRf          = Q*(S0-S) - 1.42*P_X_bio + 4.57*Q*NOx
+        // OTRf          = Q*(S0-S) - 1.42*P_X_bio + 4.57*Q*NOx
       }else if(is_BOD_active){
         return Result.BOD.OTRf.value*24*1000; //from kg/h to g/d
-        //  OTRf          = Q*(S0-S) - 1.42*P_X_bio
+        // OTRf          = Q*(S0-S) - 1.42*P_X_bio
       }
     })();
     Outputs.COD.effluent.sludge = (function(){
       var A = 1.42*P_X_bio*1000; //g O2/d
-      var B = Qwas*sCODe;        //g O2/d
+      var B = 0;//Qwas*sCODe;        //g O2/d
       var C = Q*nbpCOD;          //g O2/d
       var D = Qe*1.42*VSSe;      //g O2/d
       return A+B+C-D;
@@ -662,7 +659,7 @@ function compute_elementary_flows(Input_set){
     Outputs.TKN.effluent.air    = 0;
     Outputs.TKN.effluent.sludge = (function(){
       var A = 0.12*P_X_bio*1000;
-      var B = Qwas*sTKNe;
+      var B = 0;//Qwas*sTKNe;
       var C = Q*nbpON;
       var D = Qe*VSSe*0.12;
       return A+B+C-D;
@@ -704,13 +701,17 @@ function compute_elementary_flows(Input_set){
     Outputs.TP.influent = Q*TP;
     Outputs.TP.effluent.water = (function(){
       if(is_BiP_active==false && is_ChP_active==false){ //NO P removal
-        return Q*(aP - P_synth) + Qe*VSSe*0.015;
+        return Q*PO4_eff + Qe*VSSe*0.015; //g/d
       }
       else if(is_BiP_active && is_ChP_active==false){   //bio P removal
-        return Q*(Result.BiP.Effluent_P.value - nbpOP) + Qe*VSSe*(0.015); //TBD lcorominas says this 0.015 should be recalculated
+        //recalculate the 0.015 factor, in bio P removal changes
+        var g_P_VSS_new = (Q*PO4-Qe*PO4_eff)/(P_X_VSS*1000); //g_P/g_VSS
+        return Qe*PO4_eff + Qe*VSSe*g_P_VSS_new;
       }
       else if(is_BiP_active==false && is_ChP_active){   //chem P removal
-        return (Q*PO4_eff + Qe*VSSe*(PO4-PO4_eff)/(P_X_VSS*1000)) ||0;
+        //recalculate the 0.015 factor, in bio P removal changes
+        var g_P_VSS_new = (Q*PO4-Qe*PO4_eff)/(P_X_VSS*1000); //g_P/g_VSS
+        return Qe*PO4_eff + Qe*VSSe*g_P_VSS_new;
       }
       else{ //both P removals are not seen in practice (G. Ekama)
         return 0;
@@ -718,17 +719,21 @@ function compute_elementary_flows(Input_set){
     })();
     Outputs.TP.effluent.air = 0;
     Outputs.TP.effluent.sludge = (function(){
-      var B = Qwas*PO4_eff; //g/d
-      var C = Q*nbpOP;      //g/d
+      var B = 0;//Qwas*PO4_eff;  //g/d
+      var C = Q*nbpOP;       //g/d
       var D = Qe*VSSe*0.015; //g/d
       if(is_BiP_active==false && is_ChP_active==false){ //NO P removal
         return 0.015*P_X_bio*1000 + B + C - D; //g/d
       }
       else if(is_BiP_active && is_ChP_active==false){   //bio P removal
-        return Q*Result.BiP.P_removal.value + B + C - D;
+        //recalculate the 0.015 factor, in bio P removal changes
+        var g_P_VSS_new = (Q*PO4-Qe*PO4_eff)/(P_X_VSS*1000); //g_P/g_VSS
+        return Q*Result.BiP.P_removal.value + B + C - Qe*VSSe*g_P_VSS_new; 
       }
       else if(is_BiP_active==false && is_ChP_active){  //chem P removal
-        return (0.015*P_X_bio*1000) + Q*(aPchem - PO4_eff) + B + C - D
+        //recalculate the 0.015 factor, in bio P removal changes
+        var g_P_VSS_new = (Q*PO4-Qe*PO4_eff)/(P_X_VSS*1000); //g_P/g_VSS
+        return (0.015*P_X_bio*1000) + Q*(aPchem - PO4_eff) + B + C - Qe*VSSe*g_P_VSS_new; 
       }
       else{ //both P removals are not seen in practice (G. Ekama)
         return 0;

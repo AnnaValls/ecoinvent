@@ -58,7 +58,7 @@ function bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,NOx,NO3_eff,tau_aer,
   var Effluent_P = TP - P_removal_EBPR - P_removal_synthesis_n; //0.80 g/m3
 
   //5
-  var P_X_TSS = P_X_bio/0.85 + Q*nbVSS + Q*(iTSS); //433,099 g/d
+  var P_X_TSS = P_X_bio/0.85 + Q*nbVSS + Q*iTSS; //433,099 g/d
   //P_X_TSS = 433099; //in metcalf book this number is wrong
   var P_removal_gday = (TP - Effluent_P)*Q; //20,800 g/d
   var P_in_waste_sludge = 100*P_removal_gday/P_X_TSS ||0; //4.8 %
