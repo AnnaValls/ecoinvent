@@ -85,27 +85,25 @@
   <ol id=data_entry>
     <!--activity name-->
     <li>
-      Wastewater source (activity name)<br>
+      Wastewater source<br>
       <input id=activity_name type=text placeholder="activity name" max=120 size=100>
       <small><a href="#" onclick="toggleView(false,'activity_name_help');return false;">help</a></small>
       <div id=activity_name_help style="display:none">
         <div class=help>
-          If the wastewater originates from an activity within the ecoinvent
-          database, you should enter the name of this activity here. For example, "lime
-          production".
-          This will generate a wastewater treatment dataset with the name
-          "treatment of wastewater from **activity name**, **technology**", for example:<br>
-          "treatment of wastewater from lime production, average, average capacity".
-          <br>
-          If the wastewater is rather meant to be an average municipal
-          wastewater, then enter the name "average".
+          If the wastewater originates from an activity within the ecoinvent database, you should use the name of this activity here.
+          For example, for wastewater originating from "lime production", you would write "from lime production".
+          This will generate the first part of the name of the wastewater treatment datasets.
+          In the example, it would be "treatment of wastewater from lime production".
+          If the wastewater is the average municipal wastewater, then enter the name "average municipal".
+          This will generate a name starting with "treatment of wastewater, average municipal"
+          The second part of the name will be based on the treatment type.
         </div>
       </div>
     </li>
 
     <!--country-->
     <li>
-      <div>Country where the wastewater is being emitted</div>
+      <div>Location where the wastewater is being emitted</div>
       <div>
         <select id=geography></select>
       </div>
