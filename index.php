@@ -35,7 +35,7 @@
           <li><a href="n-wwtp.php">Create multiple plants</a>
           <li><a href="reference_data.php">Average influents by country ("Reference data")</a>
         </ul>
-      <li><a href=ecospold.php>Generate output file (ecospold format)</a>
+      <li><a href=ecospold.php>Generate ecospold inventory file</a>
     </ol>
   </div><hr>
 
