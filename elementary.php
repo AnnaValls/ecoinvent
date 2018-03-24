@@ -1006,7 +1006,6 @@
     (function(){
       var table=document.querySelector('table#inputs');
 
-
       //add a row to table
       function process_input(i,display){
         display=display||"";

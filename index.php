@@ -32,6 +32,7 @@
         Multiple plant analysis (<em>under development</em>)
         <ul>
           <li><a href="marginal.php">Marginal approach</a>
+          <li><a href="n-wwtp.php">Create multiple plants</a>
           <li><a href="reference_data.php">Average influents by country ("Reference data")</a>
         </ul>
       <li><a href=ecospold.php>Generate output file (ecospold format)</a>

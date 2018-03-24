@@ -146,22 +146,36 @@
       </div>
     </li>
 
+    <!--TBD-->
+    <li>
+      <issue class=TBD> requested by Pascal</issue>
+      <issue class=under_dev></issue>
+      <table>
+        <tr><td> CSO_particulated     <td><input type=number value=0> <small>%</small>
+        <tr><td> CSO_dissolved        <td><input type=number value=0> <small>%</small>
+        <tr><td> fraction_WW_C_fossil <td><input type=number value=0> <small>%</small>
+      </table>
+    </li>
+
     <!--next btn-->
     <li id=next_btn>
       <button onclick="(function(){
         //check if user selected 'specific' or 'average'
         var wwtp=document.querySelector('input[name=wwtp]:checked').value;
 
+        var url='';
+
         //get the inputs and pass them to elementary flows
         if(wwtp=='specific'){
-          var url='elementary.php?'
+          url='elementary.php?'
           Inputs.filter(i=>{return !i.isParameter}).forEach(i=>{
             url+=i.id+'='+document.querySelector('#'+i.id).value+'&';
           });
-          window.location=url;
         }else if(wwtp=='average'){
-          alert('average WWTP selected: under development');
+          url='n-wwtp.php';
         }
+
+        window.location=url;
       })()">Next</button>
     </li>
   </ol>

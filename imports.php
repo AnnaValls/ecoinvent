@@ -34,7 +34,6 @@
 <script src="dataModel/methods.js"></script>
 <script src="dataModel/technologies.js"></script>
 
-
 <!--css-->
 <style>
 	body {
@@ -64,5 +63,4 @@
     cursor:default;
   }
 </style>
-
 <!--end imports.php-->
