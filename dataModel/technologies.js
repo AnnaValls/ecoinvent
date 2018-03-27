@@ -33,7 +33,7 @@ var Technologies = {
     Name:"Primary settler",
     File:"primary_settler.js",
     Implemented_in:"",
-    value:false,
+    value:true,
     Inputs:getParamNames(primary_settler),
   },
 	"BOD":{

