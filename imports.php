@@ -27,6 +27,7 @@
 <script src="techs/bio_P_removal.js"></script>
 <script src="techs/chem_P_removal.js"></script>
 <script src="techs/metals_doka.js"></script>
+<script src="techs/cso_removal.js"></script>
 
 <script src="dataModel/inputs.js"></script>
 <script src="dataModel/variables.js"></script>

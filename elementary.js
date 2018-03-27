@@ -8,31 +8,31 @@ function compute_elementary_flows(Input_set){
     var is=Input_set; //shorten name
 
     //technologies activated
-    var is_Pri_active = is.is_Pri_active;
-    var is_BOD_active = is.is_BOD_active;
-    var is_Nit_active = is.is_Nit_active;
-    var is_Des_active = is.is_Des_active;
-    var is_BiP_active = is.is_BiP_active;
-    var is_ChP_active = is.is_ChP_active;
-    var is_Met_active = is.is_Met_active;
+      var is_Pri_active = is.is_Pri_active;
+      var is_BOD_active = is.is_BOD_active;
+      var is_Nit_active = is.is_Nit_active;
+      var is_Des_active = is.is_Des_active;
+      var is_BiP_active = is.is_BiP_active;
+      var is_ChP_active = is.is_ChP_active;
+      var is_Met_active = is.is_Met_active;
 
     //ww characteristics
-    var Q          = is.Q;
-    var T          = is.T;
-    var BOD        = is.BOD;
-    var sBOD       = is.sBOD;
-    var COD        = is.COD;
-    var sCOD       = is.sCOD;
-    var bCOD       = is.bCOD;
-    var rbCOD      = is.rbCOD;
-    var VFA        = is.VFA;
-    var TSS        = is.TSS;
-    var VSS        = is.VSS;
-    var TKN        = is.TKN;
-    var NH4        = is.NH4;
-    var TP         = is.TP;
-    var PO4        = is.PO4;
-    var Alkalinity = is.Alkalinity;
+      var Q          = is.Q;
+      var T          = is.T;
+      var BOD        = is.BOD;
+      var sBOD       = is.sBOD;
+      var COD        = is.COD;
+      var sCOD       = is.sCOD;
+      var bCOD       = is.bCOD;
+      var rbCOD      = is.rbCOD;
+      var VFA        = is.VFA;
+      var TSS        = is.TSS;
+      var VSS        = is.VSS;
+      var TKN        = is.TKN;
+      var NH4        = is.NH4;
+      var TP         = is.TP;
+      var PO4        = is.PO4;
+      var Alkalinity = is.Alkalinity;
 
     //influent metals
       var Ag = is.Ag;
@@ -72,35 +72,34 @@ function compute_elementary_flows(Input_set){
       var Zn = is.Zn;
 
     //design parameters
-
-    var removal_bpCOD        = is.removal_bpCOD;
-    var removal_nbpCOD       = is.removal_nbpCOD;
-    var removal_iTSS         = is.removal_iTSS;
-    var removal_ON           = is.removal_ON;
-    var removal_OP           = is.removal_OP;
-
-    var SRT                  = is.SRT;
-    var MLSS_X_TSS           = is.MLSS_X_TSS;
-    var zb                   = is.zb;
-    var Pressure             = is.Pressure;
-    var Df                   = is.Df;
-    var h_settler            = is.h_settler;
-    var DO                   = is.DO;
-    var SF                   = is.SF;
-    var NH4_eff              = is.NH4_eff;
-    var sBODe                = is.sBODe;
-    var TSSe                 = is.TSSe;
-    var Anoxic_mixing_energy = is.Anoxic_mixing_energy;
-    var NO3_eff              = is.NO3_eff;
-    var SOR                  = is.SOR;
-    var X_R                  = is.X_R;
-    var clarifiers           = is.clarifiers;
-    var PO4_eff              = is.PO4_eff;
-    var FeCl3_solution       = is.FeCl3_solution;
-    var FeCl3_unit_weight    = is.FeCl3_unit_weight;
-    var days                 = is.days;
-    var influent_H           = is.influent_H;
-    //these three inputs had an equation but they are now inputs again
+      var CSO_particulate      = is.CSO_particulate;
+      var CSO_soluble          = is.CSO_soluble;
+      var removal_bpCOD        = is.removal_bpCOD;
+      var removal_nbpCOD       = is.removal_nbpCOD;
+      var removal_iTSS         = is.removal_iTSS;
+      var removal_ON           = is.removal_ON;
+      var removal_OP           = is.removal_OP;
+      var SRT                  = is.SRT;
+      var MLSS_X_TSS           = is.MLSS_X_TSS;
+      var zb                   = is.zb;
+      var Pressure             = is.Pressure;
+      var Df                   = is.Df;
+      var h_settler            = is.h_settler;
+      var DO                   = is.DO;
+      var SF                   = is.SF;
+      var NH4_eff              = is.NH4_eff;
+      var sBODe                = is.sBODe;
+      var TSSe                 = is.TSSe;
+      var Anoxic_mixing_energy = is.Anoxic_mixing_energy;
+      var NO3_eff              = is.NO3_eff;
+      var SOR                  = is.SOR;
+      var X_R                  = is.X_R;
+      var clarifiers           = is.clarifiers;
+      var PO4_eff              = is.PO4_eff;
+      var FeCl3_solution       = is.FeCl3_solution;
+      var FeCl3_unit_weight    = is.FeCl3_unit_weight;
+      var days                 = is.days;
+      var influent_H           = is.influent_H;
   //end-process-inputs
 
   //make that effluent designed cannot be higher than influent observed concentrations
@@ -121,8 +120,29 @@ function compute_elementary_flows(Input_set){
 
   /*0. SOLVE FRACTIONATION AND PRIMARY SETTLER */
 
-  //first fractionation
-  Result.Fra=fractionation(BOD,sBOD,COD,bCOD,sCOD,rbCOD,TSS,VSS,TKN,NH4,NH4_eff,TP,PO4)
+  //fractionation of raw wastewater (before CSO and primary settler)
+  Result.Fra=fractionation(BOD,sBOD,COD,bCOD,sCOD,rbCOD,TSS,VSS,TKN,NH4,NH4_eff,TP,PO4);
+
+  //apply CSO discharge
+  (function(){
+    Result.CSO=cso_removal(Result.Fra, CSO_particulate, CSO_soluble);
+    addResults('CSO',Result.CSO);
+    //update inputs
+    BOD   = Result.Fra.BOD.value;
+    sBOD  = Result.Fra.sBOD.value;
+    COD   = Result.Fra.COD.value;
+    sCOD  = Result.Fra.sCOD.value;
+    bCOD  = Result.Fra.bCOD.value;
+    rbCOD = Result.Fra.sCOD.value;
+    TSS   = Result.Fra.TSS.value;
+    VSS   = Result.Fra.VSS.value;
+    TKN   = Result.Fra.TKN.value;
+    NH4   = Result.Fra.NH4.value;
+    TP    = Result.Fra.TP.value;
+    PO4   = Result.Fra.PO4.value;
+    //recalculate fractionation
+    Result.Fra=fractionation(BOD,sBOD,COD,bCOD,sCOD,rbCOD,TSS,VSS,TKN,NH4,NH4_eff,TP,PO4);
+  })();
 
   //apply primary settler + fractionation again
   if(is_Pri_active){
@@ -140,7 +160,7 @@ function compute_elementary_flows(Input_set){
     Result.Pri=primary_settler(Q,bpCOD,nbpCOD,iTSS,ON,OP,VSS_COD,removal_bpCOD,removal_nbpCOD,removal_iTSS,removal_ON,removal_OP);
     addResults('Pri',Result.Pri);
 
-    //get removed pCOD (g/m3)
+    //get removed amounts (g/m3)
     var bpCOD_removed  = Result.Pri.bpCOD_removed.value;  //g/m3
     var nbpCOD_removed = Result.Pri.nbpCOD_removed.value; //g/m3
     var pCOD_removed   = Result.Pri.pCOD_removed.value;   //g/m3
@@ -171,9 +191,7 @@ function compute_elementary_flows(Input_set){
   }
 
   //exception regarding TKN_N2O
-  if(is_Nit_active==false){
-    Result.Fra.TKN_N2O.value=0;
-  }
+  if(is_Nit_active==false){ Result.Fra.TKN_N2O.value=0; }
 
   addResults('Fra',Result.Fra);
 

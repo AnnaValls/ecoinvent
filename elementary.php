@@ -194,6 +194,9 @@
           Zn : getInput('Zn').value,
 
           //design parameters
+          CSO_particulate      : getInput('CSO_particulate').value, //%
+          CSO_soluble          : getInput('CSO_soluble').value,     //%
+
           removal_bpCOD        : getInput('removal_bpCOD').value,  //%
           removal_nbpCOD       : getInput('removal_nbpCOD').value, //%
           removal_iTSS         : getInput('removal_iTSS').value,   //%
@@ -263,7 +266,7 @@
         })();
         document.querySelector('#variable_amount').innerHTML=Variables.length;
 
-        //create variables table
+        //update variables table
         (function(){
           var table=document.querySelector('table#variables');
           while(table.rows.length>1){table.deleteRow(-1)}
@@ -274,9 +277,24 @@
           Variables.forEach((i,ii)=>{
             var newRow=table.insertRow(-1);
 
+            var tech_name = Technologies[i.tech] ? Technologies[i.tech].Name : i.tech;
+
             //draw a border if new tech
             if(ii>0 && (Variables[ii-1].tech != i.tech)){
               newRow.style.borderTop="1px solid #ccc";
+            }
+
+            if(ii==0 || Variables[ii-1].tech != i.tech){
+              var newCell=newRow.insertCell(-1);
+              newCell.colSpan=3;
+              var btn_text = (Options.hiddenTechs.indexOf(i.tech)+1) ? "&rarr;":"&darr;";
+              newCell.innerHTML="<button class=toggleView onclick=toggleViewVars(this,'"+i.tech+"')>"+btn_text+"</button> <small><em>"+tech_name+"</em></small>";
+              var newRow=table.insertRow(-1);
+            }
+
+            //hide row if it's in hiddenTechs
+            if(Options.hiddenTechs.indexOf(i.tech)+1){
+              newRow.style.display='none';
             }
 
             //draw a border (for fractionation)
@@ -285,11 +303,7 @@
             }
 
             //tech name
-            (function(){
-              var tech_name = Technologies[i.tech] ? Technologies[i.tech].Name : i.tech;
-              newRow.setAttribute('tech',i.tech);
-              newRow.insertCell(-1).outerHTML="<td class=help title='"+tech_name+"' style='font-family:monospace'>"+i.tech;
-            })();
+            newRow.setAttribute('tech',i.tech);
 
             //variable name and link to source code
             (function(){
@@ -301,12 +315,14 @@
 
             //color remark if value==zero
             (function(){
-              var color=i.value ? "" : "style='background:linear-gradient(to left,yellow,transparent)'";
+              var color="";
+              if(!i.value) { color="style='background:linear-gradient(to left,yellow,transparent)'"; }
+              if(i.value<0){ color="style='background:linear-gradient(to left,red,transparent)'"; }
+
               newRow.insertCell(-1).outerHTML="<td class=number "+color+">"+format(i.value);
               newRow.insertCell(-1).outerHTML="<td class=unit>"+i.unit.prettifyUnit();
             })();
           });
-
         })();
 
         //deal with outputs selected unit before updating outputs (default is kg/d)
@@ -384,6 +400,7 @@
           }
         }
       },
+      hiddenTechs:[], //techs hidden in table 2. Variables calculated, i.e. ['BOD','Nit']
       /*further user-options here*/
     }
   </script>
@@ -672,6 +689,7 @@
         }
       </script>
       Scroll to &rarr;
+      <a          href=# onclick="scroll2tec('CSO');                    return false" title="Combined Sewer Overflow">CSO</a>
       <a          href=# onclick="scroll2tec('Pri');                    return false" title="Primary settler">Pri</a>
       <a tech=Fra href=# onclick="scroll2tec(this.getAttribute('tech'));return false">Fra</a>
       <a tech=BOD href=# onclick="scroll2tec(this.getAttribute('tech'));return false">BOD</a>
@@ -697,7 +715,6 @@
 
     <!--Variables-->
     <table id=variables><tr>
-      <th>Tech
       <th>Variable
       <th>Result
       <th>Unit
@@ -923,33 +940,24 @@
             </ul>
           </li>
 
-          <li>Hydraulic overload
-            <ul>
-              <li><issue class=help_wanted></issue>
-              <li style="font-size:smaller">Equations and explanation needed (inputs/outputs) (who knows them?)
-              <li style="font-size:smaller">I'm not sure how to start to implement this.
-            </ul>
-          </li>
-
-          <li>Uncertainty
-            <ul>
-              <li><issue class=help_wanted></issue>
-              <li style="font-size:smaller">I need to understand if it affects current calculations (if it is related to the metcalf&amp;eddy model), or if it's something fixed that is added to the ecospold file.
-              <li style="font-size:smaller">What is Pedigree outputs?
-            </ul>
-          </li>
-
           <li>Untreated fraction
             <ul>
-              <li><issue class=help_wanted></issue>
-              <li style="font-size:smaller">Who knows the equations (inputs/outputs)?
-              <li style="font-size:smaller">Who is generating the dataset?
+              <li><issue class=under_dev></issue>
+              <li><issue class=help_provided>Pascal</issue>
+              <li><issue class=help_provided>lcorominas</issue>
             </ul>
           </li>
 
           <li>Generate ecospold
             <ul>
-              <li><issue class=help_requested>Pascal</issue>
+              <li><issue class=under_dev></issue>
+              <li><issue class=help_provided>Pascal</issue>
+              <li>Uncertainty
+                <ul>
+                  <li><issue class=help_wanted></issue>
+                  <li>It is related to ecospold file only.
+                </ul>
+              </li>
             </ul>
           </li>
 
@@ -1129,6 +1137,12 @@
       Inputs.filter(i=>{return i.isParameter}).forEach(i=>{
         process_input(i);
       });
+    })();
+
+    //populate variables table
+    (function(){
+      var table=document.querySelector('table#variables');
+
     })();
 
     //populate outputs

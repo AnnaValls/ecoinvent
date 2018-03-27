@@ -12,6 +12,14 @@
  */
 
 var Technologies = {
+  "CSO":{
+    Name:"Combined Sewer Overflow",
+    File:"cso_removal.js",
+    Implemented_in:"",
+    value:true,
+    notActivable:true,
+    Inputs:getParamNames(cso_removal),
+  },
   "Fra":{
     Name:"Fractionation",
     File:"fractionation.js",
@@ -25,7 +33,7 @@ var Technologies = {
     Name:"Primary settler",
     File:"primary_settler.js",
     Implemented_in:"",
-    value:true,
+    value:false,
     Inputs:getParamNames(primary_settler),
   },
 	"BOD":{

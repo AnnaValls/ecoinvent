@@ -93,3 +93,21 @@ function toggleView(btn,id){
   if(el){ el.style.display = el.style.display=='none' ? '':'none' }
   if(btn){ btn.innerHTML= btn.innerHTML=='↓' ? '&rarr;':'&darr;' }
 }
+
+//frontend buttons for folding/unfolding sections of div#summary
+function toggleViewVars(btn,tec){
+  if(btn){ btn.innerHTML= btn.innerHTML=='↓' ? '&rarr;':'&darr;' }
+
+  if(Options.hiddenTechs.indexOf(tec)==-1){
+    Options.hiddenTechs.push(tec);
+    var newDisplay="none";
+  }else{
+    Options.hiddenTechs=Options.hiddenTechs.filter(t=>{return t!=tec});
+    var newDisplay="";
+  }
+
+  var els=document.querySelectorAll('#variables tr[tech='+tec+']');
+  for(var i=0;i<els.length;i++){
+    els[i].style.display=newDisplay;
+  }
+}

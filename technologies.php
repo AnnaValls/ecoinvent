@@ -17,7 +17,7 @@
 
 <div>
   <table id=technologies border=1>
-    <tr><th>Technology<th>Name<th>Implemented in<th><a href=inputs.php>Inputs</a> required
+    <tr><th>id<th>Technology<th>Activable<th>Implemented in<th><a href=inputs.php>Inputs</a> required
   </table>
   <script>
     //fill technologies table
@@ -28,6 +28,7 @@
         var newRow=t.insertRow(-1);
         newRow.insertCell(-1).innerHTML=tec;
         newRow.insertCell(-1).innerHTML=el.Name;
+        newRow.insertCell(-1).innerHTML=el.notActivable ? "no":"yes";
         newRow.insertCell(-1).innerHTML="<a href='see.php?path=techs&file="+el.File+"'>"+el.File+"</a>";
         newRow.insertCell(-1).innerHTML=( ()=>{
           var str=[]
