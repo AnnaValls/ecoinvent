@@ -6,15 +6,18 @@
 
   <script>
     var WWTPs=[
-      {name:'plant 1'},
-      {name:'plant 2'},
+      {name:'plant a', }, //"region a countrywise" TODO
+      {name:'plant b', }, //"region b countrywise" TODO
     ];
 
+    //add a new object to WWTPs array
     function add_wwtp(){
-      WWTPs.push({name:'plant '+(1+WWTPs.length)});
+      var letters='abcdefghijklmnopqrstuvwxyz';
+      WWTPs.push({name:'plant '+letters[WWTPs.length]});
       redisplay_wwtps();
     }
 
+    //redraw wwtps
     function redisplay_wwtps(){
       //populate table wwtps
       (function(){
@@ -136,6 +139,7 @@
         });
       })();
     }
+
   </script>
 
   <!--load backend: elementary flows and mass balances-->

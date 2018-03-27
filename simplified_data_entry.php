@@ -134,15 +134,23 @@
       <div> Wastewater treatment plant </div>
       <div>
         <!--average-->
-        <label><input type=radio name=wwtp value="average" checked> Average WWTP</label>
+        <label><input type=radio name=wwtp value="average" checked> Default Average WWTP</label>
         &mdash;
         <small>take the user to the page of running the model n times</small>
-
         <br>
+
         <!--specific-->
         <label><input type=radio name=wwtp value="specific"> Specific WWTP</label>
         &mdash;
         <small>take the user to to elementary flows</small>
+        <br>
+
+        <!--TODO-->
+        <label><input type=radio name=wwtp value="average" disabled> New Average WWTP</label>
+        &mdash;
+        <small>the user creates customized wwtps (future)
+          <issue class=TBD></issue>
+        </small>
       </div>
     </li>
 
@@ -151,8 +159,6 @@
       <issue class=TBD> requested by Pascal</issue>
       <issue class=under_dev></issue>
       <table>
-        <tr><td> CSO_particulated     <td><input type=number value=0> <small>%</small>
-        <tr><td> CSO_dissolved        <td><input type=number value=0> <small>%</small>
         <tr><td> fraction_WW_C_fossil <td><input type=number value=0> <small>%</small>
       </table>
     </li>

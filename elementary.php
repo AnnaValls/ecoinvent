@@ -783,8 +783,18 @@
         </ul>
       </p>
 
-      <!--DESIGN SUMMARY-->
+      <!--FOSSIL CO2-->
       <p>3.4.
+        <button class=toggleView onclick="toggleView(this,'fossil_CO2')">&darr;</button>
+        Emitted CO<sub>2</sub>
+        <ul id=fossil_CO2>
+          <li>Non-biogenic (fossil): <span id=nonbiogenic_CO2>0</span>
+          <li>Biogenic    : <span id=biogenic_CO2>0</span>
+        </ul>
+      </p>
+
+      <!--DESIGN SUMMARY-->
+      <p>3.5.
         <button class=toggleView onclick="toggleView(this,'design_summary')">&darr;</button>
         Design summary
         <ul id=design_summary>
@@ -831,7 +841,7 @@
       </p>
 
       <!--TECH SPHERE-->
-      <p>3.5.
+      <p>3.6.
         <button class=toggleView onclick="toggleView(this,'technosphere')">&darr;</button>
         Technosphere
         <ul id=technosphere>
@@ -888,76 +898,80 @@
     </div><hr>
 
     <!--TODO-->
-    <div id=todo_items>
-      <p style=background:yellow;text-align:center>TO DO list + L. Bosch doubts</p>
-      <div>
-        <small>List created using Pascal e-mail (March-12th)<br>"[WWT-ecoinvent] Notes from call with ecoinvent"</small>
-      </div>
-
-      <p style="font-size:smaller">
-        Note: if a requested item is tagged as <issue class=help_wanted></issue> is
-        because L. Bosch has not understood either the concept itself and/or how to implement it.
+    <div>
+      <p style=background:yellow;>
+        <button class=toggleView onclick="toggleView(this,'todo_items')">&darr;</button>
+        TO DO list + L. Bosch doubts
       </p>
+      <div id=todo_items>
+        <div>
+          <small>List created using Pascal e-mail (March-12th)<br>"[WWT-ecoinvent] Notes from call with ecoinvent"</small>
+        </div>
 
-      <ul>
-        <li>Country data and averaging functions
-          <ul>
-            <li><issue class=help_wanted></issue>
-            <li style="font-size:smaller">A draft (or brief explanation) on how a user will interact with this item is needed.
-            <li style="font-size:smaller">Is anyone collecting the data for the core countries + global?
-            <li style="font-size:smaller">How the classes affect calculations?
-          </ul>
-        </li>
+        <p style="font-size:smaller">
+          Note: if a requested item is tagged as <issue class=help_wanted></issue> is
+          because L. Bosch has not understood either the concept itself and/or how to implement it.
+        </p>
 
-        <li>Hydraulic overload
-          <ul>
-            <li><issue class=help_wanted></issue>
-            <li style="font-size:smaller">Equations and explanation needed (inputs/outputs) (who knows them?)
-            <li style="font-size:smaller">I'm not sure how to start to implement this.
-          </ul>
-        </li>
+        <ul>
+          <li>Country data and averaging functions
+            <ul>
+              <li><issue class=help_wanted></issue>
+              <li style="font-size:smaller">A draft (or brief explanation) on how a user will interact with this item is needed.
+              <li style="font-size:smaller">Is anyone collecting the data for the core countries + global?
+              <li style="font-size:smaller">How the classes affect calculations?
+            </ul>
+          </li>
 
-        <li>Uncertainty
-          <ul>
-            <li><issue class=help_wanted></issue>
-            <li style="font-size:smaller">I need to understand if it affects current calculations (if it is related to the metcalf&amp;eddy model), or if it's something fixed that is added to the ecospold file.
-            <li style="font-size:smaller">What is Pedigree outputs?
-          </ul>
-        </li>
+          <li>Hydraulic overload
+            <ul>
+              <li><issue class=help_wanted></issue>
+              <li style="font-size:smaller">Equations and explanation needed (inputs/outputs) (who knows them?)
+              <li style="font-size:smaller">I'm not sure how to start to implement this.
+            </ul>
+          </li>
 
-        <li>Untreated fraction
-          <ul>
-            <li><issue class=help_wanted></issue>
-            <li style="font-size:smaller">Who knows the equations (inputs/outputs)?
-            <li style="font-size:smaller">Who is generating the dataset?
-          </ul>
-        </li>
+          <li>Uncertainty
+            <ul>
+              <li><issue class=help_wanted></issue>
+              <li style="font-size:smaller">I need to understand if it affects current calculations (if it is related to the metcalf&amp;eddy model), or if it's something fixed that is added to the ecospold file.
+              <li style="font-size:smaller">What is Pedigree outputs?
+            </ul>
+          </li>
 
-        <li>Generate ecospold
-          <ul>
-            <li><issue class=help_requested>Pascal</issue>
-          </ul>
-        </li>
+          <li>Untreated fraction
+            <ul>
+              <li><issue class=help_wanted></issue>
+              <li style="font-size:smaller">Who knows the equations (inputs/outputs)?
+              <li style="font-size:smaller">Who is generating the dataset?
+            </ul>
+          </li>
 
-        <li>Show off data:
-          <ul>
-            <li><issue class=help_wanted></issue>
-            <li style="font-size:smaller">Not sure what this item is.
-          </ul>
-        </li>
+          <li>Generate ecospold
+            <ul>
+              <li><issue class=help_requested>Pascal</issue>
+            </ul>
+          </li>
 
-        <li>Documentation
-          <ul>
-            <li><issue class=help_wanted></issue>
-            <li><issue class=cannot_be_done></issue>
-            <li style="font-size:smaller">We should not focus on this unless the previous items are finished
-            <li style="font-size:smaller">item: overall approach
-            <li style="font-size:smaller">item: how-to integrated in the tool
-            <li style="font-size:smaller">item: ecospold documentation
-          </ul>
-        </li>
+          <li>Show off data:
+            <ul>
+              <li><issue class=help_wanted></issue>
+              <li style="font-size:smaller">Not sure what this item is.
+            </ul>
+          </li>
 
-      </ul>
+          <li>Documentation
+            <ul>
+              <li><issue class=help_wanted></issue>
+              <li><issue class=cannot_be_done></issue>
+              <li style="font-size:smaller">We should not focus on this unless the previous items are finished
+              <li style="font-size:smaller">item: overall approach
+              <li style="font-size:smaller">item: how-to integrated in the tool
+              <li style="font-size:smaller">item: ecospold documentation
+            </ul>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </div><hr>

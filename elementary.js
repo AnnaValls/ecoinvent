@@ -504,71 +504,7 @@ function compute_elementary_flows(Input_set){
   //additional sludge from chemical P removal
   var Total_excess_sludge = select_value('Total_excess_sludge', ['ChP']);
 
-  Result.summary={
-    'SRT':                        {value:SRT,                        unit:"d",               descr:getInputById('SRT').descr},
-    'tau':                        {value:tau,                        unit:"h",               descr:""},
-    'MLVSS':                      {value:MLVSS,                      unit:"g/m3",            descr:""},
-    //'BOD_loading':                {value:BOD_loading,                unit:"kg/m3·d",         descr:""},
-
-    //sludge
-    'TSS_removed_kgd': {value:TSS_removed_kgd,  unit:"kg_TSS/d", descr:"Primary_settler_sludge_produced_per_day"},
-    'P_X_TSS':  {value:P_X_TSS,  unit:"kg_TSS/d", descr:"Total_sludge_produced_per_day"},
-    'P_X_VSS':  {value:P_X_VSS,  unit:"kg_VSS/d", descr:"Volatile suspended solids produced per day"},
-
-    'sludge_C': {value:sludge_C, unit:"kg_C/d",   descr:""},
-    'sludge_H': {value:sludge_H, unit:"kg_H/d",   descr:""},
-    'sludge_O': {value:sludge_O, unit:"kg_O/d",   descr:""},
-    'sludge_N': {value:sludge_N, unit:"kg_N/d",   descr:""},
-    'sludge_P': {value:sludge_P, unit:"kg_P/d",   descr:""},
-
-    'Total_excess_sludge': {value:Total_excess_sludge, unit:"kg/d",   descr:"from Chemical P removal"},
-
-    'Y_obs_TSS':                  {value:Y_obs_TSS,                  unit:"g_TSS/g_BOD",     descr:""},
-    'Y_obs_VSS':                  {value:Y_obs_VSS,                  unit:"g_VSS/g_BOD",     descr:""},
-
-    'air_flowrate':               {value:air_flowrate,               unit:"m3/min",          descr:""},
-    'OTRf':                       {value:OTRf,                       unit:"kg_O2/h",         descr:""},
-    'SOTR':                       {value:SOTR,                       unit:"kg_O2/h",         descr:""},
-
-    'SDNR':                       {value:SDNR,                       unit:"g/g·d",           descr:""},
-    'RAS':                        {value:RAS,                        unit:"&empty;",         descr:""},
-    'clarifiers':                 {value:clarifiers,                 unit:"clarifiers",      descr:""},
-    'clarifier_diameter':         {value:clarifier_diameter,         unit:"m",               descr:""},
-
-    'V_aer':                      {value:V_aer,                      unit:"m3",              descr:""},
-    'V_nox':                      {value:V_nox,                      unit:"m3",              descr:""},
-    'V_ana':                      {value:V_ana,                      unit:"m3",              descr:""},
-    'V_total':                    {value:V_total,                    unit:"m3",              descr:"Total_reactor_volume_(aerobic+anoxic+anaerobic)"},
-
-    'alkalinity_added':           Result.Nit.alkalinity_added,
-    'Mass_of_alkalinity_needed':  Result.Des.Mass_of_alkalinity_needed,
-
-    'FeCl3_volume':               {value:FeCl3_volume,               unit:"L/d",             descr:""},
-    'storage_req_15_d':           {value:storage_req_15_d,           unit:"m3",              descr:""},
-    'Dewatering_polymer':         {value:Dewatering_polymer,         unit:"kg/d",            descr:""},
-
-    //concrete
-    'concrete_reactor':           {value:Concrete.reactor(V_total),             unit:"m3 concrete",    descr:""},
-    'concrete_settler':           {value:Concrete.settler(V_settler,h_settler), unit:"m3 concrete",    descr:""},
-
-    'aeration_power':             {value:aeration_power,             unit:"kW",              descr:"Power needed for aeration (=OTRf/SAE)"},
-    'mixing_power':               {value:mixing_power,               unit:"kW",              descr:"Power needed for anoxic mixing"},
-    'pumping_power_influent':     {value:pumping_power_influent,     unit:"kW",              descr:"Power needed for pumping influent"},
-    'pumping_power_external':     {value:pumping_power_external,     unit:"kW",              descr:"Power needed for pumping (external recirculation)"},
-    'pumping_power_internal':     {value:pumping_power_internal,     unit:"kW",              descr:"Power needed for pumping (internal recirculation)"},
-    'pumping_power_wastage':      {value:pumping_power_wastage,      unit:"kW",              descr:"Power needed for pumping (wastage recirculation)"},
-    'pumping_power':              {value:pumping_power,              unit:"kW",              descr:"Power needed for pumping (ext+int+was)"},
-    'dewatering_power':           {value:dewatering_power,           unit:"kW",              descr:"Power needed for dewatering"},
-    'other_power':                {value:other_power,                unit:"kW",              descr:"Power needed for 'other' (20% of total)"},
-    'total_power':                {value:total_power,                unit:"kW",              descr:"Total power needed"},
-    'total_daily_energy':         {value:total_power*24,             unit:"kWh/d",           descr:"Total daily energy needed"},
-    'total_energy_per_m3':        {value:total_power*24/Q||0,        unit:"kWh/m3",          descr:"Total energy needed per m3"},
-  };
-
-  //addResults('summary',Result.summary); //if added, they will be visible in the "Variables" table
-
   //===============================================================================================
-
   //OUTPUTS effluent
   (function(){
     /**
@@ -782,46 +718,113 @@ function compute_elementary_flows(Input_set){
     }
   })();
 
-  /*utilities*/
-  //fx: utility to add a technology result to the "Variables" object (calculated variables)
-  function addResults(tech,result){
-    /*inputs:
-      tech: string representing a technology
-      result: object returned from a technology
-    */
-    for(var res in result){
-      var id    = res;
-      var value = result[id].value;
-      var unit  = result[id].unit;
-      var descr = result[id].descr;
+  Result.summary={
+    'SRT':                        {value:SRT,                        unit:"d",               descr:getInputById('SRT').descr},
+    'tau':                        {value:tau,                        unit:"h",               descr:""},
+    'MLVSS':                      {value:MLVSS,                      unit:"g/m3",            descr:""},
+    //'BOD_loading':                {value:BOD_loading,                unit:"kg/m3·d",         descr:""},
 
-      //if a variable with the same id and unit already exists replace it (unless tech==summar)
-      if(tech!='summary'){
-        var candidates=Variables.filter(v=>{return (v.id==id && v.unit==unit)});
-        if(candidates.length){
-          candidates.forEach(c=>{
-            var index=Variables.indexOf(c);
-            Variables.splice(index,1);
-          });
+    //sludge
+    'TSS_removed_kgd': {value:TSS_removed_kgd,  unit:"kg_TSS/d", descr:"Primary_settler_sludge_produced_per_day"},
+    'P_X_TSS':  {value:P_X_TSS,  unit:"kg_TSS/d", descr:"Total_sludge_produced_per_day"},
+    'P_X_VSS':  {value:P_X_VSS,  unit:"kg_VSS/d", descr:"Volatile suspended solids produced per day"},
+
+    'sludge_C': {value:sludge_C, unit:"kg_C/d",   descr:""},
+    'sludge_H': {value:sludge_H, unit:"kg_H/d",   descr:""},
+    'sludge_O': {value:sludge_O, unit:"kg_O/d",   descr:""},
+    'sludge_N': {value:sludge_N, unit:"kg_N/d",   descr:""},
+    'sludge_P': {value:sludge_P, unit:"kg_P/d",   descr:""},
+
+    'Total_excess_sludge': {value:Total_excess_sludge, unit:"kg/d",   descr:"from Chemical P removal"},
+
+    'Y_obs_TSS':                  {value:Y_obs_TSS,                  unit:"g_TSS/g_BOD",     descr:""},
+    'Y_obs_VSS':                  {value:Y_obs_VSS,                  unit:"g_VSS/g_BOD",     descr:""},
+
+    'air_flowrate':               {value:air_flowrate,               unit:"m3/min",          descr:""},
+    'OTRf':                       {value:OTRf,                       unit:"kg_O2/h",         descr:""},
+    'SOTR':                       {value:SOTR,                       unit:"kg_O2/h",         descr:""},
+
+    'SDNR':                       {value:SDNR,                       unit:"g/g·d",           descr:""},
+    'RAS':                        {value:RAS,                        unit:"&empty;",         descr:""},
+    'clarifiers':                 {value:clarifiers,                 unit:"clarifiers",      descr:""},
+    'clarifier_diameter':         {value:clarifier_diameter,         unit:"m",               descr:""},
+
+    'V_aer':                      {value:V_aer,                      unit:"m3",              descr:""},
+    'V_nox':                      {value:V_nox,                      unit:"m3",              descr:""},
+    'V_ana':                      {value:V_ana,                      unit:"m3",              descr:""},
+    'V_total':                    {value:V_total,                    unit:"m3",              descr:"Total_reactor_volume_(aerobic+anoxic+anaerobic)"},
+
+    'alkalinity_added':           Result.Nit.alkalinity_added,
+    'Mass_of_alkalinity_needed':  Result.Des.Mass_of_alkalinity_needed,
+
+    'FeCl3_volume':               {value:FeCl3_volume,               unit:"L/d",             descr:""},
+    'storage_req_15_d':           {value:storage_req_15_d,           unit:"m3",              descr:""},
+    'Dewatering_polymer':         {value:Dewatering_polymer,         unit:"kg/d",            descr:""},
+
+    //concrete
+    'concrete_reactor':           {value:Concrete.reactor(V_total),             unit:"m3 concrete",    descr:""},
+    'concrete_settler':           {value:Concrete.settler(V_settler,h_settler), unit:"m3 concrete",    descr:""},
+
+    'aeration_power':             {value:aeration_power,             unit:"kW",              descr:"Power needed for aeration (=OTRf/SAE)"},
+    'mixing_power':               {value:mixing_power,               unit:"kW",              descr:"Power needed for anoxic mixing"},
+    'pumping_power_influent':     {value:pumping_power_influent,     unit:"kW",              descr:"Power needed for pumping influent"},
+    'pumping_power_external':     {value:pumping_power_external,     unit:"kW",              descr:"Power needed for pumping (external recirculation)"},
+    'pumping_power_internal':     {value:pumping_power_internal,     unit:"kW",              descr:"Power needed for pumping (internal recirculation)"},
+    'pumping_power_wastage':      {value:pumping_power_wastage,      unit:"kW",              descr:"Power needed for pumping (wastage recirculation)"},
+    'pumping_power':              {value:pumping_power,              unit:"kW",              descr:"Power needed for pumping (ext+int+was)"},
+    'dewatering_power':           {value:dewatering_power,           unit:"kW",              descr:"Power needed for dewatering"},
+    'other_power':                {value:other_power,                unit:"kW",              descr:"Power needed for 'other' (20% of total)"},
+    'total_power':                {value:total_power,                unit:"kW",              descr:"Total power needed"},
+    'total_daily_energy':         {value:total_power*24,             unit:"kWh/d",           descr:"Total daily energy needed"},
+    'total_energy_per_m3':        {value:total_power*24/Q||0,        unit:"kWh/m3",          descr:"Total energy needed per m3"},
+
+    //fossil co2
+    'nonbiogenic_CO2': {value:0.036*Outputs.CO2.effluent.air/1000, unit:"kg/d", descr:""},
+    'biogenic_CO2':    {value:0.964*Outputs.CO2.effluent.air/1000, unit:"kg/d", descr:""},
+  };
+  //addResults('summary',Result.summary); //if added, they will be visible in the "Variables" table
+
+  /*utilities*/
+    //fx: utility to add a technology result to the "Variables" object (calculated variables)
+    function addResults(tech,result){
+      /*inputs:
+        tech: string representing a technology
+        result: object returned from a technology
+      */
+      for(var res in result){
+        var id    = res;
+        var value = result[id].value;
+        var unit  = result[id].unit;
+        var descr = result[id].descr;
+
+        //if a variable with the same id and unit already exists replace it (unless tech==summar)
+        if(tech!='summary'){
+          var candidates=Variables.filter(v=>{return (v.id==id && v.unit==unit)});
+          if(candidates.length){
+            candidates.forEach(c=>{
+              var index=Variables.indexOf(c);
+              Variables.splice(index,1);
+            });
+          }
+        }
+
+        //add a new variable object to "Variables"
+        Variables.push({tech,id,value,unit,descr});
+      }
+    }
+
+    //select a calculated variable from an array of possible technologies that calculate the same variable
+    function select_value(id,tec_array){
+      var value=0;
+      for(var i=0;i<tec_array.length;i++){
+        if(Result[tec_array[i]][id]){
+          return Result[tec_array[i]][id].value;
+          break;
         }
       }
-
-      //add a new variable object to "Variables"
-      Variables.push({tech,id,value,unit,descr});
+      return value;
     }
-  }
-
-  //select a calculated variable from an array of possible technologies that calculate the same variable
-  function select_value(id,tec_array){
-    var value=0;
-    for(var i=0;i<tec_array.length;i++){
-      if(Result[tec_array[i]][id]){
-        return Result[tec_array[i]][id].value;
-        break;
-      }
-    }
-    return value;
-  }
+  /*end utilities*/
 
   return Result;
 }

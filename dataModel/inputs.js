@@ -30,6 +30,10 @@ var Inputs = [
 {id:"PO4",        value:5,   unit:"g/m3_as_P",     descr:"Ortophosphate influent"},
 {id:"Alkalinity", value:140, unit:"g/m3_as_CaCO3", descr:"Influent alkalinity"},
 
+//CSO removal
+{id:"CSO_particulate", value:1, unit:"%", isParameter:true, descr:"Combined Sewer Overflow particulate fractions removal"},
+{id:"CSO_soluble",     value:2, unit:"%", isParameter:true, descr:"Combined Sewer Overflow soluble fractions removal"},
+
 //primary settler
 {id:"removal_bpCOD",  value:40,   unit:"%", isParameter:true, descr:"Primary settler bpCOD removal rate (25 to 60% for municipal wastewater)"},
 {id:"removal_nbpCOD", value:60,   unit:"%", isParameter:true, descr:"Primary settler nbpCOD removal rate (40 to 80% for municipal wastewater)"},
