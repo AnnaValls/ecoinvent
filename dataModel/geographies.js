@@ -23,12 +23,15 @@
   Geographies is an array ([ ]) of objects ({ }),
   each geography object has the following fields:
   {
+    RQ:float,
     name:String,
     shortcut:String,
     latitutde:float,
-    longitude:float
+    longitude:float,
   }
 There are 385 geographies
+the field "RQ" is the column R / column Q in the file "Drinking-Water-Sanitation-Hygiene-Database-July-2017b.xlsx"
+
 */
 var Geographies=[
 {RQ:1,               name:"Afghanistan",                                                                                                               shortcut:"AF",                                      latitude:33.677,          longitude:65.216,          },
