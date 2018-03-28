@@ -85,22 +85,23 @@ function cso_removal(Fractionation, Input_set, CSO_particulate, CSO_soluble){
     R.OP.value          -= OP_discharged;
     R.TP.value          -= TP_discharged;
 
-  //deal with metals: metals are all soluble
-  var metals_discharged=0;
-  Object.keys(Input_set).filter(k=>{return getInputById(k).isMetal}).forEach(k=>{
-    metals_discharged  += Input_set[k]*CSO_soluble;
-    Input_set[k] *= (1-CSO_soluble);
-  });
-  //end metals
-
-  return {
+  var ret = {
     BOD_discharged:    {value:BOD_discharged,    unit:"g/m3_as_O2", descr:"Discharged_BOD_by_CSO"},
     COD_discharged:    {value:COD_discharged,    unit:"g/m3_as_O2", descr:"Discharged_COD_by_CSO"},
     TSS_discharged:    {value:TSS_discharged,    unit:"g/m3",       descr:"Discharged_TSS_by_CSO"},
     TKN_discharged:    {value:TKN_discharged,    unit:"g/m3_as_N",  descr:"Discharged_TKN_by_CSO"},
     TP_discharged:     {value:TP_discharged,     unit:"g/m3_as_P",  descr:"Discharged_TP_by_CSO"},
-    metals_discharged: {value:metals_discharged, unit:"g/m3",       descr:"Discharged_metals_by_CSO"},
-  }
+  };
+
+  //deal with metals: metals are all soluble
+  var metals_discharged = 0;
+  Object.keys(Input_set).filter(k=>{return getInputById(k).isMetal}).forEach(k=>{
+    ret['metal_'+k+'_discharged'] = {value:Input_set[k]*CSO_soluble, unit:"g/m3", descr:k+"_discharged"};
+    Input_set[k] *= (1-CSO_soluble);
+  });
+  //end metals
+
+  return ret;
 }
 
 /*test TODO*/

@@ -602,7 +602,7 @@
     <div>
       <p>
         1.1.
-        Activate technologies of your plant
+        Wastewater treatment technologies
       </p>
       <table id=inputs_tech border=1>
         <!--fractionation as a not activable technology-->
@@ -614,45 +614,30 @@
         </tr>
         -->
       </table>
-      <style>
-      </style>
     </div>
 
     <!--enter ww characteristics-->
-    <div>
+    <div id=inputs_container>
+      <style>
+        #inputs_container input[type=number]{
+          border:none;
+          width:80px;
+          display:block;
+          margin:auto;
+        }
+      </style>
+
       <p>
         1.2.
-        Enter wastewater characteristics
+        Wastewater and treatment inputs
         <br><small>(required: <span id=input_amount>0</span>)</small>
       </p>
-
-      <!--inputs table-->
-      <table id=inputs border=1>
-        <!--
-        <tr><th>Input<th>Value<th>Unit</th>
-        -->
-        <style>
-          #inputs input[type=number]{
-            border:none;
-            width:80px;
-            display:block;
-            margin:auto;
-          }
-        </style>
-      </table>
+      <!--inputs-->
+      <table id=inputs border=1></table>
 
       <!--go to top link-->
-      <div style=font-size:smaller><a href=#>&uarr; top</a></div>
-    </div><hr>
-
-    <!--TBD-->
-    <p>
-      <button>Take current inputs to the marginal approach</button>
-      <br>
-      <small>Results of treating the industry wastewater</small>
-      <br>
-      <issue class=under_dev></issue>
-    </p>
+      <p><div style=font-size:smaller><a href=#>&uarr; top</a></div></p>
+    </div>
   </div><hr>
 
   <!--2. Variables calculated-->
@@ -715,7 +700,7 @@
       <th>Unit
     </table>
 
-    <!--link go to top--><div><small><a href='#'>&uarr; top</a></small></div>
+    <!--link go to top--><div><p><small><a href='#'>&uarr; top</a></small></p></div>
   </div><hr>
 
   <!--3. Outputs-->
@@ -777,7 +762,7 @@
         <ul id=sludge_production>
           <li>Primary settler sludge: <span id=TSS_removed_kgd>0</span>
             <ul>
-              <li><issue class=help_wanted>: elementary composition needed<br>(George is the person to ask)</issue>
+              <li><issue class=help_requested>George</issue>
             </ul>
           <li>P_X_TSS: <span id=P_X_TSS>0</span>
           <li>P_X_VSS: <span id=P_X_VSS>0</span>
@@ -1125,19 +1110,13 @@
         })());
         newCell.appendChild((function(){
           var span=document.createElement('span');
-          span.innerHTML=' Design parameters';
+          span.innerHTML=' Sewer and Design parameters';
           return span;
         })());
       })();
       Inputs.filter(i=>{return i.isParameter}).forEach(i=>{
         process_input(i);
       });
-    })();
-
-    //populate variables table
-    (function(){
-      var table=document.querySelector('table#variables');
-
     })();
 
     //populate outputs
@@ -1224,16 +1203,5 @@
           populate_output(key,'none');
       });
     })();
-
-    //lcorominas requested hiding these inputs from frontend.
-    //but these inputs should not be hidden
-    /*
-    [
-      //'PO4', //already calculated in elementary.js
-      //'sBODe',     //used in nitrification.js
-    ].forEach(id=>{
-      document.querySelector('#inputs #'+id).parentNode.parentNode.style.display='none';
-    });
-    */
   })();
 </script>

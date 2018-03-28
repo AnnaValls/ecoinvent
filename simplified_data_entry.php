@@ -107,6 +107,22 @@
       <div>
         <select id=geography></select>
       </div>
+      <p style="font-size:smaller">
+        Column R/Column Q: <span id=RQ>-1</span>
+      </p><hr>
+
+      <b>Geographies without R/Q value (<span id=geo_null_number></span>):</b>
+      <ul>
+        <script>
+          (function(){
+            var filtered=Geographies.filter(g=>{return g.RQ==null})
+            document.getElementById('geo_null_number').innerHTML=filtered.length+" of "+Geographies.length;
+            filtered.forEach(g=>{
+              document.write("<li>"+g.name);
+            });
+          })();
+        </script>
+      </ul>
     </li>
 
     <!--volume-->
@@ -210,6 +226,7 @@
     //populate geographies
     (function(){
       var select=document.querySelector('#geography');
+      var RQ=document.querySelector('#RQ');
       Geographies.forEach(g=>{
         var option=document.createElement('option');
         option.innerHTML=g.name.replace(/_/g,' ')
@@ -217,6 +234,10 @@
         select.appendChild(option);
         option.selected = g.shortcut=="GLO"; //Global selected by default
       });
+      select.onchange=function(){
+        RQ.innerHTML=Geographies.filter(g=>{return g.shortcut==select.value})[0].RQ || "<em><b>undefined</b></em>";
+      };
+      select.onchange(); //set default value
     })();
   })();
 </script>
