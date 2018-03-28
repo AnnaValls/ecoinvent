@@ -74,7 +74,7 @@
         <td><a href="see.php?path=techs&file=chem_P_removal.js">chem_P_removal.js</a>
       <tr>
         <td>8. Metals
-        <td>G. Doka
+        <td><a href="docs/gabor-doka-tool/">G. Doka excel tool</a>
         <td><a href="see.php?path=techs&file=metals_doka.js">metals_doka.js</a>
     </table>
   </div><hr>

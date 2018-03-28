@@ -34,42 +34,7 @@ function compute_elementary_flows(Input_set){
       var PO4        = is.PO4;
       var Alkalinity = is.Alkalinity;
 
-    //influent metals
-      var Ag = is.Ag;
-      var Al = is.Al;
-      var As = is.As;
-      var B =  is.B;
-      var Ba = is.Ba;
-      var Be = is.Be;
-      var Br = is.Br;
-      var Ca = is.Ca;
-      var Cd = is.Cd;
-      var Cl = is.Cl;
-      var Co = is.Co;
-      var Cr = is.Cr;
-      var Cu = is.Cu;
-      var F  = is.F;
-      var Fe = is.Fe;
-      var Hg = is.Hg;
-      var I  = is.I;
-      var K  = is.K;
-      var Mg = is.Mg;
-      var Mn = is.Mn;
-      var Mo = is.Mo;
-      var Na = is.Na;
-      var Ni = is.Ni;
-      var Pb = is.Pb;
-      var Sb = is.Sb;
-      var Sc = is.Sc;
-      var Se = is.Se;
-      var Si = is.Si;
-      var Sn = is.Sn;
-      var Sr = is.Sr;
-      var Ti = is.Ti;
-      var Tl = is.Tl;
-      var V  = is.V;
-      var W  = is.W;
-      var Zn = is.Zn;
+    //influent metals are picked when 'metals_doka' is called 
 
     //design parameters
       var CSO_particulate      = is.CSO_particulate;
@@ -125,8 +90,12 @@ function compute_elementary_flows(Input_set){
 
   //apply CSO discharge
   (function(){
-    Result.CSO=cso_removal(Result.Fra, CSO_particulate, CSO_soluble);
-    addResults('CSO',Result.CSO);
+    //inputs for cso: fractionation, metals and CSO removal rates (particulate and soluble)
+    (function(){
+      Result.CSO=cso_removal(Result.Fra, is, CSO_particulate, CSO_soluble);
+      addResults('CSO',Result.CSO);
+    })();
+
     //update inputs
     BOD   = Result.Fra.BOD.value;
     sBOD  = Result.Fra.sBOD.value;
@@ -286,6 +255,41 @@ function compute_elementary_flows(Input_set){
 
   /*6. Metals (from G. Doka excel tool)*/
   if(is_Met_active){
+    var Ag = is.Ag;
+    var Al = is.Al;
+    var As = is.As;
+    var B =  is.B;
+    var Ba = is.Ba;
+    var Be = is.Be;
+    var Br = is.Br;
+    var Ca = is.Ca;
+    var Cd = is.Cd;
+    var Cl = is.Cl;
+    var Co = is.Co;
+    var Cr = is.Cr;
+    var Cu = is.Cu;
+    var F  = is.F;
+    var Fe = is.Fe;
+    var Hg = is.Hg;
+    var I  = is.I;
+    var K  = is.K;
+    var Mg = is.Mg;
+    var Mn = is.Mn;
+    var Mo = is.Mo;
+    var Na = is.Na;
+    var Ni = is.Ni;
+    var Pb = is.Pb;
+    var Sb = is.Sb;
+    var Sc = is.Sc;
+    var Se = is.Se;
+    var Si = is.Si;
+    var Sn = is.Sn;
+    var Sr = is.Sr;
+    var Ti = is.Ti;
+    var Tl = is.Tl;
+    var V  = is.V;
+    var W  = is.W;
+    var Zn = is.Zn;
     Result.Met=metals_doka(Ag,Al,As,B,Ba,Be,Br,Ca,Cd,Cl,Co,Cr,Cu,F,Fe,Hg,I,K,Mg,Mn,Mo,Na,Ni,Pb,Sb,Sc,Se,Si,Sn,Sr,Ti,Tl,V,W,Zn);
     addResults('Met',Result.Met);
   }

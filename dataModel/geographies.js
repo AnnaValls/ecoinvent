@@ -28,6 +28,7 @@
     latitutde:float,
     longitude:float
   }
+There are 385 geographies
 */
 var Geographies=[
 {name:"Afghanistan",                                                                                                               shortcut:"AF",                                      latitude:33.677,          longitude:65.216,          },
