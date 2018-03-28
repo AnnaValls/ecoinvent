@@ -112,6 +112,7 @@
       </p><hr>
 
       <b>Geographies without R/Q value (<span id=geo_null_number></span>):</b>
+      <issue class=help_requested>Pascal and Lluís C.</issue>
       <ul>
         <script>
           (function(){
@@ -168,15 +169,6 @@
           <issue class=TBD></issue>
         </small>
       </div>
-    </li>
-
-    <!--TBD-->
-    <li>
-      <issue class=TBD> requested by Pascal</issue>
-      <issue class=under_dev></issue>
-      <table>
-        <tr><td> fraction_WW_C_fossil <td><input type=number value=0> <small>%</small>
-      </table>
     </li>
 
     <!--next btn-->

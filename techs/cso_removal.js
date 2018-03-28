@@ -74,7 +74,7 @@ function cso_removal(Fractionation, Input_set, CSO_particulate, CSO_soluble){
     var sOP_discharged   = bsOP_discharged + nbsOP_discharged;
     var pOP_discharged   = bpOP_discharged + nbpOP_discharged;
     var OP_discharged    = pOP_discharged  + sOP_discharged;
-    var TP_discharged    = OP_discharged   + NH4_discharged;
+    var TP_discharged    = OP_discharged   + PO4_discharged;
     R.PO4.value         -= PO4_discharged;
     R.bsOP.value        -= bsOP_discharged;
     R.nbsOP.value       -= nbsOP_discharged;
@@ -94,7 +94,6 @@ function cso_removal(Fractionation, Input_set, CSO_particulate, CSO_soluble){
   };
 
   //deal with metals: metals are all soluble
-  var metals_discharged = 0;
   Object.keys(Input_set).filter(k=>{return getInputById(k).isMetal}).forEach(k=>{
     ret['metal_'+k+'_discharged'] = {value:Input_set[k]*CSO_soluble, unit:"g/m3", descr:k+"_discharged"};
     Input_set[k] *= (1-CSO_soluble);

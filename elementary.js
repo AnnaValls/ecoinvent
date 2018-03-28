@@ -102,7 +102,7 @@ function compute_elementary_flows(Input_set){
     COD   = Result.Fra.COD.value;
     sCOD  = Result.Fra.sCOD.value;
     bCOD  = Result.Fra.bCOD.value;
-    rbCOD = Result.Fra.sCOD.value;
+    rbCOD = Result.Fra.rbCOD.value;
     TSS   = Result.Fra.TSS.value;
     VSS   = Result.Fra.VSS.value;
     TKN   = Result.Fra.TKN.value;
