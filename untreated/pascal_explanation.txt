@@ -1,0 +1,33 @@
+Hi Lluís, Lluís,
+
+I had a closer look and made a slight adjustment in our method.
+
+The column Q provides information about sewer connections. Since we are only
+interested in wastewater being sent to sewers, this is our denominator.
+The column R provides the total fraction of wastewater that is directly
+collected by sewers but dumped in rivers without treatment.
+
+What I need from you is the ratio Column R/Column Q. It is country specific:
+therefore, if a user selects country X, then please use the corresponding row
+in the table.
+
+There are values for 2000 and 2015 - please use 2015 values.
+
+I will do the rest of the calculations in Python for ecoSpold generation. This
+does not affect your calculations.
+(What does influence your calculations is the fraction lost to Combined Sewer
+Overflow, CSO, which we discussed last week already.)
+
+I attach a file that maps the ecoinvent regions to countries. This will allow
+you to identify what data to use.
+Notes on geography:
+- There is a "World" region at the bottom of the table. We will be using this
+for "Global" datasets.
+- There are "Regional" data at the bottom of the table. We can use these for
+"regions" in ecoinvent (for example RER, RNA, etc.).
+The mapping should be rather straightforward with the Excel attached.
+
+Let me know if you have any other questions.
+
+All the best,
+Pascal
