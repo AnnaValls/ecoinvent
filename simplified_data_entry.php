@@ -6,9 +6,6 @@
   <?php include'imports.php'?>
   <title>Data entry</title>
 
-  <!--load geographies-->
-  <script src="dataModel/geographies.js"></script>
-
   <style>
     #root div.help {
       width:70%;
@@ -95,7 +92,7 @@
           This will generate the first part of the name of the wastewater treatment datasets.
           In the example, it would be "treatment of wastewater from lime production".
           If the wastewater is the average municipal wastewater, then enter the name "average municipal".
-          This will generate a name starting with "treatment of wastewater, average municipal"
+          This will generate a name starting with "treatment of wastewater, average municipal".
           The second part of the name will be based on the treatment type.
         </div>
       </div>
@@ -119,7 +116,7 @@
             var filtered=Geographies.filter(g=>{return g.RQ==null})
             document.getElementById('geo_null_number').innerHTML=filtered.length+" of "+Geographies.length;
             filtered.forEach(g=>{
-              document.write("<li>"+g.name);
+              document.write("<li>"+g.name.prettifyUnit());
             });
           })();
         </script>

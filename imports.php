@@ -29,11 +29,13 @@
 <script src="techs/metals_doka.js"></script>
 <script src="techs/cso_removal.js"></script>
 
+<!--data model-->
 <script src="dataModel/inputs.js"></script>
 <script src="dataModel/variables.js"></script>
 <script src="dataModel/outputs.js"></script>
 <script src="dataModel/methods.js"></script>
 <script src="dataModel/technologies.js"></script>
+<script src="dataModel/geographies.js"></script>
 
 <!--css-->
 <style>

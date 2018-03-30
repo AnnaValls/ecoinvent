@@ -4,19 +4,20 @@
 </head><body>
 <?php include'navbar.php'?>
 
-<h1>WWTP Reference Data</h1>
+<h1>WWTP Country Data</h1>
 
-<p>
-  List of WWTP average influents by country:
-  <br>
-  <p>
-  <small>
-    <b>note</b>: list of countries and input values needed.
-    <issue class=help_wanted></issue>
-    <a href="//github.com/holalluis/ecoinvent/tree/master/reference_data">The list is readable here</a>
-  </small>
-  </p>
-</p>
+<div>
+  Every region needs the following inputs:
+  <table style="margin-left:20px">
+    <script>
+      Inputs.forEach(input=>{
+        document.write("<tr><td>"+input.id);
+        document.write("<td><input type=number value='"+input.value+"'>");
+        document.write("<td><small>"+input.unit.prettifyUnit()+"</small>");
+      });
+    </script>
+  </table>
+</div>
 
 <ul>
 <?php

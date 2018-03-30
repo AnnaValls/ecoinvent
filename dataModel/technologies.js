@@ -80,7 +80,7 @@ var Technologies = {
     Inputs:getParamNames(sst_sizing),
   },
   "Met":{
-    Name:"Metals",
+    Name:"Metals and other elements",
     File:"metals_doka.js",
     Implemented_in:"",
     value:false,

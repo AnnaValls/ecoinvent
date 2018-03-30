@@ -1,16 +1,22 @@
 <!--title-->
-<div id=navbar
+<div
+  id=navbar
   onclick="window.location='index.php'"
 	title="Home page">
-	<b>Ecoinvent</b> wastewater tool
 
-	<issue class=under_dev></issue>
+	<div>
+    <b>Ecoinvent</b> wastewater tool
+  </div>
 
-  &mdash;
+  <div>
+    <small>
+      <em>Deadline: Mid-April 2018</em>
+    </small>
+  </div>
 
-  <small>
-    <em>We need to finalize before Mid-April 2018</em>
-  </small>
+  <div>
+    <a href="todo.php">See all TO DO items</a>
+  </div>
 
 	<style>
 		#navbar {
@@ -19,6 +25,8 @@
 			font-size:18px;
 			font-family:Arial;
 			cursor:pointer;
+      display:flex;
+      justify-content:space-between;
 		}
 	</style>
 </div>

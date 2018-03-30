@@ -20,8 +20,7 @@
       <li>
         Single plant model
         <ul>
-          <li><a href="elementary.php"                          >Elementary flows (from Metcalf &amp; Eddy)</a>
-          <li><a href="simplified_data_entry.php"               >Simplified data entry interface</a>
+          <li><a href="elementary.php"                          >Elementary flows (Metcalf &amp; Eddy equations)</a>
           <li><a href="technologies.php"                        >All technologies</a>
           <li><a href="inputs.php"                              >All inputs</a>
           <li><a href="outputs.php"                             >All outputs</a>
@@ -31,11 +30,12 @@
       <li>
         Multiple plant analysis (<em>under development</em>)
         <ul>
-          <li><a href="marginal.php">Marginal approach</a>
-          <li><a href="n-wwtp.php">Create multiple plants</a>
-          <li><a href="reference_data.php">Average influents by country ("Reference data")</a>
+          <li><a href="simplified_data_entry.php">Simplified data entry interface</a>
+          <li><a href="marginal.php"             >Marginal approach</a>
+          <li><a href="n-wwtp.php"               >Create multiple plants</a>
+          <li><a href="reference_data.php"       >Influent default data by country</a>
+          <li><a href="ecospold"                 >Generate ecospold file</a>
         </ul>
-      <li><a href=ecospold.php>Generate ecospold inventory file</a>
     </ol>
   </div><hr>
 

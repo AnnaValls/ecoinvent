@@ -95,7 +95,7 @@ function cso_removal(Fractionation, Input_set, CSO_particulate, CSO_soluble){
 
   //deal with metals: metals are all soluble
   Object.keys(Input_set).filter(k=>{return getInputById(k).isMetal}).forEach(k=>{
-    ret['metal_'+k+'_discharged'] = {value:Input_set[k]*CSO_soluble, unit:"g/m3", descr:k+"_discharged"};
+    ret['elem_'+k+'_discharged'] = {value:Input_set[k]*CSO_soluble, unit:"g/m3_as_"+k, descr:k+"_discharged"};
     Input_set[k] *= (1-CSO_soluble);
   });
   //end metals

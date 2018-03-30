@@ -449,7 +449,7 @@
 <div class=flex style="justify-content:space-between">
   <!--title and subtitle-->
   <div>
-    <h1>Elementary Flows (single plant model)</h1>
+    <h1>Single plant model (elementary flows)</h1>
     <!--hints-->
     <p style=font-size:smaller>
       Note: mouse over inputs and variables to see a description.
@@ -464,7 +464,7 @@
       <li><a href="img/plant-diagram.jpg"      target=_blank>See plant diagram image</a>
       <li><a href="terms.php"                  target=_blank>See summary of terms</a>
       <li><a href="fractionation_diagrams.php" target=_blank>See fractionation diagrams</a>
-      <li><button onclick="window.location='#todo_items'">Go down to <em>TO DO list</em> &darr;</button>
+      <li><a href="todo.php"                   target=_blank>TO DO items</a>
     </ul>
   </div>
 </div><hr>
@@ -668,7 +668,7 @@
           //end animation
         }
       </script>
-      Scroll to &rarr;
+      Scroll to:
       <a          href=# onclick="scroll2tec('CSO');                    return false" title="Combined Sewer Overflow">CSO</a>
       <a          href=# onclick="scroll2tec('Pri');                    return false" title="Primary settler">Pri</a>
       <a tech=Fra href=# onclick="scroll2tec(this.getAttribute('tech'));return false">Fra</a>
@@ -762,7 +762,7 @@
         <ul id=sludge_production>
           <li>Primary settler sludge: <span id=TSS_removed_kgd>0</span>
             <ul>
-              <li><issue class=help_requested>George</issue>
+              <li><issue class=help_requested>G. Ekama</issue>
             </ul>
           <li>P_X_TSS: <span id=P_X_TSS>0</span>
           <li>P_X_VSS: <span id=P_X_VSS>0</span>
@@ -776,6 +776,10 @@
           </li>
           <li>
             FeCl<sub>3</sub> additional sludge: <span id=Total_excess_sludge>0</span>
+            <ul>
+              <li>Composition
+              <li><issue class=help_wanted></issue>
+            </ul>
           </li>
         </ul>
       </p>
@@ -852,7 +856,7 @@
               <li>Alkalinity to maintain pH ≈ 7.0
                 <ul>
                   <li>
-                    <issue class=help_wanted></issue>
+                    <issue class=help_requested>L. Corominas</issue>
                     <br>
                     <issue class=TBD>Is factor <br>106/100 (Na<sub>2</sub>CO<sub>3</sub>/CaCO<sub>3</sub>)<br> equivalents correct ?</issue>
                   </li>
@@ -891,75 +895,11 @@
             </ul>
           </li>
         </ul>
+        <!--go to top link-->
       </p>
-    </div><hr>
 
-    <!--TODO-->
-    <div>
-      <p style=background:yellow;>
-        <button class=toggleView onclick="toggleView(this,'todo_items')">&darr;</button>
-        TO DO list + L. Bosch doubts
-      </p>
-      <div id=todo_items>
-        <div>
-          <small>List created using Pascal e-mail (March-12th)<br>"[WWT-ecoinvent] Notes from call with ecoinvent"</small>
-        </div>
-
-        <p style="font-size:smaller">
-          Note: if a requested item is tagged as <issue class=help_wanted></issue> is
-          because L. Bosch has not understood either the concept itself and/or how to implement it.
-        </p>
-
-        <ul>
-          <li>Country data and averaging functions
-            <ul>
-              <li><issue class=help_wanted></issue>
-              <li style="font-size:smaller">A draft (or brief explanation) on how a user will interact with this item is needed.
-              <li style="font-size:smaller">Is anyone collecting the data for the core countries + global?
-              <li style="font-size:smaller">How the classes affect calculations?
-            </ul>
-          </li>
-
-          <li>Untreated fraction
-            <ul>
-              <li><issue class=under_dev></issue>
-              <li><issue class=help_provided>Pascal</issue>
-              <li><issue class=help_provided>lcorominas</issue>
-            </ul>
-          </li>
-
-          <li>Generate ecospold
-            <ul>
-              <li><issue class=under_dev></issue>
-              <li><issue class=help_provided>Pascal</issue>
-              <li>Uncertainty
-                <ul>
-                  <li><issue class=help_wanted></issue>
-                  <li>It is related to ecospold file only.
-                </ul>
-              </li>
-            </ul>
-          </li>
-
-          <li>Show off data:
-            <ul>
-              <li><issue class=help_wanted></issue>
-              <li style="font-size:smaller">Not sure what this item is.
-            </ul>
-          </li>
-
-          <li>Documentation
-            <ul>
-              <li><issue class=help_wanted></issue>
-              <li><issue class=cannot_be_done></issue>
-              <li style="font-size:smaller">We should not focus on this unless the previous items are finished
-              <li style="font-size:smaller">item: overall approach
-              <li style="font-size:smaller">item: how-to integrated in the tool
-              <li style="font-size:smaller">item: ecospold documentation
-            </ul>
-          </li>
-        </ul>
-      </div>
+      <!--go to top link-->
+      <p><div style=font-size:smaller><a href=#>&uarr; top</a></div></p>
     </div>
   </div>
 </div><hr>
@@ -971,7 +911,13 @@
 <script>
   //populate page default values
   (function(){
-    var url=new URL(window.location.href); //GET params inside
+    /*URL: GET params*/
+    //max URL lengh is 2000 chars: "https://stackoverflow.com/questions/417142/what-is-the-maximum-length-of-a-url-in-different-browsers"
+    var url=new URL(window.location.href);
+    console.log("URL length: "+url.href.length+" chars (it should be below 2000 chars)");
+    if(url.href.length>2000){
+      alert("Error: the URL length is above 2000 characters");
+    }
 
     //populate technologies table
     (function(){
@@ -1039,6 +985,7 @@
         newCell.appendChild((function(){
           var btn=document.createElement('button');
           btn.innerHTML='↓';
+          btn.classList.add('toggleView');
           btn.addEventListener('click',function(){
             this.innerHTML=(this.innerHTML=='→')?'↓':'→';
             Inputs.filter(i=>{return !i.isParameter && !i.isMetal}).forEach(i=>{
@@ -1069,6 +1016,7 @@
         newCell.appendChild((function(){
           var btn=document.createElement('button');
           btn.innerHTML='→';
+          btn.classList.add('toggleView');
           btn.addEventListener('click',function(){
             this.innerHTML=(this.innerHTML=='→')?'↓':'→';
             Inputs.filter(i=>{return i.isMetal}).forEach(i=>{
@@ -1080,7 +1028,7 @@
         })());
         newCell.appendChild((function(){
           var span=document.createElement('span');
-          span.innerHTML=' Metals';
+          span.innerHTML=' Metals and other elements';
           return span;
         })());
       })();
@@ -1095,10 +1043,11 @@
         newRow.appendChild(newCell);
         newCell.colSpan=3;
         newCell.style.textAlign='left';
-        //add <button>+/-</button> Metals
+        //add <button>+/-</button> Design parameters
         newCell.appendChild((function(){
           var btn=document.createElement('button');
           btn.innerHTML='↓';
+          btn.classList.add('toggleView');
           btn.addEventListener('click',function(){
             this.innerHTML=(this.innerHTML=='→')?'↓':'→';
             Inputs.filter(i=>{return i.isParameter}).forEach(i=>{
@@ -1110,7 +1059,7 @@
         })());
         newCell.appendChild((function(){
           var span=document.createElement('span');
-          span.innerHTML=' Sewer and Design parameters';
+          span.innerHTML=' Design parameters';
           return span;
         })());
       })();
@@ -1193,7 +1142,7 @@
         })());
         newCell.appendChild((function(){
           var span=document.createElement('span');
-          span.innerHTML=' Metals';
+          span.innerHTML=' Metals and other elements';
           return span;
         })());
       })();
