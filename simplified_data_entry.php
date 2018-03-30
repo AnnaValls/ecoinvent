@@ -116,11 +116,26 @@
             var filtered=Geographies.filter(g=>{return g.RQ==null})
             document.getElementById('geo_null_number').innerHTML=filtered.length+" of "+Geographies.length;
             filtered.forEach(g=>{
-              document.write("<li>"+g.name.prettifyUnit());
+              document.write("<li>"+g.name.prettifyUnit()+" <em>("+g.shortcut+")</em>");
             });
           })();
         </script>
       </ul>
+      <p>
+        list of countries without ecoinvent iso code
+        ---------------------------- untreated factor ("R/Q" columns from unicef spreadsheet)
+      </p>
+        <ul>
+          <li><pre>BES  Caribbean_Netherlands                           0</pre>
+          <li><pre>CHI  Channel_Islands                                 0</pre>
+          <li><pre>HKG  China,_Hong_Kong_Special_Administrative_Region  0.8451245556</pre>
+          <li><pre>MAC  China,_Macao_Special_Administrative_Region      0</pre>
+          <li><pre>PSE  West_Bank_and_Gaza_Strip                        0.2532744543</pre>
+          <li><pre>*    Eastern_Asia_and_Southeastern_Asia              0.1468336581</pre>
+          <li><pre>*    Least_Developed_Countries                       1</pre>
+          <li><pre>*    Landlocked_developing_countries                 0.4283162653</pre>
+          <li><pre>*    Small_island_developing_States                  0.4873039327</pre>
+        </ul>
     </li>
 
     <!--volume-->

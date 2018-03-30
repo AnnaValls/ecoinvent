@@ -23,10 +23,10 @@
 <?php include'navbar.php'?>
 <div id=root>
 <div>
-  <h1>All TO DO items and tasks</h1>
-  <p><em>This page is intended to centralize all tasks and TO DO items</em></p>
+  <h1>All TO DO items/tasks/doubts/issues/etc</h1>
+  <p><em>This page is intended to centralize all issues during development</em></p>
   <p style="font-size:smaller">
-    Note: if a requested item is here is because Lluís B.
+    If an item is here is because has been discussed at some point, and Lluís B.
     has not understood either the concept itself and/or how to implement it
     (otherwise, it's under development)
   </p>
@@ -52,11 +52,12 @@
     <td descr>Additional sludge produced by Chemical P removal composition is not calculated
     <td status>nobody provided equations
   <tr>
-    <td descr>The conversion from CaCO<sub>3</sub> to Na<sub>2</sub>CO<sub>3</sub> value of 106g/100g has to be confirmed by an expert
-    <td status>help asked to Lluís C.
-  <tr>
     <td descr>Coarse solids removal
     <td status>not explained to Lluís B. how to calculate this
+  <tr>
+    <td descr>Conversion from CaCO<sub>3</sub> to Na<sub>2</sub>CO<sub>3</sub> factor value = 106g/100g to be confirmed by an expert
+    <td status>confirmed by Yves
+
   <tr><td header colspan=2>Multiple plant model
   <tr>
     <td descr>Marginal contribution expressed as /m<sup>3</sup> of activity influent

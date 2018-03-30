@@ -855,11 +855,6 @@
               </li>
               <li>Alkalinity to maintain pH ≈ 7.0
                 <ul>
-                  <li>
-                    <issue class=help_requested>L. Corominas</issue>
-                    <br>
-                    <issue class=TBD>Is factor <br>106/100 (Na<sub>2</sub>CO<sub>3</sub>/CaCO<sub>3</sub>)<br> equivalents correct ?</issue>
-                  </li>
                   <li>For Nitrification:       <span id=alkalinity_added>0</span>
                   <li>For Denitrification:     <span id=Mass_of_alkalinity_needed>0</span>
                 </ul>
