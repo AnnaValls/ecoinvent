@@ -72,8 +72,8 @@ function fractionation(BOD,sBOD,COD,bCOD,sCOD,rbCOD,TSS,VSS,TKN,NH4,NH4_eff,TP,P
 
   //new ones (not needed)
   var bON  = ON - nbON;
-  var bsON = bON*0.5; //unknown TODO
-  var bpON = bON*0.5; //unknown TODO
+  var bsON = bON*0.5; //unknown TODO 50% for now
+  var bpON = bON*0.5; //unknown TODO 50% for now
   var sON  = bsON + nbsON;
   var pON  = bpON + nbpON;
 
@@ -86,8 +86,8 @@ function fractionation(BOD,sBOD,COD,bCOD,sCOD,rbCOD,TSS,VSS,TKN,NH4,NH4_eff,TP,P
   var aP    = Math.max(0, TP - nbOP); //g/m3
 
   //new ones (not needed)
-  var bsOP = bOP*0.5; //unknown TODO
-  var bpOP = bOP*0.5; //unknown TODO
+  var bsOP = bOP*0.5; //unknown TODO 50% for now
+  var bpOP = bOP*0.5; //unknown TODO 50% for now
   var sOP  = nbsOP + bsOP;
   var pOP  = nbpOP + bpOP;
 
@@ -108,8 +108,8 @@ function fractionation(BOD,sBOD,COD,bCOD,sCOD,rbCOD,TSS,VSS,TKN,NH4,NH4_eff,TP,P
     pCOD:           {value:pCOD,           unit:"g/m3_as_O2",   descr:"Particulate_COD"},
 
     //COD fractions (b/nb & s/p)
-    bsCOD:          {value:bsCOD,          unit:"g/m3_as_O2",   descr:"Biodegradable_soluble_COD"},
     rbCOD:          {value:rbCOD,          unit:"g/m3_as_O2",   descr:"Readily_Biodegradable_soluble_COD"},
+    bsCOD:          {value:bsCOD,          unit:"g/m3_as_O2",   descr:"Biodegradable_soluble_COD"},
     nbsCODe:        {value:nbsCODe,        unit:"g/m3_as_O2",   descr:"Nonbiodegradable_soluble_COD_effluent"},
     bpCOD:          {value:bpCOD,          unit:"g/m3_as_O2",   descr:"Biodegradable_particulate_COD"},
     nbpCOD:         {value:nbpCOD,         unit:"g/m3_as_O2",   descr:"Nonbiodegradable_particulate_COD"},
@@ -122,24 +122,21 @@ function fractionation(BOD,sBOD,COD,bCOD,sCOD,rbCOD,TSS,VSS,TKN,NH4,NH4_eff,TP,P
     //suspended solids
     TSS:            {value:TSS,            unit:"g/m3",         descr:"TSS"},
     VSS:            {value:VSS,            unit:"g/m3",         descr:"VSS"},
-    nbVSS:          {value:nbVSS,          unit:"g/m3",         descr:"Nonbiodegradable_VSS"},
     iTSS:           {value:iTSS,           unit:"g/m3",         descr:"Inert TSS"},
+    nbVSS:          {value:nbVSS,          unit:"g/m3",         descr:"Nonbiodegradable_VSS"},
 
     //Nitrogen fractions
     TKN:            {value:TKN,            unit:"g/m3_as_N",    descr:"Total Kjedahl N"},
     NH4:            {value:NH4,            unit:"g/m3_as_N",    descr:"Ammonia influent"},
     ON:             {value:ON,             unit:"g/m3_as_N",    descr:"Organic N"},
-
     nbON:           {value:nbON,           unit:"g/m3_as_N",    descr:"Nonbiodegradable Organic N"},
     bON:            {value:bON,            unit:"g/m3_as_N",    descr:"Biodegradable Organic N"},
     sON:            {value:sON,            unit:"g/m3_as_N",    descr:"Soluble Organic N"},
     pON:            {value:pON,            unit:"g/m3_as_N",    descr:"Particulate Organic N"},
-
     nbsON:          {value:nbsON,          unit:"g/m3_as_N",    descr:"Nonbiodegradable soluble Organic N"},
     nbpON:          {value:nbpON,          unit:"g/m3_as_N",    descr:"Nonbiodegradable particulate Organic N"},
     bsON:           {value:bsON,           unit:"g/m3_as_N",    descr:"Biodegradable soluble Organic N"},
     bpON:           {value:bpON,           unit:"g/m3_as_N",    descr:"Biodegradable particulate Organic N"},
-
     TKN_N2O:        {value:TKN_N2O,        unit:"g/m3_as_N",    descr:"TKN N2O (0.1% of TKN) only if there is nitrification"},
     bTKN:           {value:bTKN,           unit:"g/m3_as_N",    descr:"Niodegradable TKN"},
     sTKNe:          {value:sTKNe,          unit:"g/m3_as_N",    descr:"Soluble TKN effluent"},
@@ -148,17 +145,14 @@ function fractionation(BOD,sBOD,COD,bCOD,sCOD,rbCOD,TSS,VSS,TKN,NH4,NH4_eff,TP,P
     TP:             {value:TP,             unit:"g/m3_as_P",    descr:"Total P"},
     PO4:            {value:PO4,            unit:"g/m3_as_P",    descr:"Ortophosphate influent"},
     OP:             {value:OP,             unit:"g/m3_as_P",    descr:"Organic P"},
-
     nbOP:           {value:nbOP,           unit:"g/m3_as_P",    descr:"Nonbiodegradable P"},
     bOP:            {value:bOP,            unit:"g/m3_as_P",    descr:"Biodegradable Organic P"},
     sOP:            {value:sOP,            unit:"g/m3_as_P",    descr:"Soluble Organic P"},
     pOP:            {value:pOP,            unit:"g/m3_as_P",    descr:"Particulate Organic P"},
-
     nbsOP:          {value:nbsOP,          unit:"g/m3_as_P",    descr:"Nonbiodegradable soluble OP (seen as 0 empirically)"},
     nbpOP:          {value:nbpOP,          unit:"g/m3_as_P",    descr:"Nonbiodegradable particulate P"},
     bsOP:           {value:bsOP,           unit:"g/m3_as_N",    descr:"Biodegradable soluble Organic P"},
     bpOP:           {value:bpOP,           unit:"g/m3_as_N",    descr:"Biodegradable particulate Organic P"},
-
     aP:             {value:aP,             unit:"g/m3_as_P",    descr:"Available P (TP - nbOP = PO4 + bOP)"},
   };
 };
