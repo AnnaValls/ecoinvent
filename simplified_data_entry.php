@@ -106,7 +106,7 @@
       </div>
       <p style="font-size:smaller">
         Column R/Column Q: <span id=RQ>-1</span>
-      </p><hr>
+      </p>
     </li>
 
     <!--volume-->
