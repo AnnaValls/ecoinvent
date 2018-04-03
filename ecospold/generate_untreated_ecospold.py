@@ -84,10 +84,10 @@ test_inputs_average = {
   "technologies_averaged":     temp_technologies_averaged
 }
 
+'''
 pretty printer (debug)
+'''
 pp=pprint.PrettyPrinter(indent=2)
 pp.pprint(test_inputs_average)
-'''
-'''
 
 #direct_discharge_test = DirectDischarge_ecoSpold(**test_inputs_average)
