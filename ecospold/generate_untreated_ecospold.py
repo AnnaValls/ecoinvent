@@ -18,11 +18,12 @@ os.chdir(r'wastewater_treatment_tool/implementation_tests/')
 '''
   Receive a json string from stdin
 '''
-print('input string: ',sys.argv[1].encode('ascii','ignore').decode('ascii'))
+#debug: print input string
+#print('input string: ',sys.argv[1].encode('ascii','ignore').decode('ascii'))
 
 #parse json
 received_json = json.loads(sys.argv[1])
-print('parsed JSON object: ',json.dumps(received_json, indent=4, sort_keys=True))
+#print('parsed JSON object: ',json.dumps(received_json, indent=4, sort_keys=True))
 
 '''
   Untreated fraction dataset creation

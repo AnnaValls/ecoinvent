@@ -18,10 +18,10 @@
 
   <script>
     function genereate_untreated_ecospold(){
-      //Server is windows
-      post('ecospold/index.php',"python generate_untreated_ecospold.py '"+JSON.stringify(received_json)+"'");
-      //Server is unix
-      //post('ecospold/index.php',     "./generate_untreated_ecospold.py '"+JSON.stringify(received_json)+"'");
+      //if server is unix
+      post('ecospold/index.php',     "./generate_untreated_ecospold.py '"+JSON.stringify(received_json)+"'");
+      //if server is windows
+      //post('ecospold/index.php',"python generate_untreated_ecospold.py '"+JSON.stringify(received_json)+"'");
     }
   </script>
 </div>
