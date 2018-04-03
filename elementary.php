@@ -6,7 +6,7 @@
 */?>
 <!doctype html><html><head>
   <?php include'imports.php'?>
-  <title>Elementary Flows</title>
+  <title>Single plant model</title>
 
   <!--load backend: elementary flows and mass balances-->
   <script src="elementary.js"></script>

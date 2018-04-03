@@ -15,6 +15,7 @@
     onclick="genereate_untreated_ecospold()"
   >CONTINUE</button>
   <pre id=received_json style="border:1px solid #ccc"></pre>
+
   <script>
     function genereate_untreated_ecospold(){
       post('ecospold/index.php',"python generate_untreated_ecospold.py '"+JSON.stringify(received_json)+"'");
