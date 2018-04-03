@@ -17,7 +17,9 @@ os.chdir(r'wastewater_treatment_tool/implementation_tests/')
 '''
   Receive a json string from stdin
 '''
+print('Received JSON string',sys.argv[1])
 
+#parse json
 received_json = json.loads(sys.argv[1])
 print('Received JSON object',json.dumps(received_json, indent=4, sort_keys=True))
 
