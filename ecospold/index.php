@@ -21,8 +21,7 @@
 <pre style="max-width:500px"><code><?php
   //$result=shell_exec($cmd." 2>&1");
   //echo $result;
-  //var_dump(shell_exec($cmd." 2>&1"));
-  var_dump(shell_exec($cmd));
+  var_dump(shell_exec($cmd." 2>&1"));
 ?>
 </code></pre><hr>
 
