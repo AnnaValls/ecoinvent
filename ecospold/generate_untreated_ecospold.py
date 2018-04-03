@@ -1,5 +1,4 @@
 #!/usr/local/bin/python3
-# -*- coding: utf-8 -*-
 
 import json
 import sys
@@ -19,7 +18,7 @@ os.chdir(r'wastewater_treatment_tool/implementation_tests/')
 '''
   Receive a json string from stdin
 '''
-print('input string: ',sys.argv[1])
+print('input string: ',sys.argv[1].encode('ascii','ignore').decode('ascii'))
 
 #parse json
 received_json = json.loads(sys.argv[1])
@@ -92,4 +91,4 @@ pretty printer (debug)
 pp=pprint.PrettyPrinter(indent=2)
 pp.pprint(test_inputs_average)
 
-#direct_discharge_test = DirectDischarge_ecoSpold(**test_inputs_average)
+direct_discharge_test = DirectDischarge_ecoSpold(**test_inputs_average)
