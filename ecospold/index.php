@@ -28,7 +28,7 @@
 
 <!--list of ecospold files-->
 <div style='font-size:20px'>
-  Ecospold file generated:
+  Ecospold file:
   <ul>
   <?php
     $folder="wastewater_treatment_tool/output";
