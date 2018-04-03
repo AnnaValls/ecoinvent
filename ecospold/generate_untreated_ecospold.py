@@ -19,7 +19,7 @@ os.chdir(r'wastewater_treatment_tool/implementation_tests/')
 '''
 
 received_json = json.loads(sys.argv[1])
-#print('Received JSON object',json.dumps(received_json, indent=4, sort_keys=True))
+print('Received JSON object',json.dumps(received_json, indent=4, sort_keys=True))
 
 '''
   Untreated fraction dataset creation
@@ -82,7 +82,7 @@ test_inputs_average = {
   "technologies_averaged":     temp_technologies_averaged
 }
 
-#pretty printer (debug)
+pretty printer (debug)
 '''
 pp=pprint.PrettyPrinter(indent=2)
 pp.pprint(test_inputs_average)
