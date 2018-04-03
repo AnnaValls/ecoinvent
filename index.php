@@ -20,7 +20,7 @@
       <li>
         Single plant model
         <ul>
-          <li><a href="elementary.php"                          >Elementary flows (Metcalf &amp; Eddy equations)</a>
+          <li><a href="elementary.php"                          >Single plant model (Metcalf &amp; Eddy equations)</a>
           <li><a href="technologies.php"                        >All technologies</a>
           <li><a href="inputs.php"                              >All inputs</a>
           <li><a href="outputs.php"                             >All outputs</a>
@@ -84,6 +84,7 @@
     <p><b>Other things</b></p>
     <ul>
       <li><a href="README.md">README</a>
+      <li><a href=docs>Documents</a>
       <li><a href="fractionation_ekama.php">Fractionation (G. Ekama) implementation</a>
       <li><a href=terms.php>Summary of terms</a>
       <li>
@@ -91,7 +92,6 @@
         M&amp;E 4th (p. 707)
       <li>
         <a href="implementations/ekama_sizing.php">Reactor sizing (optim. cost) [G. Ekama]</a>
-      <li><a href=docs>Documents sent by email</a>
       <li>
         <a target=_blank href="https://docs.google.com/spreadsheets/d/1DiBhDCjxGyw2-umImIfHiZOzY5LJF_psGiD4fEf7Wgk/edit?usp=sharing">
           shared google drive document "ecoinvent wastewater treatment project"

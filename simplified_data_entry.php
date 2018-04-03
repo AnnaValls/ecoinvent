@@ -105,7 +105,7 @@
         <select id=geography></select>
       </div>
       <p style="font-size:smaller">
-        Column R/Column Q: <span id=RQ>-1</span>
+        Untreated fraction: <span id=RQ>-1</span>
       </p>
     </li>
 
@@ -129,7 +129,7 @@
       <table id=inputs style=display:none></table>
     </li>
 
-    <!--wwtp plant-->
+    <!--wwtp plant type-->
     <li>
       <div> Wastewater treatment plant </div>
       <div>
@@ -201,18 +201,19 @@
     //populate geographies
     (function(){
       var select=document.querySelector('#geography');
-      var RQ=document.querySelector('#RQ');
       Geographies.forEach(g=>{
         var option=document.createElement('option');
         option.innerHTML=g.name.replace(/_/g,' ')
         option.value=g.shortcut.replace(/_/g,' ');
         select.appendChild(option);
-        option.selected = g.shortcut=="GLO"; //Global selected by default
       });
       select.onchange=function(){
-        RQ.innerHTML=Geographies.filter(g=>{return g.shortcut==select.value})[0].RQ || "<em><b>undefined</b></em>";
+        var RQ=document.querySelector('#RQ');
+        var value=Geographies.filter(g=>{return g.shortcut==select.value})[0].RQ
+        RQ.innerHTML= value==null ? "<em><b>not available</b></em>" : format(value);
       };
-      select.onchange(); //set default value
+      select.value="GLO"; //default value: "global"
+      select.onchange();  //set default value
     })();
   })();
 </script>

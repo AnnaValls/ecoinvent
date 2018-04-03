@@ -449,25 +449,108 @@
 <div class=flex style="justify-content:space-between">
   <!--title and subtitle-->
   <div>
-    <h1>Single plant model (elementary flows)</h1>
-    <!--hints-->
-    <p style=font-size:smaller>
-      Note: mouse over inputs and variables to see a description.
-      <br>
-      Note: modify inputs using the <kbd>&uarr;</kbd> and <kbd>&darr;</kbd> keys.
-    </p>
+    <h1>Single plant model</h1>
+    <p><small>
+      Define a wastewater composition + a single treatment plant configuration
+    </small></p>
   </div>
   <!--handy info-->
   <div style="font-size:smaller;padding-top:5px;margin-right:5px">
     Handy info for development
     <ul>
       <li><a href="img/plant-diagram.jpg"      target=_blank>See plant diagram image</a>
-      <li><a href="terms.php"                  target=_blank>See summary of terms</a>
       <li><a href="fractionation_diagrams.php" target=_blank>See fractionation diagrams</a>
-      <li><a href="todo.php"                   target=_blank>TO DO items</a>
     </ul>
   </div>
 </div><hr>
+
+<!--general_info-->
+<div>
+  <style>
+    #general_info li {
+      padding-bottom:8px;
+      padding-top:8px;
+      font-size:smaller;
+    }
+  </style>
+
+  <p>
+    <button class=toggleView onclick="toggleView(this,'general_info')">&rarr;</button>
+    <b>General</b>
+  </p>
+
+  <div id=general_info style=display:nonee>
+    <ol>
+      <!--activity name-->
+      <li>
+        Wastewater source
+        <br><input id=activity_name type=text placeholder="activity name" max=120 size=100>
+        <a href="#" onclick="toggleView(false,'activity_name_help');return false;">help</a>
+        <div id=activity_name_help style="display:none">
+          <p class=help>
+            If the wastewater originates from an activity within the ecoinvent database, you should use the name of this activity here.
+            For example, for wastewater originating from "lime production", you would write "from lime production".
+            This will generate the first part of the name of the wastewater treatment datasets.
+            In the example, it would be "treatment of wastewater from lime production".
+            If the wastewater is the average municipal wastewater, then enter the name "average municipal".
+            This will generate a name starting with "treatment of wastewater, average municipal".
+            The second part of the name will be based on the treatment type.
+          </p>
+        </div>
+      </li>
+
+      <!--geography-->
+      <li>
+        <div>
+          Location where the wastewater is emitted
+        </div>
+        <select id=geography></select> <small>(untreated fraction: <span id=RQ>-1</span>)</small>
+        <script>
+          //populate geographies
+          (function(){
+            var select=document.querySelector('#geography');
+            Geographies.forEach(g=>{
+              var option=document.createElement('option');
+              option.innerHTML=g.name.replace(/_/g,' ')
+              option.value=g.shortcut.replace(/_/g,' ');
+              select.appendChild(option);
+            });
+            select.onchange=function(){
+              var RQ=document.querySelector('#RQ');
+              var value=Geographies.filter(g=>{return g.shortcut==select.value})[0].RQ
+              RQ.innerHTML = value==null ? "not available" : format(value);
+              RQ.setAttribute('value',value);
+            };
+            select.value="GLO"; //default value: "global"
+            select.onchange();  //set default value
+          })();
+        </script>
+      </li>
+    </ol>
+    <div id=generate_ecospold_menu>
+      <style>
+        #generate_ecospold_menu button {
+          display:block;
+          padding:0.5em 1em;
+          margin:5px 0;
+        }
+      </style>
+
+      <!--untreated ecospold-->
+      <button onclick="generate_untreated_ecospold()">
+        Generate <b>"untreated wastewater"</b> ecospold file
+      </button>
+      <script src=generate_untreated_ecospold.js></script>
+
+      <!--treated ecospold-->
+      <button onclick="">
+        Generate <b>"treated wastewater"</b> ecospold file
+        (under development)
+      </button>
+    </div>
+  </div>
+  <p><hr></p>
+</div>
 
 <!--INPUTS AND OUTPUTS VIEW SCAFFOLD-->
 <div class=flex>
@@ -629,9 +712,18 @@
 
       <p>
         1.2.
-        Wastewater and treatment inputs
+        Wastewater composition and design parameters
         <br><small>(required: <span id=input_amount>0</span>)</small>
       </p>
+
+      <!--hints
+      <p style=font-size:smaller>
+        Note: mouse over inputs and variables to see a description.
+        <br>
+        Note: modify inputs using the <kbd>&uarr;</kbd> and <kbd>&darr;</kbd> keys.
+      </p>
+      -->
+
       <!--inputs-->
       <table id=inputs border=1></table>
 
@@ -992,7 +1084,7 @@
         })());
         newCell.appendChild((function(){
           var span=document.createElement('span');
-          span.innerHTML=' Wastewater characteristics';
+          span.innerHTML=' Wastewater composition';
           return span;
         })());
       })();

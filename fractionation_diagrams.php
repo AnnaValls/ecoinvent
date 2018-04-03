@@ -47,7 +47,7 @@
   <table border=1>
     <tr><th colspan=8>TSS
     <tr><td colspan=4>VSS                  <td colspan=4>iTSS
-    <tr><td colspan=2>nbVSS<td colspan=2>? <td colspan=2 blank><td colspan=2 blank>
+    <tr><td colspan=2>nbVSS<td colspan=2>bVSS<td colspan=2 blank><td colspan=2 blank>
   </table>
 </div>
 

@@ -11,6 +11,7 @@
 <!--javascript main structures/functions-->
 <script src="format.js"></script><!--utils for number formatting-->
 <script src="utils.js"></script><!--metcalf figures and tables-->
+<script src="post.js"></script><!--send data to other pages-->
 
 <!--just descriptive objects-->
 <script src="dataModel/combinations.js"></script>
@@ -36,6 +37,7 @@
 <script src="dataModel/methods.js"></script>
 <script src="dataModel/technologies.js"></script>
 <script src="dataModel/geographies.js"></script>
+<script src="dataModel/ecoinvent_ids.js"></script>
 
 <!--css-->
 <style>
