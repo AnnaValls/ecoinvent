@@ -7,5 +7,4 @@ Specifically, I need, for the untreated fraction ecoSpold:
 
   "WW_properties"      (dict with ecoinvent_property_id: amount_in_kg_per_m3, taken from the "simplified_data_entry" page)
   "PV"                 (float, the production volume from the "simplified_data_entry" page)
-
   "CSO_amounts"        (dict of calculated discharged amounts. I will convert these to emissions to the environment)
