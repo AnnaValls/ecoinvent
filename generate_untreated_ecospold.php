@@ -17,7 +17,7 @@
   <pre id=received_json style="border:1px solid #ccc"></pre>
   <script>
     function genereate_untreated_ecospold(){
-      post('ecospold/index.php',"./generate_untreated_ecospold.py '"+JSON.stringify(received_json)+"'");
+      post('ecospold/index.php',"python generate_untreated_ecospold.py '"+JSON.stringify(received_json)+"'");
     }
   </script>
 </div>
