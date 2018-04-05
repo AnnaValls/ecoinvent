@@ -85,11 +85,12 @@
     <ul>
       <li><a href="README.md">README</a>
       <li><a href=docs>Documents</a>
+      <li><a href="estimations.php">Input estimations (Y. Comeau)</a>
       <li><a href="fractionation_ekama.php">Fractionation (G. Ekama) implementation</a>
       <li><a href=terms.php>Summary of terms</a>
       <li>
         <a href="implementations/bod_removal_only.php">BOD removal (simple example)</a>
-        M&amp;E 4th (p. 707)
+        M&amp;EA 4th (p. 707)
       <li>
         <a href="implementations/ekama_sizing.php">Reactor sizing (optim. cost) [G. Ekama]</a>
       <li>

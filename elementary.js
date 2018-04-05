@@ -237,7 +237,7 @@ function compute_elementary_flows(Input_set){
 
   /*5. SOLVE BIO P*/
   if(is_BiP_active){
-    var tau_aer = 0.75; //h -- "tau must be between 0.50 and 1.00 h (M&E)"
+    var tau_aer = 0.75; //h -- "tau must be between 0.50 and 1.00 h (M&EA)"
 
     Result.BiP=bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP-nbpOP,T,SRT,NOx,NO3_eff,tau_aer,RAS);
   //Result.BiP=bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP      ,T,SRT,NOx,NO3_eff,tau_aer,RAS);
