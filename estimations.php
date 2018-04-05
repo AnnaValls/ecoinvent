@@ -76,26 +76,26 @@
 <?php include'navbar.php'?>
 
 <div id=root>
-<h1>Estimations for inputs that the user may not know</h1>
+<h1>Estimations for inputs the user may not know</h1>
 <p><b>
 Default values for BioWin 5.2
 </b></p><hr>
 
 <!--tables-->
-<div class=flex>
+<div id=main class=flex>
   <!--inputs-->
   <div>
     <p>Required inputs</p>
     <table id=inputs border=1>
-      <tr><td>COD <td><input onchange=calculate() id=COD type=number value=500> mg/L as O<sub>2</sub>
-      <tr><td>TKN <td><input onchange=calculate() id=TKN type=number value=40> mg/L as N
-      <tr><td>TP  <td><input onchange=calculate() id=TP  type=number value=10> mg/L as P
+      <tr><td>COD <td><input onchange=calculate() id=COD type=number value=500> <td style=font-size:smaller>g/m<sup>3</sup> as O<sub>2</sub>
+      <tr><td>TKN <td><input onchange=calculate() id=TKN type=number value=40>  <td style=font-size:smaller>g/m<sup>3</sup> as N
+      <tr><td>TP  <td><input onchange=calculate() id=TP  type=number value=10>  <td style=font-size:smaller>g/m<sup>3</sup> as P
     </table>
-  </div><hr>
+  </div>
 
   <!--variables-->
   <div>
-    <p>Intermediate<br>variables</p>
+    <p>Variables</p>
     <table id=variables border=1>
       <tr><td>CS_U  <td id="CS_U">
       <tr><td>S_VFA <td id="S_VFA">
@@ -108,33 +108,34 @@ Default values for BioWin 5.2
       <tr><td>CS_B  <td id="CS_B">
       <tr><td>X_BH  <td id="X_BH">
     </table>
-  </div><hr>
+  </div>
 
   <!--outputs-->
   <div>
-    <p>Estimated inputs</p>
+    <p>Result: estimated inputs</p>
     <table id=outputs border=1>
-      <tr><td>BOD         <td  id="BOD">        <td style=font-size:smaller>mg/L as O<sub>2</sub>
-      <tr><td>sBOD        <td  id="sBOD">       <td style=font-size:smaller>mg/L as O<sub>2</sub>
-      <tr><td>sCOD        <td  id="sCOD">       <td style=font-size:smaller>mg/L as O<sub>2</sub>
-      <tr><td>bCOD        <td  id="bCOD">       <td style=font-size:smaller>mg/L as O<sub>2</sub>
-      <tr><td>rbCOD       <td  id="rbCOD">      <td style=font-size:smaller>mg/L as O<sub>2</sub>
-      <tr><td>VFA         <td  id="VFA">        <td style=font-size:smaller>mg/L as O<sub>2</sub>
-      <tr><td>VSS         <td  id="VSS">        <td style=font-size:smaller>mg/L
-      <tr><td>TSS         <td  id="TSS">        <td style=font-size:smaller>mg/L
-      <tr><td>NH4         <td  id="NH4">        <td style=font-size:smaller>mg/L as N
-      <tr><td>PO4         <td  id="PO4">        <td style=font-size:smaller>mg/L as P
-      <tr><td>Alkalinity  <td  id="Alkalinity"> <td style=font-size:smaller>mg/L as CaCO<sub>3</sub>
+      <tr><td>BOD         <td  id="BOD">        <td style=font-size:smaller>g/m<sup>3</sup> as O<sub>2</sub>
+      <tr><td>sBOD        <td  id="sBOD">       <td style=font-size:smaller>g/m<sup>3</sup> as O<sub>2</sub>
+      <tr><td>sCOD        <td  id="sCOD">       <td style=font-size:smaller>g/m<sup>3</sup> as O<sub>2</sub>
+      <tr><td>bCOD        <td  id="bCOD">       <td style=font-size:smaller>g/m<sup>3</sup> as O<sub>2</sub>
+      <tr><td>rbCOD       <td  id="rbCOD">      <td style=font-size:smaller>g/m<sup>3</sup> as O<sub>2</sub>
+      <tr><td>VFA         <td  id="VFA">        <td style=font-size:smaller>g/m<sup>3</sup> as O<sub>2</sub>
+      <tr><td>VSS         <td  id="VSS">        <td style=font-size:smaller>g/m<sup>3</sup>
+      <tr><td>TSS         <td  id="TSS">        <td style=font-size:smaller>g/m<sup>3</sup>
+      <tr><td>NH4         <td  id="NH4">        <td style=font-size:smaller>g/m<sup>3</sup> as N
+      <tr><td>PO4         <td  id="PO4">        <td style=font-size:smaller>g/m<sup>3</sup> as P
+      <tr><td>Alkalinity  <td  id="Alkalinity"> <td style=font-size:smaller>g/m<sup>3</sup> as CaCO<sub>3</sub>
     </table>
-  </div><hr>
+  </div>
 
   <style>
-    #root #inputs,
-    #root #variables,
-    #root #outputs
+    #main #inputs,
+    #main #variables,
+    #main #outputs
     {
       font-size:small;
       font-family:monospace;
+      margin-right:20px;
     }
   </style>
 </div>
