@@ -494,9 +494,8 @@ function compute_elementary_flows(Input_set){
       If the COD/VSS (f_CV=1.42), C/VSS (f_C=0.51), N/VSS (f_N=0.12) and P/VSS (f_P=0.015) are known
       then the O/VSS (F_O) And H/VSS (f_H) can be calcylated with che following equations:
 
-      f_O = 16/18 ( 1- f_CV/8 - 8/12 f_C – 17/14 f_N – 26/31 f_P)
-
-      f_H = 2/18 ( 1+ f_CV - 44/12 f_C +  10/14 f_N – 71/31 f_P)
+      f_O = 16/18 ( 1- f_CV/8 - 8/12 f_C  – 17/14 f_N – 26/31 f_P)
+      f_H = 2/18  ( 1+ f_CV  - 44/12 f_C +  10/14 f_N – 71/31 f_P)
 
       So for f_CV = 1.42; f_C = 0.51 , f_N=0.12 and f_P = 0.015,
       f_O=0.288 and f_H=0.067.
@@ -595,8 +594,8 @@ function compute_elementary_flows(Input_set){
     //Outputs.CH4
     Outputs.CH4.influent       = 0;
     Outputs.CH4.effluent.water = 0;
-    Outputs.CH4.air            = (function(){
-      var is_Anaer_treatment = false;
+    Outputs.CH4.effluent.air   = (function(){
+      var is_Anaer_treatment = false; //TBD to be added in the future
       if(is_Anaer_treatment){
         return 0.95*Q*bCOD;
       }else{

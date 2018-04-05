@@ -62,7 +62,7 @@ var Inputs = [
 {id:"As", value:0.0009, unit:"g/m3", isMetal:true, descr:"Influent_Arsenic",    },
 {id:"B" , value:0.0000, unit:"g/m3", isMetal:true, descr:"Influent_Boron",      },
 {id:"Ba", value:0.0000, unit:"g/m3", isMetal:true, descr:"Influent_Barium",     },
-{id:"Be", value:0.0000, unit:"g/m3", isMetal:true, descr:"Influent_Berilium",   },
+{id:"Be", value:0.0000, unit:"g/m3", isMetal:true, descr:"Influent_Beryllium",  },
 {id:"Br", value:0.0000, unit:"g/m3", isMetal:true, descr:"Influent_Bromine",    },
 {id:"Ca", value:50.834, unit:"g/m3", isMetal:true, descr:"Influent_Calcium",    },
 {id:"Cd", value:0.0003, unit:"g/m3", isMetal:true, descr:"Influent_Cadmium",    },

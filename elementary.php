@@ -451,7 +451,7 @@
   <div>
     <h1>Single plant model</h1>
     <p><small>
-      Define a wastewater composition + a single treatment plant configuration
+      Create a wastewater composition + a single treatment plant configuration
     </small></p>
   </div>
   <!--handy info-->
@@ -479,7 +479,7 @@
     <b>General</b>
   </p>
 
-  <div id=general_info style=display:nonee>
+  <div id=general_info style=display:none>
     <ol>
       <!--activity name-->
       <li>
@@ -505,28 +505,22 @@
           Location where the wastewater is emitted
         </div>
         <select id=geography></select> <small>(untreated fraction: <span id=RQ>-1</span>)</small>
-        <script>
-          //populate geographies
-          (function(){
-            var select=document.querySelector('#geography');
-            Geographies.forEach(g=>{
-              var option=document.createElement('option');
-              option.innerHTML=g.name.replace(/_/g,' ')
-              option.value=g.shortcut.replace(/_/g,' ');
-              select.appendChild(option);
-            });
-            select.onchange=function(){
-              var RQ=document.querySelector('#RQ');
-              var value=Geographies.filter(g=>{return g.shortcut==select.value})[0].RQ
-              RQ.innerHTML = value==null ? "not available" : format(value);
-              RQ.setAttribute('value',value);
-            };
-            select.value="GLO"; //default value: "global"
-            select.onchange();  //set default value
-          })();
-        </script>
+      </li>
+
+      <!--PV-->
+      <li>
+        Volume of water discharged<br>
+        <input id=PV type=number value=365 min=0 placeholder="PV"> m<sup>3</sup>/year
+        | <small><a href="#" onclick="toggleView(false,'PV_help');return false;">help</a></small>
+        <div id=PV_help style="display:none">
+          <p class=help>
+            How to calculate this:<br>
+            production_volume_of_activity_generating_wastewater · wastewater_per_unit_production
+          </p>
+        </div>
       </li>
     </ol>
+
     <div id=generate_ecospold_menu>
       <style>
         #generate_ecospold_menu button {
@@ -540,7 +534,7 @@
       <button onclick="generate_untreated_ecospold()">
         Generate <b>"untreated wastewater"</b> ecospold file
       </button>
-      <script src=generate_untreated_ecospold.js></script>
+      <script src="generate_untreated_ecospold.js"></script>
 
       <!--treated ecospold-->
       <button onclick="">
@@ -1001,10 +995,39 @@
     /*URL: GET params*/
     //max URL lengh is 2000 chars: "https://stackoverflow.com/questions/417142/what-is-the-maximum-length-of-a-url-in-different-browsers"
     var url=new URL(window.location.href);
-    console.log("URL length: "+url.href.length+" chars (it should be below 2000 chars)");
+    console.log("URL length: "+url.href.length+" chars (OK below 2000 chars)");
     if(url.href.length>2000){
       alert("Error: the URL length is above 2000 characters");
     }
+
+    //populate geographies
+    (function(){
+      var select=document.querySelector('#geography');
+      Geographies.forEach(g=>{
+        var option=document.createElement('option');
+        option.innerHTML=(g.name+" ("+g.shortcut+")").replace(/_/g,' ')
+        option.value=g.shortcut.replace(/_/g,' ');
+        select.appendChild(option);
+      });
+
+      select.onchange=function(){
+        var value=(function(){
+          var rv=Geographies.filter(g=>{return g.shortcut==select.value})[0].RQ;
+          if(rv==null){
+            rv=Geographies.filter(g=>{return g.shortcut=='GLO'})[0].RQ; //use global if no number
+          }
+          return rv;
+        })();
+        var RQ=document.querySelector('#RQ');
+        RQ.innerHTML=format(value);
+        RQ.setAttribute('value',value);
+      };
+
+      //set geography value if it is in URL GET parameters
+      var get_parameter_value = url.searchParams.get('geography');
+      select.value = get_parameter_value ? get_parameter_value : "GLO";
+      select.onchange();//show RQ value
+    })();
 
     //populate technologies table
     (function(){

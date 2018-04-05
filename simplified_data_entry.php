@@ -104,17 +104,14 @@
       <div>
         <select id=geography></select>
       </div>
-      <p style="font-size:smaller">
-        Untreated fraction: <span id=RQ>-1</span>
-      </p>
     </li>
 
     <!--volume-->
     <li>
       Volume of water discharged<br>
-      <input id=Q type=number value=1 min=0> m<sup>3</sup>/year
-      | <small><a href="#" onclick="toggleView(false,'Q_help');return false;">help</a></small>
-      <div id=Q_help style="display:none">
+      <input id=PV type=number value=1 min=0> m<sup>3</sup>/year
+      | <small><a href="#" onclick="toggleView(false,'PV_help');return false;">help</a></small>
+      <div id=PV_help style="display:none">
         <div class=help>
           How to calculate this:<br>
           production_volume_of_activity_generating_wastewater · wastewater_per_unit_production
@@ -133,16 +130,16 @@
     <li>
       <div> Wastewater treatment plant </div>
       <div>
-        <!--average-->
-        <label><input type=radio name=wwtp value="average" checked> Default Average WWTP</label>
-        &mdash;
-        <small>take the user to the page of running the model n times</small>
-        <br>
-
         <!--specific-->
-        <label><input type=radio name=wwtp value="specific"> Specific WWTP</label>
+        <label><input type=radio name=wwtp value="specific" checked> Specific WWTP</label>
         &mdash;
         <small>take the user to to elementary flows</small>
+        <br>
+
+        <!--average-->
+        <label><input type=radio name=wwtp value="average"> Default Average WWTP</label>
+        &mdash;
+        <small>take the user to the page of running the model n times</small>
         <br>
 
         <!--TODO-->
@@ -160,18 +157,29 @@
         //check if user selected 'specific' or 'average'
         var wwtp=document.querySelector('input[name=wwtp]:checked').value;
 
+        //build URL string with GET parameters
         var url='';
 
-        //get the inputs and pass them to elementary flows
+        //check type of wwt treatment
         if(wwtp=='specific'){
-          url='elementary.php?'
+          //build URL string with GET parameters
+          url='elementary.php?';
+          var activity_name = document.querySelector('#activity_name').value;
+          var geography     = document.querySelector('#geography').value;
+          var PV            = document.querySelector('#PV').value;
+          url+='activity_name='+activity_name+'&';
+          url+='geography='+geography+'&';
+          url+='PV='+PV+'&';
           Inputs.filter(i=>{return !i.isParameter}).forEach(i=>{
-            url+=i.id+'='+document.querySelector('#'+i.id).value+'&';
+            var el=document.querySelector('#inputs #'+i.id);
+            if(el){url+=i.id+'='+el.value+'&';}
           });
         }else if(wwtp=='average'){
           url='n-wwtp.php';
+          //TODO
         }
 
+        //go to built url
         window.location=url;
       })()">Next</button>
     </li>
@@ -207,13 +215,7 @@
         option.value=g.shortcut.replace(/_/g,' ');
         select.appendChild(option);
       });
-      select.onchange=function(){
-        var RQ=document.querySelector('#RQ');
-        var value=Geographies.filter(g=>{return g.shortcut==select.value})[0].RQ
-        RQ.innerHTML= value==null ? "<em><b>not available</b></em>" : format(value);
-      };
       select.value="GLO"; //default value: "global"
-      select.onchange();  //set default value
     })();
   })();
 </script>

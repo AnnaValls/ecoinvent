@@ -18,7 +18,7 @@ var Outputs={
   "As" :{influent:0, effluent:{water:0, air:0, sludge:0}, descr:"Effluent Arsenic"   },
   "B"  :{influent:0, effluent:{water:0, air:0, sludge:0}, descr:"Effluent Boron"     },
   "Ba" :{influent:0, effluent:{water:0, air:0, sludge:0}, descr:"Effluent Barium"    },
-  "Be" :{influent:0, effluent:{water:0, air:0, sludge:0}, descr:"Effluent Berilium"  },
+  "Be" :{influent:0, effluent:{water:0, air:0, sludge:0}, descr:"Effluent Beryllium" },
   "Br" :{influent:0, effluent:{water:0, air:0, sludge:0}, descr:"Effluent Bromine"   },
   "Ca" :{influent:0, effluent:{water:0, air:0, sludge:0}, descr:"Effluent Calcium"   },
   "Cd" :{influent:0, effluent:{water:0, air:0, sludge:0}, descr:"Effluent Cadmium"   },

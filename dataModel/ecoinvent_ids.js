@@ -1,14 +1,26 @@
 //map between ecoinvent ids and this tool variable names
 //can be inputs and outputs
 
+/*
+  "resources" folder: ecoinvent ids
+    - properties.json            (ww activity + ww influent + sludge composition)
+    - emissions_to_water.json
+    - emissions_to_air.json
+*/
+
 var Ecoinvent_ids={
 
   //compounds not in the tool TBD
-  "NO3"  : "4f461b9d-5a7b-4a46-8803-23f6df0dc522", //NOx ?
-  "NO2"  : "c8ebc911-268a-4dfe-a426-73e1e35b587a", //NOx ?
-  "TN"   : "f04a971d-f503-4ca0-b2b1-0ecd2e53ea61", //total nitrogen
-  "sTKN" : null,                                   //missing id soluble TKN
-  "TKN " : null,                                   //missing id total TKN
+  "DOC"  : "efe22a60-b1a3-4b33-a5ba-4bf575e0a889",
+  "TOC"  : "a547f885-601d-4d52-9bf9-60f0cef06269",
+  "NO3"  : "4f461b9d-5a7b-4a46-8803-23f6df0dc522", // NOx ?
+  "NO2"  : "c8ebc911-268a-4dfe-a426-73e1e35b587a", // NOx ?
+  "TN"   : "f04a971d-f503-4ca0-b2b1-0ecd2e53ea61", // total nitrogen
+  "sTKN" : null,                                   // missing id soluble TKN
+  "TKN " : null,                                   // missing id total TKN
+  "SO4"  : "1e4ef691-c7d3-49fc-9aee-6d77575a7b8a", // dissolved sulfate SO4 as S
+  "pOS"  : "8175120e-a5b7-4f19-afca-5620e9e4dd8b", // particulate sulfur
+  "TS"   : "7f3410da-b91e-40d8-9545-ab269ff66900", // sulfur
 
   //key components (inputs)
   "BOD" : "dd13a45c-ddd8-414d-821f-dfe31c7d2868",

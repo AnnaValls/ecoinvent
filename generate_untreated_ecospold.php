@@ -9,7 +9,9 @@
 <div id=root>
 <h1>Generating ecospold file...</h1>
 <div>
-  <b>The following data is going to be saved as a new ecospold file</b>
+  <span>The following data is going to be saved as a new ecospold file</span>
+
+  <!--continue btn-->
   <button
     style="font-size:18px;padding:0.5em 1em"
     onclick="genereate_untreated_ecospold()"
@@ -18,7 +20,8 @@
 
   <script>
     function genereate_untreated_ecospold(){
-      post('ecospold/index.php', "python3 generate_untreated_ecospold.py '"+JSON.stringify(received_json)+"'");
+      //change this when other server
+      post('ecospold/index.php', "./generate_untreated_ecospold.py '"+JSON.stringify(received_json)+"'");
     }
   </script>
 </div>

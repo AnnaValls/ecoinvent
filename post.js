@@ -11,6 +11,7 @@ function post(action,data) {
   //new input
   var hiddenField = document.createElement("input");
   hiddenField.setAttribute("name", 'input');
+  hiddenField.setAttribute("type", 'hidden');
   hiddenField.setAttribute("value", data);
 
   //send data
