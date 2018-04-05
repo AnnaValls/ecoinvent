@@ -39,8 +39,8 @@
   <!--single plant-->
     <tr><td header colspan=2>Single plant model
     <tr>
-      <td descr>DOC and TOC are not used in the model
-      <td status>not used in M&amp;E equations
+      <td descr>NOx is NO3
+      <td status>under development
     <tr>
       <td descr>CH<sub>4</sub> produced is not calculated
       <td status>nobody provided equations
@@ -55,6 +55,8 @@
       <td status>nobody provided equations
     <tr>
       <td descr>Coarse solids removal
+        <br>
+        (Pascal knows how to calculate this, Peter may have data)
       <td status>not explained to Lluís B. how to calculate this
   <!--multiple plant-->
     <tr><td header colspan=2>Multiple plant model
@@ -63,6 +65,16 @@
       <td status>under development
     <tr>
       <td descr>Country data for averaging (a list of inputs needed for each region can be found <a href="reference_data.php">here</a>)
+        <br>Peter found typical data for:
+        <ul>
+          <li>Brazil
+          <li>Switzerland
+          <li>India
+          <li>South Africa
+          <li>Peru
+          <li>Colombia
+          <li>America
+        </ul>
       <td status>task assigned to Peter
     <tr>
       <td descr>Ecospold generation is under development <a href="ecospold/wastewater_treatment_tool/">here</a>
@@ -82,7 +94,12 @@
       <td descr>Uncertainty inside ecospold
       <td status>done by Pascal inside ecospold generation
     <tr>
-      <td descr>Show off data
+      <td descr>Show off data:
+
+        The user should be able to see what's happening in terms of equations
+        <br>
+        They should be able to acces all the wwtp data
+
       <td status>not sure what this item is
     <tr>
       <td descr>

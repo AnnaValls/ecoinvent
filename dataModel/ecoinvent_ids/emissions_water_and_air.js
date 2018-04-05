@@ -56,10 +56,12 @@ var Air_emissions = {
   "CO2,_fossil":                     {"id":"f9749677-9c9f-4678-ab55-c607dfdc2cb9", "unitName":"kg"},
   "CO2,_from_soil_or_biomass_stock": {"id":"e8787b5e-d927-446d-81a9-f56977bbfeb4", "unitName":"kg"},
   "CO2,_non-fossil":                 {"id":"73ed05cc-9727-4abf-9516-4b5c0fe54a16", "unitName":"kg"},
+
   "CH4,_fossil":                     {"id":"5f7aad3d-566c-4d0d-ad59-e765f971aa0f", "unitName":"kg"},
   "CH4,_from_soil_or_biomass_stock": {"id":"299c6564-426e-48c3-b516-fdf301d12127", "unitName":"kg"},
   "CH4":                             {"id":"b53d3744-3629-4219-be20-980865e54031", "unitName":"kg"},
   "CH4,_non-fossil":                 {"id":"baf58fc9-573c-419c-8c16-831ac03203b9", "unitName":"kg"},
+
   "NOx":                             {"id":"d068f3e2-b033-417b-a359-ca4f25da9731", "unitName":"kg"},
   "N2O":                             {"id":"6dc1b46f-ee89-4495-95c4-b8a637bcd6cb", "unitName":"kg"},
   "Phosphorus":                      {"id":"198ce8e3-f05a-4bec-9f7f-325347453326", "unitName":"kg"},

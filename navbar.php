@@ -15,7 +15,7 @@
   </div>
 
   <div>
-    <a href="todo.php">See all TO DO items</a>
+    <a target=_blank href="todo.php">See all TO DO items</a>
   </div>
 
 	<style>

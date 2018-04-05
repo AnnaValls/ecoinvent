@@ -11,7 +11,7 @@
   <table style="margin-left:20px">
     <script>
       Inputs.forEach(input=>{
-        document.write("<tr><td>"+input.id);
+        document.write("<tr title='"+input.descr+"'><td>"+input.id);
         document.write("<td><input type=number value='"+input.value+"'>");
         document.write("<td><small>"+input.unit.prettifyUnit()+"</small>");
       });

@@ -17,6 +17,9 @@ echo ''
 grep -e "TBD" -e "TODO" -e "TO DO" . -r \
 	--exclude-dir ".git" \
 	--exclude-dir "docs" \
+  --exclude-dir "ecospold" \
+  --exclude     "tags" \
+  --exclude     "todo.php" \
 	--exclude "$0" \
 	--exclude "README.txt" \
   --exclude "css.css" \

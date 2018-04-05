@@ -9,20 +9,21 @@
 */
 
 var Ecoinvent_ids={
-
   //compounds not in the tool TBD
   "DOC"  : "efe22a60-b1a3-4b33-a5ba-4bf575e0a889",
   "TOC"  : "a547f885-601d-4d52-9bf9-60f0cef06269",
+
   "NO3"  : "4f461b9d-5a7b-4a46-8803-23f6df0dc522", // NOx ?
   "NO2"  : "c8ebc911-268a-4dfe-a426-73e1e35b587a", // NOx ?
+
   "TN"   : "f04a971d-f503-4ca0-b2b1-0ecd2e53ea61", // total nitrogen
-  "sTKN" : null,                                   // missing id soluble TKN
-  "TKN " : null,                                   // missing id total TKN
+
   "SO4"  : "1e4ef691-c7d3-49fc-9aee-6d77575a7b8a", // dissolved sulfate SO4 as S
   "pOS"  : "8175120e-a5b7-4f19-afca-5620e9e4dd8b", // particulate sulfur
   "TS"   : "7f3410da-b91e-40d8-9545-ab269ff66900", // sulfur
 
   //key components (inputs)
+  "TKN " : "98549452-463c-463d-abee-a95c2e01ade3",                                   // missing id total TKN
   "BOD" : "dd13a45c-ddd8-414d-821f-dfe31c7d2868",
   "COD" : "3f469e9e-267a-4100-9f43-4297441dc726",
   "NH4" : "f7fa53fa-ee5f-4a97-bcd8-1b0851afe9a6",
@@ -30,6 +31,7 @@ var Ecoinvent_ids={
   "PO4" : "7fe01cf6-6e7b-487f-b37e-32388640a8a4",
 
   //key components (calculated)
+  "sTKN" : "4d60d7ca-8f4b-4d14-b137-3670858e48ca",                                   // missing id soluble TKN
   "pON" : "88c9f622-8451-41aa-98b0-c56b191a7e0a",
   "sON" : "cbc4a2c2-1710-4e6c-9b90-e1e72819d7b9",
   "pOP" : "0f205308-d33a-430b-b3ec-b62bef311f2f",
