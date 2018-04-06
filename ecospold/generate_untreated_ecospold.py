@@ -7,6 +7,10 @@ import pprint
 #print python version before local imports
 print("Running Python",sys.version.split(' ')[0],'\n')
 
+#folder with python packages
+sys.path.append("../../../opt/python3/")
+import xlrd
+
 #from {folder}.{folder} import {file}
 from wastewater_treatment_tool.pycode import DirectDischarge_ecoSpold
 from wastewater_treatment_tool.pycode.placeholders import *

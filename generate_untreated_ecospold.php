@@ -21,7 +21,7 @@
   <script>
     function genereate_untreated_ecospold(){
       //change this when other server
-      post('ecospold/index.php', "./generate_untreated_ecospold.py '"+JSON.stringify(received_json)+"'");
+      post('ecospold/index.php', "python3 generate_untreated_ecospold.py '"+JSON.stringify(received_json)+"'");
     }
   </script>
 </div>
