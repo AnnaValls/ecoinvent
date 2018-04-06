@@ -15,20 +15,22 @@ var Inputs = [
 {id:"T", value:12,    unit:"ºC",   descr:"Temperature", },
 
 //fractionation
-{id:"BOD",         value:140,  unit:"g/m3_as_O2",     descr:"Total_5d_biochemical_oxygen_demand",                   },
-{id:"sBOD",        value:70,   unit:"g/m3_as_O2",     descr:"Soluble_BOD",                                          },
 {id:"COD",         value:300,  unit:"g/m3_as_O2",     descr:"Total_chemical_oxygen_demand",                         },
-{id:"sCOD",        value:132,  unit:"g/m3_as_O2",     descr:"Soluble_COD",                                          },
-{id:"bCOD",        value:224,  unit:"g/m3_as_O2",     descr:"Biodegradable_COD_(a_typical_value_is:_bCOD=1.6·BOD)", },
-{id:"rbCOD",       value:80,   unit:"g/m3_as_O2",     descr:"Readily_biodegradable_COD_(bsCOD=complex+VFA)",        },
-{id:"VFA",         value:15,   unit:"g/m3_as_O2",     descr:"Volatile_Fatty_Acids_(Acetate)",                       },
-{id:"VSS",         value:60,   unit:"g/m3",           descr:"Volatile_suspended_solids",                            },
-{id:"TSS",         value:70,   unit:"g/m3",           descr:"Total_suspended_solids",                               },
 {id:"TKN",         value:35,   unit:"g/m3_as_N",      descr:"Total_Kjedahl_nitrogen",                               },
-{id:"NH4",         value:25,   unit:"g/m3_as_N",      descr:"Ammonia_influent",                                     },
 {id:"TP",          value:6,    unit:"g/m3_as_P",      descr:"Total_phosphorus",                                     },
-{id:"PO4",         value:5,    unit:"g/m3_as_P",      descr:"Ortophosphate_influent",                               },
-{id:"Alkalinity",  value:140,  unit:"g/m3_as_CaCO3",  descr:"Influent_alkalinity",                                  },
+
+//inputs that can be estimated from COD TKN and TP
+{id:"BOD",         value:140,  unit:"g/m3_as_O2",    canBeEstimated:true, descr:"Total_5d_biochemical_oxygen_demand",                   },
+{id:"sBOD",        value:70,   unit:"g/m3_as_O2",    canBeEstimated:true, descr:"Soluble_BOD",                                          },
+{id:"sCOD",        value:132,  unit:"g/m3_as_O2",    canBeEstimated:true, descr:"Soluble_COD",                                          },
+{id:"bCOD",        value:224,  unit:"g/m3_as_O2",    canBeEstimated:true, descr:"Biodegradable_COD_(a_typical_value_is:_bCOD=1.6·BOD)", },
+{id:"rbCOD",       value:80,   unit:"g/m3_as_O2",    canBeEstimated:true, descr:"Readily_biodegradable_COD_(bsCOD=complex+VFA)",        },
+{id:"VFA",         value:15,   unit:"g/m3_as_O2",    canBeEstimated:true, descr:"Volatile_Fatty_Acids_(Acetate)",                       },
+{id:"VSS",         value:60,   unit:"g/m3",          canBeEstimated:true, descr:"Volatile_suspended_solids",                            },
+{id:"TSS",         value:70,   unit:"g/m3",          canBeEstimated:true, descr:"Total_suspended_solids",                               },
+{id:"NH4",         value:25,   unit:"g/m3_as_N",     canBeEstimated:true, descr:"Ammonia_influent",                                     },
+{id:"PO4",         value:5,    unit:"g/m3_as_P",     canBeEstimated:true, descr:"Ortophosphate_influent",                               },
+{id:"Alkalinity",  value:140,  unit:"g/m3_as_CaCO3", canBeEstimated:true, descr:"Influent_alkalinity",                                  },
 
 //CSO removal
 {id:"CSO_particulate",  value:1,     unit:"%",           isParameter:true,  descr:"Removal_of_particulate_fractions_by_Combined_Sewer_Overflow",               },

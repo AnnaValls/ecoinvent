@@ -647,6 +647,20 @@
         <button class=toggleView onclick="toggleView(this,'edit')">&rarr;</button>
         <small>Edit</small>
         <ul id=edit style=display:none;margin-top:0>
+          <!--set ww to zero-->
+          <li>
+            <button style=""
+              onclick="(function(){
+                var inputs=document.querySelectorAll('#inputs input');
+                for(var i=0;i<inputs.length;i++){
+                  if(getInputById(inputs[i].id).isParameter){continue;}
+                  inputs[i].value=0;
+                  getInput(inputs[i].id).value=0;
+                }
+                init();
+            })()">Set all wastewater components to zero</button>
+          </li>
+
           <!--set all inputs to zero-->
           <li>
             <button style=""
@@ -657,19 +671,7 @@
                   getInput(inputs[i].id).value=0;
                 }
                 init();
-              })()">Set all inputs to zero</button>
-          </li>
-
-          <!--open estimations module button-->
-          <li style=margin-top:0>
-            <button
-              onclick="window.open('estimations.php')">
-                Open estimations module
-            </button>
-            <ul>
-              <li><issue class=under_dev></issue>
-              <li><issue class=help_requested>G. Ekama &amp; Y. Comeau</issue>
-            </ul>
+            })()">Set all inputs to zero</button>
           </li>
         </ul>
       </div>
@@ -936,7 +938,7 @@
             <ul>
               <li>Dewatering polymers
                 <ul>
-                  <li><em>Acrylamide 0.48%</em>: <span id=Dewatering_polymer>0</span>
+                  <li><em>Polyacrilamide</em>: <span id=Dewatering_polymer>0</span>
                 </ul>
               </li>
               <li>Alkalinity to maintain pH ≈ 7.0
@@ -1069,7 +1071,13 @@
         display=display||"";
         var newRow=table.insertRow(-1);
         newRow.style.display=display;
+        newRow.title=i.descr;
         var advanced_indicator = i.color ? "<div class=circle style='background:"+i.color+"' title='Advanced knowledge required to modify this input'></div>" : "";
+        var estimation_indicator = i.canBeEstimated ? (function(){
+          return "<div class=circle style=background:lightgreen title=\"Click to get a rough estimation based on COD, TKN and TP\">"+
+            "<span onclick=set_estimation_value(document.getElementById('"+i.id+"'))>?</span>"+
+            "</div>";
+        })():"";
 
         //set the input value if it is specified in URL GET parameters
         var get_parameter_value=url.searchParams.get(i.id);
@@ -1078,8 +1086,7 @@
         }
 
         //insert cells
-        newRow.title=i.descr;
-        newRow.insertCell(-1).outerHTML="<td class=help><div class=flex style='justify-content:space-between'>"+i.id + advanced_indicator+"</div>";
+        newRow.insertCell(-1).outerHTML="<td class=help><div class=flex style='justify-content:space-between'>"+i.id + estimation_indicator + advanced_indicator+"</div>";
         newRow.insertCell(-1).innerHTML="<input id='"+i.id+"' value='"+i.value+"' type=number step=any onchange=setInput('"+i.id+"',this.value) min=0>"
         newRow.insertCell(-1).outerHTML="<td class=unit>"+i.unit.prettifyUnit();
       }
@@ -1263,4 +1270,16 @@
       });
     })();
   })();
+</script>
+
+<script>
+  //call estimations function
+  function set_estimation_value(input_element) {
+    var ests = estimations(getInput('COD').value, getInput('TKN').value, getInput('TP').value);
+    console.log(ests);
+    //change the input value
+    input_element.value=Math.round(ests.outputs[input_element.id]*100)/100;
+    //trigger the onchange action
+    input_element.onchange();
+  }
 </script>

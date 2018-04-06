@@ -2,6 +2,9 @@
 import random
 import sys
 
+#print python version
+print("Running Python "+sys.version.split(' ')[0]+'\n')
+
 #hello
 print("This is a dummy <a href='test.py'>python script</a> output executed on the server\n")
 

@@ -12,6 +12,7 @@
 <script src="format.js"></script><!--utils for number formatting-->
 <script src="utils.js"></script><!--metcalf figures and tables-->
 <script src="post.js"></script><!--send data to other pages-->
+<script src="estimations.js"></script><!--input estimations-->
 
 <!--just descriptive objects-->
 <script src="dataModel/combinations.js"></script>

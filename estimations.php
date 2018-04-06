@@ -7,69 +7,19 @@
   <script>
     function calculate(){
       //inputs
-        var COD = parseFloat(document.querySelector('#COD').value);
-        var TKN = parseFloat(document.querySelector('#TKN').value);
-        var TP  = parseFloat(document.querySelector('#TP').value);
+      var COD = parseFloat(document.querySelector('#COD').value);
+      var TKN = parseFloat(document.querySelector('#TKN').value);
+      var TP  = parseFloat(document.querySelector('#TP').value);
 
-      //intermediate variables
-        var CS_U  = 0.050*COD;
-        var S_VFA = 0.024*COD;
-        var S_F   = 0.136*COD;
-        var C_B   = 0.170*COD;
-        var X_B   = 0.470*COD;
-        var X_H   = 0.020*COD;
-        var X_U   = 0.130*COD;
-        var X_COD = X_B + X_H + X_U;
-        var CS_B  = C_B + S_VFA + S_F;
-        var X_BH  = X_B + X_H;
-        var variables={
-          CS_U,
-          S_VFA,
-          S_F,
-          C_B,
-          X_B,
-          X_H,
-          X_U,
-          X_COD,
-          CS_B,
-          X_BH,
-        };
-
-      //outputs (return value)
-        var BOD        = COD/2.04;
-        var sCOD       = CS_U + S_VFA + S_F + C_B;
-        var sBOD       = sCOD/2.04;
-        var bCOD       = COD - X_U - CS_U;
-        var rbCOD      = S_VFA + S_F;
-        var VFA        = S_VFA;
-        var VSS        = X_COD/1.6;
-        var TSS        = 45 + VSS;
-        var NH4        = 0.66*TKN;
-        var PO4        = 0.50*TP;
-        var Alkalinity = 300;
-        var rv = {
-          BOD,
-          sCOD,
-          sBOD,
-          bCOD,
-          rbCOD,
-          VFA,
-          VSS,
-          TSS,
-          NH4,
-          PO4,
-          Alkalinity,
-        };
+      //call estimations
+      var rv = estimations(COD,TKN,TP);
 
       //add to gui
-        [rv, variables].forEach(o=>{
+        [rv.variables, rv.outputs].forEach(o=>{
           Object.keys(o).forEach(el=>{
             document.querySelector('#'+el).innerHTML=format(o[el]);
           });
         });
-
-      //return
-      return rv;
     }
   </script>
 </head><body onload="calculate()">
@@ -78,7 +28,9 @@
 <div id=root>
 <h1>Estimations for inputs the user may not know</h1>
 <p><b>
-Default values for BioWin 5.2
+  Default values from BioWin 5.2
+  <br>
+  <a href=see.php?file=estimations.js>See equations</a>
 </b></p><hr>
 
 <!--tables-->
