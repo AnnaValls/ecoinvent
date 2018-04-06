@@ -141,4 +141,10 @@
       <td descr>change M&amp;E to M&amp;EA
       <td status>done
       <td>April 4th 2018
+  <!--server related-->
+    <tr><td header colspan=3>Server related
+    <tr>
+      <td descr>Install python3 module "pandas"
+      <td status>Waiting for Oliver
+      <td>April 4th 2018
 </table>
