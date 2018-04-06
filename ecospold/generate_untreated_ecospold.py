@@ -4,13 +4,13 @@ import sys
 import os
 import pprint
 
+#print python version before local imports
+print("Running Python",sys.version.split(' ')[0],'\n')
+
 #from {folder}.{folder} import {file}
 from wastewater_treatment_tool.pycode import DirectDischarge_ecoSpold
 from wastewater_treatment_tool.pycode.placeholders import *
 from wastewater_treatment_tool.pycode.defaults import *
-
-#print python version
-print("Running Python",sys.version.split(' ')[0],'\n')
 
 #go to tests folder
 os.chdir(r'wastewater_treatment_tool/implementation_tests/')
