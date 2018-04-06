@@ -147,4 +147,27 @@
       <td descr>Install python3 module "pandas"
       <td status>Waiting for Oliver
       <td>April 4th 2018
+  <!--new item-->
+    <tr><td header colspan=3 style=background:lightgreen>NEW ITEM
+    <tr id=new_item_form>
+      <td style=padding:0.5em>
+        <input id=desc placeholder="item description" value="item description" style=width:90%>
+      <td style=padding:0.5em>
+        <input id=stat placeholder="status" value="item status"                style=width:90%>
+      <td style=text-align:center>
+        <button onclick=send_item()>SEND</button>
+        <script>
+          function send_item(){
+            var desc=document.querySelector('#new_item_form #desc').value;
+            var stat=document.querySelector('#new_item_form #stat').value;
+            if(desc==''||stat==''){return}
+            var a=document.createElement('a');
+            a.setAttribute('target','_blank');
+            a.href='mailto:lbosch@icra.cat?subject=Ecoinvent: New TODO item&body=description: '+desc+'%0D%0A%0D%0Astatus: '+stat;
+            document.body.appendChild(a);
+            a.click();
+          }
+        </script>
+      </td>
+    </tr>
 </table>
