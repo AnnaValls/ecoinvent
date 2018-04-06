@@ -360,19 +360,6 @@
         })();
       })();
 
-      //set "scroll to" links visibility
-      (function(){
-        function set_scroll_link_visibility(tec){
-          var el=document.querySelector('#variable_scrolling a[tech='+tec+']')
-          if(el){
-            el.style.display=getInput(tec,true).value ? "":"none";
-          }
-        }
-        Technologies_selected.forEach(t=>{
-          set_scroll_link_visibility(t.id)
-        });
-      })();
-
       //MASS BALANCES (end part)
       do_mass_balances();
 
@@ -395,7 +382,9 @@
           }
         }
       },
-      hiddenTechs:[], //techs hidden in table 2. Variables calculated, i.e. ['BOD','Nit']
+      hiddenTechs:[
+        "CSO", "Pri", "Fra", "BOD", "SST", "other", "energy", "Nit", "Des", "BiP", "ChP", "Met"
+      ], //techs hidden in table 2. Variables calculated, i.e. ['BOD','Nit']
       /*further user-options here*/
     }
   </script>
@@ -424,6 +413,12 @@
       text-align:center;
       border-radius:17px;
       width:17px;
+    }
+    #root .circle.estimation{
+      background:lightgreen;
+    }
+    #root .circle.estimation:hover{
+      background:green;
     }
     #root #summary > ul {
       font-size:smaller;
@@ -734,53 +729,6 @@
       <u>2. Variables calculated: <span id=variable_amount>0</span></u>
     </b></p>
 
-    <!--links for scrolling variables-->
-    <div id=variable_scrolling style=font-size:smaller>
-      <script>
-        //frontend function: scroll to variables of a technology
-        function scroll2tec(tec){
-          var els=document.querySelectorAll('#variables tr[tech='+tec+']');
-          if(els.length==0){return}
-
-          els[0].scrollIntoView();
-          //create a mini animation of changing colors
-          for(var i=0;i<els.length;i++) {
-            els[i].style.transition='background 0.4s';
-            els[i].style.background='lightblue';
-          }
-          setTimeout(function(){
-            for(var i=0;i<els.length;i++) {
-              els[i].style.background='white';
-            }
-          },800);
-          //end animation
-        }
-      </script>
-      Scroll to:
-      <a          href=# onclick="scroll2tec('CSO');                    return false" title="Combined Sewer Overflow">CSO</a>
-      <a          href=# onclick="scroll2tec('Pri');                    return false" title="Primary settler">Pri</a>
-      <a tech=Fra href=# onclick="scroll2tec(this.getAttribute('tech'));return false">Fra</a>
-      <a tech=BOD href=# onclick="scroll2tec(this.getAttribute('tech'));return false">BOD</a>
-      <a tech=Nit href=# onclick="scroll2tec(this.getAttribute('tech'));return false">Nit</a>
-      <a tech=SST href=# onclick="scroll2tec(this.getAttribute('tech'));return false">SST</a>
-      <a tech=Des href=# onclick="scroll2tec(this.getAttribute('tech'));return false">Des</a>
-      <a tech=BiP href=# onclick="scroll2tec(this.getAttribute('tech'));return false">BiP</a>
-      <a tech=ChP href=# onclick="scroll2tec(this.getAttribute('tech'));return false">ChP</a>
-      <a tech=Met href=# onclick="scroll2tec(this.getAttribute('tech'));return false">Met</a>
-      <a          href=# onclick="scroll2tec('other');                  return false">other</a>
-      <a          href=# onclick="scroll2tec('energy');                 return false">energy</a>
-
-      <script>
-        //add <a title=description> for the scroll links
-        (function(){
-          var els=document.querySelectorAll('#variable_scrolling a[tech]');
-          for(var i=0;i<els.length;i++){
-            els[i].title=Technologies[els[i].getAttribute('tech')].Name;
-          }
-        })();
-      </script>
-    </div>
-
     <!--Variables-->
     <table id=variables><tr>
       <th>Variable
@@ -849,24 +797,37 @@
 
         <ul id=sludge_production>
           <li>Primary settler sludge: <span id=TSS_removed_kgd>0</span>
-            <ul>
-              <li><issue class=help_requested>G. Ekama</issue>
-            </ul>
-          <li>P_X_TSS: <span id=P_X_TSS>0</span>
-          <li>P_X_VSS: <span id=P_X_VSS>0</span>
             <ul style=font-family:monospace>
-              <li>C content: <span id=sludge_C>0</span>
-              <li>H content: <span id=sludge_H>0</span>
-              <li>O content: <span id=sludge_O>0</span>
-              <li>N content: <span id=sludge_N>0</span>
-              <li>P content: <span id=sludge_P>0</span>
+              <li><issue class=help_requested>G. Ekama</issue>
+              <li>C content: <span id=primary_sludge_C>0</span>
+              <li>H content: <span id=primary_sludge_H>0</span>
+              <li>O content: <span id=primary_sludge_O>0</span>
+              <li>N content: <span id=primary_sludge_N>0</span>
+              <li>P content: <span id=primary_sludge_P>0</span>
             </ul>
-          </li>
-          <li>
-            FeCl<sub>3</sub> additional sludge: <span id=Total_excess_sludge>0</span>
+          <li>Secondary sludge
             <ul>
-              <li>Composition
-              <li><issue class=help_wanted></issue>
+              <li>P_X_TSS: <span id=P_X_TSS>0</span>
+              <li>P_X_VSS: <span id=P_X_VSS>0</span>
+                <ul style=font-family:monospace>
+                  <li>C content: <span id=sludge_C>0</span>
+                  <li>H content: <span id=sludge_H>0</span>
+                  <li>O content: <span id=sludge_O>0</span>
+                  <li>N content: <span id=sludge_N>0</span>
+                  <li>P content: <span id=sludge_P>0</span>
+                </ul>
+              </li>
+              <li>
+                FeCl<sub>3</sub> additional sludge: <span id=Excess_sludge_kg>0</span>
+                <ul style=font-family:monospace>
+                  <li><issue class=help_requested>G. Ekama</issue>
+                  <li>C content: <span id=excess_sludge_C>0</span>
+                  <li>H content: <span id=excess_sludge_H>0</span>
+                  <li>O content: <span id=excess_sludge_O>0</span>
+                  <li>N content: <span id=excess_sludge_N>0</span>
+                  <li>P content: <span id=excess_sludge_P>0</span>
+                </ul>
+              </li>
             </ul>
           </li>
         </ul>
@@ -1039,8 +1000,12 @@
         .filter(tec=>{return !tec.notActivable})
         .forEach(tec=>{
           var newRow=t.insertRow(-1);
+
           //tec name
-          newRow.insertCell(-1).innerHTML=tec.descr;
+          newRow.insertCell(-1).innerHTML=(function(){
+            var comments = tec.comments ? "<br><small>("+tec.comments+")</small>" : "";
+            return tec.descr+comments;
+          })();
 
           //set the input value if it is specified in URL GET parameters
           var get_parameter_value=url.searchParams.get('is_'+tec.id+'_active');
@@ -1074,7 +1039,7 @@
         newRow.title=i.descr;
         var advanced_indicator = i.color ? "<div class=circle style='background:"+i.color+"' title='Advanced knowledge required to modify this input'></div>" : "";
         var estimation_indicator = i.canBeEstimated ? (function(){
-          return "<div class=circle style=background:lightgreen title=\"Click to get a rough estimation based on COD, TKN and TP\">"+
+          return "<div class='estimation circle' title=\"Click to get a rough estimation for this input based on COD, TKN and TP\">"+
             "<span onclick=set_estimation_value(document.getElementById('"+i.id+"'))>?</span>"+
             "</div>";
         })():"";

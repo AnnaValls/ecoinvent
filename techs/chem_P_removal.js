@@ -19,7 +19,8 @@ function chem_P_removal(Q,TSS,TP,PO4,PO4_eff,FeCl3_solution,FeCl3_unit_weight,da
   */
 
   /*parameters*/
-  var Fe_P_mole_ratio                  = get_Fe_P_mole_ratio(PO4_eff); //3.3 mole/mole (Fig 6-13, page 484, see "utils.js")
+  var Fe_P_mole_ratio                  = get_Fe_P_mole_ratio(PO4_eff);
+  //  Fe_P_mole_ratio = 3.3 mole/mole (Fig 6-13, page 484, see "utils.js")
   var Raw_sludge_specific_gravity      = 1.03;
   var Raw_sludge_moisture_content      = 94;
   var Chemical_sludge_specific_gravity = 1.05
@@ -54,9 +55,14 @@ function chem_P_removal(Q,TSS,TP,PO4,PO4_eff,FeCl3_solution,FeCl3_unit_weight,da
   var Vs_without = sludge_production_wo_chemical_addition/(Raw_sludge_specific_gravity*1000*(1-Raw_sludge_moisture_content/100)); //m3/d
   //8
   var Vs = sludge_production_w_chemical_addition/(Chemical_sludge_specific_gravity*1000*(1-Chemical_sludge_moisture_content/100)); //m3/d
-  /*end solution*/
+  /*end solution from M&EA*/
+
+  //sludge produced in AS reactor (from G. Ekama)
+  //kg/d of extra iSS produced in AS reactor
+  var extra_iSS = 0.001*Q*(PO4-PO4_eff)*(251/M_P + (Fe_P_mole_ratio-1.6)*(106.8/M_P));
 
   return {
+    Fe_P_mole_ratio:        {value:Fe_P_mole_ratio,                         unit:"moles_Fe/moles_P",  descr:"Fe/P mole ratio"},
     Fe_III_dose:            {value:Fe_III_dose,                             unit:"mg/L",  descr:"Required ferric chloride dose"},
     primary_eff_P:          {value:primary_eff_P,                           unit:"mg/L",  descr:"Primary effluent P concentration"},
     Fe_dose:                {value:Fe_dose,                                 unit:"kg/d",  descr:"Amount of ferric iron required per day"},
@@ -64,7 +70,7 @@ function chem_P_removal(Q,TSS,TP,PO4,PO4_eff,FeCl3_solution,FeCl3_unit_weight,da
     amount_FeCl3_solution:  {value:amount_FeCl3_solution,                   unit:"kg/d",  descr:"Amount of solution of ferric chloride per required per day"},
     FeCl3_volume:           {value:FeCl3_volume,                            unit:"L/d",   descr:"Volume of FeCl3 required per day"},
     storage_req_15_d:       {value:storage_req_15_d,                        unit:"m3",    descr:"Days-storage requirement based on flowrate"},
-    Additional_sludge:      {value:Additional_sludge,                       unit:"kg/d",  descr:"Additional TSS removal resulting from the addition of FeCl3"},
+    //Additional_sludge:      {value:Additional_sludge,                       unit:"kg/d",  descr:"Additional TSS removal resulting from the addition of FeCl3"},
     Fe_dose_M:              {value:Fe_dose_M,                               unit:"M",     descr:"Fe_dose_concentration"},
     P_removed:              {value:P_removed,                               unit:"M",     descr:"P_removed"},
     FeH2PO4OH_sludge:       {value:FeH2PO4OH_sludge,                        unit:"mg/L",  descr:"FeH2PO4OH in sludge"},
@@ -72,11 +78,12 @@ function chem_P_removal(Q,TSS,TP,PO4,PO4_eff,FeCl3_solution,FeCl3_unit_weight,da
     FeOH3_sludge:           {value:FeOH3_sludge,                            unit:"mg/L",  descr:"FeOH3_sludge"},
     Excess_sludge:          {value:Excess_sludge,                           unit:"mg/L",  descr:"Total chemical sludge resulting from FeCl3 addition"},
     Excess_sludge_kg:       {value:Excess_sludge_kg,                        unit:"kg/d",  descr:"Total chemical sludge resulting from FeCl3 addition in kg/d"},
-    Total_excess_sludge:    {value:Total_excess_sludge,                     unit:"kg/d",  descr:"Total excess sludge resulting from FeCl3 addition"},
-    sludge_prod_without:    {value:sludge_production_wo_chemical_addition,  unit:"kg/d",  descr:"sludge_production_without_chemical_addition"},
-    sludge_prod:            {value:sludge_production_w_chemical_addition,   unit:"kg/d",  descr:"sludge_production_with_chemical_addition"},
-    Vs_without:             {value:Vs_without,                              unit:"m3/d",  descr:"Volume of sludge without chemical precipitation"},
-    Vs:                     {value:Vs,                                      unit:"m3/d",  descr:"Volume of sludge with chemical precipitation"},
+    //Total_excess_sludge:    {value:Total_excess_sludge,                     unit:"kg/d",  descr:"Total excess sludge resulting from FeCl3 addition"},
+    //sludge_prod_without:    {value:sludge_production_wo_chemical_addition,  unit:"kg/d",  descr:"sludge_production_without_chemical_addition"},
+    //sludge_prod:            {value:sludge_production_w_chemical_addition,   unit:"kg/d",  descr:"sludge_production_with_chemical_addition"},
+    //Vs_without:             {value:Vs_without,                              unit:"m3/d",  descr:"Volume of sludge without chemical precipitation"},
+    //Vs:                     {value:Vs,                                      unit:"m3/d",  descr:"Volume of sludge with chemical precipitation"},
+    //extra_iSS:              {value:extra_iSS,                               unit:"kg/d",  descr:"Extra iSS produced in AS reactor by coprecipitation"},
   };
 }
 

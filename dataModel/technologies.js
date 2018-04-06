@@ -66,6 +66,7 @@ var Technologies = {
 	},
 	"ChP":{
 		Name:"Chemical P removal",
+    comments:"coprecipitation only",
 		File:"chem_P_removal.js",
 		Implemented_in:"chem_P_removal.php",
     value:false,
@@ -95,6 +96,7 @@ var Technologies_selected = [];
     var value=Technologies[id].value;
     var descr=Technologies[id].Name;
     var notActivable=Technologies[id].notActivable;
-    Technologies_selected.push({id,value,notActivable,descr});
+    var comments=Technologies[id].comments;
+    Technologies_selected.push({id,value,notActivable,descr,comments});
   }
 })();

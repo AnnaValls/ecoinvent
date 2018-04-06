@@ -58,8 +58,11 @@ function bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,NOx,NO3_eff,tau_aer,
   var Effluent_P = TP - P_removal_EBPR - P_removal_synthesis_n; //0.80 g/m3
 
   //5
-  var P_X_TSS = P_X_bio/0.85 + Q*nbVSS + Q*iTSS; //433,099 g/d
-  //P_X_TSS = 433099; //in metcalf book this number is wrong
+  var P_X_VSS = P_X_bio + Q*nbVSS; //g/d
+  var P_X_TSS = P_X_bio/0.70 + Q*nbVSS + Q*iTSS;
+  //0.70 instead of 0.85 above is because PAO contain polyphosphates that add extra iSS
+  //433,099 g/d //P_X_TSS = 433099; //in metcalf book this number is wrong
+
   var P_removal_gday = (TP - Effluent_P)*Q; //20,800 g/d
   var P_in_waste_sludge = 100*P_removal_gday/P_X_TSS ||0; //4.8 %
 
@@ -82,6 +85,7 @@ function bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,NOx,NO3_eff,tau_aer,
     P_removal_synthesis:   {value:P_removal_synthesis,         unit:"g/d_as_P",    descr:"P removal (synthesis)"},
     P_removal_synthesis_n: {value:P_removal_synthesis_n,       unit:"g/m3_as_P",   descr:"P removal (synthesis) normalized to flowrate"},
     Effluent_P:            {value:Effluent_P,                  unit:"g/m3_as_P",   descr:"Effluent P (influent-P_EBPR-P_synth)"},
+    P_X_VSS:               {value:P_X_VSS/1000,                unit:"kg/d",        descr:"P_X_VSS"}, //unit changed here (!)
     P_X_TSS:               {value:P_X_TSS/1000,                unit:"kg/d",        descr:"Total sludge production"}, //unit changed here (!)
     P_removal_gday:        {value:P_removal_gday,              unit:"g/d_as_P",    descr:"P_removal (g/day)"},
     P_in_waste_sludge:     {value:P_in_waste_sludge,           unit:"%",           descr:"P_in_waste_sludge"},

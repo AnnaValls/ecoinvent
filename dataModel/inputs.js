@@ -56,7 +56,7 @@ var Inputs = [
 {id:"NO3_eff", value:6,   unit:"g/m3_as_N", isParameter:true, descr:"Effluent_design_NO3_concentration", },
 
 //chem P dp
-{id:"PO4_eff", value:0.1, unit:"g/m3_as_P", isParameter:true, descr:"Effluent_design_PO4(3-)._It_is_only_imposed_in_case_we_have_Chemical_P_removal._Otherwise,_it_will_be_calculated", },
+{id:"PO4_eff", value:0.5, unit:"g/m3_as_P", isParameter:true, descr:"Effluent_design_PO4(3-)._It_is_only_imposed_in_case_we_have_Chemical_P_removal._Otherwise,_it_will_be_calculated", },
 
 //metals
 {id:"Ag", value:0.0000, unit:"g/m3", isMetal:true, descr:"Influent_Silver",     },

@@ -34,7 +34,7 @@ function compute_elementary_flows(Input_set){
       var PO4        = is.PO4;
       var Alkalinity = is.Alkalinity;
 
-    //influent metals are picked when 'metals_doka' is called 
+    //influent metals are picked when 'metals_doka' is called
 
     //design parameters
       var CSO_particulate      = is.CSO_particulate;
@@ -208,9 +208,6 @@ function compute_elementary_flows(Input_set){
   //get variables after nitrification for equations block 2
   var S       = is_Nit_active ? Result.Nit.S.value       : Result.BOD.S.value;       //g/m3
   var NOx     = is_Nit_active ? Result.Nit.NOx.value     : 0;                        //g/m3
-  var P_X_bio = is_Nit_active ? Result.Nit.P_X_bio.value : Result.BOD.P_X_bio.value; //kg/d
-  var P_X_VSS = is_Nit_active ? Result.Nit.P_X_VSS.value : Result.BOD.P_X_VSS.value; //kg/d
-  var b_AOB_T = is_Nit_active ? Result.Nit.b_AOB_T.value : 0;                        //1/d
 
   //get SRT from Nit results if Nit is active
   if(is_Nit_active){
@@ -239,7 +236,7 @@ function compute_elementary_flows(Input_set){
   if(is_BiP_active){
     var tau_aer = 0.75; //h -- "tau must be between 0.50 and 1.00 h (M&EA)"
 
-    Result.BiP=bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP-nbpOP,T,SRT,NOx,NO3_eff,tau_aer,RAS);
+    Result.BiP=bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,aP,T,SRT,NOx,NO3_eff,tau_aer,RAS);
   //Result.BiP=bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP      ,T,SRT,NOx,NO3_eff,tau_aer,RAS);
 
     addResults('BiP',Result.BiP);
@@ -247,8 +244,8 @@ function compute_elementary_flows(Input_set){
 
   /*5. SOLVE CHEM P*/
   if(is_ChP_active){
-  //Result.ChP=chem_P_removal(Q,TSS,TP,PO4     ,PO4_eff,FeCl3_solution,FeCl3_unit_weight,days);
-    Result.ChP=chem_P_removal(Q,TSS,TP,TP-nbpOP,PO4_eff,FeCl3_solution,FeCl3_unit_weight,days);
+  //Result.ChP=chem_P_removal(Q,TSS,TP,PO4,PO4_eff,FeCl3_solution,FeCl3_unit_weight,days);
+    Result.ChP=chem_P_removal(Q,TSS,TP,aP ,PO4_eff,FeCl3_solution,FeCl3_unit_weight,days);
     addResults('ChP',Result.ChP);
   }
   //===END TECHNOLOGIES FROM METCALF AND EDDY=============================================
@@ -317,8 +314,11 @@ function compute_elementary_flows(Input_set){
   var MLVSS                     = select_value('MLVSS',                     ['Nit','BOD']);
   //var BOD_loading               = select_value('BOD_loading',               ['Nit','BOD']);
   var TSS_removed_kgd           = select_value('TSS_removed_kgd',           ['Pri']);
+
   var P_X_bio                   = select_value('P_X_bio',                   ['BiP','Nit','BOD']);
+  var P_X_VSS                   = select_value('P_X_VSS',                   ['BiP','Nit','BOD']);
   var P_X_TSS                   = select_value('P_X_TSS',                   ['BiP','Nit','BOD']);
+
   var Y_obs_TSS                 = select_value('Y_obs_TSS',                 ['Nit','BOD'])
   var Y_obs_VSS                 = select_value('Y_obs_VSS',                 ['Nit','BOD'])
   var air_flowrate              = select_value('air_flowrate',              ['Des','Nit','BOD']);
@@ -523,7 +523,7 @@ function compute_elementary_flows(Input_set){
   var sludge_P = Sludge.f_P*P_X_VSS;   //kg_P/d
 
   //additional sludge from chemical P removal
-  var Total_excess_sludge = select_value('Total_excess_sludge', ['ChP']);
+  var Excess_sludge_kg = select_value('Excess_sludge_kg', ['ChP']);
 
   //===============================================================================================
   //OUTPUTS effluent
@@ -684,7 +684,7 @@ function compute_elementary_flows(Input_set){
       }
       else if(is_BiP_active && is_ChP_active==false){   //bio P removal
         //recalculate the 0.015 factor, in bio P removal changes
-        var g_P_VSS_new = (Q*PO4-Qe*PO4_eff)/(P_X_VSS*1000); //g_P/g_VSS
+        var g_P_VSS_new = (Q*PO4-Qe*PO4_eff)/(P_X_VSS*1000); //g_P/g_VSS "PAO VSS"
         return Q*Result.BiP.P_removal.value + B + C - Qe*VSSe*g_P_VSS_new; 
       }
       else if(is_BiP_active==false && is_ChP_active){  //chem P removal
@@ -756,7 +756,7 @@ function compute_elementary_flows(Input_set){
     'sludge_N': {value:sludge_N, unit:"kg_N/d",   descr:""},
     'sludge_P': {value:sludge_P, unit:"kg_P/d",   descr:""},
 
-    'Total_excess_sludge': {value:Total_excess_sludge, unit:"kg/d",   descr:"from Chemical P removal"},
+    'Excess_sludge_kg': {value:Excess_sludge_kg, unit:"kg/d",   descr:"from Chemical P removal"},
 
     'Y_obs_TSS':                  {value:Y_obs_TSS,                  unit:"g_TSS/g_BOD",     descr:""},
     'Y_obs_VSS':                  {value:Y_obs_VSS,                  unit:"g_VSS/g_BOD",     descr:""},

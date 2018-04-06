@@ -1,49 +1,20 @@
 <!doctype html><html><head>
   <?php include'imports.php'?>
   <title>TO DO items</title>
-  <style>
-    table.todo_items td {
-      font-size:smaller;
-    }
-    table.todo_items{
-      margin-bottom:1em;
-      border-collapse:collapse;
-    }
-    table.todo_items td[header]{
-      font-weight:bold;
-      text-align:left;
-      background:#eee;
-      font-style:italic;
-      padding-left:8px;
-    }
-    /*description*/
-    table.todo_items td:first-child{
-      padding:0 1em 0 16px;
-    }
-    /*status*/
-    table.todo_items td:nth-child(2){
-      background:lightblue;
-      font-style:italic;
-      padding:0 5px;
-    }
-  </style>
-</head><body>
-<?php include'navbar.php'?>
-<div id=root>
-
-<div>
-  <h1>All TO DO items/tasks/doubts/issues/etc</h1>
-  <p><em>This page is intended to centralize all issues during development</em></p>
-  <p style="font-size:smaller">
-    If an item is here is because has been discussed at some point, but Lluís B.
-    has not understood either conceptually and/or how or where to implement it
-    (otherwise, it's under development)
-  </p>
+  </head><body>
+  <?php include'navbar.php'?>
+  <div id=root>
+  <div>
+    <h1>All TO DO items/tasks/doubts/issues/etc</h1>
+    <p><em>This page is intended to centralize all issues during development</em></p>
+    <p style="font-size:smaller">
+      If an item is here is because has been discussed at some point, but Lluís B.
+      has not understood either conceptually and/or how or where to implement it
+      (otherwise, it's under development)
+    </p>
 </div><hr>
-
 <!--items-->
-<table class=todo_items border=1>
-  <tr><th>Item description<th>Status<th>Added
+<table class=todo_items border=1> <tr><th>Item description<th>Status<th>Added
   <!--single plant-->
     <tr><td header colspan=3>Single plant model
     <tr>
@@ -67,7 +38,7 @@
           <li>Primary settler sludge composition is unknown
           <li>Additional sludge produced by Chemical P removal composition is unknown
         </ul>
-      <td status>George to provide help on Apr 6th call
+      <td status>George to provide help on Apr 10th call
       <td>April 5th 2018
     <tr>
       <td descr>Coarse solids removal
@@ -171,3 +142,30 @@
       </td>
     </tr>
 </table>
+
+<style>
+  table.todo_items td {
+    font-size:smaller;
+  }
+  table.todo_items{
+    margin-bottom:1em;
+    border-collapse:collapse;
+  }
+  table.todo_items td[header]{
+    font-weight:bold;
+    text-align:left;
+    background:#eee;
+    font-style:italic;
+    padding-left:8px;
+  }
+  /*description*/
+  table.todo_items td:first-child{
+    padding:0 1em 0 16px;
+  }
+  /*status*/
+  table.todo_items td:nth-child(2){
+    background:lightblue;
+    font-style:italic;
+    padding:0 5px;
+  }
+</style>
