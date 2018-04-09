@@ -390,9 +390,7 @@
 
   <!--CSS-->
   <style>
-    #root hr{
-      margin:0px auto;
-    }
+    #root hr{ margin:0 auto; }
     #root th{
       background:#eee;
     }
@@ -462,7 +460,7 @@
     <b>General</b>
   </p>
 
-  <div id=general_info style=display:none>
+  <div id=general_info style=display:nonee>
     <ol>
       <!--activity name-->
       <li>
@@ -810,7 +808,7 @@
       <p><div style=font-size:smaller><a href=#>&uarr; top</a></div></p>
     </div>
   </div>
-</div><hr>
+</div>
 
 <!--app init: populate content default values-->
 <script>
@@ -1105,7 +1103,7 @@
     var ests=estimations(getInput('COD').value,getInput('TKN').value,getInput('TP').value);
     //modify input value
     input_element.value=Math.round(ests.outputs[input_element.id]*100)/100;
-    //trigger onchange() 
+    //trigger onchange()
     input_element.onchange();
   }
 </script>

@@ -142,9 +142,9 @@
     <button class=toggleView onclick="toggleView(this,'top_menu #view')">&rarr;</button>
     <small>View</small>
     <ul id=view style=display:none>
-      <li><button onclick=window.open('img/plant-diagram.jpg')     >Plant diagram image</button>
-      <li><button onclick=window.open('fractionation_diagrams.php')>Fractionation diagrams</button>
-      <li><button onclick=window.open('estimations.php')           >Input estimations module</button>
+      <li><button onclick=window.open('img/plant-diagram.jpg')     >Plant diagram</button>
+      <li><button onclick=window.open('fractionation_diagrams.php')>Fractionation diagram</button>
+      <li><button onclick=window.open('estimations.php')           >Estimations module</button>
     </ul>
   </div>
 
