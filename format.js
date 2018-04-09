@@ -88,8 +88,9 @@ function getParamNames(func) {
 }
 
 //frontend buttons for folding/unfolding sections of div#summary
-function toggleView(btn,id){
-  var el=document.querySelector('#'+id);
+function toggleView(btn,selector){
+  var el=document.querySelector('#'+selector);
+  console.log(el);
   if(el){ el.style.display = el.style.display=='none' ? '':'none' }
   if(btn){ btn.innerHTML= btn.innerHTML=='↓' ? '&rarr;':'&darr;' }
 }

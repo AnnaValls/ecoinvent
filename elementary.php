@@ -1,8 +1,7 @@
 <?php /*
-  ELEMENTARY FLOWS (SINGLE PLANT MODEL)
-  -------------------------------------
-  - The backend is in 'elementary.js' (data structures + technology appliying)
-  - The views and frontend is implemented here
+  SINGLE PLANT MODEL
+  - Frontend is implemented here
+  - The backend is 'elementary.js' (data structures + technology modules called)
 */?>
 <!doctype html><html><head>
   <?php include'imports.php'?>
@@ -437,29 +436,17 @@
   </style>
 </head><body onload="init()">
 <?php include'navbar.php'?>
-
 <div id=root>
 
-<!--title div-->
-<div class=flex style="justify-content:space-between">
-  <!--title and subtitle-->
-  <div>
-    <h1>Single plant model</h1>
-    <p><small>
-      Create a wastewater composition + a single treatment plant configuration
-    </small></p>
-  </div>
-  <!--handy info-->
-  <div style="font-size:smaller;padding-top:5px;margin-right:5px">
-    Handy info for development
-    <ul>
-      <li><a href="img/plant-diagram.jpg"      target=_blank>See plant diagram image</a>
-      <li><a href="fractionation_diagrams.php" target=_blank>See fractionation diagrams</a>
-    </ul>
-  </div>
-</div><hr>
+<!--title and subtitle-->
+<div>
+  <h1>Single plant model</h1>
+  <p><small>
+    Create a wastewater composition + a single treatment plant configuration
+  </small></p>
+</div>
 
-<!--general_info-->
+<!--general_info menu-->
 <div>
   <style>
     #general_info li {
@@ -541,19 +528,19 @@
   <p><hr></p>
 </div>
 
-<!--INPUTS AND OUTPUTS VIEW SCAFFOLD-->
+<!--inputs and outputs container-->
 <div class=flex>
   <!--1. Inputs-->
   <div style="width:330px">
     <p><b><u>1. User inputs</u></b></p>
 
-    <!--File/Edit-->
-    <div style="background:#eee">
+    <!--File/Edit/View-->
+    <div id=top_menu style="background:#eee">
       <!--File-->
       <div>
-        <button class=toggleView onclick="toggleView(this,'load_and_save')">&rarr;</button>
+        <button class=toggleView onclick="toggleView(this,'top_menu #file')">&rarr;</button>
         <small>File</small>
-        <ul id=load_and_save style="display:none;margin-top:0">
+        <ul id=file style="display:none;margin-top:0">
             <!--load-->
             <li>
               <script>
@@ -639,7 +626,7 @@
 
       <!--Edit-->
       <div>
-        <button class=toggleView onclick="toggleView(this,'edit')">&rarr;</button>
+        <button class=toggleView onclick="toggleView(this,'top_menu #edit')">&rarr;</button>
         <small>Edit</small>
         <ul id=edit style=display:none;margin-top:0>
           <!--set ww to zero-->
@@ -668,6 +655,16 @@
                 init();
             })()">Set all inputs to zero</button>
           </li>
+        </ul>
+      </div>
+
+      <!--View-->
+      <div>
+        <button class=toggleView onclick="toggleView(this,'top_menu #view')">&rarr;</button>
+        <small>View</small>
+        <ul id=view style=display:none;margin-top:0>
+          <li><a href="img/plant-diagram.jpg"      target=_blank>See plant diagram image</a>
+          <li><a href="fractionation_diagrams.php" target=_blank>See fractionation diagrams</a>
         </ul>
       </div>
     </div>
@@ -947,9 +944,6 @@
     </div>
   </div>
 </div><hr>
-
-<!--note for development-->
-<p><small><?php include'btn_reset_cache.php'?></small></p>
 
 <!--app init: populate content default values-->
 <script>
@@ -1237,14 +1231,14 @@
   })();
 </script>
 
+<!--estimations module-->
 <script>
-  //call estimations function
-  function set_estimation_value(input_element) {
-    var ests = estimations(getInput('COD').value, getInput('TKN').value, getInput('TP').value);
-    console.log(ests);
-    //change the input value
+  //call estimations module from "estimations.js"
+  function set_estimation_value(input_element){
+    var ests=estimations(getInput('COD').value,getInput('TKN').value,getInput('TP').value);
+    //modify input value
     input_element.value=Math.round(ests.outputs[input_element.id]*100)/100;
-    //trigger the onchange action
+    //trigger onchange() 
     input_element.onchange();
   }
 </script>
