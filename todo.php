@@ -13,6 +13,7 @@
       (otherwise, it's under development)
     </p>
 </div><hr>
+
 <!--items-->
 <table class=todo_items border=1> <tr><th>Item description<th>Status<th>Added
   <!--single plant-->
@@ -49,7 +50,6 @@
       <td> Lluís B. needs guidance
       <td>April 5th 2018
     </tr>
-
   <!--multiple plant--><tr><td header colspan=3>Multiple plant model
     <tr>
       <td>industrial factors [brewery, pig_manure, tanning_ww, thermomechanical_pulp_and_paper_ww]
@@ -64,7 +64,6 @@
         <br>(need to discuss user interface
         <br>with Yves and Lluís C.)
       <td>April 9th 2018
-
     <tr>
       <td>Marginal contribution expressed as /m<sup>3</sup> of activity influent
       <td>TO DO
@@ -86,15 +85,28 @@
     <tr>
       <td>Ecospold generation is under development <a href="ecospold/wastewater_treatment_tool/">here</a>
         <ul ecospold>
-          <li>Develop technology mix "binary keyword 7 bits"
+          <li>Develop technology mix "binary keyword 7 bits" (under development)
           <li>Differentiate PV from Q, relate to untreated fraction
           <li>The same python dictionary will generate both ecospold files
           <li>Uncertainty is done inside ecospold (Pascal)
+          <li>The file to use is now `pycode.generate_two_ecospolds.py`.
+          <li> root_dir now needs to be passed to the functions instantiating the ecoSpold generators.
+            Could you please validate how this is done in the code?
           <li>
             Dictionary keys
             <ul>
-              <li>"WW_properties"          is for amounts BEFORE CSO
-              <li>"WW_influent_properties" is for amounts AFTER  CSO
+              <li>WWTP_influent_properties
+              <li>tool_use_type
+              <li>WW_type
+              <li>technologies_averaged
+              <li>WWTP_emissions_water
+              <li>WWTP_emissions_air
+              <li>sludge_amount
+              <li>sludge_properties
+              <li>electricity
+              <li>FeCl3
+              <li>acrylamide
+              <li>NaHCO3
             </ul>
           </li>
         </ul>
@@ -118,7 +130,6 @@
         </ul>
       <td>not sure how to proceed, need concrete instructions
       <td>April 4th 2018
-
   <!--gui related-->
     <tr><td header colspan=3>User interface related
     <tr>
