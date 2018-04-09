@@ -460,7 +460,7 @@
     <b>General</b>
   </p>
 
-  <div id=general_info style=display:nonee>
+  <div id=general_info style=display:none>
     <ol>
       <!--activity name-->
       <li>

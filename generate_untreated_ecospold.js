@@ -1,7 +1,6 @@
 function generate_untreated_ecospold() {
   //generate a data set for the untreated ecospold file
-  var data_set =
-  {
+  var data_set = {
     activity_name:       document.querySelector('#activity_name').value,
     geography:           document.querySelector('#geography').value,
     untreated_fraction:  parseFloat(document.querySelector('#RQ').getAttribute('value')),
@@ -40,11 +39,11 @@ function generate_untreated_ecospold() {
   //add ecoinvent id (if found)
   data_set.WW_properties.forEach(el=>{
     var ecoinvent_id = Ecoinvent_ids[el.id];
-    el.ecoinvent_id  =  ecoinvent_id;
+    el.ecoinvent_id  = ecoinvent_id;
   });
   data_set.CSO_amounts.forEach(el=>{
     var ecoinvent_id = Ecoinvent_ids[el.id.replace('_discharged','').replace('elem_','')];
-    el.ecoinvent_id  =  ecoinvent_id;
+    el.ecoinvent_id  = ecoinvent_id;
   });
 
   //stringify data_set

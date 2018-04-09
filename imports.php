@@ -38,7 +38,7 @@
 <script src="dataModel/methods.js"></script>
 <script src="dataModel/technologies.js"></script>
 <script src="dataModel/geographies.js"></script>
-<script src="dataModel/ecoinvent_ids.js"></script>
+<script src="dataModel/ecoinvent_ids/ecoinvent_ids.js"></script>
 
 <!--css-->
 <style>

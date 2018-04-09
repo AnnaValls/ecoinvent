@@ -25,7 +25,6 @@
     }
   </script>
 </div>
-
 <script>
   (function(){
     document.getElementById('received_json').innerHTML=JSON.stringify(received_json,null,"  ");

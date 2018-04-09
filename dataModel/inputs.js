@@ -15,9 +15,9 @@ var Inputs = [
 {id:"T", value:12,    unit:"ºC",   descr:"Temperature", },
 
 //fractionation
-{id:"COD",         value:300,  unit:"g/m3_as_O2",     descr:"Total_chemical_oxygen_demand",                         },
-{id:"TKN",         value:35,   unit:"g/m3_as_N",      descr:"Total_Kjedahl_nitrogen",                               },
-{id:"TP",          value:6,    unit:"g/m3_as_P",      descr:"Total_phosphorus",                                     },
+{id:"COD", value:300,  unit:"g/m3_as_O2", descr:"Total_chemical_oxygen_demand", },
+{id:"TKN", value:35,   unit:"g/m3_as_N",  descr:"Total_Kjedahl_nitrogen",       },
+{id:"TP",  value:6,    unit:"g/m3_as_P",  descr:"Total_phosphorus",             },
 
 //inputs that can be estimated from COD TKN and TP
 {id:"BOD",         value:140,  unit:"g/m3_as_O2",    canBeEstimated:true, descr:"Total_5d_biochemical_oxygen_demand",                   },
@@ -33,27 +33,27 @@ var Inputs = [
 {id:"Alkalinity",  value:140,  unit:"g/m3_as_CaCO3", canBeEstimated:true, descr:"Influent_alkalinity",                                  },
 
 //CSO removal
-{id:"CSO_particulate",  value:1,     unit:"%",           isParameter:true,  descr:"Removal_of_particulate_fractions_by_Combined_Sewer_Overflow",               },
-{id:"CSO_soluble",      value:2,     unit:"%",           isParameter:true,  descr:"Removal_of_soluble_fractions_by_Combined_Sewer_Overflow",                   },
+{id:"CSO_particulate",  value:1, unit:"%", isParameter:true,  descr:"Removal_of_particulate_fractions_by_Combined_Sewer_Overflow", },
+{id:"CSO_soluble",      value:2, unit:"%", isParameter:true,  descr:"Removal_of_soluble_fractions_by_Combined_Sewer_Overflow",     },
 
 //primary settler
-{id:"removal_bpCOD",    value:40,    unit:"%",           isParameter:true,  descr:"Primary_settler_bpCOD_removal_rate_(25_to_60%_for_municipal_wastewater)",   },
-{id:"removal_nbpCOD",   value:60,    unit:"%",           isParameter:true,  descr:"Primary_settler_nbpCOD_removal_rate_(40_to_80%_for_municipal_wastewater)",  },
-{id:"removal_ON",       value:66.6,  unit:"%",           isParameter:true,  descr:"Primary_settler_ON_removal_rate_(66%_for_municipal_wastewater)",            },
-{id:"removal_OP",       value:66.6,  unit:"%",           isParameter:true,  descr:"Primary_settler_OP_removal_rate_(66%_for_municipal_wastewater)",            },
-{id:"removal_iTSS",     value:70,    unit:"%",           isParameter:true,  descr:"Primary_settler_iTSS_removal_rate_(50_to_90%_for_municipal_wastewater)",    },
+{id:"removal_bpCOD",   value:40,    unit:"%", isParameter:true,  descr:"Primary_settler_bpCOD_removal_rate_(25_to_60%_for_municipal_wastewater)",   },
+{id:"removal_nbpCOD",  value:60,    unit:"%", isParameter:true,  descr:"Primary_settler_nbpCOD_removal_rate_(40_to_80%_for_municipal_wastewater)",  },
+{id:"removal_ON",      value:66.6,  unit:"%", isParameter:true,  descr:"Primary_settler_ON_removal_rate_(66%_for_municipal_wastewater)",            },
+{id:"removal_OP",      value:66.6,  unit:"%", isParameter:true,  descr:"Primary_settler_OP_removal_rate_(66%_for_municipal_wastewater)",            },
+{id:"removal_iTSS",    value:70,    unit:"%", isParameter:true,  descr:"Primary_settler_iTSS_removal_rate_(50_to_90%_for_municipal_wastewater)",    },
 
 //bod removal dp
-{id:"MLSS_X_TSS",       value:3000,  unit:"g/m3",        isParameter:true,  descr:"Mixed_liquor_suspended_solids",                                             },
-{id:"DO",               value:2.0,   unit:"g/m3_as_O2",  isParameter:true,  descr:"DO_in_aeration_basin_(generally:_1.5_to_2)_(notation_in_book_is_'C_L')",    },
-{id:"clarifiers",       value:3,     unit:"clarifiers",  isParameter:true,  descr:"Number_of_clarifiers_that_will_be_used",                                    },
+{id:"MLSS_X_TSS", value:3000,  unit:"g/m3",        isParameter:true,  descr:"Mixed_liquor_suspended_solids",                                             },
+{id:"DO",         value:2.0,   unit:"g/m3_as_O2",  isParameter:true,  descr:"DO_in_aeration_basin_(generally:_1.5_to_2)_(notation_in_book_is_'C_L')",    },
+{id:"clarifiers", value:3,     unit:"clarifiers",  isParameter:true,  descr:"Number_of_clarifiers_that_will_be_used",                                    },
 
 //nitrification dp
-{id:"sBODe",            value:3,     unit:"g/m3_as_O2",  isParameter:true,  descr:"Effluent_design_Soluble_BOD",                                               },
-{id:"NH4_eff",          value:0.50,  unit:"g/m3_as_N",   isParameter:true,  descr:"Effluent_design_NH4",                                                       },
+{id:"sBODe",   value:3,     unit:"g/m3_as_O2",  isParameter:true,  descr:"Effluent_design_Soluble_BOD",                                               },
+{id:"NH4_eff", value:0.50,  unit:"g/m3_as_N",   isParameter:true,  descr:"Effluent_design_NH4",                                                       },
 
 //N removal dp
-{id:"NO3_eff", value:6,   unit:"g/m3_as_N", isParameter:true, descr:"Effluent_design_NO3_concentration", },
+{id:"NO3_eff", value:6, unit:"g/m3_as_N", isParameter:true, descr:"Effluent_design_NO3_concentration", },
 
 //chem P dp
 {id:"PO4_eff", value:0.5, unit:"g/m3_as_P", isParameter:true, descr:"Effluent_design_PO4(3-)._It_is_only_imposed_in_case_we_have_Chemical_P_removal._Otherwise,_it_will_be_calculated", },
