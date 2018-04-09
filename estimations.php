@@ -24,12 +24,10 @@
   </script>
 </head><body onload="calculate()">
 <?php include'navbar.php'?>
-
 <div id=root>
-<h1>Estimations for inputs the user may not know</h1>
+<h1>Estimations for inputs the user might not know</h1>
 <p><b>
-  Default values from BioWin 5.2
-  <br>
+  Default values from BioWin 5.2 <br>
   <a href=see.php?file=estimations.js>See equations</a>
 </b></p><hr>
 

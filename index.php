@@ -20,7 +20,7 @@
       <li>
         Single plant model
         <ul>
-          <li><a href="elementary.php"                          >Single plant model (Metcalf &amp; Eddy equations)</a>
+          <li><a href="elementary.php"                          >Single plant model (<em>Metcalf &amp; Eddy equations</em>)</a>
           <li><a href="technologies.php"                        >All technologies</a>
           <li><a href="inputs.php"                              >All inputs</a>
           <li><a href="outputs.php"                             >All outputs</a>
@@ -95,19 +95,19 @@
         <a href="implementations/ekama_sizing.php">Reactor sizing (optim. cost) [G. Ekama]</a>
       <li>
         <a target=_blank href="https://docs.google.com/spreadsheets/d/1DiBhDCjxGyw2-umImIfHiZOzY5LJF_psGiD4fEf7Wgk/edit?usp=sharing">
-          shared google drive document "ecoinvent wastewater treatment project"
+          Google drive "ecoinvent wastewater treatment project" document
         </a>
       </li>
       <li>Github: <a href=//github.com/holalluis/ecoinvent>github.com/holalluis/ecoinvent</a>
-      <li>Guillaume's github (ecoSpold):
+      <li>Pascal's integration with the tool:
         <ul>
           <li>
-            <a href="//github.com/ecoinvent/wastewater_treatment_tool">
-              github.com/ecoinvent/wastewater_treatment_tool
+            <a href="https://github.com/PascalLesage/wastewater_treatment_tool">
+              wastewater_treatment_tool
             </a>
           <li>
             <a href="https://github.com/ecoinvent/wastewater_treatment_tool/blob/master/Generating%20ecoSPold%20files%20for%20WWT.ipynb">
-              August notebook (from P. Lesage)
+              august notebook
             </a>
           </li>
         </ul>

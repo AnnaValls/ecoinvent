@@ -1,5 +1,5 @@
-/** 
-  * Estimations for inputs that could not be known
+/**
+  * Estimations for inputs that the user might not know
   * Default values from BioWin 5.2
 */
 
@@ -17,7 +17,7 @@ function estimations(COD,TKN,TP){
   var X_BH  = X_B + X_H;
 
   //pack variables inside an object
-  var variables={ CS_U, S_VFA, S_F, C_B, X_B, X_H, X_U, X_COD, CS_B, X_BH };
+  var variables = { CS_U, S_VFA, S_F, C_B, X_B, X_H, X_U, X_COD, CS_B, X_BH };
 
   //outputs (return value)
   var sCOD       = CS_U + S_VFA + S_F + C_B;

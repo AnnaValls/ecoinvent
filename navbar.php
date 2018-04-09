@@ -1,10 +1,11 @@
 <!--title-->
 <div
   id=navbar
-  onclick="window.location='index.php'"
 	title="Home page">
 
-	<div>
+	<div
+    style="cursor:pointer"
+    onclick="window.location='index.php'">
     <b>Ecoinvent</b> wastewater tool
   </div>
 
@@ -24,7 +25,6 @@
 			padding:0.5em;
 			font-size:18px;
 			font-family:Arial;
-			cursor:pointer;
       display:flex;
       justify-content:space-between;
 		}

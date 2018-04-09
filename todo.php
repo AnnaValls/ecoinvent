@@ -24,40 +24,53 @@
       <td>Requested by Pascal, TO DO
       <td>April 6th 2018
     <tr>
-      <td descr>  Problem with TP, PO4 (inputs) and aP, PO4_eff (calculated) when no P removal: PO4_eff can get higher than PO4 if TP increases
-      <td status> help needed from L. Corominas
+      <td>  Problem with TP, PO4 (inputs) and aP, PO4_eff (calculated) when no P removal: PO4_eff can get higher than PO4 if TP increases
+      <td> help needed from L. Corominas
       <td>April 6th 2018
     <tr>
-      <td descr>Rename NO<sub>x</sub> to NO<sub>3</sub> to match ecoinvent id (there is no NO<sub>2</sub>)
-      <td status>TO DO
+      <td>Rename NO<sub>x</sub> to NO<sub>3</sub> to match ecoinvent id (there is no NO<sub>2</sub>)
+      <td>TO DO
       <td>April 6th 2018
     <tr>
-      <td descr>
+      <td>
         Primary sludge and FeCl3 sludge
         <ul>
           <li>Primary settler sludge composition is unknown
           <li>Additional sludge produced by Chemical P removal composition is unknown
         </ul>
-      <td status>George to provide help on Apr 10th call
+      <td>George to provide help<br>on Apr 10th call (15:00 PM Spain time)
       <td>April 5th 2018
     <tr>
-      <td descr>Coarse solids removal
+      <td>Coarse solids removal
         <br>
         (Pascal knows how to calculate this, Peter may have data)
         <br>
         It is a formula that depends only on the flowrate (Q)
-      <td status> Lluís B. needs guidance
+      <td> Lluís B. needs guidance
       <td>April 5th 2018
     </tr>
 
-  <!--multiple plant-->
-    <tr><td header colspan=3>Multiple plant model
+  <!--multiple plant--><tr><td header colspan=3>Multiple plant model
     <tr>
-      <td descr>Marginal contribution expressed as /m<sup>3</sup> of activity influent
-      <td status>TO DO
+      <td>industrial factors [brewery, pig_manure, tanning_ww, thermomechanical_pulp_and_paper_ww]
+        <ul>
+          <li>CS_U [0.05, 0.08, 0.35, 0.30]
+          <li>CS_B [0.80, 0.20, 0.35, 0.10]
+          <li>X_B  [0.10, 0.65, 0.10, 0.15]
+          <li>X_U  [0.05, 0.15, 0.20, 0.45]
+        </ul>
+        see <a href=see.php?file=estimations.js>equations here</a>
+      <td>TO DO
+        <br>(need to discuss user interface
+        <br>with Yves and Lluís C.)
+      <td>April 9th 2018
+
+    <tr>
+      <td>Marginal contribution expressed as /m<sup>3</sup> of activity influent
+      <td>TO DO
       <td>April 4th 2018
     <tr>
-      <td descr>Country data for averaging (a list of all inputs needed for each region can be found <a href="reference_data.php">here</a>)
+      <td>Country data for averaging (a list of all inputs needed for each region can be found <a href="reference_data.php">here</a>)
         <br>Peter found typical data for:
         <ul>
           <li>Brazil
@@ -68,10 +81,10 @@
           <li>Colombia
           <li>America
         </ul>
-      <td status>task assigned to Peter
+      <td>task assigned to Peter
       <td>April 4th 2018
     <tr>
-      <td descr>Ecospold generation is under development <a href="ecospold/wastewater_treatment_tool/">here</a>
+      <td>Ecospold generation is under development <a href="ecospold/wastewater_treatment_tool/">here</a>
         <ul ecospold>
           <li>Develop technology mix "binary keyword 7 bits"
           <li>Differentiate PV from Q, relate to untreated fraction
@@ -85,38 +98,38 @@
             </ul>
           </li>
         </ul>
-      <td status>help provided by Pascal, under development
+      <td>help provided by Pascal, under development
       <td>April 4th 2018
     <tr>
-      <td descr>Show off data:
+      <td>Show off data:
         <br>
         The user will be able to see what's happening in terms of equations
         <br>
         They will be able to acces all the wwtp data
-      <td status>not sure how to proceed, need concrete instructions
+      <td>not sure how to proceed, need concrete instructions
       <td>April 4th 2018
     <tr>
-      <td descr>
+      <td>
         Documentation
         <ul>
           <li>overall approach (?)
           <li>how-to integrated in the tool (?)
           <li>ecospold documentation (?)
         </ul>
-      <td status>not sure how to proceed, need concrete instructions
+      <td>not sure how to proceed, need concrete instructions
       <td>April 4th 2018
 
   <!--gui related-->
     <tr><td header colspan=3>User interface related
     <tr>
-      <td descr>change M&amp;E to M&amp;EA
-      <td status>done
+      <td>change M&amp;E to M&amp;EA
+      <td>done
       <td>April 4th 2018
   <!--server related-->
     <tr><td header colspan=3>Server related
     <tr>
-      <td descr>Install python3 module "pandas"
-      <td status>Waiting for Oliver
+      <td>Install python3 module "pandas"
+      <td>done
       <td>April 4th 2018
   <!--new item-->
     <tr><td header colspan=3 style=background:lightgreen>NEW ITEM
