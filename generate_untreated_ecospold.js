@@ -38,12 +38,22 @@ function generate_untreated_ecospold() {
 
   //add ecoinvent id (if found)
   data_set.WW_properties.forEach(el=>{
-    var ecoinvent_id = Ecoinvent_ids[el.id];
+    var ecoinvent_id = Ecoinvent_ids.inputs[el.id];
     el.ecoinvent_id  = ecoinvent_id;
+
+    if(!ecoinvent_id){
+      console.warn("ecoinvent id not found for "+el.id)
+    }else
+      console.log(el.id+"->found (ww composition)");
   });
   data_set.CSO_amounts.forEach(el=>{
-    var ecoinvent_id = Ecoinvent_ids[el.id.replace('_discharged','').replace('elem_','')];
+    var ecoinvent_id = Ecoinvent_ids.water_emissions[el.id.replace('_discharged','').replace('elem_','')];
     el.ecoinvent_id  = ecoinvent_id;
+
+    if(!ecoinvent_id){
+      console.warn("ecoinvent id not found for "+el.id)
+    }else
+      console.log(el.id+"->found (cso discharged)");
   });
 
   //stringify data_set
