@@ -194,7 +194,7 @@
       position:absolute;
       background:#eee;
       list-style-type:none;
-      padding:5px;
+      padding:0 5px 5px 5px;
       box-shadow: 0 1px 2px rgba(0,0,0,.1);
     }
     #top_menu > div > ul[id] button{
