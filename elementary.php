@@ -511,16 +511,18 @@
         }
       </style>
 
+      <script src="generate_untreated_ecospold.js"></script>
+      <script src="generate_treated_ecospold.js"></script>
+
       <!--untreated ecospold-->
       <button onclick="generate_untreated_ecospold()">
         Generate <b>"untreated wastewater"</b> ecospold file
       </button>
-      <script src="generate_untreated_ecospold.js"></script>
 
       <!--treated ecospold-->
-      <button onclick="">
+      <button onclick="generate_treated_ecospold()">
         Generate <b>"treated wastewater"</b> ecospold file
-        (under development)
+        <issue class=under_dev></issue>
       </button>
     </div>
   </div>
