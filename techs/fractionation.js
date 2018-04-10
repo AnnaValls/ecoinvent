@@ -59,7 +59,11 @@ function fractionation(BOD,sBOD,COD,bCOD,sCOD,rbCOD,TSS,VSS,TKN,NH4,NH4_eff,TP,P
   //TSS and VSS
   var VSS_COD = VSS     ==0 ? 0 : pCOD/VSS;       //2.8 g_pCOD/g_VSS
   var nbVSS   = VSS_COD ==0 ? 0 : nbpCOD/VSS_COD; // 20 g/m3
+  var bVSS    = Math.max(0, VSS - nbVSS);         // 40 g/m3
   var iTSS    = Math.max(0, TSS - VSS);           // 10 g/m3
+
+  //bpCOD/bVSS ratio
+  var bpCOD_bVSS = bVSS==0 ? 0 : bpCOD/bVSS;      //2.8 g/m3
 
   //2. TKN fractions
   var ON      = Math.max(0,   TKN-NH4);               //g/m3
@@ -94,11 +98,12 @@ function fractionation(BOD,sBOD,COD,bCOD,sCOD,rbCOD,TSS,VSS,TKN,NH4,NH4_eff,TP,P
   //return results object
   return {
     //ratios
-    bCOD_BOD_ratio: {value:bCOD_BOD_ratio, unit:"g_bCOD/g_BOD", descr:"bCOD/BOD_ratio"},
-    COD_BOD_ratio:  {value:COD_BOD_ratio,  unit:"g_COD/g_BOD",  descr:"COD/BOD_ratio"},
-    fSus:           {value:fSus,           unit:"%",            descr:"Unbiodegradable & soluble fraction (USO/COD)"},
-    fSup:           {value:fSup,           unit:"%",            descr:"Unbiodegradable & particulate fraction (UPO/COD)"},
-    VSS_COD:        {value:VSS_COD,        unit:"g_pCOD/g_VSS", descr:"pCOD/VSS ratio"},
+    bCOD_BOD_ratio: {value:bCOD_BOD_ratio, unit:"g_bCOD/g_BOD",   descr:"bCOD/BOD_ratio"},
+    COD_BOD_ratio:  {value:COD_BOD_ratio,  unit:"g_COD/g_BOD",    descr:"COD/BOD_ratio"},
+    fSus:           {value:fSus,           unit:"%",              descr:"Unbiodegradable & soluble fraction (USO/COD)"},
+    fSup:           {value:fSup,           unit:"%",              descr:"Unbiodegradable & particulate fraction (UPO/COD)"},
+    VSS_COD:        {value:VSS_COD,        unit:"g_pCOD/g_VSS",   descr:"pCOD/VSS ratio"},
+    bpCOD_bVSS:     {value:bpCOD_bVSS,     unit:"g_bpCOD/g_bVSS", descr:"bpCOD/bVSS ratio"},
 
     //COD fractions lumped (s/p/b/nb)
     COD:            {value:COD,            unit:"g/m3_as_O2",   descr:"Total_COD"},
@@ -124,6 +129,7 @@ function fractionation(BOD,sBOD,COD,bCOD,sCOD,rbCOD,TSS,VSS,TKN,NH4,NH4_eff,TP,P
     VSS:            {value:VSS,            unit:"g/m3",         descr:"VSS"},
     iTSS:           {value:iTSS,           unit:"g/m3",         descr:"Inert TSS"},
     nbVSS:          {value:nbVSS,          unit:"g/m3",         descr:"Nonbiodegradable_VSS"},
+    bVSS:           {value:bVSS,           unit:"g/m3",         descr:"Biodegradable_VSS"},
 
     //Nitrogen fractions
     TKN:            {value:TKN,            unit:"g/m3_as_N",    descr:"Total Kjedahl N"},

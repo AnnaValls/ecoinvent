@@ -30,6 +30,7 @@
 <script src="techs/chem_P_removal.js"></script>
 <script src="techs/metals_doka.js"></script>
 <script src="techs/cso_removal.js"></script>
+<script src="techs/sludge_composition.js"></script>
 
 <!--data model-->
 <script src="dataModel/inputs.js"></script>

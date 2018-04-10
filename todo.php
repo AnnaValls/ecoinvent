@@ -20,27 +20,21 @@
     <tr><td header colspan=3>Single plant model
     <tr>
       <td>
+        Why we don't consider NO<sub>3</sub> in the influent ("NO<sub>x</sub>" inside the equations) as an input?
+        I think it is possible that the wastewater contains that.
+      <td>Help from experts needed
+        <br>(Pascal and Lluís B. doubt)
+      <td>April 11th 2018
+    <tr>
+      <td>
         Electricity: please use the name "electricity, low voltage", and give the results in kWh/m3 treated activity water <br>
         FeCl3: please use the name "iron (III) chloride", and provide the results in kg active substance (actual FeCl3)/m3 treated activity water.
       <td>Requested by Pascal, TO DO
       <td>April 6th 2018
     <tr>
-      <td>  Problem with TP, PO4 (inputs) and aP, PO4_eff (calculated) when no P removal: PO4_eff can get higher than PO4 if TP increases
-      <td> help needed from L. Corominas
-      <td>April 6th 2018
-    <tr>
-      <td>Rename NO<sub>x</sub> to NO<sub>3</sub> to match ecoinvent id (there is no NO<sub>2</sub>)
+      <td>Rename NO<sub>x</sub> to NO<sub>3</sub> to match ecoinvent id (we've assumed that there is no NO<sub>2</sub>)
       <td>TO DO
       <td>April 6th 2018
-    <tr>
-      <td>
-        Primary sludge and FeCl3 sludge
-        <ul>
-          <li>Primary settler sludge composition is unknown
-          <li>Additional sludge produced by Chemical P removal composition is unknown
-        </ul>
-      <td>George to provide help<br>on Apr 10th call (15:00 PM Spain time)
-      <td>April 5th 2018
     <tr>
       <td>Coarse solids removal
         <br>
@@ -51,6 +45,19 @@
       <td>April 5th 2018
     </tr>
   <!--multiple plant--><tr><td header colspan=3>Multiple plant model
+    <tr>
+      <td>Transfer Peter's data to the tool
+        <ul>
+          <li>Brazil
+          <li>Switzerland
+          <li>India
+          <li>South Africa
+          <li>Peru
+          <li>Colombia
+          <li>America
+        </ul>
+      <td>not started
+      <td>April 10th 2018
     <tr>
       <td>industrial factors [brewery, pig_manure, tanning_ww, thermomechanical_pulp_and_paper_ww]
         <ul>
@@ -69,22 +76,8 @@
       <td>TO DO
       <td>April 4th 2018
     <tr>
-      <td>Country data for averaging (a list of all inputs needed for each region can be found <a href="reference_data.php">here</a>)
-        <br>Peter found typical data for:
-        <ul>
-          <li>Brazil
-          <li>Switzerland
-          <li>India
-          <li>South Africa
-          <li>Peru
-          <li>Colombia
-          <li>America
-        </ul>
-      <td>task assigned to Peter
-      <td>April 4th 2018
-    <tr>
       <td>Ecospold generation is under development <a href="ecospold/wastewater_treatment_tool/">here</a>
-        <ul ecospold>
+        <ul>
           <li>Develop technology mix "binary keyword 7 bits" (under development)
           <li>Differentiate PV from Q, relate to untreated fraction
           <li>The same python dictionary will generate both ecospold files

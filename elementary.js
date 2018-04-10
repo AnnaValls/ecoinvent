@@ -13,7 +13,6 @@ function compute_elementary_flows(input_set){
       var is_Des_active = is.is_Des_active;
       var is_BiP_active = is.is_BiP_active;
       var is_ChP_active = is.is_ChP_active;
-      var is_Met_active = is.is_Met_active;
 
     //unpack ww composition
       var Q          = is.Q;
@@ -122,9 +121,10 @@ function compute_elementary_flows(input_set){
     var OP             = Result.Fra.OP.value;     //g/m3
     var bCOD_BOD_ratio = Result.Fra.bCOD_BOD_ratio.value; //g/g
     var VSS_COD        = Result.Fra.VSS_COD.value; //g_pCOD/g_VSS
+    var bpCOD_bVSS     = Result.Fra.bpCOD_bVSS.value; //g_bpCOD/g_bVSS
 
     //apply primary settler    ----pCOD---- ------removal-rates-----
-    Result.Pri=primary_settler(Q,bpCOD,nbpCOD,iTSS,ON,OP,VSS_COD,removal_bpCOD,removal_nbpCOD,removal_iTSS,removal_ON,removal_OP);
+    Result.Pri=primary_settler(Q,bpCOD,nbpCOD,iTSS,ON,OP,VSS_COD,bpCOD_bVSS, removal_bpCOD,removal_nbpCOD,removal_iTSS,removal_ON,removal_OP);
     addResults('Pri',Result.Pri);
 
     //get removed amounts (g/m3)
@@ -152,8 +152,8 @@ function compute_elementary_flows(input_set){
     Result.Fra=fractionation(BOD,sBOD,COD,bCOD,sCOD,rbCOD,TSS,VSS,TKN,NH4,NH4_eff,TP,PO4)
   }else{
     //call it just to see "0 g/m3 removed"
-    //         primary_settler(Q,bpCOD,nbpCOD,iTSS,ON,OP,VSS_COD,removal_bpCOD,removal_nbpCOD,removal_iTSS,removal_ON,removal_OP);
-    Result.Pri=primary_settler(0,    0,     0,   0, 0, 0,      0,            0,             0,           0,         0,         0);
+    //         primary_settler(Q,bpCOD,nbpCOD,iTSS,ON,OP,VSS_COD,bpCOD_bVSS,removal_bpCOD,removal_nbpCOD,removal_iTSS,removal_ON,removal_OP);
+    Result.Pri=primary_settler(0,    0,     0,   0, 0, 0,      0,         0,            0,             0,           0,         0,         0);
     addResults('Pri',Result.Pri);
   }
 
@@ -240,48 +240,46 @@ function compute_elementary_flows(input_set){
   //--END TECHNOLOGIES FROM METCALF AND EDDY----------------------------------------------
 
   /*6. Metals (from G. Doka excel tool)*/
-  if(is_Met_active){
-    (function(){
-      //unpack metals from input set
-      var Ag = is.Ag;
-      var Al = is.Al;
-      var As = is.As;
-      var B =  is.B;
-      var Ba = is.Ba;
-      var Be = is.Be;
-      var Br = is.Br;
-      var Ca = is.Ca;
-      var Cd = is.Cd;
-      var Cl = is.Cl;
-      var Co = is.Co;
-      var Cr = is.Cr;
-      var Cu = is.Cu;
-      var F  = is.F;
-      var Fe = is.Fe;
-      var Hg = is.Hg;
-      var I  = is.I;
-      var K  = is.K;
-      var Mg = is.Mg;
-      var Mn = is.Mn;
-      var Mo = is.Mo;
-      var Na = is.Na;
-      var Ni = is.Ni;
-      var Pb = is.Pb;
-      var Sb = is.Sb;
-      var Sc = is.Sc;
-      var Se = is.Se;
-      var Si = is.Si;
-      var Sn = is.Sn;
-      var Sr = is.Sr;
-      var Ti = is.Ti;
-      var Tl = is.Tl;
-      var V  = is.V;
-      var W  = is.W;
-      var Zn = is.Zn;
-      Result.Met=metals_doka(Ag,Al,As,B,Ba,Be,Br,Ca,Cd,Cl,Co,Cr,Cu,F,Fe,Hg,I,K,Mg,Mn,Mo,Na,Ni,Pb,Sb,Sc,Se,Si,Sn,Sr,Ti,Tl,V,W,Zn);
-      addResults('Met',Result.Met);
-    })();
-  }
+  (function(){
+    //unpack metals from input set
+    var Ag = is.Ag;
+    var Al = is.Al;
+    var As = is.As;
+    var B =  is.B;
+    var Ba = is.Ba;
+    var Be = is.Be;
+    var Br = is.Br;
+    var Ca = is.Ca;
+    var Cd = is.Cd;
+    var Cl = is.Cl;
+    var Co = is.Co;
+    var Cr = is.Cr;
+    var Cu = is.Cu;
+    var F  = is.F;
+    var Fe = is.Fe;
+    var Hg = is.Hg;
+    var I  = is.I;
+    var K  = is.K;
+    var Mg = is.Mg;
+    var Mn = is.Mn;
+    var Mo = is.Mo;
+    var Na = is.Na;
+    var Ni = is.Ni;
+    var Pb = is.Pb;
+    var Sb = is.Sb;
+    var Sc = is.Sc;
+    var Se = is.Se;
+    var Si = is.Si;
+    var Sn = is.Sn;
+    var Sr = is.Sr;
+    var Ti = is.Ti;
+    var Tl = is.Tl;
+    var V  = is.V;
+    var W  = is.W;
+    var Zn = is.Zn;
+    Result.Met=metals_doka(Ag,Al,As,B,Ba,Be,Br,Ca,Cd,Cl,Co,Cr,Cu,F,Fe,Hg,I,K,Mg,Mn,Mo,Na,Ni,Pb,Sb,Sc,Se,Si,Sn,Sr,Ti,Tl,V,W,Zn);
+    addResults('Met',Result.Met);
+  })();
 
   /* "other" additional variables*/
 
@@ -308,6 +306,7 @@ function compute_elementary_flows(input_set){
     var tau                       = select_value('tau',                       ['Des','Nit','BOD']);
     var MLVSS                     = select_value('MLVSS',                     ['Nit','BOD']);
     var TSS_removed_kgd           = select_value('TSS_removed_kgd',           ['Pri']);
+    var VSS_removed_kgd           = select_value('VSS_removed_kgd',           ['Pri']);
     var P_X_bio                   = select_value('P_X_bio',                   ['BiP','Nit','BOD']);
     var P_X_VSS                   = select_value('P_X_VSS',                   ['BiP','Nit','BOD']);
     var P_X_TSS                   = select_value('P_X_TSS',                   ['BiP','Nit','BOD']);
@@ -474,44 +473,35 @@ function compute_elementary_flows(input_set){
   //volume of secondary settlers/clarifiers
   var V_settler = h_settler * Result.SST.Area.value;
 
-  /*Sludge elementary composition [C,H,O,N,S,P] */
-  //TODO create a new technology (not activable by the user)
-  var Sludge={
-    /*
-      Dear  Lluis,
-      If the COD/VSS (f_CV=1.42), C/VSS (f_C=0.51), N/VSS (f_N=0.12) and P/VSS (f_P=0.015) are known
-      then the O/VSS (F_O) And H/VSS (f_H) can be calcylated with che following equations:
+  //sludge composition call module
+  var VSS_removed      = select_value('VSS_removed',      ['Pri']); //g/m3
+  var nbVSS_removed    = select_value('nbVSS_removed',    ['Pri']); //g/m3
+  var bVSS_removed     = select_value('bVSS_removed',     ['Pri']); //g/m3
+  var VSS_COD          = select_value('VSS_COD',          ['Fra']); //g/m3
+  var bpCOD_bVSS       = select_value('bpCOD_bVSS',       ['Fra']); //g/m3
+  var Excess_sludge_kg = select_value('Excess_sludge_kg', ['ChP']); //kg iSS/d
+  var Fe_P_mole_ratio  = select_value('Fe_P_mole_ratio',  ['ChP']); //moles Fe / moles P
 
-      f_O = 16/18 ( 1- f_CV/8 - 8/12 f_C  – 17/14 f_N – 26/31 f_P)
-      f_H = 2/18  ( 1+ f_CV  - 44/12 f_C +  10/14 f_N – 71/31 f_P)
+  //call sludge composition module
+  var sludge_primary       = sludge_composition.primary(VSS_removed, nbVSS_removed, bVSS_removed, VSS_COD, bpCOD_bVSS);
+  var sludge_secondary     = sludge_composition.secondary(P_X_VSS);
+  var sludge_precipitation = sludge_composition.precipitation(Excess_sludge_kg, Fe_P_mole_ratio);
 
-      So for f_CV = 1.42; f_C = 0.51 , f_N=0.12 and f_P = 0.015,
-      f_O=0.288 and f_H=0.067.
-
-      We can include S in this but there is no need. There are no S
-      transformations taking place in he AS system anyway.
-      The elements from Cl down in the table below are inorganics and so should
-      not be expressed with respect to the VSS (as in the table).
-      They should be calculated as % of the ISS (TSS-VSS) because the make up
-      the ash content of the sludge.
-      George
-    */
-    f_CV: 1.42,  //g_COD/g_VSS
-    f_C:  0.51,  //g_C  /g_VSS
-    f_N:  0.12,  //g_N  /g_VSS
-    f_P:  0.015, //g_P  /g_VSS
-    f_O:function(){return 16/18*(1 - this.f_CV/8 -  8/12*this.f_C - 17/14*this.f_N - 26/31*this.f_P)}, //g_O/g_VSS
-    f_H:function(){return  2/18*(1 + this.f_CV   - 44/12*this.f_C + 10/14*this.f_N - 71/31*this.f_P)}, //g_H/g_VSS
-  };
-
-  var sludge_C = Sludge.f_C*P_X_VSS;   //kg_C/d
-  var sludge_H = Sludge.f_H()*P_X_VSS; //kg_H/d
-  var sludge_O = Sludge.f_O()*P_X_VSS; //kg_O/d
-  var sludge_N = Sludge.f_N*P_X_VSS;   //kg_N/d
-  var sludge_P = Sludge.f_P*P_X_VSS;   //kg_P/d
-
-  //additional sludge from chemical P removal
-  var Excess_sludge_kg = select_value('Excess_sludge_kg', ['ChP']);
+  //unpack sludge composition values
+  var sludge_primary_C_content        = sludge_primary.C_content/1000*Q; //kg C/d
+  var sludge_primary_H_content        = sludge_primary.H_content/1000*Q; //kg H/d
+  var sludge_primary_O_content        = sludge_primary.O_content/1000*Q; //kg O/d
+  var sludge_primary_N_content        = sludge_primary.N_content/1000*Q; //kg N/d
+  var sludge_primary_P_content        = sludge_primary.P_content/1000*Q; //kg P/d
+  var sludge_secondary_C_content      = sludge_secondary.C_content;      //kg C/d
+  var sludge_secondary_H_content      = sludge_secondary.H_content;      //kg H/d
+  var sludge_secondary_O_content      = sludge_secondary.O_content;      //kg O/d
+  var sludge_secondary_N_content      = sludge_secondary.N_content;      //kg N/d
+  var sludge_secondary_P_content      = sludge_secondary.P_content;      //kg P/d
+  var sludge_precipitation_Fe_content = sludge_precipitation.Fe_content; //kg Fe/d
+  var sludge_precipitation_H_content  = sludge_precipitation.H_content;  //kg H/d
+  var sludge_precipitation_P_content  = sludge_precipitation.P_content;  //kg P/d
+  var sludge_precipitation_O_content  = sludge_precipitation.O_content;  //kg O/d
 
   //===============================================================================================
   //OUTPUTS effluent
@@ -690,8 +680,6 @@ function compute_elementary_flows(input_set){
 
     //Outputs METALS
     (function(){
-    })();
-    if(is_Met_active){
       Outputs.Ag.influent=Q*is.Ag; Outputs.Ag.effluent.water=Q*Result.Met.Ag_water.value; Outputs.Ag.effluent.sludge=Q*Result.Met.Ag_sludge.value;
       Outputs.Al.influent=Q*is.Al; Outputs.Al.effluent.water=Q*Result.Met.Al_water.value; Outputs.Al.effluent.sludge=Q*Result.Met.Al_sludge.value;
       Outputs.As.influent=Q*is.As; Outputs.As.effluent.water=Q*Result.Met.As_water.value; Outputs.As.effluent.sludge=Q*Result.Met.As_sludge.value;
@@ -727,48 +715,51 @@ function compute_elementary_flows(input_set){
       Outputs.K.influent =Q*is.K;  Outputs.K.effluent.water =Q*Result.Met.K_water.value;  Outputs.K.effluent.sludge =Q*Result.Met.K_sludge.value;
       Outputs.V.influent =Q*is.V;  Outputs.V.effluent.water =Q*Result.Met.V_water.value;  Outputs.V.effluent.sludge =Q*Result.Met.V_sludge.value;
       Outputs.W.influent =Q*is.W;  Outputs.W.effluent.water =Q*Result.Met.W_water.value;  Outputs.W.effluent.sludge =Q*Result.Met.W_sludge.value;
-    }
+    })();
   })();
 
   Result.summary={
     'SRT':                        {value:SRT,                        unit:"d",               descr:getInputById('SRT').descr},
     'tau':                        {value:tau,                        unit:"h",               descr:""},
     'MLVSS':                      {value:MLVSS,                      unit:"g/m3",            descr:""},
-    //'BOD_loading':                {value:BOD_loading,                unit:"kg/m3·d",         descr:""},
 
-    //sludge
-    'TSS_removed_kgd': {value:TSS_removed_kgd,  unit:"kg_TSS/d", descr:"Primary_settler_sludge_produced_per_day"},
-    'P_X_TSS':  {value:P_X_TSS,  unit:"kg_TSS/d", descr:"Total_sludge_produced_per_day"},
-    'P_X_VSS':  {value:P_X_VSS,  unit:"kg_VSS/d", descr:"Volatile suspended solids produced per day"},
+    //sludge production and composition
+    'TSS_removed_kgd':  {value:TSS_removed_kgd,  unit:"kg_TSS/d", descr:"Primary_settler_sludge_produced_per_day"},
+    'VSS_removed_kgd':  {value:VSS_removed_kgd,  unit:"kg_VSS/d", descr:"Primary_settler_VSS_produced_per_day"},
+    'P_X_TSS':          {value:P_X_TSS,          unit:"kg_TSS/d", descr:"Total_sludge_produced_per_day"},
+    'P_X_VSS':          {value:P_X_VSS,          unit:"kg_VSS/d", descr:"Volatile suspended solids produced per day"},
+    'Excess_sludge_kg': {value:Excess_sludge_kg, unit:"kg_iSS/d", descr:"from Chemical P removal"},
+    sludge_primary_C_content        : {value:sludge_primary_C_content       , unit:"kg_C/d",  descr:""},
+    sludge_primary_H_content        : {value:sludge_primary_H_content       , unit:"kg_H/d",  descr:""},
+    sludge_primary_O_content        : {value:sludge_primary_O_content       , unit:"kg_O/d",  descr:""},
+    sludge_primary_N_content        : {value:sludge_primary_N_content       , unit:"kg_N/d",  descr:""},
+    sludge_primary_P_content        : {value:sludge_primary_P_content       , unit:"kg_P/d",  descr:""},
+    sludge_secondary_C_content      : {value:sludge_secondary_C_content     , unit:"kg_C/d",  descr:""},
+    sludge_secondary_H_content      : {value:sludge_secondary_H_content     , unit:"kg_H/d",  descr:""},
+    sludge_secondary_O_content      : {value:sludge_secondary_O_content     , unit:"kg_O/d",  descr:""},
+    sludge_secondary_N_content      : {value:sludge_secondary_N_content     , unit:"kg_N/d",  descr:""},
+    sludge_secondary_P_content      : {value:sludge_secondary_P_content     , unit:"kg_P/d",  descr:""},
+    sludge_precipitation_Fe_content : {value:sludge_precipitation_Fe_content, unit:"kg_Fe/d", descr:""},
+    sludge_precipitation_H_content  : {value:sludge_precipitation_H_content , unit:"kg_H/d",  descr:""},
+    sludge_precipitation_P_content  : {value:sludge_precipitation_P_content , unit:"kg_P/d",  descr:""},
+    sludge_precipitation_O_content  : {value:sludge_precipitation_O_content , unit:"kg_O/d",  descr:""},
 
-    'sludge_C': {value:sludge_C, unit:"kg_C/d",   descr:""},
-    'sludge_H': {value:sludge_H, unit:"kg_H/d",   descr:""},
-    'sludge_O': {value:sludge_O, unit:"kg_O/d",   descr:""},
-    'sludge_N': {value:sludge_N, unit:"kg_N/d",   descr:""},
-    'sludge_P': {value:sludge_P, unit:"kg_P/d",   descr:""},
-
-    'Excess_sludge_kg': {value:Excess_sludge_kg, unit:"kg/d",   descr:"from Chemical P removal"},
 
     'Y_obs_TSS':                  {value:Y_obs_TSS,                  unit:"g_TSS/g_BOD",     descr:""},
     'Y_obs_VSS':                  {value:Y_obs_VSS,                  unit:"g_VSS/g_BOD",     descr:""},
-
     'air_flowrate':               {value:air_flowrate,               unit:"m3/min",          descr:""},
     'OTRf':                       {value:OTRf,                       unit:"kg_O2/h",         descr:""},
     'SOTR':                       {value:SOTR,                       unit:"kg_O2/h",         descr:""},
-
     'SDNR':                       {value:SDNR,                       unit:"g/g·d",           descr:""},
     'RAS':                        {value:RAS,                        unit:"&empty;",         descr:""},
     'clarifiers':                 {value:clarifiers,                 unit:"clarifiers",      descr:""},
     'clarifier_diameter':         {value:clarifier_diameter,         unit:"m",               descr:""},
-
     'V_aer':                      {value:V_aer,                      unit:"m3",              descr:""},
     'V_nox':                      {value:V_nox,                      unit:"m3",              descr:""},
     'V_ana':                      {value:V_ana,                      unit:"m3",              descr:""},
     'V_total':                    {value:V_total,                    unit:"m3",              descr:"Total_reactor_volume_(aerobic+anoxic+anaerobic)"},
-
     'alkalinity_added':           Result.Nit.alkalinity_added,
     'Mass_of_alkalinity_needed':  Result.Des.Mass_of_alkalinity_needed,
-
     'FeCl3_volume':               {value:FeCl3_volume,               unit:"L/d",             descr:""},
     'storage_req_15_d':           {value:storage_req_15_d,           unit:"m3",              descr:""},
     'Dewatering_polymer':         {value:Dewatering_polymer,         unit:"kg/d",            descr:""},
@@ -777,18 +768,19 @@ function compute_elementary_flows(input_set){
     'concrete_reactor':           {value:Concrete.reactor(V_total),             unit:"m3 concrete",    descr:""},
     'concrete_settler':           {value:Concrete.settler(V_settler,h_settler), unit:"m3 concrete",    descr:""},
 
-    'aeration_power':             {value:aeration_power,             unit:"kW",              descr:"Power needed for aeration (=OTRf/SAE)"},
-    'mixing_power':               {value:mixing_power,               unit:"kW",              descr:"Power needed for anoxic mixing"},
-    'pumping_power_influent':     {value:pumping_power_influent,     unit:"kW",              descr:"Power needed for pumping influent"},
-    'pumping_power_external':     {value:pumping_power_external,     unit:"kW",              descr:"Power needed for pumping (external recirculation)"},
-    'pumping_power_internal':     {value:pumping_power_internal,     unit:"kW",              descr:"Power needed for pumping (internal recirculation)"},
-    'pumping_power_wastage':      {value:pumping_power_wastage,      unit:"kW",              descr:"Power needed for pumping (wastage recirculation)"},
-    'pumping_power':              {value:pumping_power,              unit:"kW",              descr:"Power needed for pumping (ext+int+was)"},
-    'dewatering_power':           {value:dewatering_power,           unit:"kW",              descr:"Power needed for dewatering"},
-    'other_power':                {value:other_power,                unit:"kW",              descr:"Power needed for 'other' (20% of total)"},
-    'total_power':                {value:total_power,                unit:"kW",              descr:"Total power needed"},
-    'total_daily_energy':         {value:total_power*24,             unit:"kWh/d",           descr:"Total daily energy needed"},
-    'total_energy_per_m3':        {value:total_power*24/Q||0,        unit:"kWh/m3",          descr:"Total energy needed per m3"},
+    //energy
+    'aeration_power':         {value:aeration_power,         unit:"kW",     descr:"Power needed for aeration (=OTRf/SAE)"},
+    'mixing_power':           {value:mixing_power,           unit:"kW",     descr:"Power needed for anoxic mixing"},
+    'pumping_power_influent': {value:pumping_power_influent, unit:"kW",     descr:"Power needed for pumping influent"},
+    'pumping_power_external': {value:pumping_power_external, unit:"kW",     descr:"Power needed for pumping (external recirculation)"},
+    'pumping_power_internal': {value:pumping_power_internal, unit:"kW",     descr:"Power needed for pumping (internal recirculation)"},
+    'pumping_power_wastage':  {value:pumping_power_wastage,  unit:"kW",     descr:"Power needed for pumping (wastage recirculation)"},
+    'pumping_power':          {value:pumping_power,          unit:"kW",     descr:"Power needed for pumping (ext+int+was)"},
+    'dewatering_power':       {value:dewatering_power,       unit:"kW",     descr:"Power needed for dewatering"},
+    'other_power':            {value:other_power,            unit:"kW",     descr:"Power needed for 'other' (20% of total)"},
+    'total_power':            {value:total_power,            unit:"kW",     descr:"Total power needed"},
+    'total_daily_energy':     {value:total_power*24,         unit:"kWh/d",  descr:"Total daily energy needed"},
+    'total_energy_per_m3':    {value:total_power*24/Q||0,    unit:"kWh/m3", descr:"Total energy needed per m3"},
 
     //fossil co2
     'nonbiogenic_CO2': {value:0.036*Outputs.CO2.effluent.air/1000, unit:"kg/d", descr:""},

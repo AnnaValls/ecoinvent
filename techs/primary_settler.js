@@ -2,7 +2,7 @@
   * Remove a fraction of the two particulate fractions of COD (biodeg + nonbiodeg)
   *
   */
-function primary_settler(Q,bpCOD,nbpCOD,iTSS,ON,OP,VSS_COD, removal_bpCOD,removal_nbpCOD,removal_iTSS,removal_ON,removal_OP){
+function primary_settler(Q,bpCOD,nbpCOD,iTSS,ON,OP,VSS_COD,bpCOD_bVSS, removal_bpCOD,removal_nbpCOD,removal_iTSS,removal_ON,removal_OP){
   /*
     |  Inputs     |  example  values  |
     |-------------+-------------------|
@@ -24,8 +24,13 @@ function primary_settler(Q,bpCOD,nbpCOD,iTSS,ON,OP,VSS_COD, removal_bpCOD,remova
   var ON_removed       = 0.01*removal_ON * ON;                 //g/m3
   var OP_removed       = 0.01*removal_OP * OP;                 //g/m3
   var iTSS_removed     = 0.01*removal_iTSS * iTSS;             //g/m3
-  var VSS_removed      = VSS_COD==0? 0 : pCOD_removed/VSS_COD; //g/m3
-  var TSS_removed      = VSS_removed + iTSS_removed;           //g/m3
+  var VSS_removed      = VSS_COD==0? 0 : pCOD_removed/VSS_COD;   //g/m3
+  var TSS_removed      = VSS_removed + iTSS_removed;             //g/m3
+
+  var bVSS_removed     = VSS_COD==0? 0 : bpCOD_removed/bpCOD_bVSS; //g/m3
+  var nbVSS_removed    = VSS_removed - bVSS_removed;               //g/m3
+
+  var VSS_removed_kgd  = Q*VSS_removed/1000;                   //kg/d
   var TSS_removed_kgd  = Q*TSS_removed/1000;                   //kg/d
 
   /* George Ekama mail:
@@ -43,13 +48,16 @@ function primary_settler(Q,bpCOD,nbpCOD,iTSS,ON,OP,VSS_COD, removal_bpCOD,remova
     bpCOD_removed:     {value:bpCOD_removed,    unit:"g/m3_as_O2", descr:"Removed_bpCOD_by_primary_settler"},
     nbpCOD_removed:    {value:nbpCOD_removed,   unit:"g/m3_as_O2", descr:"Removed_nbpCOD_by_primary_settler"},
     pCOD_removed:      {value:pCOD_removed,     unit:"g/m3_as_O2", descr:"Removed_pCOD_by_primary_settler"},
-  //pCOD_removed_kg_d: {value:pCOD_removed_kgd, unit:"kg/d_as_O2", descr:"Removed_pCOD_by_primary_settler"},
+    //pCOD_removed_kg_d: {value:pCOD_removed_kgd, unit:"kg/d_as_O2", descr:"Removed_pCOD_by_primary_settler"},
     ON_removed:        {value:ON_removed,       unit:"g/m3_as_N",  descr:"Removed_Organic_Nitrogen_by_primary_settler"},
     OP_removed:        {value:OP_removed,       unit:"g/m3_as_P",  descr:"Removed_Organic_Phosphorus_by_primary_settler"},
     iTSS_removed:      {value:iTSS_removed,     unit:"g/m3",       descr:"Removed_iTSS_by_primary_settler"},
     VSS_removed:       {value:VSS_removed,      unit:"g/m3",       descr:"Removed_VSS_by_primary_settler"},
     TSS_removed:       {value:TSS_removed,      unit:"g/m3",       descr:"Removed_TSS_by_primary_settler"},
+    nbVSS_removed:     {value:nbVSS_removed,    unit:"g/m3",       descr:"Removed_nbVSS_by_primary_settler"},
+    bVSS_removed:      {value:bVSS_removed,     unit:"g/m3",       descr:"Removed_bVSS_by_primary_settler"},
     TSS_removed_kgd:   {value:TSS_removed_kgd,  unit:"kg/d",       descr:"Removed_TSS_by_primary_settler_(total_primary_sludge_produced)"},
+    VSS_removed_kgd:   {value:VSS_removed_kgd,  unit:"kg/d",       descr:"Removed_VSS_by_primary_settler_(total_primary_sludge_produced)"},
   }
 }
 

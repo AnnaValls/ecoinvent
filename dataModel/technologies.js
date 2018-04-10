@@ -84,7 +84,8 @@ var Technologies = {
     Name:"Metals and other elements",
     File:"metals_doka.js",
     Implemented_in:"",
-    value:false,
+    value:true,
+    notActivable:true,
     Inputs:getParamNames(metals_doka),
   },
 }

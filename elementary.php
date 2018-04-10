@@ -40,7 +40,6 @@
           getInput('Des',true).value=false;
           getInput('BiP',true).value=false;
           getInput('ChP',true).value=false;
-          getInput('Met',true).value=false;
         }else{
           getInput('Fra',true).value=true; //if bod active, fra active
           getInput('SST',true).value=true; //if bod active, sst active
@@ -70,12 +69,10 @@
           set_checkbox_disabled('Des',true);
           set_checkbox_disabled('BiP',true);
           set_checkbox_disabled('ChP',true);
-          set_checkbox_disabled('Met',true);
         }else{
           set_checkbox_disabled('Nit',false);
           set_checkbox_disabled('BiP',false);
           set_checkbox_disabled('ChP',false);
-          set_checkbox_disabled('Met',false);
         }
         if(getInput('Nit',true).value==false){
           set_checkbox_disabled('Des',true);
@@ -135,7 +132,6 @@
           is_Des_active : getInput("Des",true).value,
           is_BiP_active : getInput("BiP",true).value,
           is_ChP_active : getInput("ChP",true).value,
-          is_Met_active : getInput("Met",true).value,
 
           //ww characteristics                       default values
           Q          : getInput('Q').value,          //22700
@@ -660,38 +656,39 @@
         Sludge production
 
         <ul id=sludge_production>
-          <li>Primary settler sludge: <span id=TSS_removed_kgd>0</span>
-            <ul style=font-family:monospace>
-              <li><issue class=help_requested>G. Ekama</issue>
-              <li>C content: <span id=primary_sludge_C>0</span>
-              <li>H content: <span id=primary_sludge_H>0</span>
-              <li>O content: <span id=primary_sludge_O>0</span>
-              <li>N content: <span id=primary_sludge_N>0</span>
-              <li>P content: <span id=primary_sludge_P>0</span>
+          <li>Primary sludge 
+            <ul>
+              <li>Removed TSS: <span id=TSS_removed_kgd>0</span>
+              <li>Removed VSS: <span id=VSS_removed_kgd>0</span>
+                <ul style=font-family:monospace>
+                  <li>C content: <span id=sludge_primary_C_content>0</span>
+                  <li>H content: <span id=sludge_primary_H_content>0</span>
+                  <li>O content: <span id=sludge_primary_O_content>0</span>
+                  <li>N content: <span id=sludge_primary_N_content>0</span>
+                  <li>P content: <span id=sludge_primary_P_content>0</span>
+                </ul>
+              </li>
             </ul>
           <li>Secondary sludge
             <ul>
               <li>P_X_TSS: <span id=P_X_TSS>0</span>
               <li>P_X_VSS: <span id=P_X_VSS>0</span>
                 <ul style=font-family:monospace>
-                  <li>C content: <span id=sludge_C>0</span>
-                  <li>H content: <span id=sludge_H>0</span>
-                  <li>O content: <span id=sludge_O>0</span>
-                  <li>N content: <span id=sludge_N>0</span>
-                  <li>P content: <span id=sludge_P>0</span>
+                  <li>C content: <span id=sludge_secondary_C_content>0</span>
+                  <li>H content: <span id=sludge_secondary_H_content>0</span>
+                  <li>O content: <span id=sludge_secondary_O_content>0</span>
+                  <li>N content: <span id=sludge_secondary_N_content>0</span>
+                  <li>P content: <span id=sludge_secondary_P_content>0</span>
                 </ul>
               </li>
-              <li>
-                FeCl<sub>3</sub> additional sludge: <span id=Excess_sludge_kg>0</span>
-                <ul style=font-family:monospace>
-                  <li><issue class=help_requested>G. Ekama</issue>
-                  <li>C content: <span id=excess_sludge_C>0</span>
-                  <li>H content: <span id=excess_sludge_H>0</span>
-                  <li>O content: <span id=excess_sludge_O>0</span>
-                  <li>N content: <span id=excess_sludge_N>0</span>
-                  <li>P content: <span id=excess_sludge_P>0</span>
-                </ul>
-              </li>
+            </ul>
+          <li>
+            FeCl<sub>3</sub> additional sludge: <span id=Excess_sludge_kg>0</span>
+            <ul style=font-family:monospace>
+              <li>Fe content: <span id=sludge_precipitation_Fe_content>0</span>
+              <li>H content: <span id=sludge_precipitation_H_content>0</span>
+              <li>P content: <span id=sludge_precipitation_P_content>0</span>
+              <li>O content: <span id=sludge_precipitation_O_content>0</span>
             </ul>
           </li>
         </ul>

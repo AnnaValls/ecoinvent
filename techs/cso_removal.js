@@ -90,6 +90,8 @@ function cso_removal(Fractionation, Input_set, CSO_particulate, CSO_soluble){
     COD_discharged:    {value:COD_discharged,    unit:"g/m3_as_O2", descr:"Discharged_COD_by_CSO"},
     TSS_discharged:    {value:TSS_discharged,    unit:"g/m3",       descr:"Discharged_TSS_by_CSO"},
     TKN_discharged:    {value:TKN_discharged,    unit:"g/m3_as_N",  descr:"Discharged_TKN_by_CSO"},
+    NH4_discharged:    {value:NH4_discharged,    unit:"g/m3_as_N",  descr:"Discharged_NH4_by_CSO"},
+    ON_discharged:     {value:ON_discharged,     unit:"g/m3_as_N",  descr:"Discharged_ON_by_CSO"},
     TP_discharged:     {value:TP_discharged,     unit:"g/m3_as_P",  descr:"Discharged_TP_by_CSO"},
   };
 
