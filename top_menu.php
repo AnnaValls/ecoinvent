@@ -3,8 +3,8 @@
 <div id=top_menu class=flex style="background:#eee">
   <!--File-->
   <div>
-    <button class=toggleView onclick="toggleView(this,'top_menu #file')">&rarr;</button>
-    <small>File</small>
+    <button onclick="toggleView_top_menu_item('top_menu #file')">
+    File</button>
     <ul id=file style="display:none">
         <!--load-->
         <li>
@@ -91,8 +91,8 @@
 
   <!--Edit-->
   <div>
-    <button class=toggleView onclick="toggleView(this,'top_menu #edit')">&rarr;</button>
-    <small>Edit</small>
+    <button onclick="toggleView_top_menu_item('top_menu #edit')">
+    Edit</button>
     <ul id=edit style=display:none>
       <!--set ww to zero-->
       <li>
@@ -139,8 +139,8 @@
 
   <!--View-->
   <div>
-    <button class=toggleView onclick="toggleView(this,'top_menu #view')">&rarr;</button>
-    <small>View</small>
+    <button onclick="toggleView_top_menu_item('top_menu #view')">
+    View</button>
     <ul id=view style=display:none>
       <li><button onclick=window.open('img/plant-diagram.jpg')     >Plant diagram</button>
       <li><button onclick=window.open('fractionation_diagrams.php')>Fractionation diagram</button>
@@ -150,18 +150,35 @@
 
   <!--Help-->
   <div>
-    <button class=toggleView onclick="toggleView(this,'top_menu #help')">&rarr;</button>
-    <small>Help</small>
+    <button onclick="toggleView_top_menu_item('top_menu #help')">
+    Help</button>
     <ul id=help style=display:none>
       <li>
         <button onclick=window.open('docs')>
           Documentation
-          <issue class=help_wanted></issue>
+          <br><issue class=help_wanted></issue>
         </button>
       </li>
     </ul>
   </div>
 
+  <!---------------------------->
+  <script>
+    function toggleView_top_menu_item(selector){
+      var el=document.querySelector('#'+selector);
+
+      //fold all
+      var uls=document.querySelectorAll('#top_menu ul[id]');
+      for(var i=0;i<uls.length;i++){
+        if(uls[i]!=el){
+          uls[i].style.display='none';
+        }
+      }
+
+      //unfold selected
+      if(el){el.style.display=el.style.display=='none' ? '':'none'}
+    }
+  </script>
   <style>
     #top_menu {
       border-bottom:1px solid #ccc;
@@ -173,14 +190,20 @@
       position:relative;
     }
     #top_menu > div > ul[id] {
-      margin-top:0;
+      margin-top:2px;
       position:absolute;
       background:#eee;
       list-style-type:none;
-      padding:0;
+      padding:5px;
+      box-shadow: 0 1px 2px rgba(0,0,0,.1);
     }
     #top_menu > div > ul[id] button{
       text-align:left;
+      width:100%;
+      width:150px;
+      border:1px solid #ccc;
+      border-radius:0;
+      background:white;
     }
   </style>
 </div>
