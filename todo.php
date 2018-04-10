@@ -82,8 +82,13 @@
           <li>Differentiate PV from Q, relate to untreated fraction
           <li>The same python dictionary will generate both ecospold files
           <li>Uncertainty is done inside ecospold (Pascal)
-          <li>The file to use is now `pycode.generate_two_ecospolds.py`.
-          <li> root_dir now needs to be passed to the functions instantiating the ecoSpold generators.
+          <li>The file to use is now <a href="ecospold/wastewater_treatment_tool/pycode/generate_two_ecoSpolds.py">generate_two_ecospolds.py</a>.
+          <li>
+            <a target=_blank href="https://github.com/PascalLesage/wastewater_treatment_tool/blob/integration-with-icra/pycode/tool%20todos%20(beyond%20ecoSpold%20generation)">
+              tool todos (beyond ecoSpold generation)
+            </a>
+          <li>
+            root_dir now needs to be passed to the functions instantiating the ecoSpold generators.
             Could you please validate how this is done in the code?
           <li>
             Dictionary keys
@@ -126,9 +131,9 @@
   <!--gui related-->
     <tr><td header colspan=3>User interface related
     <tr>
-      <td>change M&amp;E to M&amp;EA
-      <td>done
-      <td>April 4th 2018
+      <td>Block "BOD removal" from being unchecked
+      <td>Will do at the end
+      <td>April 11th 2018
   <!--server related-->
     <tr><td header colspan=3>Server related
     <tr>
