@@ -92,7 +92,7 @@ function compute_elementary_flows(input_set){
       addResults('CSO',Result.CSO);
     })();
 
-    //update input values
+    //update input values (these are the ones entering the plant)
     COD   = Result.Fra.COD.value;
     TKN   = Result.Fra.TKN.value;
     TP    = Result.Fra.TP.value;
@@ -156,6 +156,7 @@ function compute_elementary_flows(input_set){
     Result.Pri=primary_settler(0,    0,     0,   0, 0, 0,      0,         0,            0,             0,           0,         0,         0);
     addResults('Pri',Result.Pri);
   }
+  //console.log(BOD); //see BOD after primary settler
 
   //exception regarding TKN_N2O
   if(is_Nit_active==false){ Result.Fra.TKN_N2O.value=0; }
@@ -302,7 +303,7 @@ function compute_elementary_flows(input_set){
     Qwas = isFinite(Qwas) ? Qwas : 0; //avoid infinite
     var Qe = Q - Qwas; //m3/d
 
-    //gather some variables
+    //gather 'other' variables
     var tau                       = select_value('tau',                       ['Des','Nit','BOD']);
     var MLVSS                     = select_value('MLVSS',                     ['Nit','BOD']);
     var TSS_removed_kgd           = select_value('TSS_removed_kgd',           ['Pri']);
@@ -332,8 +333,13 @@ function compute_elementary_flows(input_set){
     //if NO P removal: PO4_eff is calculated as PO4_eff = aP - P_synth
     else                   { PO4_eff = aP - P_synth; }
 
-  //Pack all calculations outside technologies
+    //calculate population equivalents
+    //based on influent BOD
+    var BOD_person_day = Q*is.BOD/is.PEq; //g/person/day
+
+  //Pack 'other' variables TODO
   Result.other={
+    "BOD_person_day":     {value:BOD_person_day,     unit:"g/person/day_as_O2", descr:"BOD5 per person per day"},
     //things calculated out of technologies
     "PO4_eff": {value:PO4_eff, unit:"g/m3_as_P", descr:"Effluent PO4"},
     'V_total': {value:V_total, unit:"m3",        descr:"Total reactor volume (aerobic+anoxic+anaerobic)"},

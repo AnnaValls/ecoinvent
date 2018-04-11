@@ -198,6 +198,11 @@
           removal_ON           : getInput('removal_ON').value,     //%
           removal_OP           : getInput('removal_OP').value,     //%
 
+          PEq                  : getInput('PEq').value, //50,000
+          NH4_eff              : getInput('NH4_eff').value, //0.50
+          NO3_eff              : getInput('NO3_eff').value, //6
+          PO4_eff              : getInput('PO4_eff').value, //0.1
+
           SRT                  : getInput('SRT').value, //5
           MLSS_X_TSS           : getInput('MLSS_X_TSS').value, //3000
           zb                   : getInput('zb').value, //500
@@ -206,15 +211,12 @@
           h_settler            : getInput('h_settler').value, //4 m
           DO                   : getInput('DO').value, //2.0
           SF                   : getInput('SF').value, //1.5
-          NH4_eff              : getInput('NH4_eff').value, //0.50
           sBODe                : getInput('sBODe').value, //3
           TSSe                 : getInput('TSSe').value, //10
           Anoxic_mixing_energy : getInput('Anoxic_mixing_energy').value, //5
-          NO3_eff              : getInput('NO3_eff').value, //6
           SOR                  : getInput('SOR').value, //24
           X_R                  : getInput('X_R').value, //8000
           clarifiers           : getInput('clarifiers').value, //3
-          PO4_eff              : getInput('PO4_eff').value, //0.1
           FeCl3_solution       : getInput('FeCl3_solution').value, //37
           FeCl3_unit_weight    : getInput('FeCl3_unit_weight').value, //1.35
           days                 : getInput('days').value, //15
