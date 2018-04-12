@@ -15,7 +15,6 @@
 <script src="estimations.js"></script><!--input estimations-->
 
 <!--just descriptive objects-->
-<script src="dataModel/combinations.js"></script>
 <script src="dataModel/terms.js"></script><!--units and descriptions-->
 
 <!--metcalf technologies-->
@@ -31,6 +30,7 @@
 <script src="techs/metals_doka.js"></script>
 <script src="techs/cso_removal.js"></script>
 <script src="techs/sludge_composition.js"></script>
+<script src="techs/energy_consumption.js"></script>
 
 <!--data model-->
 <script src="dataModel/inputs.js"></script>

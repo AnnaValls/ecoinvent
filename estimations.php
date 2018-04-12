@@ -27,8 +27,7 @@
 <div id=root>
 <h1>Estimations for inputs the user might not know</h1>
 <p><b>
-  Default values from BioWin 5.2 <br>
-  <a href=see.php?file=estimations.js>See equations</a>
+  Default values from BioWin 5.2 (<a href=see.php?file=estimations.js>see equations</a>)
 </b></p><hr>
 
 <!--tables-->

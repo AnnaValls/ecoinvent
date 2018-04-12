@@ -162,23 +162,29 @@
     </ul>
   </div>
 
-  <!---------------------------->
+  <!--logic-->
   <script>
-    function toggleView_top_menu_item(selector){
-      var el=document.querySelector('#'+selector);
-
-      //fold all
+    function top_menu_fold_all_items(el){ //fold all except 'el'
+      el=el||false;
       var uls=document.querySelectorAll('#top_menu ul[id]');
       for(var i=0;i<uls.length;i++){
         if(uls[i]!=el){
           uls[i].style.display='none';
         }
       }
-
+    }
+    function toggleView_top_menu_item(selector){
+      event.stopPropagation();
+      var el=document.querySelector('#'+selector);
+      top_menu_fold_all_items(el);
       //unfold selected
       if(el){el.style.display=el.style.display=='none' ? '':'none'}
     }
+    //fold items when click outside
+    document.documentElement.addEventListener('click',top_menu_fold_all_items);
   </script>
+
+  <!--views-->
   <style>
     #top_menu {
       border-bottom:1px solid #ccc;

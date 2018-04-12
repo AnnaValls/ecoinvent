@@ -77,6 +77,9 @@ var str2color = function(str) {
 	return colour;
 }
 
+//remove duplicate elements in arrays
+function uniq(arr){return Array.from(new Set(arr));}
+
 //get arguments
 function getParamNames(func) {
   var STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;

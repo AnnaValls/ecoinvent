@@ -35,15 +35,11 @@
         //  disable chemP
         //  disable metals
         if(getInput('BOD',true).value==false){
-          getInput('SST',true).value=false;
           getInput('Nit',true).value=false;
           getInput('Des',true).value=false;
           getInput('BiP',true).value=false;
           getInput('ChP',true).value=false;
-        }else{
-          getInput('Fra',true).value=true; //if bod active, fra active
-          getInput('SST',true).value=true; //if bod active, sst active
-        }
+        }else
 
         //only one of the two P removal technologies is allowed
         if(getInput('BiP',true).value){ getInput('ChP',true).value=false }
@@ -74,17 +70,10 @@
           set_checkbox_disabled('BiP',false);
           set_checkbox_disabled('ChP',false);
         }
-        if(getInput('Nit',true).value==false){
-          set_checkbox_disabled('Des',true);
-        }else{
-          set_checkbox_disabled('Des',false);
-        }
-        if(getInput('BiP',true).value==true){
-          set_checkbox_disabled('ChP',true);
-        }
-        if(getInput('ChP',true).value==true){
-          set_checkbox_disabled('BiP',true);
-        }
+        if(getInput('Nit',true).value==false){ set_checkbox_disabled('Des',true); }
+        else{                                  set_checkbox_disabled('Des',false); }
+        if(getInput('BiP',true).value==true){  set_checkbox_disabled('ChP',true); }
+        if(getInput('ChP',true).value==true){  set_checkbox_disabled('BiP',true); }
       })();
 
       //find current inputs from the technology combination to create the input table
@@ -380,7 +369,7 @@
         }
       },
       hiddenTechs:[
-        "CSO", "Pri", "Fra", "BOD", "SST", "other", "energy", "Nit", "Des", "BiP", "ChP", "Met"
+        "CSO", "Pri", "Fra", "BOD", "SST", "other", "Ene", "Nit", "Des", "BiP", "ChP", "Met"
       ], //techs hidden in table 2. Variables calculated, i.e. ['BOD','Nit']
       /*further user-options here*/
     }
@@ -429,6 +418,9 @@
       width:100%;
       border-collapse:collapse;
     }
+    #root table#variables {
+      border-bottom:1px solid #ccc;
+    }
   </style>
 </head><body onload="init()">
 <?php include'navbar.php'?>
@@ -439,7 +431,7 @@
 <div>
   <h1>Single plant model</h1>
   <p style=margin-top:0><small>
-    Create a wastewater composition + a single treatment plant configuration
+    Create a wastewater composition and a plant configuration
   </small></p>
 </div><hr>
 
@@ -531,7 +523,6 @@
 <div class=flex>
   <!--1. Inputs-->
   <div style="width:330px">
-
     <p><b><u>1. User inputs</u></b></p>
 
     <!--enter technologies-->
@@ -540,16 +531,7 @@
         1.1.
         Wastewater treatment technologies
       </p>
-      <table id=inputs_tech border=1>
-        <!--fractionation as a not activable technology-->
-        <!--
-        <tr title="Fractionation is not deactivable">
-          <td>Fractionation
-          <td><center><input type=checkbox disabled=true checked></center>
-          <td><small><center><a href="see.php?path=techs&file=fractionation.js" target=_blank>equations</a></center>
-        </tr>
-        -->
-      </table>
+      <table id=inputs_tech border=1></table>
     </div>
 
     <!--enter ww characteristics-->
@@ -565,7 +547,8 @@
 
       <p>
         1.2.
-        Wastewater composition and design parameters
+        Wastewater composition
+        <br>and design parameters
         <br><small>(required: <span id=input_amount>0</span>)</small>
       </p>
 
@@ -744,10 +727,11 @@
               <li>V<sub>total</sub>:             <span id=V_total>0</span>
             </ul>
           </li>
-          <li>Concrete (see <a href="construction.php" target=_blank>construction</a>)
+          <li>Concrete
             <ul>
               <li>Reactor:      <span id=concrete_reactor>0</span>
               <li>Secondary ST: <span id=concrete_settler>0</span>
+              <li><a href="construction.php" target=_blank>Construction materials</a>
             </ul>
           </li>
         </ul>

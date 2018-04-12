@@ -88,6 +88,14 @@ var Technologies = {
     notActivable:true,
     Inputs:getParamNames(metals_doka),
   },
+  "Ene":{
+    Name:"Energy consumption",
+    File:"energy_consumption.js",
+    Implemented_in:"",
+    value:true,
+    notActivable:true,
+    Inputs:getParamNames(energy_consumption),
+  },
 }
 
 var Technologies_selected = [];
