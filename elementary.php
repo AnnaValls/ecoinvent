@@ -192,6 +192,8 @@
           NO3_eff              : getInput('NO3_eff').value, //6
           PO4_eff              : getInput('PO4_eff').value, //0.1
 
+          COD_TOC_ratio        : getInput('COD_TOC_ratio').value, //3
+
           SRT                  : getInput('SRT').value, //5
           MLSS_X_TSS           : getInput('MLSS_X_TSS').value, //3000
           zb                   : getInput('zb').value, //500
@@ -639,9 +641,12 @@
       <p>3.3.
         <button class=toggleView onclick="toggleView(this,'summary #sludge_production')">&darr;</button>
         Sludge production
+        <div>
+          water content missing <issue class=help_wanted></issue>
+        </div>
 
         <ul id=sludge_production>
-          <li>Primary sludge 
+          <li>Primary sludge
             <ul>
               <li>Removed TSS: <span id=TSS_removed_kgd>0</span>
               <li>Removed VSS: <span id=VSS_removed_kgd>0</span>

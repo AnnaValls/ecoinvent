@@ -1,4 +1,5 @@
 <?php /*
+  Multiple plant interface
 */?>
 <!doctype html><html><head>
   <?php include'imports.php'?>
@@ -61,7 +62,7 @@
               Technologies_selected
                 .filter(tec=>{return !tec.notActivable})
                 .forEach(i=>{
-                var h=document.querySelector('#wwtps #'+i.id);
+                var h=document.querySelector('#wwtps #is_'+i.id+'_active');
                 h.style.display=h.style.display=='none'?'':'none';
               });
             });
@@ -81,7 +82,7 @@
             .filter(tec=>{return !tec.notActivable})
             .forEach(tec=>{
               var newRow=table.insertRow(-1);
-              newRow.id=tec.id;
+              newRow.id="is_"+tec.id+"_active";
               //add tec name
               newRow.insertCell(-1).innerHTML=tec.descr;
               //add a checkbox for each tec
@@ -93,7 +94,7 @@
           });
         })();
 
-        //fold design parameters button
+        //fold inputs button
         (function(){
           var newRow=table.insertRow(-1);
           var newCell=document.createElement('th');
@@ -106,7 +107,7 @@
             btn.innerHTML='↓';
             btn.addEventListener('click',function(){
               this.innerHTML=(this.innerHTML=='→')?'↓':'→';
-              Inputs.filter(i=>{return i.isParameter}).forEach(i=>{
+              Inputs.filter(i=>{return true}).forEach(i=>{
                 var h=document.querySelector('#wwtps #'+i.id);
                 h.style.display=h.style.display=='none'?'':'none';
               });
@@ -115,13 +116,13 @@
           })());
           newCell.appendChild((function(){
             var span=document.createElement('span');
-            span.innerHTML=' Design parameters';
+            span.innerHTML=' Inputs';
             return span;
           })());
         })();
 
         //add design parameters
-        Inputs.filter(i=>{return i.isParameter}).forEach(i=>{
+        Inputs.filter(i=>{return true}).forEach(i=>{
           var newRow=table.insertRow(-1);
           newRow.id=i.id;
 
@@ -169,7 +170,7 @@
 <!--title div--><div>
   <h1>Multiple plants (averaging)</h1>
 </div>
-<em>user interface draft</em>
+<em>Example for South Africa</em>
 <ul>
   <li>should the ww composition be visible here?
   <li>what would be the results like?

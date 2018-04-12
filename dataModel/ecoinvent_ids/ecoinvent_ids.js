@@ -31,7 +31,8 @@
 */
 
 var Ecoinvent_ids={
-  inputs:{//names ok
+
+  inputs:{ //names ok
     //compounds not in the tool TBD
     "DOC"  : "efe22a60-b1a3-4b33-a5ba-4bf575e0a889", // not used
     "TOC"  : "a547f885-601d-4d52-9bf9-60f0cef06269", // not used
@@ -103,7 +104,7 @@ var Ecoinvent_ids={
     "NH4": "13331e67-6006-48c4-bdb4-340c12010036", //NH4 discharged
     "NO2": "0017271e-7df5-40bc-833a-36110c1fe5d5", //zero
     "NO3": "7ce56135-2ca5-4fba-ad52-d62a34bfeb35", //NOx effluent
-    "ON":  "d43f7827-b47b-4652-8366-f370995fd206", //pON discharged
+    "ON":  "d43f7827-b47b-4652-8366-f370995fd206", //ON discharged
 
     "TP":  "b2631209-8374-431e-b7d5-56c96c6b6d79", //Phosphorus
 
@@ -159,5 +160,6 @@ var Ecoinvent_ids={
 
   sludge_emissions:{
     "Cr": "e34d3da4-a3d5-41be-84b5-458afe32c990", //retained in sludge Chromium ion
+    //TODO add here the ids of "inputs" for metals and other elements
   }
 };

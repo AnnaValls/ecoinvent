@@ -51,10 +51,13 @@ var Inputs = [
 {id:"NO3_eff", value:6,    unit:"g/m3_as_N", isParameter:true, descr:"Effluent_design_NO3_concentration", },
 {id:"PO4_eff", value:0.5,  unit:"g/m3_as_P", isParameter:true, descr:"Effluent_design_PO4(3-)._It_is_only_imposed_in_case_we_have_Chemical_P_removal._Otherwise,_it_will_be_calculated", },
 
+//COD/TOC ratio for: COD/ratio = carbon content
+{id:"COD_TOC_ratio", value:3.0,  unit:"g_COD/g_TOC", isParameter:true, descr:"COD to TOC ratio. It is used to calculate the TOC content of the wastewater", },
+
 //bod removal dp
-  {id:"MLSS_X_TSS", value:3000,  unit:"g/m3",        isParameter:true,  descr:"Mixed_liquor_suspended_solids",                                             },
-  {id:"DO",         value:2.0,   unit:"g/m3_as_O2",  isParameter:true,  descr:"DO_in_aeration_basin_(generally:_1.5_to_2)_(notation_in_book_is_'C_L')",    },
-  {id:"clarifiers", value:3,     unit:"clarifiers",  isParameter:true,  descr:"Number_of_clarifiers_that_will_be_used",                                    },
+{id:"MLSS_X_TSS", value:3000,  unit:"g/m3",        isParameter:true,  descr:"Mixed_liquor_suspended_solids",                                             },
+{id:"DO",         value:2.0,   unit:"g/m3_as_O2",  isParameter:true,  descr:"DO_in_aeration_basin_(generally:_1.5_to_2)_(notation_in_book_is_'C_L')",    },
+{id:"clarifiers", value:3,     unit:"clarifiers",  isParameter:true,  descr:"Number_of_clarifiers_that_will_be_used",                                    },
 
 //metals
   {id:"Ag", value:0.0000, unit:"g/m3", isMetal:true, descr:"Influent_Silver",     },
@@ -96,8 +99,7 @@ var Inputs = [
 //orange and red design parameters
 //("color" means "advanced knowledge required" in frontend)
 
-
-//nit dp
+//nitrification dp
 {id:"sBODe",   value:3,    unit:"g/m3_as_O2", color:"orange", isParameter:true, descr:"Effluent_design_Soluble_BOD",                                               },
 {id:"TSSe",    value:1,    unit:"g/m3",       color:"orange", isParameter:true, descr:"Effluent design total suspended solids", },
 

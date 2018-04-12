@@ -288,6 +288,9 @@ function compute_elementary_flows(input_set){
   //BOD per person per day
   var BOD_person_day = Q*is.BOD/is.PEq; //g/person/day
 
+  //C content
+  var TOC_content = is.COD/is.COD_TOC_ratio; //gC/m3
+
   //S, VSSe and sCODe
   var S     = select_value('S', ['Nit','BOD']); //g/m3 -- bCOD effluent
   var sCODe = nbsCODe+S;                        //g/m3 -- soluble COD effluent
@@ -326,6 +329,8 @@ function compute_elementary_flows(input_set){
   //Pack 'other' variables
   Result.other={
     'BOD_person_day': {value:BOD_person_day, unit:"g/person/day_as_O2", descr:"BOD5 per person per day"},
+    'TOC_content':    {value:TOC_content,    unit:"g/m3_as_C",          descr:"TOC content"},
+
     'S':              {value:S,              unit:"g/m3_as_O2",         descr:"bCOD at the effluent"},
     'sCODe':          {value:sCODe,          unit:"g/m3_as_O2",         descr:"Soluble COD at the effluent"},
     'VSSe':           {value:VSSe,           unit:"g/m3",               descr:"Volatile Suspended Solids at the effluent"},
