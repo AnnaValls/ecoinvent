@@ -9,7 +9,7 @@
   <script>
     //add a new object to WWTPs array
     function add_wwtp(){
-      var wwtp={name:'new plant', perc_PE:1};
+      var wwtp={name:'new plant', perc_PE:100-WWTPs.map(w=>{return w.perc_PE}).reduce(function(pr,cu){return pr+cu},0)};
 
       //add technologies with the default value
       Object.keys(Technologies)
@@ -408,6 +408,7 @@
         <input id=loadFile type=file accept=".json" onchange="loadFile(event)" style="display:none">
         <button onclick="document.getElementById('loadFile').click()">Load wwtp mix</button>
         <button onclick="saveToFile()">Save </button>
+        <button onclick="WWTPs=[];add_wwtp()">Clear all</button>
         <button onclick="add_wwtp()" style=background:yellow>Add plant</button>
         <button id=run onclick="display_contribution(n_wwtps_simulation(Activity,WWTPs))" style=background:lightgreen;width:200px>
           RUN SIMULATIONS
