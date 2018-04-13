@@ -16,11 +16,17 @@
 
 <!--items-->
 <table class=todo_items border=1><tr><th>Item description<th>Status<th>Added
-  <!--single plant-->
-    <tr><td header colspan=3>Single plant model
+  <tr><td header colspan=3>
+    <button class=toggleView onclick=toggleView(this,'single')>&rarr;</button>
+    Single plant model
+  <tbody id=single style=display:none>
     <tr>
-      <td>ask george for: (1) water content of all 3 sludge types and (2) (iSS=TSS-VSS) composition
+      <td>Remove ecospold menu from single plant model
       <td>not done
+      <td>April 13th 2018
+    <tr>
+      <td>Water content of all 3 sludge types and (2) (iSS) composition of primary and secondary sludge
+      <td>Help asked to George
       <td>April 12th 2018
     <tr>
       <td>
@@ -48,7 +54,12 @@
       <td> Lluís B. needs guidance
       <td>April 5th 2018
     </tr>
-  <!--multiple plant--><tr><td header colspan=3>Multiple plant model
+  </tbody>
+
+  <tr><td header colspan=3>
+    <button class=toggleView onclick=toggleView(this,'multiple')>&rarr;</button>
+    Multiple plant model
+  <tbody id=multiple style=display:none>
     <tr>
       <td>Transfer Peter's data to the tool
         <ul>
@@ -75,10 +86,6 @@
         <br>(need to discuss user interface
         <br>with Yves and Lluís C.)
       <td>April 9th 2018
-    <tr>
-      <td>Marginal contribution expressed as /m<sup>3</sup> of activity influent
-      <td>TO DO
-      <td>April 4th 2018
     <tr>
       <td>Ecospold generation is under development <a href="ecospold/wastewater_treatment_tool/">here</a>
         <ul>
@@ -132,64 +139,46 @@
         </ul>
       <td>not sure how to proceed, need concrete instructions
       <td>April 4th 2018
-  <!--gui related-->
-    <tr><td header colspan=3>User interface related
     <tr>
-      <td>Block "BOD removal" from being unchecked
-      <td>Will do at the end
-      <td>April 11th 2018
-  <!--server related-->
-    <tr><td header colspan=3>Server related
+      <td>User interface
+        <ul>
+          <li>Block "BOD removal" from being unchecked
+          <li>Add a button for Recalculate yves estimations
+          <li>Not all tech combinations should be possible (like in single plant model)
+        </ul>
+  </tbody>
+
+  <tr><td header colspan=3>
+    <button class=toggleView onclick=toggleView(this,'server')>&rarr;</button>
+    Server related
+  <tbody id=server style=display:none>
     <tr>
       <td>Install python3 module "pandas"
       <td>done
       <td>April 4th 2018
-  <!--new item-->
-    <tr><td header colspan=3 style=background:lightgreen>NEW ITEM
-    <tr id=new_item_form>
-      <td style=padding:0.5em>
-        <input id=desc placeholder="item description" value="item description" style=width:90%>
-      <td style=padding:0.5em>
-        <input id=stat placeholder="status" value="item status"                style=width:90%>
-      <td style=text-align:center>
-        <button onclick=send_item()>SEND</button>
-        <script>
-          function send_item(){
-            var desc=document.querySelector('#new_item_form #desc').value;
-            var stat=document.querySelector('#new_item_form #stat').value;
-            if(desc==''||stat==''){return}
-            var a=document.createElement('a');
-            a.setAttribute('target','_blank');
-            a.href='mailto:lbosch@icra.cat?subject=Ecoinvent: New TODO item&body=description: '+desc+'%0D%0A%0D%0Astatus: '+stat;
-            document.body.appendChild(a);
-            a.click();
-          }
-        </script>
-      </td>
-    </tr>
+  </tbody>
 </table>
 
 <style>
+  table.todo_items {
+    margin-bottom:1em;
+    border-collapse:collapse;
+    width:75%;
+  }
   table.todo_items td {
     font-size:smaller;
   }
-  table.todo_items{
-    margin-bottom:1em;
-    border-collapse:collapse;
+  table.todo_items td:first-child {
+    padding-left:8px;
   }
-  table.todo_items td[header]{
+  table.todo_items td[header] {
     font-weight:bold;
     text-align:left;
     background:#eee;
-    font-style:italic;
-    padding-left:8px;
+    padding-left:0;
   }
-  /*description*/
-  table.todo_items td:first-child{
-    padding:0 1em 0 16px;
-  }
-  /*status*/
-  table.todo_items td:nth-child(2){
+  /*status cells*/
+  table.todo_items td:nth-child(2) {
     background:lightblue;
     font-style:italic;
     padding:0 5px;

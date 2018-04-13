@@ -39,7 +39,7 @@ function setInput(id,newValue,isTechnology){
 /* fx: toggle technology value (true/false) by id */
 function toggleTech(id){
   var currValue=getInput(id,true).value;
-  console.log("Technology '"+id+"' active: "+(!currValue).toString());
+  //console.log("Technology '"+id+"' active: "+(!currValue).toString());
   setInput(id,!currValue,true);
 }
 

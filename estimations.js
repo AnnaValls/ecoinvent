@@ -1,7 +1,7 @@
 /**
   * Estimations for inputs that the user might not know
-  * Default values from BioWin 5.2
-*/
+  * Default values from BioWin 5.2 (provided by Y. Comeau)
+  */
 
 function estimations(COD,TKN,TP){
   //intermediate variables

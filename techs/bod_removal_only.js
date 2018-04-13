@@ -3,6 +3,7 @@
  * Metcalf & Eddy, Wastewater Engineering, 5th ed., 2014:
  * pages 756-768
  */
+
 function bod_removal_only(BOD,nbVSS,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb,Pressure,Df,DO){
   /*
     Inputs          example values
@@ -21,13 +22,11 @@ function bod_removal_only(BOD,nbVSS,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb
     Df              4.4    m
     DO              2.0    mg/L
   */
-  var C_L=DO;//name change requested. Dissolved oxygen (DO) in the book is C_L
+  var C_L=DO;//rename requested. Dissolved oxygen (DO) in the book is C_L
 
   //aeration parameters
   var alpha = 0.50; //8.b
   var beta  = 0.95; //8.b
-
-  /*SOLUTION*/
 
   //calculate bCOD
   var bCOD  = bCOD_BOD_ratio*BOD;
@@ -35,12 +34,10 @@ function bod_removal_only(BOD,nbVSS,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb
   //part A: bod removal without nitrification
   var mu_mT = mu_m * Math.pow(1.07, T - 20); //1/d
   var bHT = bH * Math.pow(1.04, T - 20);  //1/d
-
   var S0 = bCOD; //g/m3
   var S  = Ks*(1+bHT*SRT)/(SRT*(mu_mT-bHT)-1); //g/m3
   S=Math.min(S,S0); //keep the smaller value
   S=Math.max(0,S);  //avoid negative S
-
   var P_X_bio = (Q*YH*(S0 - S) / (1 + bHT*SRT) + (fd*bHT*Q*YH*(S0 - S)*SRT) / (1 + bHT*SRT))/1000; //kg/d
   P_X_bio=Math.max(0,P_X_bio);
 
@@ -58,7 +55,6 @@ function bod_removal_only(BOD,nbVSS,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb
   //5
   var FM = Q*BOD/MLVSS/V || 0; //kg/kg·d
   FM = isFinite(FM) ? FM : 0;
-
   var BOD_loading = Q*BOD/V/1000 || 0; //kg/m3·d
   BOD_loading = isFinite(BOD_loading) ? BOD_loading : 0;
 
@@ -111,7 +107,7 @@ function bod_removal_only(BOD,nbVSS,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb
     kg_O2_per_m3_air:  {value:kg_O2_per_m3_air,  unit:"kg_O2/m3",     descr:"kg_O2_for_each_m3_of_air_at_current_temperature_and_pressure"},
     air_flowrate:      {value:air_flowrate,      unit:"m3/min",       descr:"Air_flowrate"},
   };
-};
+}
 
 /*test*/
 (function(){

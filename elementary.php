@@ -434,93 +434,9 @@
 <div>
   <h1>Single plant model</h1>
   <p style=margin-top:0><small>
-    Create a wastewater composition and a plant configuration
+    Simulate a single wastewater treatment plant configuration
   </small></p>
 </div><hr>
-
-<!--general_info menu-->
-<div>
-  <style>
-    #general_info li {
-      padding-bottom:8px;
-      padding-top:8px;
-      font-size:smaller;
-    }
-  </style>
-
-  <p>
-    <button class=toggleView onclick="toggleView(this,'general_info')">&rarr;</button>
-    <b>General</b>
-  </p>
-
-  <div id=general_info style=display:none>
-    <ol>
-      <!--activity name-->
-      <li>
-        Wastewater source
-        <br><input id=activity_name type=text placeholder="activity name" max=120 size=100>
-        <a href="#" onclick="toggleView(false,'activity_name_help');return false;">help</a>
-        <div id=activity_name_help style="display:none">
-          <p class=help>
-            If the wastewater originates from an activity within the ecoinvent database, you should use the name of this activity here.
-            For example, for wastewater originating from "lime production", you would write "from lime production".
-            This will generate the first part of the name of the wastewater treatment datasets.
-            In the example, it would be "treatment of wastewater from lime production".
-            If the wastewater is the average municipal wastewater, then enter the name "average municipal".
-            This will generate a name starting with "treatment of wastewater, average municipal".
-            The second part of the name will be based on the treatment type.
-          </p>
-        </div>
-      </li>
-
-      <!--geography-->
-      <li>
-        <div>
-          Location where the wastewater is emitted
-        </div>
-        <select id=geography></select> <small>(untreated fraction: <span id=RQ>-1</span>)</small>
-      </li>
-
-      <!--PV-->
-      <li>
-        Volume of water discharged<br>
-        <input id=PV type=number value=365 min=0 placeholder="PV"> m<sup>3</sup>/year
-        | <small><a href="#" onclick="toggleView(false,'PV_help');return false;">help</a></small>
-        <div id=PV_help style="display:none">
-          <p class=help>
-            How to calculate this:<br>
-            production_volume_of_activity_generating_wastewater · wastewater_per_unit_production
-          </p>
-        </div>
-      </li>
-    </ol>
-
-    <div id=generate_ecospold_menu>
-      <style>
-        #generate_ecospold_menu button {
-          display:block;
-          padding:0.5em 1em;
-          margin:5px 0;
-        }
-      </style>
-
-      <script src="generate_untreated_ecospold.js"></script>
-      <script src="generate_treated_ecospold.js"></script>
-
-      <!--untreated ecospold-->
-      <button onclick="generate_untreated_ecospold()">
-        Generate <b>"untreated wastewater"</b> ecospold file
-      </button>
-
-      <!--treated ecospold-->
-      <button onclick="generate_treated_ecospold()">
-        Generate <b>"treated wastewater"</b> ecospold file
-        <issue class=under_dev></issue>
-      </button>
-    </div>
-  </div>
-  <p><hr></p>
-</div>
 
 <!--inputs and outputs container-->
 <div class=flex>
@@ -642,9 +558,10 @@
       <p>3.3.
         <button class=toggleView onclick="toggleView(this,'summary #sludge_production')">&darr;</button>
         Sludge production
-        <div>
-          water content missing <issue class=help_wanted></issue>
-        </div>
+
+        <div><small>
+          water content missing <issue class=help_provided>George</issue>
+        </small></div>
 
         <ul id=sludge_production>
           <li>Primary sludge
@@ -812,35 +729,6 @@
     if(url.href.length>2000){
       alert("Error: the URL length is above 2000 characters");
     }
-
-    //populate geographies
-    (function(){
-      var select=document.querySelector('#geography');
-      Geographies.forEach(g=>{
-        var option=document.createElement('option');
-        option.innerHTML=(g.name+" ("+g.shortcut+")").replace(/_/g,' ')
-        option.value=g.shortcut.replace(/_/g,' ');
-        select.appendChild(option);
-      });
-
-      select.onchange=function(){
-        var value=(function(){
-          var rv=Geographies.filter(g=>{return g.shortcut==select.value})[0].RQ;
-          if(rv==null){
-            rv=Geographies.filter(g=>{return g.shortcut=='GLO'})[0].RQ; //use global if no number
-          }
-          return rv;
-        })();
-        var RQ=document.querySelector('#RQ');
-        RQ.innerHTML=format(value);
-        RQ.setAttribute('value',value);
-      };
-
-      //set geography value if it is in URL GET parameters
-      var get_parameter_value = url.searchParams.get('geography');
-      select.value = get_parameter_value ? get_parameter_value : "GLO";
-      select.onchange();//show RQ value
-    })();
 
     //populate technologies table
     (function(){
@@ -1087,7 +975,7 @@
   })();
 </script>
 
-<!--estimations module-->
+<!--apply estimations module-->
 <script>
   //call estimations module from "estimations.js"
   function set_estimation_value(input_element){

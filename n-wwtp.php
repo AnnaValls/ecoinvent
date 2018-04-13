@@ -209,7 +209,8 @@
         })());
         newCell.appendChild((function(){
           var span=document.createElement('span');
-          span.innerHTML=' Wastewater composition';
+          span.innerHTML=' Wastewater composition'+
+            '<button style=float:right>Apply COD, TKN, TP based estimations</button>';
           return span;
         })());
       })();
@@ -276,7 +277,6 @@
       var rv={
         Q: activity.Q + reference.Q,
       };
-
       //combine wastewater characteristics
       Object.keys(activity).filter(key=>{return key!="Q"}).forEach(key=>{
         rv[key]=(activity.Q*activity[key]+reference.Q*reference[key])/rv.Q;
@@ -289,7 +289,6 @@
       Object.keys(Technologies).filter(key=>{return !Technologies[key].notActivable}).forEach(key=>{
         rv["is_"+key+"_active"]=reference["is_"+key+"_active"];
       });
-
       return rv;
     }
 
@@ -401,20 +400,13 @@
   <em>(now: example for South Africa mixes. <a href="mix_SAfrica.js" target=_blank>See loaded raw data here</a>)</em>
 </div><hr>
 
-<!--load/save btns--><div>
+<!--top menu btns-->
+<div>
   <div id=top_btns>
     <div class=flex style="justify-content:space-between">
       <div>
         <input id=loadFile type=file accept=".json" onchange="loadFile(event)" style="display:none">
         <button onclick="document.getElementById('loadFile').click()">Load wwtp mix</button>
-        <button onclick="saveToFile()">Save </button>
-        <button onclick="WWTPs=[];add_wwtp()">Clear all</button>
-        <button onclick="add_wwtp()" style=background:yellow>Add plant</button>
-        <button id=run onclick="display_contribution(n_wwtps_simulation(Activity,WWTPs))" style=background:lightgreen;width:200px>
-          RUN SIMULATIONS
-        </button>
-        <small><em>(Press this button after modifying the inputs to re-run the "n" simulations)</em></small>
-
         <script>
           //load country mix from file
           function loadFile(evt){
@@ -434,7 +426,10 @@
               reader.readAsText(file);
             }catch(e){alert(e)}
           }
+        </script>
 
+        <button onclick="saveToFile()">Save </button>
+        <script>
           /*Generate a json/text file*/
           function saveToFile() {
             var saved_file = WWTPs;
@@ -447,6 +442,13 @@
             link.click();
           }
         </script>
+
+        <button onclick="WWTPs=[];add_wwtp()">Clear all</button>
+        <button onclick="add_wwtp()" style=background:yellow>Add plant</button>
+        <button id=run onclick="display_contribution(n_wwtps_simulation(Activity,WWTPs))" style=background:lightgreen;width:200px>
+          RUN SIMULATIONS
+        </button>
+        <small><em>(Press this button after modifying the inputs to re-run the "n" simulations)</em></small>
       </div>
     </div>
     <style>
@@ -455,6 +457,10 @@
         margin:5px 0;
       }
     </style>
+  </div><hr>
+
+  <div>
+    <button>Generate ecoSpold file</button>
   </div>
 </div><hr>
 
@@ -493,7 +499,7 @@
   //main object for storing the Activity inputs
   var WWTPs=[];
   var Activity={
-    Q:100,
+    Q:1,
   };
 
   //convert mix_SAfrica dictionary of arrays to array of dictionaries
