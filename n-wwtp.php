@@ -405,13 +405,47 @@
   <div id=top_btns>
     <div class=flex style="justify-content:space-between">
       <div>
-        <button onclick="alert('under development')">Load country</button>
-        <button onclick="alert('under development')">Save </button>
+        <input id=loadFile type=file accept=".json" onchange="loadFile(event)" style="display:none">
+        <button onclick="document.getElementById('loadFile').click()">Load wwtp mix</button>
+        <button onclick="saveToFile()">Save </button>
         <button onclick="add_wwtp()" style=background:yellow>Add plant</button>
         <button id=run onclick="display_contribution(n_wwtps_simulation(Activity,WWTPs))" style=background:lightgreen;width:200px>
           RUN SIMULATIONS
         </button>
         <small><em>(Press this button after modifying the inputs to re-run the "n" simulations)</em></small>
+
+        <script>
+          //load country mix from file
+          function loadFile(evt){
+            var file=evt.target.files[0];
+            var reader=new FileReader();
+            reader.onload=function() {
+              var saved_file;
+              try{
+                saved_file=JSON.parse(reader.result);
+                (function(){
+                  WWTPs=saved_file;
+                })();
+                init();
+              }catch(e){alert(e)}
+            }
+            try{
+              reader.readAsText(file);
+            }catch(e){alert(e)}
+          }
+
+          /*Generate a json/text file*/
+          function saveToFile() {
+            var saved_file = WWTPs;
+            //console.log(saved_file);
+            var datestring=(new Date()).toISOString().replace(/-/g,'').replace(/:/g,'').substring(2,13);
+            var link=document.createElement('a');
+            link.href="data:text/json;charset=utf-8,"+JSON.stringify(saved_file,null,'  ');
+            link.download="wwtp_mix_"+datestring+"UTC.json";
+            document.body.appendChild(link);//this line is required in firefox
+            link.click();
+          }
+        </script>
       </div>
     </div>
     <style>
@@ -426,7 +460,8 @@
 <!--main-->
 <div class=flex style='justify-content:space-between'>
   <!--wwtps-->
-  <table id=wwtps></table>
+  <table id=wwtps></table><hr>
+
   <!--results-->
   <div id=results_container>
     <table id=contribution>
@@ -447,7 +482,9 @@
   //main object for storing WWTPs
   //main object for storing the Activity inputs
   var WWTPs=[];
-  var Activity={};
+  var Activity={
+    Q:100,
+  };
 
   //convert mix_SAfrica dictionary of arrays to array of dictionaries
   (function(){
