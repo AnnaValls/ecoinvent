@@ -16,15 +16,15 @@ function get_Fe_P_mole_ratio(PO4_eff){
    * Output: Fe to initial soluble P ratio, [mole/mole]
    *  -> range: 0, 1, 2, 3, 4, 5 (lineal scale)
    */
-  console.log("FIG 6-13");
-  console.log("--------");
+  //console.log("FIG 6-13");
+  //console.log("--------");
 
   //rename input to "inp"
   var inp = PO4_eff || 0;
 
   //min and max values are: 0.01 and 10
   inp=Math.min(10,Math.max(0.01,inp));
-  console.log("PO4_eff: "+inp);
+  //console.log("PO4_eff: "+inp);
 
   var Figure=[
     {inp:0.01,out:8.00},
@@ -59,7 +59,7 @@ function get_Fe_P_mole_ratio(PO4_eff){
 
   //do linear interpolation if value is not in table
   if(Figure.filter(row=>{return row.inp==inp}).length==0) {
-    console.log('value '+inp+' not in table, performing linear interpolation');
+    //console.log('value '+inp+' not in table, performing linear interpolation');
 
     //find inputs above and below (i_above and i_below)
     var Inps=Figure.map(row=>{return row.inp});
@@ -76,17 +76,17 @@ function get_Fe_P_mole_ratio(PO4_eff){
     var percentage = (inp-i_below)/(i_above-i_below);
     var o_below = Figure.filter(row=>{return row.inp==i_below})[0].out;
     var o_above = Figure.filter(row=>{return row.inp==i_above})[0].out;
-    console.log('value between '+o_below+' and '+o_above);
+    //console.log('value between '+o_below+' and '+o_above);
     var o_inter = o_below + (o_above-o_below)*percentage;
-    console.log("Fe/P mole ratio found: "+o_inter);
-    console.log("--------");
+    //console.log("Fe/P mole ratio found: "+o_inter);
+    //console.log("--------");
     return o_inter;
   }
   else{
-    console.log('value '+inp+' is in table');
+    //console.log('value '+inp+' is in table');
     var out=Figure.filter(row=>{return inp==row.inp})[0].out;
-    console.log("Fe/P mole ratio found: "+out);
-    console.log("--------");
+    //console.log("Fe/P mole ratio found: "+out);
+    //console.log("--------");
     return out;
   }
 }
@@ -102,11 +102,11 @@ function get_rbCOD_P_ratio(VFA_rbCOD_ratio){
 
   //min and max values are: 0.1 and 0.8
   V=Math.min(0.8,Math.max(0.1,V));
-  console.log("VFA/rbCOD ratio: "+V);
+  //console.log("VFA/rbCOD ratio: "+V);
 
   //get only the first decimal part of the number
   V=Math.round(V*10)/10;
-  console.log("rounded: VFA/rbCOD ratio: "+V);
+  //console.log("rounded: VFA/rbCOD ratio: "+V);
 
   var Figure=[
     {V:0.1, P:20},
@@ -120,7 +120,7 @@ function get_rbCOD_P_ratio(VFA_rbCOD_ratio){
   ];
   //found rbCOD/P ratio
   var P = Figure.filter(row=>{return V==row.V})[0].P;
-  console.log("rbCOD/P ratio: "+P);
+  //console.log("rbCOD/P ratio: "+P);
   return P;
 }
 
@@ -154,7 +154,7 @@ function density_of_air(temperature,pressure) {
 */
 function air_solubility_of_oxygen(temperature,elevation){
   //input checks
-  console.log('Calculating C_T (Air solubility of oxygen) (mg/L) as f(T,zb)');
+  //console.log('Calculating C_T (Air solubility of oxygen) (mg/L) as f(T,zb)');//debugging
   temperature=temperature||0;
   elevation=elevation||0;
   if(temperature<0) temperature=0;
@@ -212,14 +212,14 @@ function air_solubility_of_oxygen(temperature,elevation){
 
   //case 1: temp and elevation defined
   if(Table[temperature] && Table[temperature][elevation]){
-    console.log('+temperature and elevation defined, no interpolation needed');
-    console.log(Table[temperature][elevation]+" mg/L");
+    //console.log('+temperature and elevation defined, no interpolation needed');//debugging
+    //console.log(Table[temperature][elevation]+" mg/L");//debugging
     return Table[temperature][elevation];
   }
 
   //case 2: temp defined and elevation undefined
   if(Table[temperature] && !Table[temperature][elevation]) {
-    console.log('+temperature defined and elevation undefined => performing linear interpolation (axis x)');
+    //console.log('+temperature defined and elevation undefined => performing linear interpolation (axis x)');//debugging
     //find elevation above and below
     var Elevations=[0,200,400,600,800,1000,1200,1400,1600,1800];
     for(var i=1;i<Elevations.length;i++){
@@ -232,33 +232,33 @@ function air_solubility_of_oxygen(temperature,elevation){
     var percentage = (elevation-e_below)/(e_above-e_below);
     var s_below = Table[temperature][e_below];
     var s_above = Table[temperature][e_above];
-    console.log('+value between '+s_below+' and '+s_above);
+    //console.log('+value between '+s_below+' and '+s_above);
     var s_range = s_above - s_below;
     var s_added = s_range*percentage;
     var s_inter = s_below + s_added;
-    console.log(s_inter+" mg/L");
+    //console.log(s_inter+" mg/L");
     return s_inter;
   }
 
   //case 3: temp undefined and elevation defined
   if(!Table[temperature] && Table[0][elevation]) {
-    console.log('+temperature undefined and elevation defined => performing linear interpolation (axis y)');
+    //console.log('+temperature undefined and elevation defined => performing linear interpolation (axis y)');
     //find temperature above and below
     var t_below = Math.floor(temperature);
     var t_above = Math.ceil(temperature);
     var percentage = (temperature-t_below)/(t_above-t_below);
     var s_below = Table[t_below][elevation];
     var s_above = Table[t_above][elevation];
-    console.log('+value between '+s_below+' and '+s_above);
+    //console.log('+value between '+s_below+' and '+s_above);
     var s_range = s_above - s_below;
     var s_added = s_range*percentage;
     var s_inter = s_below + s_added;
-    console.log(s_inter+" mg/L");
+    //console.log(s_inter+" mg/L");
     return s_inter;
   }
   else{
     //case 4: bilinear interpolation
-    console.log('+temperature undefined and elevation undefined => performing bilinear interpolation (axis x,y)');
+    //console.log('+temperature undefined and elevation undefined => performing bilinear interpolation (axis x,y)');
     //find temperature above and below (x1,x2)
     var x1 = Math.floor(temperature);
     var x2 = Math.ceil(temperature);
@@ -282,18 +282,18 @@ function air_solubility_of_oxygen(temperature,elevation){
     var f_x2_y1 = Table[x2][y1];
     var f_x2_y2 = Table[x2][y2];
 
-    console.log("+Bilinear interpolation f(x,y), x="+x+", y="+y+", between: ");
-    console.log("f(x1,y1): "+f_x1_y1);
-    console.log("f(x1,y2): "+f_x1_y2);
-    console.log("f(x2,y1): "+f_x2_y1);
-    console.log("f(x2,y2): "+f_x2_y2);
+    //console.log("+Bilinear interpolation f(x,y), x="+x+", y="+y+", between: ");
+    //console.log("f(x1,y1): "+f_x1_y1);
+    //console.log("f(x1,y2): "+f_x1_y2);
+    //console.log("f(x2,y1): "+f_x2_y1);
+    //console.log("f(x2,y2): "+f_x2_y2);
 
     //apply linear interpolation in the x direction
     var f_x_y1 = (x2-x)/(x2-x1)*f_x1_y1 + (x-x1)/(x2-x1)*f_x2_y1;
     var f_x_y2 = (x2-x)/(x2-x1)*f_x1_y2 + (x-x1)/(x2-x1)*f_x2_y2;
     //proceed to interpolate the y direction to obtain f(x,y) estimate
     var f_x_y = (y2-y)/(y2-y1)*f_x_y1 + (y-y1)/(y2-y1)*f_x_y2;
-    console.log(f_x_y+" mg/L");
+    //console.log(f_x_y+" mg/L");
     return f_x_y;
   }
 }

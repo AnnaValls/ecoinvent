@@ -20,19 +20,15 @@
       <li>
         Single plant model
         <ul>
-          <li><a href="elementary.php"                          >Single plant model (<em>Metcalf &amp; Eddy equations</em>)</a>
-          <li><a href="technologies.php"                        >All technologies</a>
-          <li><a href="inputs.php"                              >All inputs</a>
-          <li><a href="outputs.php"                             >All outputs</a>
-          <li><a href="see.php?path=dataModel&file=constants.js">All constants</a>
-          <li><a href="construction.php"                        >Construction materials</a>
+          <li><a href="elementary.php"   >Single plant model (<em>Metcalf &amp; Eddy equations</em>)</a>
+          <li><a href="construction.php" >Construction materials</a>
         </ul>
       <li>
-        Multiple plant analysis (<em>under development</em>)
+        Multiple plant simulation (<em>under development</em>)
         <ul>
+          <li><a href="n-wwtp.php"               >Multiple plant simulation</a>
           <li><a href="simplified_data_entry.php">Simplified data entry interface</a>
           <li><a href="marginal.php"             >Marginal approach</a>
-          <li><a href="n-wwtp.php"               >Create multiple plants</a>
           <li><a href="reference_data.php"       >Influent default data by country</a>
           <li><a href="ecospold"                 >Generate ecospold file</a>
         </ul>
@@ -73,9 +69,25 @@
         <td>M&amp;EA 5th ed (p. 484)
         <td><a href="see.php?path=techs&file=chem_P_removal.js">chem_P_removal.js</a>
       <tr>
-        <td>8. Metals
+        <td>8. Metals and other elements
         <td><a href="docs/gabor-doka-tool/">G. Doka excel tool</a>
         <td><a href="see.php?path=techs&file=metals_doka.js">metals_doka.js</a>
+      <tr>
+        <td>9. CSO removal
+        <td>
+        <td><a href="see.php?path=techs&file=cso_removal.js">cso_removal.js</a>
+      <tr>
+        <td>10. Primary settler
+        <td>
+        <td><a href="see.php?path=techs&file=primary_settler.js">primary_settler.js</a>
+      <tr>
+        <td>11. Sludge composition
+        <td>
+        <td><a href="see.php?path=techs&file=sludge_composition.js">sludge_composition.js</a>
+      <tr>
+        <td>12. Energy consumption
+        <td>
+        <td><a href="see.php?path=techs&file=energy_consumption.js">energy_consumption.js</a>
     </table>
   </div><hr>
 

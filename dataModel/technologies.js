@@ -12,14 +12,6 @@
  */
 
 var Technologies = {
-  "CSO":{
-    Name:"Combined Sewer Overflow",
-    File:"cso_removal.js",
-    Implemented_in:"",
-    value:true,
-    notActivable:true,
-    Inputs:getParamNames(cso_removal),
-  },
   "Fra":{
     Name:"Fractionation",
     File:"fractionation.js",
@@ -27,6 +19,14 @@ var Technologies = {
     value:true,
     notActivable:true,
     Inputs:getParamNames(fractionation), //["BOD","sBOD","COD","bCOD","sCOD","TSS","VSS"]
+  },
+  "CSO":{
+    Name:"Combined Sewer Overflow",
+    File:"cso_removal.js",
+    Implemented_in:"",
+    value:true,
+    notActivable:true,
+    Inputs:getParamNames(cso_removal),
   },
   "Pri":{
     //Name:"Primary settler <small><issue class=under_dev></issue></small>",
@@ -50,6 +50,14 @@ var Technologies = {
     value:false,
     Inputs:getParamNames(nitrification),
 	},
+  "SST":{
+    Name:"Secondary settler sizing",
+    File:"sst_sizing.js",
+    Implemented_in:"bod_removal_with_nitrification.php",
+    value:false,
+    notActivable:true,
+    Inputs:getParamNames(sst_sizing),
+  },
 	"Des":{
 		Name:"Denitrification",
 		File:"n_removal.js",
@@ -72,14 +80,6 @@ var Technologies = {
     value:false,
     Inputs:getParamNames(chem_P_removal),
 	},
-  "SST":{
-    Name:"Secondary settler sizing",
-    File:"sst_sizing.js",
-    Implemented_in:"bod_removal_with_nitrification.php",
-    value:false,
-    notActivable:true,
-    Inputs:getParamNames(sst_sizing),
-  },
   "Met":{
     Name:"Metals and other elements",
     File:"metals_doka.js",

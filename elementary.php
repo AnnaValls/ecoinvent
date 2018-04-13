@@ -193,6 +193,7 @@
           PO4_eff              : getInput('PO4_eff').value, //0.1
 
           COD_TOC_ratio        : getInput('COD_TOC_ratio').value, //3
+          fossil_CO2_percent   : getInput('fossil_CO2_percent').value, //3.6%
 
           SRT                  : getInput('SRT').value, //5
           MLSS_X_TSS           : getInput('MLSS_X_TSS').value, //3000
@@ -336,12 +337,12 @@
             var tr=t.querySelector('#'+output);
             //influent
             var value = Outputs[output].influent;
-            var color = value ? '':'#aaa';
+            var color = value ? (value<0?'red':''):'#aaa';
             tr.querySelector('td[phase=influent]').innerHTML=format(value,false,color);
             //effluent
             ['water','air','sludge'].forEach(phase=>{
               var value = Outputs[output].effluent[phase];
-              var color = value ? '':'#aaa';
+              var color = value ? (value<0?'red':''):'#aaa';
               tr.querySelector('td[phase='+phase+']').innerHTML=format(value,false,color);
             });
           }
@@ -859,7 +860,7 @@
           //set the input value if it is specified in URL GET parameters
           var get_parameter_value=url.searchParams.get('is_'+tec.id+'_active');
           if(get_parameter_value!=null){
-            getInput(tec.id,true).value= get_parameter_value=="true";
+            getInput(tec.id,true).value= get_parameter_value=="true" || get_parameter_value=="1";
           }
 
           //checkbox

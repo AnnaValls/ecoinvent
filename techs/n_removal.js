@@ -75,19 +75,19 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
 
     //loop until tau makes NO_r similar to NOx_feed (between 0% and 20%)
     while(true){
-      console.log('New iteration -- V_nox sizing (iteration: '+iterations+')');
+      //console.log('New iteration -- V_nox sizing (iteration: '+iterations+')');
 
       //recalculate tau from V_nox
       tau = V_nox/Q ||0;
       tau = Math.max(0,tau);
 
-      console.log('  V_nox: '+V_nox+' m3');
-      console.log('  tau:   '+tau+' days');
+      //console.log('  V_nox: '+V_nox+' m3');
+      //console.log('  tau:   '+tau+' days');
 
       //5 -- determine F/Mb using (eq. 8-56)
       FM_b = Q*BOD/(V_nox*Xb) ||0; //g/g·d
       FM_b=isFinite(FM_b)?FM_b:0;
-      console.log("F/Mb = "+FM_b);
+      //console.log("F/Mb = "+FM_b);
 
       //6 -- determine SDNR using (eq. 8-57)
       if(FM_b>0.50){
@@ -119,7 +119,7 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
         SDNR_b = b0 + b1*Math.log(FM_b); //gNO3-N/gMLVSS,biomass·d
         //note: Math.log(x) in javascript is equal to ln(x)
       }else{
-        console.log('since [F/M_b]<0.50  -->  SDNR_b = 0.24*[F/M_b]');
+        //console.log('since [F/M_b]<0.50  -->  SDNR_b = 0.24*[F/M_b]');
         SDNR_b = 0.24*FM_b; //gNO3-N/gMLVSS,biomass·d
       }
 
@@ -151,7 +151,7 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
       //(if difference is negative => NOx_feed > NO_r)
       difference_NOr_NOx = (1 - NOx_feed/NO_r||0)*100;
       //debugging info
-      console.log("NOx_feed vs NO_r - difference: "+difference_NOr_NOx+" %");
+      //console.log("NOx_feed vs NO_r - difference: "+difference_NOr_NOx+" %");
 
       //check if we did too much iterations
       iterations++;
@@ -169,7 +169,7 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
 
       if(0 <= difference_NOr_NOx && difference_NOr_NOx <= accepted_max_difference){
         //exit the loop: we are ok
-        console.log("Difference[NOr][NOx] is acceptable ("+difference_NOr_NOx+" %)")
+        //console.log("Difference[NOr][NOx] is acceptable ("+difference_NOr_NOx+" %)")
         break;
       }else if(difference_NOr_NOx < 0){
         //increase V_nox

@@ -40,7 +40,7 @@ function bio_P_removal(Q,bCOD,rbCOD,VFA,nbVSS,iTSS,TP,T,SRT,NOx,NO3_eff,tau_aer,
   var rbCOD_available = Math.max(0, Q_rbCOD - rbCOD_used_by_NO3); //237,600 g/d
 
   //2
-  var VFA_rbCOD_ratio = VFA/rbCOD ||0; //0.20 no unit (0.15 in biowin)
+  var VFA_rbCOD_ratio = rbCOD==0 ? 0 : VFA/rbCOD; //0.20 no unit (0.15 in biowin)
   var rbCOD_P_ratio = get_rbCOD_P_ratio(VFA_rbCOD_ratio); //15. implemented fig 8-38 at "utils.js"
   var rbCOD_available_normalized = rbCOD_available/Q ||0; //59.4 g/m3
   var P_removal_EBPR = rbCOD_available_normalized/rbCOD_P_ratio ||0; //4 g/m3 (page 881)

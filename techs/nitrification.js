@@ -60,7 +60,8 @@ function nitrification(BOD,bCOD_BOD_ratio,nbVSS,TSS,VSS,Q,T,TKN,SF,zb,Pressure,D
 
   var S0 = bCOD;
   var S = Ks * (1+bHT*SRT_design) / (SRT_design*(mu_mT-bHT)-1) ||0; //g/m3
-  S=Math.max(0,S);
+  S=Math.min(S,S0); //keep the smaller value
+  S=Math.max(0,S);  //avoid negative S
 
   var NOx = 0.80 * TKN; //first aproximation for nitrate, prior to iteration (80% of TKN)
 
@@ -77,9 +78,9 @@ function nitrification(BOD,bCOD_BOD_ratio,nbVSS,TSS,VSS,Q,T,TKN,SF,zb,Pressure,D
 
   //loop for NOx and PXBioVSS calculation
   (function(){
-    console.log("=======================================")
-    console.log("LOOP FOR NOx and PXbioVSS approximation")
-    console.log("=======================================")
+    //console.log("=======================================")
+    //console.log("LOOP FOR NOx and PXbioVSS approximation")
+    //console.log("=======================================")
 
     //initialize arrays with current approximated values
     var NOx_array = [NOx];
@@ -91,7 +92,7 @@ function nitrification(BOD,bCOD_BOD_ratio,nbVSS,TSS,VSS,Q,T,TKN,SF,zb,Pressure,D
     //loop until difference < tolerance
     var iterations_performed=0;
     while(true){
-      console.log("- new iteration")
+      //console.log("- new iteration")
 
       //increase accuracy of NOx from P_X_bio_VSS
       var last_PX = P_X_bio_VSS_array.slice(-1)[0];
@@ -113,8 +114,8 @@ function nitrification(BOD,bCOD_BOD_ratio,nbVSS,TSS,VSS,Q,T,TKN,SF,zb,Pressure,D
       if(difference<tolerance){
         NOx         = new_NOx;
         P_X_bio_VSS = new_PX;
-        console.log('NOx & P_X_bio_VSS loop: value is accurate enough (difference: '+difference+')');
-        console.log('=================================');
+        //console.log('NOx & P_X_bio_VSS loop: value is accurate enough (difference: '+difference+')');
+        //console.log('=================================');
         break;
       }
       iterations_performed++;

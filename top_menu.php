@@ -153,12 +153,11 @@
     <button onclick="toggleView_top_menu_item('top_menu #help')">
     Help</button>
     <ul id=help style=display:none>
-      <li>
-        <button onclick=window.open('docs')>
-          Documentation
-          <br><issue class=help_wanted></issue>
-        </button>
-      </li>
+      <li>Documentation
+      <li><button onclick=window.open('technologies.php')>See all technologies</button>
+      <li><button onclick=window.open('inputs.php')>See all inputs</button>
+      <li><button onclick=window.open('outputs.php')>See all calculated variables</button>
+      <li><button onclick=window.open('see.php?path=dataModel&file=constants.js')>See all constants</button>
     </ul>
   </div>
 

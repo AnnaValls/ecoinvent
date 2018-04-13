@@ -5,7 +5,6 @@
 function compute_elementary_flows(input_set){
   //process inputs
     var is=input_set;
-
     //unpack technologies
       var is_Pri_active = is.is_Pri_active;
       var is_BOD_active = is.is_BOD_active;
@@ -13,7 +12,6 @@ function compute_elementary_flows(input_set){
       var is_Des_active = is.is_Des_active;
       var is_BiP_active = is.is_BiP_active;
       var is_ChP_active = is.is_ChP_active;
-
     //unpack ww composition
       var Q          = is.Q;
       var T          = is.T;
@@ -32,7 +30,6 @@ function compute_elementary_flows(input_set){
       var PO4        = is.PO4;
       var Alkalinity = is.Alkalinity;
       //influent metals are picked when 'metals_doka' is called
-
     //design parameters
       var CSO_particulate      = is.CSO_particulate;
       var CSO_soluble          = is.CSO_soluble;
@@ -64,7 +61,7 @@ function compute_elementary_flows(input_set){
       var influent_H           = is.influent_H;
   //end-process-inputs
 
-  //make that effluent designed cannot be higher than influent observed concentrations
+  //make effluent designed not higher than influent observed concentrations
   NH4_eff = Math.min(NH4_eff, TKN);
   NO3_eff = Math.min(NO3_eff, TKN);
   PO4_eff = Math.min(PO4_eff, TP);
@@ -76,7 +73,7 @@ function compute_elementary_flows(input_set){
       + "other" (for some values not related to any tech)
       + "summary" (for selected variables results oriented)
   */
-  var Result={Fra:{},Pri:{},BOD:{},Nit:{},SST:{},Des:{},BiP:{},ChP:{},Met:{},Ene:{},other:{},summary:{}};
+  var Result={Fra:{},Pri:{},BOD:{},Nit:{},SST:{},Des:{},BiP:{},ChP:{},Met:{},Ene:{},other:{},summary:{},Outputs:{}};
 
   /*APPLY TECHNOLOGIES MODULES*/
 
@@ -84,7 +81,7 @@ function compute_elementary_flows(input_set){
   //call fractionation of raw wastewater (before CSO and primary settler)
   Result.Fra=fractionation(BOD,sBOD,COD,bCOD,sCOD,rbCOD,TSS,VSS,TKN,NH4,NH4_eff,TP,PO4);
 
-  //call cso removal
+  //apply cso removal
   (function(){
     //inputs: fractionation, metals and CSO removal rates (particulate and soluble)
     (function(){
@@ -110,9 +107,9 @@ function compute_elementary_flows(input_set){
     Result.Fra=fractionation(BOD,sBOD,COD,bCOD,sCOD,rbCOD,TSS,VSS,TKN,NH4,NH4_eff,TP,PO4);
   })();
 
-  //call primary settler
+  //apply primary settler
   if(is_Pri_active){
-    //get pCOD fractions
+    //get particulated fractions ONLY (the ones that the settler removes)
     var bpCOD          = Result.Fra.bpCOD.value;  //g/m3
     var nbpCOD         = Result.Fra.nbpCOD.value; //g/m3
     var pCOD           = Result.Fra.pCOD.value;   //g/m3
@@ -123,8 +120,8 @@ function compute_elementary_flows(input_set){
     var VSS_COD        = Result.Fra.VSS_COD.value; //g_pCOD/g_VSS
     var bpCOD_bVSS     = Result.Fra.bpCOD_bVSS.value; //g_bpCOD/g_bVSS
 
-    //apply primary settler    ----pCOD---- ------removal-rates-----
-    Result.Pri=primary_settler(Q,bpCOD,nbpCOD,iTSS,ON,OP,VSS_COD,bpCOD_bVSS, removal_bpCOD,removal_nbpCOD,removal_iTSS,removal_ON,removal_OP);
+    //apply primary settler      ----fractions---------- ----ratios-------- ----removal-rates----------------------------------------------
+    Result.Pri=primary_settler(Q,bpCOD,nbpCOD,iTSS,ON,OP,VSS_COD,bpCOD_bVSS,removal_bpCOD,removal_nbpCOD,removal_iTSS,removal_ON,removal_OP);
     addResults('Pri',Result.Pri);
 
     //get removed amounts (g/m3)
@@ -151,7 +148,6 @@ function compute_elementary_flows(input_set){
     //RECALCULATE FRACTIONATION
     Result.Fra=fractionation(BOD,sBOD,COD,bCOD,sCOD,rbCOD,TSS,VSS,TKN,NH4,NH4_eff,TP,PO4)
   }else{
-    //call it just to see "0 g/m3 removed"
     //         primary_settler(Q,bpCOD,nbpCOD,iTSS,ON,OP,VSS_COD,bpCOD_bVSS,removal_bpCOD,removal_nbpCOD,removal_iTSS,removal_ON,removal_OP);
     Result.Pri=primary_settler(0,    0,     0,   0, 0, 0,      0,         0,            0,             0,           0,         0,         0);
     addResults('Pri',Result.Pri);
@@ -163,7 +159,7 @@ function compute_elementary_flows(input_set){
 
   addResults('Fra',Result.Fra);
 
-  //get fractionated values
+  //get fractionated values available for further technologies
   var bCOD_BOD_ratio = Result.Fra.bCOD_BOD_ratio.value; //g/g
   var nbCOD          = Result.Fra.nbCOD.value;   //g/m3
   var pCOD           = Result.Fra.pCOD.value;    //g/m3
@@ -182,7 +178,7 @@ function compute_elementary_flows(input_set){
   var nbpOP          = Result.Fra.nbpOP.value;   //g/m3
   var aP             = Result.Fra.aP.value;      //g/m3 | aP = TP - nbpOP         | only used to compute aPchem
 
-  //bod removal has to be always active. If not: do nothing
+  //bod removal has to be always active. If not: stop here
   if(is_BOD_active==false){
     console.log('BOD REMOVAL IS INACTIVE: no more technologies will be applied');
     return Result;
@@ -283,7 +279,7 @@ function compute_elementary_flows(input_set){
   })();
   //--------------------------------------------------------------------------------------
 
-  /*"OTHER" VARIABLES*/
+  /*OTHER VARIABLES*/
 
   //BOD per person per day
   var BOD_person_day = Q*is.BOD/is.PEq; //g/person/day
@@ -316,6 +312,7 @@ function compute_elementary_flows(input_set){
 
   //Qwas and Qe equations (wastage and effluent flowrates)
   var Qwas = (V_total*MLSS_X_TSS/SRT - Q*TSSe)/(X_R - TSSe) ||0; //m3/d
+  Qwas = Math.max(0, Qwas);         //avoid negative
   Qwas = isFinite(Qwas) ? Qwas : 0; //avoid infinite
   var Qe = Q - Qwas; //m3/d
 
@@ -330,7 +327,6 @@ function compute_elementary_flows(input_set){
   Result.other={
     'BOD_person_day': {value:BOD_person_day, unit:"g/person/day_as_O2", descr:"BOD5 per person per day"},
     'TOC_content':    {value:TOC_content,    unit:"g/m3_as_C",          descr:"TOC content"},
-
     'S':              {value:S,              unit:"g/m3_as_O2",         descr:"bCOD at the effluent"},
     'sCODe':          {value:sCODe,          unit:"g/m3_as_O2",         descr:"Soluble COD at the effluent"},
     'VSSe':           {value:VSSe,           unit:"g/m3",               descr:"Volatile Suspended Solids at the effluent"},
@@ -545,12 +541,12 @@ function compute_elementary_flows(input_set){
       }
       else if(is_BiP_active && is_ChP_active==false){   //bio P removal
         //recalculate the 0.015 factor, in bio P removal changes
-        var g_P_VSS_new = (Q*PO4-Qe*PO4_eff)/(P_X_VSS*1000); //g_P/g_VSS
+        var g_P_VSS_new = P_X_VSS==0 ? 0 : (Q*PO4-Qe*PO4_eff)/(P_X_VSS*1000); //g_P/g_VSS
         return Qe*PO4_eff + Qe*VSSe*g_P_VSS_new;
       }
       else if(is_BiP_active==false && is_ChP_active){   //chem P removal
         //recalculate the 0.015 factor, in bio P removal changes
-        var g_P_VSS_new = (Q*PO4-Qe*PO4_eff)/(P_X_VSS*1000); //g_P/g_VSS
+        var g_P_VSS_new = P_X_VSS==0 ? 0 : (Q*PO4-Qe*PO4_eff)/(P_X_VSS*1000); //g_P/g_VSS
         return Qe*PO4_eff + Qe*VSSe*g_P_VSS_new;
       }
       else{ //both P removals are not seen in practice (G. Ekama)
@@ -567,12 +563,12 @@ function compute_elementary_flows(input_set){
       }
       else if(is_BiP_active && is_ChP_active==false){   //bio P removal
         //recalculate the 0.015 factor, in bio P removal changes
-        var g_P_VSS_new = (Q*PO4-Qe*PO4_eff)/(P_X_VSS*1000); //g_P/g_VSS "PAO VSS"
+        var g_P_VSS_new = P_X_VSS==0 ? 0 : (Q*PO4-Qe*PO4_eff)/(P_X_VSS*1000); //g_P/g_VSS
         return Q*Result.BiP.P_removal.value + B + C - Qe*VSSe*g_P_VSS_new; 
       }
       else if(is_BiP_active==false && is_ChP_active){  //chem P removal
         //recalculate the 0.015 factor, in bio P removal changes
-        var g_P_VSS_new = (Q*PO4-Qe*PO4_eff)/(P_X_VSS*1000); //g_P/g_VSS
+        var g_P_VSS_new = P_X_VSS==0 ? 0 : (Q*PO4-Qe*PO4_eff)/(P_X_VSS*1000); //g_P/g_VSS
         return (0.015*P_X_bio*1000) + Q*(aPchem - PO4_eff) + B + C - Qe*VSSe*g_P_VSS_new; 
       }
       else{ //both P removals are not seen in practice (G. Ekama)
@@ -697,11 +693,189 @@ function compute_elementary_flows(input_set){
     'total_daily_energy':     Result.Ene.total_daily_energy,
     'total_energy_per_m3':    Result.Ene.total_energy_per_m3,
     //CO2 fossil or biogenic
-    'nonbiogenic_CO2': {value:0.036*Outputs.CO2.effluent.air/1000, unit:"kg/d", descr:""},
-    'biogenic_CO2':    {value:0.964*Outputs.CO2.effluent.air/1000, unit:"kg/d", descr:""},
+    'nonbiogenic_CO2': {value:is.fossil_CO2_percent/100    *Outputs.CO2.effluent.air/1000, unit:"kg/d", descr:""},
+    'biogenic_CO2':    {value:(1-is.fossil_CO2_percent/100)*Outputs.CO2.effluent.air/1000, unit:"kg/d", descr:""},
   };
   //addResults('summary',Result.summary); //if added, they will be visible in the "Variables" table
 
+  //pack here Outputs instead of global variable
+  Result.Outputs={
+    //key components
+    COD_influent         :  {value:Outputs.COD.influent,         unit:"g/d",  },
+    COD_effluent_water   :  {value:Outputs.COD.effluent.water,   unit:"g/d",  },
+    COD_effluent_air     :  {value:Outputs.COD.effluent.air,     unit:"g/d",  },
+    COD_effluent_sludge  :  {value:Outputs.COD.effluent.sludge,  unit:"g/d",  },
+    CO2_influent         :  {value:Outputs.CO2.influent,         unit:"g/d",  },
+    CO2_effluent_water   :  {value:Outputs.CO2.effluent.water,   unit:"g/d",  },
+    CO2_effluent_air     :  {value:Outputs.CO2.effluent.air,     unit:"g/d",  },
+    CO2_effluent_sludge  :  {value:Outputs.CO2.effluent.sludge,  unit:"g/d",  },
+    CH4_influent         :  {value:Outputs.CH4.influent,         unit:"g/d",  },
+    CH4_effluent_water   :  {value:Outputs.CH4.effluent.water,   unit:"g/d",  },
+    CH4_effluent_air     :  {value:Outputs.CH4.effluent.air,     unit:"g/d",  },
+    CH4_effluent_sludge  :  {value:Outputs.CH4.effluent.sludge,  unit:"g/d",  },
+    TKN_influent         :  {value:Outputs.TKN.influent,         unit:"g/d",  },
+    TKN_effluent_water   :  {value:Outputs.TKN.effluent.water,   unit:"g/d",  },
+    TKN_effluent_air     :  {value:Outputs.TKN.effluent.air,     unit:"g/d",  },
+    TKN_effluent_sludge  :  {value:Outputs.TKN.effluent.sludge,  unit:"g/d",  },
+    NOx_influent         :  {value:Outputs.NOx.influent,         unit:"g/d",  },
+    NOx_effluent_water   :  {value:Outputs.NOx.effluent.water,   unit:"g/d",  },
+    NOx_effluent_air     :  {value:Outputs.NOx.effluent.air,     unit:"g/d",  },
+    NOx_effluent_sludge  :  {value:Outputs.NOx.effluent.sludge,  unit:"g/d",  },
+    N2_influent          :  {value:Outputs.N2.influent,          unit:"g/d",  },
+    N2_effluent_water    :  {value:Outputs.N2.effluent.water,    unit:"g/d",  },
+    N2_effluent_air      :  {value:Outputs.N2.effluent.air,      unit:"g/d",  },
+    N2_effluent_sludge   :  {value:Outputs.N2.effluent.sludge,   unit:"g/d",  },
+    N2O_influent         :  {value:Outputs.N2O.influent,         unit:"g/d",  },
+    N2O_effluent_water   :  {value:Outputs.N2O.effluent.water,   unit:"g/d",  },
+    N2O_effluent_air     :  {value:Outputs.N2O.effluent.air,     unit:"g/d",  },
+    N2O_effluent_sludge  :  {value:Outputs.N2O.effluent.sludge,  unit:"g/d",  },
+    TP_influent          :  {value:Outputs.TP.influent,          unit:"g/d",  },
+    TP_effluent_water    :  {value:Outputs.TP.effluent.water,    unit:"g/d",  },
+    TP_effluent_air      :  {value:Outputs.TP.effluent.air,      unit:"g/d",  },
+    TP_effluent_sludge   :  {value:Outputs.TP.effluent.sludge,   unit:"g/d",  },
+
+    //metals and other elements
+    "Ag_influent"         :  {value:Outputs.Ag.influent,         unit:"g/d",  },
+    "Ag_effluent_water"   :  {value:Outputs.Ag.effluent.water,   unit:"g/d",  },
+    "Ag_effluent_air"     :  {value:Outputs.Ag.effluent.air,     unit:"g/d",  },
+    "Ag_effluent_sludge"  :  {value:Outputs.Ag.effluent.sludge,  unit:"g/d",  },
+    "Al_influent"         :  {value:Outputs.Al.influent,         unit:"g/d",  },
+    "Al_effluent_water"   :  {value:Outputs.Al.effluent.water,   unit:"g/d",  },
+    "Al_effluent_air"     :  {value:Outputs.Al.effluent.air,     unit:"g/d",  },
+    "Al_effluent_sludge"  :  {value:Outputs.Al.effluent.sludge,  unit:"g/d",  },
+    "As_influent"         :  {value:Outputs.As.influent,         unit:"g/d",  },
+    "As_effluent_water"   :  {value:Outputs.As.effluent.water,   unit:"g/d",  },
+    "As_effluent_air"     :  {value:Outputs.As.effluent.air,     unit:"g/d",  },
+    "As_effluent_sludge"  :  {value:Outputs.As.effluent.sludge,  unit:"g/d",  },
+    "B_influent"          :  {value:Outputs.B.influent,          unit:"g/d",  },
+    "B_effluent_water"    :  {value:Outputs.B.effluent.water,    unit:"g/d",  },
+    "B_effluent_air"      :  {value:Outputs.B.effluent.air,      unit:"g/d",  },
+    "B_effluent_sludge"   :  {value:Outputs.B.effluent.sludge,   unit:"g/d",  },
+    "Ba_influent"         :  {value:Outputs.Ba.influent,         unit:"g/d",  },
+    "Ba_effluent_water"   :  {value:Outputs.Ba.effluent.water,   unit:"g/d",  },
+    "Ba_effluent_air"     :  {value:Outputs.Ba.effluent.air,     unit:"g/d",  },
+    "Ba_effluent_sludge"  :  {value:Outputs.Ba.effluent.sludge,  unit:"g/d",  },
+    "Be_influent"         :  {value:Outputs.Be.influent,         unit:"g/d",  },
+    "Be_effluent_water"   :  {value:Outputs.Be.effluent.water,   unit:"g/d",  },
+    "Be_effluent_air"     :  {value:Outputs.Be.effluent.air,     unit:"g/d",  },
+    "Be_effluent_sludge"  :  {value:Outputs.Be.effluent.sludge,  unit:"g/d",  },
+    "Br_influent"         :  {value:Outputs.Br.influent,         unit:"g/d",  },
+    "Br_effluent_water"   :  {value:Outputs.Br.effluent.water,   unit:"g/d",  },
+    "Br_effluent_air"     :  {value:Outputs.Br.effluent.air,     unit:"g/d",  },
+    "Br_effluent_sludge"  :  {value:Outputs.Br.effluent.sludge,  unit:"g/d",  },
+    "Ca_influent"         :  {value:Outputs.Ca.influent,         unit:"g/d",  },
+    "Ca_effluent_water"   :  {value:Outputs.Ca.effluent.water,   unit:"g/d",  },
+    "Ca_effluent_air"     :  {value:Outputs.Ca.effluent.air,     unit:"g/d",  },
+    "Ca_effluent_sludge"  :  {value:Outputs.Ca.effluent.sludge,  unit:"g/d",  },
+    "Cd_influent"         :  {value:Outputs.Cd.influent,         unit:"g/d",  },
+    "Cd_effluent_water"   :  {value:Outputs.Cd.effluent.water,   unit:"g/d",  },
+    "Cd_effluent_air"     :  {value:Outputs.Cd.effluent.air,     unit:"g/d",  },
+    "Cd_effluent_sludge"  :  {value:Outputs.Cd.effluent.sludge,  unit:"g/d",  },
+    "Cl_influent"         :  {value:Outputs.Cl.influent,         unit:"g/d",  },
+    "Cl_effluent_water"   :  {value:Outputs.Cl.effluent.water,   unit:"g/d",  },
+    "Cl_effluent_air"     :  {value:Outputs.Cl.effluent.air,     unit:"g/d",  },
+    "Cl_effluent_sludge"  :  {value:Outputs.Cl.effluent.sludge,  unit:"g/d",  },
+    "Co_influent"         :  {value:Outputs.Co.influent,         unit:"g/d",  },
+    "Co_effluent_water"   :  {value:Outputs.Co.effluent.water,   unit:"g/d",  },
+    "Co_effluent_air"     :  {value:Outputs.Co.effluent.air,     unit:"g/d",  },
+    "Co_effluent_sludge"  :  {value:Outputs.Co.effluent.sludge,  unit:"g/d",  },
+    "Cr_influent"         :  {value:Outputs.Cr.influent,         unit:"g/d",  },
+    "Cr_effluent_water"   :  {value:Outputs.Cr.effluent.water,   unit:"g/d",  },
+    "Cr_effluent_air"     :  {value:Outputs.Cr.effluent.air,     unit:"g/d",  },
+    "Cr_effluent_sludge"  :  {value:Outputs.Cr.effluent.sludge,  unit:"g/d",  },
+    "Cu_influent"         :  {value:Outputs.Cu.influent,         unit:"g/d",  },
+    "Cu_effluent_water"   :  {value:Outputs.Cu.effluent.water,   unit:"g/d",  },
+    "Cu_effluent_air"     :  {value:Outputs.Cu.effluent.air,     unit:"g/d",  },
+    "Cu_effluent_sludge"  :  {value:Outputs.Cu.effluent.sludge,  unit:"g/d",  },
+    "F_influent"          :  {value:Outputs.F.influent,          unit:"g/d",  },
+    "F_effluent_water"    :  {value:Outputs.F.effluent.water,    unit:"g/d",  },
+    "F_effluent_air"      :  {value:Outputs.F.effluent.air,      unit:"g/d",  },
+    "F_effluent_sludge"   :  {value:Outputs.F.effluent.sludge,   unit:"g/d",  },
+    "Fe_influent"         :  {value:Outputs.Fe.influent,         unit:"g/d",  },
+    "Fe_effluent_water"   :  {value:Outputs.Fe.effluent.water,   unit:"g/d",  },
+    "Fe_effluent_air"     :  {value:Outputs.Fe.effluent.air,     unit:"g/d",  },
+    "Fe_effluent_sludge"  :  {value:Outputs.Fe.effluent.sludge,  unit:"g/d",  },
+    "Hg_influent"         :  {value:Outputs.Hg.influent,         unit:"g/d",  },
+    "Hg_effluent_water"   :  {value:Outputs.Hg.effluent.water,   unit:"g/d",  },
+    "Hg_effluent_air"     :  {value:Outputs.Hg.effluent.air,     unit:"g/d",  },
+    "Hg_effluent_sludge"  :  {value:Outputs.Hg.effluent.sludge,  unit:"g/d",  },
+    "I_influent"          :  {value:Outputs.I.influent,          unit:"g/d",  },
+    "I_effluent_water"    :  {value:Outputs.I.effluent.water,    unit:"g/d",  },
+    "I_effluent_air"      :  {value:Outputs.I.effluent.air,      unit:"g/d",  },
+    "I_effluent_sludge"   :  {value:Outputs.I.effluent.sludge,   unit:"g/d",  },
+    "K_influent"          :  {value:Outputs.K.influent,          unit:"g/d",  },
+    "K_effluent_water"    :  {value:Outputs.K.effluent.water,    unit:"g/d",  },
+    "K_effluent_air"      :  {value:Outputs.K.effluent.air,      unit:"g/d",  },
+    "K_effluent_sludge"   :  {value:Outputs.K.effluent.sludge,   unit:"g/d",  },
+    "Mg_influent"         :  {value:Outputs.Mg.influent,         unit:"g/d",  },
+    "Mg_effluent_water"   :  {value:Outputs.Mg.effluent.water,   unit:"g/d",  },
+    "Mg_effluent_air"     :  {value:Outputs.Mg.effluent.air,     unit:"g/d",  },
+    "Mg_effluent_sludge"  :  {value:Outputs.Mg.effluent.sludge,  unit:"g/d",  },
+    "Mn_influent"         :  {value:Outputs.Mn.influent,         unit:"g/d",  },
+    "Mn_effluent_water"   :  {value:Outputs.Mn.effluent.water,   unit:"g/d",  },
+    "Mn_effluent_air"     :  {value:Outputs.Mn.effluent.air,     unit:"g/d",  },
+    "Mn_effluent_sludge"  :  {value:Outputs.Mn.effluent.sludge,  unit:"g/d",  },
+    "Mo_influent"         :  {value:Outputs.Mo.influent,         unit:"g/d",  },
+    "Mo_effluent_water"   :  {value:Outputs.Mo.effluent.water,   unit:"g/d",  },
+    "Mo_effluent_air"     :  {value:Outputs.Mo.effluent.air,     unit:"g/d",  },
+    "Mo_effluent_sludge"  :  {value:Outputs.Mo.effluent.sludge,  unit:"g/d",  },
+    "Na_influent"         :  {value:Outputs.Na.influent,         unit:"g/d",  },
+    "Na_effluent_water"   :  {value:Outputs.Na.effluent.water,   unit:"g/d",  },
+    "Na_effluent_air"     :  {value:Outputs.Na.effluent.air,     unit:"g/d",  },
+    "Na_effluent_sludge"  :  {value:Outputs.Na.effluent.sludge,  unit:"g/d",  },
+    "Ni_influent"         :  {value:Outputs.Ni.influent,         unit:"g/d",  },
+    "Ni_effluent_water"   :  {value:Outputs.Ni.effluent.water,   unit:"g/d",  },
+    "Ni_effluent_air"     :  {value:Outputs.Ni.effluent.air,     unit:"g/d",  },
+    "Ni_effluent_sludge"  :  {value:Outputs.Ni.effluent.sludge,  unit:"g/d",  },
+    "Pb_influent"         :  {value:Outputs.Pb.influent,         unit:"g/d",  },
+    "Pb_effluent_water"   :  {value:Outputs.Pb.effluent.water,   unit:"g/d",  },
+    "Pb_effluent_air"     :  {value:Outputs.Pb.effluent.air,     unit:"g/d",  },
+    "Pb_effluent_sludge"  :  {value:Outputs.Pb.effluent.sludge,  unit:"g/d",  },
+    "Sb_influent"         :  {value:Outputs.Sb.influent,         unit:"g/d",  },
+    "Sb_effluent_water"   :  {value:Outputs.Sb.effluent.water,   unit:"g/d",  },
+    "Sb_effluent_air"     :  {value:Outputs.Sb.effluent.air,     unit:"g/d",  },
+    "Sb_effluent_sludge"  :  {value:Outputs.Sb.effluent.sludge,  unit:"g/d",  },
+    "Sc_influent"         :  {value:Outputs.Sc.influent,         unit:"g/d",  },
+    "Sc_effluent_water"   :  {value:Outputs.Sc.effluent.water,   unit:"g/d",  },
+    "Sc_effluent_air"     :  {value:Outputs.Sc.effluent.air,     unit:"g/d",  },
+    "Sc_effluent_sludge"  :  {value:Outputs.Sc.effluent.sludge,  unit:"g/d",  },
+    "Se_influent"         :  {value:Outputs.Se.influent,         unit:"g/d",  },
+    "Se_effluent_water"   :  {value:Outputs.Se.effluent.water,   unit:"g/d",  },
+    "Se_effluent_air"     :  {value:Outputs.Se.effluent.air,     unit:"g/d",  },
+    "Se_effluent_sludge"  :  {value:Outputs.Se.effluent.sludge,  unit:"g/d",  },
+    "Si_influent"         :  {value:Outputs.Si.influent,         unit:"g/d",  },
+    "Si_effluent_water"   :  {value:Outputs.Si.effluent.water,   unit:"g/d",  },
+    "Si_effluent_air"     :  {value:Outputs.Si.effluent.air,     unit:"g/d",  },
+    "Si_effluent_sludge"  :  {value:Outputs.Si.effluent.sludge,  unit:"g/d",  },
+    "Sn_influent"         :  {value:Outputs.Sn.influent,         unit:"g/d",  },
+    "Sn_effluent_water"   :  {value:Outputs.Sn.effluent.water,   unit:"g/d",  },
+    "Sn_effluent_air"     :  {value:Outputs.Sn.effluent.air,     unit:"g/d",  },
+    "Sn_effluent_sludge"  :  {value:Outputs.Sn.effluent.sludge,  unit:"g/d",  },
+    "Sr_influent"         :  {value:Outputs.Sr.influent,         unit:"g/d",  },
+    "Sr_effluent_water"   :  {value:Outputs.Sr.effluent.water,   unit:"g/d",  },
+    "Sr_effluent_air"     :  {value:Outputs.Sr.effluent.air,     unit:"g/d",  },
+    "Sr_effluent_sludge"  :  {value:Outputs.Sr.effluent.sludge,  unit:"g/d",  },
+    "Ti_influent"         :  {value:Outputs.Ti.influent,         unit:"g/d",  },
+    "Ti_effluent_water"   :  {value:Outputs.Ti.effluent.water,   unit:"g/d",  },
+    "Ti_effluent_air"     :  {value:Outputs.Ti.effluent.air,     unit:"g/d",  },
+    "Ti_effluent_sludge"  :  {value:Outputs.Ti.effluent.sludge,  unit:"g/d",  },
+    "Tl_influent"         :  {value:Outputs.Tl.influent,         unit:"g/d",  },
+    "Tl_effluent_water"   :  {value:Outputs.Tl.effluent.water,   unit:"g/d",  },
+    "Tl_effluent_air"     :  {value:Outputs.Tl.effluent.air,     unit:"g/d",  },
+    "Tl_effluent_sludge"  :  {value:Outputs.Tl.effluent.sludge,  unit:"g/d",  },
+    "V_influent"          :  {value:Outputs.V.influent,          unit:"g/d",  },
+    "V_effluent_water"    :  {value:Outputs.V.effluent.water,    unit:"g/d",  },
+    "V_effluent_air"      :  {value:Outputs.V.effluent.air,      unit:"g/d",  },
+    "V_effluent_sludge"   :  {value:Outputs.V.effluent.sludge,   unit:"g/d",  },
+    "W_influent"          :  {value:Outputs.W.influent,          unit:"g/d",  },
+    "W_effluent_water"    :  {value:Outputs.W.effluent.water,    unit:"g/d",  },
+    "W_effluent_air"      :  {value:Outputs.W.effluent.air,      unit:"g/d",  },
+    "W_effluent_sludge"   :  {value:Outputs.W.effluent.sludge,   unit:"g/d",  },
+    "Zn_influent"         :  {value:Outputs.Zn.influent,         unit:"g/d",  },
+    "Zn_effluent_water"   :  {value:Outputs.Zn.effluent.water,   unit:"g/d",  },
+    "Zn_effluent_air"     :  {value:Outputs.Zn.effluent.air,     unit:"g/d",  },
+    "Zn_effluent_sludge"  :  {value:Outputs.Zn.effluent.sludge,  unit:"g/d",  },
+  };
   /*utilities*/
     //fx: utility to add a technology result to the "Variables" object (calculated variables)
     function addResults(tech,result){
@@ -743,5 +917,8 @@ function compute_elementary_flows(input_set){
       return value;
     }
   /*end utilities*/
+
+  //return
+  //console.log(Result); //debugging
   return Result;
 }

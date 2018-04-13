@@ -19,14 +19,6 @@
   <!--single plant-->
     <tr><td header colspan=3>Single plant model
     <tr>
-      <td>C content: add COD to TOC ratio (default: ?) pass kg/m3
-      <td>not done
-      <td>April 12th 2018
-    <tr>
-      <td>the user must be able to modify CO2 fossil/biogenic ratio "fossil_fraction_CO2"
-      <td>not done
-      <td>April 12th 2018
-    <tr>
       <td>ask george for: (1) water content of all 3 sludge types and (2) (iSS=TSS-VSS) composition
       <td>not done
       <td>April 12th 2018

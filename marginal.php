@@ -35,7 +35,6 @@
       var is_Des_active = document.querySelector('#technologies tr[id=is_Des_active] input[type=checkbox]').checked;
       var is_BiP_active = document.querySelector('#technologies tr[id=is_BiP_active] input[type=checkbox]').checked;
       var is_ChP_active = document.querySelector('#technologies tr[id=is_ChP_active] input[type=checkbox]').checked;
-      var is_Met_active = document.querySelector('#technologies tr[id=is_Met_active] input[type=checkbox]').checked;
       function set_checkbox_disabled(tec,disabled){
         var el=document.querySelector('#technologies tr[id=is_'+tec+'_active] input[type=checkbox]');
         el.disabled=disabled;
@@ -46,7 +45,6 @@
       set_checkbox_disabled('Des', (!is_BOD_active || !is_Nit_active));
       set_checkbox_disabled('BiP', (!is_BOD_active || is_ChP_active));
       set_checkbox_disabled('ChP', (!is_BOD_active || is_BiP_active));
-      set_checkbox_disabled('Met', !is_BOD_active);
     }
 
     //total flow (inf1+inf2)
@@ -110,7 +108,6 @@
         var is_Des_active = document.querySelector('#technologies tr[id=is_Des_active] input[type=checkbox]').checked;
         var is_BiP_active = document.querySelector('#technologies tr[id=is_BiP_active] input[type=checkbox]').checked;
         var is_ChP_active = document.querySelector('#technologies tr[id=is_ChP_active] input[type=checkbox]').checked;
-        var is_Met_active = document.querySelector('#technologies tr[id=is_Met_active] input[type=checkbox]').checked;
 
         Input_set1.is_Pri_active = is_Pri_active;
         Input_set1.is_BOD_active = is_BOD_active;
@@ -118,7 +115,6 @@
         Input_set1.is_Des_active = is_Des_active;
         Input_set1.is_BiP_active = is_BiP_active;
         Input_set1.is_ChP_active = is_ChP_active;
-        Input_set1.is_Met_active = is_Met_active;
 
         Input_set2.is_Pri_active = is_Pri_active;
         Input_set2.is_BOD_active = is_BOD_active;
@@ -126,7 +122,6 @@
         Input_set2.is_Des_active = is_Des_active;
         Input_set2.is_BiP_active = is_BiP_active;
         Input_set2.is_ChP_active = is_ChP_active;
-        Input_set2.is_Met_active = is_Met_active;
 
         Input_set3.is_Pri_active = is_Pri_active;
         Input_set3.is_BOD_active = is_BOD_active;
@@ -134,7 +129,6 @@
         Input_set3.is_Des_active = is_Des_active;
         Input_set3.is_BiP_active = is_BiP_active;
         Input_set3.is_ChP_active = is_ChP_active;
-        Input_set3.is_Met_active = is_Met_active;
         /*
         console.log("--input sets:");
         console.log(Input_set1);
@@ -302,7 +296,7 @@
     Here you can study the marginal contribution of an influent to the
     effluent resulting from the sum of two influents.
   </p><p>
-    <small>Note: mouse over variables to see a little description</small>
+    <small>Note: mouse over variables to see a description</small>
   </p>
   <p>
     <button>Generate ecospold with the results</button>
@@ -495,7 +489,7 @@
         //design parameter id
         newRow.insertCell(-1).innerHTML=i.id;
         //input element
-        newRow.insertCell(-1).innerHTML="<input disabled type=number value='"+i.value+"' onchange=init()>";
+        newRow.insertCell(-1).innerHTML="<input type=number value='"+i.value+"' onchange=init()>";
         //unit
         newRow.insertCell(-1).innerHTML="<small>"+i.unit.prettifyUnit()+"</small>";
       });
