@@ -398,7 +398,7 @@
   <em>Activity wastewater vs Reference wastewater treatment plants.</em>
 
   <br><br>
-  <em>Example for South Africa mixes. <a href="mix_SAfrica.js" target=_blank>See loaded raw data here</a></em>
+  <em>(now: example for South Africa mixes. <a href="mix_SAfrica.js" target=_blank>See loaded raw data here</a>)</em>
 </div><hr>
 
 <!--load/save btns--><div>
@@ -452,7 +452,7 @@
     <style>
       #top_btns button{
         padding:0.5em 1em;
-        margin:5px 5px 5px 0;
+        margin:5px 0;
       }
     </style>
   </div>
@@ -474,6 +474,15 @@
       <tr><th rowspan=2>Compound<th rowspan=2>Influent<th colspan=3>Effluent
       <tr><th>Water<th>Air<th>Sludge
     </table>
+    <div>
+      <issue class=under_dev></issue>
+      <ul>
+        <li>Sludge composition
+        <li>Emitted CO2 (biogenic/fossil)
+        <li>Chemicals
+        <li>Energy
+      </ul>
+    </div>
   </div>
 </div>
 
