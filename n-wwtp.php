@@ -9,14 +9,13 @@
   <script>
     //add a new object to WWTPs array
     function add_wwtp(){
-      var letters='abcdefghijklmnopqrstuvwxyz';
-      var wwtp={name:'plant '+letters[WWTPs.length], perc_PE:0};
+      var wwtp={name:'new plant', perc_PE:1};
 
-      //add technologies all to false
+      //add technologies with the default value
       Object.keys(Technologies)
         .filter(key=>{return !Technologies[key].notActivable})
         .forEach(key=>{
-          wwtp["is_"+key+"_active"]=false;
+          wwtp["is_"+key+"_active"]=getInput(key,true).value;
         });
       Inputs.forEach(inp=>{wwtp[inp.id]=inp.value;});
       WWTPs.push(wwtp);
@@ -351,7 +350,7 @@
         var value=weighted_contribution[key+"_influent"]/1000;
         var color = value ? "":"#ccc";
         if(is_kg_per_m3_selected){ value/=Activity.Q; }
-        row.querySelector('td[influent]').outerHTML="<td title=''>"+format(value,false,color); //TODO show all contributions here
+        row.querySelector('td[influent]').innerHTML=format(value,false,color); //TODO show all contributions here
         //effluent
         ['water','air','sludge'].forEach(part=>{
           var value=weighted_contribution[key+"_effluent_"+part]/1000;
@@ -409,8 +408,10 @@
         <button onclick="alert('under development')">Load country</button>
         <button onclick="alert('under development')">Save </button>
         <button onclick="add_wwtp()" style=background:yellow>Add plant</button>
-        <button id=run onclick="display_contribution(n_wwtps_simulation(Activity,WWTPs))" style=background:lightgreen;width:200px>RUN SIMULATION</button>
-        <small>(Press this button after modifying the inputs to re-run the "n" simulations)</small>
+        <button id=run onclick="display_contribution(n_wwtps_simulation(Activity,WWTPs))" style=background:lightgreen;width:200px>
+          RUN SIMULATIONS
+        </button>
+        <small><em>(Press this button after modifying the inputs to re-run the "n" simulations)</em></small>
       </div>
     </div>
     <style>
