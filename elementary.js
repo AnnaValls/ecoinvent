@@ -401,6 +401,11 @@ function compute_elementary_flows(input_set){
     var sludge_precipitation_P_content  = sludge_precipitation.P_content;  //kg P/d
     var sludge_precipitation_O_content  = sludge_precipitation.O_content;  //kg O/d
 
+  //sludge water content: primary and secondary
+  var TSS_removed                    = select_value('TSS_removed', ['Pri']); //g/m3
+  var sludge_primary_water_content   = Q*TSS_removed/1000*(0.75/0.25);       //kg H2O/d (75% of wet sludge is water in primary)
+  var sludge_secondary_water_content = P_X_TSS*(0.75/0.25);                  //kg H2O/d (75% of wet sludge is water in secondary)
+
   /*OUTPUTS (global)*/
   (function(){
     /**
@@ -609,7 +614,8 @@ function compute_elementary_flows(input_set){
     'SRT':                        {value:SRT,                        unit:"d",               descr:getInputById('SRT').descr},
     'tau':                        {value:tau,                        unit:"h",               descr:""},
     'MLVSS':                      {value:MLVSS,                      unit:"g/m3",            descr:""},
-    //sludge
+
+    //sludge elemental composition
     'TSS_removed_kgd':  {value:TSS_removed_kgd,  unit:"kg_TSS/d", descr:"Primary_settler_sludge_produced_per_day"},
     'VSS_removed_kgd':  {value:VSS_removed_kgd,  unit:"kg_VSS/d", descr:"Primary_settler_VSS_produced_per_day"},
     'P_X_TSS':          {value:P_X_TSS,          unit:"kg_TSS/d", descr:"Total_sludge_produced_per_day"},
@@ -629,6 +635,10 @@ function compute_elementary_flows(input_set){
     sludge_precipitation_H_content  : {value:sludge_precipitation_H_content , unit:"kg_H/d",  descr:""},
     sludge_precipitation_P_content  : {value:sludge_precipitation_P_content , unit:"kg_P/d",  descr:""},
     sludge_precipitation_O_content  : {value:sludge_precipitation_O_content , unit:"kg_O/d",  descr:""},
+    //sludge water content
+    sludge_primary_water_content    : {value:sludge_primary_water_content,   unit:"kg_H2O/d", descr:""},
+    sludge_secondary_water_content  : {value:sludge_secondary_water_content, unit:"kg_H2O/d", descr:""},
+
     //design summary
     'Y_obs_TSS':                  {value:Y_obs_TSS,                  unit:"g_TSS/g_BOD",     descr:""},
     'Y_obs_VSS':                  {value:Y_obs_VSS,                  unit:"g_VSS/g_BOD",     descr:""},

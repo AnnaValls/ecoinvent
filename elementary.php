@@ -559,14 +559,13 @@
         <button class=toggleView onclick="toggleView(this,'summary #sludge_production')">&darr;</button>
         Sludge production
 
-        <div><small>
-          water content missing <issue class=help_provided>George</issue>
-        </small></div>
-
         <ul id=sludge_production>
           <li>Primary sludge
             <ul>
               <li>Removed TSS: <span id=TSS_removed_kgd>0</span>
+                <ul style=font-family:monospace>
+                  <li>H<sub>2</sub>O content: <span id=sludge_primary_water_content>0</span>
+                </ul>
               <li>Removed VSS: <span id=VSS_removed_kgd>0</span>
                 <ul style=font-family:monospace>
                   <li>C content: <span id=sludge_primary_C_content>0</span>
@@ -580,6 +579,9 @@
           <li>Secondary sludge
             <ul>
               <li>P_X_TSS: <span id=P_X_TSS>0</span>
+                <ul style=font-family:monospace>
+                  <li>H<sub>2</sub>O content: <span id=sludge_secondary_water_content>0</span>
+                </ul>
               <li>P_X_VSS: <span id=P_X_VSS>0</span>
                 <ul style=font-family:monospace>
                   <li>C content: <span id=sludge_secondary_C_content>0</span>

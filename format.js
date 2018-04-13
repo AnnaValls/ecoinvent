@@ -60,7 +60,8 @@ String.prototype.prettifyUnit=function(){
     .replace('NH4','NH<sub>4</sub>')
     .replace('PO4','PO<sub>4</sub>')
     .replace('NOx','NO<sub>x</sub>')
-    .replace('Na2','Na<sub>2</sub>');
+    .replace('Na2','Na<sub>2</sub>')
+    .replace('H2O','H<sub>2</sub>O');
 }
 
 //string to color
