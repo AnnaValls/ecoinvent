@@ -1,92 +1,87 @@
 /**
   * Lists of all possible inputs for all technologies
-  *
-  * 1) Notation has been changed:
-  *   TSS_was = X_R
-  *   NO3_eff = NOx_e
-  *
   * 2) The "color" field is for frontend (orange and red means 'advanced knowledge required')
-  *
   */
+
 var Inputs = [
 
-//Q and T
+//always required Q and T
 {id:"Q", value:22700, unit:"m3/d", descr:"Flowrate",    },
 {id:"T", value:12,    unit:"ºC",   descr:"Temperature", },
 
-//fractionation
-{id:"COD", value:300,  unit:"g/m3_as_O2", descr:"Total_chemical_oxygen_demand", },
-{id:"TKN", value:35,   unit:"g/m3_as_N",  descr:"Total_Kjedahl_nitrogen",       },
-{id:"TP",  value:6,    unit:"g/m3_as_P",  descr:"Total_phosphorus",             },
+//always required 3 inputs: COD, TKN, TP
+{id:"COD", value:300,  unit:"g/m3_as_O2", descr:"Total chemical oxygen demand", },
+{id:"TKN", value:35,   unit:"g/m3_as_N",  descr:"Total Kjedahl nitrogen",       },
+{id:"TP",  value:6,    unit:"g/m3_as_P",  descr:"Total phosphorus",             },
 
 //inputs that can be estimated from COD TKN and TP
-{id:"BOD",         value:140,  unit:"g/m3_as_O2",    canBeEstimated:true, descr:"Total_5d_biochemical_oxygen_demand",                   },
-{id:"sBOD",        value:70,   unit:"g/m3_as_O2",    canBeEstimated:true, descr:"Soluble_BOD",                                          },
-{id:"sCOD",        value:132,  unit:"g/m3_as_O2",    canBeEstimated:true, descr:"Soluble_COD",                                          },
-{id:"bCOD",        value:224,  unit:"g/m3_as_O2",    canBeEstimated:true, descr:"Biodegradable_COD_(a_typical_value_is:_bCOD=1.6·BOD)", },
-{id:"rbCOD",       value:80,   unit:"g/m3_as_O2",    canBeEstimated:true, descr:"Readily_biodegradable_COD_(bsCOD=complex+VFA)",        },
-{id:"VFA",         value:15,   unit:"g/m3_as_O2",    canBeEstimated:true, descr:"Volatile_Fatty_Acids_(Acetate)",                       },
-{id:"VSS",         value:60,   unit:"g/m3",          canBeEstimated:true, descr:"Volatile_suspended_solids",                            },
-{id:"TSS",         value:70,   unit:"g/m3",          canBeEstimated:true, descr:"Total_suspended_solids",                               },
-{id:"NH4",         value:25,   unit:"g/m3_as_N",     canBeEstimated:true, descr:"Ammonia_influent",                                     },
-{id:"PO4",         value:5,    unit:"g/m3_as_P",     canBeEstimated:true, descr:"Ortophosphate_influent",                               },
-{id:"Alkalinity",  value:140,  unit:"g/m3_as_CaCO3", canBeEstimated:true, descr:"Influent_alkalinity",                                  },
+  {id:"BOD",         value:140,  unit:"g/m3_as_O2",    canBeEstimated:true, descr:"Total 5d biochemical oxygen demand",                   },
+  {id:"sBOD",        value:70,   unit:"g/m3_as_O2",    canBeEstimated:true, descr:"Soluble BOD",                                          },
+  {id:"sCOD",        value:132,  unit:"g/m3_as_O2",    canBeEstimated:true, descr:"Soluble COD",                                          },
+  {id:"bCOD",        value:224,  unit:"g/m3_as_O2",    canBeEstimated:true, descr:"Biodegradable COD (a typical value is: bCOD=1.6·BOD)", },
+  {id:"rbCOD",       value:80,   unit:"g/m3_as_O2",    canBeEstimated:true, descr:"Readily biodegradable COD (bsCOD=complex+VFA)",        },
+  {id:"VFA",         value:15,   unit:"g/m3_as_O2",    canBeEstimated:true, descr:"Volatile Fatty Acids (Acetate)",                       },
+  {id:"VSS",         value:60,   unit:"g/m3",          canBeEstimated:true, descr:"Volatile suspended solids",                            },
+  {id:"TSS",         value:70,   unit:"g/m3",          canBeEstimated:true, descr:"Total suspended solids",                               },
+  {id:"NH4",         value:25,   unit:"g/m3_as_N",     canBeEstimated:true, descr:"Ammonia influent",                                     },
+  {id:"PO4",         value:5,    unit:"g/m3_as_P",     canBeEstimated:true, descr:"Ortophosphate influent",                               },
+  {id:"Alkalinity",  value:140,  unit:"g/m3_as_CaCO3", canBeEstimated:true, descr:"Influent alkalinity",                                  },
 
-//metals
-  {id:"Ag", value:0.0000, unit:"g/m3_as_Ag", isMetal:true, descr:"Influent_Silver",     },
-  {id:"Al", value:1.0379, unit:"g/m3_as_Al", isMetal:true, descr:"Influent_Aluminium",  },
-  {id:"As", value:0.0009, unit:"g/m3_as_As", isMetal:true, descr:"Influent_Arsenic",    },
-  {id:"B" , value:0.0000, unit:"g/m3_as_B",  isMetal:true, descr:"Influent_Boron",      },
-  {id:"Ba", value:0.0000, unit:"g/m3_as_Ba", isMetal:true, descr:"Influent_Barium",     },
-  {id:"Be", value:0.0000, unit:"g/m3_as_Be", isMetal:true, descr:"Influent_Beryllium",  },
-  {id:"Br", value:0.0000, unit:"g/m3_as_Br", isMetal:true, descr:"Influent_Bromine",    },
-  {id:"Ca", value:50.834, unit:"g/m3_as_Ca", isMetal:true, descr:"Influent_Calcium",    },
-  {id:"Cd", value:0.0003, unit:"g/m3_as_Cd", isMetal:true, descr:"Influent_Cadmium",    },
-  {id:"Cl", value:30.031, unit:"g/m3_as_Cl", isMetal:true, descr:"Influent_Chlorine",   },
-  {id:"Co", value:0.0016, unit:"g/m3_as_Co", isMetal:true, descr:"Influent_Cobalt",     },
-  {id:"Cr", value:0.0122, unit:"g/m3_as_Cr", isMetal:true, descr:"Influent_Chromium",   },
-  {id:"Cu", value:0.0374, unit:"g/m3_as_Cu", isMetal:true, descr:"Influent_Copper",     },
-  {id:"F" , value:0.0328, unit:"g/m3_as_F",  isMetal:true, descr:"Influent_Fluorine",   },
-  {id:"Fe", value:7.0928, unit:"g/m3_as_Fe", isMetal:true, descr:"Influent_Iron",       },
-  {id:"Hg", value:0.0002, unit:"g/m3_as_Hg", isMetal:true, descr:"Influent_Mercury",    },
-  {id:"I" , value:0.0000, unit:"g/m3_as_I",  isMetal:true, descr:"Influent_Iodine",     },
-  {id:"K" , value:0.3989, unit:"g/m3_as_K",  isMetal:true, descr:"Influent_Potassium",  },
-  {id:"Mg", value:5.7071, unit:"g/m3_as_Mg", isMetal:true, descr:"Influent_Magnesium",  },
-  {id:"Mn", value:0.0530, unit:"g/m3_as_Mn", isMetal:true, descr:"Influent_Manganese",  },
-  {id:"Mo", value:0.0010, unit:"g/m3_as_Mo", isMetal:true, descr:"Influent_Molybdenum", },
-  {id:"Na", value:2.1860, unit:"g/m3_as_Na", isMetal:true, descr:"Influent_Sodium",     },
-  {id:"Ni", value:0.0066, unit:"g/m3_as_Ni", isMetal:true, descr:"Influent_Nickel",     },
-  {id:"Pb", value:0.0086, unit:"g/m3_as_Pb", isMetal:true, descr:"Influent_Lead",       },
-  {id:"Sb", value:0.0000, unit:"g/m3_as_Sb", isMetal:true, descr:"Influent_Antimony",   },
-  {id:"Sc", value:0.0000, unit:"g/m3_as_Sc", isMetal:true, descr:"Influent_Scandium",   },
-  {id:"Se", value:0.0000, unit:"g/m3_as_Se", isMetal:true, descr:"Influent_Selenium",   },
-  {id:"Si", value:3.1263, unit:"g/m3_as_Si", isMetal:true, descr:"Influent_Silicon",    },
-  {id:"Sn", value:0.0034, unit:"g/m3_as_Sn", isMetal:true, descr:"Influent_Tin",        },
-  {id:"Sr", value:0.0000, unit:"g/m3_as_Sr", isMetal:true, descr:"Influent_Strontium",  },
-  {id:"Ti", value:0.0000, unit:"g/m3_as_Ti", isMetal:true, descr:"Influent_Titanium",   },
-  {id:"Tl", value:0.0000, unit:"g/m3_as_Tl", isMetal:true, descr:"Influent_Thallium",   },
-  {id:"V" , value:0.0000, unit:"g/m3_as_V",  isMetal:true, descr:"Influent_Vanadium",   },
-  {id:"W" , value:0.0000, unit:"g/m3_as_W",  isMetal:true, descr:"Influent_Tungsten",   },
-  {id:"Zn", value:0.1094, unit:"g/m3_as_Zn", isMetal:true, descr:"Influent_Zinc",       },
+//metals and other elements
+  {id:"Ag", value:0.0000, unit:"g/m3_as_Ag", isMetal:true, descr:"Influent Silver",     },
+  {id:"Al", value:1.0379, unit:"g/m3_as_Al", isMetal:true, descr:"Influent Aluminium",  },
+  {id:"As", value:0.0009, unit:"g/m3_as_As", isMetal:true, descr:"Influent Arsenic",    },
+  {id:"B" , value:0.0000, unit:"g/m3_as_B",  isMetal:true, descr:"Influent Boron",      },
+  {id:"Ba", value:0.0000, unit:"g/m3_as_Ba", isMetal:true, descr:"Influent Barium",     },
+  {id:"Be", value:0.0000, unit:"g/m3_as_Be", isMetal:true, descr:"Influent Beryllium",  },
+  {id:"Br", value:0.0000, unit:"g/m3_as_Br", isMetal:true, descr:"Influent Bromine",    },
+  {id:"Ca", value:50.834, unit:"g/m3_as_Ca", isMetal:true, descr:"Influent Calcium",    },
+  {id:"Cd", value:0.0003, unit:"g/m3_as_Cd", isMetal:true, descr:"Influent Cadmium",    },
+  {id:"Cl", value:30.031, unit:"g/m3_as_Cl", isMetal:true, descr:"Influent Chlorine",   },
+  {id:"Co", value:0.0016, unit:"g/m3_as_Co", isMetal:true, descr:"Influent Cobalt",     },
+  {id:"Cr", value:0.0122, unit:"g/m3_as_Cr", isMetal:true, descr:"Influent Chromium",   },
+  {id:"Cu", value:0.0374, unit:"g/m3_as_Cu", isMetal:true, descr:"Influent Copper",     },
+  {id:"F" , value:0.0328, unit:"g/m3_as_F",  isMetal:true, descr:"Influent Fluorine",   },
+  {id:"Fe", value:7.0928, unit:"g/m3_as_Fe", isMetal:true, descr:"Influent Iron",       },
+  {id:"Hg", value:0.0002, unit:"g/m3_as_Hg", isMetal:true, descr:"Influent Mercury",    },
+  {id:"I" , value:0.0000, unit:"g/m3_as_I",  isMetal:true, descr:"Influent Iodine",     },
+  {id:"K" , value:0.3989, unit:"g/m3_as_K",  isMetal:true, descr:"Influent Potassium",  },
+  {id:"Mg", value:5.7071, unit:"g/m3_as_Mg", isMetal:true, descr:"Influent Magnesium",  },
+  {id:"Mn", value:0.0530, unit:"g/m3_as_Mn", isMetal:true, descr:"Influent Manganese",  },
+  {id:"Mo", value:0.0010, unit:"g/m3_as_Mo", isMetal:true, descr:"Influent Molybdenum", },
+  {id:"Na", value:2.1860, unit:"g/m3_as_Na", isMetal:true, descr:"Influent Sodium",     },
+  {id:"Ni", value:0.0066, unit:"g/m3_as_Ni", isMetal:true, descr:"Influent Nickel",     },
+  {id:"Pb", value:0.0086, unit:"g/m3_as_Pb", isMetal:true, descr:"Influent Lead",       },
+  {id:"Sb", value:0.0000, unit:"g/m3_as_Sb", isMetal:true, descr:"Influent Antimony",   },
+  {id:"Sc", value:0.0000, unit:"g/m3_as_Sc", isMetal:true, descr:"Influent Scandium",   },
+  {id:"Se", value:0.0000, unit:"g/m3_as_Se", isMetal:true, descr:"Influent Selenium",   },
+  {id:"Si", value:3.1263, unit:"g/m3_as_Si", isMetal:true, descr:"Influent Silicon",    },
+  {id:"Sn", value:0.0034, unit:"g/m3_as_Sn", isMetal:true, descr:"Influent Tin",        },
+  {id:"Sr", value:0.0000, unit:"g/m3_as_Sr", isMetal:true, descr:"Influent Strontium",  },
+  {id:"Ti", value:0.0000, unit:"g/m3_as_Ti", isMetal:true, descr:"Influent Titanium",   },
+  {id:"Tl", value:0.0000, unit:"g/m3_as_Tl", isMetal:true, descr:"Influent Thallium",   },
+  {id:"V" , value:0.0000, unit:"g/m3_as_V",  isMetal:true, descr:"Influent Vanadium",   },
+  {id:"W" , value:0.0000, unit:"g/m3_as_W",  isMetal:true, descr:"Influent Tungsten",   },
+  {id:"Zn", value:0.1094, unit:"g/m3_as_Zn", isMetal:true, descr:"Influent Zinc",       },
 
 //CSO removal rates
-{id:"CSO_particulate",  value:1, unit:"%", isParameter:true,  descr:"Removal_of_particulate_fractions_by_Combined_Sewer_Overflow", },
-{id:"CSO_soluble",      value:2, unit:"%", isParameter:true,  descr:"Removal_of_soluble_fractions_by_Combined_Sewer_Overflow",     },
+{id:"CSO_particulate",  value:1, unit:"%", isParameter:true,  descr:"Removal of particulate fractions by Combined Sewer Overflow", },
+{id:"CSO_soluble",      value:2, unit:"%", isParameter:true,  descr:"Removal of soluble fractions by Combined Sewer Overflow",     },
 
 //primary settler removal rates
-{id:"removal_bpCOD",   value:40,    unit:"%", isParameter:true,  descr:"Primary_settler_bpCOD_removal_rate_(25_to_60%_for_municipal_wastewater)",   },
-{id:"removal_nbpCOD",  value:60,    unit:"%", isParameter:true,  descr:"Primary_settler_nbpCOD_removal_rate_(40_to_80%_for_municipal_wastewater)",  },
-{id:"removal_ON",      value:66.6,  unit:"%", isParameter:true,  descr:"Primary_settler_ON_removal_rate_(66%_for_municipal_wastewater)",            },
-{id:"removal_OP",      value:66.6,  unit:"%", isParameter:true,  descr:"Primary_settler_OP_removal_rate_(66%_for_municipal_wastewater)",            },
-{id:"removal_iTSS",    value:70,    unit:"%", isParameter:true,  descr:"Primary_settler_iTSS_removal_rate_(50_to_90%_for_municipal_wastewater)",    },
+{id:"removal_bpCOD",   value:40,    unit:"%", isParameter:true,  descr:"Primary settler bpCOD removal rate (25 to 60% for municipal wastewater)",   },
+{id:"removal_nbpCOD",  value:60,    unit:"%", isParameter:true,  descr:"Primary settler nbpCOD removal rate (40 to 80% for municipal wastewater)",  },
+{id:"removal_ON",      value:66.6,  unit:"%", isParameter:true,  descr:"Primary settler ON removal rate (66% for municipal wastewater)",            },
+{id:"removal_OP",      value:66.6,  unit:"%", isParameter:true,  descr:"Primary settler OP removal rate (66% for municipal wastewater)",            },
+{id:"removal_iTSS",    value:70,    unit:"%", isParameter:true,  descr:"Primary settler iTSS removal rate (50 to 90% for municipal wastewater)",    },
 
 //Population equivalents
 {id:"PEq", value:50000, unit:"population equivalents", isParameter:true, descr:"Population equivalents", },
 
 //effluent design parameters
-{id:"NH4_eff", value:0.50, unit:"g/m3_as_N", isParameter:true, descr:"Effluent_design_NH4",                                                       },
-{id:"NO3_eff", value:6,    unit:"g/m3_as_N", isParameter:true, descr:"Effluent_design_NO3_concentration", },
-{id:"PO4_eff", value:0.5,  unit:"g/m3_as_P", isParameter:true, descr:"Effluent_design_PO4(3-)._It_is_only_imposed_in_case_we_have_Chemical_P_removal._Otherwise,_it_will_be_calculated", },
+{id:"NH4_eff", value:0.50, unit:"g/m3_as_N", isParameter:true, descr:"Effluent design NH4",                                                       },
+{id:"NO3_eff", value:6,    unit:"g/m3_as_N", isParameter:true, descr:"Effluent design NO3 concentration", },
+{id:"PO4_eff", value:0.5,  unit:"g/m3_as_P", isParameter:true, descr:"Effluent design_PO4(3-). It is only imposed in case we have Chemical P removal. Otherwise, it will be calculated", },
 
 //COD/TOC ratio for: COD/ratio = carbon content
 {id:"COD_TOC_ratio", value:3.0,  unit:"g_COD/g_TOC", isParameter:true, descr:"COD to TOC ratio. It is used to calculate the TOC content of the wastewater", },
@@ -94,16 +89,16 @@ var Inputs = [
 //emitted CO2 fossil fraction
 {id:"fossil_CO2_percent", value:3.6,  unit:"%", isParameter:true, descr:"Percentage of CO2 emitted which is non-biogenic (fossil)", },
 
-//bod removal dp
-{id:"MLSS_X_TSS", value:3000,  unit:"g/m3",        isParameter:true,  descr:"Mixed_liquor_suspended_solids",                                             },
-{id:"DO",         value:2.0,   unit:"g/m3_as_O2",  isParameter:true,  descr:"DO_in_aeration_basin_(generally:_1.5_to_2)_(notation_in_book_is_'C_L')",    },
-{id:"clarifiers", value:3,     unit:"clarifiers",  isParameter:true,  descr:"Number_of_clarifiers_that_will_be_used",                                    },
+//bod removal design parameters
+{id:"MLSS_X_TSS", value:3000,  unit:"g/m3",        isParameter:true,  descr:"Mixed liquor suspended solids",                                             },
+{id:"DO",         value:2.0,   unit:"g/m3_as_O2",  isParameter:true,  descr:"DO in aeration basin (generally: 1.5 to 2) (notation in book is 'C_L')",    },
+{id:"clarifiers", value:3,     unit:"clarifiers",  isParameter:true,  descr:"Number of clarifiers that will be used",                                    },
 
 //orange and red design parameters
 //("color" means "advanced knowledge required" in frontend)
 
 //nitrification dp
-{id:"sBODe",                value:3,     unit:"g/m3_as_O2", color:"orange", isParameter:true, descr:"Effluent_design_Soluble_BOD", },
+{id:"sBODe",                value:3,     unit:"g/m3_as_O2", color:"orange", isParameter:true, descr:"Effluent design Soluble BOD", },
 {id:"TSSe",                 value:1,     unit:"g/m3",       color:"orange", isParameter:true, descr:"Effluent design total suspended solids", },
 {id:"zb",                   value:500,   unit:"m",          color:"orange", isParameter:true, descr:"Site elevation above sea level (affects O2 solubility)", },
 {id:"Pressure",             value:95600, unit:"Pa",         color:"orange", isParameter:true, descr:"Pressure at site elevation (affects O2 solubility)", },
@@ -127,7 +122,6 @@ var Inputs = [
 function getInputById(id){
 	var ret=Inputs.filter(el=>{return id==el.id});
 	if(ret.length==0){
-		//console.error('Input id "'+id+'" not found');
 		return false;
 	}else if(ret.length>1){
 		console.error('Input id is not unique. Please report this problem');

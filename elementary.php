@@ -5,12 +5,11 @@
 */?>
 <!doctype html><html><head>
   <?php include'imports.php'?>
-  <title>Single plant model</title>
-
   <!--load backend: elementary flows and mass balances-->
   <script src="elementary.js"></script>
   <script src="mass_balances.js"></script>
 
+  <title>Single plant model</title>
   <!--init-->
   <script>
     //"init" is fired each time an input changes
@@ -434,7 +433,7 @@
 <div>
   <h1>Single plant model</h1>
   <p style=margin-top:0><small>
-    Simulate a single wastewater treatment plant configuration
+    Simulate a single wastewater treatment plant
   </small></p>
 </div><hr>
 
@@ -779,8 +778,8 @@
         newRow.title=i.descr;
         var advanced_indicator = i.color ? "<div class=circle style='background:"+i.color+"' title='Advanced knowledge required to modify this input'></div>" : "";
         var estimation_indicator = i.canBeEstimated ? (function(){
-          return "<div class='estimation circle' title=\"Click to get a rough estimation for this input based on COD, TKN and TP\">"+
-            "<span onclick=set_estimation_value(document.getElementById('"+i.id+"'))>?</span>"+
+          return "<div title=\"Click to get an estimation for this input based on COD, TKN and TP\">"+
+            "<button onclick=set_estimation_value(document.getElementById('"+i.id+"'))>&#8773;</button>"+
             "</div>";
         })():"";
 

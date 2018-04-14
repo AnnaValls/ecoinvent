@@ -4,8 +4,8 @@
 <!doctype html><html><head>
   <?php include'imports.php'?>
   <script src="elementary.js"></script>
+  <script src="multiple.js"></script>
   <title>Multiple WWTPs</title>
-
   <script>
     //add a new object to WWTPs array
     function add_wwtp(){
@@ -24,14 +24,14 @@
 
     //redraw wwtps
     function redisplay_wwtps(){
-      //populate table wwtps
+      //populate wwtps
       var table=document.querySelector('table#wwtps');
       table.innerHTML="";
 
       //add wttp names
       (function(){
         var newRow=table.insertRow(-1);
-        newRow.insertCell(-1).outerHTML="<th rowspan=2>Inputs<th rowspan=2>Activity WW<th colspan='"+WWTPs.length+"'>Reference WWTPs";
+        newRow.insertCell(-1).outerHTML="<th rowspan=2>Inputs<th rowspan=2>Activity WW<th colspan='"+WWTPs.length+"'>WWTPs";
 
         //new row
         var newRow=table.insertRow(-1);
@@ -92,7 +92,7 @@
         var newRow=table.insertRow(-1);
         var newCell=document.createElement('th');
         newRow.appendChild(newCell);
-        newCell.colSpan=2+WWTPs.length;
+        newCell.colSpan=3+WWTPs.length;
         newCell.style.textAlign='left';
         //add <button>+/-</button> Metals
         newCell.appendChild((function(){
@@ -192,7 +192,7 @@
         var newRow=table.insertRow(-1);
         var newCell=document.createElement('th');
         newRow.appendChild(newCell);
-        newCell.colSpan=2+WWTPs.length;
+        newCell.colSpan=3+WWTPs.length;
         newCell.style.textAlign='left';
         //add <button>+/-</button> Metals
         newCell.appendChild((function(){
@@ -209,8 +209,7 @@
         })());
         newCell.appendChild((function(){
           var span=document.createElement('span');
-          span.innerHTML=' Wastewater composition'+
-            '<button style=float:right>Apply COD, TKN, TP based estimations</button>';
+          span.innerHTML=' Wastewater composition';
           return span;
         })());
       })();
@@ -222,7 +221,7 @@
         var newRow=table.insertRow(-1);
         var newCell=document.createElement('th');
         newRow.appendChild(newCell);
-        newCell.colSpan=2+WWTPs.length;
+        newCell.colSpan=3+WWTPs.length;
         newCell.style.textAlign='left';
         //add <button>+/-</button> Metals
         newCell.appendChild((function(){
@@ -250,112 +249,111 @@
     function init(){
       redisplay_wwtps();
 
-      //populate table with zeros
+      //populate outputs
       (function(){
         var table=document.getElementById('contribution');
         var outputs=compute_elementary_flows(WWTPs[0]).Outputs;
-        Object.keys(Outputs).forEach(key=>{
-          var newRow=table.insertRow(-1);
+
+        var tbody=table.querySelector('#main');
+        Object.keys(Outputs).filter(key=>{return !getInputById(key).isMetal}).forEach(key=>{
+          populate_output(key,tbody);
+        });
+
+        var tbody=table.querySelector('#metals');
+        Object.keys(Outputs).filter(key=>{return getInputById(key).isMetal}).forEach(key=>{
+          populate_output(key,tbody);
+        });
+
+        function populate_output(key, tbody){
+          var newRow=tbody.insertRow(-1);
           newRow.id=key;
           newRow.insertCell(-1).outerHTML="<th>"+key;
           newRow.insertCell(-1).outerHTML="<td influent>0";
           newRow.insertCell(-1).outerHTML="<td water>0";
           newRow.insertCell(-1).outerHTML="<td air>0";
           newRow.insertCell(-1).outerHTML="<td sludge>0";
-        });
+        }
       })();
 
-      //RUN SIMULATIONS (PROVISIONAL)
-      display_contribution(n_wwtps_simulation(Activity,WWTPs))
+      //RUN automatically on start (PROVISIONAL) TODO
+      run();
+    }
+
+    function run(){
+      var result=n_wwtps_simulation(Activity,WWTPs);
+      display_contribution(result);
     }
   </script>
 
   <script>
-    /*N simulations backend*/
-    //get 2 influents and mix them
-    function mix_influents(activity, reference){
-      var rv={
-        Q: activity.Q + reference.Q,
-      };
-      //combine wastewater characteristics
-      Object.keys(activity).filter(key=>{return key!="Q"}).forEach(key=>{
-        rv[key]=(activity.Q*activity[key]+reference.Q*reference[key])/rv.Q;
-      });
-      //get design parameters from reference
-      Object.keys(reference).filter(key=>{return getInputById(key).isParameter}).forEach(key=>{
-        rv[key]=reference[key];
-      });
-      //get technologies from reference
-      Object.keys(Technologies).filter(key=>{return !Technologies[key].notActivable}).forEach(key=>{
-        rv["is_"+key+"_active"]=reference["is_"+key+"_active"];
-      });
-      return rv;
-    }
-
-    //perform a marginal approach
-    function marginal_approach(activity, reference){
-      var outputs_reference = compute_elementary_flows(reference).Outputs;
-      //console.log(outputs_reference);
-      var mixed_influent = mix_influents(activity, reference);
-      //console.log(mixed_influent);
-      var outputs_mixed  = compute_elementary_flows(mixed_influent).Outputs;
-      //console.log(outputs_mixed);
-
-      //calculate contribution
-      var contribution = {};
-      Object.keys(outputs_mixed).forEach(key=>{
-        //total contribution (g/d) or (g/m3)
-        contribution[key] = (outputs_mixed[key].value - outputs_reference[key].value);///activity.Q;
-      });
-      //console.log(contribution);
-      return contribution;
-    }
-
-    //perform all simulations
-    function n_wwtps_simulation(activity, WWTPs){
-      var contributions=[];
-
-      //perform n marginal approaches
-      WWTPs.forEach(wwtp=>{
-        contributions.push(marginal_approach(activity,wwtp));
-      });
-      //console.log(contributions);
-      //average all the contributions weighted by "perc_PE" value
-      var weighted_contribution = {};
-
-      Object.keys(contributions[0]).forEach(key=>{
-        //init weighted contribution
-        weighted_contribution[key] = 0;
-        WWTPs.forEach((wwtp,i)=>{
-          weighted_contribution[key] += wwtp.perc_PE/100 * contributions[i][key];
-        });
-      });
-
-      //console.log(weighted_contribution);
-      return weighted_contribution;
-    }
-
     //GUI
     //Display weighted contribution THIS CONVERTS G/D TO KG/D
-    function display_contribution(weighted_contribution, contributions){
-      contributions=contributions||false;
+    function display_contribution(result){
+      var weighted_contribution=result.weighted_contribution;
+      var weighted_output_mixed=result.weighted_output_mixed;
+
+      //weighted flowrate
+      var weighted_Q = WWTPs.map(w=>{return w.Q*w.perc_PE/100}).reduce(function(pr,cu){return pr+cu},0);
 
       var table=document.getElementById('contribution');
+
+      //displayed unit
       var is_kg_per_m3_selected = document.querySelector('input[name=displayed_unit][value="kg/m3"]').checked;
+      var is_percent_selected   = document.querySelector('input[name=displayed_unit][value="%"]').checked;
 
       Object.keys(Outputs).forEach(key=>{
         var row=document.querySelector('#contribution tr[id='+key+']');
+
         //influent
-        var value=weighted_contribution[key+"_influent"]/1000;
-        var color = value ? "":"#ccc";
-        if(is_kg_per_m3_selected){ value/=Activity.Q; }
-        row.querySelector('td[influent]').innerHTML=format(value,false,color); //TODO show all contributions here
+        var value1=weighted_contribution[key+"_influent"]/1000; //contribution
+        var value2=weighted_output_mixed[key+"_influent"]/1000; //mixed influents
+        var color = value1 ? "":"#ccc";
+
+        if(is_kg_per_m3_selected){ 
+          value1/=Activity.Q; 
+          value2/=weighted_Q; 
+        }else if(is_percent_selected){
+          var percent=value2==0 ? 0 : 100*value1/value2;
+        }
+
+        row.querySelector('td[influent]').innerHTML=(function(){
+          if(is_percent_selected){
+            return format(percent,false,color)+" <small>%</small>";
+          }else if(is_kg_per_m3_selected){
+            return format(value1,false,color);
+          }
+          var rv="";
+          rv+=format(value1,false,color);
+          rv+="/";
+          rv+=format(value2,false,color);
+          return rv;
+        })();
+
         //effluent
         ['water','air','sludge'].forEach(part=>{
-          var value=weighted_contribution[key+"_effluent_"+part]/1000;
-          var color = value ? "":"#ccc";
-          if(is_kg_per_m3_selected){ value/=Activity.Q; }
-          row.querySelector('td['+part+']').innerHTML=format(value,false,color);
+          var value1=weighted_contribution[key+"_effluent_"+part]/1000; //contribution
+          var value2=weighted_output_mixed[key+"_effluent_"+part]/1000; //mixed influents
+          var color = value1 ? "":"#ccc";
+
+          if(is_kg_per_m3_selected){ 
+            value1/=Activity.Q; 
+            value2/=weighted_Q; 
+          }else if(is_percent_selected){
+            var percent=value2==0 ? 0 : 100*value1/value2;
+          }
+
+          row.querySelector('td['+part+']').innerHTML=(function(){
+            if(is_percent_selected){
+              return format(percent,false,color)+" <small>%</small>";
+            }else if(is_kg_per_m3_selected){
+              return format(value1,false,color);
+            }
+            var rv="";
+            rv+=format(value1,false,color);
+            rv+="/";
+            rv+=format(value2,false,color);
+            return rv;
+          })();
         });
       });
     }
@@ -371,149 +369,296 @@
 
   <!--CSS-->
   <style>
-    #wwtps, #contribution { font-size:smaller; }
+    #wwtps, #contribution {
+      border-collapse:collapse;
+      font-size:smaller;
+    }
+    #contribution {
+      width:100%;
+    }
+    #wwtps input[type=text],
     #wwtps input[type=number],
-    #wwtps input[type=text] {
+    #wwtps td button {
       width:60px;
+      display:block;
+      margin:auto;
     }
     #wwtps tr[id]:hover {
       text-decoration:underline;
       background:#fafafa;
     }
-    #wwtps td button {
-      width:100%;
-      display:block;
-    }
     #contribution td {
       text-align:right;
+    }
+    #results ul[id] {
+      font-size:smaller;
     }
   </style>
 </head><body onload="init()">
 <?php include'navbar.php'?>
+<?php include'top_menu_multiple.php'?>
 <div id=root>
-
-<!--title div--><div>
+<!--title--><div>
   <h1>Multiple plant simulation</h1>
-  <em>Activity wastewater vs Reference wastewater treatment plants.</em>
-
-  <br><br>
-  <em>(now: example for South Africa mixes. <a href="mix_SAfrica.js" target=_blank>See loaded raw data here</a>)</em>
-</div><hr>
-
-<!--top menu btns-->
-<div>
-  <div id=top_btns>
-    <div class=flex style="justify-content:space-between">
-      <div>
-        <input id=loadFile type=file accept=".json" onchange="loadFile(event)" style="display:none">
-        <button onclick="document.getElementById('loadFile').click()">Load wwtp mix</button>
-        <script>
-          //load country mix from file
-          function loadFile(evt){
-            var file=evt.target.files[0];
-            var reader=new FileReader();
-            reader.onload=function() {
-              var saved_file;
-              try{
-                saved_file=JSON.parse(reader.result);
-                (function(){
-                  WWTPs=saved_file;
-                })();
-                init();
-              }catch(e){alert(e)}
-            }
-            try{
-              reader.readAsText(file);
-            }catch(e){alert(e)}
-          }
-        </script>
-
-        <button onclick="saveToFile()">Save </button>
-        <script>
-          /*Generate a json/text file*/
-          function saveToFile() {
-            var saved_file = WWTPs;
-            //console.log(saved_file);
-            var datestring=(new Date()).toISOString().replace(/-/g,'').replace(/:/g,'').substring(2,13);
-            var link=document.createElement('a');
-            link.href="data:text/json;charset=utf-8,"+JSON.stringify(saved_file,null,'  ');
-            link.download="wwtp_mix_"+datestring+"UTC.json";
-            document.body.appendChild(link);//this line is required in firefox
-            link.click();
-          }
-        </script>
-
-        <button onclick="WWTPs=[];add_wwtp()">Clear all</button>
-        <button onclick="add_wwtp()" style=background:yellow>Add plant</button>
-        <button id=run onclick="display_contribution(n_wwtps_simulation(Activity,WWTPs))" style=background:lightgreen;width:200px>
-          RUN SIMULATIONS
-        </button>
-        <small><em>(Press this button after modifying the inputs to re-run the "n" simulations)</em></small>
-      </div>
-    </div>
-    <style>
-      #top_btns button{
-        padding:0.5em 1em;
-        margin:5px 0;
-      }
-    </style>
-  </div><hr>
-
-  <div>
-    <button>Generate ecoSpold file</button>
-  </div>
+  <small>
+    Study your activity's contribution to one or more wastewater treatment plants
+  </small>
 </div><hr>
 
 <!--main-->
-<div class=flex style='justify-content:space-between'>
-  <!--wwtps-->
-  <table id=wwtps></table><hr>
+<div class=flex style=''>
+  <!--inputs-->
+  <div style='min-width:50%;border-right:1px solid #ccc;padding-right:8px;'>
+    <p>
+      <b> 1. Inputs </b>
+      <!--RUN btn-->
+      <span>
+        <button
+          title="Press this button after modifying the inputs to run the 'n' simulations"
+          id=run onclick="run()">
+          &#9654; RUN SIMULATION
+        </button>
+        <style>
+          button#run {
+            background:lightgreen;
+            margin-left:1em;
+            width:250px;
+          }
+        </style>
+      </span>
+    </p>
+    <table id=wwtps border=1></table>
+  </div>
 
   <!--results-->
-  <div id=results_container>
-    <table id=contribution>
-      <tr><th colspan=5>Activity contribution
-        <div>
-          <label><input name=displayed_unit type=radio checked value="kg/d"  onclick=document.querySelector('#run').click()>  kg/d</label>
-          <label><input name=displayed_unit type=radio         value="kg/m3" onclick=document.querySelector('#run').click()> kg/m<sup>3</sup></label>
-        </div>
-      <tr><th rowspan=2>Compound<th rowspan=2>Influent<th colspan=3>Effluent
-      <tr><th>Water<th>Air<th>Sludge
-    </table>
+  <div id=results style='min-width:45%;padding-left:8px'>
+    <p>
+      <b>2. Results</b>
+      <span>
+        <script src="generate_ecospold.js"></script>
+        <button onclick="generate_ecospold()">Generate ecoSpold files</button>
+      </span>
+    </p>
+    <!--2.1 effluent-->
     <div>
-      <issue class=under_dev></issue>
-      <ul>
-        <li>Sludge composition
-        <li>Emitted CO2 (biogenic/fossil)
-        <li>Chemicals
-        <li>Energy
-      </ul>
+      <p>
+        2.1
+        <button class=toggleView onclick="toggleView(this,'results #contribution_container')">&darr;</button>
+        Activity contribution
+      </p>
+      <div id=contribution_container>
+        <div style=font-size:smaller>
+          Select units:
+          <label><input name=displayed_unit type=radio checked value="kg/d"  onclick=document.querySelector('#run').click()> kg/d</label>
+          <label><input name=displayed_unit type=radio         value="%"     onclick=document.querySelector('#run').click()> %</label>
+          <label><input name=displayed_unit type=radio         value="kg/m3" onclick=document.querySelector('#run').click()> kg/m<sup>3</sup><sub>activity ww</sub></label>
+        </div>
+        <table id=contribution border=1>
+          <tr><th rowspan=2>Compound<th rowspan=2>Influent<th colspan=3>Effluent
+          <tr><th>Water<th>Air<th>Sludge
+          <tr><th colspan=5 style=text-align:left><button class=toggleView onclick="toggleView(this,'contribution #main')">&darr;</button>
+            Main compounds
+            <tbody id=main></tbody>
+          <tr><th colspan=5 style=text-align:left><button class=toggleView onclick="toggleView(this,'contribution #metals')">&rarr;</button>
+            Metals and other elements
+            <tbody id=metals style=display:none></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!--2.2 sludge-->
+    <div>
+      <p>
+        2.2
+        <button class=toggleView onclick="toggleView(this,'results #sludge_production')">&rarr;</button>
+        Sludge production
+        <ul id=sludge_production style=display:none>
+          <li>Primary sludge
+            <ul>
+              <li>Removed TSS: <span id=TSS_removed_kgd>0</span>
+                <ul style=font-family:monospace>
+                  <li>H<sub>2</sub>O content: <span id=sludge_primary_water_content>0</span>
+                </ul>
+              <li>Removed VSS: <span id=VSS_removed_kgd>0</span>
+                <ul style=font-family:monospace>
+                  <li>C content: <span id=sludge_primary_C_content>0</span>
+                  <li>H content: <span id=sludge_primary_H_content>0</span>
+                  <li>O content: <span id=sludge_primary_O_content>0</span>
+                  <li>N content: <span id=sludge_primary_N_content>0</span>
+                  <li>P content: <span id=sludge_primary_P_content>0</span>
+                </ul>
+              </li>
+            </ul>
+          <li>Secondary sludge
+            <ul>
+              <li>P_X_TSS: <span id=P_X_TSS>0</span>
+                <ul style=font-family:monospace>
+                  <li>H<sub>2</sub>O content: <span id=sludge_secondary_water_content>0</span>
+                </ul>
+              <li>P_X_VSS: <span id=P_X_VSS>0</span>
+                <ul style=font-family:monospace>
+                  <li>C content: <span id=sludge_secondary_C_content>0</span>
+                  <li>H content: <span id=sludge_secondary_H_content>0</span>
+                  <li>O content: <span id=sludge_secondary_O_content>0</span>
+                  <li>N content: <span id=sludge_secondary_N_content>0</span>
+                  <li>P content: <span id=sludge_secondary_P_content>0</span>
+                </ul>
+              </li>
+            </ul>
+          <li>
+            FeCl<sub>3</sub> additional sludge: <span id=Excess_sludge_kg>0</span>
+            <ul style=font-family:monospace>
+              <li>Fe content: <span id=sludge_precipitation_Fe_content>0</span>
+              <li>H content: <span id=sludge_precipitation_H_content>0</span>
+              <li>P content: <span id=sludge_precipitation_P_content>0</span>
+              <li>O content: <span id=sludge_precipitation_O_content>0</span>
+            </ul>
+          </li>
+        </ul>
+      </p>
+    </div>
+
+    <!--2.3 co2-->
+    <div>
+      <p>
+        2.3
+        <button class=toggleView onclick="toggleView(this,'results #fossil_CO2')">&rarr;</button>
+        Emitted CO<sub>2</sub>
+        <ul id=fossil_CO2 style=display:none>
+          <li>Non-biogenic (fossil): <span id=nonbiogenic_CO2>0</span>
+          <li>Biogenic    : <span id=biogenic_CO2>0</span>
+        </ul>
+      </p>
+    </div>
+
+    <!--2.4 chemicals-->
+    <div>
+      <p>
+        2.4
+        <button class=toggleView onclick="toggleView(this,'results #chemicals')">&rarr;</button>
+        Chemicals
+        <ul id=chemicals style=display:none>
+          <li>Dewatering polymers
+            <ul>
+              <li><em>Polyacrilamide</em>: <span id=Dewatering_polymer>0</span>
+            </ul>
+          </li>
+          <li>Alkalinity to maintain pH ≈ 7.0
+            <ul>
+              <li>For Nitrification:       <span id=alkalinity_added>0</span>
+              <li>For Denitrification:     <span id=Mass_of_alkalinity_needed>0</span>
+            </ul>
+          </li>
+          <li>FeCl<sub>3</sub> used for chemical P removal
+            <ul>
+              <li>Volume per day:          <span id=FeCl3_volume>0</span>
+              <li>Volume storage required: <span id=storage_req_15_d>0</span>
+            </ul>
+          </li>
+        </ul>
+      </p>
+    </div>
+
+    <!--2.5 energy-->
+    <div>
+      <p>
+        2.5
+        <button class=toggleView onclick="toggleView(this,'results #energy')">&rarr;</button>
+        Energy
+        <ul id=energy style=display:none>
+          <li>Aeration:                    <span id=aeration_power>0</span>
+          <li>Anoxic Mixing:               <span id=mixing_power>0</span>
+          <li>Pumping:                     <span id=pumping_power>0</span>
+            <ul>
+              <li>Influent pumping:        <span id=pumping_power_influent>0</span>
+              <li>External recirculation:  <span id=pumping_power_external>0</span>
+              <li>Internal recirculation:  <span id=pumping_power_internal>0</span>
+              <li>Wastage  recirculation:  <span id=pumping_power_wastage> 0</span>
+            </ul>
+          </li>
+          <li>Dewatering:                  <span id=dewatering_power>0</span>
+          <li>Other:                       <span id=other_power>0</span>
+          <li>Total energy
+            <ul>
+              <li>As power needed:   <span id=total_power>0</span>
+              <li>As energy per day: <span id=total_daily_energy>0</span>
+              <li>As energy per m3:  <span id=total_energy_per_m3>0</span>
+            </ul>
+        </ul>
+      </p>
+    </div>
+
+    <!--2.6 other-->
+    <div>
+      <p>
+        2.6
+        <button class=toggleView onclick="toggleView(this,'results #other')">&rarr;</button>
+        Other
+        <ul id=other style=display:none>
+          <li>TBD
+        </ul>
+      </p>
     </div>
   </div>
 </div>
+</html>
 
-<!--load country mix data TODO provisional-->
-<script src="mix_SAfrica.js"></script>
+<!--URL-->
+<script>
+  /*URL: GET params*/
+  //max URL lengh is 2000 chars: "https://stackoverflow.com/questions/417142/what-is-the-maximum-length-of-a-url-in-different-browsers"
+  var url=new URL(window.location.href);
+  console.log("URL length: "+url.href.length+" chars (OK below 2000 chars)");
+  if(url.href.length>2000){alert("Error: the URL length is above 2000 characters");}
+  //url.searchParams.get('param');
+</script>
+
+<!--backend-->
 <script>
   //main object for storing WWTPs
-  //main object for storing the Activity inputs
   var WWTPs=[];
-  var Activity={
-    Q:1,
-  };
+  //main object for storing the Activity inputs
+  var Activity={ Q:100 };
 
-  //convert mix_SAfrica dictionary of arrays to array of dictionaries
-  (function(){
-    for(var i=0;i<4;i++){
-      WWTPs.push({});
-      for(var field in mix_SAfrica){
-        WWTPs[i][field]=mix_SAfrica[field][i];
+  //GET activity inputs from URL
+  Inputs
+    .filter(i=>{return !i.isParameter})
+    .filter(i=>{return !i.canBeEstimated})
+    .forEach(i=>{
+      var get_param_value=url.searchParams.get(i.id);
+      if(get_param_value!=null){
+        Activity[i.id]=parseFloat(get_param_value);
       }
+    });
+</script>
+
+<!--load country data if wwtp_type is "average"-->
+<script src="mix_SAfrica.js"></script>
+<script>
+  (function(){
+    var wwtp_type = url.searchParams.get('wwtp_type');
+    if(wwtp_type=="average"){
+      //convert mix_SAfrica to array of objects
+      var mix_SAfrica_arr=[];
+      (function(){
+        for(var i=0;i<4;i++){
+          mix_SAfrica_arr.push({});
+          for(var field in mix_SAfrica){
+            mix_SAfrica_arr[i][field]=mix_SAfrica[field][i];
+          }
+        }
+      })();
+      WWTPs=mix_SAfrica_arr;
+    }else{
+      add_wwtp();//add one wwtp by default
     }
   })();
+</script>
 
-  //calculate estimations
-  WWTPs.forEach(wwtp=>{
+<!--input estimations-->
+<script>
+  //calculate estimations for both Activity and WWTPs
+  WWTPs.concat(Activity).forEach(wwtp=>{
     var ests=estimations(wwtp.COD,wwtp.TKN,wwtp.TP);
     Object.keys(ests.outputs).forEach(key=>{
       wwtp[key]=Math.round(ests.outputs[key]*100)/100;

@@ -7,7 +7,7 @@
 </head><body>
 <?php include'navbar.php'?>
 <div id=root>
-<h1>Generating ecospold file...</h1>
+<h1>Generating ecospold file (untreated)...</h1>
 <div>
   <span>The following data is going to be saved as a new ecospold file</span>
 
@@ -27,6 +27,7 @@
 </div>
 <script>
   (function(){
+    //show stringified input json
     document.getElementById('received_json').innerHTML=JSON.stringify(received_json,null,"  ");
   })();
 </script>

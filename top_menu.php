@@ -1,10 +1,9 @@
-
 <!--File/Edit/View-->
 <div id=top_menu class=flex style="background:#eee">
   <!--File-->
   <div>
     <button onclick="toggleView_top_menu_item('top_menu #file')">
-    File</button>
+      File</button>
     <ul id=file style="display:none">
         <!--load-->
         <li>
@@ -92,7 +91,7 @@
   <!--Edit-->
   <div>
     <button onclick="toggleView_top_menu_item('top_menu #edit')">
-    Edit</button>
+      Edit</button>
     <ul id=edit style=display:none>
       <!--set ww to zero-->
       <li>
@@ -140,7 +139,7 @@
   <!--View-->
   <div>
     <button onclick="toggleView_top_menu_item('top_menu #view')">
-    View</button>
+      View</button>
     <ul id=view style=display:none>
       <li><button onclick=window.open('img/plant-diagram.jpg')     >Plant diagram</button>
       <li><button onclick=window.open('fractionation_diagrams.php')>Fractionation diagram</button>
@@ -151,7 +150,7 @@
   <!--Help-->
   <div>
     <button onclick="toggleView_top_menu_item('top_menu #help')">
-    Help</button>
+      Help</button>
     <ul id=help style=display:none>
       <li>Documentation
       <li><button onclick=window.open('technologies.php')>See all technologies</button>
@@ -163,52 +162,36 @@
 
   <!--logic-->
   <script>
-    function top_menu_fold_all_items(el){ //fold all except 'el'
-      el=el||false;
-      var uls=document.querySelectorAll('#top_menu ul[id]');
-      for(var i=0;i<uls.length;i++){
-        if(uls[i]!=el){
-          uls[i].style.display='none';
-        }
-      }
-    }
-    function toggleView_top_menu_item(selector){
-      event.stopPropagation();
-      var el=document.querySelector('#'+selector);
-      top_menu_fold_all_items(el);
-      //unfold selected
-      if(el){el.style.display=el.style.display=='none' ? '':'none'}
-    }
     //fold items when click outside
     document.documentElement.addEventListener('click',top_menu_fold_all_items);
   </script>
-
-  <!--views-->
-  <style>
-    #top_menu {
-      border-bottom:1px solid #ccc;
-      padding-left:8px;
-      padding-bottom:1px;
-    }
-    #top_menu > div {
-      margin-right:8px;
-      position:relative;
-    }
-    #top_menu > div > ul[id] {
-      margin-top:2px;
-      position:absolute;
-      background:#eee;
-      list-style-type:none;
-      padding:0 5px 5px 5px;
-      box-shadow: 0 1px 2px rgba(0,0,0,.1);
-    }
-    #top_menu > div > ul[id] button{
-      text-align:left;
-      width:100%;
-      width:150px;
-      border:1px solid #ccc;
-      border-radius:0;
-      background:white;
-    }
-  </style>
 </div>
+
+<!--views-->
+<style>
+  #top_menu {
+    border-bottom:1px solid #ccc;
+    padding-left:8px;
+    padding-bottom:1px;
+  }
+  #top_menu > div {
+    margin-right:8px;
+    position:relative;
+  }
+  #top_menu > div > ul[id] {
+    margin-top:2px;
+    position:absolute;
+    background:#eee;
+    list-style-type:none;
+    padding:0 5px 5px 5px;
+    box-shadow: 0 1px 2px rgba(0,0,0,.1);
+  }
+  #top_menu > div > ul[id] button{
+    text-align:left;
+    width:100%;
+    width:150px;
+    border:1px solid #ccc;
+    border-radius:0;
+    background:white;
+  }
+</style>
