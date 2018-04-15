@@ -93,6 +93,19 @@
     <button onclick="toggleView_top_menu_item('top_menu #edit')">
       Edit</button>
     <ul id=edit style=display:none>
+      <!--set all inputs to zero-->
+      <li>
+        <button style=""
+          onclick="(function(){
+            var inputs=document.querySelectorAll('#inputs input');
+            for(var i=0;i<inputs.length;i++){
+              inputs[i].value=0;
+              getInput(inputs[i].id).value=0;
+            }
+            init();
+        })()">Set all inputs to zero</button>
+      </li>
+
       <!--set ww to zero-->
       <li>
         <button style=""
@@ -104,7 +117,7 @@
               getInput(inputs[i].id).value=0;
             }
             init();
-        })()">Set all wastewater components (inputs) to zero</button>
+        })()">Set all wastewater components to zero</button>
       </li>
 
       <!--set dp to zero-->
@@ -118,20 +131,7 @@
               getInput(inputs[i].id).value=0;
             }
             init();
-        })()">Set all design parameters (inputs) to zero</button>
-      </li>
-
-      <!--set all inputs to zero-->
-      <li>
-        <button style=""
-          onclick="(function(){
-            var inputs=document.querySelectorAll('#inputs input');
-            for(var i=0;i<inputs.length;i++){
-              inputs[i].value=0;
-              getInput(inputs[i].id).value=0;
-            }
-            init();
-        })()">Set all inputs to zero</button>
+        })()">Set all design parameters to zero</button>
       </li>
     </ul>
   </div>
@@ -153,10 +153,10 @@
       Help</button>
     <ul id=help style=display:none>
       <li>Documentation
-      <li><button onclick=window.open('technologies.php')>See all technologies</button>
-      <li><button onclick=window.open('inputs.php')>See all inputs</button>
-      <li><button onclick=window.open('outputs.php')>See all calculated variables</button>
-      <li><button onclick=window.open('see.php?path=dataModel&file=constants.js')>See all constants</button>
+      <li><button onclick=window.open('technologies.php')>Technologies</button>
+      <li><button onclick=window.open('inputs.php')>Inputs</button>
+      <li><button onclick=window.open('outputs.php')>Calculated variables</button>
+      <li><button onclick=window.open('see.php?path=dataModel&file=constants.js')>Constants</button>
     </ul>
   </div>
 

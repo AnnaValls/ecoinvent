@@ -61,6 +61,7 @@ String.prototype.prettifyUnit=function(){
     .replace('PO4','PO<sub>4</sub>')
     .replace('NOx','NO<sub>x</sub>')
     .replace('Na2','Na<sub>2</sub>')
+    .replace('population equivalents','population<br>equivalents')
     .replace('H2O','H<sub>2</sub>O');
 }
 

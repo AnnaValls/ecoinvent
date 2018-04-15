@@ -1,11 +1,8 @@
 <!doctype html><html><head>
   <?php include'imports.php'?>
   <title>TO DO items</title>
-  </head><body>
-  <?php include'navbar.php'?>
-  <div id=root>
-  <div>
-    <h1>All TO DO items/tasks/doubts/issues/etc</h1>
+</head><body><?php include'navbar.php'?><div id=root>
+  <div><h1>All TO DO items/tasks/doubts/issues/etc</h1>
     <p><em>This page is intended to centralize all issues during development</em></p>
     <p style="font-size:smaller">
       If an item is here is because has been discussed at some point, but Lluís B.
@@ -14,19 +11,15 @@
     </p>
 </div><hr>
 
-<!--items-->
+<!--main table-->
 <table class=todo_items border=1><tr><th>Item description<th>Status<th>Added
   <tr><td header colspan=3>
     <button class=toggleView onclick=toggleView(this,'single')>&rarr;</button>
     Single plant model
   <tbody id=single style=display:none>
     <tr>
-      <td>Remove ecospold menu from single plant model
-      <td>not done
-      <td>April 13th 2018
-    <tr>
       <td>Water content of all 3 sludge types and (2) (iSS) composition of primary and secondary sludge
-      <td>Help asked to George
+      <td>Help asked to George, under development
       <td>April 12th 2018
     <tr>
       <td>
@@ -35,12 +28,6 @@
       <td>Help from experts needed
         <br>(Pascal and Lluís B. doubt)
       <td>April 11th 2018
-    <tr>
-      <td>
-        Electricity: please use the name "electricity, low voltage", and give the results in kWh/m3 treated activity water <br>
-        FeCl3: please use the name "iron (III) chloride", and provide the results in kg active substance (actual FeCl3)/m3 treated activity water.
-      <td>Requested by Pascal, TO DO
-      <td>April 6th 2018
     <tr>
       <td>Rename NO<sub>x</sub> to NO<sub>3</sub> to match ecoinvent id (we've assumed that there is no NO<sub>2</sub>)
       <td>TO DO
@@ -71,10 +58,10 @@
           <li>Colombia
           <li>America
         </ul>
-      <td>not started
+      <td>Data not available (only South Africa received from George)
       <td>April 10th 2018
     <tr>
-      <td>industrial factors [brewery, pig_manure, tanning_ww, thermomechanical_pulp_and_paper_ww]
+      <td>Industrial factors [brewery, pig_manure, tanning_ww, thermomechanical_pulp_and_paper_ww]
         <ul>
           <li>CS_U [0.05, 0.08, 0.35, 0.30]
           <li>CS_B [0.80, 0.20, 0.35, 0.10]
@@ -146,6 +133,8 @@
           <li>Add a button for Recalculate yves estimations
           <li>Not all tech combinations should be possible (like in single plant model)
         </ul>
+      <td>not done
+      <td>April 12th 2018
   </tbody>
 
   <tr><td header colspan=3>

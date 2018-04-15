@@ -222,7 +222,7 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
 
   //106 g of Na2CO3 == 100 g of CaCO3
   // 84 g of NaHCO3 == 100 g of CaCO3 <--use this
-  Mass_of_alkalinity_needed*=(84/100); // kg/d as NaHCO3
+  Mass_of_alkalinity_needed*=(84/100); // CONVERT TO kg/d as NaHCO3
 
   //11
   var Power = V_nox * Anoxic_mixing_energy / 1000; //kW

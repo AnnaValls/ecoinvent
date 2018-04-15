@@ -371,7 +371,7 @@
         }
       },
       hiddenTechs:[
-        "CSO", "Pri", "Fra", "BOD", "SST", "other", "Ene", "Nit", "Des", "BiP", "ChP", "Met"
+        "CSO", "Pri", "Fra", "BOD", "SST", "other", "Ene", "Nit", "Des", "BiP", "ChP", "Met", 'sludge_composition', 'chemicals',
       ], //techs hidden in table 2. Variables calculated, i.e. ['BOD','Nit']
       /*further user-options here*/
     }
@@ -599,6 +599,10 @@
               <li>P content: <span id=sludge_precipitation_P_content>0</span>
               <li>O content: <span id=sludge_precipitation_O_content>0</span>
             </ul>
+          </li>
+          <li>
+            Secondary sludge with chemical P removal
+            <issue class=under_dev></issue>
           </li>
         </ul>
       </p>
