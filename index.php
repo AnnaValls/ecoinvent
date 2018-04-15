@@ -92,7 +92,7 @@
       <tr>
         <td>15. <a href="construction.php" >Construction materials</a>
         <td><a href="docs/construction/WR-S-17-01921.pdf">Morera et al, 2017</a>
-        <td><a href="see.php?file=construction.php">construction.php</a>
+        <td><a href="see.php?file=construction.js">construction.js</a>
     </table>
   </div><hr>
 
@@ -116,8 +116,8 @@
           Google drive "ecoinvent wastewater treatment project" document
         </a>
       </li>
-      <li>Github: <a href=//github.com/holalluis/ecoinvent>github.com/holalluis/ecoinvent</a>
-      <li>Pascal's integration with the tool:
+      <li><a href=//github.com/holalluis/ecoinvent>github.com/holalluis/ecoinvent</a>
+      <li>Pascal's ecospold integration:
         <ul>
           <li>
             <a href="https://github.com/PascalLesage/wastewater_treatment_tool">
