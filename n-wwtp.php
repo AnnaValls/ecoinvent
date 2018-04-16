@@ -614,7 +614,7 @@
   //main object for storing WWTPs
   var WWTPs=[];
   //main object for storing the Activity inputs
-  var Activity={ Q:100 };
+  var Activity={ Q:1 };
 
   //GET activity inputs from URL
   Inputs

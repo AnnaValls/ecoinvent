@@ -155,7 +155,7 @@
     <!--volume-->
     <li>
       Volume of water discharged<br>
-      <input id=Q type=number value=100 min=0> m<sup>3</sup>/d
+      <input id=Q type=number value=1 min=0> m<sup>3</sup>/d
       | <small><a href="#" onclick="toggleView(false,'PV_help');return false;">help</a></small>
       <div id=PV_help style="display:none">
         <div class=help>
