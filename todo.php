@@ -18,6 +18,14 @@
     Single plant model
   <tbody id=single style=display:none>
     <tr>
+      <td>More technologies (i.e. Lagoons)
+      <td>will not implement in this version
+      <td>April 16th 2018
+    <tr>
+      <td>Warnings module
+      <td>not started
+      <td>April 16th 2018
+    <tr>
       <td>Water content of all 3 sludge types and (2) (iSS) composition of primary and secondary sludge
       <td>Help asked to George, under development
       <td>April 12th 2018
@@ -136,7 +144,6 @@
       <td>not done
       <td>April 12th 2018
   </tbody>
-
   <tr><td header colspan=3>
     <button class=toggleView onclick=toggleView(this,'server')>&rarr;</button>
     Server related

@@ -1,17 +1,76 @@
 <?php /*
-  Multiple plant interface
+  Multiple plant user interface
 */?>
 <!doctype html><html><head>
   <?php include'imports.php'?>
-  <script src="elementary.js"></script>
-  <script src="multiple.js"></script>
+  <script src="elementary.js"></script><!--single plant model backend-->
+  <script src="multiple.js"></script><!--multiple plant model backend-->
   <title>Multiple WWTPs</title>
+
+  <!--frontend-->
   <script>
+    function init(){
+      redisplay_wwtps();
+
+      //populate outputs
+      (function(){
+        var table=document.getElementById('contribution');
+        var outputs=compute_elementary_flows(WWTPs[0]).Outputs;
+
+        var tbody=table.querySelector('#main');
+        Object.keys(Outputs).filter(key=>{return !getInputById(key).isMetal}).forEach(key=>{
+          populate_output(key,tbody);
+        });
+
+        var tbody=table.querySelector('#metals');
+        Object.keys(Outputs).filter(key=>{return getInputById(key).isMetal}).forEach(key=>{
+          populate_output(key,tbody);
+        });
+
+        function populate_output(key, tbody){
+          var newRow=tbody.insertRow(-1);
+          newRow.title=Outputs[key].descr;
+          newRow.id=key;
+          newRow.insertCell(-1).outerHTML="<th>"+key.prettifyUnit();
+          newRow.insertCell(-1).outerHTML="<td influent>0";
+          newRow.insertCell(-1).outerHTML="<td water>0";
+          newRow.insertCell(-1).outerHTML="<td air>0";
+          newRow.insertCell(-1).outerHTML="<td sludge>0";
+        }
+      })();
+
+      //RUN automatically on start (PROVISIONAL) TODO
+      run();
+    }
+
+    //execute model wrapper (call backend+frontend)
+    function run(){
+      //run n times 'compute elementary flows'
+      var result=n_wwtps_simulation(Activity,WWTPs); //{weighted_contribution, weighted_reference, weighted_mixed}
+
+      //send 'result' to the button generate ecospold
+      var btn_generate_ecospold=document.getElementById('btn_generate_ecospold');
+      btn_generate_ecospold.removeEventListener('click',()=>{generate_ecospold(result)});
+      btn_generate_ecospold.addEventListener('click'   ,()=>{generate_ecospold(result)});
+
+      //table contribution
+      display_contribution_Outputs(result);
+
+      //create table "all_contributions"
+      (function(){
+        var container=document.querySelector('#results #all');
+        container.innerHTML="";
+        container.appendChild(display_contribution_All(result));
+      })();
+    }
+
     //add a new object to WWTPs array
     function add_wwtp(){
-      var wwtp={name:'new plant', perc_PE:100-WWTPs.map(w=>{return w.perc_PE}).reduce(function(pr,cu){return pr+cu},0)};
-
-      //add technologies with the default value
+      var wwtp={
+        name:'new plant',
+        perc_PE:100-WWTPs.map(w=>{return w.perc_PE}).reduce(function(pr,cu){return pr+cu},0)
+      };
+      //add technologies with default values
       Object.keys(Technologies)
         .filter(key=>{return !Technologies[key].notActivable})
         .forEach(key=>{
@@ -271,65 +330,7 @@
       Inputs.filter(inp=>{return inp.isParameter}).forEach(inp=>{draw_input(inp)});
     }
 
-    function init(){
-      redisplay_wwtps();
-
-      //populate outputs
-      (function(){
-        var table=document.getElementById('contribution');
-        var outputs=compute_elementary_flows(WWTPs[0]).Outputs;
-
-        var tbody=table.querySelector('#main');
-        Object.keys(Outputs).filter(key=>{return !getInputById(key).isMetal}).forEach(key=>{
-          populate_output(key,tbody);
-        });
-
-        var tbody=table.querySelector('#metals');
-        Object.keys(Outputs).filter(key=>{return getInputById(key).isMetal}).forEach(key=>{
-          populate_output(key,tbody);
-        });
-
-        function populate_output(key, tbody){
-          var newRow=tbody.insertRow(-1);
-          newRow.title=Outputs[key].descr;
-          newRow.id=key;
-          newRow.insertCell(-1).outerHTML="<th>"+key.prettifyUnit();
-          newRow.insertCell(-1).outerHTML="<td influent>0";
-          newRow.insertCell(-1).outerHTML="<td water>0";
-          newRow.insertCell(-1).outerHTML="<td air>0";
-          newRow.insertCell(-1).outerHTML="<td sludge>0";
-        }
-      })();
-
-      //RUN automatically on start (PROVISIONAL) TODO
-      run();
-    }
-
-    function run(){
-      //run n times 'compute elementary flows'
-      var result=n_wwtps_simulation(Activity,WWTPs); //{weighted_contribution, weighted_reference, weighted_mixed}
-
-      //table contribution
-      display_contribution_Outputs(result);
-
-      //table "all contributions"
-      (function(){
-        var container=document.querySelector('#results #all');
-        container.innerHTML="";
-        var loading=document.createElement('div');
-        loading.innerHTML="Loading...";
-        container.appendChild(loading);
-        var table=display_contribution_All(result);
-        container.appendChild(table);
-        container.removeChild(loading);
-      })();
-    }
-  </script>
-
-  <script>
-    //GUI
-
-    //Display weighted contribution of Outputs 'ONLY' THIS CONVERTS G/D TO KG/D
+    //update table 'contributions' (outputs ONLY) THIS CONVERTS G/D TO KG/D
     function display_contribution_Outputs(result){
       //pick table from gui
       var table=document.getElementById('contribution');
@@ -375,12 +376,16 @@
       });
     }
 
+    //create table 'all_contributions'
     function display_contribution_All(result){
       var table=document.createElement('table');//new table
       table.setAttribute('border',1);
       table.id="all_contributions";
       //add headers
       table.insertRow(-1).outerHTML="<tr><th>Variable<th>Contribution<th>Unit<th>Percent contribution";
+
+      //the user can display the results normalized per m3 of activity
+      var is_normalized_selected = document.querySelector('input[name=displayed_unit_normalized][value="yes"]').checked;
 
       //go through technologies
       Object.keys(result.weighted_mixed).forEach(tec=>{
@@ -417,19 +422,31 @@
           key_tr.outerHTML=(function(){
             var item1 = result.weighted_contribution[tec][key];
             var item2 = result.weighted_mixed[tec][key];
-            var title=item1.descr;
-
+            var title = item1.descr;
             var value1 = item1.value;
             var value2 = item2.value;
-
             var percent = (value2==0)?0:(100*value1/value2);
-            var percent_color=(percent==0)?'':(percent<0?"lightgreen":"red");
+            var percent_color =(percent==0)?'':(percent<0?"lightgreen":"red");
             var percent_plus = percent>0 ? "<span style=color:red>+</span>":"";
 
-            var value_per_m3 = value1/Activity.Q;
+            //divide contribution per m3 of activity if selected
+            if(is_normalized_selected){ value1/=Activity.Q; }
+
+            var format_value1 = format(value1);
+            var format_value2 = format(value2);
+            var format_unit   = item1.unit.prettifyUnit();
+
+            //mark text somehow if normalized
+            if(is_normalized_selected){
+              format_value1 = "<b>"+format_value1+"</b>";
+            }
+
+            //display contribution and total amount
+            var format_contribution = is_normalized_selected ? format_value1 : format_value1+"/"+format_value2;
+
             return "<tr id='"+key+"' title='"+title+"'><th style=font-family:monospace;text-align:left>"+key+
-              "<td style=text-align:right>"+format(value1)+"/"+format(value2)+
-              "<td><small>"+item1.unit.prettifyUnit()+"</small>"+
+              "<td style=text-align:right>"+format_contribution+
+              "<td><small>"+format_unit+"</small>"+
               "<td style=text-align:right>"+percent_plus+""+format(percent,false,percent_color)+" <small>%</small>"+
               "";
           })();
@@ -447,13 +464,14 @@
     }
   </script>
 
-  <!--user options object-->
+  <!--user options-->
   <script>
     //options
     var Options={
       revealedTechs:[ ], //since table "all_contributions" is redisplayed each time we need to keep track of revealed tbodys
     }
 
+    //fold button for table 'all_contributions'
     function toggleView_tbody(btn,tec){
       toggleView(btn,'all_contributions tbody[tec='+tec+']'); //'format.js'
       if(Options.revealedTechs.indexOf(tec)==-1){
@@ -464,21 +482,7 @@
     }
   </script>
 
-  <style>
-    #all_contributions {
-      border-collapse:collapse;
-      font-size:smaller;
-      width:100%;
-    }
-    #all_contributions td {
-      font-weight:normal;
-    }
-    #all_contributions tr[id]:hover th {
-      text-decoration:underline;
-    }
-  </style>
-
-  <!--CSS-->
+  <!--css-->
   <style>
     #wwtps, #contribution {
       border-collapse:collapse;
@@ -512,6 +516,17 @@
     }
     #contribution td {
       text-align:right;
+    }
+    #all_contributions {
+      border-collapse:collapse;
+      font-size:smaller;
+      width:100%;
+    }
+    #all_contributions td {
+      font-weight:normal;
+    }
+    #all_contributions tr[id]:hover th {
+      text-decoration:underline;
     }
   </style>
 </head><body onload="init()">
@@ -555,8 +570,8 @@
     <p>
       <b>2. Results</b>
       <span>
-        <script src="generate_ecospold.js"></script>
-        <button onclick="generate_ecospold()">Generate ecoSpold files</button>
+        <script src="generate_json_for_ecospold.js"></script>
+        <button id=btn_generate_ecospold>Generate ecoSpold files</button>
       </span>
     </p>
     <!--2.1 effluent-->
@@ -592,6 +607,11 @@
         2.2
         <button class=toggleView onclick="toggleView(this,'results #all')">&darr;</button>
         Contribution: all characteristics
+        <div style=font-size:smaller>
+          Normalized per activity Q (m<sup>3</sup>/d):
+          <label><input name=displayed_unit_normalized type=radio checked value="no"  onclick=document.querySelector('#run').click()> No </label>
+          <label><input name=displayed_unit_normalized type=radio         value="yes" onclick=document.querySelector('#run').click()> Yes</label>
+        </div>
         <div id=all style=display:nonee></div>
       </p>
     </div>
@@ -614,7 +634,10 @@
   //main object for storing WWTPs
   var WWTPs=[];
   //main object for storing the Activity inputs
-  var Activity={ Q:1 };
+  var Activity={
+    Q:1,
+    Q:22700, //default for testing (remove when done) TODO
+    };
 
   //GET activity inputs from URL
   Inputs
