@@ -1,5 +1,5 @@
 '''
-  decode a technology mix description based on 7 bits packed into a string
+  decode a technology mix description based on 6 bits packed into a string
 
   bit position | technology
   -------------+--------------------------
@@ -9,9 +9,8 @@
   3            | denitrification
   4            | bio P removal
   5            | chem P removal
-  6            | metals and other elements
   -------------+--------------------------
-  example: "1110001"
+  example: "111000"
   means:
     treatment with primary settler,
     with bod removal,
@@ -19,7 +18,6 @@
     without denitrification,
     without bio P removal,
     without chem P removal,
-    with metals and other elements,
 '''
 
 def decode(bit_string): #i.e "1110001"
@@ -31,7 +29,6 @@ def decode(bit_string): #i.e "1110001"
     'Denitrification',
     'Bio P removal',
     'Chem P removal',
-    'Metals and other elements',
   ]
   rv=[] #return value that will be constructed below
 
@@ -62,9 +59,9 @@ def decode(bit_string): #i.e "1110001"
   return(rv)
 
 '''TESTS'''
-#decode('000') #does not fail because length < 7 but returns 'nothing'
-#decode('111') #does not fail because length < 7
-#decode('1110001') #does not fail because length == 7 (normal case)
+#decode('000') #does not fail because length < 6 but returns 'nothing'
+#decode('111') #does not fail because length < 6
+#decode('111000') #does not fail because length == 6 (normal case)
 #decode('abc') #should fail because at least one character is not '0' or '1'
-#decode('1111111000111') #should fail because length > 7
+#decode('1111111000111') #should fail because length > 6
 #decode(3) #should fail because input type is not 'str'

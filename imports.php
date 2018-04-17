@@ -41,6 +41,9 @@
 <script src="dataModel/geographies.js"></script>
 <script src="dataModel/ecoinvent_ids/ecoinvent_ids.js"></script>
 
+<!--"binary string" encoder for technology mixes-->
+<script src="technology_mix_encoder.js"></script>
+
 <!--css-->
 <style>
 	body {

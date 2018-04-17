@@ -18,16 +18,24 @@
     Single plant model
   <tbody id=single style=display:none>
     <tr>
+      <td>We need to define "0" numerically as i.e. 1e-10, or 1e-15, ...? TBD
+      <td>help wanted
+      <td>April 16th 2018
+    <tr>
+      <td>Doubt: is Alkalinity (g/m3 as CaCO3) also removed/diluted by CSO?
+      <td>help wanted
+      <td>April 16th 2018
+    <tr>
       <td>More technologies (i.e. Lagoons)
       <td>will not implement in this version
       <td>April 16th 2018
     <tr>
       <td>Warnings module
-      <td>not started
+      <td>will not implement in this version
       <td>April 16th 2018
     <tr>
       <td>Water content of all 3 sludge types and (2) (iSS) composition of primary and secondary sludge
-      <td>Help asked to George, under development
+      <td>Help provided by George, under development
       <td>April 12th 2018
     <tr>
       <td>

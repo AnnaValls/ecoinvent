@@ -75,8 +75,10 @@ function compute_elementary_flows(input_set){
       + "summary" (for selected variables results oriented)
   */
   var Result={
-    Fra:{},CSO:{},Pri:{},BOD:{},Nit:{},SST:{},Des:{},BiP:{},ChP:{},Met:{},
-    sludge_composition:{}, Ene:{}, chemicals:{}, summary:{}, Outputs:{}, other:{}
+    CSO:{}, inputs_after_CSO:{}, 
+    Fra:{}, Pri:{},
+    BOD:{},Nit:{},SST:{},Des:{},BiP:{},ChP:{},Met:{},
+    sludge_composition:{}, Ene:{}, chemicals:{}, Outputs:{}, other:{}, summary:{},
   };
 
   /*APPLY TECHNOLOGIES MODULES*/
@@ -106,6 +108,32 @@ function compute_elementary_flows(input_set){
     TSS   = Result.Fra.TSS.value;
     NH4   = Result.Fra.NH4.value;
     PO4   = Result.Fra.PO4.value;
+    //note: metals are done below
+
+    Result.inputs_after_CSO = {
+      COD    :  {value:Q/1000*Result.Fra.COD.value,    unit:Result.Fra.COD  .unit.replace('g/m3','kg/d'),    descr:Result.Fra.COD.descr},
+      TKN    :  {value:Q/1000*Result.Fra.TKN.value,    unit:Result.Fra.TKN  .unit.replace('g/m3','kg/d'),    descr:Result.Fra.TKN.descr},
+      TP     :  {value:Q/1000*Result.Fra.TP.value,     unit:Result.Fra.TP   .unit.replace('g/m3','kg/d'),     descr:Result.Fra.TP.descr},
+      BOD    :  {value:Q/1000*Result.Fra.BOD.value,    unit:Result.Fra.BOD  .unit.replace('g/m3','kg/d'),    descr:Result.Fra.BOD.descr},
+      sBOD   :  {value:Q/1000*Result.Fra.sBOD.value,   unit:Result.Fra.sBOD .unit.replace('g/m3','kg/d'),   descr:Result.Fra.sBOD.descr},
+      sCOD   :  {value:Q/1000*Result.Fra.sCOD.value,   unit:Result.Fra.sCOD .unit.replace('g/m3','kg/d'),   descr:Result.Fra.sCOD.descr},
+      bCOD   :  {value:Q/1000*Result.Fra.bCOD.value,   unit:Result.Fra.bCOD .unit.replace('g/m3','kg/d'),   descr:Result.Fra.bCOD.descr},
+      rbCOD  :  {value:Q/1000*Result.Fra.rbCOD.value,  unit:Result.Fra.rbCOD.unit.replace('g/m3','kg/d'),  descr:Result.Fra.rbCOD.descr},
+      VSS    :  {value:Q/1000*Result.Fra.VSS.value,    unit:Result.Fra.VSS  .unit.replace('g/m3','kg/d'),    descr:Result.Fra.VSS.descr},
+      TSS    :  {value:Q/1000*Result.Fra.TSS.value,    unit:Result.Fra.TSS  .unit.replace('g/m3','kg/d'),    descr:Result.Fra.TSS.descr},
+      NH4    :  {value:Q/1000*Result.Fra.NH4.value,    unit:Result.Fra.NH4  .unit.replace('g/m3','kg/d'),    descr:Result.Fra.NH4.descr},
+      PO4    :  {value:Q/1000*Result.Fra.PO4.value,    unit:Result.Fra.PO4  .unit.replace('g/m3','kg/d'),    descr:Result.Fra.PO4.descr},
+    };
+    //add metals
+    Inputs.filter(i=>i.isMetal).forEach(i=>{
+      Result.inputs_after_CSO[i.id] = {
+        value: Q*(is[i.id] - Result.CSO['elem_'+i.id+'_discharged'].value)/1000,
+        unit: "kg/d_as_"+i.id,
+        descr: i.descr,
+      };
+    });
+
+    addResults('inputs_after_CSO',Result.inputs_after_CSO,false);
 
     //recalculate fractionation with updated inputs
     Result.Fra=fractionation(BOD,sBOD,COD,bCOD,sCOD,rbCOD,TSS,VSS,TKN,NH4,NH4_eff,TP,PO4);
@@ -278,7 +306,7 @@ function compute_elementary_flows(input_set){
     var V  = is.V  - Result.CSO.elem_V_discharged.value;
     var W  = is.W  - Result.CSO.elem_W_discharged.value;
     var Zn = is.Zn - Result.CSO.elem_Zn_discharged.value;
-    Result.Met=metals_doka(Ag,Al,As,B,Ba,Be,Br,Ca,Cd,Cl,Co,Cr,Cu,F,Fe,Hg,I,K,Mg,Mn,Mo,Na,Ni,Pb,Sb,Sc,Se,Si,Sn,Sr,Ti,Tl,V,W,Zn);
+    Result.Met=metals_doka(Q,Ag,Al,As,B,Ba,Be,Br,Ca,Cd,Cl,Co,Cr,Cu,F,Fe,Hg,I,K,Mg,Mn,Mo,Na,Ni,Pb,Sb,Sc,Se,Si,Sn,Sr,Ti,Tl,V,W,Zn);
     addResults('Met',Result.Met);
   })();
   //--------------------------------------------------------------------------------------
@@ -289,7 +317,7 @@ function compute_elementary_flows(input_set){
   var BOD_person_day = Q*is.BOD/is.PEq; //g/person/day
 
   //C content
-  var TOC_content = is.COD/is.COD_TOC_ratio; //gC/m3
+  var TOC_content = Q*is.COD/is.COD_TOC_ratio/1000; //kgC/d
 
   //S, VSSe and sCODe
   var S     = select_value('S', ['Nit','BOD']); //g/m3 -- bCOD effluent
@@ -583,7 +611,7 @@ function compute_elementary_flows(input_set){
   //Pack 'other' variables
   Result.other={
     'BOD_person_day':  {value:BOD_person_day, unit:"g/person/day_as_O2", descr:"BOD5 per person per day"},
-    'TOC_content':     {value:TOC_content,    unit:"g/m3_as_C",          descr:"TOC content"},
+    'TOC_content':     {value:TOC_content,    unit:"kg/d_as_C",          descr:"TOC content"},
     'S':               {value:S,              unit:"g/m3_as_O2",         descr:"bCOD at the effluent"},
     'sCODe':           {value:sCODe,          unit:"g/m3_as_O2",         descr:"Soluble COD at the effluent"},
     'VSSe':            {value:VSSe,           unit:"g/m3",               descr:"Volatile Suspended Solids at the effluent"},
@@ -908,10 +936,12 @@ function compute_elementary_flows(input_set){
 
   /*utils*/
     //fx: utility to add a technology result to the "Variables" object (calculated variables)
-    function addResults(tech,result){
+    function addResults(tech,result,overwrite){
+      overwrite=overwrite||false;
       /*inputs:
         tech: string representing a technology
         result: object returned from a technology
+        overwrite: boolean
       */
       for(var res in result){
         var id    = res;
@@ -919,8 +949,8 @@ function compute_elementary_flows(input_set){
         var unit  = result[id].unit;
         var descr = result[id].descr;
 
-        //if a variable with the same id and unit already exists replace it (unless tech==summar)
-        if(tech!='summary'){
+        //if a variable with the same id and unit already exists replace it (if overwrite==true)
+        if(overwrite){
           var candidates=Variables.filter(v=>{return (v.id==id && v.unit==unit)});
           if(candidates.length){
             candidates.forEach(c=>{

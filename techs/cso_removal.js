@@ -10,6 +10,9 @@ function cso_removal(Fractionation, Input_set, CSO_particulate, CSO_soluble){
   CSO_particulate /= 100; //convert percentage to rate
   CSO_soluble     /= 100; //convert percentage to rate
 
+  //flowrate
+  var Q = Input_set.Q; //m3/d
+
   /*apply removal rates {bs,nbs,bp,nbp}*/
     var bsCOD_discharged  = R.bsCOD.value    * CSO_soluble;
     var nbsCOD_discharged = R.nbsCODe.value  * CSO_soluble;
@@ -85,20 +88,29 @@ function cso_removal(Fractionation, Input_set, CSO_particulate, CSO_soluble){
     R.OP.value          -= OP_discharged;
     R.TP.value          -= TP_discharged;
 
+
   //return value
   var rv = {
-    BOD_discharged: {value:BOD_discharged, unit:"g/m3_as_O2", descr:"Discharged_BOD_by_CSO"},
-    COD_discharged: {value:COD_discharged, unit:"g/m3_as_O2", descr:"Discharged_COD_by_CSO"},
-    TSS_discharged: {value:TSS_discharged, unit:"g/m3",       descr:"Discharged_TSS_by_CSO"},
-    TKN_discharged: {value:TKN_discharged, unit:"g/m3_as_N",  descr:"Discharged_TKN_by_CSO"},
-    NH4_discharged: {value:NH4_discharged, unit:"g/m3_as_N",  descr:"Discharged_NH4_by_CSO"},
-    ON_discharged:  {value:ON_discharged,  unit:"g/m3_as_N",  descr:"Discharged_ON_by_CSO"},
-    TP_discharged:  {value:TP_discharged,  unit:"g/m3_as_P",  descr:"Discharged_TP_by_CSO"},
+    BOD_discharged:      {value:BOD_discharged,         unit:"g/m3_as_O2",  descr:"Discharged_BOD_by_CSO"},
+    BOD_discharged_kgd:  {value:Q*BOD_discharged/1000,  unit:"kg/d_as_O2",  descr:"Discharged_BOD_by_CSO"},
+    COD_discharged:      {value:COD_discharged,         unit:"g/m3_as_O2",  descr:"Discharged_COD_by_CSO"},
+    COD_discharged_kgd:  {value:Q*COD_discharged/1000,  unit:"kg/d_as_O2",  descr:"Discharged_COD_by_CSO"},
+    TSS_discharged:      {value:TSS_discharged,         unit:"g/m3",        descr:"Discharged_TSS_by_CSO"},
+    TSS_discharged_kgd:  {value:Q*TSS_discharged/1000,  unit:"kg/d",        descr:"Discharged_TSS_by_CSO"},
+    TKN_discharged:      {value:TKN_discharged,         unit:"g/m3_as_N",   descr:"Discharged_TKN_by_CSO"},
+    TKN_discharged_kgd:  {value:Q*TKN_discharged/1000,  unit:"kg/d_as_N",   descr:"Discharged_TKN_by_CSO"},
+    NH4_discharged:      {value:NH4_discharged,         unit:"g/m3_as_N",   descr:"Discharged_NH4_by_CSO"},
+    NH4_discharged_kgd:  {value:Q*NH4_discharged/1000,  unit:"kg/d_as_N",   descr:"Discharged_NH4_by_CSO"},
+    ON_discharged:       {value:ON_discharged,          unit:"g/m3_as_N",   descr:"Discharged_ON_by_CSO"},
+    ON_discharged_kgd:   {value:Q*ON_discharged/1000,   unit:"kg/d_as_N",   descr:"Discharged_ON_by_CSO"},
+    TP_discharged:       {value:TP_discharged,          unit:"g/m3_as_P",   descr:"Discharged_TP_by_CSO"},
+    TP_discharged_kgd:   {value:Q*TP_discharged/1000,   unit:"kg/d_as_P",   descr:"Discharged_TP_by_CSO"},
   };
 
   //deal with metals: metals are all soluble
   Object.keys(Input_set).filter(k=>{return getInputById(k).isMetal}).forEach(k=>{
-    rv['elem_'+k+'_discharged'] = {value:Input_set[k]*CSO_soluble, unit:"g/m3_as_"+k, descr:k+"_discharged"};
+    rv['elem_'+k+'_discharged']     = {value:Input_set[k]*CSO_soluble,        unit:"g/m3_as_"+k, descr:k+"_discharged"};
+    rv['elem_'+k+'_discharged_kgd'] = {value:Q*Input_set[k]*CSO_soluble/1000, unit:"kg/d_as_"+k, descr:k+"_discharged"};
   });
 
   //return value

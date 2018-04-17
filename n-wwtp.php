@@ -386,6 +386,7 @@
 
       //the user can display the results normalized per m3 of activity
       var is_normalized_selected = document.querySelector('input[name=displayed_unit_normalized][value="yes"]').checked;
+      var is_displayed_non_zero_only_selected = document.querySelector('input[name=displayed_non_zero_only][value="yes"]').checked;
 
       //go through technologies
       Object.keys(result.weighted_mixed).forEach(tec=>{
@@ -397,19 +398,36 @@
         var is_revealed = Options.revealedTechs.indexOf(tec)+1;
         tec_tbody.style.display= is_revealed ? '':'none'; //default display of tbody
 
-        //get array of calculated variables (keys only)
-        var tec_keys=Object.keys(result.weighted_mixed[tec]); //['P_X_bio','P_X_VSS,...']
+        //get array of calculated variables (keys only) and which value is greater than 0, ie ['P_X_bio','P_X_VSS,...']
+        var tec_keys=(function(){
+          var rv=[];
+          Object.keys(result.weighted_contribution[tec]).forEach(key=>{
+            var value=result.weighted_contribution[tec][key].value;
+            var format_value=format(value);
+            if(is_displayed_non_zero_only_selected){
+              if(format_value!="0" && format_value!="-0"){
+                rv.push(key);
+              }
+            }else{
+              rv.push(key);
+            }
+          });
+          return rv;
+        })();
 
         //new header row with toggleView btn
         if(tec_keys.length){
           var newRow = document.createElement('tr');
           table.insertBefore(newRow,tec_tbody);
+          var tec_name = Technologies[tec] ? Technologies[tec].Name : tec.prettifyUnit();
+          tec_name = tec_name[0].toUpperCase()+tec_name.slice(1);
+
           newRow.insertCell(-1).outerHTML=(function(){
             return "<th colspan=4 style=text-align:left>"+
               "<button class=toggleView onclick=\"toggleView_tbody(this,'"+tec+"')\">"+
               "&"+(is_revealed?"d":"r")+"arr;"+
               "</button> "+ //symbol of button depends on is_revealed
-              (Technologies[tec]?Technologies[tec].Name:tec)+
+              tec_name+
               " ("+tec_keys.length+")"+
               "";
           })();
@@ -444,7 +462,8 @@
             //display contribution and total amount
             var format_contribution = is_normalized_selected ? format_value1 : format_value1+"/"+format_value2;
 
-            return "<tr id='"+key+"' title='"+title+"'><th style=font-family:monospace;text-align:left>"+key+
+            return ""+
+              "<tr id='"+key+"' title='"+title+"'><th style=font-family:monospace;text-align:left>"+key+
               "<td style=text-align:right>"+format_contribution+
               "<td><small>"+format_unit+"</small>"+
               "<td style=text-align:right>"+percent_plus+""+format(percent,false,percent_color)+" <small>%</small>"+
@@ -566,7 +585,7 @@
   </div>
 
   <!--results-->
-  <div id=results style='min-width:45%;padding-left:8px'>
+  <div id=results style='min-width:45%;max-width:49%;padding-left:8px'>
     <p>
       <b>2. Results</b>
       <span>
@@ -605,14 +624,23 @@
     <div>
       <p>
         2.2
-        <button class=toggleView onclick="toggleView(this,'results #all')">&darr;</button>
+        <button class=toggleView onclick="toggleView(this,'results #all_container')">&darr;</button>
         Contribution: all characteristics
-        <div style=font-size:smaller>
-          Normalized per activity Q (m<sup>3</sup>/d):
-          <label><input name=displayed_unit_normalized type=radio checked value="no"  onclick=document.querySelector('#run').click()> No </label>
-          <label><input name=displayed_unit_normalized type=radio         value="yes" onclick=document.querySelector('#run').click()> Yes</label>
+        <div id=all_container>
+          <table style=font-size:smaller>
+            <tr>
+              <td> Display only contributions greater than zero:
+              <td>
+                <label><input name=displayed_non_zero_only type=radio         value="no"  onclick=document.querySelector('#run').click()> No </label>
+                <label><input name=displayed_non_zero_only type=radio checked value="yes" onclick=document.querySelector('#run').click()> Yes</label>
+            <tr>
+              <td>Normalize contributions per activity Q (m<sup>3</sup>/d):
+              <td>
+                <label><input name=displayed_unit_normalized type=radio checked value="no"  onclick=document.querySelector('#run').click()> No </label>
+                <label><input name=displayed_unit_normalized type=radio         value="yes" onclick=document.querySelector('#run').click()> Yes</label>
+          </table>
+          <div id=all style=display:nonee></div>
         </div>
-        <div id=all style=display:nonee></div>
       </p>
     </div>
   </div>

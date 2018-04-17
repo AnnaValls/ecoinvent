@@ -125,8 +125,8 @@ function fractionation(BOD,sBOD,COD,bCOD,sCOD,rbCOD,TSS,VSS,TKN,NH4,NH4_eff,TP,P
     pBOD:           {value:pBOD,           unit:"g/m3_as_O2",   descr:"Particulate_BOD"},
 
     //suspended solids
-    TSS:            {value:TSS,            unit:"g/m3",         descr:"TSS"},
-    VSS:            {value:VSS,            unit:"g/m3",         descr:"VSS"},
+    TSS:            {value:TSS,            unit:"g/m3",         descr:"Total Suspended Solids"},
+    VSS:            {value:VSS,            unit:"g/m3",         descr:"Volatile Suspended Solids"},
     iTSS:           {value:iTSS,           unit:"g/m3",         descr:"Inert TSS"},
     nbVSS:          {value:nbVSS,          unit:"g/m3",         descr:"Nonbiodegradable_VSS"},
     bVSS:           {value:bVSS,           unit:"g/m3",         descr:"Biodegradable_VSS"},

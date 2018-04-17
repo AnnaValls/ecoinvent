@@ -1,41 +1,16 @@
 //map between ecoinvent ids and this tool variable names
 //can be inputs and/or outputs
-
 /*
   "resources" folder: ecoinvent ids
-    - properties.json            (ww activity + ww influent + sludge composition)
+    - properties.json (ww activity + ww influent + sludge composition)
     - emissions_to_water.json
     - emissions_to_air.json
 */
-/*
-  Hi Pascal,
-  I've found some items in the tool that I could not find a related ecoinvent id for:
-  WW composition (inputs for the model that the user knows or estimates):
-    - T          (Temperature, in ºC)
-    - sBOD       (Soluble BOD, in g/m3 as O2)
-    - sCOD       (Soluble COD, in g/m3 as O2)
-    - bCOD       (Biodegradable COD, in g/m3 as O2)
-    - rbCOD      (Readily Biodegradable COD, in g/m3 as O2)
-    - VFA        (Volatile Fatty Acids, in g/m3 as O2)
-    - VSS        (Volatile Suspended Solids, in g/m3)
-    - TSS        (Total Suspended Solids, in g/m3)
-    - Alkalinity (in g/m3 CaCO3)
-  CSO amounts discharged (calculated before entering the plant):
-    - BOD discharged (g/m3 as O2)
-    - TSS discharged (g/m3)
-    - TKN discharged (g/m3 as N)
-    - TP discharged  (g/m3 as P)
-  They need an ecoinvent id, otherwise they won't be accounted for.
-  Thank you,
-  Lluís
-*/
 
 var Ecoinvent_ids={
-
   inputs:{ //names ok
     //compounds not in the tool TBD
     "DOC"  : "efe22a60-b1a3-4b33-a5ba-4bf575e0a889", // not used
-    "TOC"  : "a547f885-601d-4d52-9bf9-60f0cef06269", // not used
     "TN"   : "f04a971d-f503-4ca0-b2b1-0ecd2e53ea61", // total nitrogen, we use TKN instead
     "SO4"  : "1e4ef691-c7d3-49fc-9aee-6d77575a7b8a", // dissolved sulfate SO4 as S (we don't have TS in the model)
     "pOS"  : "8175120e-a5b7-4f19-afca-5620e9e4dd8b", // particulate sulfur (we don't have TS in the model)
@@ -50,6 +25,7 @@ var Ecoinvent_ids={
     "PO4" : "7fe01cf6-6e7b-487f-b37e-32388640a8a4",
 
     //key components (calculated)
+    "TOC"  : "a547f885-601d-4d52-9bf9-60f0cef06269", //
     "NO3"  : "4f461b9d-5a7b-4a46-8803-23f6df0dc522", // NOx is NO3
     "NO2"  : "c8ebc911-268a-4dfe-a426-73e1e35b587a", // NO2 is zero
     "sTKN" : "4d60d7ca-8f4b-4d14-b137-3670858e48ca",
@@ -100,12 +76,11 @@ var Ecoinvent_ids={
     "BOD": "70d467b6-115e-43c5-add2-441de9411348",
     "TSS": "3844f446-ded5-4727-8421-17a00ef4eba7", //"Suspended solids, unspecified" (TSS discharged in the tool)
 
-    "N":   "ae70ca6c-807a-482b-9ddc-e449b4893fe3", //Nitrogen
+    "TKN": "ae70ca6c-807a-482b-9ddc-e449b4893fe3", //Nitrogen
     "NH4": "13331e67-6006-48c4-bdb4-340c12010036", //NH4 discharged
     "NO2": "0017271e-7df5-40bc-833a-36110c1fe5d5", //zero
     "NO3": "7ce56135-2ca5-4fba-ad52-d62a34bfeb35", //NOx effluent
     "ON":  "d43f7827-b47b-4652-8366-f370995fd206", //ON discharged
-
     "TP":  "b2631209-8374-431e-b7d5-56c96c6b6d79", //Phosphorus
 
     "Cr":  "8216fc31-15a1-4d33-858f-e09650b14c63", //chromium VI, emissions from WWTP and from CSO
@@ -149,10 +124,12 @@ var Ecoinvent_ids={
     "CO2_fossil":                     "f9749677-9c9f-4678-ab55-c607dfdc2cb9", //CO2,_fossil
     "CO2_from_soil_or_biomass_stock": "e8787b5e-d927-446d-81a9-f56977bbfeb4", //CO2,_from_soil_or_biomass_stock
     "CO2_non_fossil":                 "73ed05cc-9727-4abf-9516-4b5c0fe54a16", //CO2,_non-fossil
+
     "CH4_fossil":                     "5f7aad3d-566c-4d0d-ad59-e765f971aa0f", //CH4,_fossil
     "CH4_from_soil_or_biomass_stock": "299c6564-426e-48c3-b516-fdf301d12127", //CH4,_from_soil_or_biomass_stock
-    "CH4":                            "b53d3744-3629-4219-be20-980865e54031", //CH4
     "CH4_non-fossil":                 "baf58fc9-573c-419c-8c16-831ac03203b9", //CH4,_non-fossil
+    "CH4":                            "b53d3744-3629-4219-be20-980865e54031", //CH4
+
     "NOx":                            "d068f3e2-b033-417b-a359-ca4f25da9731", //NOx
     "N2O":                            "6dc1b46f-ee89-4495-95c4-b8a637bcd6cb", //N2O
     "P":                              "198ce8e3-f05a-4bec-9f7f-325347453326", //Phosphorus
@@ -161,5 +138,6 @@ var Ecoinvent_ids={
   sludge_emissions:{
     "Cr": "e34d3da4-a3d5-41be-84b5-458afe32c990", //retained in sludge Chromium ion
     //TODO add here the ids of "inputs" for metals and other elements
+    //missing: C,H,O,N,P,Fe (sludge composition)
   }
 };

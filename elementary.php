@@ -261,7 +261,8 @@
           if(Variables.length==0){table.insertRow(-1).insertCell(-1).outerHTML="<td colspan=4 style=text-align:center><em>~Activate some technologies first";}
           Variables.forEach((i,ii)=>{
             var newRow=table.insertRow(-1);
-            var tech_name = Technologies[i.tech] ? Technologies[i.tech].Name : i.tech;
+            var tech_name = Technologies[i.tech] ? Technologies[i.tech].Name : i.tech.prettifyUnit();
+            tech_name = tech_name[0].toUpperCase()+tech_name.slice(1);
 
             //add technology header with button to hide it
             if(ii==0 || Variables[ii-1].tech != i.tech){
@@ -280,8 +281,8 @@
             //hide row if is in hiddenTechs
             if(Options.hiddenTechs.indexOf(i.tech)+1){ newRow.style.display='none'; }
 
-            //draw a border (for fractionation)
-            if(['BOD','COD','TSS','TKN','TP'].indexOf(i.id)+1){
+            //draw a border (for fractionation only)
+            if(i.tech=='Fra' && ['BOD','COD','TSS','TKN','TP'].indexOf(i.id)+1){
               newRow.style.borderTop="1px solid #ccc";
             }
 
