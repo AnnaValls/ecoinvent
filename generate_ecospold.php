@@ -10,6 +10,25 @@
       //change this when other server
       post('ecospold/index.php', "python3 generate_untreated_ecospold.py '"+JSON.stringify(received_json)+"'");
     }
+    function selectText(el) {
+      var body = document.body, range, sel;
+      if (document.createRange && window.getSelection) {
+        range = document.createRange();
+        sel = window.getSelection();
+        sel.removeAllRanges();
+        try {
+          range.selectNodeContents(el);
+          sel.addRange(range);
+        } catch (e) {
+          range.selectNode(el);
+          sel.addRange(range);
+        }
+      } else if (body.createTextRange) {
+        range = body.createTextRange();
+        range.moveToElementText(el);
+        range.select();
+      }
+    }
   </script>
   <title>ecoSpold generation</title>
 </head><body><?php include'navbar.php'?>
@@ -24,6 +43,9 @@
       style="font-size:16px;padding:0.618em 1em"
       onclick="genereate_ecospold()"
     >CONTINUE</button>
+    <button onclick=selectText(document.getElementById('received_json'))>select</button>
+    and copypaste
+    <a href="https://jsonformatter.curiousconcept.com/">here</a>.
   </div>
   <!--received json-->
   <pre id=received_json class=prettyprint style="border:1px solid #ccc"></pre>

@@ -529,8 +529,8 @@
     }
     #wwtps td button:hover { color:blue; }
 
-    #wwtps tr[id]:hover th,
-    #contribution tr[id]:hover th {
+    #wwtps tr[id]:hover,
+    #contribution tr[id]:hover {
       text-decoration:underline;
     }
     #contribution td {
@@ -544,7 +544,7 @@
     #all_contributions td {
       font-weight:normal;
     }
-    #all_contributions tr[id]:hover th {
+    #all_contributions tr[id]:hover {
       text-decoration:underline;
     }
   </style>
@@ -575,7 +575,7 @@
         <style>
           button#run {
             background:lightgreen;
-            width:250px;
+            width:150px;
             float:right;
           }
         </style>
@@ -601,12 +601,14 @@
         Contribution: influent/effluent only
       </p>
       <div id=contribution_container>
-        <div style=font-size:smaller>
-          Select units:
-          <label><input name=displayed_unit type=radio checked value="kg/d"  onclick=document.querySelector('#run').click()> kg/d</label>
-          <label><input name=displayed_unit type=radio         value="%"     onclick=document.querySelector('#run').click()> %</label>
-          <label><input name=displayed_unit type=radio         value="kg/m3" onclick=document.querySelector('#run').click()> kg/m<sup>3</sup><sub>activity ww</sub></label>
-        </div>
+        <table style=font-size:smaller>
+          <tr><td>Select units:
+          <td>
+            <label><input name=displayed_unit type=radio checked value="kg/d"  onclick=document.querySelector('#run').click()> kg/d</label>
+            <label><input name=displayed_unit type=radio         value="%"     onclick=document.querySelector('#run').click()> %</label>
+            <label><input name=displayed_unit type=radio         value="kg/m3" onclick=document.querySelector('#run').click()> kg/m<sup>3</sup><sub>activity ww</sub></label>
+          </tr>
+        </table>
         <table id=contribution border=1>
           <tr><th rowspan=2>Compound<th rowspan=2>Influent<th colspan=3>Effluent
           <tr><th>Water<th>Air<th>Sludge

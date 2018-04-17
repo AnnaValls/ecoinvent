@@ -88,13 +88,12 @@ function cso_removal(Fractionation, Input_set, CSO_particulate, CSO_soluble){
     R.OP.value          -= OP_discharged;
     R.TP.value          -= TP_discharged;
 
-
   //return value
   var rv = {
-    BOD_discharged:      {value:BOD_discharged,         unit:"g/m3_as_O2",  descr:"Discharged_BOD_by_CSO"},
-    BOD_discharged_kgd:  {value:Q*BOD_discharged/1000,  unit:"kg/d_as_O2",  descr:"Discharged_BOD_by_CSO"},
     COD_discharged:      {value:COD_discharged,         unit:"g/m3_as_O2",  descr:"Discharged_COD_by_CSO"},
     COD_discharged_kgd:  {value:Q*COD_discharged/1000,  unit:"kg/d_as_O2",  descr:"Discharged_COD_by_CSO"},
+    BOD_discharged:      {value:BOD_discharged,         unit:"g/m3_as_O2",  descr:"Discharged_BOD_by_CSO"},
+    BOD_discharged_kgd:  {value:Q*BOD_discharged/1000,  unit:"kg/d_as_O2",  descr:"Discharged_BOD_by_CSO"},
     TSS_discharged:      {value:TSS_discharged,         unit:"g/m3",        descr:"Discharged_TSS_by_CSO"},
     TSS_discharged_kgd:  {value:Q*TSS_discharged/1000,  unit:"kg/d",        descr:"Discharged_TSS_by_CSO"},
     TKN_discharged:      {value:TKN_discharged,         unit:"g/m3_as_N",   descr:"Discharged_TKN_by_CSO"},
@@ -105,6 +104,10 @@ function cso_removal(Fractionation, Input_set, CSO_particulate, CSO_soluble){
     ON_discharged_kgd:   {value:Q*ON_discharged/1000,   unit:"kg/d_as_N",   descr:"Discharged_ON_by_CSO"},
     TP_discharged:       {value:TP_discharged,          unit:"g/m3_as_P",   descr:"Discharged_TP_by_CSO"},
     TP_discharged_kgd:   {value:Q*TP_discharged/1000,   unit:"kg/d_as_P",   descr:"Discharged_TP_by_CSO"},
+    PO4_discharged:      {value:PO4_discharged,         unit:"g/m3_as_P",   descr:"Discharged_PO4_by_CSO"},
+    PO4_discharged_kgd:  {value:Q*PO4_discharged/1000,  unit:"kg/d_as_P",   descr:"Discharged_PO4_by_CSO"},
+    OP_discharged:       {value:OP_discharged,          unit:"g/m3_as_P",   descr:"Discharged_OP_by_CSO"},
+    OP_discharged_kgd:   {value:Q*OP_discharged/1000,   unit:"kg/d_as_P",   descr:"Discharged_OP_by_CSO"},
   };
 
   //deal with metals: metals are all soluble

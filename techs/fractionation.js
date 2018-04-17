@@ -72,12 +72,12 @@ function fractionation(BOD,sBOD,COD,bCOD,sCOD,rbCOD,TSS,VSS,TKN,NH4,NH4_eff,TP,P
   var nbON    = nbpON + nbsON;                        //g/m3
   var TKN_N2O = 0.001*TKN;                            //g/m3
   var bTKN    = Math.max(0, TKN-nbpON-nbsON-TKN_N2O); //g/m3
-  var sTKNe   = Math.min(TKN, NH4_eff + nbsON);       //g/m3 | sTKNe (used only in TKN effluent sludge)
+  var sTKNe   = Math.min(TKN, NH4_eff + nbsON);       //g/m3 | sTKNe (used only in TKN effluent sludge) TODO this does not belong here
 
   //new ones (not needed)
   var bON  = ON - nbON;
-  var bsON = bON*0.5; //unknown TODO 50% for now
-  var bpON = bON*0.5; //unknown TODO 50% for now
+  var bsON = bON*0.5; //unknown fraction TODO 50% for now (biodegradable soluble ON)
+  var bpON = bON*0.5; //unknown fraction TODO 50% for now (biodegradable particl ON)
   var sON  = bsON + nbsON;
   var pON  = bpON + nbpON;
 

@@ -58,11 +58,14 @@
       <td>April 5th 2018
     </tr>
   </tbody>
-
   <tr><td header colspan=3>
     <button class=toggleView onclick=toggleView(this,'multiple')>&rarr;</button>
     Multiple plant model
   <tbody id=multiple style=display:none>
+    <tr>
+      <td>COD_TOC_ratio characteristic of the activity WW not from WWTP
+      <td>to do
+      <td>April 17th 2018
     <tr>
       <td>Transfer Peter's data to the tool
         <ul>
