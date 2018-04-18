@@ -17,7 +17,6 @@ function generate_json_for_ecospold(result){
       var CSO_particulate    = {value:WWTPs.map(w=>w.CSO_particulate*w.perc_PE/100).reduce((p,c)=>p+c)/100,    unit:"ratio"}; //ok
       var CSO_soluble        = {value:WWTPs.map(w=>w.CSO_soluble    *w.perc_PE/100).reduce((p,c)=>p+c)/100,    unit:"ratio"}; //ok
       var fraction_C_fossil  = {value:WWTPs.map(w=>w.fossil_CO2_percent*w.perc_PE/100).reduce((p,c)=>p+c)/100, unit:"ratio"}; //ok
-      var capacity           = {value:WWTPs.map(w=>w.PEq*w.perc_PE/100).reduce((p,c)=>p+c),   unit:"population equivalents weighted averaged"}; //ok
 
       //inputs.arrays
       var technologies_averaged = []; //each reference wwtp data
@@ -47,14 +46,18 @@ function generate_json_for_ecospold(result){
         });
       });
 
-      //2. fill WW_properties
+      //2. fill WW_properties (ONLY g/m3)
       Object.keys(Activity).forEach(key=>{
-        if(Activity[key]) { //consider only > 0
+        //first check the units of 'key'
+        var unit=Inputs.find(i=>i.id==key).unit
+
+        //only g/m3 and value>0
+        if(unit.includes('g/m3') && Activity[key]) {
           var ecoinvent_id=Ecoinvent_ids.inputs[key]||false;
           WW_properties.push({
             id    : key,
-            value : Activity[key],
-            unit  : Inputs.find(i=>i.id==key).unit,
+            value : Activity[key]/1000,
+            unit  : Inputs.find(i=>i.id==key).unit.replace('g/m3','kg/m3'),
             descr : Inputs.find(i=>i.id==key).descr,
             ecoinvent_id,
           });
@@ -220,15 +223,13 @@ function generate_json_for_ecospold(result){
         var A=Activity;
         var fra_activity=fractionation(A.BOD,A.sBOD,A.COD,A.bCOD,A.sCOD,A.rbCOD,A.TSS,A.VSS,A.TKN,A.NH4,A.NH4_eff,A.TP,A.PO4);
         var cso_activity=cso_removal(fra_activity,Activity,100,100);
-        console.log(cso_activity);
-
-        Object.keys(cso_activity).filter(key=>cso_activity[key].unit.includes('kg/d')).forEach(key=>{
+        Object.keys(cso_activity).filter(key=>cso_activity[key].unit.includes('g/m3')).forEach(key=>{
           var item = cso_activity[key];
           if(item.value){
-            var key_replaced = key.replace('elem_','').replace('_discharged_kgd','');
+            var key_replaced = key.replace('elem_','').replace('_discharged','');
             untreated_as_emissions.push({
               id:    key_replaced,
-              value: item.value,
+              value: item.value/1000, //convert g/m3 to kg/m3
               unit:  (Inputs.find(i=>i.id==key_replaced)||fra_activity[key_replaced]).unit.replace('g/m3','kg/m3'),
               descr: "untreated as emission for "+key_replaced,
             });
@@ -248,7 +249,6 @@ function generate_json_for_ecospold(result){
       CSO_particulate,
       CSO_soluble,
       fraction_C_fossil,
-      capacity,
       url:(new URL(window.location)).href,
       technologies_averaged,
       WW_properties,

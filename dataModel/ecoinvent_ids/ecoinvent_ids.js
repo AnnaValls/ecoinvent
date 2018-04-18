@@ -74,7 +74,6 @@ var Ecoinvent_ids={
     "COD": "fc0b5c85-3b49-42c2-a3fd-db7e57b696e3",
     "BOD": "70d467b6-115e-43c5-add2-441de9411348",
     "TSS": "3844f446-ded5-4727-8421-17a00ef4eba7", //"Suspended solids, unspecified" (TSS discharged in the tool)
-
     "TKN": "ae70ca6c-807a-482b-9ddc-e449b4893fe3", //Nitrogen
     "NH4": "13331e67-6006-48c4-bdb4-340c12010036", //NH4 discharged
     "NO2": "0017271e-7df5-40bc-833a-36110c1fe5d5", //zero
@@ -82,7 +81,6 @@ var Ecoinvent_ids={
     "ON":  "d43f7827-b47b-4652-8366-f370995fd206", //ON discharged
     "TP":  "b2631209-8374-431e-b7d5-56c96c6b6d79", //Phosphorus
     "PO4": "1727b41d-377e-43cd-bc01-9eaba946eccb", //PO4
-
     "Cr":  "8216fc31-15a1-4d33-858f-e09650b14c63", //chromium VI, emissions from WWTP and from CSO
     "Ag":  "af9793ba-25a1-4928-a14a-4bcf7d5bd3f7", //silver ion
     "Al":  "97e498ec-f323-4ec6-bcc0-d8a4c853bae3", //Aluminium
@@ -135,32 +133,49 @@ var Ecoinvent_ids={
   },
   sludge_emissions:{
     //dry sludge composition
-    'C_fossil'                :  'c74c3729-e577-4081-b572-a283d2561a75',
-    'C_biogenic'              :  '6393c14b-db78-445d-a47b-c0cb866a1b25',
-    'H'                       :  '2d23d1bb-e137-4ade-83fc-fbd0421e6cd5',
-    'O'                       :  'dbf41b1b-c7b8-4d5e-b39c-f858eb868df5',
-    'N'                       :  'f53a5dbc-3bd3-4570-adff-b00790ea3ffc',
-    'S'                       :  'f6c7ebbb-902a-412f-a55b-0743aea00238',
-    'P'                       :  '97f3bbfe-fa3a-4d05-9cb6-bb4b6379c5ef',
+    'C_fossil'    :  'c74c3729-e577-4081-b572-a283d2561a75',
+    'C_biogenic'  :  '6393c14b-db78-445d-a47b-c0cb866a1b25',
+    'H'           :  '2d23d1bb-e137-4ade-83fc-fbd0421e6cd5',
+    'O'           :  'dbf41b1b-c7b8-4d5e-b39c-f858eb868df5',
+    'N'           :  'f53a5dbc-3bd3-4570-adff-b00790ea3ffc',
+    'S'           :  'f6c7ebbb-902a-412f-a55b-0743aea00238',
+    'P'           :  '97f3bbfe-fa3a-4d05-9cb6-bb4b6379c5ef',
 
     //water
-    'H2O'                     :  'a9358458-9724-4f03-b622-106eda248916',
-    'water'                   :  'a9358458-9724-4f03-b622-106eda248916',
+    'H2O'    :  'a9358458-9724-4f03-b622-106eda248916',
+    'water'  :  'a9358458-9724-4f03-b622-106eda248916',
 
     'Organic_Carbon_of_soil'  :  '044617f2-c1d4-4592-94c6-bb325139e231',
     'AlOH'                    :  '66f07cc8-9cb2-4518-9042-9a72b4ac1d0c',
 
-    'Ag'                      :  '56f09738-8225-4bdc-91d2-39ee6328f0ee',
-    'Tl'                      :  '608190bf-8f74-4f8e-8544-f25377accf4d',
-    'Zn'                      :  '33f96fe7-39da-47ca-837f-f2c311681d1b',
-    'Ti'                      :  'e9fa11a1-1011-421d-aa34-0544d767a632',
-    'Cd'                      :  'ad7781c7-5dc2-4421-b182-e1fd4cef7fa5',
-    'Cr'                      :  'e1d2c19b-3a97-4f52-a83f-fe88400452c2',
-    'Co'                      :  '66e996b5-5f7b-449f-8893-0b787af21d7e',
-    'Mo'                      :  '83f67a9e-bf78-4e0d-b1f0-5051a1fda9fe',
-    'Al'                      :  'e9688cbc-7400-457a-a936-5ab123ea326c',
-    'Hg'                      :  '2a256b0b-6003-4669-a3c1-1d3eba2de45e',
-    'Ba'                      :  '1dcfb203-7830-40b2-878d-13fc02a74051',
-    'Se'                      :  '7e83fd10-c04d-4a80-8df2-a8bbcc268c4a',
+    'Ag'  :  '56f09738-8225-4bdc-91d2-39ee6328f0ee',
+    'Tl'  :  '608190bf-8f74-4f8e-8544-f25377accf4d',
+    'Zn'  :  '33f96fe7-39da-47ca-837f-f2c311681d1b',
+    'Ti'  :  'e9fa11a1-1011-421d-aa34-0544d767a632',
+    'Cd'  :  'ad7781c7-5dc2-4421-b182-e1fd4cef7fa5',
+    'Cr'  :  'e1d2c19b-3a97-4f52-a83f-fe88400452c2',
+    'Co'  :  '66e996b5-5f7b-449f-8893-0b787af21d7e',
+    'Mo'  :  '83f67a9e-bf78-4e0d-b1f0-5051a1fda9fe',
+    'Al'  :  'e9688cbc-7400-457a-a936-5ab123ea326c',
+    'Hg'  :  '2a256b0b-6003-4669-a3c1-1d3eba2de45e',
+    'Ba'  :  '1dcfb203-7830-40b2-878d-13fc02a74051',
+    'Se'  :  '7e83fd10-c04d-4a80-8df2-a8bbcc268c4a',
+    'As'  :  '30f0aa15-2d50-4f09-af94-683b6dd68adc',
+    'B'   :  'b86d456d-a1dc-4468-a20e-b6a3f4701e32',
+    'Be'  :  'bf4d71d9-4301-4939-8a9d-36d8811b7db0',
+    'Ca'  :  'f9da385d-5b1b-4548-826c-0bf5892a9fd9',
+    'Cu'  :  '0132d97c-5f19-4397-9197-59ab801b10cf',
+    'Fe'  :  'd8364dfc-5753-4585-bf50-4d42b126f72d',
+    'Mg'  :  '8aedc313-f49b-42cd-8d54-fc877ec03017',
+    'Mn'  :  '2bc683e4-3780-4f00-8c1d-fd53e05cfde7',
+    'Ni'  :  'f767b36f-62bf-4458-b694-ecbefd2ab970',
+    'Pb'  :  'e5507d89-78ad-4746-900c-b9afa5a62ea6',
+    'Sb'  :  '4054bfa7-dfcb-452e-b1dd-810b9e981506',
+    'Sc'  :  '35d2e0b2-eca5-4897-a6af-b6d2e61a9079',
+    'Si'  :  'dd7e15dc-c438-43f7-9c0d-d0a627163cf1',
+    'Sn'  :  'd8551abf-da96-4429-846b-0973136b7d48',
+    'Sr'  :  '995265a2-f2cb-4c12-a961-766eb34392b9',
+    'V'   :  'dba83ee6-9127-4c81-86c9-15e29987dcdf',
+    'W'   :  '84916b80-bf93-4e20-9b7c-593aa9518d09',
   }
 };

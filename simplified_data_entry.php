@@ -18,6 +18,9 @@
       padding-top:8px;
       border-bottom:1px solid #ccc;
     }
+    #inputs tr:hover {
+      text-decoration:underline;
+    }
   </style>
 </head><body>
 <?php include'navbar.php'?>
@@ -154,13 +157,12 @@
 
     <!--volume-->
     <li>
-      Volume of water discharged<br>
-      <input id=Q type=number value=1 min=0> m<sup>3</sup>/d
-      | <small><a href="#" onclick="toggleView(false,'PV_help');return false;">help</a></small>
+      Volume of water discharged per day<br>
+      <input id=Q type=number value=1 min=0> m<sup>3</sup>/d | <small><a href="#" onclick="toggleView(false,'PV_help');return false;">help</a></small>
       <div id=PV_help style="display:none">
         <div class=help>
           How to calculate this:<br>
-          production_volume_of_activity_generating_wastewater · wastewater_per_unit_production
+          yearly_production_volume_of_activity_generating_the_wastewater/365.25 · amount_of_wastewater_per_unit_of_production
         </div>
       </div>
     </li>

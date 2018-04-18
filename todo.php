@@ -6,28 +6,24 @@
 
 <!--main table-->
 <table class=todo_items border=1><tr><th>Item description<th>Status<th>Added
-  <tr><td header colspan=3><button class=toggleView onclick=toggleView(this,'single')>&rarr;</button> Single plant model
-  <tbody id=single style=display:none>
+  <tr><td header colspan=3><button class=toggleView onclick=toggleView(this,'single')>&darr;</button> Single plant model
+  <tbody id=single style=display:nonee>
     <tr>
-      <td>We need to define "0" numerically as i.e. 1e-10, or 1e-15, ...? TBD
+      <td>Discuss with Lluís C about sludge equations vs George Ekama equations (sludge composition)
       <td>help wanted
-      <td>April 16th 2018
+      <td>April 17th 2018
     <tr>
       <td>Doubt: is Alkalinity (g/m3 as CaCO3) also removed/diluted by CSO?
       <td>help wanted
       <td>April 16th 2018
     <tr>
-      <td>More technologies (i.e. Lagoons)
+      <td>Add more treatment technologies (i.e. Lagoons)
       <td>will not implement in this version
       <td>April 16th 2018
     <tr>
-      <td>Warnings module
+      <td>Add a Warnings module
       <td>will not implement in this version
       <td>April 16th 2018
-    <tr>
-      <td>Water content of all 3 sludge types and (2) (iSS) composition of primary and secondary sludge
-      <td>Help provided by George, under development
-      <td>April 12th 2018
     <tr>
       <td>
         Why we don't consider NO<sub>3</sub> in the influent ("NO<sub>x</sub>" inside the equations) as an input?
@@ -36,7 +32,7 @@
         <br>(Pascal and Lluís B. doubt)
       <td>April 11th 2018
     <tr>
-      <td>Rename NO<sub>x</sub> to NO<sub>3</sub> to match ecoinvent id (we've assumed that there is no NO<sub>2</sub>)
+      <td>NO<sub>x</sub> is NO<sub>3</sub> in ecoinvent ids (we've assumed that there is no NO<sub>2</sub>)
       <td>TO DO
       <td>April 6th 2018
     <tr>
@@ -52,10 +48,6 @@
 
   <tr><td header colspan=3><button class=toggleView onclick=toggleView(this,'multiple')>&rarr;</button> Multiple plant model
   <tbody id=multiple style=display:none>
-    <tr>
-      <td>The "COD_TOC_ratio" input right now is a characteristic of the WWTP, not from the activity
-      <td>need to discuss
-      <td>April 17th 2018
     <tr>
       <td>Transfer Peter's data to the tool
         <ul>
@@ -87,18 +79,6 @@
         <ul>
           <li>fossil and biogenic CO2 ecoinvent_id
           <li>amounts should be converted when necessary (PO4 as P amounts should be converted to PO4 amounts by multiplying by 95/31)
-          <li>The "untreated_fraction" number is not linked. Could be possible that should be used in 'untreated_as_emissions' dictionary?
-          <li>sludge properties on a wet mass basis
-            <ul>
-              <li>
-                There are a number of additional obligatory
-                properties that are required.
-                See pycode/arguments on this subject.
-                I want a chance to explain them,
-                and we can identify what can be
-                calculated where (tool vs. ecoSpold generation)
-            </ul>
-          <li>Differentiate PV from Q, relate to untreated fraction
           <li>The file to use is now <a href="ecospold/wastewater_treatment_tool/pycode/generate_two_ecoSpolds.py">generate_two_ecospolds.py</a>.
           <li>
             <a target=_blank href="https://github.com/PascalLesage/wastewater_treatment_tool/blob/integration-with-icra/pycode/tool%20todos%20(beyond%20ecoSpold%20generation)">

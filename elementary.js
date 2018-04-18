@@ -417,9 +417,10 @@ function compute_elementary_flows(input_set){
     var sludge_precipitation_O_content  = sludge_precipitation.O_content;  //kg O/d
 
   //sludge water content: primary and secondary
-  var TSS_removed                    = select_value('TSS_removed', ['Pri']); //g/m3
-  var sludge_primary_water_content   = Q*TSS_removed/1000*(0.75/0.25);       //kg H2O/d (75% of wet sludge is water in primary)
-  var sludge_secondary_water_content = P_X_TSS*(0.75/0.25);                  //kg H2O/d (75% of wet sludge is water in secondary)
+  var TSS_removed                        = select_value('TSS_removed', ['Pri']); //g/m3
+  var sludge_primary_water_content       = Q*TSS_removed/1000*(0.75/0.25);       //kg H2O/d (75% of wet sludge is water in primary)
+  var sludge_secondary_water_content     = P_X_TSS*(0.75/0.25);                  //kg H2O/d (75% of wet sludge is water in secondary)
+  var sludge_precipitation_water_content = Excess_sludge_kg*(0.75/0.25);         //kg H2O/d (75% of wet sludge is water in precipitation)
 
   /*OUTPUTS (global)*/
   (function(){
@@ -647,27 +648,28 @@ function compute_elementary_flows(input_set){
 
   //sludge elemental composition
   Result.sludge_composition={
-    TSS_removed_kgd                 : {value:TSS_removed_kgd,                 unit:"kg/d_as_TSS", descr:"Primary_settler_sludge_produced_per_day"},
-    VSS_removed_kgd                 : {value:VSS_removed_kgd,                 unit:"kg/d_as_VSS", descr:"Primary_settler_VSS_produced_per_day"},
-    P_X_TSS                         : {value:P_X_TSS,                         unit:"kg/d_as_TSS", descr:"Total_sludge_produced_per_day"},
-    P_X_VSS                         : {value:P_X_VSS,                         unit:"kg/d_as_VSS", descr:"Volatile suspended solids produced per day"},
-    Excess_sludge_kg                : {value:Excess_sludge_kg,                unit:"kg/d_as_iSS", descr:"from Chemical P removal"},
-    sludge_primary_C_content        : {value:sludge_primary_C_content,        unit:"kg/d_as_C",   descr:""},
-    sludge_primary_H_content        : {value:sludge_primary_H_content,        unit:"kg/d_as_H",   descr:""},
-    sludge_primary_O_content        : {value:sludge_primary_O_content,        unit:"kg/d_as_O",   descr:""},
-    sludge_primary_N_content        : {value:sludge_primary_N_content,        unit:"kg/d_as_N",   descr:""},
-    sludge_primary_P_content        : {value:sludge_primary_P_content,        unit:"kg/d_as_P",   descr:""},
-    sludge_secondary_C_content      : {value:sludge_secondary_C_content,      unit:"kg/d_as_C",   descr:""},
-    sludge_secondary_H_content      : {value:sludge_secondary_H_content,      unit:"kg/d_as_H",   descr:""},
-    sludge_secondary_O_content      : {value:sludge_secondary_O_content,      unit:"kg/d_as_O",   descr:""},
-    sludge_secondary_N_content      : {value:sludge_secondary_N_content,      unit:"kg/d_as_N",   descr:""},
-    sludge_secondary_P_content      : {value:sludge_secondary_P_content,      unit:"kg/d_as_P",   descr:""},
-    sludge_precipitation_Fe_content : {value:sludge_precipitation_Fe_content, unit:"kg/d_as_Fe",  descr:""},
-    sludge_precipitation_H_content  : {value:sludge_precipitation_H_content,  unit:"kg/d_as_H",   descr:""},
-    sludge_precipitation_P_content  : {value:sludge_precipitation_P_content,  unit:"kg/d_as_P",   descr:""},
-    sludge_precipitation_O_content  : {value:sludge_precipitation_O_content,  unit:"kg/d_as_O",   descr:""},
-    sludge_primary_water_content    : {value:sludge_primary_water_content,    unit:"kg/d_as_H2O", descr:"Primary sludge water content"},
-    sludge_secondary_water_content  : {value:sludge_secondary_water_content,  unit:"kg/d_as_H2O", descr:"Secondary sludge water content"},
+    TSS_removed_kgd                    : {value:TSS_removed_kgd,                    unit:"kg/d_as_TSS", descr:"Primary_settler_sludge_produced_per_day"},
+    VSS_removed_kgd                    : {value:VSS_removed_kgd,                    unit:"kg/d_as_VSS", descr:"Primary_settler_VSS_produced_per_day"},
+    P_X_TSS                            : {value:P_X_TSS,                            unit:"kg/d_as_TSS", descr:"Total_sludge_produced_per_day"},
+    P_X_VSS                            : {value:P_X_VSS,                            unit:"kg/d_as_VSS", descr:"Volatile suspended solids produced per day"},
+    Excess_sludge_kg                   : {value:Excess_sludge_kg,                   unit:"kg/d_as_iSS", descr:"from Chemical P removal"},
+    sludge_primary_C_content           : {value:sludge_primary_C_content,           unit:"kg/d_as_C",   descr:""},
+    sludge_primary_H_content           : {value:sludge_primary_H_content,           unit:"kg/d_as_H",   descr:""},
+    sludge_primary_O_content           : {value:sludge_primary_O_content,           unit:"kg/d_as_O",   descr:""},
+    sludge_primary_N_content           : {value:sludge_primary_N_content,           unit:"kg/d_as_N",   descr:""},
+    sludge_primary_P_content           : {value:sludge_primary_P_content,           unit:"kg/d_as_P",   descr:""},
+    sludge_primary_water_content       : {value:sludge_primary_water_content,       unit:"kg/d_as_H2O", descr:"Primary sludge water content"},
+    sludge_secondary_C_content         : {value:sludge_secondary_C_content,         unit:"kg/d_as_C",   descr:""},
+    sludge_secondary_H_content         : {value:sludge_secondary_H_content,         unit:"kg/d_as_H",   descr:""},
+    sludge_secondary_O_content         : {value:sludge_secondary_O_content,         unit:"kg/d_as_O",   descr:""},
+    sludge_secondary_N_content         : {value:sludge_secondary_N_content,         unit:"kg/d_as_N",   descr:""},
+    sludge_secondary_P_content         : {value:sludge_secondary_P_content,         unit:"kg/d_as_P",   descr:""},
+    sludge_secondary_water_content     : {value:sludge_secondary_water_content,     unit:"kg/d_as_H2O", descr:"Secondary sludge water content"},
+    sludge_precipitation_Fe_content    : {value:sludge_precipitation_Fe_content,    unit:"kg/d_as_Fe",  descr:""},
+    sludge_precipitation_H_content     : {value:sludge_precipitation_H_content,     unit:"kg/d_as_H",   descr:""},
+    sludge_precipitation_P_content     : {value:sludge_precipitation_P_content,     unit:"kg/d_as_P",   descr:""},
+    sludge_precipitation_O_content     : {value:sludge_precipitation_O_content,     unit:"kg/d_as_O",   descr:""},
+    sludge_precipitation_water_content : {value:sludge_precipitation_water_content, unit:"kg/d_as_H2O", descr:"Precipitation sludge water content"},
   };
   addResults('sludge_composition',Result.sludge_composition);
 
@@ -686,27 +688,28 @@ function compute_elementary_flows(input_set){
   //this is used for the fixed layout in single plant model only
   Result.summary={
     //sludge elemental composition
-    TSS_removed_kgd                 : Result.sludge_composition.TSS_removed_kgd,
-    VSS_removed_kgd                 : Result.sludge_composition.VSS_removed_kgd,
-    P_X_TSS                         : Result.sludge_composition.P_X_TSS,
-    P_X_VSS                         : Result.sludge_composition.P_X_VSS,
-    Excess_sludge_kg                : Result.sludge_composition.Excess_sludge_kg,
-    sludge_primary_C_content        : Result.sludge_composition.sludge_primary_C_content,
-    sludge_primary_H_content        : Result.sludge_composition.sludge_primary_H_content,
-    sludge_primary_O_content        : Result.sludge_composition.sludge_primary_O_content,
-    sludge_primary_N_content        : Result.sludge_composition.sludge_primary_N_content,
-    sludge_primary_P_content        : Result.sludge_composition.sludge_primary_P_content,
-    sludge_secondary_C_content      : Result.sludge_composition.sludge_secondary_C_content,
-    sludge_secondary_H_content      : Result.sludge_composition.sludge_secondary_H_content,
-    sludge_secondary_O_content      : Result.sludge_composition.sludge_secondary_O_content,
-    sludge_secondary_N_content      : Result.sludge_composition.sludge_secondary_N_content,
-    sludge_secondary_P_content      : Result.sludge_composition.sludge_secondary_P_content,
-    sludge_precipitation_Fe_content : Result.sludge_composition.sludge_precipitation_Fe_content,
-    sludge_precipitation_H_content  : Result.sludge_composition.sludge_precipitation_H_content,
-    sludge_precipitation_P_content  : Result.sludge_composition.sludge_precipitation_P_content,
-    sludge_precipitation_O_content  : Result.sludge_composition.sludge_precipitation_O_content,
-    sludge_primary_water_content    : Result.sludge_composition.sludge_primary_water_content,
-    sludge_secondary_water_content  : Result.sludge_composition.sludge_secondary_water_content,
+    TSS_removed_kgd                    : Result.sludge_composition.TSS_removed_kgd,
+    VSS_removed_kgd                    : Result.sludge_composition.VSS_removed_kgd,
+    P_X_TSS                            : Result.sludge_composition.P_X_TSS,
+    P_X_VSS                            : Result.sludge_composition.P_X_VSS,
+    Excess_sludge_kg                   : Result.sludge_composition.Excess_sludge_kg,
+    sludge_primary_C_content           : Result.sludge_composition.sludge_primary_C_content,
+    sludge_primary_H_content           : Result.sludge_composition.sludge_primary_H_content,
+    sludge_primary_O_content           : Result.sludge_composition.sludge_primary_O_content,
+    sludge_primary_N_content           : Result.sludge_composition.sludge_primary_N_content,
+    sludge_primary_P_content           : Result.sludge_composition.sludge_primary_P_content,
+    sludge_primary_water_content       : Result.sludge_composition.sludge_primary_water_content,
+    sludge_secondary_C_content         : Result.sludge_composition.sludge_secondary_C_content,
+    sludge_secondary_H_content         : Result.sludge_composition.sludge_secondary_H_content,
+    sludge_secondary_O_content         : Result.sludge_composition.sludge_secondary_O_content,
+    sludge_secondary_N_content         : Result.sludge_composition.sludge_secondary_N_content,
+    sludge_secondary_P_content         : Result.sludge_composition.sludge_secondary_P_content,
+    sludge_secondary_water_content     : Result.sludge_composition.sludge_secondary_water_content,
+    sludge_precipitation_Fe_content    : Result.sludge_composition.sludge_precipitation_Fe_content,
+    sludge_precipitation_H_content     : Result.sludge_composition.sludge_precipitation_H_content,
+    sludge_precipitation_P_content     : Result.sludge_composition.sludge_precipitation_P_content,
+    sludge_precipitation_O_content     : Result.sludge_composition.sludge_precipitation_O_content,
+    sludge_precipitation_water_content : Result.sludge_composition.sludge_precipitation_water_content,
 
     //design summary
     'SRT':                {value:SRT,                unit:"d",           descr:getInputById('SRT').descr},
