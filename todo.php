@@ -1,21 +1,12 @@
-<!doctype html><html><head>
-  <?php include'imports.php'?>
-  <title>TO DO items</title>
-</head><body><?php include'navbar.php'?><div id=root>
-  <div><h1>All TO DO items/tasks/doubts/issues/etc</h1>
+<!doctype html><html><head><?php include'imports.php'?><title>TO DO items</title></head><body><?php include'navbar.php'?>
+<div id=root><div><h1>All TO DO items/tasks/doubts/issues/etc</h1>
     <p><em>This page is intended to centralize all issues during development</em></p>
-    <p style="font-size:smaller">
-      If an item is here is because has been discussed at some point, but Lluís B.
-      has not understood either conceptually and/or how or where to implement it
-      (otherwise, it's under development)
-    </p>
-</div><hr>
+    <p><small>If an item is here is because has been discussed at some point, but Lluís B. has not understood either conceptually and/or how or where to implement it (otherwise, it's under development)</small></p>
+</div>
 
 <!--main table-->
 <table class=todo_items border=1><tr><th>Item description<th>Status<th>Added
-  <tr><td header colspan=3>
-    <button class=toggleView onclick=toggleView(this,'single')>&rarr;</button>
-    Single plant model
+  <tr><td header colspan=3><button class=toggleView onclick=toggleView(this,'single')>&rarr;</button> Single plant model
   <tbody id=single style=display:none>
     <tr>
       <td>We need to define "0" numerically as i.e. 1e-10, or 1e-15, ...? TBD
@@ -58,13 +49,12 @@
       <td>April 5th 2018
     </tr>
   </tbody>
-  <tr><td header colspan=3>
-    <button class=toggleView onclick=toggleView(this,'multiple')>&rarr;</button>
-    Multiple plant model
+
+  <tr><td header colspan=3><button class=toggleView onclick=toggleView(this,'multiple')>&rarr;</button> Multiple plant model
   <tbody id=multiple style=display:none>
     <tr>
-      <td>COD_TOC_ratio characteristic of the activity WW not from WWTP
-      <td>to do
+      <td>The "COD_TOC_ratio" input right now is a characteristic of the WWTP, not from the activity
+      <td>need to discuss
       <td>April 17th 2018
     <tr>
       <td>Transfer Peter's data to the tool
@@ -77,7 +67,7 @@
           <li>Colombia
           <li>America
         </ul>
-      <td>Data not available (only South Africa received from George)
+      <td>Data not received (only South Africa received from George)
       <td>April 10th 2018
     <tr>
       <td>Industrial factors [brewery, pig_manure, tanning_ww, thermomechanical_pulp_and_paper_ww]
@@ -95,10 +85,20 @@
     <tr>
       <td>Ecospold generation is under development <a href="ecospold/wastewater_treatment_tool/">here</a>
         <ul>
-          <li>Develop technology mix "binary keyword 7 bits" (under development)
+          <li>fossil and biogenic CO2 ecoinvent_id
+          <li>amounts should be converted when necessary (PO4 as P amounts should be converted to PO4 amounts by multiplying by 95/31)
+          <li>The "untreated_fraction" number is not linked. Could be possible that should be used in 'untreated_as_emissions' dictionary?
+          <li>sludge properties on a wet mass basis
+            <ul>
+              <li>
+                There are a number of additional obligatory
+                properties that are required.
+                See pycode/arguments on this subject.
+                I want a chance to explain them,
+                and we can identify what can be
+                calculated where (tool vs. ecoSpold generation)
+            </ul>
           <li>Differentiate PV from Q, relate to untreated fraction
-          <li>The same python dictionary will generate both ecospold files
-          <li>Uncertainty is done inside ecospold (Pascal)
           <li>The file to use is now <a href="ecospold/wastewater_treatment_tool/pycode/generate_two_ecoSpolds.py">generate_two_ecospolds.py</a>.
           <li>
             <a target=_blank href="https://github.com/PascalLesage/wastewater_treatment_tool/blob/integration-with-icra/pycode/tool%20todos%20(beyond%20ecoSpold%20generation)">
@@ -107,22 +107,6 @@
           <li>
             root_dir now needs to be passed to the functions instantiating the ecoSpold generators.
             Could you please validate how this is done in the code?
-          <li>
-            Dictionary keys
-            <ul>
-              <li>WWTP_influent_properties
-              <li>tool_use_type
-              <li>WW_type
-              <li>technologies_averaged
-              <li>WWTP_emissions_water
-              <li>WWTP_emissions_air
-              <li>sludge_amount
-              <li>sludge_properties
-              <li>electricity
-              <li>FeCl3
-              <li>acrylamide
-              <li>NaHCO3
-            </ul>
           </li>
         </ul>
       <td>help provided by Pascal, under development
@@ -152,12 +136,11 @@
           <li>Add a button for Recalculate yves estimations
           <li>Not all tech combinations should be possible (like in single plant model)
         </ul>
-      <td>not done
+      <td>not started
       <td>April 12th 2018
   </tbody>
-  <tr><td header colspan=3>
-    <button class=toggleView onclick=toggleView(this,'server')>&rarr;</button>
-    Server related
+
+  <tr><td header colspan=3><button class=toggleView onclick=toggleView(this,'server')>&rarr;</button> Server related
   <tbody id=server style=display:none>
     <tr>
       <td>Install python3 module "pandas"

@@ -195,7 +195,12 @@ function generate_json_for_ecospold(result){
       //6. sludge_properties: properties after treatment
       Object.keys(result.weighted_contribution.sludge_composition).forEach(key=>{
         var item=result.weighted_contribution.sludge_composition[key];
-        var key_replaced = key.replace('','');
+        var key_replaced = key
+          .replace('_removed_kgd','')
+          .replace('P_X_','')
+          .replace('sludge_primary_','')
+          .replace('sludge_secondary_','')
+          .replace('_content','');
         var ecoinvent_id=Ecoinvent_ids.sludge_emissions[key_replaced]||false;
         if(item.value){
           sludge_properties.push({

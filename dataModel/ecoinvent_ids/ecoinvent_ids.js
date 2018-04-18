@@ -1,14 +1,13 @@
 //map between ecoinvent ids and this tool variable names
 //can be inputs and/or outputs
-/*
-  "resources" folder: ecoinvent ids
-    - properties.json (ww activity + ww influent + sludge composition)
-    - emissions_to_water.json
-    - emissions_to_air.json
+/* "resources" folder: ecoinvent ids
+  - properties.json (ww activity + ww influent + sludge composition)
+  - emissions_to_water.json
+  - emissions_to_air.json
 */
 
 var Ecoinvent_ids={
-  inputs:{ //names ok
+  inputs:{
     //compounds not in the tool TBD
     "DOC"  : "efe22a60-b1a3-4b33-a5ba-4bf575e0a889", // not used
     "TN"   : "f04a971d-f503-4ca0-b2b1-0ecd2e53ea61", // total nitrogen, we use TKN instead
@@ -23,6 +22,7 @@ var Ecoinvent_ids={
     "NH4" : "f7fa53fa-ee5f-4a97-bcd8-1b0851afe9a6",
     "TP"  : "8e73d3fb-bb81-4c42-bfa6-8be4ff13125d",
     "PO4" : "7fe01cf6-6e7b-487f-b37e-32388640a8a4",
+    "TSS" : "fc26822f-6400-41a5-aac6-94b7088bdabe",
 
     //key components (calculated)
     "TOC"  : "a547f885-601d-4d52-9bf9-60f0cef06269", //
@@ -70,7 +70,6 @@ var Ecoinvent_ids={
     "W"  : "058d6d50-172b-4a8a-97da-0cee759eca7d",
     "Zn" : "6cc518c8-4769-40df-b2cf-03f9fe00b759",
   },
-
   water_emissions:{
     "COD": "fc0b5c85-3b49-42c2-a3fd-db7e57b696e3",
     "BOD": "70d467b6-115e-43c5-add2-441de9411348",
@@ -82,6 +81,7 @@ var Ecoinvent_ids={
     "NO3": "7ce56135-2ca5-4fba-ad52-d62a34bfeb35", //NOx effluent
     "ON":  "d43f7827-b47b-4652-8366-f370995fd206", //ON discharged
     "TP":  "b2631209-8374-431e-b7d5-56c96c6b6d79", //Phosphorus
+    "PO4": "1727b41d-377e-43cd-bc01-9eaba946eccb", //PO4
 
     "Cr":  "8216fc31-15a1-4d33-858f-e09650b14c63", //chromium VI, emissions from WWTP and from CSO
     "Ag":  "af9793ba-25a1-4928-a14a-4bcf7d5bd3f7", //silver ion
@@ -119,11 +119,10 @@ var Ecoinvent_ids={
     "W":   "7673fea9-b4ab-403e-b011-f1fb5a74ea2a", //Tungsten
     "Zn":  "541b633c-17a3-4047-bce6-0c0e4fdb7c10", //Zinc,_ion
   },
-
   air_emissions:{
     "CO2_fossil":                     "f9749677-9c9f-4678-ab55-c607dfdc2cb9", //CO2,_fossil
+    "CO2_biogenic":                   "73ed05cc-9727-4abf-9516-4b5c0fe54a16", //CO2,_non-fossil
     "CO2_from_soil_or_biomass_stock": "e8787b5e-d927-446d-81a9-f56977bbfeb4", //CO2,_from_soil_or_biomass_stock
-    "CO2_non_fossil":                 "73ed05cc-9727-4abf-9516-4b5c0fe54a16", //CO2,_non-fossil
 
     "CH4_fossil":                     "5f7aad3d-566c-4d0d-ad59-e765f971aa0f", //CH4,_fossil
     "CH4_from_soil_or_biomass_stock": "299c6564-426e-48c3-b516-fdf301d12127", //CH4,_from_soil_or_biomass_stock
@@ -134,10 +133,34 @@ var Ecoinvent_ids={
     "N2O":                            "6dc1b46f-ee89-4495-95c4-b8a637bcd6cb", //N2O
     "P":                              "198ce8e3-f05a-4bec-9f7f-325347453326", //Phosphorus
   },
-
   sludge_emissions:{
-    "Cr": "e34d3da4-a3d5-41be-84b5-458afe32c990", //retained in sludge Chromium ion
-    //TODO add here the ids of "inputs" for metals and other elements
-    //missing: C,H,O,N,P,Fe (sludge composition)
+    //dry sludge composition
+    'C_fossil'                :  'c74c3729-e577-4081-b572-a283d2561a75',
+    'C_biogenic'              :  '6393c14b-db78-445d-a47b-c0cb866a1b25',
+    'H'                       :  '2d23d1bb-e137-4ade-83fc-fbd0421e6cd5',
+    'O'                       :  'dbf41b1b-c7b8-4d5e-b39c-f858eb868df5',
+    'N'                       :  'f53a5dbc-3bd3-4570-adff-b00790ea3ffc',
+    'S'                       :  'f6c7ebbb-902a-412f-a55b-0743aea00238',
+    'P'                       :  '97f3bbfe-fa3a-4d05-9cb6-bb4b6379c5ef',
+
+    //water
+    'H2O'                     :  'a9358458-9724-4f03-b622-106eda248916',
+    'water'                   :  'a9358458-9724-4f03-b622-106eda248916',
+
+    'Organic_Carbon_of_soil'  :  '044617f2-c1d4-4592-94c6-bb325139e231',
+    'AlOH'                    :  '66f07cc8-9cb2-4518-9042-9a72b4ac1d0c',
+
+    'Ag'                      :  '56f09738-8225-4bdc-91d2-39ee6328f0ee',
+    'Tl'                      :  '608190bf-8f74-4f8e-8544-f25377accf4d',
+    'Zn'                      :  '33f96fe7-39da-47ca-837f-f2c311681d1b',
+    'Ti'                      :  'e9fa11a1-1011-421d-aa34-0544d767a632',
+    'Cd'                      :  'ad7781c7-5dc2-4421-b182-e1fd4cef7fa5',
+    'Cr'                      :  'e1d2c19b-3a97-4f52-a83f-fe88400452c2',
+    'Co'                      :  '66e996b5-5f7b-449f-8893-0b787af21d7e',
+    'Mo'                      :  '83f67a9e-bf78-4e0d-b1f0-5051a1fda9fe',
+    'Al'                      :  'e9688cbc-7400-457a-a936-5ab123ea326c',
+    'Hg'                      :  '2a256b0b-6003-4669-a3c1-1d3eba2de45e',
+    'Ba'                      :  '1dcfb203-7830-40b2-878d-13fc02a74051',
+    'Se'                      :  '7e83fd10-c04d-4a80-8df2-a8bbcc268c4a',
   }
 };
