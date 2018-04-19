@@ -104,7 +104,6 @@
       <li><a href="docs"                   >Documents</a>
       <li><a href="reference_data.php"     >Influent default data by country</a>
       <li><a href="fractionation_ekama.php">Fractionation (G. Ekama)</a>
-      <li><a href="marginal.php"           >Marginal approach test</a>
       <li><a href="terms.php"              >Summary of terms</a>
       <li>
         <a href="implementations/bod_removal_only.php">BOD removal (simple example)</a>
