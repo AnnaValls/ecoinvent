@@ -17,14 +17,10 @@
   <div>
     <p><b>Web parts</b></p>
     <ol>
-      <li><a href="elementary.php">Single plant model</a>
-      <li>
-        Multiple plant simulation
-        <ul>
-          <li><a href="simplified_data_entry.php">Simplified data entry</a>
-          <li><a href="n-wwtp.php"               >Multiple plant simulation</a>
-          <li><a href="ecospold"                 >EcoSpold output file generation</a>
-        </ul>
+      <li><a href="simplified_data_entry.php">Simplified data entry</a>
+      <li><a href="n-wwtp.php"               >Multiple plant simulation</a>
+      <li><a href="elementary.php"           >Single plant model</a>
+      <li><a href="ecospold"                 >EcoSpold output file generation</a>
     </ol>
   </div><hr>
 

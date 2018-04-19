@@ -5,7 +5,7 @@
  *
  */
 
-function fractionation(BOD,sBOD,COD,bCOD,sCOD,rbCOD,TSS,VSS,TKN,NH4,NH4_eff,TP,PO4){
+function fractionation(BOD,sBOD,COD,bCOD,sCOD,rbCOD,TSS,VSS,TKN,NH4,TP,PO4){
   /*
     | Inputs         | example values |
     |----------------+----------------+
@@ -18,7 +18,6 @@ function fractionation(BOD,sBOD,COD,bCOD,sCOD,rbCOD,TSS,VSS,TKN,NH4,NH4_eff,TP,P
     | VSS            |        60 g/m3 |
     | TKN            |        35 g/m3 |
     | NH4            |        25 g/m3 |
-    | NH4_eff        |       0.5 g/m3 |
     | TP             |         6 g/m3 |
     | PO4            |         5 g/m3 |
   */
@@ -72,7 +71,6 @@ function fractionation(BOD,sBOD,COD,bCOD,sCOD,rbCOD,TSS,VSS,TKN,NH4,NH4_eff,TP,P
   var nbON    = nbpON + nbsON;                        //g/m3
   var TKN_N2O = 0.001*TKN;                            //g/m3
   var bTKN    = Math.max(0, TKN-nbpON-nbsON-TKN_N2O); //g/m3
-  var sTKNe   = Math.min(TKN, NH4_eff + nbsON);       //g/m3 | sTKNe (used only in TKN effluent sludge) TODO this does not belong here
 
   //new ones (not needed)
   var bON  = ON - nbON;
@@ -145,7 +143,6 @@ function fractionation(BOD,sBOD,COD,bCOD,sCOD,rbCOD,TSS,VSS,TKN,NH4,NH4_eff,TP,P
     bpON:           {value:bpON,           unit:"g/m3_as_N",    descr:"Biodegradable particulate Organic N"},
     TKN_N2O:        {value:TKN_N2O,        unit:"g/m3_as_N",    descr:"TKN N2O (0.1% of TKN) only if there is nitrification"},
     bTKN:           {value:bTKN,           unit:"g/m3_as_N",    descr:"Niodegradable TKN"},
-    sTKNe:          {value:sTKNe,          unit:"g/m3_as_N",    descr:"Soluble TKN effluent"},
 
     //Phosphorus fractions
     TP:             {value:TP,             unit:"g/m3_as_P",    descr:"Total P"},
@@ -177,10 +174,9 @@ function fractionation(BOD,sBOD,COD,bCOD,sCOD,rbCOD,TSS,VSS,TKN,NH4,NH4_eff,TP,P
   var VSS     = 60;
   var TKN     = 35;
   var NH4     = 25;
-  var NH4_eff = 0.5;
   var TP      = 6;
   var PO4     = 5;
   console.log(
-    fractionation(BOD,sBOD,COD,bCOD,sCOD,rbCOD,TSS,VSS,TKN,NH4,NH4_eff,TP,PO4)
+    fractionation(BOD,sBOD,COD,bCOD,sCOD,rbCOD,TSS,VSS,TKN,NH4,TP,PO4)
   );
 })();

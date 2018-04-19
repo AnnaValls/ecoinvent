@@ -1,6 +1,7 @@
 //create a JSON sent to the python scripts that generate the ecospold files
 
 function generate_ecospold(result){
+  console.log('generating ecospold...');
   var data_set = generate_json_for_ecospold(result);
   var data_set_string=JSON.stringify(data_set);
   post('generate_ecospold.php', data_set_string, true);
@@ -9,17 +10,15 @@ function generate_ecospold(result){
 function generate_json_for_ecospold(result){
   //json file fields
     //inputs
-      var activity_name      = url.searchParams.get('activity_name')||"no name"; //ok
-      var geography          = url.searchParams.get('geography')||"GLO";         //ok
-      var untreated_fraction = Geographies.find(g=>g.shortcut===geography).RQ;   //ok
-      var tool_use_type      = url.searchParams.get('wwtp_type')||'specific';    //ok
-      var PV                 = {value:Activity.Q/365.25, unit:"m3/year"};        //ok
-      var CSO_particulate    = {value:WWTPs.map(w=>w.CSO_particulate*w.perc_PE/100).reduce((p,c)=>p+c)/100,    unit:"ratio"}; //ok
-      var CSO_soluble        = {value:WWTPs.map(w=>w.CSO_soluble    *w.perc_PE/100).reduce((p,c)=>p+c)/100,    unit:"ratio"}; //ok
-      var fraction_C_fossil  = {value:WWTPs.map(w=>w.fossil_CO2_percent*w.perc_PE/100).reduce((p,c)=>p+c)/100, unit:"ratio"}; //ok
-      var COD_TOC_ratio      = {value:WWTPs.map(w=>w.COD_TOC_ratio  *w.perc_PE/100).reduce((p,c)=>p+c),        unit:Inputs.find(i=>i.id=='COD_TOC_ratio').unit}; //ok
-
-      //inputs.arrays
+      var activity_name         = url.searchParams.get('activity_name')||"no name"; //ok
+      var geography             = url.searchParams.get('geography')||"GLO";         //ok
+      var untreated_fraction    = Geographies.find(g=>g.shortcut===geography).RQ;   //ok
+      var tool_use_type         = url.searchParams.get('wwtp_type')||'specific';    //ok
+      var PV                    = {value:Activity.Q*365.25, unit:"m3/year"};        //ok
+      var CSO_particulate       = {value:WWTPs.map(w=>w.CSO_particulate*w.perc_PE/100).reduce((p,c)=>p+c)/100,    unit:"ratio"}; //ok
+      var CSO_soluble           = {value:WWTPs.map(w=>w.CSO_soluble    *w.perc_PE/100).reduce((p,c)=>p+c)/100,    unit:"ratio"}; //ok
+      var fraction_C_fossil     = {value:WWTPs.map(w=>w.fossil_CO2_percent*w.perc_PE/100).reduce((p,c)=>p+c)/100, unit:"ratio"}; //ok
+      var COD_TOC_ratio         = {value:WWTPs.map(w=>w.COD_TOC_ratio  *w.perc_PE/100).reduce((p,c)=>p+c),        unit:Inputs.find(i=>i.id=='COD_TOC_ratio').unit}; //ok
       var technologies_averaged = []; //each reference wwtp data
       var WW_properties         = []; //Activity inputs
 
@@ -38,26 +37,25 @@ function generate_json_for_ecospold(result){
         })();
         //
         technologies_averaged.push({
-          fraction:wwtp.perc_PE/100,
-          capacity:wwtp.PEq,
-          class:wwtp_class,
-          location:"GLO", //TODO we still don't have a database of wwtp by country/region
-          technology_level_1:"aerobic intensive",          //fix for now
-          technology_level_2:Tec_mix_encoder.encode(wwtp), //"binary string"
+          fraction: wwtp.perc_PE/100,
+          capacity: wwtp.PEq,
+          class: wwtp_class,
+          location: "GLO",                                  //TODO we still don't have a database of wwtp by country/region
+          technology_level_1: "aerobic intensive",          //fix for now
+          technology_level_2: Tec_mix_encoder.encode(wwtp), //"binary string" see 'technology_mix_encoder.js'
         });
       });
 
-      //2. fill WW_properties (ONLY g/m3)
+      //2. WW_properties (ONLY g/m3)
       Object.keys(Activity).forEach(key=>{
         //first check the units of 'key'
         var unit=Inputs.find(i=>i.id==key).unit
-
-        //only g/m3 and value>0
-        if(unit.includes('g/m3') && Activity[key]) {
+        //           only g/m3   and value>0
+        if(unit.includes('g/m3') &&  Activity[key]) {
           var ecoinvent_id=Ecoinvent_ids.inputs[key]||false;
           WW_properties.push({
             id    : key,
-            value : Activity[key]/1000,
+            value : Activity[key]/1000, //convert g/m3 to kg/m3
             unit  : Inputs.find(i=>i.id==key).unit.replace('g/m3','kg/m3'),
             descr : Inputs.find(i=>i.id==key).descr,
             ecoinvent_id,
@@ -89,18 +87,16 @@ function generate_json_for_ecospold(result){
         unit:  result.weighted_contribution.Ene.total_daily_energy.unit.replace('kWh/d','kWh/m3'),
         descr: result.weighted_contribution.Ene.total_daily_energy.descr,
       };
-
-      //outputs.arrays
       var CSO_amounts              = []; //discharged amounts
       var WWTP_influent_properties = []; //properties after CSO
       var WWTP_emissions_water     = []; //properties after treatment
       var WWTP_emissions_air       = []; //properties after treatment
       var WWTP_emissions_sludge    = []; //properties after treatment
-      var sludge_properties        = []; //properties after treatment
+      var sludge_properties        = []; //properties after treatment see 'techs/sludge_composition.js'
       var untreated_as_emissions   = []; //same as CSO, with 100% for both particulates and dissolved
 
       //FILL ARRAYS
-      //1. CSO_amounts discharged by CSO
+      //1. CSO_amounts -- discharged by CSO
       Object.keys(result.weighted_contribution.CSO).forEach(key=>{
         var item=result.weighted_contribution.CSO[key];
         if(item.value && item.unit.includes("kg/d")){
@@ -210,7 +206,7 @@ function generate_json_for_ecospold(result){
       (function(){
         //calculate a fractionation with just the activity and set the cso removal to 100%
         var A=Activity;
-        var fra_activity=fractionation(A.BOD,A.sBOD,A.COD,A.bCOD,A.sCOD,A.rbCOD,A.TSS,A.VSS,A.TKN,A.NH4,A.NH4_eff,A.TP,A.PO4);
+        var fra_activity=fractionation(A.BOD,A.sBOD,A.COD,A.bCOD,A.sCOD,A.rbCOD,A.TSS,A.VSS,A.TKN,A.NH4,A.TP,A.PO4);
         var cso_activity=cso_removal(fra_activity,Activity,100,100);
         Object.keys(cso_activity).filter(key=>cso_activity[key].unit.includes('g/m3')).forEach(key=>{
           var item = cso_activity[key];

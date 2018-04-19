@@ -7,6 +7,7 @@
 
 <!--link-->
 <link rel=stylesheet href="css.css">
+<link rel=stylesheet href="top_menu.css">
 
 <!--javascript main structures/functions-->
 <script src="format.js"></script><!--utils for number formatting-->
@@ -68,6 +69,7 @@
 	}
 	.unit {
 		font-size:smaller;
+    text-decoration:none;
 	}
   .help{
     cursor:default;

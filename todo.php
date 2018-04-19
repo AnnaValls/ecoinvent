@@ -12,7 +12,11 @@
   <tr><td header colspan=3><button class=toggleView onclick=toggleView(this,'single')>&darr;</button> Single plant model
   <tbody id=single style=display:nonee>
     <tr>
+      <td>Nonbiodegradable Particulate Organic Nitrogen and Phosphorus in secondary sludge in <a href=see.php?file=elementary.js&remark=Outputs.TKN.effluent.sludge>effluent equations</a>
+      <td>help asked to george
+    <tr>
       <td>FeCl3 returned is in L/d and ecospold needs kg/m3 contribution
+        <a href=see.php?path=techs&file=chem_P_removal.js&remark=FeCl3_volume>equations</a>
       <td>to do
       <td>April 19th 2018
     <tr>
@@ -49,7 +53,7 @@
       <td>April 11th 2018
     <tr>
       <td>NO<sub>x</sub> is NO<sub>3</sub> for ecoinvent (we assume that there is no NO<sub>2</sub>)
-      <td>TO DO
+      <td>renaming reccomended
       <td>April 6th 2018
     <tr>
       <td>Coarse solids removal

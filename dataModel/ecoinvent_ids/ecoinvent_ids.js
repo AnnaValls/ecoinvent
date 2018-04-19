@@ -10,7 +10,7 @@ var Ecoinvent_ids={
   inputs:{
     //compounds not in the tool TBD
     "DOC"  : "efe22a60-b1a3-4b33-a5ba-4bf575e0a889", // not used
-    "TN"   : "f04a971d-f503-4ca0-b2b1-0ecd2e53ea61", // total nitrogen, we use TKN instead
+    "TN"   : "f04a971d-f503-4ca0-b2b1-0ecd2e53ea61", // total nitrogen, we use TKN. TN=TKN+NOx
     "SO4"  : "1e4ef691-c7d3-49fc-9aee-6d77575a7b8a", // dissolved sulfate SO4 as S (we don't have TS in the model)
     "pOS"  : "8175120e-a5b7-4f19-afca-5620e9e4dd8b", // particulate sulfur (we don't have TS in the model)
     "TS"   : "7f3410da-b91e-40d8-9545-ab269ff66900", // total sulfur (we don't have TS in the model)
@@ -25,9 +25,9 @@ var Ecoinvent_ids={
     "TSS" : "fc26822f-6400-41a5-aac6-94b7088bdabe",
 
     //key components (calculated)
-    "TOC"  : "a547f885-601d-4d52-9bf9-60f0cef06269", //
     "NO3"  : "4f461b9d-5a7b-4a46-8803-23f6df0dc522", // NOx is NO3
     "NO2"  : "c8ebc911-268a-4dfe-a426-73e1e35b587a", // NO2 is zero
+    "TOC"  : "a547f885-601d-4d52-9bf9-60f0cef06269",
     "sTKN" : "4d60d7ca-8f4b-4d14-b137-3670858e48ca",
     "pON"  : "88c9f622-8451-41aa-98b0-c56b191a7e0a",
     "sON"  : "cbc4a2c2-1710-4e6c-9b90-e1e72819d7b9",
@@ -121,12 +121,10 @@ var Ecoinvent_ids={
     "CO2_fossil":                     "f9749677-9c9f-4678-ab55-c607dfdc2cb9", //CO2,_fossil
     "CO2_biogenic":                   "73ed05cc-9727-4abf-9516-4b5c0fe54a16", //CO2,_non-fossil
     "CO2_from_soil_or_biomass_stock": "e8787b5e-d927-446d-81a9-f56977bbfeb4", //CO2,_from_soil_or_biomass_stock
-
     "CH4_fossil":                     "5f7aad3d-566c-4d0d-ad59-e765f971aa0f", //CH4,_fossil
     "CH4_from_soil_or_biomass_stock": "299c6564-426e-48c3-b516-fdf301d12127", //CH4,_from_soil_or_biomass_stock
     "CH4_non-fossil":                 "baf58fc9-573c-419c-8c16-831ac03203b9", //CH4,_non-fossil
     "CH4":                            "b53d3744-3629-4219-be20-980865e54031", //CH4
-
     "NOx":                            "d068f3e2-b033-417b-a359-ca4f25da9731", //NOx
     "N2O":                            "6dc1b46f-ee89-4495-95c4-b8a637bcd6cb", //N2O
     "P":                              "198ce8e3-f05a-4bec-9f7f-325347453326", //Phosphorus
@@ -140,42 +138,41 @@ var Ecoinvent_ids={
     'N'           :  'f53a5dbc-3bd3-4570-adff-b00790ea3ffc',
     'S'           :  'f6c7ebbb-902a-412f-a55b-0743aea00238',
     'P'           :  '97f3bbfe-fa3a-4d05-9cb6-bb4b6379c5ef',
-
     //water
     'H2O'    :  'a9358458-9724-4f03-b622-106eda248916',
     'water'  :  'a9358458-9724-4f03-b622-106eda248916',
-
+    //other (?)
     'Organic_Carbon_of_soil'  :  '044617f2-c1d4-4592-94c6-bb325139e231',
     'AlOH'                    :  '66f07cc8-9cb2-4518-9042-9a72b4ac1d0c',
-
+    //metals and other elements
     'Ag'  :  '56f09738-8225-4bdc-91d2-39ee6328f0ee',
-    'Tl'  :  '608190bf-8f74-4f8e-8544-f25377accf4d',
-    'Zn'  :  '33f96fe7-39da-47ca-837f-f2c311681d1b',
-    'Ti'  :  'e9fa11a1-1011-421d-aa34-0544d767a632',
-    'Cd'  :  'ad7781c7-5dc2-4421-b182-e1fd4cef7fa5',
-    'Cr'  :  'e1d2c19b-3a97-4f52-a83f-fe88400452c2',
-    'Co'  :  '66e996b5-5f7b-449f-8893-0b787af21d7e',
-    'Mo'  :  '83f67a9e-bf78-4e0d-b1f0-5051a1fda9fe',
     'Al'  :  'e9688cbc-7400-457a-a936-5ab123ea326c',
-    'Hg'  :  '2a256b0b-6003-4669-a3c1-1d3eba2de45e',
-    'Ba'  :  '1dcfb203-7830-40b2-878d-13fc02a74051',
-    'Se'  :  '7e83fd10-c04d-4a80-8df2-a8bbcc268c4a',
     'As'  :  '30f0aa15-2d50-4f09-af94-683b6dd68adc',
     'B'   :  'b86d456d-a1dc-4468-a20e-b6a3f4701e32',
+    'Ba'  :  '1dcfb203-7830-40b2-878d-13fc02a74051',
     'Be'  :  'bf4d71d9-4301-4939-8a9d-36d8811b7db0',
     'Ca'  :  'f9da385d-5b1b-4548-826c-0bf5892a9fd9',
+    'Cd'  :  'ad7781c7-5dc2-4421-b182-e1fd4cef7fa5',
+    'Co'  :  '66e996b5-5f7b-449f-8893-0b787af21d7e',
+    'Cr'  :  'e1d2c19b-3a97-4f52-a83f-fe88400452c2',
     'Cu'  :  '0132d97c-5f19-4397-9197-59ab801b10cf',
     'Fe'  :  'd8364dfc-5753-4585-bf50-4d42b126f72d',
+    'Hg'  :  '2a256b0b-6003-4669-a3c1-1d3eba2de45e',
     'Mg'  :  '8aedc313-f49b-42cd-8d54-fc877ec03017',
     'Mn'  :  '2bc683e4-3780-4f00-8c1d-fd53e05cfde7',
+    'Mo'  :  '83f67a9e-bf78-4e0d-b1f0-5051a1fda9fe',
     'Ni'  :  'f767b36f-62bf-4458-b694-ecbefd2ab970',
     'Pb'  :  'e5507d89-78ad-4746-900c-b9afa5a62ea6',
     'Sb'  :  '4054bfa7-dfcb-452e-b1dd-810b9e981506',
     'Sc'  :  '35d2e0b2-eca5-4897-a6af-b6d2e61a9079',
+    'Se'  :  '7e83fd10-c04d-4a80-8df2-a8bbcc268c4a',
     'Si'  :  'dd7e15dc-c438-43f7-9c0d-d0a627163cf1',
     'Sn'  :  'd8551abf-da96-4429-846b-0973136b7d48',
     'Sr'  :  '995265a2-f2cb-4c12-a961-766eb34392b9',
+    'Ti'  :  'e9fa11a1-1011-421d-aa34-0544d767a632',
+    'Tl'  :  '608190bf-8f74-4f8e-8544-f25377accf4d',
     'V'   :  'dba83ee6-9127-4c81-86c9-15e29987dcdf',
     'W'   :  '84916b80-bf93-4e20-9b7c-593aa9518d09',
+    'Zn'  :  '33f96fe7-39da-47ca-837f-f2c311681d1b',
   }
 };

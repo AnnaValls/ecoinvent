@@ -16,103 +16,107 @@
     #root #data_entry > li {
       padding-bottom:8px;
       padding-top:8px;
-      border-bottom:1px solid #ccc;
-    }
-    #inputs tr:hover {
-      text-decoration:underline;
     }
   </style>
 </head><body>
 <?php include'navbar.php'?>
-<div id=root>
-<h1>Simplified data entry</h1><hr>
 
 <!--top menu-->
-<div class=flex id=top_menu>
-  <div>File &rarr;</div>
-  <!--load-->
+<div class=flex id=top_menu style=background:#eee>
+  <!--File-->
   <div>
-    <input id=loadFile type=file accept=".json" onchange="loadFile(event)" style="display:none">
-    <button onclick="document.getElementById('loadFile').click()">Load</button>
-    <script>
-      //load country mix from file
-      function loadFile(evt){
-        var file=evt.target.files[0];
-        var reader=new FileReader();
-        reader.onload=function() {
-          var saved_file;
-          try{
-            saved_file=JSON.parse(reader.result);
-            (function(){
-              //name, location, industrial type
-              saved_file.general.forEach(el=>{
-                var input=document.getElementById(el.id);
-                if(input) input.value=el.value;
-              });
-              document.getElemen
-              saved_file.ww_composition.forEach(el=>{
-                var input=document.getElementById(el.id);
-                if(input) input.value=el.value;
-              });
+    <button onclick="toggleView_top_menu_item('top_menu #file')"> File</button>
+    <ul id=file style=display:none>
+      <li>
+        <!--load-->
+        <div>
+          <input id=loadFile type=file accept=".json" onchange="loadFile(event)" style="display:none">
+          <button onclick="document.getElementById('loadFile').click()">Load</button>
+          <script>
+            //load country mix from file
+            function loadFile(evt){
+              var file=evt.target.files[0];
+              var reader=new FileReader();
+              reader.onload=function() {
+                var saved_file;
+                try{
+                  saved_file=JSON.parse(reader.result);
+                  (function(){
+                    //name, location, industrial type
+                    saved_file.general.forEach(el=>{
+                      var input=document.getElementById(el.id);
+                      if(input) input.value=el.value;
+                    });
+                    document.getElemen
+                    saved_file.ww_composition.forEach(el=>{
+                      var input=document.getElementById(el.id);
+                      if(input) input.value=el.value;
+                    });
 
-            })();
-          }catch(e){alert(e)}
-        }
-        try{
-          reader.readAsText(file);
-        }catch(e){alert(e)}
-      }
-    </script>
+                  })();
+                }catch(e){alert(e)}
+              }
+              try{
+                reader.readAsText(file);
+              }catch(e){alert(e)}
+            }
+          </script>
+        </div>
+      <li>
+        <!--save-->
+        <div>
+          <button onclick="saveToFile()">Save</button>
+          <script>
+            function saveToFile() {
+              //generate empty saved file
+                var saved_file = {
+                  general:[],
+                  ww_composition:[],
+                };
+              //general
+                [
+                  'activity_name',
+                  'geography',
+                  'ww_type',
+                  'wwtp_type',
+                ].forEach(id=>{
+                  var value=document.querySelector('#'+id).value;
+                  saved_file.general.push({id,value});
+                });
+              //ww_composition
+                Inputs
+                  .filter(i=>{return !i.isParameter})
+                  .filter(i=>{return !i.canBeEstimated})
+                  .forEach(i=>{
+                    saved_file.ww_composition.push({
+                      id:i.id,
+                      value:parseFloat(document.querySelector('#'+i.id).value),
+                      unit:i.unit,
+                      descr:i.descr,
+                  });
+                });
+              //generate file
+                var datestring=(new Date()).toISOString().replace(/-/g,'').replace(/:/g,'').replace(/T/g,'_').substring(2,13);
+                var link=document.createElement('a');
+                link.href='data:text/json;charset=utf-8,'+JSON.stringify(saved_file,null,'  ');
+                link.download='activity_ww_'+datestring+'_UTC.json';
+                document.body.appendChild(link);//required in firefox
+                link.click();
+            }
+          </script>
+        </div>
+      </li>
+    </ul>
   </div>
-  <!--save-->
-  <div>
-    <button onclick="saveToFile()">Save</button>
-    <script>
-      function saveToFile() {
-        //generate empty saved file
-          var saved_file = {
-            general:[],
-            ww_composition:[],
-          };
-        //general
-          [
-            'activity_name',
-            'geography',
-            'ww_type',
-            'wwtp_type',
-          ].forEach(id=>{
-            var value=document.querySelector('#'+id).value;
-            saved_file.general.push({id,value});
-          });
-        //ww_composition
-          Inputs
-            .filter(i=>{return !i.isParameter})
-            .filter(i=>{return !i.canBeEstimated})
-            .forEach(i=>{
-              saved_file.ww_composition.push({
-                id:i.id,
-                value:parseFloat(document.querySelector('#'+i.id).value),
-                unit:i.unit,
-                descr:i.descr,
-            });
-          });
-        //generate file
-          var datestring=(new Date()).toISOString().replace(/-/g,'').replace(/:/g,'').replace(/T/g,'_').substring(2,13);
-          var link=document.createElement('a');
-          link.href='data:text/json;charset=utf-8,'+JSON.stringify(saved_file,null,'  ');
-          link.download='activity_ww_'+datestring+'_UTC.json';
-          document.body.appendChild(link);//required in firefox
-          link.click();
-      }
-    </script>
-  </div>
-  <!--css-->
-  <style>
-    #top_menu button {
-      margin:0 4px;
-    }
-  </style>
-</div><hr>
+  <!--click listener-->
+  <script>
+    //fold items when click outside
+    document.documentElement.addEventListener('click',top_menu_fold_all_items);
+  </script>
+</div>
+
+<div id=root>
+<h1>Simplified data entry</h1><hr>
 
 <!--inputs-->
 <div>
@@ -190,7 +194,6 @@
         </select>
       </div>
     </li>
-
     <!--next btn-->
     <li>
       <button id=next_btn onclick="(function(){
@@ -216,12 +219,16 @@
       })()">Next</button>
       <style>
         #next_btn {
-          font-size:20px;
-          padding:0.618em 1em;
+          padding:default;
         }
       </style>
     </li>
   </ol>
+  <style>
+    #data_entry > li:not(:last-child) {
+      border-bottom:1px solid #ccc;
+    }
+  </style>
 </div>
 
 <!--app init: populate content default values-->
@@ -241,7 +248,7 @@
         newRow.title=i.descr;
         newRow.insertCell(-1).innerHTML=i.id.prettifyUnit();
         newRow.insertCell(-1).innerHTML="<input id="+i.id+" type=number value="+i.value+">";
-        newRow.insertCell(-1).innerHTML="<small>"+i.unit.prettifyUnit()+"</small>";
+        newRow.insertCell(-1).outerHTML="<td>"+i.unit.prettifyUnit();
       });
     })();
 

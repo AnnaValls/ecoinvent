@@ -44,34 +44,35 @@
     }
 
     //execute model wrapper (call backend+frontend)
+    var Result={};
     function run(){
+      var btn_run=document.getElementById('run');
+      btn_run.disabled=true; //disable the button to avoid double clicking
+      btn_run.innerHTML="Running...";
+
       //run n times 'compute elementary flows'
-      var result=n_wwtps_simulation(Activity,WWTPs); //{weighted_contribution, weighted_reference, weighted_mixed}
+      Result=n_wwtps_simulation(Activity,WWTPs); //{weighted_contribution, weighted_reference, weighted_mixed}
 
       //send 'result' to the button generate ecospold
       var btn_generate_ecospold=document.getElementById('btn_generate_ecospold');
-      btn_generate_ecospold.removeEventListener('click',()=>{generate_ecospold(result)});
-      btn_generate_ecospold.addEventListener('click'   ,()=>{generate_ecospold(result)});
+      btn_generate_ecospold.disabled=false;
 
       //table contribution
-      display_contribution_Outputs(result);
+      display_contribution_Outputs(Result);
 
       //create table "all_contributions"
       (function(){
         var container=document.querySelector('#results #all');
         container.innerHTML="";
-        container.appendChild(display_contribution_All(result));
+        container.appendChild(display_contribution_All(Result));
       })();
 
       //visually display 'simulation completed'
-      (function(){
-        var btn=document.getElementById('run');
-        var previous_text = btn.innerHTML;
-        btn.innerHTML="Simulation complete";
-        setTimeout(function(){
-          btn.innerHTML=previous_text;
-        },2000);
-      })();
+      btn_run.innerHTML="Simulation complete!";
+      setTimeout(function(){
+        btn_run.innerHTML=btn_run.getAttribute('text');
+        btn_run.disabled=false; //enable button again
+      },1500);
     }
 
     //add a new object to WWTPs array
@@ -466,7 +467,7 @@
 
             //mark text somehow if normalized
             if(is_normalized_selected){
-              format_value1 = "<b>"+format_value1+"</b>";
+              format_value1 = "<span>"+format_value1+"</span>";
             }
 
             //display contribution and total amount
@@ -562,6 +563,7 @@
 <?php include'navbar.php'?>
 <?php include'top_menu_multiple.php'?>
 <div id=root>
+
 <!--title--><div>
   <h1>Multiple plant simulation</h1>
   <small>
@@ -569,8 +571,7 @@
   </small>
 </div><hr>
 
-<!--main-->
-<div class=flex style=''>
+<!--main--><div class=flex>
   <!--inputs-->
   <div style='min-width:50%;border-right:1px solid #ccc;padding-right:8px;'>
     <p>
@@ -578,14 +579,17 @@
       <!--RUN btn-->
       <span>
         <button
-          title="Press this button after modifying the inputs to run the 'n' simulations"
+          title="Click here after modifying inputs"
+          text="&#9654; RUN SIMULATION"
           id=run onclick="run()">
           &#9654; RUN SIMULATION
         </button>
         <style>
           button#run {
+            font-family:monospace;
             background:lightgreen;
-            width:150px;
+            width:200px;
+            height:25px;
             float:right;
           }
         </style>
@@ -600,7 +604,7 @@
       <b>2. Results</b>
       <span>
         <script src="generate_json_for_ecospold.js"></script>
-        <button id=btn_generate_ecospold>Generate ecoSpold files</button>
+        <button id=btn_generate_ecospold onclick="generate_ecospold(Result)">Generate ecoSpold files</button>
       </span>
     </p>
     <!--2.1 effluent-->
@@ -643,13 +647,15 @@
             <tr>
               <td> Display only contributions greater than zero:
               <td>
-                <label><input name=displayed_non_zero_only type=radio         value="no"  onclick=document.querySelector('#run').click()> No </label>
-                <label><input name=displayed_non_zero_only type=radio checked value="yes" onclick=document.querySelector('#run').click()> Yes</label>
+                <label><input name=displayed_non_zero_only type=radio         value="no"  onclick="run()"> No </label>
+                <label><input name=displayed_non_zero_only type=radio checked value="yes" onclick="run()"> Yes</label>
+              </td>
             <tr>
               <td>Normalize contributions per activity Q (m<sup>3</sup>/d):
               <td>
-                <label><input name=displayed_unit_normalized type=radio checked value="no"  onclick=document.querySelector('#run').click()> No </label>
-                <label><input name=displayed_unit_normalized type=radio         value="yes" onclick=document.querySelector('#run').click()> Yes</label>
+                <label><input name=displayed_unit_normalized type=radio checked value="no"  onclick="run()"> No </label>
+                <label><input name=displayed_unit_normalized type=radio         value="yes" onclick="run()"> Yes</label>
+              </td>
           </table>
           <div id=all style=display:nonee></div>
         </div>
@@ -657,14 +663,15 @@
     </div>
   </div>
 </div>
+
 </html>
 
-<!--URL-->
+<!--url-->
 <script>
   /*URL: GET params*/
   //max URL lengh is 2000 chars: "https://stackoverflow.com/questions/417142/what-is-the-maximum-length-of-a-url-in-different-browsers"
   var url=new URL(window.location.href);
-  console.log("URL length: "+url.href.length+" chars (OK below 2000 chars)");
+  //console.log("URL length: "+url.href.length+" chars (OK below 2000 chars)"); //debug
   if(url.href.length>2000){alert("Error: the URL length is above 2000 characters");}
   //url.searchParams.get('param');
 </script>
@@ -674,10 +681,7 @@
   //main object for storing WWTPs
   var WWTPs=[];
   //main object for storing the Activity inputs
-  var Activity={
-    Q:1,
-    Q:22700, //default for testing (remove when done) TODO
-    };
+  var Activity={ Q:1, };
 
   //GET activity inputs from URL
   Inputs

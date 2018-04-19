@@ -78,14 +78,16 @@ function compute_elementary_flows(input_set){
     CSO:{}, inputs_after_CSO:{},
     Fra:{}, Pri:{},
     BOD:{},Nit:{},SST:{},Des:{},BiP:{},ChP:{},Met:{},
-    sludge_composition:{}, Ene:{}, chemicals:{}, Outputs:{}, other:{}, summary:{},
+    sludge_composition:{}, Ene:{}, chemicals:{}, Outputs:{}, 
+    other:{}, 
+    summary:{},
   };
 
   /*APPLY TECHNOLOGIES MODULES*/
 
   /*0. SOLVE FRACTIONATION AND PRIMARY SETTLER */
   //call fractionation of raw wastewater (before CSO and primary settler)
-  Result.Fra=fractionation(BOD,sBOD,COD,bCOD,sCOD,rbCOD,TSS,VSS,TKN,NH4,NH4_eff,TP,PO4);
+  Result.Fra=fractionation(BOD,sBOD,COD,bCOD,sCOD,rbCOD,TSS,VSS,TKN,NH4,TP,PO4);
 
   //apply cso removal
   (function(){
@@ -136,7 +138,7 @@ function compute_elementary_flows(input_set){
     addResults('inputs_after_CSO',Result.inputs_after_CSO,false);
 
     //recalculate fractionation with updated inputs
-    Result.Fra=fractionation(BOD,sBOD,COD,bCOD,sCOD,rbCOD,TSS,VSS,TKN,NH4,NH4_eff,TP,PO4);
+    Result.Fra=fractionation(BOD,sBOD,COD,bCOD,sCOD,rbCOD,TSS,VSS,TKN,NH4,TP,PO4);
   })();
 
   //apply primary settler
@@ -178,7 +180,7 @@ function compute_elementary_flows(input_set){
     TSS = VSS + iTSS;
 
     //RECALCULATE FRACTIONATION
-    Result.Fra=fractionation(BOD,sBOD,COD,bCOD,sCOD,rbCOD,TSS,VSS,TKN,NH4,NH4_eff,TP,PO4)
+    Result.Fra=fractionation(BOD,sBOD,COD,bCOD,sCOD,rbCOD,TSS,VSS,TKN,NH4,TP,PO4)
   }else{
     //         primary_settler(Q,bpCOD,nbpCOD,iTSS,ON,OP,VSS_COD,bpCOD_bVSS,removal_bpCOD,removal_nbpCOD,removal_iTSS,removal_ON,removal_OP);
     Result.Pri=primary_settler(0,    0,     0,   0, 0, 0,      0,         0,            0,             0,           0,         0,         0);
@@ -206,7 +208,6 @@ function compute_elementary_flows(input_set){
   var nbsON          = Result.Fra.nbsON.value;   //g/m3
   var TKN_N2O        = Result.Fra.TKN_N2O.value; //g/m3
   var bTKN           = Result.Fra.bTKN.value;    //g/m3
-  var sTKNe          = Result.Fra.sTKNe.value;   //g/m3 | sTKNe = NH4_eff + nbsON | only used in TKN effluent sludge
   var nbpOP          = Result.Fra.nbpOP.value;   //g/m3
   var aP             = Result.Fra.aP.value;      //g/m3 | aP = TP - nbpOP         | only used to compute aPchem
 
@@ -319,9 +320,10 @@ function compute_elementary_flows(input_set){
   //C content
   var TOC_content = Q*is.COD/is.COD_TOC_ratio/1000; //kgC/d
 
-  //S, VSSe and sCODe
+  //S, sCODe, sTKNe, and VSSe
   var S     = select_value('S', ['Nit','BOD']); //g/m3 -- bCOD effluent
-  var sCODe = nbsCODe+S;                        //g/m3 -- soluble COD effluent
+  var sCODe = Math.min(COD, nbsCODe + S);       //g/m3 -- soluble COD effluent (used in effluent water)
+  var sTKNe = Math.min(TKN, NH4_eff + nbsON);   //g/m3 -- soluble TKN effluent (used in effluent sludge)
   var VSSe  = Math.min(VSS, TSSe*0.85);         //g/m3 -- VSS effluent
 
   //recalculate PO4_eff
@@ -627,7 +629,6 @@ function compute_elementary_flows(input_set){
     'nonbiogenic_CO2': {value:is.fossil_CO2_percent/100*Outputs.CO2.effluent.air/1000,     unit:"kg_CO2/d", descr:""},
     'biogenic_CO2':    {value:(1-is.fossil_CO2_percent/100)*Outputs.CO2.effluent.air/1000, unit:"kg_CO2/d", descr:""},
   };
-  addResults('other',Result.other);
 
   //'summary' variables
   var tau                       = select_value('tau',                       ['Des','Nit','BOD']);
@@ -933,6 +934,9 @@ function compute_elementary_flows(input_set){
     "Zn_effluent_air"     :  {value:Outputs.Zn.effluent.air,     unit:"g/d",  descr:"", },
     "Zn_effluent_sludge"  :  {value:Outputs.Zn.effluent.sludge,  unit:"g/d",  descr:"", },
   };
+
+  //add results to Variables
+  addResults('other',Result.other);
 
   /*utils*/
     //fx: utility to add a technology result to the "Variables" object (calculated variables)

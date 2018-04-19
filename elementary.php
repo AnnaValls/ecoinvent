@@ -94,9 +94,10 @@
 
         //recalculate current inputs array
         input_codes.forEach(code=>{
-          Inputs_current_combination.push(code);
+          if(Inputs.find(i=>i.id==code)){
+            Inputs_current_combination.push(code);
+          }
         });
-        //console.log(Inputs_current_combination);
       })();
 
       //frontend set the color of inputs (grey:not needed, black:needed);
@@ -269,7 +270,8 @@
               var newCell=newRow.insertCell(-1);
               newCell.colSpan=3;
               var btn_text = (Options.hiddenTechs.indexOf(i.tech)+1) ? "&rarr;":"&darr;";
-              newCell.innerHTML="<button class=toggleView onclick=toggleViewVars(this,'"+i.tech+"')>"+btn_text+"</button> <small><em>"+tech_name+"</em></small>";
+              newCell.innerHTML="<button class=toggleView onclick=toggleViewVars(this,'"+i.tech+"')>"+btn_text+"</button> "+
+              "<small>"+tech_name+" ("+Variables.filter(v=>v.tech==i.tech).length+")</small>";
 
               //draw a border
               newRow.style.borderTop="1px solid #ccc";
@@ -443,7 +445,7 @@
 <div class=flex>
   <!--1. Inputs-->
   <div style="width:330px">
-    <p><b><u>1. User inputs</u></b></p>
+    <p><b><u>1. Inputs</u></b></p>
 
     <!--enter technologies-->
     <div>
@@ -497,16 +499,16 @@
     <!--Variables-->
     <table id=variables><tr>
       <th>Variable
-      <th>Result
+      <th>Value
       <th>Unit
     </table>
 
     <!--link go to top--><div><p><small><a href='#'>&uarr; top</a></small></p></div>
   </div><hr>
 
-  <!--3. Outputs-->
+  <!--3. Results-->
   <div style="width:330px">
-    <p><b><u>3. Outputs</u></b></p>
+    <p><b><u>3. Results</u></b></p>
 
     <!--menu to change output units (kg/d or g/m3)-->
     <div style=font-size:smaller>

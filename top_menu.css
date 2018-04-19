@@ -1,0 +1,25 @@
+#top_menu {
+  border-bottom:1px solid #ccc;
+  padding-left:8px;
+  padding-bottom:1px;
+}
+#top_menu > div {
+  margin-right:8px;
+  position:relative;
+}
+#top_menu > div > ul[id] {
+  margin-top:2px;
+  position:absolute;
+  background:#eee;
+  list-style-type:none;
+  padding:0 5px 5px 5px;
+  box-shadow: 0 1px 2px rgba(0,0,0,.1);
+}
+#top_menu > div > ul[id] button{
+  text-align:left;
+  width:100%;
+  width:150px;
+  border:1px solid #ccc;
+  border-radius:0;
+  background:white;
+}
