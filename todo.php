@@ -12,6 +12,10 @@
   <tr><td header colspan=3><button class=toggleView onclick=toggleView(this,'single')>&darr;</button> Single plant model
   <tbody id=single style=display:nonee>
     <tr>
+      <td>FeCl3 returned is in L/d and ecospold needs kg/m3 contribution
+      <td>to do
+      <td>April 19th 2018
+    <tr>
       <td>iTSS composition (sand) can be calculated as O+Si+Al+Fe+Ca+Na+K+Mg. the percentages are in <a href=see.php?file=sludge_composition.js&path=techs>sludge_composition.js</a>
       <td>George provided help April 16th
       <td>April 16th 2018
@@ -29,6 +33,11 @@
       <td>April 16th 2018
     <tr>
       <td>Add a Warnings module
+        <ul>
+          <li>fSus (raw: 0% to 10%. with primary settler: 0% to 15%)
+          <li>fSup (raw: 8% to 25%. with primary settler: 0% to 10%)
+          <li>difference_NOr_NOx (in denitrification) &lt; 5%
+        </ul>
       <td>will not implement in this version
       <td>April 16th 2018
     <tr>
@@ -39,7 +48,7 @@
         <br>(Pascal and Lluís B. doubt)
       <td>April 11th 2018
     <tr>
-      <td>NO<sub>x</sub> is NO<sub>3</sub> in ecoinvent ids (we've assumed that there is no NO<sub>2</sub>)
+      <td>NO<sub>x</sub> is NO<sub>3</sub> for ecoinvent (we assume that there is no NO<sub>2</sub>)
       <td>TO DO
       <td>April 6th 2018
     <tr>

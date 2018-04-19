@@ -44,7 +44,7 @@
       onclick="genereate_ecospold()"
     >CONTINUE</button>
     <button onclick=selectText(document.getElementById('received_json'))>select</button>
-    and copypaste
+    and copy, then paste
     <a href="https://jsonformatter.curiousconcept.com/">here</a>.
   </div>
   <!--received json-->

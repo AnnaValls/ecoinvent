@@ -62,6 +62,16 @@
         container.innerHTML="";
         container.appendChild(display_contribution_All(result));
       })();
+
+      //visually display 'simulation completed'
+      (function(){
+        var btn=document.getElementById('run');
+        var previous_text = btn.innerHTML;
+        btn.innerHTML="Simulation complete";
+        setTimeout(function(){
+          btn.innerHTML=previous_text;
+        },2000);
+      })();
     }
 
     //add a new object to WWTPs array

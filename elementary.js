@@ -640,8 +640,7 @@ function compute_elementary_flows(input_set){
   var SOTR                      = select_value('SOTR',                      ['Des','Nit','BOD']);
   var SDNR                      = select_value('SDNR',                      ['Des']);
   var clarifier_diameter        = select_value('clarifier_diameter',        ['SST']);
-  var alkalinity_added          = select_value('alkalinity_added',          ['Nit']);
-  var Mass_of_alkalinity_needed = select_value('Mass_of_alkalinity_needed', ['Des']);
+  var alkalinity_added          = select_value('alkalinity_added',          ['Des','Nit']);
   var FeCl3_volume              = select_value('FeCl3_volume',              ['ChP']);
   var storage_req_15_d          = select_value('storage_req_15_d',          ['ChP']);
   //end summary
@@ -675,13 +674,12 @@ function compute_elementary_flows(input_set){
 
   //chemicals
   Result.chemicals={
-    alkalinity_added:          {value:select_value('alkalinity_added',         ['Nit']), unit:"kg/d_as_NaHCO3", descr:"For nitrification"},
-    Mass_of_alkalinity_needed: {value:select_value('Mass_of_alkalinity_needed',['Des']), unit:"kg/d_as_NaHCO3", descr:"For denitrification"},
-    FeCl3_volume:              {value:FeCl3_volume,                                      unit:"L/d",            descr:"For chemical P removal"},
-    storage_req_15_d:          {value:storage_req_15_d,                                  unit:"m3",             descr:"For chemical P removal"},
-    Dewatering_polymer:        {value:Dewatering_polymer,                                unit:"kg/d",           descr:"Acrylamyde for dewatering"},
-    concrete_reactor:          {value:Concrete.reactor(V_total),                         unit:"m3 concrete",    descr:"Concrete used for reactor"},
-    concrete_settler:          {value:Concrete.settler(V_settler,h_settler),             unit:"m3 concrete",    descr:"Concrete used for settler"},
+    alkalinity_added:          {value:alkalinity_added,                      unit:"kg/d_as_NaHCO3", descr:"Alkalinity to maintain pH 7"},
+    FeCl3_volume:              {value:FeCl3_volume,                          unit:"L/d",            descr:"For chemical P removal"},
+    storage_req_15_d:          {value:storage_req_15_d,                      unit:"m3",             descr:"For chemical P removal"},
+    Dewatering_polymer:        {value:Dewatering_polymer,                    unit:"kg/d",           descr:"Acrylamyde for dewatering"},
+    concrete_reactor:          {value:Concrete.reactor(V_total),             unit:"m3 concrete",    descr:"Concrete used for reactor"},
+    concrete_settler:          {value:Concrete.settler(V_settler,h_settler), unit:"m3 concrete",    descr:"Concrete used for settler"},
   };
   addResults('chemicals',Result.chemicals);
 
@@ -731,7 +729,6 @@ function compute_elementary_flows(input_set){
 
     //chemicals
     'alkalinity_added':           Result.chemicals.alkalinity_added,
-    'Mass_of_alkalinity_needed':  Result.chemicals.Mass_of_alkalinity_needed,
     'FeCl3_volume':               Result.chemicals.FeCl3_volume,
     'storage_req_15_d':           Result.chemicals.storage_req_15_d,
     'Dewatering_polymer':         Result.chemicals.Dewatering_polymer,

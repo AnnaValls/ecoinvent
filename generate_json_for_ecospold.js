@@ -17,6 +17,7 @@ function generate_json_for_ecospold(result){
       var CSO_particulate    = {value:WWTPs.map(w=>w.CSO_particulate*w.perc_PE/100).reduce((p,c)=>p+c)/100,    unit:"ratio"}; //ok
       var CSO_soluble        = {value:WWTPs.map(w=>w.CSO_soluble    *w.perc_PE/100).reduce((p,c)=>p+c)/100,    unit:"ratio"}; //ok
       var fraction_C_fossil  = {value:WWTPs.map(w=>w.fossil_CO2_percent*w.perc_PE/100).reduce((p,c)=>p+c)/100, unit:"ratio"}; //ok
+      var COD_TOC_ratio      = {value:WWTPs.map(w=>w.COD_TOC_ratio  *w.perc_PE/100).reduce((p,c)=>p+c),        unit:Inputs.find(i=>i.id=='COD_TOC_ratio').unit}; //ok
 
       //inputs.arrays
       var technologies_averaged = []; //each reference wwtp data
@@ -28,12 +29,12 @@ function generate_json_for_ecospold(result){
         //implement ecoinvent classes 1,2,3a,3b,4,5
         var wwtp_class = (function(){
           var PEq = wwtp.PEq;
-          if     (PEq>=100e3){return 'Class 1  (>100,000)';}
-          else if(PEq>= 50e3){return 'Class 2  (50,000-100,000)';}
-          else if(PEq>= 20e3){return 'Class 3a (20,000-50,000)';}
-          else if(PEq>= 10e3){return 'Class 3b (10,000-20,000)';}
-          else if(PEq>=  2e3){return 'Class 4  (2,000-10,000)';}
-          else               {return 'Class 5  (<2,000)';}
+          if     (PEq>=100e3){return 'wastewater treatment facility, capacity class 1, greater than 100,000 PE';}
+          else if(PEq>= 50e3){return 'wastewater treatment facility, capacity class 2, between 50,000 and 100,000 PE';}
+          else if(PEq>= 20e3){return 'wastewater treatment facility, capacity class 3a, between 20,000 and 50,000 PE';}
+          else if(PEq>= 10e3){return 'wastewater treatment facility, capacity class 3b, between 10,000 and 20,000 PE';}
+          else if(PEq>=  2e3){return 'wastewater treatment facility, capacity class 4, between 2,000 and 10,000 PE';}
+          else               {return 'wastewater treatment facility, capacity class 5, less than 2,000 PE';}
         })();
         //
         technologies_averaged.push({
@@ -61,23 +62,16 @@ function generate_json_for_ecospold(result){
             descr : Inputs.find(i=>i.id==key).descr,
             ecoinvent_id,
           });
-          if(!ecoinvent_id){console.warn("ecoinvent id not found for input '"+key+"' in 'inputs'");}
+          if(!ecoinvent_id){console.warn("no ecoinvent id for '"+key+"' in 'inputs' (WW_properties)");}
         }
       });
 
     //outputs
       var chemicals = {
         NaHCO3 : {
-          for_nitrification: {
-            value: result.weighted_contribution.chemicals.alkalinity_added.value/Activity.Q,
-            unit:  result.weighted_contribution.chemicals.alkalinity_added.unit.replace('kg/d','kg/m3'),
-            descr: "NaHCO3 needed for nitrification",
-          },
-          for_denitrification:{
-            value: result.weighted_contribution.chemicals.Mass_of_alkalinity_needed.value/Activity.Q,
-            unit:  result.weighted_contribution.chemicals.Mass_of_alkalinity_needed.unit.replace('kg/d','kg/m3'),
-            descr: "NaHCO3 needed for denitrification",
-          },
+          value: result.weighted_contribution.chemicals.alkalinity_added.value/Activity.Q,
+          unit:  result.weighted_contribution.chemicals.alkalinity_added.unit.replace('kg/d','kg/m3'),
+          descr: "NaHCO3 needed to maintain alkalinity",
         },
         acrylamide : {
           value: result.weighted_contribution.chemicals.Dewatering_polymer.value/Activity.Q,
@@ -94,11 +88,6 @@ function generate_json_for_ecospold(result){
         value: result.weighted_contribution.Ene.total_daily_energy.value/Activity.Q,
         unit:  result.weighted_contribution.Ene.total_daily_energy.unit.replace('kWh/d','kWh/m3'),
         descr: result.weighted_contribution.Ene.total_daily_energy.descr,
-      };
-      var carbon_content = {
-        value: result.weighted_contribution.other.TOC_content.value/Activity.Q,
-        unit:  result.weighted_contribution.other.TOC_content.unit.replace('kg/d','kg/m3'),
-        descr: result.weighted_contribution.other.TOC_content.descr,
       };
 
       //outputs.arrays
@@ -124,7 +113,7 @@ function generate_json_for_ecospold(result){
             descr : item.descr,
             ecoinvent_id,
           });
-          if(!ecoinvent_id){console.warn("ecoinvent id not found for '"+key_replaced+"' in 'water_emissions'");}
+          if(!ecoinvent_id){console.warn("no ecoinvent id for '"+key_replaced+"' in 'water_emissions' (CSO_amounts)");}
         }
       });
 
@@ -140,7 +129,7 @@ function generate_json_for_ecospold(result){
             descr:item.descr,
             ecoinvent_id,
           });
-          if(!ecoinvent_id){console.warn("ecoinvent id not found for '"+key+"' in 'inputs'");}
+          if(!ecoinvent_id){console.warn("no ecoinvent id for '"+key+"' in 'inputs' (WWTP_influent_properties)");}
         }
       });
 
@@ -157,7 +146,7 @@ function generate_json_for_ecospold(result){
             descr:item.descr,
             ecoinvent_id,
           });
-          if(!ecoinvent_id){console.warn("ecoinvent id not found for '"+key_replaced+"' in 'water_emissions'");}
+          if(!ecoinvent_id){console.warn("no ecoinvent id for '"+key_replaced+"' in 'water_emissions' (WWTP_emissions_water)");}
         }
       });
 
@@ -174,7 +163,7 @@ function generate_json_for_ecospold(result){
             descr:item.descr,
             ecoinvent_id,
           });
-          if(!ecoinvent_id){console.warn("ecoinvent id not found for '"+key_replaced+"' in 'air_emissions'");}
+          if(!ecoinvent_id){console.warn("no ecoinvent id for '"+key_replaced+"' in 'air_emissions' (WWTP_emissions_air)");}
         }
       });
 
@@ -191,7 +180,7 @@ function generate_json_for_ecospold(result){
             descr:item.descr,
             ecoinvent_id,
           });
-          if(!ecoinvent_id){console.warn("ecoinvent id not found for '"+key_replaced+"' in 'sludge_emissions'");}
+          if(!ecoinvent_id){console.warn("no ecoinvent id for '"+key_replaced+"' in 'sludge_emissions' (WWTP_emissions_sludge)");}
         }
       });
 
@@ -213,7 +202,7 @@ function generate_json_for_ecospold(result){
             descr:item.descr,
             ecoinvent_id,
           });
-          if(!ecoinvent_id){console.warn("ecoinvent id not found for '"+key_replaced+"' in 'sludge_emissions'");}
+          if(!ecoinvent_id){console.warn("no ecoinvent id for '"+key_replaced+"' in 'sludge_emissions' (sludge_properties)");}
         }
       });
 
@@ -227,12 +216,15 @@ function generate_json_for_ecospold(result){
           var item = cso_activity[key];
           if(item.value){
             var key_replaced = key.replace('elem_','').replace('_discharged','');
+            var ecoinvent_id=Ecoinvent_ids.water_emissions[key_replaced]||false;
             untreated_as_emissions.push({
               id:    key_replaced,
               value: item.value/1000, //convert g/m3 to kg/m3
               unit:  (Inputs.find(i=>i.id==key_replaced)||fra_activity[key_replaced]).unit.replace('g/m3','kg/m3'),
               descr: "untreated as emission for "+key_replaced,
+              ecoinvent_id,
             });
+            if(!ecoinvent_id){console.warn("no ecoinvent id for '"+key_replaced+"' in 'water_emissions' (untreated_as_emissions)");}
           }
         });
       })();
@@ -249,6 +241,7 @@ function generate_json_for_ecospold(result){
       CSO_particulate,
       CSO_soluble,
       fraction_C_fossil,
+      COD_TOC_ratio,
       url:(new URL(window.location)).href,
       technologies_averaged,
       WW_properties,
@@ -257,7 +250,6 @@ function generate_json_for_ecospold(result){
     outputs:{
       chemicals,
       electricity,
-      carbon_content,
       CSO_amounts,
       WWTP_influent_properties,
       WWTP_emissions_water,

@@ -68,7 +68,7 @@ function chem_P_removal(Q,TSS,TP,PO4,PO4_eff,FeCl3_solution,FeCl3_unit_weight,da
     primary_eff_P:          {value:primary_eff_P,                             unit:"mg/L",              descr:"Primary effluent P concentration"},
     Fe_dose:                {value:Fe_dose,                                   unit:"kg/d",              descr:"Amount of ferric iron required per day"},
     percent_Fe_in_FeCl3:    {value:percent_Fe_in_FeCl3,                       unit:"%",                 descr:"Percent_Fe_in_FeCl3"},
-    amount_FeCl3_solution:  {value:amount_FeCl3_solution,                     unit:"kg/d",              descr:"Amount of solution of ferric chloride per required per day"},
+    amount_FeCl3_solution:  {value:amount_FeCl3_solution,                     unit:"kg/d",              descr:"Amount of solution of ferric chloride required per day"},
     FeCl3_volume:           {value:FeCl3_volume,                              unit:"L/d",               descr:"Volume of FeCl3 required per day"},
     storage_req_15_d:       {value:storage_req_15_d,                          unit:"m3",                descr:"Days-storage requirement based on flowrate"},
     //Additional_sludge:      {value:Additional_sludge,                         unit:"kg/d",              descr:"Additional TSS removal resulting from the addition of FeCl3"},

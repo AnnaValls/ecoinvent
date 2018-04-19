@@ -215,11 +215,10 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
   air_flowrate = isFinite(air_flowrate) ? air_flowrate : 0; //avoid infinite
 
   //10
-  var Alkalinity_used = 7.14*NOx; //g/m3
-  var Alkalinity_produced = 3.57*(NOx-Ne); //g/m3
-  var Alk_to_be_added = 70 - Alkalinity + Alkalinity_used - Alkalinity_produced; //g/m3
+  var Alkalinity_used           = 7.14*NOx; //g/m3
+  var Alkalinity_produced       = 3.57*(NOx-Ne); //g/m3
+  var Alk_to_be_added           = 70 - Alkalinity + Alkalinity_used - Alkalinity_produced; //g/m3
   var Mass_of_alkalinity_needed = Math.max(0, Alk_to_be_added*Q/1000); //kg/d as CaCO3
-
   //106 g of Na2CO3 == 100 g of CaCO3
   // 84 g of NaHCO3 == 100 g of CaCO3 <--use this
   Mass_of_alkalinity_needed*=(84/100); // CONVERT TO kg/d as NaHCO3
@@ -230,31 +229,31 @@ function N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_
   //end N removal
 
   return {
-    Xb:                         {value:Xb,                         unit:"g/m3",           descr:"Active biomass concentration"},
-    IR:                         {value:IR,                         unit:"&empty;",        descr:"IR ratio"},
-    Flowrate_to_anoxic_tank:    {value:Flowrate_to_anoxic_tank,    unit:"m3/d",           descr:"Flowrate_to_anoxic_tank"},
-    NOx_feed:                   {value:NOx_feed,                   unit:"g/d_as_N",       descr:"Amount of NO3-N fed to the anoxic tank"},
-    tau:                        {value:tau*24,                     unit:"h",              descr:"tau detention time"},
-    V_nox:                      {value:V_nox,                      unit:"m3",             descr:"Anoxic volume"},
-    FM_b:                       {value:FM_b,                       unit:"g/g·d",          descr:"F/Mb"},
-    Fraction_of_rbCOD:          {value:100*rbCOD/bCOD||0,          unit:"%",              descr:"Fraction_of_rbCOD"},
-    b0:                         {value:b0,                         unit:"g/g·d",          descr:"b0 (needed for SDNR)"},
-    b1:                         {value:b1,                         unit:"g/g·d",          descr:"b1 (needed for SDNR)"},
-    SDNR_b:                     {value:SDNR_b,                     unit:"g/g·d",          descr:"SDNR_b"},
-    SDNR_T:                     {value:SDNR_T,                     unit:"g/g·d",          descr:"SDNR_T (corrected by temperature)"},
-    SDNR_adj:                   {value:SDNR_adj,                   unit:"g/g·d",          descr:"SDNR_adj (applied recycle correction)"},
-    SDNR:                       {value:SDNR,                       unit:"g/g·d",          descr:"Overall SDNR based on MLVSS"},
-    NO_r:                       {value:NO_r,                       unit:"g/d_as_N",       descr:"Amount of NO3-N that can be reduced"},
-    difference_NOr_NOx:         {value:difference_NOr_NOx,         unit:"%",              descr:"Difference between NO_r and NOx_feed (acceptable is between 0% and 20%)"},
-    C_T:                        {value:C_T,                        unit:"mg_O2/L",        descr:"Saturated_DO_at_sea_level_and_operating_tempreature"},
-    Pb:                         {value:Pb,                         unit:"m",              descr:"Pressure_at_the_plant_site_based_on_elevation,_m"},
-    C_inf_20:                   {value:C_inf_20,                   unit:"mg_O2/L",        descr:"Saturated_DO_value_at_sea_level_and_20ºC_for_diffused_aeartion"},
-    OTRf:                       {value:OTRf,                       unit:"kg_O2/h",        descr:"O2_demand"},
-    SOTR:                       {value:SOTR,                       unit:"kg_O2/h",        descr:"Standard_Oxygen_Transfer_Rate. The SOTR is the mass of oxygen transferred per unit time into a given volume of water and reported at standard conditions. The European literature also refers to this term as the oxygenation capacity (OC). Note that at standard conditions, the dissolved oxygen concentration is taken as zero thus providing the maximum driving force for transfer."},
-    kg_O2_per_m3_air:           {value:kg_O2_per_m3_air,           unit:"kg_O2/m3",       descr:"kg_O2_per_m3_air"},
-    air_flowrate:               {value:air_flowrate,               unit:"m3/min",         descr:"Air_flowrate"},
-    Mass_of_alkalinity_needed:  {value:Mass_of_alkalinity_needed,  unit:"kg/d_as_NaHCO3", descr:"Mass_of_alkalinity_needed"},
-    Power:                      {value:Power,                      unit:"kW",             descr:"Anoxic zone mixing power needed"},
+    Xb:                      {value:Xb,                         unit:"g/m3",           descr:"Active biomass concentration"},
+    IR:                      {value:IR,                         unit:"&empty;",        descr:"IR ratio"},
+    Flowrate_to_anoxic_tank: {value:Flowrate_to_anoxic_tank,    unit:"m3/d",           descr:"Flowrate_to_anoxic_tank"},
+    NOx_feed:                {value:NOx_feed,                   unit:"g/d_as_N",       descr:"Amount of NO3-N fed to the anoxic tank"},
+    tau:                     {value:tau*24,                     unit:"h",              descr:"tau detention time"},
+    V_nox:                   {value:V_nox,                      unit:"m3",             descr:"Anoxic volume"},
+    FM_b:                    {value:FM_b,                       unit:"g/g·d",          descr:"F/Mb"},
+    Fraction_of_rbCOD:       {value:100*rbCOD/bCOD||0,          unit:"%",              descr:"Fraction_of_rbCOD"},
+    b0:                      {value:b0,                         unit:"g/g·d",          descr:"b0 (needed for SDNR)"},
+    b1:                      {value:b1,                         unit:"g/g·d",          descr:"b1 (needed for SDNR)"},
+    SDNR_b:                  {value:SDNR_b,                     unit:"g/g·d",          descr:"SDNR_b"},
+    SDNR_T:                  {value:SDNR_T,                     unit:"g/g·d",          descr:"SDNR_T (corrected by temperature)"},
+    SDNR_adj:                {value:SDNR_adj,                   unit:"g/g·d",          descr:"SDNR_adj (applied recycle correction)"},
+    SDNR:                    {value:SDNR,                       unit:"g/g·d",          descr:"Overall SDNR based on MLVSS"},
+    NO_r:                    {value:NO_r,                       unit:"g/d_as_N",       descr:"Amount of NO3-N that can be reduced"},
+    difference_NOr_NOx:      {value:difference_NOr_NOx,         unit:"%",              descr:"Difference between NO_r and NOx_feed (acceptable is between 0% and 20%)"},
+    C_T:                     {value:C_T,                        unit:"mg_O2/L",        descr:"Saturated_DO_at_sea_level_and_operating_tempreature"},
+    Pb:                      {value:Pb,                         unit:"m",              descr:"Pressure_at_the_plant_site_based_on_elevation,_m"},
+    C_inf_20:                {value:C_inf_20,                   unit:"mg_O2/L",        descr:"Saturated_DO_value_at_sea_level_and_20ºC_for_diffused_aeartion"},
+    OTRf:                    {value:OTRf,                       unit:"kg_O2/h",        descr:"O2_demand"},
+    SOTR:                    {value:SOTR,                       unit:"kg_O2/h",        descr:"Standard_Oxygen_Transfer_Rate. The SOTR is the mass of oxygen transferred per unit time into a given volume of water and reported at standard conditions. The European literature also refers to this term as the oxygenation capacity (OC). Note that at standard conditions, the dissolved oxygen concentration is taken as zero thus providing the maximum driving force for transfer."},
+    kg_O2_per_m3_air:        {value:kg_O2_per_m3_air,           unit:"kg_O2/m3",       descr:"kg_O2_per_m3_air"},
+    air_flowrate:            {value:air_flowrate,               unit:"m3/min",         descr:"Air_flowrate"},
+    alkalinity_added:        {value:Mass_of_alkalinity_needed,  unit:"kg/d_as_NaHCO3", descr:"Mass_of_alkalinity_needed"}, //Warning: name changed, to match nitrification name
+    Power:                   {value:Power,                      unit:"kW",             descr:"Anoxic zone mixing power needed"},
   }
 }
 

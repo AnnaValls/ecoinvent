@@ -675,13 +675,8 @@
                 <ul>
                   <li><em>Polyacrilamide</em>: <span id=Dewatering_polymer>0</span>
                 </ul>
-              </li>
               <li>Alkalinity to maintain pH ≈ 7.0
-                <ul>
-                  <li>For Nitrification:       <span id=alkalinity_added>0</span>
-                  <li>For Denitrification:     <span id=Mass_of_alkalinity_needed>0</span>
-                </ul>
-              </li>
+                <ul><li><span id=alkalinity_added>0</span></ul>
               <li>FeCl<sub>3</sub> used for chemical P removal
                 <ul>
                   <li>Volume per day:          <span id=FeCl3_volume>0</span>
