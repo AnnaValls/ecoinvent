@@ -198,10 +198,12 @@
         var url='';
         var activity_name = document.querySelector('#activity_name').value;
         var geography     = document.querySelector('#geography').value;
+        var ww_type       = document.querySelector('#ww_type').value;
         var wwtp_type     = document.querySelector('#wwtp_type').value;
         var Q             = document.querySelector('#Q').value;
         url+='activity_name='+activity_name+'&';
         url+='geography='+geography+'&';
+        url+='ww_type='+ww_type+'&';
         url+='wwtp_type='+wwtp_type+'&';
         url+='Q='+Q+'&';
         Inputs.filter(i=>{return !i.isParameter}).forEach(i=>{

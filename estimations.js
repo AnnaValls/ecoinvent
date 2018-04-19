@@ -1,5 +1,5 @@
 /**
-  * Estimations for inputs that the user might not know
+  * Estimations module for inputs that the user might not know
   * Default values from BioWin 5.2 (provided by Y. Comeau)
 
   TODO industrial types default values
@@ -24,7 +24,7 @@
 function estimations(COD,TKN,TP){
   //intermediate variables
   var CS_U  = 0.050*COD; // CS_U  = fCSU_COD*COD;
-  var S_VFA = 0.024*COD; // S_VFA = fSB_COD* fVFA_SB* COD;
+  var S_VFA = 0.024*COD; // S_VFA = fSB_COD * fVFA_SB* COD;
   var S_F   = 0.136*COD; // S_F   = fSB_COD - S_VFA * COD;
   var C_B   = 0.170*COD; // C_B   = (1-fXB_XCB)*fXCB_COD*COD;
   var X_B   = 0.470*COD; // X_B   = fXB_XCB*fXCB_COD*COD;

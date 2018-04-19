@@ -1,6 +1,9 @@
 <!doctype html><html><head><?php include'imports.php'?><title>TO DO items</title></head><body><?php include'navbar.php'?>
 <div id=root><div><h1>All TO DO items/tasks/doubts/issues/etc</h1>
     <p><em>This page is intended to centralize all issues during development</em></p>
+    <div>
+      Development occurs <a href="//github.com/holalluis/ecoinvent" target=_blank>here</a>
+    </div>
     <p><small>If an item is here is because has been discussed at some point, but Lluís B. has not understood either conceptually and/or how or where to implement it (otherwise, it's under development)</small></p>
 </div>
 
@@ -9,11 +12,15 @@
   <tr><td header colspan=3><button class=toggleView onclick=toggleView(this,'single')>&darr;</button> Single plant model
   <tbody id=single style=display:nonee>
     <tr>
+      <td>iTSS composition (sand) can be calculated as O+Si+Al+Fe+Ca+Na+K+Mg. the percentages are in <a href=see.php?file=sludge_composition.js&path=techs>sludge_composition.js</a>
+      <td>George provided help April 16th
+      <td>April 16th 2018
+    <tr>
       <td>Discuss with Lluís C about sludge equations vs George Ekama equations (sludge composition)
       <td>help wanted
       <td>April 17th 2018
     <tr>
-      <td>Doubt: is Alkalinity (g/m3 as CaCO3) also removed/diluted by CSO?
+      <td>Doubt: is Alkalinity (g/m3 as CaCO3) also removed/diluted by CSO and/or Primary settler?
       <td>help wanted
       <td>April 16th 2018
     <tr>
@@ -70,9 +77,7 @@
           <li>X_U  [0.05, 0.15, 0.20, 0.45]
         </ul>
         see <a href=see.php?file=estimations.js>equations here</a>
-      <td>TO DO
-        <br>(need to discuss user interface
-        <br>with Yves and Lluís C.)
+      <td>TO DO (Yves provided help on April 15th)
       <td>April 9th 2018
     <tr>
       <td>Ecospold generation is under development <a href="ecospold/wastewater_treatment_tool/">here</a>
