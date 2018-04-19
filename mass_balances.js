@@ -24,7 +24,7 @@ function do_mass_balances(){
   var slu = COD.effluent.sludge;
   mass_balance('C',inf,wat,air,slu);
 
-  //2. NITROGEN BALANCE
+  //2. NITROGEN BALANCE (important: TKN is ON+NH4; does not include nitrate/nitrite; TN=TKN+NOx)
   var inf = TKN.influent;
   var wat = TKN.effluent.water  + NOx.effluent.water  + N2.effluent.water  + N2O.effluent.water;
   var air = TKN.effluent.air    + NOx.effluent.air    + N2.effluent.air    + N2O.effluent.air;

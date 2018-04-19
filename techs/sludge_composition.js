@@ -3,6 +3,24 @@
   * 1. primary    sludge (from primary settler)
   * 2. secondary  sludge (from secondary treatment)
   * 3. additional sludge (from FeCl3 precipitation)
+
+  //George mail: TODO
+  Dear Lluis,
+    This other ISS is sand, silt and clay. In WWT we are not interested in its composiition because it is inert.
+    But if you need its elemental composition you can assume it to be a mixture of metal silicates.
+    Abundances of the Elements in the Earth's Crust
+    -----------------------------
+    Element    Approx % by weight
+    -----------------------------
+    Oxygen     46.6
+    Silicon    27.7
+    Aluminum   8.4
+    Iron       5.3
+    Calcium    3.9
+    Sodium     3.1
+    Potassium  2.8
+    Magnesium  2.3
+    -----------------------------
   */
 var sludge_composition={
   //1. PRIMARY SLUDGE COMPOSITION

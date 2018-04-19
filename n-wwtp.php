@@ -39,7 +39,7 @@
         }
       })();
 
-      //RUN automatically on start (PROVISIONAL) TODO
+      //RUN automatically on start
       run();
     }
 

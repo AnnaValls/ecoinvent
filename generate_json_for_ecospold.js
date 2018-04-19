@@ -40,7 +40,7 @@ function generate_json_for_ecospold(result){
           fraction:wwtp.perc_PE/100,
           capacity:wwtp.PEq,
           class:wwtp_class,
-          location:geography, //TODO we still don't have a database of wwtp by country/region
+          location:"GLO", //TODO we still don't have a database of wwtp by country/region
           technology_level_1:"aerobic intensive",          //fix for now
           technology_level_2:Tec_mix_encoder.encode(wwtp), //"binary string"
         });
