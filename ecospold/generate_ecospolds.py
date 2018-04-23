@@ -20,7 +20,7 @@ from wastewater_treatment_tool.pycode.defaults import *
 #go to tests folder
 os.chdir(r'wastewater_treatment_tool/')
 root_dir = os.getcwd()
-print("Root dir is",root_dir)
+#print("Root dir is",root_dir)
 
 '''Receive a json string from stdin'''
 #debug: print input string
@@ -50,7 +50,7 @@ else:
 
 #pp.pprint(result)
 #show html links
-print("<b style=color:green>Success!</b>")
+print("<hr><b style=color:green>Success!</b>")
 if result['untreated']:
   print('<a target=_blank href="wastewater_treatment_tool/output/'+result['untreated'][1]+'">Click here to download',result['untreated'][1])
 if result['treated']:
