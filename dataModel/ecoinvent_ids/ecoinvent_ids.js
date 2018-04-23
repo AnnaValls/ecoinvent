@@ -73,14 +73,19 @@ var Ecoinvent_ids={
   water_emissions:{
     "COD": "fc0b5c85-3b49-42c2-a3fd-db7e57b696e3",
     "BOD": "70d467b6-115e-43c5-add2-441de9411348",
-    "TSS": "3844f446-ded5-4727-8421-17a00ef4eba7", //"Suspended solids, unspecified" (TSS discharged in the tool)
+
     "TKN": "ae70ca6c-807a-482b-9ddc-e449b4893fe3", //Nitrogen
     "NH4": "13331e67-6006-48c4-bdb4-340c12010036", //NH4 discharged
-    "NO2": "0017271e-7df5-40bc-833a-36110c1fe5d5", //zero
-    "NO3": "7ce56135-2ca5-4fba-ad52-d62a34bfeb35", //NOx effluent
     "ON":  "d43f7827-b47b-4652-8366-f370995fd206", //ON discharged
+    "NOx": "7ce56135-2ca5-4fba-ad52-d62a34bfeb35", //NO3 effluent
+    "NO2": "0017271e-7df5-40bc-833a-36110c1fe5d5", //zero
+
     "TP":  "b2631209-8374-431e-b7d5-56c96c6b6d79", //Phosphorus
     "PO4": "1727b41d-377e-43cd-bc01-9eaba946eccb", //PO4
+    "OP":  "b2631209-8374-431e-b7d5-56c96c6b6d79", //Phosphorus
+
+    "TSS": "3844f446-ded5-4727-8421-17a00ef4eba7", //"Suspended solids, unspecified" (TSS discharged in the tool)
+
     "Cr":  "8216fc31-15a1-4d33-858f-e09650b14c63", //chromium VI, emissions from WWTP and from CSO
     "Ag":  "af9793ba-25a1-4928-a14a-4bcf7d5bd3f7", //silver ion
     "Al":  "97e498ec-f323-4ec6-bcc0-d8a4c853bae3", //Aluminium

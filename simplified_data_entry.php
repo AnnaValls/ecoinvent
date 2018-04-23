@@ -17,6 +17,9 @@
       padding-bottom:8px;
       padding-top:8px;
     }
+    #inputs td:first-child:hover {
+      text-decoration:underline;
+    }
   </style>
 </head><body>
 <?php include'navbar.php'?>
@@ -116,7 +119,9 @@
 </div>
 
 <div id=root>
-<h1>Simplified data entry</h1><hr>
+<h1>Simplified data entry</h1>
+<small>Enter the characteristics of your activity wastewater</small>
+<hr>
 
 <!--inputs-->
 <div>
@@ -248,7 +253,7 @@
         newRow.title=i.descr;
         newRow.insertCell(-1).innerHTML=i.id.prettifyUnit();
         newRow.insertCell(-1).innerHTML="<input id="+i.id+" type=number value="+i.value+">";
-        newRow.insertCell(-1).outerHTML="<td>"+i.unit.prettifyUnit();
+        newRow.insertCell(-1).outerHTML="<td class=unit>"+i.unit.prettifyUnit();
       });
     })();
 

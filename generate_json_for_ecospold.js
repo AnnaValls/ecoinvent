@@ -51,7 +51,7 @@ function generate_json_for_ecospold(result){
         //first check the units of 'key'
         var unit=Inputs.find(i=>i.id==key).unit
         //           only g/m3   and value>0
-        if(unit.includes('g/m3') &&  Activity[key]) {
+        if(unit.includes('g/m3')) {
           var ecoinvent_id=Ecoinvent_ids.inputs[key]||false;
           WW_properties.push({
             id    : key,
@@ -117,7 +117,7 @@ function generate_json_for_ecospold(result){
       Object.keys(result.weighted_contribution.inputs_after_CSO).forEach(key=>{
         var item=result.weighted_contribution.inputs_after_CSO[key];
         var ecoinvent_id=Ecoinvent_ids.inputs[key]||false;
-        if(item.value){
+        if(true){
           WWTP_influent_properties.push({
             id:key,
             value:item.value/Activity.Q,

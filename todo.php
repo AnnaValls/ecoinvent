@@ -13,6 +13,7 @@
   <tbody id=single style=display:nonee>
     <tr>
       <td>Nonbiodegradable Particulate Organic Nitrogen and Phosphorus in secondary sludge in <a href=see.php?file=elementary.js&remark=Outputs.TKN.effluent.sludge>effluent equations</a>
+      <td>Discuss with Lluís C about sludge equations vs George Ekama equations (sludge composition)
       <td>help asked to george
     <tr>
       <td>FeCl3 returned is in L/d and ecospold needs kg/m3 contribution
@@ -23,10 +24,6 @@
       <td>iTSS composition (sand) can be calculated as O+Si+Al+Fe+Ca+Na+K+Mg. the percentages are in <a href=see.php?file=sludge_composition.js&path=techs>sludge_composition.js</a>
       <td>George provided help April 16th
       <td>April 16th 2018
-    <tr>
-      <td>Discuss with Lluís C about sludge equations vs George Ekama equations (sludge composition)
-      <td>help wanted
-      <td>April 17th 2018
     <tr>
       <td>Doubt: is Alkalinity (g/m3 as CaCO3) also removed/diluted by CSO and/or Primary settler?
       <td>help wanted

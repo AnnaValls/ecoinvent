@@ -375,7 +375,7 @@
       },
       hiddenTechs:[
         "CSO", "Pri", "Fra", "BOD", "SST", "other", "Ene", "Nit", "Des", "BiP", "ChP", "Met", 'sludge_composition', 'chemicals',
-        'inputs_after_CSO',
+        'inputs_after_CSO', 'TOC'
       ], //techs hidden in table 2. Variables calculated, i.e. ['BOD','Nit']
       /*further user-options here*/
     }

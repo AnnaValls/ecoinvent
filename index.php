@@ -5,13 +5,8 @@
 </head><body>
 <?php include'navbar.php'?>
 <div id=root>
-<h1>Home page</h1>
+<h1>Home page</h1><hr>
 <p style=max-width:50em>
-  <p style=max-width:50em>
-    This is a placeholder for drafting the user interface.
-    The goal is to have a functional backend first, and then implement a 'pretty design' on top of it.
-    <hr>
-  </p>
 
   <!--web parts-->
   <div>

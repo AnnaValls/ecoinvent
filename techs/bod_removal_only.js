@@ -28,16 +28,17 @@ function bod_removal_only(BOD,nbVSS,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb
   var alpha = 0.50; //8.b
   var beta  = 0.95; //8.b
 
-  //calculate bCOD
+  //calculate bCOD from bCOD/BOD ratio
   var bCOD  = bCOD_BOD_ratio*BOD;
 
   //part A: bod removal without nitrification
   var mu_mT = mu_m * Math.pow(1.07, T - 20); //1/d
-  var bHT = bH * Math.pow(1.04, T - 20);  //1/d
-  var S0 = bCOD; //g/m3
-  var S  = Ks*(1+bHT*SRT)/(SRT*(mu_mT-bHT)-1); //g/m3
+  var bHT   = bH * Math.pow(1.04, T - 20);  //1/d
+  var S0    = bCOD; //g/m3
+  var S     = Ks*(1+bHT*SRT)/(SRT*(mu_mT-bHT)-1); //g/m3
   S=Math.min(S,S0); //keep the smaller value
   S=Math.max(0,S);  //avoid negative S
+
   var P_X_bio = (Q*YH*(S0 - S) / (1 + bHT*SRT) + (fd*bHT*Q*YH*(S0 - S)*SRT) / (1 + bHT*SRT))/1000; //kg/d
   P_X_bio=Math.max(0,P_X_bio);
 
@@ -48,13 +49,14 @@ function bod_removal_only(BOD,nbVSS,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb
   //4
   var X_VSS_V = P_X_VSS*SRT; //kg
   var X_TSS_V = P_X_TSS*SRT; //kg
-  var V = X_TSS_V*1000/MLSS_X_TSS || 0; //m3
-  var tau = V*24/Q ||0; //h
-  var MLVSS = X_VSS_V/X_TSS_V * MLSS_X_TSS || 0; //g/m3
+  var V       = X_TSS_V*1000/MLSS_X_TSS || 0; //m3
+  var tau     = V*24/Q ||0; //h
+  var MLVSS   = X_VSS_V/X_TSS_V * MLSS_X_TSS || 0; //g/m3
 
   //5
   var FM = Q*BOD/MLVSS/V || 0; //kg/kg·d
   FM = isFinite(FM) ? FM : 0;
+
   var BOD_loading = Q*BOD/V/1000 || 0; //kg/m3·d
   BOD_loading = isFinite(BOD_loading) ? BOD_loading : 0;
 
@@ -84,7 +86,8 @@ function bod_removal_only(BOD,nbVSS,TSS,VSS,bCOD_BOD_ratio,Q,T,SRT,MLSS_X_TSS,zb
   return {
     mu_mT:             {value:mu_mT,             unit:"1/d",          descr:"µ_corrected_by_temperature"},
     bHT:               {value:bHT,               unit:"1/d",          descr:"b_corrected_by_temperature"},
-    S:                 {value:S,                 unit:"g/m3",         descr:"Effluent substrate (bCOD) concentration"},
+    S0:                {value:S0,                unit:"g/m3",         descr:"Effluent substrate (bCOD) initial concentration"},
+    S:                 {value:S,                 unit:"g/m3",         descr:"Effluent substrate (bCOD) final concentration"},
     P_X_bio:           {value:P_X_bio,           unit:"kg/d",         descr:"Biomass_production"},
     P_X_VSS:           {value:P_X_VSS,           unit:"kg/d",         descr:"Net waste activated sludge produced each day"},
     P_X_TSS:           {value:P_X_TSS,           unit:"kg/d",         descr:"Total sludge produced each day"},

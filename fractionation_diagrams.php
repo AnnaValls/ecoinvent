@@ -28,7 +28,7 @@
     <table border=1>
       <tr><th colspan=8>COD
       <tr><td colspan=4>bCOD  <td colspan=4>nbCOD
-      <tr><td colspan=2>bsCOD<br>(readily biodg)<td colspan=2>bpCOD<br>(slow biodg)<td colspan=2>nbsCOD<br>(=sCODe)<td colspan=2>nbpCOD
+      <tr><td colspan=2>bsCOD<br>(readily biodg)<td colspan=2>bpCOD<br>(slow biodg)<td colspan=2>nbsCOD<td colspan=2>nbpCOD
       <tr><td>Complex <td>VFA <td>Colloidal <td>Particulate<td blank><td blank><td blank><td blank>
     </table>
   </div>
@@ -36,7 +36,7 @@
     <table border=1>
       <tr><th colspan=8>COD
       <tr><td colspan=4>sCOD  <td colspan=4>pCOD
-      <tr><td colspan=2>bsCOD<br>(readily biodg)<td colspan=2>nbsCOD<br>(=sCODe)<td colspan=2>bpCOD<br>(slow biodg)<td colspan=2>nbpCOD
+      <tr><td colspan=2>bsCOD<br>(readily biodg)<td colspan=2>nbsCOD<td colspan=2>bpCOD<br>(slow biodg)<td colspan=2>nbpCOD
       <tr><td>Complex <td>VFA <td blank><td blank> <td>Colloidal <td>Particulate<td blank><td blank>
     </table>
   </div>

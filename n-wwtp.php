@@ -101,7 +101,9 @@
       //add wttp names
       (function(){
         var newRow=table.insertRow(-1);
-        newRow.insertCell(-1).outerHTML="<th rowspan=2>Inputs<th rowspan=2>Activity<br>WW<th colspan='"+WWTPs.length+"'>WWTPs";
+        newRow.insertCell(-1).outerHTML="<th rowspan=2>Inputs"+
+          "<th rowspan=2 title='Activity wastewater'>Activity<br>WW"+
+          "<th colspan='"+WWTPs.length+"' title='Wastewater treatment plants'>WWTPs";
 
         //new row
         var newRow=table.insertRow(-1);
@@ -567,7 +569,7 @@
 <!--title--><div>
   <h1>Multiple plant simulation</h1>
   <small>
-    Study your activity's contribution to one or more wastewater treatment plants
+    Study the contribution of your activity to one or more wastewater treatment plants
   </small>
 </div><hr>
 

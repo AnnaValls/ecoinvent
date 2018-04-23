@@ -151,6 +151,7 @@ function compute_elementary_flows(input_set){
     var ON             = Result.Fra.ON.value;     //g/m3
     var OP             = Result.Fra.OP.value;     //g/m3
     var bCOD_BOD_ratio = Result.Fra.bCOD_BOD_ratio.value; //g/g
+    var COD_BOD_ratio  = Result.Fra.COD_BOD_ratio.value; //g/g
     var VSS_COD        = Result.Fra.VSS_COD.value; //g_pCOD/g_VSS
     var bpCOD_bVSS     = Result.Fra.bpCOD_bVSS.value; //g_bpCOD/g_bVSS
 
@@ -195,6 +196,7 @@ function compute_elementary_flows(input_set){
 
   //get fractionated values available for further technologies
   var bCOD_BOD_ratio = Result.Fra.bCOD_BOD_ratio.value; //g/g
+  var COD_BOD_ratio  = Result.Fra.COD_BOD_ratio.value;  //g/g
   var nbCOD          = Result.Fra.nbCOD.value;   //g/m3
   var pCOD           = Result.Fra.pCOD.value;    //g/m3
   var bsCOD          = Result.Fra.bsCOD.value;   //g/m3
@@ -317,14 +319,27 @@ function compute_elementary_flows(input_set){
   //BOD per person per day
   var BOD_person_day = Q*is.BOD/is.PEq; //g/person/day
 
-  //C content
-  var TOC_content = Q*is.COD/is.COD_TOC_ratio/1000; //kgC/d
-
   //S, sCODe, sTKNe, and VSSe
   var S     = select_value('S', ['Nit','BOD']); //g/m3 -- bCOD effluent
   var sCODe = Math.min(COD, nbsCODe + S);       //g/m3 -- soluble COD effluent (used in effluent water)
   var sTKNe = Math.min(TKN, NH4_eff + nbsON);   //g/m3 -- soluble TKN effluent (used in effluent sludge)
   var VSSe  = Math.min(VSS, TSSe*0.85);         //g/m3 -- VSS effluent
+
+  //C content
+  var TOC = (function(){
+    var DOC_influent = is.sCOD/is.COD_TOC_ratio;      //g/m3
+    var TOC_influent = is.COD/is.COD_TOC_ratio;       //g/m3
+    var DOC_effluent = sCODe/is.COD_TOC_ratio;        //g/m3 -- soluble
+    var TOC_effluent = DOC_effluent + VSSe*1.42*0.51; //g/m3 -- soluble + particulate
+    return {DOC_influent, TOC_influent, DOC_effluent, TOC_effluent};
+  })();
+  Result.TOC = {
+    'DOC_influent' : {value:TOC.DOC_influent, unit:"g/m3_as_C", descr:""},
+    'TOC_influent' : {value:TOC.TOC_influent, unit:"g/m3_as_C", descr:""},
+    'DOC_effluent' : {value:TOC.DOC_effluent, unit:"g/m3_as_C", descr:""},
+    'TOC_effluent' : {value:TOC.TOC_effluent, unit:"g/m3_as_C", descr:""},
+  };
+  addResults('TOC',Result.TOC);
 
   //recalculate PO4_eff
   var P_X_bio = select_value('P_X_bio', ['BiP','Nit','BOD']);
@@ -476,7 +491,7 @@ function compute_elementary_flows(input_set){
     })();
     Outputs.COD.effluent.sludge = (function(){
       var A = 1.42*P_X_bio*1000; //g O2/d
-      var B = 0;//Qwas*sCODe;        //g O2/d
+      var B = 0;//Qwas*sCODe;    //g O2/d
       var C = Q*nbpCOD;          //g O2/d
       var D = Qe*1.42*VSSe;      //g O2/d
       return A+B+C-D;
@@ -611,14 +626,28 @@ function compute_elementary_flows(input_set){
     })();
   })();
 
+  //BODe
+  var bio_TSS = P_X_TSS==0 ? 0 : P_X_bio/P_X_TSS; //g_X/g_TSS
+  var VSS_TSS = P_X_TSS==0 ? 0 : P_X_VSS/P_X_TSS; //g_VSS/g_TSS ~ 0.85
+  var BODe = (function(){
+    var BODe = sBODe + 0.60*1.42*VSS_TSS*TSSe; //g/m3 -- 0.60 is BOD/UBOD ratio | eq 8-26, page 726
+    return BODe;
+  })();
+
   //Pack 'other' variables
   Result.other={
     'BOD_person_day':  {value:BOD_person_day, unit:"g/person/day_as_O2", descr:"BOD5 per person per day"},
-    'TOC_content':     {value:TOC_content,    unit:"kg/d_as_C",          descr:"Influent TOC content"},
     'S':               {value:S,              unit:"g/m3_as_O2",         descr:"bCOD at the effluent"},
-    'sCODe':           {value:sCODe,          unit:"g/m3_as_O2",         descr:"Soluble COD at the effluent"},
-    'VSSe':            {value:VSSe,           unit:"g/m3",               descr:"Volatile Suspended Solids at the effluent"},
     'P_X_bio':         {value:P_X_bio,        unit:"kg/d",               descr:"Biomass production"},
+    'P_X_TSS':         {value:P_X_TSS,        unit:"kg/d",               descr:"Total solids production"},
+    'bio_TSS':         {value:bio_TSS,        unit:"kg_X/kg_TSS",        descr:"Biomass/P_X_TSS ratio"},
+    'VSS_TSS':         {value:VSS_TSS,        unit:"kg_VSS/kg_TSS",      descr:"P_X_VSS/P_X_TSS ratio"},
+    'sCODe':           {value:sCODe,          unit:"g/m3_as_O2",         descr:"Soluble COD at the effluent"},
+    'sBODe':           {value:sBODe,          unit:"g/m3_as_O2",         descr:"Soluble BOD at the effluent"},
+    'VSSe':            {value:VSSe,           unit:"g/m3",               descr:"Volatile Suspended Solids at the effluent"},
+    'BODe':            {value:BODe,           unit:"g/m3_as_O2",         descr:"BOD effluent"},
+
+    //
     'aP':              {value:aP,             unit:"g/m3",               descr:"Available P (=PO4 + bOP)"},
     'P_synth':         {value:P_synth,        unit:"g/m3",               descr:"P used for biomass synthesis"},
     'aPchem':          {value:aPchem,         unit:"g/m3",               descr:"Available P - P_synth"},
@@ -631,19 +660,19 @@ function compute_elementary_flows(input_set){
   };
 
   //'summary' variables
-  var tau                       = select_value('tau',                       ['Des','Nit','BOD']);
-  var MLVSS                     = select_value('MLVSS',                     ['Nit','BOD']);
-  var TSS_removed_kgd           = select_value('TSS_removed_kgd',           ['Pri']);
-  var VSS_removed_kgd           = select_value('VSS_removed_kgd',           ['Pri']);
-  var Y_obs_TSS                 = select_value('Y_obs_TSS',                 ['Nit','BOD'])
-  var Y_obs_VSS                 = select_value('Y_obs_VSS',                 ['Nit','BOD'])
-  var air_flowrate              = select_value('air_flowrate',              ['Des','Nit','BOD']);
-  var SOTR                      = select_value('SOTR',                      ['Des','Nit','BOD']);
-  var SDNR                      = select_value('SDNR',                      ['Des']);
-  var clarifier_diameter        = select_value('clarifier_diameter',        ['SST']);
-  var alkalinity_added          = select_value('alkalinity_added',          ['Des','Nit']);
-  var FeCl3_volume              = select_value('FeCl3_volume',              ['ChP']);
-  var storage_req_15_d          = select_value('storage_req_15_d',          ['ChP']);
+  var tau                = select_value('tau',                ['Des','Nit','BOD']);
+  var MLVSS              = select_value('MLVSS',              ['Nit','BOD']);
+  var TSS_removed_kgd    = select_value('TSS_removed_kgd',    ['Pri']);
+  var VSS_removed_kgd    = select_value('VSS_removed_kgd',    ['Pri']);
+  var Y_obs_TSS          = select_value('Y_obs_TSS',          ['Nit','BOD'])
+  var Y_obs_VSS          = select_value('Y_obs_VSS',          ['Nit','BOD'])
+  var air_flowrate       = select_value('air_flowrate',       ['Des','Nit','BOD']);
+  var SOTR               = select_value('SOTR',               ['Des','Nit','BOD']);
+  var SDNR               = select_value('SDNR',               ['Des']);
+  var clarifier_diameter = select_value('clarifier_diameter', ['SST']);
+  var alkalinity_added   = select_value('alkalinity_added',   ['Des','Nit']);
+  var FeCl3_volume       = select_value('FeCl3_volume',       ['ChP']);
+  var storage_req_15_d   = select_value('storage_req_15_d',   ['ChP']);
   //end summary
 
   //sludge elemental composition

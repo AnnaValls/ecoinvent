@@ -84,16 +84,16 @@ function metals_doka(Q,Ag,Al,As,B,Ba,Be,Br,Ca,Cd,Cl,Co,Cr,Cu,F,Fe,Hg,I,K,Mg,Mn,M
     Cr_sludge: {value:Cr.sludge, unit:"g/m3_as_Cr", descr:"Chromium in effluent sludge"  },
     Cu_water:  {value:Cu.water,  unit:"g/m3_as_Cu", descr:"Copper in effluent water"     },
     Cu_sludge: {value:Cu.sludge, unit:"g/m3_as_Cu", descr:"Copper in effluent sludge"    },
-    F_water:   {value:F.water,   unit:"g/m3_as_F", descr:"Fluorine in effluent water"   },
-    F_sludge:  {value:F.sludge,  unit:"g/m3_as_F", descr:"Fluorine in effluent sludge"  },
+    F_water:   {value:F.water,   unit:"g/m3_as_F",  descr:"Fluorine in effluent water"   },
+    F_sludge:  {value:F.sludge,  unit:"g/m3_as_F",  descr:"Fluorine in effluent sludge"  },
     Fe_water:  {value:Fe.water,  unit:"g/m3_as_Fe", descr:"Iron in effluent water"       },
     Fe_sludge: {value:Fe.sludge, unit:"g/m3_as_Fe", descr:"Iron in effluent sludge"      },
     Hg_water:  {value:Hg.water,  unit:"g/m3_as_Hg", descr:"Mercury in effluent water"    },
     Hg_sludge: {value:Hg.sludge, unit:"g/m3_as_Hg", descr:"Mercury in effluent sludge"   },
-    I_water:   {value:I.water,   unit:"g/m3_as_I", descr:"Iodine in effluent water"     },
-    I_sludge:  {value:I.sludge,  unit:"g/m3_as_I", descr:"Iodine in effluent sludge"    },
-    K_water:   {value:K.water,   unit:"g/m3_as_K", descr:"Potassium in effluent water"  },
-    K_sludge:  {value:K.sludge,  unit:"g/m3_as_K", descr:"Potassium in effluent sludge" },
+    I_water:   {value:I.water,   unit:"g/m3_as_I",  descr:"Iodine in effluent water"     },
+    I_sludge:  {value:I.sludge,  unit:"g/m3_as_I",  descr:"Iodine in effluent sludge"    },
+    K_water:   {value:K.water,   unit:"g/m3_as_K",  descr:"Potassium in effluent water"  },
+    K_sludge:  {value:K.sludge,  unit:"g/m3_as_K",  descr:"Potassium in effluent sludge" },
     Mg_water:  {value:Mg.water,  unit:"g/m3_as_Mg", descr:"Magnesium in effluent water"  },
     Mg_sludge: {value:Mg.sludge, unit:"g/m3_as_Mg", descr:"Magnesium in effluent sludge" },
     Mn_water:  {value:Mn.water,  unit:"g/m3_as_Mn", descr:"Manganese in effluent water"  },
@@ -122,10 +122,10 @@ function metals_doka(Q,Ag,Al,As,B,Ba,Be,Br,Ca,Cd,Cl,Co,Cr,Cu,F,Fe,Hg,I,K,Mg,Mn,M
     Ti_sludge: {value:Ti.sludge, unit:"g/m3_as_Ti", descr:"Titanium in effluent sludge"  },
     Tl_water:  {value:Tl.water,  unit:"g/m3_as_Tl", descr:"Thallium in effluent water"   },
     Tl_sludge: {value:Tl.sludge, unit:"g/m3_as_Tl", descr:"Thallium in effluent sludge"  },
-    V_water:   {value:V.water,   unit:"g/m3_as_V", descr:"Vanadium in effluent water"   },
-    V_sludge:  {value:V.sludge,  unit:"g/m3_as_V", descr:"Vanadium in effluent sludge"  },
-    W_water:   {value:W.water,   unit:"g/m3_as_W", descr:"Tungsten in effluent water"   },
-    W_sludge:  {value:W.sludge,  unit:"g/m3_as_W", descr:"Tungsten in effluent sludge"  },
+    V_water:   {value:V.water,   unit:"g/m3_as_V",  descr:"Vanadium in effluent water"   },
+    V_sludge:  {value:V.sludge,  unit:"g/m3_as_V",  descr:"Vanadium in effluent sludge"  },
+    W_water:   {value:W.water,   unit:"g/m3_as_W",  descr:"Tungsten in effluent water"   },
+    W_sludge:  {value:W.sludge,  unit:"g/m3_as_W",  descr:"Tungsten in effluent sludge"  },
     Zn_water:  {value:Zn.water,  unit:"g/m3_as_Zn", descr:"Zinc in effluent water"       },
     Zn_sludge: {value:Zn.sludge, unit:"g/m3_as_Zn", descr:"Zinc in effluent sludge"      },
   };
@@ -146,42 +146,7 @@ function metals_doka(Q,Ag,Al,As,B,Ba,Be,Br,Ca,Cd,Cl,Co,Cr,Cu,F,Fe,Hg,I,K,Mg,Mn,M
 (function(){
   var debug=false;
   if(debug==false)return;
-  var Ag=1;
-  var Al=1;
-  var As=1;
-  var B =1;
-  var Ba=1;
-  var Be=1;
-  var Br=1;
-  var Ca=1;
-  var Cd=1;
-  var Cl=1;
-  var Co=1;
-  var Cr=1;
-  var Cu=1;
-  var F =1;
-  var Fe=1;
-  var Hg=1;
-  var I =1;
-  var K =1;
-  var Mg=1;
-  var Mn=1;
-  var Mo=1;
-  var Na=1;
-  var Ni=1;
-  var Pb=1;
-  var Sb=1;
-  var Sc=1;
-  var Se=1;
-  var Si=1;
-  var Sn=1;
-  var Sr=1;
-  var Ti=1;
-  var Tl=1;
-  var V =1;
-  var W =1;
-  var Zn=1;
   console.log(
-    metals_doka(22700,Ag,Al,As,B,Ba,Be,Br,Ca,Cd,Cl,Co,Cr,Cu,F,Fe,Hg,I,K,Mg,Mn,Mo,Na,Ni,Pb,Sb,Sc,Se,Si,Sn,Sr,Ti,Tl,V,W,Zn)
+    metals_doka(22700,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1)
   );
 })();

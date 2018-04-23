@@ -18,7 +18,7 @@ var Inputs = [
   {id:"BOD",         value:140,  unit:"g/m3_as_O2",    canBeEstimated:true, descr:"Total 5d biochemical oxygen demand",                   },
   {id:"sBOD",        value:70,   unit:"g/m3_as_O2",    canBeEstimated:true, descr:"Soluble BOD",                                          },
   {id:"sCOD",        value:132,  unit:"g/m3_as_O2",    canBeEstimated:true, descr:"Soluble COD",                                          },
-  {id:"bCOD",        value:224,  unit:"g/m3_as_O2",    canBeEstimated:true, descr:"Biodegradable COD (a typical value is: bCOD=1.6·BOD)", },
+  {id:"bCOD",        value:224,  unit:"g/m3_as_O2",    canBeEstimated:true, descr:"Biodegradable COD (a typical value is bCOD=1.6*BOD)", },
   {id:"rbCOD",       value:80,   unit:"g/m3_as_O2",    canBeEstimated:true, descr:"Readily biodegradable COD (bsCOD=complex+VFA)",        },
   {id:"VFA",         value:15,   unit:"g/m3_as_O2",    canBeEstimated:true, descr:"Volatile Fatty Acids (Acetate)",                       },
   {id:"VSS",         value:60,   unit:"g/m3",          canBeEstimated:true, descr:"Volatile suspended solids",                            },

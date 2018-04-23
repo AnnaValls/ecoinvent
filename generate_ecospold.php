@@ -7,8 +7,7 @@
   <script>
     var received_json = JSON.parse('<?php echo $_POST['input'] ?>');
     function genereate_ecospold(){
-      //change this when other server
-      post('ecospold/index.php', "python3 generate_untreated_ecospold.py '"+JSON.stringify(received_json)+"'");
+      post('ecospold/index.php', "python3 generate_ecospolds.py '"+JSON.stringify(received_json)+"'");
     }
     function selectText(el) {
       var body = document.body, range, sel;
@@ -35,7 +34,7 @@
 <div id=root><h1>Generating ecoSpold file...</h1>
 <div>
   <div>
-    The following data is going to be saved as two new ecoSpold files (untreated emissions and treated emissions):
+    The following data is going to be saved as new ecoSpold file/s
   </div>
   <!--continue btn-->
   <div>
@@ -43,9 +42,14 @@
       style="font-size:16px;padding:0.618em 1em"
       onclick="genereate_ecospold()"
     >CONTINUE</button>
-    <button onclick=selectText(document.getElementById('received_json'))>select</button>
-    and copy, then paste
-    <a href="https://jsonformatter.curiousconcept.com/">here</a>.
+
+    <!--debug
+    <div>
+      <button onclick=selectText(document.getElementById('received_json'))>select</button>
+      and copy, then paste
+      <a href="https://jsonformatter.curiousconcept.com/">here</a>.
+    </div>
+    -->
   </div>
   <!--received json-->
   <pre id=received_json class=prettyprint style="border:1px solid #ccc"></pre>
