@@ -7,7 +7,7 @@
   <script>
     var received_json = JSON.parse('<?php echo $_POST['input'] ?>');
     function genereate_ecospold(){
-      post('ecospold/index.php', "python3 generate_ecospolds.py '"+JSON.stringify(received_json)+"'");
+      post('ecospold/index.php', "python3 generate_ecospolds.py '"+JSON.stringify(received_json)+"'",'_blank');
     }
     function selectText(el) {
       var body = document.body, range, sel;
@@ -34,7 +34,7 @@
 <div id=root><h1>Generating ecoSpold file...</h1>
 <div>
   <div>
-    The following data is going to be saved as new ecoSpold file/s
+    The following data will be saved as two new ecoSpold files:
   </div>
   <!--continue btn-->
   <div>

@@ -5,7 +5,7 @@ import pprint
 import sys
 
 #print python version before local imports
-print("Running Python",sys.version.split(' ')[0],'\n')
+print("Running Python",sys.version.split(' ')[0])
 
 #folder with python packages
 sys.path.append("../../../opt/python3/")
@@ -30,23 +30,28 @@ received_json = json.loads(received_string)
 #print('parsed JSON object: ',json.dumps(received_json, indent=4, sort_keys=True))
 
 '''pretty printer (debug)'''
-#pp=pprint.PrettyPrinter(indent=2)
+pp=pprint.PrettyPrinter(indent=2)
 #pp.pprint(received_json)
 
-''' ecoinvent side of the tool starts here'''
 args = {k: v for d in received_json.values() for k, v in d.items()}
 result = {}
 
 if args['untreated_fraction'] == 0:
-  result['untreated'] = "No direct discharge ecoSpold"
+  result['untreated'] = False;
 else:
   untreated = DirectDischarge_ecoSpold(root_dir, **args)
   result['untreated'] = untreated.generate_ecoSpold2()
 
 if args['untreated_fraction'] == 1:
-  result['treated'] = "No treated ecoSpold"
+  result['treated'] = False;
 else:
   treated = WWT_ecoSpold(root_dir, **args)
   result['treated'] = treated.generate_ecoSpold2()
 
-print(result)
+#pp.pprint(result)
+#show html links
+print("<b style=color:green>Success!</b>")
+if result['untreated']:
+  print('<a target=_blank href="wastewater_treatment_tool/output/'+result['untreated'][1]+'">Click here to download',result['untreated'][1])
+if result['treated']:
+  print('<a target=_blank href="wastewater_treatment_tool/output/'+result['treated'][1]+'">Click here to download',result['treated'][1])

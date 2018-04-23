@@ -1,7 +1,7 @@
 //POST data using javascript
 function post(action,data,target) {
   target=target ? "_blank":false; //open form in a new window (by default not)
-  
+
   //new form
   var form = document.createElement("form");
   form.setAttribute("target", target);
