@@ -99,14 +99,20 @@
       <li>
         <a href="implementations/bod_removal_only.php">BOD removal (simple example)</a>
         M&amp;EA 4th (p. 707)
+      <!--
       <li>
         <a href="implementations/ekama_sizing.php">Reactor sizing (optim. cost) [G. Ekama]</a>
+      -->
+      <!--
       <li>
         <a target=_blank href="https://docs.google.com/spreadsheets/d/1DiBhDCjxGyw2-umImIfHiZOzY5LJF_psGiD4fEf7Wgk/edit?usp=sharing">
           Google drive "ecoinvent wastewater treatment project" document
         </a>
       </li>
+      -->
+      <!--
       <li><a href=//github.com/holalluis/ecoinvent>github.com/holalluis/ecoinvent</a>
+      -->
       <li>Pascal's ecospold integration:
         <ul>
           <li>

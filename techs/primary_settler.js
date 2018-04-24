@@ -1,5 +1,5 @@
 /**
-  * Remove a fraction of the two particulate fractions of COD, TKN, TP and TSS (biodeg + nonbiodeg)
+  * Remove a fraction of the particulated fractions of COD, TKN, TP, TSS (biodeg + nonbiodeg)
   *
   */
 function primary_settler(Q,bpCOD,nbpCOD,iTSS,ON,OP,VSS_COD,bpCOD_bVSS,removal_bpCOD,removal_nbpCOD,removal_iTSS,removal_ON,removal_OP){
@@ -31,13 +31,14 @@ function primary_settler(Q,bpCOD,nbpCOD,iTSS,ON,OP,VSS_COD,bpCOD_bVSS,removal_bp
   var VSS_removed_kgd  = Q*VSS_removed/1000;                       //kg/d
   var TSS_removed_kgd  = Q*TSS_removed/1000;                       //kg/d
 
-  /* George Ekama mail:
-      I suggest that for the municipal wastewater:
-      Settled WW TKN = (TKN – NH4)/3 + NH4
-      Settled WW TP  = (TP  – PO4)/3 + PO4
-      And PO4 =  Ortho phosphate concetration (PO4 is dissolved and so is the same in raw and settled WW).
-      This approach assumes that 2/3rd of the raw WW Org N (TKN minus NH4) and
-      2/3rd of the raw WW Org P (TP minus OP) are removed by the PST.
+  /*
+    George Ekama mail:
+    I suggest that for the municipal wastewater:
+    Settled WW TKN = (TKN – NH4)/3 + NH4
+    Settled WW TP  = (TP  – PO4)/3 + PO4
+    And PO4 =  Ortho phosphate concetration (PO4 is dissolved and so is the same in raw and settled WW).
+    This approach assumes that 2/3rd of the raw WW Org N (TKN minus NH4) and
+    2/3rd of the raw WW Org P (TP minus OP) are removed by the PST.
   */
 
   return {
