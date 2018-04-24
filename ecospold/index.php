@@ -9,12 +9,11 @@
   $cmd=isset($_POST['input']) ? $_POST['input'] : './test.py a b c d';
 ?>
 
-<!--shell prompt
-  <form method=POST>$
+<!--shell prompt -->
+  <form method=POST style=display:none>$
   <input name=input id=input value="<?php echo $cmd?>"
     placeholder="write command here" style="width:50%">
   </form>
--->
 
 <!--show cmd
 <?php

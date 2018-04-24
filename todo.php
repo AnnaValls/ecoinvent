@@ -18,12 +18,12 @@
   <tr><td header colspan=3><button class=toggleView onclick=toggleView(this,'single')>&darr;</button> Single plant model
   <tbody id=single style=display:nonee>
     <tr>
-      <td>TOC, DOC at influent, and effluent calculations, and balance
+      <td>TOC and DOC: influent, effluent calculations, C balance
       <td>Help needed
       <td>April 20 2018
     <tr>
       <td>BOD effluent equation
-      <td>Done (in the tool only, not ecospold)
+      <td>Done (tool only, not in ecospold)
       <td>April 20 2018
     <tr>
       <td>Nonbiodegradable Particulate Organic Nitrogen and Phosphorus in secondary sludge in <a href=see.php?file=elementary.js&remark=Outputs.TKN.effluent.sludge>effluent equations</a>
@@ -34,15 +34,15 @@
       <td>George provided help April 16th
       <td>April 16 2018
     <tr>
-      <td>Doubt: is Alkalinity (g/m3 as CaCO3) also removed/diluted by CSO and/or Primary settler?
-      <td>help wanted
+      <td>Doubt: is Alkalinity (g/m3 as CaCO3) also discharged/diluted by CSO and/or Primary settler?
+      <td>Help needed
       <td>April 16 2018
     <tr>
       <td>Add more treatment technologies (i.e. Lagoons)
       <td>will not implement in this version
       <td>April 16 2018
     <tr>
-      <td>Add a Warnings module
+      <td>Add a Warnings module for the following variables
         <ul>
           <li>fSus (raw: 0% to 10%. with primary settler: 0% to 15%)
           <li>fSup (raw: 8% to 25%. with primary settler: 0% to 10%)
@@ -51,22 +51,16 @@
       <td>will not implement in this version
       <td>April 16 2018
     <tr>
-      <td>
-        Consider adding NO3 as input (normally set to 0)
+      <td>Consider adding NO3 as input (with default value of 0 g/m3)
       <td>Help from experts needed
-        <br>(Pascal and Lluís B. doubt)
       <td>April 11 2018
-    <tr>
-      <td>NO<sub>x</sub> is NO<sub>3</sub> for ecoinvent (we assume that there is no NO<sub>2</sub>)
-      <td>renaming reccomended
-      <td>April 6 2018
     <tr>
       <td>Coarse solids removal
         <br>
         (Pascal knows how to calculate this, Peter may have data)
         <br>
         It is a formula that depends only on the flowrate (Q)
-      <td> Lluís B. needs guidance
+      <td>Lluís B. needs guidance
       <td>April 5 2018
     </tr>
   </tbody>
@@ -104,13 +98,11 @@
       <td>April 9 2018
     <tr>
       <td>Ecospold generation is under development <a href="ecospold/wastewater_treatment_tool/">here</a>
-        <ul>
-          <li>
-            <a target=_blank href="https://github.com/PascalLesage/wastewater_treatment_tool/blob/integration-with-icra/pycode/tool%20todos%20(beyond%20ecoSpold%20generation)">
-              tool todos (beyond ecoSpold generation)
-            </a>
-          </li>
-        </ul>
+        <div>
+          <a target=_blank href="https://github.com/PascalLesage/wastewater_treatment_tool/blob/integration-with-icra/pycode/tool%20todos%20(beyond%20ecoSpold%20generation)">
+            tool todos (beyond ecoSpold generation)
+          </a>
+        </div>
       <td>help provided by Pascal, under development
       <td>April 4 2018
     <tr>
@@ -146,7 +138,7 @@
   <tbody id=server style=display:none>
     <tr>
       <td>Install python &gt;= 3.5
-      <td>waiting support
+      <td>Mail sent to Oliver, he replied, and we are waiting for support
       <td>April 23 2018
   </tbody>
 </table>

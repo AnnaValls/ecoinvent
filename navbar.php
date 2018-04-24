@@ -10,13 +10,7 @@
   </div>
 
   <div>
-    <small>
-      <em>Deadline: Mid-April 2018</em>
-    </small>
-  </div>
-
-  <div>
-    <a target=_blank href="todo.php">See all TO DO items</a>
+    <button onclick=window.location="todo.php">See all TO DO items</button>
   </div>
 
 	<style>
