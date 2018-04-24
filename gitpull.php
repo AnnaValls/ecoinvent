@@ -1,5 +1,4 @@
 <?php
-  echo "icra server (windows) git pull: \n";
-  #var_dump(shell_exec("git pull & cd wastewater_treatment_tool & git pull"));
-  var_dump(shell_exec("git pull"));
+  //var_dump(shell_exec("pwd; git pull 2>&1"));
+  var_dump(shell_exec("cd ecospold/wastewater_treatment_tool/; pwd; git pull 2>&1"));
 ?>
