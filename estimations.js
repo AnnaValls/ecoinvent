@@ -2,12 +2,6 @@
   * Estimations module for inputs that the user might not know
   * Default values from BioWin 5.2 (provided by Y. Comeau)
 
-  TODO industrial types default values
-
-    var ratios:{
-      //structure object here
-    };
-
     symbols:      [municipal, brewery, pig manure, tanning, thmechP&P ]
       fCOD_cBOD5  [     2.04,    1.71,       3.00,    2.50,     2.20  ]
       fSB_COD     [     0.16,    0.61,       0.20,    0.28,     0.28  ]
@@ -23,28 +17,33 @@
       fSPO4_TP    [     0.50,    0.93,       0.18,    0.00,        0  ]
       SAlk        [      300,    3000,        100,    1100,        2  ]
 
-      <option value="munic"> Type 0: Municipal
+      <option value="muni"> Type 0: Municipal
       <option value="hshd"> Type 1: Highly soluble     - high degradability (beverages industry wastewater)
       <option value="hphd"> Type 2: Highly particulate - high degradability (pig manure)
       <option value="hsld"> Type 3: Highly soluble     - low degradability  (tanning wastewater)
       <option value="hpld"> Type 4: Highly particulate - low degradability  (thermomechanical pulp and paper wastewater)
   */
 
-function estimations(COD,TKN,TP){
-  //initial factors
-  var fCOD_cBOD5 = 2.04;
-  var fSB_COD    = 0.16;
-  var fVFA_SB    = 0.15;
-  var fXCB_COD   = 0.64;
-  var fXB_XCB    = 0.73;
-  var fXCOD_VSS  = 1.60;
-  var fXU_COD    = 0.13;
-  var XIg        =   45;
-  var fXH_XCOD   = 0.02;
-  var fCSU_COD   = 0.05;
-  var fSNH4_TKN  = 0.66;
-  var fSPO4_TP   = 0.50;
-  var SAlk       =  300;
+function estimations(COD, TKN, TP, ww_type){
+  ww_type = ww_type || 'muni';
+  var ww_types = ['muni','hshd','hphd','hsld','hpld'];
+  var index=ww_types.indexOf(ww_type);
+  if(index==-1)index=0;
+
+  //ww type depending factors
+  var fCOD_cBOD5 = [ 2.04,  1.71,  3.00,  2.50,  2.20 ][index];
+  var fSB_COD    = [ 0.16,  0.61,  0.20,  0.28,  0.28 ][index];
+  var fVFA_SB    = [ 0.15,  0.55,  0.30,  0.00,  0.00 ][index];
+  var fXCB_COD   = [ 0.64,  0.26,  0.70,  0.39,  0.34 ][index];
+  var fXB_XCB    = [ 0.73,  0.65,  0.75,  0.60,  0.88 ][index];
+  var fXCOD_VSS  = [ 1.60,  1.51,  1.48,  2.18,  1.37 ][index];
+  var fXU_COD    = [ 0.13,  0.09,  0.05,  0.29,  0.05 ][index];
+  var XIg        = [   45,   100,  6500,  1315,   135 ][index];
+  var fXH_XCOD   = [ 0.02,  0.11,  0.02,  0.00,  0.00 ][index];
+  var fCSU_COD   = [ 0.05,  0.04,  0.05,  0.04,  0.33 ][index];
+  var fSNH4_TKN  = [ 0.66,  0.10,  0.55,  0.57,     0 ][index];
+  var fSPO4_TP   = [ 0.50,  0.93,  0.18,  0.00,     0 ][index];
+  var SAlk       = [  300,  3000,   100,  1100,     2 ][index];
 
   //intermediate variables
   var CS_U  = fCSU_COD*COD;

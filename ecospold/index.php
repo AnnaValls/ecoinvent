@@ -1,6 +1,11 @@
 <?php header('X-XSS-Protection:0')?>
-
 <body onload="init()">
+<style>
+  ul {
+    margin:0;
+  }
+</style>
+
 <script>
   function init(){
     document.getElementById('please_wait').style.display='none';
@@ -36,29 +41,7 @@
   $result=shell_exec("$exportPath; ".$cmd.' 2>&1'); //need to add the path of "python3"
   echo $result;
 ?>
-</code></pre><hr>
+</code></pre>
 
-<!--list of ecospold files
-  <div style='font-size:20px'>
-    Output files:
-    <ul>
-    <?php
-      $folder="wastewater_treatment_tool/output";
-      $ls=scandir($folder);
-      //loop all files in $folder
-      foreach($ls as $file){
-        //omit folders
-        if(is_dir($file))continue;
-        //print the link to the json file
-        echo "<li>
-          <a href='$folder/$file' target=_blank>$file</a>
-          |
-          <a href='$folder/$file' download>download</a>
-        ";
-      }
-    ?>
-    </ul>
-  </div>
--->
 <!--focus on cmd prompt-->
 <script>document.querySelector('#input').select();</script>

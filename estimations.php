@@ -7,12 +7,13 @@
   <script>
     function calculate(){
       //inputs
-      var COD = parseFloat(document.querySelector('#COD').value);
-      var TKN = parseFloat(document.querySelector('#TKN').value);
-      var TP  = parseFloat(document.querySelector('#TP').value);
+      var COD     = parseFloat(document.querySelector('#COD').value);
+      var TKN     = parseFloat(document.querySelector('#TKN').value);
+      var TP      = parseFloat(document.querySelector('#TP').value);
+      var ww_type = document.querySelector('#ww_type').value;
 
       //call estimations
-      var rv = estimations(COD,TKN,TP);
+      var rv = estimations(COD,TKN,TP,ww_type);
 
       //add to gui
         [rv.variables, rv.outputs].forEach(o=>{
@@ -39,6 +40,14 @@
       <tr><td>COD <td><input onchange=calculate() id=COD type=number value=500> <td style=font-size:smaller>g/m<sup>3</sup> as O<sub>2</sub>
       <tr><td>TKN <td><input onchange=calculate() id=TKN type=number value=40>  <td style=font-size:smaller>g/m<sup>3</sup> as N
       <tr><td>TP  <td><input onchange=calculate() id=TP  type=number value=10>  <td style=font-size:smaller>g/m<sup>3</sup> as P
+      <tr><td>WW type<td colspan=2>
+        <select id=ww_type onchange=calculate()>
+          <option value="muni"> Type 0: Municipal
+          <option value="hshd"> Type 1: Highly soluble     - high degradability (beverages industry wastewater)
+          <option value="hphd"> Type 2: Highly particulate - high degradability (pig manure)
+          <option value="hsld"> Type 3: Highly soluble     - low degradability  (tanning wastewater)
+          <option value="hpld"> Type 4: Highly particulate - low degradability  (thermomechanical pulp and paper wastewater)
+        </select>
     </table>
   </div>
 

@@ -723,10 +723,13 @@
 <!--input estimations-->
 <script>
   //calculate estimations for both Activity and WWTPs
-  WWTPs.concat(Activity).forEach(wwtp=>{
-    var ests=estimations(wwtp.COD,wwtp.TKN,wwtp.TP);
-    Object.keys(ests.outputs).forEach(key=>{
-      wwtp[key]=Math.round(ests.outputs[key]*100)/100;
+  (function(){
+    var ww_type = url.searchParams.get('ww_type');
+    WWTPs.concat(Activity).forEach(wwtp=>{
+      var ests=estimations(wwtp.COD,wwtp.TKN,wwtp.TP,ww_type);
+      Object.keys(ests.outputs).forEach(key=>{
+        wwtp[key]=Math.round(ests.outputs[key]*100)/100;
+      });
     });
-  });
+  })();
 </script>

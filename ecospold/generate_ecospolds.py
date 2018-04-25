@@ -33,6 +33,7 @@ received_json = json.loads(received_string)
 pp=pprint.PrettyPrinter(indent=2)
 #pp.pprint(received_json)
 
+'''args conversion'''
 args = {k: v for d in received_json.values() for k, v in d.items()}
 result = {}
 
@@ -50,8 +51,13 @@ else:
 
 #pp.pprint(result)
 #show html links
-print("<hr><b style=color:green>Success!</b>")
+print("<hr><b style=color:green>Success!</b><ul>")
 if result['untreated']:
-  print('<a target=_blank href="wastewater_treatment_tool/output/'+result['untreated'][1]+'">Click here to download',result['untreated'][1])
+  print('<li><a target=_blank href="wastewater_treatment_tool/output/'+result['untreated'][1]+'">Click here to download',result['untreated'][1]+"</a>")
+else:
+  print("<li>No direct discharge dataset ecoSpold was generated because 100% of wastewater sent to the sewer system is treated in this region.")
 if result['treated']:
-  print('<a target=_blank href="wastewater_treatment_tool/output/'+result['treated'][1]+'">Click here to download',result['treated'][1])
+  print('<li><a target=_blank href="wastewater_treatment_tool/output/'+result['treated'][1]+'">Click here to download',result['treated'][1]+"</a>")
+else:
+  print("<li>No treatment dataset ecoSpold was generated because 100% of wastewater sent to the sewer system is dischaged to the environment without treatment.")
+print("</ul>")

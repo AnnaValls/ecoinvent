@@ -156,11 +156,11 @@
     <li>
       Industrial wastewater type<br>
       <select id=ww_type>
-        <option value="municipal"> Type 0: Municipal
-        <option value="hig_sol_hig_deg"> Type 1: Highly soluble     - high degradability (beverages industry wastewater)
-        <option value="hig_par_hig_deg"> Type 2: Highly particulate - high degradability (pig manure)
-        <option value="hig_sol_low_deg"> Type 3: Highly soluble     - low degradability  (tanning wastewater)
-        <option value="hig_par_low_deg"> Type 4: Highly particulate - low degradability  (thermomechanical pulp and paper wastewater)
+        <option value="muni"> Type 0: Municipal
+        <option value="hshd"> Type 1: Highly soluble     - high degradability (beverages industry wastewater)
+        <option value="hphd"> Type 2: Highly particulate - high degradability (pig manure)
+        <option value="hsld"> Type 3: Highly soluble     - low degradability  (tanning wastewater)
+        <option value="hpld"> Type 4: Highly particulate - low degradability  (thermomechanical pulp and paper wastewater)
       </select>
     </li>
 
