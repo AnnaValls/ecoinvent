@@ -28,7 +28,7 @@
 <div class=flex id=top_menu style=background:#eee>
   <!--File-->
   <div>
-    <button onclick="toggleView_top_menu_item('top_menu #file')"> File</button>
+    <button onclick="toggleView_top_menu_item('top_menu #file',event)"> File</button>
     <ul id=file style=display:none>
       <li>
         <!--load-->

@@ -14,8 +14,12 @@
   <tr><td header colspan=3><button class=toggleView onclick=toggleView(this,'single')>&darr;</button> Single plant model
   <tbody id=single style=display:nonee>
     <tr>
-      <td>TOC and DOC: influent amount, effluent emission, C balance
-      <td>TBD
+      <td>top menus not working in mozilla firefox
+      <td>to do
+      <td>April 26 2018
+    <tr>
+      <td>TOC and DOC: influent, effluent calculations, C balance
+      <td>Help needed
       <td>April 20 2018
     <tr>
       <td>BOD effluent equation

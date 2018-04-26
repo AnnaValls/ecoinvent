@@ -127,8 +127,8 @@ function top_menu_fold_all_items(el){ //fold all except 'el'
     }
   }
 }
-function toggleView_top_menu_item(selector){
-  event.stopPropagation();
+function toggleView_top_menu_item(selector,event){
+  if(event)event.stopPropagation();
   var el=document.querySelector('#'+selector);
   top_menu_fold_all_items(el);
   //unfold selected
