@@ -1,44 +1,40 @@
 <!doctype html><html><head><?php include'imports.php'?><title>TO DO items</title></head><body><?php include'navbar.php'?>
 <div id=root><div><h1>All TO DO items/tasks/doubts/issues/etc</h1>
-    <p><em>This page is intended to centralize all issues during development</em></p>
-    <div>
-      Development occurs <a href="//github.com/holalluis/ecoinvent" target=_blank>here</a>
-    </div>
-    <p><small>If an item is here is because has been discussed at some point, but Lluís B. has not understood either conceptually and/or how or where to implement it (otherwise, it's under development)</small></p>
-    <p><small><center>
-      <?php
-        $filepath=$_SERVER['DOCUMENT_ROOT'].$_SERVER['PHP_SELF'];
-        echo "Last modification of this file: " . date ("F d Y H:i:s.", filemtime($filepath));
-      ?>
-    </center></small></p>
+  <p><em>This page is intended to centralize all issues during development</em></p>
+  <p><small>If an item is here is because has been discussed at some point, but Lluís B. has not understood either conceptually and/or how or where to implement it (otherwise, it's under development)</small></p>
+  <p><small>
+    <?php
+      $filepath=$_SERVER['DOCUMENT_ROOT'].$_SERVER['PHP_SELF'];
+      echo "Last modification: " . date ("F d Y H:i:s.", filemtime($filepath));
+    ?>
+  </small></p>
 </div>
 
-<!--main table-->
-<table class=todo_items border=1><tr><th>Item description<th>Status<th>Added
+<!--main table--><table class=todo_items border=1><tr><th>Item description<th>Status<th>Added
   <tr><td header colspan=3><button class=toggleView onclick=toggleView(this,'single')>&darr;</button> Single plant model
   <tbody id=single style=display:nonee>
     <tr>
-      <td>TOC and DOC: influent, effluent calculations, C balance
-      <td>Help needed
+      <td>TOC and DOC: influent amount, effluent emission, C balance
+      <td>TBD
       <td>April 20 2018
     <tr>
       <td>BOD effluent equation
       <td>Done (tool only, not in ecospold)
       <td>April 20 2018
     <tr>
-      <td>Nonbiodegradable Particulate Organic Nitrogen and Phosphorus in secondary sludge in <a href=see.php?file=elementary.js&remark=Outputs.TKN.effluent.sludge>effluent equations</a>
-      <td>Discussion with George is needed
+      <td>Nitrogen and Phosphorus balances (George E. vs Lluís C. equations) <a href=see.php?file=elementary.js&remark=Outputs.TKN.effluent.sludge>effluent equations</a>
+      <td>Discussion with George and Lluís is needed
       <td>April 20 2018
     <tr>
-      <td>iTSS composition (sand) can be calculated as O+Si+Al+Fe+Ca+Na+K+Mg. the percentages are in <a href=see.php?file=sludge_composition.js&path=techs>sludge_composition.js</a>
+      <td>iSS composition (sand) can be calculated as O+Si+Al+Fe+Ca+Na+K+Mg. the percentages are in <a href=see.php?file=sludge_composition.js&path=techs>sludge_composition.js</a>
       <td>George provided help April 16th
       <td>April 16 2018
     <tr>
-      <td>Doubt: is Alkalinity (g/m3 as CaCO3) also discharged/diluted by CSO and/or Primary settler?
+      <td>Doubt: is Alkalinity (g/m3 as CaCO3) also discharged/diluted by CSO?
       <td>Help needed
       <td>April 16 2018
     <tr>
-      <td>Add more treatment technologies (i.e. Lagoons)
+      <td>Add more technologies (i.e. Lagoons)
       <td>will not implement in this version
       <td>April 16 2018
     <tr>
@@ -51,7 +47,7 @@
       <td>will not implement in this version
       <td>April 16 2018
     <tr>
-      <td>Consider adding NO3 as input (with default value of 0 g/m3)
+      <td>Consider adding NO3 as input (default value = 0 g/m3)
       <td>Help from experts needed
       <td>April 11 2018
     <tr>
@@ -73,7 +69,7 @@
       <td>Not sure if Pascal dealt with it
       <td>April 19 2018
     <tr>
-      <td>Peter's data (he said he would have the following countries)
+      <td>Peter's reference data:
         <ul>
           <li>Brazil
           <li>Switzerland
@@ -86,32 +82,10 @@
       <td>Data not received (only South Africa received from George)
       <td>April 10 2018
     <tr>
-      <td>Industrial factors [brewery, pig_manure, tanning_ww, thermomechanical_pulp_and_paper_ww]
-        <ul>
-          <li>CS_U [0.05, 0.08, 0.35, 0.30]
-          <li>CS_B [0.80, 0.20, 0.35, 0.10]
-          <li>X_B  [0.10, 0.65, 0.10, 0.15]
-          <li>X_U  [0.05, 0.15, 0.20, 0.45]
-        </ul>
-        see <a href=see.php?file=estimations.js>equations here</a>
-      <td>TO DO (Yves provided help on April 15th)
-      <td>April 9 2018
-    <tr>
-      <td>Ecospold generation is under development <a href="ecospold/wastewater_treatment_tool/">here</a>
-        <div>
-          <a target=_blank href="https://github.com/PascalLesage/wastewater_treatment_tool/blob/integration-with-icra/pycode/tool%20todos%20(beyond%20ecoSpold%20generation)">
-            tool todos (beyond ecoSpold generation)
-          </a>
-        </div>
-      <td>help provided by Pascal, under development
-      <td>April 4 2018
-    <tr>
-      <td>Show off data:
-        <br>
-        The user will be able to see what's happening in terms of equations
-        <br>
+      <td>Show off data: <br>
+        The user will be able to see what's happening in terms of equations <br>
         They will be able to acces all the wwtp data
-      <td>not sure how to proceed, need concrete instructions
+      <td>not sure how to proceed
       <td>April 4 2018
     <tr>
       <td>
@@ -138,7 +112,7 @@
   <tbody id=server style=display:none>
     <tr>
       <td>Install python &gt;= 3.5
-      <td>Mail sent to Oliver, he replied, and we are waiting for support
+      <td>Done
       <td>April 23 2018
   </tbody>
 </table>
