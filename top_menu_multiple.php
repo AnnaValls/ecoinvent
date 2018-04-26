@@ -1,7 +1,7 @@
 <div id=top_menu class=flex style="background:#eee">
   <!--File-->
   <div>
-    <button onclick="toggleView_top_menu_item('top_menu #file')">
+    <button onclick="toggleView_top_menu_item('top_menu #file',event)">
       File
     </button>
     <ul id=file style=display:none>
@@ -55,7 +55,7 @@
 
   <!--Edit-->
   <div>
-    <button onclick="toggleView_top_menu_item('top_menu #edit')">
+    <button onclick="toggleView_top_menu_item('top_menu #edit',event)">
       Edit
     </button>
     <ul id=edit style=display:none>

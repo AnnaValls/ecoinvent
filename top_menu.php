@@ -2,7 +2,7 @@
 <div id=top_menu class=flex style="background:#eee">
   <!--File-->
   <div>
-    <button onclick="toggleView_top_menu_item('top_menu #file')">
+    <button onclick="toggleView_top_menu_item('top_menu #file',event)">
       File</button>
     <ul id=file style="display:none">
         <!--load-->
@@ -90,7 +90,7 @@
 
   <!--Edit-->
   <div>
-    <button onclick="toggleView_top_menu_item('top_menu #edit')">
+    <button onclick="toggleView_top_menu_item('top_menu #edit',event)">
       Edit</button>
     <ul id=edit style=display:none>
       <!--set all inputs to zero-->
@@ -138,7 +138,7 @@
 
   <!--View-->
   <div>
-    <button onclick="toggleView_top_menu_item('top_menu #view')">
+    <button onclick="toggleView_top_menu_item('top_menu #view',event)">
       View</button>
     <ul id=view style=display:none>
       <li><button onclick=window.open('img/plant-diagram.jpg')     >Plant diagram</button>
@@ -149,7 +149,7 @@
 
   <!--Help-->
   <div>
-    <button onclick="toggleView_top_menu_item('top_menu #help')">
+    <button onclick="toggleView_top_menu_item('top_menu #help',event)">
       Help</button>
     <ul id=help style=display:none>
       <li>Documentation
