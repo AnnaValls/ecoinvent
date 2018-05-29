@@ -19,25 +19,3 @@
     #inputs tr:hover { text-decoration:underline; }
   </style>
 </div>
-
-<ul>
-<?php
-  $folder="reference_data";
-  $ls=scandir($folder);
-
-  //loop all files in $folder
-  foreach($ls as $file){
-
-    //omit folders
-    if(is_dir($file))continue;
-
-    //parse the json and extract the country
-    $contents=file_get_contents("$folder/$file");
-    $parsed=json_decode($contents);
-    $country=$parsed->country;
-
-    //print the link to the json file
-    echo "<li><a href='$folder/$file'>$file ($country)</a>";
-  }
-?>
-</ul>
