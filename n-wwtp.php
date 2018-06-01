@@ -567,35 +567,23 @@
 <div id=root>
 
 <!--title--><div>
-  <h1>Multiple plant simulation</h1>
+  <h1>2. Calculation dashboard</h1>
+  <div style=text-align:right>
+    Next step:
+    <button id=btn_generate_ecospold onclick="generate_ecospold(Result)">Generate dataset</button>
+  </div><hr>
+
   <small>
     Study the contribution of your activity to one or more wastewater treatment plants
   </small>
 </div><hr>
+
 
 <!--main--><div class=flex>
   <!--inputs-->
   <div style='min-width:50%;border-right:1px solid #ccc;padding-right:8px;'>
     <p>
       <b> 1. Inputs </b>
-      <!--RUN btn-->
-      <span>
-        <button
-          title="Click here after modifying inputs"
-          text="&#9654; RUN SIMULATION"
-          id=run onclick="run()">
-          &#9654; RUN SIMULATION
-        </button>
-        <style>
-          button#run {
-            font-family:monospace;
-            background:lightgreen;
-            width:200px;
-            height:25px;
-            float:right;
-          }
-        </style>
-      </span>
     </p>
     <table id=wwtps border=1></table>
   </div>
@@ -606,9 +594,28 @@
       <b>2. Results</b>
       <span>
         <script src="generate_json_for_ecospold.js"></script>
-        <button id=btn_generate_ecospold onclick="generate_ecospold(Result)">Generate ecoSpold files</button>
       </span>
     </p>
+
+    <!--RUN btn-->
+    <div>
+      <span>
+        <button
+          title="Click here after modifying inputs"
+          text="&#8635; REFRESH RESULTS"
+          id=run onclick="run()">
+            &#8635; REFRESH RESULTS
+        </button>
+        <style>
+          button#run {
+            background:lightgreen;
+            width:200px;
+            height:25px;
+          }
+        </style>
+      </span>
+    </div>
+
     <!--2.1 effluent-->
     <div>
       <p>

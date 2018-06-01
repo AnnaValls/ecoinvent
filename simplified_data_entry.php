@@ -119,8 +119,10 @@
 </div>
 
 <div id=root>
-<h1>Simplified data entry</h1>
+<h1>1. Data entry</h1>
 <small>Enter the characteristics of your activity wastewater</small>
+<br>
+<small style=background:yellow>Additional Introductory text here</small>
 <hr>
 
 <!--inputs-->
@@ -161,7 +163,11 @@
         <option value="hphd"> Type 2: Highly particulate - high degradability (pig manure)
         <option value="hsld"> Type 3: Highly soluble     - low degradability  (tanning wastewater)
         <option value="hpld"> Type 4: Highly particulate - low degradability  (thermomechanical pulp and paper wastewater)
-      </select>
+      </select> |
+
+      <small style=background:yellow>
+        <a href="">help</a>
+      </small>
     </li>
 
     <!--volume-->
@@ -196,8 +202,13 @@
             Country Average WWTP
             &mdash;
             calculate the marginal contribution to a multiple plant mix average
-        </select>
+        </select> |
+        <small style=background:yellow>
+          <a href="">help</a>
+        </small>
       </div>
+
+
     </li>
     <!--next btn-->
     <li>

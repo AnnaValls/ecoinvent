@@ -89,7 +89,7 @@
 
 <h4>
   Reference:
-  <a target=_blank href="../docs/construction/WR-S-17-01921.pdf">
+  <a target=_blank href="docs/construction/WR-S-17-01921.pdf">
     Table 4, Morera et al (2017): Up-to-date and modular construction inventories for Life Cycle Assessment of small to medium wastewater treatment plants (page 22)
   </a>
 </h4>

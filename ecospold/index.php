@@ -14,8 +14,10 @@
 
 <!doctype html>
 <a href="..">Home</a>
-<h2>Generating ecospold file...</h2>
+<h2>4. Generating ecospold file</h2>
+
 <small id=please_wait>Please wait...</small>
+
 <?php
   //receive OS command from POST[input] to invoke python
   $cmd=isset($_POST['input']) ? $_POST['input'] : './test.py a b c d';
