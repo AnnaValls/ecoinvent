@@ -56,9 +56,11 @@
 	}
   th {
     background:#eee;
+    border-color:#666;
   }
 	#root {
 		margin-left:8px;
+    margin-right:2px;
 	}
   input[type=number], .number {
     text-align:right;

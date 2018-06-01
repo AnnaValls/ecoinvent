@@ -1,6 +1,7 @@
 <!doctype html><html><head><?php include'imports.php'?><title>TO DO items</title></head><body><?php include'navbar.php'?>
 <div id=root><div><h1>All TO DO items/tasks/doubts/issues/etc</h1>
   <p><em>This page is intended to centralize all issues during development</em></p>
+  <p><a href="///github.com/icra/ecoinvent/issues">See also: github issues</a></p>
   <p><small>If an item is here is because has been discussed at some point, but Lluís B. has not understood either conceptually and/or how or where to implement it (otherwise, it's under development)</small></p>
   <p><small>
     <?php

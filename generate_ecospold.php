@@ -9,25 +9,7 @@
     function generate_ecospold(){
       post('ecospold/index.php', "python3 generate_ecospolds.py '"+JSON.stringify(received_json)+"'",'_blank');
     }
-    function selectText(el) {
-      var body = document.body, range, sel;
-      if (document.createRange && window.getSelection) {
-        range = document.createRange();
-        sel = window.getSelection();
-        sel.removeAllRanges();
-        try {
-          range.selectNodeContents(el);
-          sel.addRange(range);
-        } catch (e) {
-          range.selectNode(el);
-          sel.addRange(range);
-        }
-      } else if (body.createTextRange) {
-        range = body.createTextRange();
-        range.moveToElementText(el);
-        range.select();
-      }
-    }
+
   </script>
   <title>ecoSpold generation</title>
 </head><body><?php include'navbar.php'?>
@@ -41,17 +23,38 @@
     <div>
       Next step:
       <button
-        style="font-size:16px;padding:0.618em 1em"
+        style="background:yellow;font-size:16px;padding:0.618em 1em"
         onclick="generate_ecospold()"
       >Generate ecoSpold files</button>
     </div>
 
     <!--debug
-    <div>
-      <button onclick=selectText(document.getElementById('received_json'))>select</button>
-      and copy, then paste
-      <a href="https://jsonformatter.curiousconcept.com/">here</a>.
-    </div>
+      <div>
+        <button onclick=selectText(document.getElementById('received_json'))>select</button>
+        and copy, then paste
+        <a href="https://jsonformatter.curiousconcept.com/">here</a>.
+        <script>
+          function selectText(el) {
+            var body = document.body, range, sel;
+            if (document.createRange && window.getSelection) {
+              range = document.createRange();
+              sel = window.getSelection();
+              sel.removeAllRanges();
+              try {
+                range.selectNodeContents(el);
+                sel.addRange(range);
+              }catch(e){
+                range.selectNode(el);
+                sel.addRange(range);
+              }
+            } else if (body.createTextRange) {
+              range = body.createTextRange();
+              range.moveToElementText(el);
+              range.select();
+            }
+          }
+        </script>
+      </div>
     -->
   </div>
   <!--received json-->

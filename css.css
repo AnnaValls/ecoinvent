@@ -28,6 +28,16 @@ issue.help_provided:before{ content:"help provided by ";}
 /*item which cannot be done */
 issue.cannot_be_done{        background:#eee;}
 issue.cannot_be_done:before{ content:"cannot be done yet";}
+/*under development*/
+.wip {
+  background:yellow;
+}
+
+hr{
+  border:none;
+  border-bottom:1px solid #ccc;
+  border-right:1px solid #ccc;
+}
 
 /*TOGGLE VIEW buttons*/
 button.toggleView {

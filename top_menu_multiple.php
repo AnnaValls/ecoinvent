@@ -59,7 +59,7 @@
       Edit
     </button>
     <ul id=edit style=display:none>
-      <li><button onclick="add_wwtp()" style=background:yellow>Add plant</button>
+      <li><button onclick="add_wwtp()" style=background:lightgreen>Add plant</button>
       <li><button onclick="WWTPs=[];add_wwtp()">Clear all plants</button>
     </ul>
   </div>

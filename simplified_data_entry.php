@@ -120,7 +120,7 @@
 
 <div id=root>
 <h1>1. Data entry</h1>
-<small>Enter the characteristics of your activity wastewater</small>
+<small>Enter the characteristics of your activity wastewater.</small>
 <br>
 <small style=background:yellow>Additional Introductory text here</small>
 <hr>
@@ -236,6 +236,7 @@
       <style>
         #next_btn {
           padding:default;
+          background:yellow;
         }
       </style>
     </li>

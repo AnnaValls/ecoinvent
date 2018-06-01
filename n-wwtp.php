@@ -570,7 +570,9 @@
   <h1>2. Calculation dashboard</h1>
   <div style=text-align:right>
     Next step:
-    <button id=btn_generate_ecospold onclick="generate_ecospold(Result)">Generate dataset</button>
+    <button
+      style="background:yellow"
+      id=btn_generate_ecospold onclick="generate_ecospold(Result)">Generate dataset</button>
   </div><hr>
 
   <small>
@@ -599,21 +601,27 @@
 
     <!--RUN btn-->
     <div>
-      <span>
-        <button
-          title="Click here after modifying inputs"
-          text="&#8635; REFRESH RESULTS"
-          id=run onclick="run()">
-            &#8635; REFRESH RESULTS
-        </button>
-        <style>
-          button#run {
-            background:lightgreen;
-            width:200px;
-            height:25px;
-          }
-        </style>
-      </span>
+      <button
+        title="Click here after modifying inputs"
+        text="<span style=font-size:14px>&#10227</span> REFRESH RESULTS"
+        id=run onclick="run()">
+      </button>
+      <script>
+        (function(){
+          //init run button innerHTML
+          var btn=document.querySelector('button#run');
+          btn.innerHTML=btn.getAttribute('text');
+        })();
+      </script>
+      <style>
+        button#run {
+          background:lightgreen;
+          width:200px;
+          height:25px;
+          vertical-align:middle;
+          display:block;
+        }
+      </style>
     </div>
 
     <!--2.1 effluent-->
