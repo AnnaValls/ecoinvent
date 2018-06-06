@@ -4,7 +4,7 @@ function generate_ecospold(result){
   console.log('generating ecospold...');
   var data_set = generate_json_for_ecospold(result);
   var data_set_string=JSON.stringify(data_set);
-  post('generate_ecospold.php', data_set_string, true);
+  post('generate_ecospold.php', data_set_string, false);
 }
 
 function generate_json_for_ecospold(result){

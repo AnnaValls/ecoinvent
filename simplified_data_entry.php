@@ -4,7 +4,7 @@
 */?>
 <!doctype html><html><head>
   <?php include'imports.php'?>
-  <title>Data entry</title>
+  <title>1/4 Data entry</title>
   <style>
     #root div.help {
       width:70%;
@@ -119,11 +119,54 @@
 </div>
 
 <div id=root>
-<h1>1. Data entry</h1>
-<small>Enter the characteristics of your activity wastewater.</small>
-<br>
-<small style=background:yellow>Additional Introductory text here</small>
-<hr>
+<h1>
+  1. Data entry
+  <small>(step 1 of 4)</small>
+</h1>
+
+<div style=text-align:right>
+  Next step:
+  <!--next btn-->
+  <button id=next_btn onclick="(function(){
+    //build URL string with GET parameters
+    var url='';
+    var activity_name = document.querySelector('#activity_name').value;
+    var geography     = document.querySelector('#geography').value;
+    var ww_type       = document.querySelector('#ww_type').value;
+    var wwtp_type     = document.querySelector('#wwtp_type').value;
+    var Q             = document.querySelector('#Q').value;
+    url+='activity_name='+activity_name+'&';
+    url+='geography='+geography+'&';
+    url+='ww_type='+ww_type+'&';
+    url+='wwtp_type='+wwtp_type+'&';
+    url+='Q='+Q+'&';
+    Inputs.filter(i=>{return !i.isParameter}).forEach(i=>{
+      var el=document.querySelector('#inputs #'+i.id);
+      if(el){url+=i.id+'='+el.value+'&';}
+    });
+    url='n-wwtp.php?'+url;
+    //go to url
+    window.location=url;
+  })()">Calculation dashboard</button>
+  <style>
+    #next_btn {
+      padding:default;
+      background:yellow;
+    }
+  </style>
+</div><hr>
+
+<small style=background:yellow>
+  <p>
+    Describe the source and the composition of the wastewater that is discharged to the sewer system.
+  </p><p>
+    The source includes (1) the actual activity that generated the wastewater (e.g. steel production) and (2) the physical location (e.g. the actual country).
+  </p><p>
+    The description of the wastewater includes (3) a specification of the type of wastewater, which will be used to calculate some default values, (4) the volume of water discharged per day from the activity, and (5) detailed information on the actual composition of the wastewater.
+  </p><p>
+    Finally, specify (6) whether the wastewater is treated in a specific wastewater treatment plant or a set of WWTP.
+  </p>
+</small><hr>
 
 <!--inputs-->
 <div>
@@ -163,11 +206,13 @@
         <option value="hphd"> Type 2: Highly particulate - high degradability (pig manure)
         <option value="hsld"> Type 3: Highly soluble     - low degradability  (tanning wastewater)
         <option value="hpld"> Type 4: Highly particulate - low degradability  (thermomechanical pulp and paper wastewater)
-      </select> |
-
-      <small style=background:yellow>
-        <a href="">help</a>
-      </small>
+      </select>
+      <small class=wip><a href="#" onclick="toggleView(false,'iww_type_help');return false;">help</a></small>
+      <div id=iww_type_help style="display:none">
+        <div class="help wip">
+          TBD
+        </div>
+      </div>
     </li>
 
     <!--volume-->
@@ -202,43 +247,19 @@
             Country Average WWTP
             &mdash;
             calculate the marginal contribution to a multiple plant mix average
-        </select> |
-        <small style=background:yellow>
-          <a href="">help</a>
-        </small>
+        </select>
+        <small><a href="#" onclick="toggleView(false,'wwtp_type_help');return false;">help</a></small>
+        <div id=wwtp_type_help style="display:none">
+          <div class=help>
+            <p>
+              Choose "Specific WWTP" to generate an LCI for the treatment of wastewater in a specific wastewater treatment plant (WWTP).
+              This is useful if the exact WWTP that is treating the wastewater is known, of if the tool is used specifically to carry out the LCA of a specific plant.
+            </p><p>
+              Choose "Country average WWTP" if the tool is used to generate background wastewater treatment datasets for data submission to ecoinvent.
+            </p>
+          </div>
+        </div>
       </div>
-
-
-    </li>
-    <!--next btn-->
-    <li>
-      <button id=next_btn onclick="(function(){
-        //build URL string with GET parameters
-        var url='';
-        var activity_name = document.querySelector('#activity_name').value;
-        var geography     = document.querySelector('#geography').value;
-        var ww_type       = document.querySelector('#ww_type').value;
-        var wwtp_type     = document.querySelector('#wwtp_type').value;
-        var Q             = document.querySelector('#Q').value;
-        url+='activity_name='+activity_name+'&';
-        url+='geography='+geography+'&';
-        url+='ww_type='+ww_type+'&';
-        url+='wwtp_type='+wwtp_type+'&';
-        url+='Q='+Q+'&';
-        Inputs.filter(i=>{return !i.isParameter}).forEach(i=>{
-          var el=document.querySelector('#inputs #'+i.id);
-          if(el){url+=i.id+'='+el.value+'&';}
-        });
-        url='n-wwtp.php?'+url;
-        //go to url
-        window.location=url;
-      })()">Next</button>
-      <style>
-        #next_btn {
-          padding:default;
-          background:yellow;
-        }
-      </style>
     </li>
   </ol>
   <style>

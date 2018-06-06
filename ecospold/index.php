@@ -1,4 +1,10 @@
 <?php header('X-XSS-Protection:0')?>
+<!doctype html>
+<html>
+  <head>
+    <title>4/4 Generate ecoSpold files</title>
+  </head>
+
 <body onload="init()">
 <style>
   ul {
@@ -14,7 +20,10 @@
 
 <!doctype html>
 <a href="..">Home</a>
-<h2>4. Generating ecospold file</h2>
+<h1>
+  4. Generating ecoSpold files
+  <small>(step 4 of 4)</small>
+</h1>
 
 <small id=please_wait>Please wait...</small>
 
@@ -47,3 +56,17 @@
 
 <!--focus on cmd prompt-->
 <script>document.querySelector('#input').select();</script>
+
+<!--pascal text-->
+<div>
+  The ecoSpold file(s) can be downloaded. To submit the datasets to ecoinvent:
+  <ol>
+    <li>Make sure you have installed the ecoEditor freeware and created an account (Menu &rarr; Extras &rarr; Account management &rarr; Register data provider account)
+    <li>Open the ecoSpold2 files in the ecoEditor.
+    <li>Manually revise the datasets to make sure the fields are correctly filled out. A list of fields to be especially attentive to is given in the methodological report, section 8.3.
+    <li>Use ecoEditor to "validate" the datasets (Menu &rarr; File &rarr; Validate). This will carry out mass balances and make sure all expected fields are filled out.
+    <li>Submit the datasets for an external validation (Menu &rarr; File &rarr; Submit Datasets for Validation). Routines on the ecoinvent server will ensure that the dataset can indeed "fit" in the database.
+    <li>Once successful with the previous steps, the datasets can be submitted for review (Menu &rarr; File &rarr; Submit Datasets for Review). Editors from the ecoinvent editorial board will then review the datasets to make sure they are ok for submission.
+  </ol>
+  Note that if the wastewater treatment datasets were generated in order to have treatment datasets for some other activity, the wastewater treatment datasets should be submitted at the same time or before the other activity, but not after.
+</div>

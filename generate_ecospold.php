@@ -7,27 +7,27 @@
   <script>
     var received_json = JSON.parse('<?php echo $_POST['input'] ?>');
     function generate_ecospold(){
-      post('ecospold/index.php', "python3 generate_ecospolds.py '"+JSON.stringify(received_json)+"'",'_blank');
+      post('ecospold/index.php', "python3 generate_ecospolds.py '"+JSON.stringify(received_json)+"'",false);
     }
-
   </script>
-  <title>ecoSpold generation</title>
+  <title>3/4 Results dataset</title>
 </head><body><?php include'navbar.php'?>
-<div id=root><h1>3. Results dataset</h1>
+<div id=root>
+<h1>
+  3. Results dataset
+  <small>(step 3 of 4)</small>
+</h1>
+
 <div>
-  <div>
-    The following data will be saved as two new ecoSpold files:
-  </div>
   <!--continue btn-->
   <div style=text-align:right>
     <div>
       Next step:
       <button
-        style="background:yellow;font-size:16px;padding:0.618em 1em"
+        style="background:yellow"
         onclick="generate_ecospold()"
       >Generate ecoSpold files</button>
     </div>
-
     <!--debug
       <div>
         <button onclick=selectText(document.getElementById('received_json'))>select</button>
@@ -56,10 +56,16 @@
         </script>
       </div>
     -->
+  </div><hr>
+
+  <div style=font-size:smaller>
+    The following data will be saved as two new ecoSpold files:
   </div>
+
   <!--received json-->
   <pre id=received_json class=prettyprint style="border:1px solid #ccc"></pre>
 </div>
+
 <script>
   (function(){
     //show stringified input json at start

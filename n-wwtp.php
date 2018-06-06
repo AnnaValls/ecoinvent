@@ -5,7 +5,7 @@
   <?php include'imports.php'?>
   <script src="elementary.js"></script><!--single plant model backend-->
   <script src="multiple.js"></script><!--multiple plant model backend-->
-  <title>Multiple WWTPs</title>
+  <title>2/4 Calculation dashboard</title>
 
   <!--frontend-->
   <script>
@@ -567,12 +567,19 @@
 <div id=root>
 
 <!--title--><div>
-  <h1>2. Calculation dashboard</h1>
+  <h1>
+    2. Calculation dashboard
+    <small>(step 2 of 4)</small>
+  </h1>
+
   <div style=text-align:right>
     Next step:
     <button
       style="background:yellow"
-      id=btn_generate_ecospold onclick="generate_ecospold(Result)">Generate dataset</button>
+      id=btn_generate_ecospold onclick="generate_ecospold(Result)">
+        Results dataset
+    </button>
+    <script src="generate_json_for_ecospold.js"></script>
   </div><hr>
 
   <small>
@@ -593,36 +600,34 @@
   <!--results-->
   <div id=results style='min-width:45%;max-width:49%;padding-left:8px'>
     <p>
-      <b>2. Results</b>
-      <span>
-        <script src="generate_json_for_ecospold.js"></script>
-      </span>
+      <div class=flex style=justify-content:space-between>
+        <div> <b>2. Results</b> </div>
+        <!--RUN btn-->
+        <div>
+          <button
+            title="Click here after modifying inputs"
+            text="<span style=font-size:14px>&#10227</span> REFRESH RESULTS"
+            id=run onclick="run()">
+          </button>
+          <script>
+            (function(){
+              //init run button innerHTML
+              var btn=document.querySelector('button#run');
+              btn.innerHTML=btn.getAttribute('text');
+            })();
+          </script>
+          <style>
+            button#run {
+              background:lightgreen;
+              width:200px;
+              height:25px;
+              vertical-align:middle;
+              display:block;
+            }
+          </style>
+        </div>
+      </div>
     </p>
-
-    <!--RUN btn-->
-    <div>
-      <button
-        title="Click here after modifying inputs"
-        text="<span style=font-size:14px>&#10227</span> REFRESH RESULTS"
-        id=run onclick="run()">
-      </button>
-      <script>
-        (function(){
-          //init run button innerHTML
-          var btn=document.querySelector('button#run');
-          btn.innerHTML=btn.getAttribute('text');
-        })();
-      </script>
-      <style>
-        button#run {
-          background:lightgreen;
-          width:200px;
-          height:25px;
-          vertical-align:middle;
-          display:block;
-        }
-      </style>
-    </div>
 
     <!--2.1 effluent-->
     <div>
