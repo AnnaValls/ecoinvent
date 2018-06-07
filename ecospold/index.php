@@ -61,7 +61,7 @@
 <div>
   The ecoSpold file(s) can be downloaded. To submit the datasets to ecoinvent:
   <ol>
-    <li>Make sure you have installed the ecoEditor freeware and created an account (Menu &rarr; Extras &rarr; Account management &rarr; Register data provider account)
+    <li>Make sure you have installed the <a href="https://www.ecoinvent.org/data-provider/data-provider-toolkit/ecoeditor/ecoeditor.html">ecoEditor</a> freeware and created an account (Menu &rarr; Extras &rarr; Account management &rarr; Register data provider account)
     <li>Open the ecoSpold2 files in the ecoEditor.
     <li>Manually revise the datasets to make sure the fields are correctly filled out. A list of fields to be especially attentive to is given in the methodological report, section 8.3.
     <li>Use ecoEditor to "validate" the datasets (Menu &rarr; File &rarr; Validate). This will carry out mass balances and make sure all expected fields are filled out.
@@ -70,3 +70,4 @@
   </ol>
   Note that if the wastewater treatment datasets were generated in order to have treatment datasets for some other activity, the wastewater treatment datasets should be submitted at the same time or before the other activity, but not after.
 </div>
+

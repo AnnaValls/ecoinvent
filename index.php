@@ -18,9 +18,9 @@
     </p><p>
       The steps for using the tool are:
       <ol>
-        <li>Data entry: Enter information about the wastewater of interest: the nature and location of its source, its contamination levels, etc.
-        <li>Calculation dashboard: Enter or modify the data on the wastewater treatment plants where the wastewater is being treated. The tool will calculate life cycle inventories for the WWTP operating with and without the input of the wastewater.
-        <li>Generate datasets: The model outputs are converted into datasets, downloadable in ecoSpold format.
+        <li><b>Data entry</b>: Enter information about the wastewater of interest: the nature and location of its source, its contamination levels, etc.
+        <li><b>Calculation dashboard</b>: Enter or modify the data on the wastewater treatment plants where the wastewater is being treated. The tool will calculate life cycle inventories for the WWTP operating with and without the input of the wastewater.
+        <li><b>Generate datasets</b>: The model outputs are converted into datasets, downloadable in ecoSpold format.
       </ol>
     </p><p>
       The datasets can then be submitted to ecoinvent for inclusion in the database. To do so, the
