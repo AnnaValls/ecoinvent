@@ -76,9 +76,9 @@
   <div>
     <p><b>Other things</b></p>
     <ul>
-      <li><a href="terms.php"              >Summary of terms</a>
-      <li><a href="docs"                   >Documents</a>
+      <li><a href="terms.php" >Summary of terms</a>
       <!--
+        <li><a href="docs"      >Documents</a>
         <li>
           <a href="implementations/ekama_sizing.php">Reactor sizing (optim. cost) [G. Ekama]</a>
         <li>

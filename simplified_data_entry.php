@@ -127,7 +127,7 @@
 <div style=text-align:right>
   Next step:
   <!--next btn-->
-  <button id=next_btn onclick="(function(){
+  <button id=next_btn class=next_btn onclick="(function(){
     //build URL string with GET parameters
     var url='';
     var activity_name = document.querySelector('#activity_name').value;
@@ -148,12 +148,6 @@
     //go to url
     window.location=url;
   })()">Calculation dashboard</button>
-  <style>
-    #next_btn {
-      padding:default;
-      background:yellow;
-    }
-  </style>
 </div><hr>
 
 <small style=background:yellow>

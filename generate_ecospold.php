@@ -24,7 +24,7 @@
     <div>
       Next step:
       <button
-        style="background:yellow"
+        class=next_btn
         onclick="generate_ecospold()"
       >Generate ecoSpold files</button>
     </div>

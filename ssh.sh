@@ -2,7 +2,7 @@
 #public key "id_rsa.pub" is in .ssh/known_hosts
 ssh prqv_wastewater@prqv.ftp.infomaniak.com
 
-:<<' encrypted password
+:<< encrypted_password
 -----BEGIN PGP MESSAGE-----
 hQEMA5Qy2NL5cHwnAQgAjNEx26ZDH65Exo3KSvDraGxGvunw9l+NZYa0T9KZHzu9
 PkfxhKGpow+ubO/cCfdpJDsogHpRt1jwvKdEnlT0grK6kmuOpPPwpTPYRAvGnNWp
@@ -51,4 +51,4 @@ AlPhgUFkOSD6iNxJj++V0EwmZFTQs2d2eY1HoXdahQ3//ZLyppqfz+SlEhLNN3EH
 bbapVAXzY74=
 =8t/c
 -----END PGP MESSAGE-----
-'
+encrypted_password

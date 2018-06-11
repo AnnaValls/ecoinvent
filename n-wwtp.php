@@ -575,7 +575,7 @@
   <div style=text-align:right>
     Next step:
     <button
-      style="background:yellow"
+      class=next_btn
       id=btn_generate_ecospold onclick="generate_ecospold(Result)">
         Results dataset
     </button>
