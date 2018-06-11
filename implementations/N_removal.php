@@ -164,7 +164,7 @@
 				<tr><td>IR                        <td class=number><span id=result_IR>?</span><td>&empty;
 				<tr><td>Flowrate to anoxic tank   <td class=number><span id=result_Flowrate_to_anoxic_tank>?</span><td>m3/d
 				<tr><td>NO<sub>x</sub> feed       <td class=number><span id=result_NOx_feed>?</span><td>g/d
-				<tr><td>&tau;                     <td class=number><span id=result_tau>?</span><td>d
+				<tr><td>&tau;                     <td class=number><span id=result_tau>?</span><td>h
 				<tr><td>V<sub>nox</sub>           <td class=number><span id=result_V_nox>?</span><td>m<sup>3</sup>
 				<tr><td>F/M<sub>b</sub>           <td class=number><span id=result_FM_b>?</span><td>g/g·d
 				<tr><td>Fraction of rbCOD         <td class=number><span id=result_Fraction_of_rbCOD>?</span><td>%
@@ -202,9 +202,13 @@
 		var RAS = 0.6; //unitless
 		var Ro = 275.9; //kgO2/h
 		var NO3_eff = 6; //g/m3 (nitrate at effluent)
+    var Df       = 4.4;
+    var zb       = 500;
+    var DO       = 2.0;
+    var Pressure = 95600;
 
 		//solve N removal
-		var r=N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_basin_volume,Aerobic_T,Anoxic_mixing_energy,RAS,Ro,NO3_eff);
+    var r=N_removal(Q,T,BOD,bCOD,rbCOD,NOx,Alkalinity,MLVSS,Aerobic_SRT,Aeration_basin_volume,Aerobic_T,Anoxic_mixing_energy,RAS,Ro,NO3_eff,Df,zb,DO,Pressure);
 
 		//show results
 		showResult("result_Xb",                         r.Xb.value);

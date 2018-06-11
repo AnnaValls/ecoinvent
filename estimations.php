@@ -27,9 +27,9 @@
 <?php include'navbar.php'?>
 <div id=root>
 <h1>Estimations for inputs the user might not know</h1>
-<p><b>
+<p>
   Default values from BioWin 5.2 (<a href=see.php?file=estimations.js>see equations</a>)
-</b></p><hr>
+</p><hr>
 
 <!--tables-->
 <div id=main class=flex>

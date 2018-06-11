@@ -207,10 +207,13 @@
         <option value="hsld"> Type 3: Highly soluble     - low degradability  (tanning wastewater)
         <option value="hpld"> Type 4: Highly particulate - low degradability  (thermomechanical pulp and paper wastewater)
       </select>
-      <small class=wip><a href="#" onclick="toggleView(false,'iww_type_help');return false;">help</a></small>
+      <small><a href="#" onclick="toggleView(false,'iww_type_help');return false;">help</a></small>
       <div id=iww_type_help style="display:none">
-        <div class="help wip">
-          TBD
+        <div class="help">
+          Select the type of  wastewater from your activity amongst the proposed
+          options. Choose the option which better describes the characteristics of your activity wastewater.
+          This selection is used to estimate the different fractions of the organic matter content of the wastewater.
+          It is recommended that samples from the treatment are collected and analyzed in the lab to quantify the degradability.  
         </div>
       </div>
     </li>

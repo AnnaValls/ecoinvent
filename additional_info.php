@@ -69,10 +69,6 @@
         <td>14. <a href="estimations.php" >Input estimations</a>
         <td>BioWin 5.2
         <td><a href="see.php?file=estimations.js">estimations.js</a>
-      <tr>
-        <td>15. <a href="construction.php" >Construction materials</a>
-        <td><a href="docs/construction/WR-S-17-01921.pdf">Morera et al, 2017</a>
-        <td><a href="see.php?file=construction.js">construction.js</a>
     </table>
   </div><hr>
 
@@ -80,42 +76,20 @@
   <div>
     <p><b>Other things</b></p>
     <ul>
-      <li><a href="elementary.php"         >Single plant model</a>
-      <li><a href="README.md"              >README</a>
-      <li><a href="docs"                   >Documents</a>
-      <li><a href="reference_data.php"     >Influent default data by country</a>
-      <li><a href="fractionation_ekama.php">Fractionation (G. Ekama)</a>
       <li><a href="terms.php"              >Summary of terms</a>
-      <li>
-        <a href="implementations/bod_removal_only.php">BOD removal (simple standalone example)</a>
-        M&amp;EA 4th (p. 707)
+      <li><a href="docs"                   >Documents</a>
       <!--
-      <li>
-        <a href="implementations/ekama_sizing.php">Reactor sizing (optim. cost) [G. Ekama]</a>
+        <li>
+          <a href="implementations/ekama_sizing.php">Reactor sizing (optim. cost) [G. Ekama]</a>
+        <li>
+          <a target=_blank href="https://docs.google.com/spreadsheets/d/1DiBhDCjxGyw2-umImIfHiZOzY5LJF_psGiD4fEf7Wgk/edit?usp=sharing">
+            Google drive "ecoinvent wastewater treatment project" document
+          </a>
+        </li>
+        <li><a href=//github.com/holalluis/ecoinvent>github.com/holalluis/ecoinvent</a>
       -->
-      <!--
-      <li>
-        <a target=_blank href="https://docs.google.com/spreadsheets/d/1DiBhDCjxGyw2-umImIfHiZOzY5LJF_psGiD4fEf7Wgk/edit?usp=sharing">
-          Google drive "ecoinvent wastewater treatment project" document
-        </a>
-      </li>
-      -->
-      <!--
-      <li><a href=//github.com/holalluis/ecoinvent>github.com/holalluis/ecoinvent</a>
-      -->
-      <li>Pascal's ecospold integration:
-        <ul>
-          <li>
-            <a href="https://github.com/PascalLesage/wastewater_treatment_tool">
-              wastewater_treatment_tool
-            </a>
-          <li>
-            <a href="https://github.com/ecoinvent/wastewater_treatment_tool/blob/master/Generating%20ecoSPold%20files%20for%20WWT.ipynb">
-              august notebook
-            </a>
-          </li>
-        </ul>
-      </li>
+      <li><a href="elementary.php">Single plant model</a>
+      <li><a href="todo.php">Future TO DO items</a>
     </ul>
   </div>
 </p>

@@ -63,7 +63,7 @@
   <ol>
     <li>Make sure you have installed the <a href="https://www.ecoinvent.org/data-provider/data-provider-toolkit/ecoeditor/ecoeditor.html">ecoEditor</a> freeware and created an account (Menu &rarr; Extras &rarr; Account management &rarr; Register data provider account)
     <li>Open the ecoSpold2 files in the ecoEditor.
-    <li>Manually revise the datasets to make sure the fields are correctly filled out. A list of fields to be especially attentive to is given in the methodological report, section 8.3.
+    <li>Manually revise the datasets to make sure the fields are correctly filled out. A list of fields to be especially attentive to is given in the <a href="../docs/report/report.pdf" target=_blank>methodological report</a>, section 8.3.
     <li>Use ecoEditor to "validate" the datasets (Menu &rarr; File &rarr; Validate). This will carry out mass balances and make sure all expected fields are filled out.
     <li>Submit the datasets for an external validation (Menu &rarr; File &rarr; Submit Datasets for Validation). Routines on the ecoinvent server will ensure that the dataset can indeed "fit" in the database.
     <li>Once successful with the previous steps, the datasets can be submitted for review (Menu &rarr; File &rarr; Submit Datasets for Review). Editors from the ecoinvent editorial board will then review the datasets to make sure they are ok for submission.

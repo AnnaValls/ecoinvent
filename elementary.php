@@ -660,7 +660,6 @@
             <ul>
               <li>Reactor:      <span id=concrete_reactor>0</span>
               <li>Secondary ST: <span id=concrete_settler>0</span>
-              <li><a href="construction.php" target=_blank>Construction materials</a>
             </ul>
           </li>
         </ul>

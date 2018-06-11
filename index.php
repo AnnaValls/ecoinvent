@@ -72,9 +72,8 @@
   <!--other info-->
   <div>
     <ul>
-      <li><a href="#" class=wip>Methodological report</a>
+      <li><a href="docs/report/report.pdf" target=_blank>Methodological report (pdf)</a>
       <li><a href="additional_info.php">Additional info</a>
-      <li><a href="todo.php">See all TO DO items</a>
     </ul>
   </div>
 </p>

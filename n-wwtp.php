@@ -122,7 +122,7 @@
           div.appendChild((function(){
             var btn=document.createElement('button');
             btn.innerHTML='Run alone';
-            btn.title='Run these inputs in "Single plant model"';
+            btn.title='Open window to run a simulation of the reference WWTP only';
             btn.addEventListener('click',function(){
               var url="elementary.php?";
               Object.keys(wwtp).forEach(key=>{
@@ -138,7 +138,7 @@
           div.appendChild((function(){
             var btn=document.createElement('button');
             btn.innerHTML='Run with activity';
-            btn.title='Run the plant inputs mixed with the activity in "Single plant model"';
+            btn.title='Open window to run a simulation of the reference WWTP plus the activity wastewater';
             btn.addEventListener('click',function(){
               var mixed_influent = mix_influents(Activity,wwtp);
               var url="elementary.php?";
