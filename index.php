@@ -8,28 +8,39 @@
 <h1>Home page</h1><hr>
 
 <!--content-->
-<p style=max-width:50em>
-  <!--introduction text-->
+<p style="max-width:50em">
+  <!--pascal text-->
   <div>
     <p>
-      The ecoinvent wastewater tool was developed to generate ecoinvent-compliant datasets for wastewater that is discharged to the sewer system. It is useful both for data providers that need to supply datasets on the fate of wastewater from the activity they are submitting data for, and for LCA modellers specifically interested in wastewater treatment.
-    </p><p>
-      Depending on the context, datasets are generated for the treatment of the wastewater in wastewater treatment plants (WWTP) and for wastewater that is directly discharged to the environment. For the treated fraction, the tool calculates the life cycle inventory of a WWTP (or a set of WWTP) with and without the input of the wastewater for which the datasets are generated, and bases the wastewater-specific life cycle inventory on the difference between the two simulations.
-    </p><p>
+      The main purpose of the ecoinvent wastewater treatment tool is to generate
+      datasets representing treatment of wastewater with specific composition using specific
+      type of treatment. For more detailed information on the type of methodology
+      used behind this tool, please see the Methodological Report (see the link below).
+    </p>
+    <p>
+      This tool has been developed within the SRI project and is accessible for free to everybody.
+    </p>
+    <p>
+      Depending on the context, datasets are generated for the treatment of the 
+      wastewater in wastewater treatment plants (WWTP) and for wastewater that is directly
+      discharged to the environment. For the treated fraction, the tool calculates
+      the life cycle inventory of a WWTP (or a set of WWTP) with and without the input
+      of the wastewater for which the datasets are generated, and bases the wastewater-specific
+      life cycle inventory on the difference between the two simulations.
+    </p>
+    <p>
       The steps for using the tool are:
       <ol>
-        <li><b>Data entry</b>: Enter information about the wastewater of interest: the nature and location of its source, its contamination levels, etc.
-        <li><b>Calculation dashboard</b>: Enter or modify the data on the wastewater treatment plants where the wastewater is being treated. The tool will calculate life cycle inventories for the WWTP operating with and without the input of the wastewater.
-        <li><b>Generate datasets</b>: The model outputs are converted into datasets, downloadable in ecoSpold format.
+        <li><b>Data entry</b>: enter information about the wastewater of interest: the nature and location of its source, its contamination levels, etc.
+        <li>
+          <b>Calculation dashboard</b>: enter or modify the data on the wastewater treatment plants where the wastewater is being treated. 
+          The tool will calculate life cycle inventories for the WWTP operating with and without the input of the wastewater.
+        </li>
+        <li><b>Generate datasets</b>: the model outputs are converted into datasets, downloadable in ecoSpold2 format.
+        <li><b>Generating ecoSpold2 files</b>
       </ol>
-    </p><p>
-      The datasets can then be submitted to ecoinvent for inclusion in the database. To do so, the
-      <a href="https://www.ecoinvent.org/data-provider/data-provider-toolkit/ecospold2/ecospold2.html">ecoSpold</a>
-      files should be opened in the
-      <a href="https://www.ecoinvent.org/data-provider/data-provider-toolkit/ecoeditor/ecoeditor.html">ecoEditor</a>,
-      checked, and then submitted directly via the ecoEditor.
     </p>
-  </div><hr>
+  </div>
 
   <!--access button-->
   <div>
