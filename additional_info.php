@@ -89,7 +89,9 @@
         <li><a href=//github.com/holalluis/ecoinvent>github.com/holalluis/ecoinvent</a>
       -->
       <li><a href="elementary.php">Single plant model</a>
+      <!--
       <li><a href="//github.com/icra/ecoinvent/issues">Future TO DO items</a>
+      -->
     </ul>
   </div>
 </p>

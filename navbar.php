@@ -6,7 +6,7 @@
 	<div
     style="cursor:pointer"
     onclick="window.location='index.php'">
-    <b>Ecoinvent</b> wastewater tool
+    Ecoinvent wastewater tool
   </div>
 
 	<style>
@@ -19,6 +19,8 @@
       justify-content:space-between;
       border-bottom: 2px solid #f0f0f0;
       vertical-align:middle;
+      font-weight: 400;
+      color: #fff;
 		}
 	</style>
 </div>

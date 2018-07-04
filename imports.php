@@ -47,12 +47,16 @@
 
 <!--css-->
 <style>
+  @import url('https://fonts.googleapis.com/css?family=Roboto+Mono:400,700|Roboto:300,400,700');
+
 	body {
     font-family:Charter,serif;
 		margin:0 auto;
-		max-width:80em;
 		overflow-y:scroll;
 		margin-bottom:50px;
+    /*new*/
+    color:#5C5C5C;
+    font-family:'Roboto',verdana;
 	}
   th {
     background:#eee;

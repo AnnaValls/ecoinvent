@@ -37,7 +37,7 @@
           The tool will calculate life cycle inventories for the WWTP operating with and without the input of the wastewater.
         </li>
         <li><b>Generate datasets</b>: the model outputs are converted into datasets, downloadable in ecoSpold2 format.
-        <li><b>Generating ecoSpold2 files</b>
+        <li><b>Generating ecoSpold2 files.</b>
       </ol>
     </p>
   </div>
@@ -60,7 +60,7 @@
         color: #fff;
         cursor: pointer;
         font-size: 30px;
-        font-weight: 400;
+        font-weight: 200;
         line-height: 1.42857143;
         outline:none;
         padding: 6px 12px;
