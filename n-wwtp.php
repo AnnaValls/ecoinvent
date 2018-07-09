@@ -18,11 +18,13 @@
         var outputs=compute_elementary_flows(WWTPs[0]).Outputs;
 
         var tbody=table.querySelector('#main');
+        tbody.innerHTML="";
         Object.keys(Outputs).filter(key=>{return !getInputById(key).isMetal}).forEach(key=>{
           populate_output(key,tbody);
         });
 
         var tbody=table.querySelector('#metals');
+        tbody.innerHTML="";
         Object.keys(Outputs).filter(key=>{return getInputById(key).isMetal}).forEach(key=>{
           populate_output(key,tbody);
         });
